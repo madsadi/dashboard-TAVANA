@@ -1,50 +1,84 @@
-
-import React, { useState} from 'react';
-import { InputMask } from 'primereact/inputmask';
+import React, {useState} from 'react';
 import {Card} from "primereact/card";
+import {searchCommissionInstrumentType} from "../../api/useCommission";
+import {Button} from "primereact/button";
+import {InputSwitch} from "primereact/inputswitch";
+import {InputText} from "primereact/inputtext";
+import {useDispatch} from "react-redux";
+import {searchResult} from "../../store/commissionConfig";
 
-export default function SearchSection (){
-    const [val1, setVal1] = useState<string>();
-    const [val2, setVal2] = useState<string>();
-    const [val3, setVal3] = useState<string>();
-    const [val4, setVal4] = useState<string>();
-    const [val5, setVal5] = useState<string>();
-    const [val6, setVal6] = useState<string>();
+export default function SearchSection() {
+    const [val1, setVal1] = useState<string>('');
+    const [val2, setVal2] = useState<string>('');
+    const [val3, setVal3] = useState<string>('');
+    const [val4, setVal4] = useState<string>('');
+    const [val5, setVal5] = useState<string>('');
+    const [val6, setVal6] = useState<string>('');
+    const [val7, setVal7] = useState<string>();
+    const [val8, setVal8] = useState<boolean>(false);
+
+    const dispatch=useDispatch()
+
+    const onSubmit = async (event: any) => {
+        event.preventDefault()
+        await searchCommissionInstrumentType({
+            CommissionInstrumentTypeId: val1,
+            BourseTitle: val2,
+            InstrumentTypeTitle: val3,
+            InstrumentTypeDescription: val4,
+            SectorTitle: val5,
+            SubSectorTitle: val6,
+            // CommissionInstrumentTypeDescription:val7,
+            Deleted: val8,
+        }).then(res=>dispatch(searchResult(res?.result)))
+    }
 
     return (
         <Card className={'mb-3'}>
             <div className="card">
-                <div className="p-fluid formgrid grid">
-                    <div className="field col-12 md:col-4">
-                        <label htmlFor="basic">Basic</label>
-                        <InputMask id="basic" mask="99-999999" value={val1} placeholder="99-999999" onChange={(e) => setVal1(e.value)}></InputMask>
+                <form className="p-fluid grid" onSubmit={onSubmit}>
+                    <div className="p-float-label col-12 md:col-4 mt-4 md:mt-0">
+                        <InputText id="basic" value={val1} onChange={(e) => setVal1(e.target.value)}/>
+                        <label htmlFor="basic">آیدی ابزار مالی</label>
                     </div>
 
-                    <div className="field col-12 md:col-4">
-                        <label htmlFor="ssn">SSN</label>
-                        <InputMask id="ssn" mask="999-99-9999" value={val2} placeholder="999-99-9999" onChange={(e) => setVal2(e.value)}></InputMask>
+                    <div className="p-float-label col-12 md:col-4  mt-4 md:mt-0">
+                        <InputText id="ssn" value={val2} onChange={(e) => setVal2(e.target.value)}/>
+                        <label htmlFor="ssn">عنوان بورس</label>
                     </div>
 
-                    <div className="field col-12 md:col-4">
-                        <label htmlFor="date">Date</label>
-                        <InputMask id="date" mask="99/99/9999" value={val3} placeholder="99/99/9999" slotChar="mm/dd/yyyy" onChange={(e) => setVal3(e.value)}></InputMask>
+                    <div className="p-float-label col-12 md:col-4  mt-4 md:mt-0">
+                        <InputText id="date" value={val3} onChange={(e) => setVal3(e.target.value)}/>
+                        <label htmlFor="date">عنوان نوع ابزار مالی</label>
                     </div>
 
-                    <div className="field col-12 md:col-4">
-                        <label htmlFor="phone">Phone</label>
-                        <InputMask id="phone" mask="(999) 999-9999" value={val4} placeholder="(999) 999-9999" onChange={(e) => setVal4(e.value)}></InputMask>
+                    <div className="p-float-label col-12 md:col-4 mt-4">
+                        <InputText id="phone" value={val4} onChange={(e) => setVal4(e.target.value)}/>
+                        <label htmlFor="phone">توضیحات نوع ابزار مالی</label>
                     </div>
 
-                    <div className="field col-12 md:col-4">
-                        <label htmlFor="phoneext">Phone Ext</label>
-                        <InputMask id="phoneext" mask="(999) 999-9999? x99999" value={val5} placeholder="(999) 999-9999? x99999" onChange={(e) => setVal5(e.value)}></InputMask>
+                    <div className="p-float-label col-12 md:col-4 mt-4">
+                        <InputText id="phoneext" value={val5} onChange={(e) => setVal5(e.target.value)}/>
+                        <label htmlFor="phoneext">گروه صنعت</label>
                     </div>
-
-                    <div className="field col-12 md:col-4">
-                        <label htmlFor="serial">Serial</label>
-                        <InputMask id="serial" mask="a*-999-a999" value={val6} placeholder="a*-999-a999" onChange={(e) => setVal6(e.value)}></InputMask>
+                    <div className="p-float-label col-12 md:col-4 mt-4">
+                        <InputText id="serial" value={val6} onChange={(e) => setVal6(e.target.value)}/>
+                        <label htmlFor="serial">زیرگروه صنعت</label>
                     </div>
-                </div>
+                    <div className="p-float-label col-12 md:col-4 mt-4">
+                        <InputText id="serial" value={val6} onChange={(e) => setVal7(e.target.value)} disabled/>
+                        <label htmlFor="serial">CommissionInstrumentTypeDescription</label>
+                    </div>
+                    <div className="flex flex-column col-12 md:col-4">
+                        <div className={'mt-auto'}>حذف شده؟</div>
+                        <InputSwitch checked={val8} onChange={(e) => setVal8(e.value)} />
+                    </div>
+                    <div className={'flex flex-grow-1'}>
+                        <Button className={'mt-auto w-fit mr-auto'} type={'submit'}>
+                            جستجو
+                        </Button>
+                    </div>
+                </form>
             </div>
         </Card>
     );

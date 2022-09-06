@@ -32,7 +32,7 @@ const Home: NextPage = () => {
               <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">رمز عبور را فراموش کردید؟</a>
             </div>
 
-            <Button label="Sign In" icon="pi pi-user" className="w-full" />
+            <Button label="ورود" icon="pi pi-user" className="w-full" />
           </form>
         </div>
       </div>

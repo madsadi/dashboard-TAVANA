@@ -113,7 +113,7 @@ export default function Appbar () {
 
     return (
         <>
-            <div className={'fixed top-0 w-full'}>
+            <div className={'fixed top-0 w-full z-5'}>
                 <div className="card">
                     <Menubar model={items} start={start} end={end} />
                 </div>

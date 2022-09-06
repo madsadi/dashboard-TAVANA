@@ -9,14 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
+    "@types/lodash": "^4.14.184",
     "@types/styled-components": "^5.1.26",
+    "axios": "^0.27.2",
+    "lodash": "^4.17.21",
     "next": "12.2.5",
     "primeflex": "^3.2.1",
     "primeicons": "^5.0.0",
     "primereact": "^8.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.1"
   },
   "devDependencies": {
     "@types/node": "18.7.15",
