@@ -1,18 +1,21 @@
 import {Sidebar} from "primereact/sidebar";
 import React, {useState} from "react";
 import {Button} from "primereact/button";
-import Link from "next/link";
+import Image from "next/image";
+import SideBarContent from "./SideBarContent";
 
 export default function SideBar(){
     const [visibleRight, setVisibleRight] = useState(false);
 
     return(
         <>
-            <Button className={'g-button-text'} icon="pi pi-align-justify" onClick={() => setVisibleRight(true)} />
-            <Sidebar visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
-               <Link href={'/hi'}>
-                   hi
-               </Link>
+            <Button className={'p-button-raised p-button-text'} icon="pi pi-angle-double-left" onClick={() => setVisibleRight(true)} />
+            <Sidebar className="rtl" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
+                <div className="sideBarHead">
+                    <h2>کارگزاری توانا</h2>
+                    <Image src={'/logo-2.png'} height={'35px'} width={'35px'}/>
+                </div>
+                <SideBarContent/>
             </Sidebar>
         </>
     )

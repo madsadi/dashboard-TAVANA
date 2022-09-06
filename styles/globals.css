@@ -1,3 +1,4 @@
+@import "Menu.css";
 html,
 body {
   padding: 0;
@@ -41,7 +42,7 @@ a {
 }
 
 .p-menubar{
-  border-radius:0px !important;
+  border-radius:0 !important;
 }
 
 .p-button{
@@ -53,6 +54,30 @@ a {
 .p-sidebar-mask{
   direction:ltr !important;
 }
+
+.p-panelmenu .p-panelmenu-header-link {
+  justify-content: flex-end;
+}
+
+.pi-chevron-right:before {
+  content: "\e900"!important;
+}
+
+.p-panelmenu .p-panelmenu-header > a .p-panelmenu-icon {
+  margin-right: auto!important;
+}
+
+.p-panelmenu .p-menuitem-link {
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 960px) {
+  .p-menubar .p-menubar-button {
+    display: flex;
+    margin-right: auto;
+  }
+}
+
 
 .p-float-label label{
   right:1rem;
