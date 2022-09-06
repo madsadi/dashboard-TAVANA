@@ -132,6 +132,38 @@ export default function ResultTable() {
         return id;
     }
 
+    const importCSV = (e) => {
+        const file = e.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const csv = e.target.result;
+            const data = csv.split('\n');
+
+            // Prepare DataTable
+            const cols = data[0].replace(/['"]+/g, '').split(',');
+            data.shift();
+
+            const importedData = data.map(d => {
+                d = d.split(',');
+                const processedData = cols.reduce((obj, c, i) => {
+                    c = c === 'Status' ? 'inventoryStatus' : (c === 'Reviews' ? 'rating' : c.toLowerCase());
+                    obj[c] = d[i].replace(/['"]+/g, '');
+                    (c === 'price' || c === 'rating') && (obj[c] = parseFloat(obj[c]));
+                    return obj;
+                }, {});
+
+                processedData['id'] = createId();
+                return processedData;
+            });
+
+            const _products = [...products, ...importedData];
+
+            setProducts(_products);
+        };
+
+        reader.readAsText(file, 'UTF-8');
+    }
+
     const exportCSV = () => {
         dt.current.exportCSV();
     }
