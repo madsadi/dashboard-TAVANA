@@ -1,6 +1,7 @@
 import {Sidebar} from "primereact/sidebar";
 import React, {useState} from "react";
 import {Button} from "primereact/button";
+import Link from "next/link";
 
 export default function SideBar(){
     const [visibleRight, setVisibleRight] = useState(false);
@@ -9,7 +10,9 @@ export default function SideBar(){
         <>
             <Button className={'g-button-text'} icon="pi pi-align-justify" onClick={() => setVisibleRight(true)} />
             <Sidebar visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
-                <h3>Right Sidebar</h3>
+               <Link href={'/hi'}>
+                   hi
+               </Link>
             </Sidebar>
         </>
     )

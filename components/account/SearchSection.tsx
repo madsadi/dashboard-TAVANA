@@ -12,7 +12,7 @@ export default function SearchSection (){
     const [val6, setVal6] = useState<string>();
 
     return (
-        <Card>
+        <Card className={'mb-3'}>
             <div className="card">
                 <div className="p-fluid formgrid grid">
                     <div className="field col-12 md:col-4">

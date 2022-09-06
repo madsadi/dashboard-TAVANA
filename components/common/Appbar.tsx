@@ -20,7 +20,8 @@ export default function Appbar () {
                     items: [
                         {
                             label: 'Bookmark',
-                            icon: 'pi pi-fw pi-bookmark'
+                            icon: 'pi pi-fw pi-bookmark',
+                            url: '/formlayout'
                         },
                         {
                             label: 'Video',
