@@ -1,0 +1,6 @@
+.sideBarHead {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-around;
+}
