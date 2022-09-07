@@ -55,10 +55,28 @@ export default function ResultTable() {
         setDeleteProductsDialog(false);
     }
 
-    const exportCSV = () => {
-        dt.current?.exportCSV();
+    const exportExcel = () => {
+        import('xlsx').then(xlsx => {
+            const worksheet = xlsx.utils.json_to_sheet(products);
+            const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+            const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+            saveAsExcelFile(excelBuffer, 'products');
+        });
     }
 
+    const saveAsExcelFile = (buffer:any, fileName:any) => {
+        import('file-saver').then(module => {
+            if (module && module.default) {
+                let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+                let EXCEL_EXTENSION = '.xlsx';
+                const data = new Blob([buffer], {
+                    type: EXCEL_TYPE
+                });
+
+                module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+            }
+        });
+    }
     const confirmDeleteSelected = () => {
         setDeleteProductsDialog(true);
     }
@@ -82,7 +100,7 @@ export default function ResultTable() {
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button label="خروجی" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
+                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-2" data-pr-tooltip="XLS" />
             </React.Fragment>
         )
     }
@@ -129,15 +147,15 @@ export default function ResultTable() {
     );
 
     const amountBodyTemplate = (rowData:any) => {
-        return 'hi';
+        return rowData.instrumentTypeCode;
     }
 
     const statusOrderBodyTemplate = (rowData:any) => {
-        return <span className={`order-badge`}>hi</span>;
+        return <span className={`order-badge`}>{rowData.instrumentTypeTitle}</span>;
     }
 
-    const searchBodyTemplate = () => {
-        return <Button icon="pi pi-search" />;
+    const searchBodyTemplate = (rowData:any) => {
+        return <span className={`order-badge`}>{rowData.bourseTitle}</span>;
     }
 
     const expandRowHandler=async (e:any)=>{
@@ -146,19 +164,20 @@ export default function ResultTable() {
             await getCommission(id)
                 .then(res=>setSubTableData([...subTableData,res?.result]))
         }
-        commissionForTheRow(Object.keys(e.data)[0])
+        if (subTableData.filter((item:any)=>item.id==Object.keys(e.data)).length===0 && Object.keys(e.data)[0]){
+            commissionForTheRow(Object.keys(e.data)[0])
+        }
     }
 
     const rowExpansionTemplate = (data:any) => {
         return (
             <div className="orders-subtable">
-                <DataTable value={subTableData} responsiveLayout="scroll">
+                <DataTable value={subTableData.filter((item:any)=>item.id===data.id)} responsiveLayout="scroll">
                     <Column field="id" header="Id" sortable/>
-                    <Column field="customer" header="Customer" sortable/>
-                    <Column field="date" header="Date" sortable/>
-                    <Column field="amount" header="Amount" body={amountBodyTemplate} sortable/>
-                    <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable/>
-                    <Column headerStyle={{ width: '4rem'}} body={searchBodyTemplate}/>
+                    <Column field="customer" header="عنوان بورس" body={searchBodyTemplate} sortable/>
+                    <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
+                    <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
+                    <Column field="status" header="عنوان نوع ابزار مالی" body={statusOrderBodyTemplate} sortable/>
                 </DataTable>
             </div>
         );
@@ -184,9 +203,9 @@ export default function ResultTable() {
                     <Column field="price" header="عنوان نوع ابزار مالی" body={priceBodyTemplate} sortable style={{ minWidth: '14rem' }}/>
                     <Column field="category" header="توضیحات" sortable body={descriptionBodyTemplate} style={{ minWidth: '10rem' }}/>
                     <Column field="rating" header="کد گروه صنعت" body={ratingBodyTemplate} sortable style={{ minWidth: '10rem' }}/>
-                    <Column field="rating" header=" گروه صنعت" body={catBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="rating" header="کد زیرگروه صنعت" body={codeSubCodeBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="rating" header="زیرگروه صنعت" body={subCatBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="industry" header=" گروه صنعت" body={catBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="subIndustryCode" header="کد زیرگروه صنعت" body={codeSubCodeBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="subIndustry" header="زیرگروه صنعت" body={subCatBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
                     <Column field="inventoryStatus" header="حذف شده" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
                     {/*<Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}/>*/}
                 </DataTable>
