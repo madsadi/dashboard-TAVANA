@@ -1,21 +1,11 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../ProductService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
-import { Rating } from 'primereact/rating';
 import { Toolbar } from 'primereact/toolbar';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { RadioButton } from 'primereact/radiobutton';
-import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import {useDispatch, useSelector} from "react-redux";
-import {getCommission} from "../../api/useCommission";
+import {useSelector} from "react-redux";
 import {Chip} from "primereact/chip";
 
 export default function ResultTable() {
@@ -39,7 +29,6 @@ export default function ResultTable() {
     const [selectedProducts, setSelectedProducts] = useState<any>(null);
     const [globalFilter, setGlobalFilter] = useState<any>(null);
     const [expandedRows, setExpandedRows] = useState<any>(null);
-    const [subTableData, setSubTableData] = useState<any[]>([]);
 
     const toast:any = useRef(null);
     const dt:any = useRef(null);
@@ -55,10 +44,28 @@ export default function ResultTable() {
         setDeleteProductsDialog(false);
     }
 
-    const exportCSV = () => {
-        dt.current?.exportCSV();
+    const exportExcel = () => {
+        import('xlsx').then(xlsx => {
+            const worksheet = xlsx.utils.json_to_sheet(products);
+            const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+            const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+            saveAsExcelFile(excelBuffer, 'products');
+        });
     }
 
+    const saveAsExcelFile = (buffer:any, fileName:any) => {
+        import('file-saver').then(module => {
+            if (module && module.default) {
+                let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+                let EXCEL_EXTENSION = '.xlsx';
+                const data = new Blob([buffer], {
+                    type: EXCEL_TYPE
+                });
+
+                module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+            }
+        });
+    }
     const confirmDeleteSelected = () => {
         setDeleteProductsDialog(true);
     }
@@ -82,7 +89,7 @@ export default function ResultTable() {
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button label="خروجی" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
+                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-2" data-pr-tooltip="XLS" />
             </React.Fragment>
         )
     }
@@ -142,20 +149,16 @@ export default function ResultTable() {
 
     const expandRowHandler=async (e:any)=>{
         setExpandedRows(e.data)
-        const commissionForTheRow=async (id:string)=>{
-            await getCommission(id)
-                .then(res=>setSubTableData([...subTableData,res?.result]))
-        }
-        commissionForTheRow(Object.keys(e.data)[0])
     }
 
     const rowExpansionTemplate = (data:any) => {
         return (
             <div className="orders-subtable">
-                <DataTable value={subTableData} responsiveLayout="scroll">
+                <h5>{data.bourseTitle}</h5>
+                <DataTable value={[]} responsiveLayout="scroll">
                     <Column field="id" header="Id" sortable/>
-                    <Column field="customer" header="Customer" sortable/>
-                    <Column field="date" header="Date" sortable/>
+                    <Column field="customer" header="Customer" body={amountBodyTemplate} sortable/>
+                    <Column field="date" header="Date" body={amountBodyTemplate} sortable/>
                     <Column field="amount" header="Amount" body={amountBodyTemplate} sortable/>
                     <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable/>
                     <Column headerStyle={{ width: '4rem'}} body={searchBodyTemplate}/>
@@ -184,9 +187,9 @@ export default function ResultTable() {
                     <Column field="price" header="عنوان نوع ابزار مالی" body={priceBodyTemplate} sortable style={{ minWidth: '14rem' }}/>
                     <Column field="category" header="توضیحات" sortable body={descriptionBodyTemplate} style={{ minWidth: '10rem' }}/>
                     <Column field="rating" header="کد گروه صنعت" body={ratingBodyTemplate} sortable style={{ minWidth: '10rem' }}/>
-                    <Column field="rating" header=" گروه صنعت" body={catBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="rating" header="کد زیرگروه صنعت" body={codeSubCodeBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="rating" header="زیرگروه صنعت" body={subCatBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="industry" header=" گروه صنعت" body={catBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="subIndustryCode" header="کد زیرگروه صنعت" body={codeSubCodeBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="subIndustry" header="زیرگروه صنعت" body={subCatBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
                     <Column field="inventoryStatus" header="حذف شده" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
                     {/*<Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}/>*/}
                 </DataTable>

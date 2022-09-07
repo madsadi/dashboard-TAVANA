@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
+    "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.184",
     "@types/styled-components": "^5.1.26",
+    "@types/xlsx": "^0.0.36",
     "axios": "^0.27.2",
+    "file-saver": "2.0.5",
     "lodash": "^4.17.21",
     "next": "12.2.5",
     "primeflex": "^3.2.1",
@@ -20,9 +23,10 @@
     "primereact": "^8.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "^5.3.5",
     "react-redux": "^7.2.4",
-    "redux": "^4.1.1"
+    "redux": "^4.1.1",
+    "styled-components": "^5.3.5",
+    "xlsx": "0.18.5"
   },
   "devDependencies": {
     "@types/node": "18.7.15",
