@@ -6,6 +6,7 @@ import {InputSwitch} from "primereact/inputswitch";
 import {InputText} from "primereact/inputtext";
 import {useDispatch} from "react-redux";
 import {searchResult} from "../../store/commissionConfig";
+import {Dropdown} from "primereact/dropdown";
 
 export default function SearchSection() {
     const [val1, setVal1] = useState<string>('');
@@ -15,9 +16,15 @@ export default function SearchSection() {
     const [val5, setVal5] = useState<string>('');
     const [val6, setVal6] = useState<string>('');
     const [val7, setVal7] = useState<string>();
-    const [val8, setVal8] = useState<boolean>(false);
+    const [val8, setVal8] = useState<{name:string,code:any}>({name:'',code:null});
 
     const dispatch=useDispatch()
+
+    const cities = [
+        { name: 'حذف شده', code: 'true' },
+        { name: 'حذف نشده', code: 'false' },
+        { name: 'تمام', code: null },
+    ];
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
@@ -29,7 +36,7 @@ export default function SearchSection() {
             SectorTitle: val5,
             SubSectorTitle: val6,
             // CommissionInstrumentTypeDescription:val7,
-            Deleted: val8,
+            Deleted: val8.code,
         }).then(res=>dispatch(searchResult(res?.result)))
     }
 
@@ -66,12 +73,12 @@ export default function SearchSection() {
                         <label htmlFor="serial">زیرگروه صنعت</label>
                     </div>
                     <div className="p-float-label col-12 md:col-4 mt-4">
-                        <InputText id="serial" value={val6} onChange={(e) => setVal7(e.target.value)} disabled/>
+                        <InputText id="serial" value={val7} onChange={(e) => setVal7(e.target.value)} disabled/>
                         <label htmlFor="serial">CommissionInstrumentTypeDescription</label>
                     </div>
                     <div className="flex flex-column col-12 md:col-4">
                         <div className={'mt-auto'}>حذف شده؟</div>
-                        <InputSwitch checked={val8} onChange={(e) => setVal8(e.value)} />
+                        <Dropdown value={val8} options={cities} onChange={(e)=>setVal8(e.target.value)} optionLabel="name" />
                     </div>
                     <div className={'flex flex-grow-1'}>
                         <Button className={'mt-auto w-fit mr-auto'} type={'submit'}>
