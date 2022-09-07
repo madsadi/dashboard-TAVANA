@@ -8,7 +8,7 @@ const Home: NextPage = () => {
 
   const signIn=(e:any)=>{
     e.preventDefault()
-    Router.push('/account')
+    Router.push('/commission')
   }
   return (
       <div className="flex align-items-center justify-content-center m-auto lg:w-3 md:w-8">
