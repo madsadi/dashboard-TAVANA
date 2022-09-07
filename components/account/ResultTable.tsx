@@ -34,12 +34,13 @@ export default function ResultTable() {
     const {searchResult}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
-    const [productDialog, setProductDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
     const [product, setProduct] = useState(emptyProduct);
     const [selectedProducts, setSelectedProducts] = useState<any>(null);
     const [globalFilter, setGlobalFilter] = useState<any>(null);
+    const [expandedRows, setExpandedRows] = useState<any>(null);
+    const [subTableData, setSubTableData] = useState<any[]>([]);
+
     const toast:any = useRef(null);
     const dt:any = useRef(null);
 
@@ -54,22 +55,28 @@ export default function ResultTable() {
         setDeleteProductsDialog(false);
     }
 
-
-    const editProduct = (product:any) => {
-        setProduct({...product});
-        setProductDialog(true);
+    const exportExcel = () => {
+        import('xlsx').then(xlsx => {
+            const worksheet = xlsx.utils.json_to_sheet(products);
+            const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+            const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+            saveAsExcelFile(excelBuffer, 'products');
+        });
     }
 
-    const confirmDeleteProduct = (product:any) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
+    const saveAsExcelFile = (buffer:any, fileName:any) => {
+        import('file-saver').then(module => {
+            if (module && module.default) {
+                let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+                let EXCEL_EXTENSION = '.xlsx';
+                const data = new Blob([buffer], {
+                    type: EXCEL_TYPE
+                });
+
+                module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+            }
+        });
     }
-
-
-    const exportCSV = () => {
-        dt.current?.exportCSV();
-    }
-
     const confirmDeleteSelected = () => {
         setDeleteProductsDialog(true);
     }
@@ -93,7 +100,7 @@ export default function ResultTable() {
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button label="خروجی" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
+                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-2" data-pr-tooltip="XLS" />
             </React.Fragment>
         )
     }
@@ -114,12 +121,6 @@ export default function ResultTable() {
     const descriptionBodyTemplate = (rowData: any) => {
         return rowData.instrumentTypeDescription
     }
-    const sectorCodeBodyTemplate = (rowData: any) => {
-        return rowData.sectorCode
-    }
-    // const descriptionBodyTemplate = (rowData: any) => {
-    //     return rowData.instrumentTypeDescription
-    // }
 
     const ratingBodyTemplate = (rowData:any) => {
         return rowData.sectorCode;
@@ -138,15 +139,6 @@ export default function ResultTable() {
         return <Chip label={`${rowData.deleted ? 'حذف شده':'حذف نشده'}`} className={`${rowData.deleted ? 'bg-red-400':'bg-green-400'} text-white text-xs`} />
     }
 
-    const actionBodyTemplate = (rowData:any) => {
-        return (
-            <React.Fragment>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteProduct(rowData)} />
-            </React.Fragment>
-        );
-    }
-
     const deleteProductsDialogFooter = (
         <React.Fragment>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
@@ -154,8 +146,45 @@ export default function ResultTable() {
         </React.Fragment>
     );
 
+    const amountBodyTemplate = (rowData:any) => {
+        return rowData.instrumentTypeCode;
+    }
+
+    const statusOrderBodyTemplate = (rowData:any) => {
+        return <span className={`order-badge`}>{rowData.instrumentTypeTitle}</span>;
+    }
+
+    const searchBodyTemplate = (rowData:any) => {
+        return <span className={`order-badge`}>{rowData.bourseTitle}</span>;
+    }
+
+    const expandRowHandler=async (e:any)=>{
+        setExpandedRows(e.data)
+        const commissionForTheRow=async (id:string)=>{
+            await getCommission(id)
+                .then(res=>setSubTableData([...subTableData,res?.result]))
+        }
+        if (subTableData.filter((item:any)=>item.id==Object.keys(e.data)).length===0 && Object.keys(e.data)[0]){
+            commissionForTheRow(Object.keys(e.data)[0])
+        }
+    }
+
+    const rowExpansionTemplate = (data:any) => {
+        return (
+            <div className="orders-subtable">
+                <DataTable value={subTableData.filter((item:any)=>item.id===data.id)} responsiveLayout="scroll">
+                    <Column field="id" header="Id" sortable/>
+                    <Column field="customer" header="عنوان بورس" body={searchBodyTemplate} sortable/>
+                    <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
+                    <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
+                    <Column field="status" header="عنوان نوع ابزار مالی" body={statusOrderBodyTemplate} sortable/>
+                </DataTable>
+            </div>
+        );
+    }
+
     return (
-        <div className="datatable-crud-demo">
+        <div className="datatable-rowexpansion-demo">
             <Toast ref={toast} />
 
             <div className="card">
@@ -165,17 +194,18 @@ export default function ResultTable() {
                            dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                           globalFilter={globalFilter} responsiveLayout="scroll">
+                           globalFilter={globalFilter} responsiveLayout="scroll" onRowToggle={(e) => expandRowHandler(e)} expandedRows={expandedRows} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}/>
+                    <Column expander style={{ width: '3em' }} />
                     <Column field="code" header="شماره" sortable body={idBodyTemplate} style={{ minWidth: '6rem' }}/>
                     <Column field="name" header="عنوان بورس" sortable body={nameBodyTemplate} style={{ minWidth: '12rem' }}/>
                     <Column field="image" header="کد نوع ابزار مالی" body={imageBodyTemplate} style={{ minWidth: '8rem' }}/>
                     <Column field="price" header="عنوان نوع ابزار مالی" body={priceBodyTemplate} sortable style={{ minWidth: '14rem' }}/>
                     <Column field="category" header="توضیحات" sortable body={descriptionBodyTemplate} style={{ minWidth: '10rem' }}/>
                     <Column field="rating" header="کد گروه صنعت" body={ratingBodyTemplate} sortable style={{ minWidth: '10rem' }}/>
-                    <Column field="rating" header=" گروه صنعت" body={catBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="rating" header="کد زیرگروه صنعت" body={codeSubCodeBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="rating" header="زیرگروه صنعت" body={subCatBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="industry" header=" گروه صنعت" body={catBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="subIndustryCode" header="کد زیرگروه صنعت" body={codeSubCodeBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="subIndustry" header="زیرگروه صنعت" body={subCatBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
                     <Column field="inventoryStatus" header="حذف شده" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}/>
                     {/*<Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}/>*/}
                 </DataTable>

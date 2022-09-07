@@ -1,7 +1,7 @@
 import axios from "axios";
 import {BASE_URL} from "./constants";
 
-export const getCommission = async (id:number) => {
+export const getCommission = async (id:string) => {
     const create = await axios.get(`${BASE_URL}/CommissionInstrumentType/Get?CommissionInstrumentTypeId=${id}`,
         {
             headers: {
