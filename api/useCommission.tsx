@@ -1,8 +1,8 @@
 import axios from "axios";
-import {BASE_URL} from "./constants";
+import {COMMISSION_BASE_URL} from "./constants";
 
 export const getCommission = async (id:string) => {
-    const create = await axios.get(`${BASE_URL}/CommissionInstrumentType/Get?CommissionInstrumentTypeId=${id}`,
+    const create = await axios.get(`${COMMISSION_BASE_URL}/CommissionInstrumentType/Get?CommissionInstrumentTypeId=${id}`,
         {
             headers: {
                 'Accept':'*/*'
@@ -15,7 +15,7 @@ export const getCommission = async (id:string) => {
     return create
 }
 export const searchCommissionInstrumentType = async (body:any) => {
-    const search = await axios.get(`${BASE_URL}/CommissionInstrumentType/Search?
+    const search = await axios.get(`${COMMISSION_BASE_URL}/CommissionInstrumentType/Search?
     ${body.CommissionInstrumentTypeId ? `&CommissionInstrumentTypeId=${body.CommissionInstrumentTypeId}`:''}
     ${body.BourseTitle ? `&InstrumentTypeTitle=${body.BourseTitle}`:''}
     ${body.InstrumentTypeTitle ? `&InstrumentTypeTitle=${body.InstrumentTypeTitle}`:''}

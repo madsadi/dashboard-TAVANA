@@ -2,7 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    BASE_URL:'http://cluster.tech1a.co:9007/api',
+    COMMISSION_BASE_URL:'http://cluster.tech1a.co:9007/api',
+    NETFLOW_BASE_URL:'http://cluster.tech1a.co:8091/api',
   },
 }
 

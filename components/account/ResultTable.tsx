@@ -8,6 +8,7 @@ import { Dialog } from 'primereact/dialog';
 import {useSelector} from "react-redux";
 import {getCommission} from "../../api/useCommission";
 import {Chip} from "primereact/chip";
+import {Card} from "primereact/card";
 
 export default function ResultTable() {
 
@@ -132,62 +133,59 @@ export default function ResultTable() {
 
     const deleteProductsDialogFooter = (
         <React.Fragment>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
+            <Button label="خیر" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
+            <Button label="بله" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
         </React.Fragment>
     );
 
-    const amountBodyTemplate = (rowData:any) => {
-        return rowData.instrumentTypeCode;
-    }
+    // const amountBodyTemplate = (rowData:any) => {
+    //     return rowData.instrumentTypeCode;
+    // }
+    //
+    // const statusOrderBodyTemplate = (rowData:any) => {
+    //     return <span className={`order-badge`}>{rowData.instrumentTypeTitle}</span>;
+    // }
+    //
+    // const searchBodyTemplate = (rowData:any) => {
+    //     return <span className={`order-badge`}>{rowData.bourseTitle}</span>;
+    // }
 
-    const statusOrderBodyTemplate = (rowData:any) => {
-        return <span className={`order-badge`}>{rowData.instrumentTypeTitle}</span>;
-    }
-
-    const searchBodyTemplate = (rowData:any) => {
-        return <span className={`order-badge`}>{rowData.bourseTitle}</span>;
-    }
-
-    const expandRowHandler=async (e:any)=>{
-        setExpandedRows(e.data)
-        const commissionForTheRow=async (id:string)=>{
-            await getCommission(id)
-                .then(res=>setSubTableData([...subTableData,res?.result]))
-        }
-        if (subTableData.filter((item:any)=>item.id==Object.keys(e.data)).length===0 && Object.keys(e.data)[0]){
-            commissionForTheRow(Object.keys(e.data)[0])
-        }
-    }
-
-    const rowExpansionTemplate = (data:any) => {
-        return (
-            <div className="orders-subtable">
-                <DataTable value={subTableData.filter((item:any)=>item.id===data.id)} responsiveLayout="scroll">
-                    <Column field="id" header="Id" sortable/>
-                    <Column field="customer" header="عنوان بورس" body={searchBodyTemplate} sortable/>
-                    <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
-                    <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
-                    <Column field="status" header="عنوان نوع ابزار مالی" body={statusOrderBodyTemplate} sortable/>
-                </DataTable>
-            </div>
-        );
-    }
+    // const expandRowHandler=async (e:any)=>{
+    //     setExpandedRows(e.data)
+    //     const commissionForTheRow=async (id:string)=>{
+    //         await getCommission(id)
+    //             .then(res=>setSubTableData([...subTableData,res?.result]))
+    //     }
+    //     if (subTableData.filter((item:any)=>item.id==Object.keys(e.data)).length===0 && Object.keys(e.data)[0]){
+    //         commissionForTheRow(Object.keys(e.data)[0])
+    //     }
+    // }
+    //
+    // const rowExpansionTemplate = (data:any) => {
+    //     return (
+    //         <div className="orders-subtable">
+    //             <DataTable value={subTableData.filter((item:any)=>item.id===data.id)} responsiveLayout="scroll">
+    //                 <Column field="id" header="Id" sortable/>
+    //                 <Column field="customer" header="عنوان بورس" body={searchBodyTemplate} sortable/>
+    //                 <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
+    //                 <Column field="amount" header="کد نوع ابزار مالی" body={amountBodyTemplate} sortable/>
+    //                 <Column field="status" header="عنوان نوع ابزار مالی" body={statusOrderBodyTemplate} sortable/>
+    //             </DataTable>
+    //         </div>
+    //     );
+    // }
 
     return (
-        <div className="datatable-rowexpansion-demo">
+        <Card className="datatable-scroll-demo">
             <Toast ref={toast} />
 
             <div className="card">
                 <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
-
                 <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
-                           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                           globalFilter={globalFilter} responsiveLayout="scroll" onRowToggle={(e) => expandRowHandler(e)} expandedRows={expandedRows} rowExpansionTemplate={rowExpansionTemplate}>
+                           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable scrollHeight="500px"
+                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                           globalFilter={globalFilter} responsiveLayout="scroll">
                     <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}/>
-                    <Column expander style={{ width: '3em' }} />
                     <Column field="code" header="شماره" sortable body={idBodyTemplate} style={{ minWidth: '6rem' }}/>
                     <Column field="name" header="عنوان بورس" sortable body={nameBodyTemplate} style={{ minWidth: '12rem' }}/>
                     <Column field="image" header="کد نوع ابزار مالی" body={imageBodyTemplate} style={{ minWidth: '8rem' }}/>
@@ -203,11 +201,11 @@ export default function ResultTable() {
             </div>
 
             <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
-                <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
-                    {product && <span>Are you sure you want to delete the selected products?</span>}
+                <div className="confirmation-content align-content-center flex">
+                    <i className="pi pi-exclamation-triangle ml-3" style={{ fontSize: '1.4rem'}} />
+                    {product && <span>آیا از حذف ردیف مورد نظر اطمینان دارید؟</span>}
                 </div>
             </Dialog>
-        </div>
+        </Card>
     );
 }
