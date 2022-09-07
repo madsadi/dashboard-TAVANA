@@ -7,9 +7,9 @@ export default function GetInformation() {
     return (
         <Layout>
             <div className={'grid'}>
-                {/*<div className={'col text-center'}>*/}
-                {/*    <DateComponent api={'/Trade/buy-declaration'}/>*/}
-                {/*</div>*/}
+                <div className={'col text-center'}>
+                    <DateComponent api={'/Trade/buy-declaration'}/>
+                </div>
                 <div className={'col text-center'}>
                     <DateComponent api={'/Trade/buy-declaration-count'}/>
                 </div>
