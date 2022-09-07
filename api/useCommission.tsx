@@ -16,14 +16,14 @@ export const getCommission = async (id:string) => {
 }
 export const searchCommissionInstrumentType = async (body:any) => {
     const search = await axios.get(`${BASE_URL}/CommissionInstrumentType/Search?
-    ${body.CommissionInstrumentTypeId ? `CommissionInstrumentTypeId=${body.CommissionInstrumentTypeId}`:''}
-    ${body.BourseTitle ? `InstrumentTypeTitle=${body.BourseTitle}`:''}
-    ${body.InstrumentTypeTitle ? `InstrumentTypeTitle=${body.InstrumentTypeTitle}`:''}
-    ${body.InstrumentTypeDescription ? `InstrumentTypeDescription=${body.InstrumentTypeDescription}`:''}
-    ${body.SectorTitle ? `SectorTitle=${body.SectorTitle}`:''}
-    ${body.SubSectorTitle ? `SubSectorTitle=${body.SubSectorTitle}`:''}
-    ${body.CommissionInstrumentTypeDescription ? `CommissionInstrumentTypeDescription=${body.CommissionInstrumentTypeDescription}`:''}
-    ${body.Deleted ? `Deleted=${body.Deleted}`:''}`,
+    ${body.CommissionInstrumentTypeId ? `&CommissionInstrumentTypeId=${body.CommissionInstrumentTypeId}`:''}
+    ${body.BourseTitle ? `&InstrumentTypeTitle=${body.BourseTitle}`:''}
+    ${body.InstrumentTypeTitle ? `&InstrumentTypeTitle=${body.InstrumentTypeTitle}`:''}
+    ${body.InstrumentTypeDescription ? `&InstrumentTypeDescription=${body.InstrumentTypeDescription}`:''}
+    ${body.SectorTitle ? `&SectorTitle=${body.SectorTitle}`:''}
+    ${body.SubSectorTitle ? `&SubSectorTitle=${body.SubSectorTitle}`:''}
+    ${body.CommissionInstrumentTypeDescription ? `&CommissionInstrumentTypeDescription=${body.CommissionInstrumentTypeDescription}`:''}
+    ${body.Deleted ? `&Deleted=${body.Deleted}`:''}`,
         {
             headers: {
                 'Accept':'*/*'
