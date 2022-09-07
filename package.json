@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@types/lodash": "^4.14.184",
     "@types/styled-components": "^5.1.26",
@@ -20,9 +21,10 @@
     "primereact": "^8.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "^5.3.5",
+    "react-modern-calendar-datepicker": "^3.1.6",
     "react-redux": "^7.2.4",
-    "redux": "^4.1.1"
+    "redux": "^4.1.1",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@types/node": "18.7.15",

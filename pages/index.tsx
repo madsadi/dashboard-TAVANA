@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       <div className="flex align-items-center justify-content-center m-auto lg:w-3 md:w-8">
         <div className="p-4 border-round flex-grow-1">
           <div className="text-center mb-5">
-            <img src="tavanaLogo.jpeg" alt="hyper" height={100} className="mb-3" />
+            <img src="logo-2.png" alt="hyper" height={100} className="mb-3" />
           </div>
 
           <form onSubmit={signIn}>

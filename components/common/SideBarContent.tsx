@@ -13,13 +13,36 @@ export default function SideBarContent() {
             label:'مدیریت مشتریان',
         },
         {
+            label:'مدیریت کارمزد ها',
+            url: '/account'
+        },
+        {
             label:'ثبت نام غیر حضوری',
         },
         {
             label:'نت فلو',
             items: [
                 {
-                    label: 'مدیریت کارمزد ها'
+                    label: 'معاملات'
+                },
+                {
+                    label: 'معاملات تسویه شده'
+                },
+                {
+                    label: 'تسویه روزانه کارگزاری'
+                },
+                {
+                    label: 'تسویه تهاتری'
+                },
+                {
+                    label: 'ضرایب کارمزرد ها'
+                },
+                {
+                    label: 'استثنا ضرایب کارمزد ها'
+                },
+                {
+                    label: 'دریافت اطلاعات',
+                    url: '/getInformation'
                 }
             ]
         },
