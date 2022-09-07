@@ -7,7 +7,7 @@ import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {searchCommissionInstrumentType} from "../../api/useCommission";
 import {searchResult} from "../../store/commissionConfig";
-import DatePicker from "@amir04lm26/react-modern-calendar-date-picker";
+// import DatePicker from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function GetInformation(){
     const [val1, setVal1] = useState<string>('');
@@ -41,13 +41,7 @@ export default function GetInformation(){
                 <div className="card">
                     <form className="p-fluid grid" onSubmit={onSubmit}>
                         <div className="p-float-label col-12 md:col-4 mt-4 md:mt-0">
-                            <DatePicker
-                                value={selectedDay}
-                                onChange={setSelectedDay}
-                                inputPlaceholder="تاریخ مورد نظر را انتخاب کنید"
-                                shouldHighlightWeekends
-                                locale= 'fa'
-                            />
+
                         </div>
 
                         <div className="p-float-label col-12 md:col-4  mt-4 md:mt-0">
