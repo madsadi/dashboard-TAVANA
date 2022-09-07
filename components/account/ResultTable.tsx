@@ -34,12 +34,13 @@ export default function ResultTable() {
     const {searchResult}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
-    const [productDialog, setProductDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
     const [product, setProduct] = useState(emptyProduct);
     const [selectedProducts, setSelectedProducts] = useState<any>(null);
     const [globalFilter, setGlobalFilter] = useState<any>(null);
+    const [expandedRows, setExpandedRows] = useState<any>(null);
+    const [subTableData, setSubTableData] = useState<any[]>([]);
+
     const toast:any = useRef(null);
     const dt:any = useRef(null);
 
@@ -53,18 +54,6 @@ export default function ResultTable() {
     const hideDeleteProductsDialog = () => {
         setDeleteProductsDialog(false);
     }
-
-
-    const editProduct = (product:any) => {
-        setProduct({...product});
-        setProductDialog(true);
-    }
-
-    const confirmDeleteProduct = (product:any) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
-    }
-
 
     const exportCSV = () => {
         dt.current?.exportCSV();
@@ -114,12 +103,6 @@ export default function ResultTable() {
     const descriptionBodyTemplate = (rowData: any) => {
         return rowData.instrumentTypeDescription
     }
-    const sectorCodeBodyTemplate = (rowData: any) => {
-        return rowData.sectorCode
-    }
-    // const descriptionBodyTemplate = (rowData: any) => {
-    //     return rowData.instrumentTypeDescription
-    // }
 
     const ratingBodyTemplate = (rowData:any) => {
         return rowData.sectorCode;
@@ -138,15 +121,6 @@ export default function ResultTable() {
         return <Chip label={`${rowData.deleted ? 'حذف شده':'حذف نشده'}`} className={`${rowData.deleted ? 'bg-red-400':'bg-green-400'} text-white text-xs`} />
     }
 
-    const actionBodyTemplate = (rowData:any) => {
-        return (
-            <React.Fragment>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteProduct(rowData)} />
-            </React.Fragment>
-        );
-    }
-
     const deleteProductsDialogFooter = (
         <React.Fragment>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
@@ -154,19 +128,56 @@ export default function ResultTable() {
         </React.Fragment>
     );
 
+    const amountBodyTemplate = (rowData:any) => {
+        return 'hi';
+    }
+
+    const statusOrderBodyTemplate = (rowData:any) => {
+        return <span className={`order-badge`}>hi</span>;
+    }
+
+    const searchBodyTemplate = () => {
+        return <Button icon="pi pi-search" />;
+    }
+
+    const expandRowHandler=async (e:any)=>{
+        setExpandedRows(e.data)
+        const commissionForTheRow=async (id:string)=>{
+            await getCommission(id)
+                .then(res=>setSubTableData([...subTableData,res?.result]))
+        }
+        commissionForTheRow(Object.keys(e.data)[0])
+    }
+
+    const rowExpansionTemplate = (data:any) => {
+        return (
+            <div className="orders-subtable">
+                <DataTable value={subTableData} responsiveLayout="scroll">
+                    <Column field="id" header="Id" sortable/>
+                    <Column field="customer" header="Customer" sortable/>
+                    <Column field="date" header="Date" sortable/>
+                    <Column field="amount" header="Amount" body={amountBodyTemplate} sortable/>
+                    <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable/>
+                    <Column headerStyle={{ width: '4rem'}} body={searchBodyTemplate}/>
+                </DataTable>
+            </div>
+        );
+    }
+
     return (
-        <div className="datatable-crud-demo">
+        <div className="datatable-rowexpansion-demo">
             <Toast ref={toast} />
 
             <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
+                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
 
                 <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
                            dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                           globalFilter={globalFilter} responsiveLayout="scroll">
+                           globalFilter={globalFilter} responsiveLayout="scroll" onRowToggle={(e) => expandRowHandler(e)} expandedRows={expandedRows} rowExpansionTemplate={rowExpansionTemplate}>
                     <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}/>
+                    <Column expander style={{ width: '3em' }} />
                     <Column field="code" header="شماره" sortable body={idBodyTemplate} style={{ minWidth: '6rem' }}/>
                     <Column field="name" header="عنوان بورس" sortable body={nameBodyTemplate} style={{ minWidth: '12rem' }}/>
                     <Column field="image" header="کد نوع ابزار مالی" body={imageBodyTemplate} style={{ minWidth: '8rem' }}/>
