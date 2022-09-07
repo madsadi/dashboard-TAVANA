@@ -14,7 +14,7 @@ export default function SideBarContent() {
         },
         {
             label:'مدیریت کارمزد ها',
-            url: '/account'
+            url: '/commission'
         },
         {
             label:'ثبت نام غیر حضوری',
