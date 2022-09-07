@@ -19,6 +19,8 @@ export default function SearchSection() {
 
     const dispatch=useDispatch()
 
+
+
     const onSubmit = async (event: any) => {
         event.preventDefault()
         await searchCommissionInstrumentType({
