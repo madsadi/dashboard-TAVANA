@@ -11,7 +11,7 @@ import {Chip} from "primereact/chip";
 import {Card} from "primereact/card";
 import {InputText} from "primereact/inputtext";
 
-export default function ResultTableSection() {
+export default function CategoryResultTableSection() {
 
     let emptyProduct = {
         id: null,

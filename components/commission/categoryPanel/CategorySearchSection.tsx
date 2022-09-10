@@ -21,7 +21,7 @@ export default function CategorySearchSection() {
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await commissionSearch('/CommissionInstrumentType/Search?', [
+        await commissionSearch('/CommissionCategory/Search?', [
             {CategoryId: CategoryId},
             {MarketTitle: MarketTitle},
             {OfferTypeTitle: OfferTypeTitle},

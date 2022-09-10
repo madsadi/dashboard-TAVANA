@@ -3,7 +3,7 @@ import SearchSection from "../../components/commission/instrumentType/SearchSect
 import ResultTable from "../../components/commission/instrumentType/ResultTable";
 import Link from "next/link";
 
-export default function CommissionInstrumentType(){
+export default function InstrumentType(){
     return(
         <Layout>
             <SearchSection/>

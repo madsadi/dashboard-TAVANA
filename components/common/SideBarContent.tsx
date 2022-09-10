@@ -17,11 +17,11 @@ export default function SideBarContent() {
             items: [
                 {
                     label: 'گروه بندی ابزار مالی',
-                    url:'/commission/commissionInstrumentType'
+                    url:'/commission/instrumentType'
                 },
                 {
                     label: 'گروه بندی ضرایب کارمزد',
-                    url:'/commission/commissionCategoryPanel'
+                    url:'/commission/categoryPanel'
                 },
                 {
                     label: 'ضرایب کارمزد'

@@ -1,12 +1,12 @@
 import Layout from "../../components/common/Layout";
 import CategorySearchSection from "../../components/commission/categoryPanel/CategorySearchSection";
-import ResultTableSection from "../../components/commission/categoryPanel/ResultTableSection";
+import CategoryResultTableSection from "../../components/commission/categoryPanel/CategoryResultTableSection";
 
-export default function CommissionCategoryPanel(){
+export default function CategoryPanel(){
     return(
         <Layout>
             <CategorySearchSection/>
-            <ResultTableSection/>
+            <CategoryResultTableSection/>
         </Layout>
     )
 }
