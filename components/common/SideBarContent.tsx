@@ -3,22 +3,34 @@ import {PanelMenu} from 'primereact/panelmenu';
 
 export default function SideBarContent() {
     const items = [
-        {
-            label:'داشبورد',
-        },
-        {
-            label:'مدیریت کاربران',
-        },
-        {
-            label:'مدیریت مشتریان',
-        },
+        // {
+        //     label:'داشبورد',
+        // },
+        // {
+        //     label:'مدیریت کاربران',
+        // },
+        // {
+        //     label:'مدیریت مشتریان',
+        // },
         {
             label:'مدیریت کارمزد ها',
-            url: '/commission'
+            items: [
+                {
+                    label: 'گروه بندی ابزار مالی',
+                    url:'/commission/commissionInstrumentType'
+                },
+                {
+                    label: 'گروه بندی ضرایب کارمزد',
+                    url:'/commission/commissionCategoryPanel'
+                },
+                {
+                    label: 'ضرایب کارمزد'
+                },
+            ]
         },
-        {
-            label:'ثبت نام غیر حضوری',
-        },
+        // {
+        //     label:'ثبت نام غیر حضوری',
+        // },
         {
             label:'نت فلو',
             items: [
@@ -46,15 +58,15 @@ export default function SideBarContent() {
                 }
             ]
         },
-        {
-            label:'مدیریت سفارش ها',
-        },
-        {
-            label:'فایل معاملاتی',
-        },
-        {
-            label:'بازاریابی',
-        },
+        // {
+        //     label:'مدیریت سفارش ها',
+        // },
+        // {
+        //     label:'فایل معاملاتی',
+        // },
+        // {
+        //     label:'بازاریابی',
+        // },
     ];
 
     return (
