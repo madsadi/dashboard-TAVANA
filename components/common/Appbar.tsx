@@ -18,17 +18,18 @@ export default function Appbar () {
         },
         {
             label: 'خروج',
+            url:'/'
         }
     ];
 
-    const end = <><Link href={'/'}><a><Image src={'/logo-2.png'} height={'35px'} width={'35px'}/></a></Link></>;
+    const end = <><Link href={'/'}><a className={'mr-5'}><Image src={'/logo-2.png'} height={'35px'} width={'35px'}/></a></Link></>;
     const start = <SideBar/>;
 
     return (
         <>
             <div className={'fixed top-0 w-full z-5'}>
                 <div className="card">
-                    <Menubar model={items} start={start} end={end} />
+                    <Menubar model={items} start={start} end={end} className={'bg-white'}/>
                 </div>
             </div>
         </>

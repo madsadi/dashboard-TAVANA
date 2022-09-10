@@ -4,6 +4,7 @@ import {Card} from "primereact/card";
 import React, {useState} from "react";
 import {InputText} from "primereact/inputtext";
 import {activattion} from "../../api/getInformation";
+React.useLayoutEffect = React.useEffect
 
 export default function DateComponent({api}:{api:string}){
     const [selectedDay, setSelectedDay] = useState<DayValue>(null);
@@ -16,6 +17,7 @@ export default function DateComponent({api}:{api:string}){
 
     const activateJob=async ()=>{
         await activattion(api,{date:`${selectedDay?.year}${selectedDay && selectedDay?.month<10 ? `0${selectedDay?.month}`:selectedDay?.month}${selectedDay?.day}`})
+            .then(res=>console.log(res?.result))
     }
 
     return(

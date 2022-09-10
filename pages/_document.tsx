@@ -35,7 +35,6 @@ class MyDocument extends Document {
             <Html className={'h-full '} dir={"rtl"}>
                 <Head>
                     <link rel='stylesheet' href='/yekanBakhFont.css'/>
-                    <title>پنل ادمین | tech1a</title>
                     <link rel='shortcut icon' href='/tavanaLogo.jpeg'/>
                 </Head>
                 <body>
