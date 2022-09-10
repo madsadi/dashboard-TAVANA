@@ -1,7 +1,7 @@
 import axios from "axios";
 import {NETFLOW_BASE_URL} from "./constants";
 
-export const activattion = async (api:string,body:any) => {
+export const activation = async (api:string,body:any) => {
     const create = await axios.post(`${NETFLOW_BASE_URL}${api}`,
         body,
         {
