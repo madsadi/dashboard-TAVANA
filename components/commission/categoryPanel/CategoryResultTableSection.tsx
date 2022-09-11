@@ -50,6 +50,8 @@ export default function CategoryResultTableSection() {
         }
     }, [categorySearchResult]);
 
+    console.log(categorySearchResult)
+
     const deleteHandler=async (index:number)=>{
         await deleteCommission({id:selectedProducts[index]?.id})
             .then(res=> {
@@ -233,16 +235,19 @@ export default function CategoryResultTableSection() {
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                            globalFilter={globalFilter} responsiveLayout="scroll">
                     <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}/>
-                    <Column field="code" header="شماره" sortable body={(rowData)=>rowData.id} style={{ minWidth: '6rem' }}/>
-                    <Column field="name" header="عنوان بورس" sortable body={(rowData)=>rowData.bourseTitle} style={{ minWidth: '12rem' }}/>
-                    <Column field="image" header="کد نوع ابزار مالی" body={(rowData)=>rowData.instrumentTypeCode} style={{ minWidth: '8rem' }}/>
-                    <Column field="price" header="عنوان نوع ابزار مالی" body={(rowData)=>rowData.instrumentTypeTitle} sortable style={{ minWidth: '14rem' }}/>
-                    <Column field="category" header="توضیحات" sortable body={(rowData)=>rowData.instrumentTypeDescription} style={{ minWidth: '10rem' }}/>
-                    <Column field="rating" header="کد گروه صنعت" body={(rowData)=>rowData.sectorCode} sortable style={{ minWidth: '10rem' }}/>
-                    <Column field="industry" header=" گروه صنعت" body={(rowData)=>rowData.sectorTitle} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="subIndustryCode" header="کد زیرگروه صنعت" body={(rowData)=>rowData.subSectorCode} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="subIndustry" header="زیرگروه صنعت" body={(rowData)=>rowData.subSectorTitle} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="inventoryStatus" header="حذف شده" body={(rowData)=><Chip label={`${rowData.deleted ? 'حذف شده':'حذف نشده'}`} className={`${rowData.deleted ? 'bg-red-400':'bg-green-400'} text-white text-xs`} />} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="code" header="شناسه" sortable body={(rowData)=>rowData.id} style={{ minWidth: '6rem' }}/>
+                    <Column field="name" header="کد بازار" sortable body={(rowData)=>rowData.marketCode} style={{ minWidth: '12rem' }}/>
+                    <Column field="image" header="بازار" body={(rowData)=>rowData.marketTitle} style={{ minWidth: '8rem' }}/>
+                    <Column field="price" header="کد نوع عرضه" body={(rowData)=>rowData.offerTypeCode} sortable style={{ minWidth: '14rem' }}/>
+                    <Column field="category" header="نوع عرضه" sortable body={(rowData)=>rowData.offerTypeTitle} style={{ minWidth: '10rem' }}/>
+                    <Column field="rating" header="کد سمت سفارش" body={(rowData)=>rowData.sideID } sortable style={{ minWidth: '10rem' }}/>
+                    <Column field="industry" header="سمت سفارش" body={(rowData)=>rowData.sideTitle} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="subIndustryCode" header="کد تاخیر در تسویه" body={(rowData)=>rowData.settleentDelayID } sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="settlementDelayTitle" header="تاخیر در تسویه" body={(rowData)=>rowData.settlementDelayTitle } sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="customerTypeID" header="کد نوع مشتری" body={(rowData)=>rowData.customerTypeID } sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="customerTypeTitle" header="نوع مشتری" body={(rowData)=>rowData.customerTypeTitle} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="CustomerCounterSideID " header="کد نوع طرف مقابل" body={(rowData)=>rowData.customerCounterSideID} sortable style={{ minWidth: '12rem' }}/>
+                    <Column field="customerCounterSideTitle" header="نوع طرف مقابل" body={(rowData)=>rowData.customerCounterSideTitle} sortable style={{ minWidth: '12rem' }}/>
                     {/*<Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}/>*/}
                 </DataTable>
             </div>

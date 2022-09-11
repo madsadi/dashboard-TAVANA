@@ -30,7 +30,7 @@ export default function CategorySearchSection() {
             {CustomerTypeTitle: CustomerTypeTitle},
             {CustomerCounterSideTitle: CustomerCounterSideTitle}]
         ).then(res => {
-            dispatch(categorySearchResult(res?.result));
+            dispatch(categorySearchResult(res?.result?.pagedData));
             toast.current?.show({
                 severity: 'success',
                 summary: 'با موفقیت انجام شد',
