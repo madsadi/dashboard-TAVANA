@@ -15,3 +15,16 @@ export const activation = async (api:string,body:any) => {
         })
     return create
 }
+export const activationWithOUtBody = async (api:string) => {
+    return await axios.post(`${NETFLOW_BASE_URL}${api}`,
+        {
+            headers: {
+                'Accept': '*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+}
+

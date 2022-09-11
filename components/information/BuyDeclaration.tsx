@@ -31,14 +31,14 @@ export default function BuyDeclaration() {
                 toast.current?.show({
                     severity: 'success',
                     summary: 'با موفقیت انجام شد',
-                    detail: 'کارمزد حذف شد',
+                    detail: `${res} معامله خرید ذخیره شد `,
                     life: 6000
                 });
             })
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'مشکلی رخ داده است',
+                    summary: 'لطفا تاریخ را انتخاب کنید',
                     detail: err?.response?.data?.title,
                     life: 6000
                 });
