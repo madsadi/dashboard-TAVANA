@@ -282,7 +282,6 @@ export default function ResultTable() {
                     <Column field="instrumentTypeCode" header="کد نوع ابزار مالی" style={{minWidth: '8rem'}}/>
                     <Column field="instrumentTypeTitle" header="عنوان نوع ابزار مالی" sortable
                             style={{minWidth: '14rem'}}/>
-                    <Column field="instrumentTypeDescription" header="توضیحات" sortable style={{minWidth: '10rem'}}/>
                     <Column field="sectorCode" header="کد گروه صنعت" sortable style={{minWidth: '10rem'}}/>
                     <Column field="sectorTitle" header=" گروه صنعت" sortable style={{minWidth: '12rem'}}/>
                     <Column field="subSectorCode" header="کد زیرگروه صنعت" sortable style={{minWidth: '12rem'}}/>
@@ -291,6 +290,7 @@ export default function ResultTable() {
                             body={(rowData) => <Chip label={`${rowData.deleted ? 'حذف شده' : 'حذف نشده'}`}
                                                      className={`${rowData.deleted ? 'bg-red-400' : 'bg-green-400'} text-white text-xs`}/>}
                             sortable style={{minWidth: '12rem'}}/>
+                    <Column field="instrumentTypeDescription" header="توضیحات" sortable style={{minWidth: '10rem'}}/>
                 </DataTable>
             </div>
 

@@ -3,11 +3,12 @@ import {commissionSearch} from "../../../api/commissionInstrumentType";
 import {Button} from "primereact/button";
 import {InputText} from "primereact/inputtext";
 import {useDispatch} from "react-redux";
-import {categorySearchResult} from "../../../store/commissionConfig";
+import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {Accordion, AccordionTab} from "primereact/accordion";
 import {Toast} from "primereact/toast";
 import useForm from "../../../hooks/useForm";
 import {Dropdown} from "primereact/dropdown";
+import {commission} from "../../../store/commissionConfig";
 
 export default function CommissionSearch() {
     const {inputs, handleChange, reset} = useForm()
@@ -15,6 +16,10 @@ export default function CommissionSearch() {
         instrumentTypeId: -1,
         categoryId: -1
     })
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
     const [val8, setVal8] = useState<{ name: string, code: any }>({name: 'همه', code: null});
     const toast: any = useRef(null);
     const dispatch = useDispatch()
@@ -96,17 +101,27 @@ export default function CommissionSearch() {
         categorySearch()
     }
 
-    const detailSearch=async (event:any)=>{
-        event.preventDefault()
+    const dateEntityHandler = (dayRangePoint: any) => {
+        if (dayRangePoint?.day < 10 && dayRangePoint?.month < 10) {
+            return `${dayRangePoint?.year}0${dayRangePoint?.month}0${dayRangePoint?.day}`
+        } else if (dayRangePoint?.day < 10) {
+            return `${dayRangePoint?.year}${dayRangePoint?.month}0${dayRangePoint?.day}`
+        } else if (dayRangePoint?.month < 10) {
+            return `${dayRangePoint?.year}0${dayRangePoint?.month}${dayRangePoint?.day}`
+        }
+    }
+
+    const detailSearch = async () => {
         await commissionSearch('/CommissionDetail/Search?', [
             {CommissionDetailId: inputs.CommissionDetailId},
-            {CommissionInstrumentTypeId: idObject.instrumentTypeId},
-            {CommissionCategoryId: idObject.categoryId},
-            {BeginningEffectingDate: inputs.rangeDate},
-            {EndEffectingDate: inputs.rangeDate},
+            {CommissionInstrumentTypeId: idObject.instrumentTypeId > 0 ? idObject.instrumentTypeId : ''},
+            {CommissionCategoryId: idObject.categoryId > 0 ? idObject.categoryId : ''},
+            {BeginningEffectingDate: dateEntityHandler(selectedDayRange.from)},
+            {EndEffectingDate: dateEntityHandler(selectedDayRange.to)},
             {Deleted: val8.code}])
             .then(res => {
                 if (res?.result?.pagedData?.length > 1 || res?.result?.pagedData?.length === 0) {
+                    dispatch(commission(res?.result?.pageData))
                     toast.current?.show({
                         severity: 'error',
                         summary: `${res?.result?.pagedData?.length} نتیجه یافت شد`,
@@ -130,6 +145,31 @@ export default function CommissionSearch() {
                 life: 6000
             }))
     }
+
+    useEffect(()=>{
+        if (idObject.categoryId>0 && idObject.instrumentTypeId>0){
+            detailSearch()
+        }
+    },[idObject.categoryId,idObject.instrumentTypeId])
+
+    const dateRangeHandler = (selectedDayRange: any) => {
+        if (selectedDayRange.from && selectedDayRange.to) {
+            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا ${selectedDayRange.to.year}/${selectedDayRange.to.month}/${selectedDayRange.to.day}`
+        } else if (!selectedDayRange.from && !selectedDayRange.to) {
+            return ''
+        } else if (!selectedDayRange.from) {
+            return ''
+        } else if (!selectedDayRange.to) {
+            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا اطلاع ثانویه`
+        }
+    }
+
+    const renderCustomInput = ({ref}: { ref: any }) => (
+        <div className={'col-12 p-float-label '}>
+            <InputText readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
+            <label htmlFor="rangeDate">تاریخ شروع و پایان</label>
+        </div>
+    )
 
     return (
         <>
@@ -208,40 +248,42 @@ export default function CommissionSearch() {
                                 </div>
                             </div>
                         </div>
-                        <Button className={'w-fit'} type={'submit'}>جستجو</Button>
-                        <div className={'col-2 border-dashed border-round-md border-200'}>
-                            <div className={'flex flex-column h-full'}>
-                                <div>
+                        <div className={'col-12 border-dashed border-round-md border-200'}>
+                            <div className={'grid'}>
+                                <div className={'col-12'}>
                                     گروه بندی ضرایب
                                 </div>
-                                <div className="p-float-label mt-4 col-12 px-0">
-                                    <InputText id="CommissionDetailId" value={inputs.CommissionDetailId} name={'CommissionDetailId'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="CommissionDetailId">شناسه جزییات کارمزد</label>
+                                <div className="col-12 md:col-4 px-0">
+                                    <div className="col-12 p-float-label">
+                                        <InputText id="CommissionDetailId" value={inputs.CommissionDetailId}
+                                                   name={'CommissionDetailId'}
+                                                   onChange={handleChange}/>
+                                        <label htmlFor="CommissionDetailId">شناسه جزییات کارمزد</label>
+                                    </div>
                                 </div>
-                                <div className="p-float-label mt-4 col-12 px-0">
-                                    <InputText value={idObject.instrumentTypeId>0 ? idObject.instrumentTypeId:''} readOnly/>
-                                    <label>شناسه نوع ابزار</label>
+                                <div className="col-12 md:col-4 px-0">
+                                    <DatePicker
+                                        value={selectedDayRange}
+                                        onChange={setSelectedDayRange}
+                                        shouldHighlightWeekends
+                                        renderInput={renderCustomInput}
+                                        locale={'fa'}
+                                        calendarPopperPosition={'top'}
+                                    />
                                 </div>
-                                <div className="p-float-label mt-4 col-12 px-0">
-                                    <InputText value={idObject.categoryId>0 ? idObject.categoryId:''} readOnly/>
-                                    <label>شناسه گروه بندی</label>
+                                <div className="col-12 md:col-4">
+                                    <div className="col-12 p-float-label">
+                                        <Dropdown value={val8} options={options} className={'customHeight'}
+                                                  onChange={(e) => setVal8(e.target.value)}
+                                                  optionLabel="name"/>
+                                        <label htmlFor="CommissionDetailId">دسته بندی</label>
+                                    </div>
                                 </div>
-                                <div className="p-float-label mt-4 col-12 px-0">
-                                    <InputText id="rangeDate" value={inputs.rangeDate} name={'rangeDate'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="rangeDate">تاریخ شروع و پایان</label>
-                                </div>
-                                <div className="flex flex-column col-12 md:col-4">
-                                    <div className={'mt-auto'}>دسته بندی</div>
-                                    <Dropdown value={val8} options={options} onChange={(e) => setVal8(e.target.value)}
-                                              optionLabel="name"/>
-                                </div>
-                                <Button className={'justify-content-center mt-4'} onClick={detailSearch}>
-                                    جزییات
-                                </Button>
                             </div>
                         </div>
+                        <Button className={'justify-content-center mt-4 px-5 w-fit'} type={'submit'}>
+                            جستجو
+                        </Button>
                     </form>
                 </AccordionTab>
             </Accordion>
