@@ -1,12 +1,15 @@
 import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 import {Card} from "primereact/card";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import {activation} from "../../api/getInformation";
+import { Toast } from 'primereact/toast';
+
 
 export default function BuyDeclaration() {
     const [selectedDay, setSelectedDay] = useState<DayValue>(null);
+    const toast:any = useRef(null);
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <InputText readOnly ref={ref}
@@ -24,11 +27,27 @@ export default function BuyDeclaration() {
 
     const submitHandler = async () => {
         await activation('/Trade/buy-declaration', {date:`${selectedDay?.year}${selectedDay && selectedDay?.month<10 ? `0${selectedDay?.month}`:selectedDay?.month}${selectedDay && selectedDay?.day<10 ? `0${selectedDay?.day}`:selectedDay?.day}`})
-            .then(res => console.log(res?.result))
+            .then(res=> {
+                toast.current?.show({
+                    severity: 'success',
+                    summary: 'با موفقیت انجام شد',
+                    detail: 'کارمزد حذف شد',
+                    life: 6000
+                });
+            })
+            .catch(err=> {
+                toast.current?.show({
+                    severity: 'error',
+                    summary: 'مشکلی رخ داده است',
+                    detail: err?.response?.data?.title,
+                    life: 6000
+                });
+            })
     }
 
     return (
         <Card>
+            <Toast ref={toast} position="top-center" />
             <label htmlFor="username1" className="block mb-3">دریافت معاملات خرید</label>
             <div className="cardBox">
                 <DatePicker
