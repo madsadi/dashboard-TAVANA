@@ -70,7 +70,7 @@ export const commissionSearch = async (api:string,body: any) => {
             if (Object.values(item)[0]) {
                 return `&${Object.keys(item)[0]}=${Object.values(item)[0]}`
             }
-        }).toString().replaceAll(',','')
+        }).join('')
 
     const search = await axios.get(`${COMMISSION_BASE_URL}${api}${bodyToQuery}`,
         {

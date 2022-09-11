@@ -4,45 +4,16 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
-import { Dialog } from 'primereact/dialog';
 import {useSelector} from "react-redux";
-import {addNewCommission, deleteCommission, updateCommission} from "../../../api/commissionInstrumentType";
-import {Chip} from "primereact/chip";
 import {Card} from "primereact/card";
-import {InputText} from "primereact/inputtext";
 
 export default function CategoryResultTableSection() {
 
-    let emptyProduct = {
-        id: null,
-        name: '',
-        image: null,
-        description: '',
-        category: null,
-        price: 0,
-        quantity: 0,
-        rating: 0,
-        inventoryStatus: 'INSTOCK'
-    };
     const {categorySearchResult}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
-    const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState<any>([]);
-    const [globalFilter, setGlobalFilter] = useState<any>(null);
-    const [updateSectorCode, setUpdateSectorCode] = useState<string>('');
-    const [updateSubSectorCode, setUpdateSubSectorCode] = useState<string>('');
-    const [productDialog, setProductDialog] = useState(false);
-    const [updateDialog, setUpdateDialog] = useState(false);
-    const [bourseCode, setBourseCode] = useState<string>('');
-    const [instrumentTypeCode, setInstrumentTypeCode] = useState<string>('');
-    const [sectorCode, setSectorCode] = useState<string>('');
-    const [subSectorCode, setSubSectorCode] = useState<string>('');
-    const [indexOfDeletings,setIndexOfDeletings]=useState(0)
 
     const toast:any = useRef(null);
-    const dt:any = useRef(null);
 
     useEffect(() => {
         if (categorySearchResult){
@@ -50,76 +21,6 @@ export default function CategoryResultTableSection() {
         }
     }, [categorySearchResult]);
 
-    console.log(categorySearchResult)
-
-    const deleteHandler=async (index:number)=>{
-        await deleteCommission({id:selectedProducts[index]?.id})
-            .then(res=> {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    detail: 'کارمزد حذف شد',
-                    life: 6000
-                });
-                setIndexOfDeletings(index+1)
-            })
-            .catch(err=> {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده است',
-                    detail: err?.response?.data?.title,
-                    life: 6000
-                });
-                setIndexOfDeletings(index+1)
-            })
-    }
-
-    useEffect(()=>{
-        if (selectedProducts?.[indexOfDeletings]?.id){
-            deleteHandler(indexOfDeletings)
-        }else{
-            setSelectedProducts([]);
-        }
-    },[indexOfDeletings])
-
-
-    const hideDialog = () => {
-        setProductDialog(false);
-        setUpdateDialog(false);
-        setDeleteProductsDialog(false);
-    }
-
-
-    const leftToolbarTemplate = () => {
-        const openNew = () => {
-            setProduct(emptyProduct);
-            setProductDialog(true);
-        }
-
-        const openUpdate = () => {
-            if (selectedProducts.length===1){
-                setUpdateDialog(true);
-            }else{
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'لطفا یک گزینه برای تغییر انتخاب کنید',
-                    life: 6000
-                });
-            }
-        }
-
-        const confirmDeleteSelected = () => {
-            setDeleteProductsDialog(true);
-        }
-
-        return (
-            <React.Fragment>
-                <Button label="حذف" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
-                <Button label="جدید" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
-                <Button label="تغییر" icon="pi pi-pencil" className="p-button-success mr-2" onClick={openUpdate} />
-            </React.Fragment>
-        )
-    }
     const rightToolbarTemplate = () => {
         const exportExcel = () => {
             import('xlsx').then(xlsx => {
@@ -151,149 +52,30 @@ export default function CategoryResultTableSection() {
         )
     }
 
-    const deleteSelectedProducts = () => {
-        let _products = products.filter((val:any) => !selectedProducts?.includes(val));
-        setProducts(_products);
-        setDeleteProductsDialog(false);
-        deleteHandler(0)
-    }
-    const deleteProductsDialogFooter = (
-        <React.Fragment>
-            <Button label="خیر" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="بله" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
-        </React.Fragment>
-    );
-
-    const addNewHandler=async ()=>{
-        await addNewCommission({
-            bourseCode: bourseCode,
-            instrumentTypeCode: instrumentTypeCode,
-            sectorCode: sectorCode,
-            subSectorCode: subSectorCode
-        }).then(res=> {
-            setProductDialog(false);
-            toast.current?.show({ severity: 'success', summary: 'با موفقیت انجام شد', detail: 'کارمزد جدید اضافه شد', life: 6000 });
-            setProducts([{id:bourseCode,instrumentTypeCode:instrumentTypeCode,sectorCode:sectorCode,subSectorCode:subSectorCode},...products])
-            setBourseCode('')
-            setInstrumentTypeCode('')
-            setSectorCode('')
-            setSubSectorCode('')
-        })
-            .catch(err=> {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده است',
-                    detail: err?.response?.data?.title,
-                    life: 6000
-                });
-            })
-    }
-    const productDialogFooter = (
-        <React.Fragment>
-            <Button label="لغو" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="تایید" icon="pi pi-check" className="p-button-text" onClick={addNewHandler} />
-        </React.Fragment>
-    );
-
-    const updateHandler=async ()=>{
-        await updateCommission({
-            id: selectedProducts[0]?.id,
-            sectorCode: updateSectorCode,
-            subSectorCode: updateSubSectorCode
-        })
-            .then(res=> {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    life: 6000
-                });
-                setUpdateDialog(false)
-                setUpdateSectorCode('')
-                setUpdateSubSectorCode('')
-            })
-            .catch(err=>toast.current?.show({
-                severity: 'error',
-                summary: err?.response?.data?.title,
-                life: 6000
-            }))
-    }
-    const updateDialogFooter = (
-        <React.Fragment>
-            <Button label="لغو" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="تایید" icon="pi pi-check" className="p-button-text" onClick={updateHandler} />
-        </React.Fragment>
-    );
-
     return (
         <Card className="datatable-scroll-demo">
             <Toast ref={toast} position="top-center"/>
-
             <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
-                <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
-                           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable scrollHeight="500px"
+                <Toolbar className="mb-4" right={rightToolbarTemplate}/>
+                <DataTable value={products} sortMode="multiple" removableSort
+                           paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable scrollHeight="500px"
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                           globalFilter={globalFilter} responsiveLayout="scroll">
-                    <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}/>
-                    <Column field="code" header="شناسه" sortable body={(rowData)=>rowData.id} style={{ minWidth: '6rem' }}/>
-                    <Column field="name" header="کد بازار" sortable body={(rowData)=>rowData.marketCode} style={{ minWidth: '12rem' }}/>
-                    <Column field="image" header="بازار" body={(rowData)=>rowData.marketTitle} style={{ minWidth: '8rem' }}/>
-                    <Column field="price" header="کد نوع عرضه" body={(rowData)=>rowData.offerTypeCode} sortable style={{ minWidth: '14rem' }}/>
-                    <Column field="category" header="نوع عرضه" sortable body={(rowData)=>rowData.offerTypeTitle} style={{ minWidth: '10rem' }}/>
-                    <Column field="rating" header="کد سمت سفارش" body={(rowData)=>rowData.sideID } sortable style={{ minWidth: '10rem' }}/>
-                    <Column field="industry" header="سمت سفارش" body={(rowData)=>rowData.sideTitle} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="subIndustryCode" header="کد تاخیر در تسویه" body={(rowData)=>rowData.settleentDelayID } sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="settlementDelayTitle" header="تاخیر در تسویه" body={(rowData)=>rowData.settlementDelayTitle } sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="customerTypeID" header="کد نوع مشتری" body={(rowData)=>rowData.customerTypeID } sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="customerTypeTitle" header="نوع مشتری" body={(rowData)=>rowData.customerTypeTitle} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="CustomerCounterSideID " header="کد نوع طرف مقابل" body={(rowData)=>rowData.customerCounterSideID} sortable style={{ minWidth: '12rem' }}/>
-                    <Column field="customerCounterSideTitle" header="نوع طرف مقابل" body={(rowData)=>rowData.customerCounterSideTitle} sortable style={{ minWidth: '12rem' }}/>
-                    {/*<Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}/>*/}
+                           responsiveLayout="scroll">
+                    <Column field="id" header="شناسه" sortable style={{ minWidth: '6rem'}}/>
+                    <Column field="marketCode" header="کد بازار" sortable  style={{ minWidth: '12rem'}}/>
+                    <Column field="marketTitle" header="بازار" style={{ minWidth: '8rem'}}/>
+                    <Column field="offerTypeCode" header="کد نوع عرضه" sortable style={{ minWidth: '14rem'}}/>
+                    <Column field="offerTypeTitle" header="نوع عرضه" sortable style={{ minWidth: '10rem'}}/>
+                    <Column field="sideCode" header="کد سمت سفارش" sortable style={{ minWidth: '10rem'}}/>
+                    <Column field="sideTitle" header="سمت سفارش" sortable style={{ minWidth: '12rem'}}/>
+                    <Column field="settlementDelayCode" header="کد تاخیر در تسویه" sortable style={{ minWidth: '12rem'}}/>
+                    <Column field="settlementDelayTitle" header="تاخیر در تسویه" sortable style={{ minWidth: '12rem'}}/>
+                    <Column field="customerTypeCode" header="کد نوع مشتری"  sortable style={{ minWidth: '12rem'}}/>
+                    <Column field="customerTypeTitle" header="نوع مشتری"  sortable style={{ minWidth: '12rem'}}/>
+                    <Column field="customerCounterSideCode" header="کد نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
+                    <Column field="customerCounterSideTitle" header="نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
                 </DataTable>
             </div>
-
-            <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="تایید حذف" modal footer={deleteProductsDialogFooter} onHide={hideDialog}>
-                <div className="confirmation-content align-content-center flex">
-                    <i className="pi pi-exclamation-triangle ml-3" style={{ fontSize: '1.4rem'}} />
-                    {product && <span>آیا از حذف ردیف مورد نظر اطمینان دارید؟</span>}
-                </div>
-            </Dialog>
-            <Dialog visible={productDialog} style={{ width: '450px' }} header="جزییات کارمزد جدید" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                <div className="field mt-4">
-                    <form className={'grid'}>
-                        <div className="p-float-label col-12">
-                            <InputText id="bourseCode" value={bourseCode} onChange={(e) => setBourseCode(e.target.value)}/>
-                            <label htmlFor="bourseCode">کد بورس</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" value={instrumentTypeCode} onChange={(e) => setInstrumentTypeCode(e.target.value)}/>
-                            <label htmlFor="instrumentTypeCode">کد نوع ابزار مالی</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="sectorCode" value={sectorCode} onChange={(e) => setSectorCode(e.target.value)}/>
-                            <label htmlFor="sectorCode">کد گروه صنعت</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="subSectorCode" value={subSectorCode} onChange={(e) => setSubSectorCode(e.target.value)}/>
-                            <label htmlFor="subSectorCode">کد زیرگروه صنعت</label>
-                        </div>
-                    </form>
-                </div>
-            </Dialog>
-            <Dialog visible={updateDialog} style={{ width: '450px' }} header="ایجاد تغییرات" modal className="p-fluid" footer={updateDialogFooter} onHide={hideDialog}>
-                <div className="field mt-4">
-                    <form className={'grid'}>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" value={updateSectorCode} onChange={(e) => setUpdateSectorCode(e.target.value)}/>
-                            <label htmlFor="instrumentTypeCode">کد گروه صنعت</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="sectorCode" value={updateSubSectorCode} onChange={(e) => setUpdateSectorCode(e.target.value)}/>
-                            <label htmlFor="sectorCode">کد زیرگروه صنعت</label>
-                        </div>
-                    </form>
-                </div>
-            </Dialog>
         </Card>
     );
 }

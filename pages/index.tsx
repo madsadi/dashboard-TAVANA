@@ -8,8 +8,9 @@ const Home: NextPage = () => {
 
   const signIn=(e:any)=>{
     e.preventDefault()
-    Router.push('/commission')
+    Router.push('/commission/categoryPanel')
   }
+
   return (
       <div className="flex align-items-center justify-content-center m-auto lg:w-3 md:w-8">
         <div className="p-4 border-round flex-grow-1">

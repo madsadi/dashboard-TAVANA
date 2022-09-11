@@ -11,6 +11,7 @@ body {
 .p-component{
   font-family: "Yekan Bakh", sans-serif !important;
 }
+
 #__next {
   display: flex;
   flex-direction: column;
@@ -98,4 +99,15 @@ a {
 
 .p-datatable .p-paginator-bottom{
   direction:ltr !important;
+}
+
+.attention{
+  border:1px solid red !important;
+}
+
+.p-toast-message-content>span.pi-check:before{
+  content:"" !important;
+}
+.p-toast-message-content>span.pi-times:before{
+  content:"" !important;
 }
