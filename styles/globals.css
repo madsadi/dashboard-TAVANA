@@ -1,0 +1,123 @@
+@import "Menu.css";
+@import "Information.css";
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background:#f9fafb;
+  scroll-behavior: smooth;
+  font-family: "Yekan Bakh", sans-serif;
+  font-size:14px;
+}
+.p-component{
+  font-family: "Yekan Bakh", sans-serif !important;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Yekan Bakh", sans-serif;
+}
+
+.page-content{
+  margin:65px 0 0 0 !important;
+}
+
+.container{
+  margin:0 30px;
+}
+
+.p-menubar-root-list{
+  margin-right:auto !important;
+}
+.p-menubar-end{
+  margin-left: 0 !important;
+}
+
+.p-menubar{
+  border-radius:0 !important;
+}
+
+.p-button{
+  padding:0.25rem 1rem !important;
+}
+.p-inputtext{
+  padding:0.5rem 0.5rem !important;
+}
+.p-sidebar-mask{
+  direction:ltr !important;
+}
+
+.p-panelmenu .p-panelmenu-header-link {
+  justify-content: flex-end;
+}
+
+.pi-chevron-right:before {
+  content: "\e900"!important;
+}
+
+.p-panelmenu .p-panelmenu-header > a .p-panelmenu-icon {
+  margin-right: auto!important;
+}
+
+.p-panelmenu .p-menuitem-link {
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 960px) {
+  .p-menubar .p-menubar-button {
+    display: flex;
+    margin-right: auto;
+  }
+}
+
+
+.p-float-label label{
+  right:1rem;
+  left:unset !important;
+}
+
+.p-button .p-button-icon-left{
+  margin-left:0.5rem;
+  margin-right:0 !important;
+}
+.p-datatable .p-datatable-tbody > tr > td{
+  text-align:right !important;
+}
+
+.p-float-label input:focus ~ label, .p-float-label input:-webkit-autofill ~ label, .p-float-label input.p-filled ~ label, .p-float-label textarea:focus ~ label, .p-float-label textarea.p-filled ~ label, .p-float-label .p-inputwrapper-focus ~ label, .p-float-label .p-inputwrapper-filled ~ label{
+  top:-0.25rem !important;
+}
+
+.p-datatable .p-paginator-bottom{
+  direction:ltr !important;
+}
+
+.attention{
+  border:1px solid red !important;
+}
+
+.p-toast-message-content>span.pi-check:before{
+  content:"" !important;
+}
+.p-toast-message-content>span.pi-times:before{
+  content:"" !important;
+}
+
+.DatePicker{
+  width:100% !important;
+}
+
+.customHeight{
+  height:38px !important;
+}

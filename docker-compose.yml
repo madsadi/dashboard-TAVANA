@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  admin-panel-client:
+    image: 172.24.65.12:81/repository/tech1a-docker-registry/admin-panel-client:latest
+    networks:
+      - omsnet
+    ports:
+      - 9021:3000
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 5
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: any
+        delay: 10s
+        window: 20s
+
+networks:
+ omsnet:
+   external: false
