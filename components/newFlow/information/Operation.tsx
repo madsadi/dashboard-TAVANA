@@ -23,8 +23,8 @@ export default function Operation() {
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'خطای سرور',
-                    detail: err?.response?.data?.title,
+                    summary: err?.response?.data?.title,
+                    detail: err?.response?.data?.message,
                     life: 6000
                 });
             })

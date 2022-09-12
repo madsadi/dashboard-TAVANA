@@ -38,8 +38,8 @@ export default function BuyDeclaration() {
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'لطفا تاریخ را انتخاب کنید',
-                    detail: err?.response?.data?.title,
+                    summary: err?.response?.data?.title,
+                    detail: err?.response?.data?.message,
                     life: 6000
                 });
             })

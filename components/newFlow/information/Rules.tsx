@@ -21,7 +21,7 @@ export default function Rules() {
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'خطای سرور',
+                    summary: err?.response?.data?.title,
                     detail: err?.response?.data?.title,
                     life: 6000
                 });

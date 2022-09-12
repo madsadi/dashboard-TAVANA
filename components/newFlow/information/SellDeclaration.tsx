@@ -38,7 +38,7 @@ export default function SellDeclaration() {
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'لطفا تاریخ را انتخاب کنید',
+                    summary: err?.response?.data?.title,
                     detail: err?.response?.data?.title,
                     life: 6000
                 });
