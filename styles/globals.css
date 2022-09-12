@@ -121,3 +121,7 @@ a {
 .customHeight{
   height:38px !important;
 }
+
+.p-accordion-header-link{
+  background:#af893c !important;
+}
