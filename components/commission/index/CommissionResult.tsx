@@ -7,19 +7,19 @@ import { Toolbar } from 'primereact/toolbar';
 import {useSelector} from "react-redux";
 import {Card} from "primereact/card";
 
-export default function CategoryResultTableSection() {
+export default function CommissionResult() {
 
-    const {categorySearchResult}=useSelector((state:any)=>state.commissionConfig)
+    const {commission}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
 
     const toast:any = useRef(null);
 
     useEffect(() => {
-        if (categorySearchResult){
-            setProducts(categorySearchResult)
+        if (commission){
+            setProducts(commission)
         }
-    }, [categorySearchResult]);
+    }, [commission]);
 
     const rightToolbarTemplate = () => {
         const exportExcel = () => {

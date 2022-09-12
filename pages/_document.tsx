@@ -37,7 +37,7 @@ class MyDocument extends Document {
                     <link rel='stylesheet' href='/yekanBakhFont.css'/>
                     <link rel='shortcut icon' href='/logo-2.png'/>
                 </Head>
-                <body>
+                <body className={'custom-scrollbar'}>
                 <Main />
                 <NextScript />
                 </body>

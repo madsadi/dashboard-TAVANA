@@ -10,6 +10,7 @@ const Home: NextPage = () => {
     e.preventDefault()
     Router.push('/commission/categoryPanel')
   }
+
   return (
       <div className="flex align-items-center justify-content-center m-auto lg:w-3 md:w-8">
         <div className="p-4 border-round flex-grow-1">

@@ -16,15 +16,16 @@ export default function SideBarContent() {
             label:'مدیریت کارمزد ها',
             items: [
                 {
+                    label: 'ضرایب کارمزد',
+                    url:'/commission'
+                },
+                {
                     label: 'گروه بندی ابزار مالی',
                     url:'/commission/instrumentType'
                 },
                 {
                     label: 'گروه بندی ضرایب کارمزد',
                     url:'/commission/categoryPanel'
-                },
-                {
-                    label: 'ضرایب کارمزد'
                 },
             ]
         },
