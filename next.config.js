@@ -5,6 +5,7 @@ const nextConfig = {
   env: {
     COMMISSION_BASE_URL:'http://172.24.65.20:9007/api',
     NETFLOW_BASE_URL:'http://172.24.65.20:8091',
+    MARKET_RULES_MANAGEMENT:'http://172.24.65.20:9020/api/request',
   },
 }
 

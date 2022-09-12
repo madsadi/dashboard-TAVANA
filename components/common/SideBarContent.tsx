@@ -59,9 +59,10 @@ export default function SideBarContent() {
                 }
             ]
         },
-        // {
-        //     label:'مدیریت سفارش ها',
-        // },
+        {
+            label:'مدیریت قوانین بازار',
+            url:'/marketRulesManagement'
+        },
         // {
         //     label:'فایل معاملاتی',
         // },

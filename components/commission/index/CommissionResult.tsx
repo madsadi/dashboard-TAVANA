@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import {useSelector} from "react-redux";
@@ -12,8 +11,6 @@ export default function CommissionResult() {
     const {commission}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
-
-    const toast:any = useRef(null);
 
     useEffect(() => {
         if (commission){
@@ -54,7 +51,6 @@ export default function CommissionResult() {
 
     return (
         <Card className="datatable-scroll-demo">
-            <Toast ref={toast} position="top-center"/>
             <div className="card">
                 <Toolbar className="mb-4" right={rightToolbarTemplate}/>
                 <DataTable value={products} sortMode="multiple" removableSort

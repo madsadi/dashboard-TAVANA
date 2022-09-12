@@ -1,19 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import {useSelector} from "react-redux";
 import {Card} from "primereact/card";
 
 export default function CategoryResultTableSection() {
-
     const {categorySearchResult}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
-
-    const toast:any = useRef(null);
 
     useEffect(() => {
         if (categorySearchResult){
@@ -54,7 +50,6 @@ export default function CategoryResultTableSection() {
 
     return (
         <Card className="datatable-scroll-demo">
-            <Toast ref={toast} position="top-center"/>
             <div className="card">
                 <Toolbar className="mb-4" right={rightToolbarTemplate}/>
                 <DataTable value={products} sortMode="multiple" removableSort
