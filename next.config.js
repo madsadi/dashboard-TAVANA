@@ -3,8 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   env: {
-    COMMISSION_BASE_URL:'172.24.65.20:9007/api',
-    NETFLOW_BASE_URL:'172.24.65.20:8091',
+    COMMISSION_BASE_URL:'http://172.24.65.20:9007/api',
+    NETFLOW_BASE_URL:'http://172.24.65.20:8091',
   },
 }
 
