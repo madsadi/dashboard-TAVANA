@@ -1,4 +1,5 @@
 @import "Menu.css";
+@import "Information.css";
 html,
 body {
   padding: 0;
@@ -119,4 +120,8 @@ a {
 
 .customHeight{
   height:38px !important;
+}
+
+.p-accordion-header-link{
+  background:#af893c !important;
 }

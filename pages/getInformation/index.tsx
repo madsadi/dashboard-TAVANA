@@ -1,6 +1,12 @@
 import Layout from "../../components/common/Layout";
-import React from "react";
-import DateComponent from "../../components/information/DateComponent";
+import React, {useState} from "react";
+import BuyDeclaration from "../../components/information/BuyDeclaration";
+import SellDeclaration from "../../components/information/SellDeclaration";
+import RollingClearing from "../../components/information/RollingClearing";
+import ClearedTrade from "../../components/information/ClearedTrade";
+import ClearingDateRange from "../../components/information/ClearingDateRange";
+import Rules from "../../components/information/Rules";
+import Operation from "../../components/information/Operation";
 
 export default function GetInformation() {
 
@@ -8,19 +14,31 @@ export default function GetInformation() {
         <Layout>
             <div className={'grid'}>
                 <div className={'col text-center'}>
-                    <DateComponent api={'/Trade/buy-declaration'}/>
+                    <BuyDeclaration/>
                 </div>
                 <div className={'col text-center'}>
-                    <DateComponent api={'/Trade/buy-declaration-count'}/>
+                    <SellDeclaration/>
+                </div>
+            </div>
+            <div className={'grid'}>
+                <div className={'col text-center'}>
+                    <RollingClearing/>
                 </div>
                 <div className={'col text-center'}>
-                    <DateComponent api={'/Trade/sell-declaration'}/>
+                    <ClearedTrade/>
+                </div>
+            </div>
+            <div className={'grid'}>
+                <div className={'col text-center'}>
+                    <Rules/>
                 </div>
                 <div className={'col text-center'}>
-                    {/*<DateComponent api={}/>*/}
+                    <Operation/>
                 </div>
+            </div>
+            <div className={'grid'}>
                 <div className={'col text-center'}>
-                    {/*<DateComponent/>*/}
+                    <ClearingDateRange/>
                 </div>
             </div>
         </Layout>
