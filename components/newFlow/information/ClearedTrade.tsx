@@ -3,7 +3,7 @@ import {Card} from "primereact/card";
 import React, {useRef, useState} from "react";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
-import {activation} from "../../api/getInformation";
+import {activation} from "../../../api/getInformation";
 import { Toast } from 'primereact/toast';
 
 

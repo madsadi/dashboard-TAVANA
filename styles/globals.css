@@ -100,3 +100,7 @@ a {
 .p-datatable .p-paginator-bottom{
   direction:ltr !important;
 }
+
+.DatePicker {
+  width:100%;
+}

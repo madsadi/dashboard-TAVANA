@@ -38,7 +38,8 @@ export default function SideBarContent() {
                     label: 'معاملات'
                 },
                 {
-                    label: 'معاملات تسویه شده'
+                    label: 'معاملات تسویه شده',
+                    url: '/netFlow/clearedTradesReport'
                 },
                 {
                     label: 'تسویه روزانه کارگزاری'
@@ -54,7 +55,7 @@ export default function SideBarContent() {
                 },
                 {
                     label: 'دریافت اطلاعات',
-                    url: '/getInformation'
+                    url: '/netFlow/information'
                 }
             ]
         },

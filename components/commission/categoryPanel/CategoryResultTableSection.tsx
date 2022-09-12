@@ -50,7 +50,6 @@ export default function CategoryResultTableSection() {
         }
     }, [categorySearchResult]);
 
-    console.log(categorySearchResult)
 
     const deleteHandler=async (index:number)=>{
         await deleteCommission({id:selectedProducts[index]?.id})

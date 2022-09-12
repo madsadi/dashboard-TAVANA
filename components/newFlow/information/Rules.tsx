@@ -1,7 +1,7 @@
 import {Card} from "primereact/card";
 import React, {useRef} from "react";
 import {Button} from "primereact/button";
-import {activationWithOUtBody} from "../../api/getInformation";
+import {activationWithOUtBody} from "../../../api/getInformation";
 import { Toast } from 'primereact/toast';
 
 
