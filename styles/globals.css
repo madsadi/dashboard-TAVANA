@@ -12,6 +12,7 @@ body {
 .p-component{
   font-family: "Yekan Bakh", sans-serif !important;
 }
+
 #__next {
   display: flex;
   flex-direction: column;
@@ -35,6 +36,7 @@ a {
 .container{
   margin:0 30px;
 }
+
 .p-menubar-root-list{
   margin-right:auto !important;
 }
@@ -99,4 +101,23 @@ a {
 
 .p-datatable .p-paginator-bottom{
   direction:ltr !important;
+}
+
+.attention{
+  border:1px solid red !important;
+}
+
+.p-toast-message-content>span.pi-check:before{
+  content:"" !important;
+}
+.p-toast-message-content>span.pi-times:before{
+  content:"" !important;
+}
+
+.DatePicker{
+  width:100% !important;
+}
+
+.customHeight{
+  height:38px !important;
 }
