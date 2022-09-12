@@ -1,7 +1,7 @@
 import {Card} from "primereact/card";
 import React, {useRef} from "react";
 import {Button} from "primereact/button";
-import {activationWithOUtBody} from "../../api/getInformation";
+import {activationWithOUtBody} from "../../../api/getInformation";
 import { Toast } from 'primereact/toast';
 
 
@@ -23,8 +23,8 @@ export default function Operation() {
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'خطای سرور',
-                    detail: err?.response?.data?.title,
+                    summary: err?.response?.data?.title,
+                    detail: err?.response?.data?.message,
                     life: 6000
                 });
             })
