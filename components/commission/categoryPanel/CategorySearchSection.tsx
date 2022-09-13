@@ -16,40 +16,23 @@ export default function CategorySearchSection() {
     const [CustomerTypeTitle, setCustomerTypeTitle] = useState<string>('');
     const [CustomerCounterSideTitle, setCustomerCounterSideTitle] = useState<string>();
 
-    const toast:any = useRef(null);
     const dispatch = useDispatch()
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await commissionSearch('/CommissionCategory/Search?', [
-            {CategoryId: CategoryId},
+        let body:any=[
+            {CommissionCategoryId: CategoryId},
             {MarketTitle: MarketTitle},
             {OfferTypeTitle: OfferTypeTitle},
             {SideTitle: SideTitle},
             {SettlementDelayTitle: SettlementDelayTitle},
             {CustomerTypeTitle: CustomerTypeTitle},
             {CustomerCounterSideTitle: CustomerCounterSideTitle}]
-        ).then(res => {
-            dispatch(categorySearchResult(res?.result?.pagedData));
-            toast.current?.show({
-                severity: 'success',
-                summary: 'با موفقیت انجام شد',
-                detail: 'نتایج جستجو لیست شد',
-                life: 6000
-            })
-        })
-            .catch(err =>
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده',
-                    detail: `${err?.response?.data?.title}`,
-                    life: 6000
-                }))
+        dispatch(categorySearchResult(body));
     }
 
     return (
         <>
-            <Toast ref={toast} position="top-center"/>
             <Accordion className="accordion-custom" activeIndex={0}>
                 <AccordionTab
                     header={<React.Fragment><i className="pi pi-search mx-1"/><span>جستجو</span></React.Fragment>}>

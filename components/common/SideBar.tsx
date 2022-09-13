@@ -9,7 +9,7 @@ export default function SideBar(){
 
     return(
         <>
-            <Button className={'p-button-raised p-button-text'} icon="pi pi-angle-double-left" onClick={() => setVisibleRight(true)} />
+            <Button className={'p-button-raised p-button-text'} icon="pi pi-bars" onClick={() => setVisibleRight(true)} />
             <Sidebar className="rtl" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
                 <div className="sideBarHead">
                     <h2>کارگزاری توانا</h2>

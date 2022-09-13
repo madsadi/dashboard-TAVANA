@@ -345,7 +345,7 @@ export default function ResultTable() {
                         </div>
                         <div className="p-float-label col-12 mt-3">
                             <InputText id="sectorCode" value={updateSubSectorCode}
-                                       onChange={(e) => setUpdateSectorCode(e.target.value)}/>
+                                       onChange={(e) => setUpdateSubSectorCode(e.target.value)}/>
                             <label htmlFor="sectorCode">کد زیرگروه صنعت</label>
                         </div>
                     </form>

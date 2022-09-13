@@ -29,6 +29,9 @@ a {
   font-family: "Yekan Bakh", sans-serif;
 }
 
+.ltr{
+  direction:ltr;
+}
 .page-content{
   margin:65px 0 0 0 !important;
 }
@@ -142,4 +145,21 @@ a {
 }
 .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a{
   padding:0.75rem !important;
+}
+
+.p-dropdown-panel .p-dropdown-header .p-dropdown-filter{
+  margin-right:0 !important;
+}
+
+.p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon{
+  right:unset !important;
+  left:0.75rem !important;
+}
+
+.p-chip-text .flex .pi-times:before{
+  vertical-align: middle !important;
+}
+
+.rtl{
+  direction:rtl;
 }
