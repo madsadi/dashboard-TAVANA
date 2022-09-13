@@ -60,6 +60,10 @@ export default function SideBarContent() {
                 }
             ]
         },
+        {
+            label: 'عرضه اولیه',
+            url: '/bookBuilding/'
+        }
         // {
         //     label:'مدیریت سفارش ها',
         // },
