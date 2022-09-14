@@ -1,5 +1,4 @@
 import React, {useRef, useState} from 'react';
-import {commissionSearch} from "../../../api/commissionInstrumentType";
 import {Button} from "primereact/button";
 import {InputText} from "primereact/inputtext";
 import {useDispatch} from "react-redux";
@@ -17,6 +16,7 @@ export default function CategorySearchSection() {
     const [CustomerCounterSideTitle, setCustomerCounterSideTitle] = useState<string>();
 
     const dispatch = useDispatch()
+    const toast:any = useRef(null);
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
@@ -29,10 +29,17 @@ export default function CategorySearchSection() {
             {CustomerTypeTitle: CustomerTypeTitle},
             {CustomerCounterSideTitle: CustomerCounterSideTitle}]
         dispatch(categorySearchResult(body));
+        toast.current?.show({
+            severity: 'success',
+            summary: 'با موفقیت انجام شد',
+            detail: 'نتایج جستجو لیست شد',
+            life: 6000
+        })
     }
 
     return (
         <>
+            <Toast ref={toast} position="top-center"/>
             <Accordion className="accordion-custom" activeIndex={0}>
                 <AccordionTab
                     header={<React.Fragment><i className="pi pi-search mx-1"/><span>جستجو</span></React.Fragment>}>
@@ -69,7 +76,7 @@ export default function CategorySearchSection() {
                             <InputText id="CustomerCounterSideTitle" value={CustomerCounterSideTitle} onChange={(e) => setCustomerCounterSideTitle(e.target.value)}/>
                             <label htmlFor="CustomerCounterSideTitle">نوع طرف مقابل</label>
                         </div>
-                        <div className={'flex flex-grow-1 mt-3'}>
+                        <div className={'flex flex-grow-1 mt-3 col-12 md:col-4'}>
                             <Button className={'mt-auto w-fit mr-auto'} type={'submit'}>
                                 جستجو
                             </Button>

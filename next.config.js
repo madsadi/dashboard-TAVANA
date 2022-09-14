@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   output: 'standalone',
   env: {
     COMMISSION_BASE_URL:'http://172.24.65.20:9007/api',

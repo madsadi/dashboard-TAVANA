@@ -103,9 +103,9 @@ export default function CreateNewRule() {
                 life: 6000
             }))
     }
-    useEffect(() => {
-        getFieldItems()
-    }, [])
+    // useEffect(() => {
+    //     getFieldItems()
+    // }, [])
 
     const remove = (index: number) => {
         expression.splice(index, 1)
@@ -173,6 +173,7 @@ export default function CreateNewRule() {
         setSequence(null);
         setErrorMessage('');
         setStatus({name: '', isActive: false});
+        setValue('')
         setExpression([])
         setFaExpression([])
     }

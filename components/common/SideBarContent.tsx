@@ -1,7 +1,10 @@
 import React from 'react';
 import {PanelMenu} from 'primereact/panelmenu';
+import {useRouter} from "next/router";
 
 export default function SideBarContent() {
+    const router=useRouter()
+
     const items = [
         // {
         //     label:'داشبورد',
@@ -14,18 +17,22 @@ export default function SideBarContent() {
         // },
         {
             label:'مدیریت کارمزد ها',
+            expanded:router.pathname.startsWith('/commissionManagement'),
             items: [
                 {
                     label: 'ضرایب کارمزد',
-                    url:'/commission'
+                    url:'/commissionManagement/commission',
+                    className:router.pathname==='/commissionManagement/commission' ? 'sideBarActive':'',
                 },
                 {
                     label: 'گروه بندی ابزار مالی',
-                    url:'/commission/instrumentType'
+                    url:'/commissionManagement/instrumentType',
+                    className:router.pathname==='/commissionManagement/instrumentType' ? 'sideBarActive':'',
                 },
                 {
                     label: 'گروه بندی ضرایب کارمزد',
-                    url:'/commission/categoryPanel'
+                    url:'/commissionManagement/categoryPanel',
+                    className:router.pathname==='/commissionManagement/categoryPanel' ? 'sideBarActive':'',
                 },
             ]
         },
@@ -34,6 +41,7 @@ export default function SideBarContent() {
         // },
         {
             label:'نت فلو',
+            expanded:router.pathname.startsWith('/netFlow'),
             items: [
                 {
                     label: 'معاملات'
@@ -55,13 +63,16 @@ export default function SideBarContent() {
                 },
                 {
                     label: 'دریافت اطلاعات',
-                    url: '/getInformation'
+                    url: '/getInformation',
+                    className:router.pathname==='/getInformation' ? 'sideBarActive':'',
                 }
             ]
         },
         {
             label:'مدیریت قوانین بازار',
-            url:'/marketRulesManagement'
+            url:'/marketRulesManagement',
+            expanded:false,
+            className:router.pathname==='/marketRulesManagement' ? 'sideBarActive':'',
         },
         // {
         //     label:'فایل معاملاتی',
@@ -72,10 +83,8 @@ export default function SideBarContent() {
     ];
 
     return (
-        <>
             <div className="card">
                 <PanelMenu model={items}/>
             </div>
-        </>
     );
 }

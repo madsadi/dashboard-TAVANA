@@ -43,17 +43,21 @@ export default function CommissionResult() {
         }
 
         return (
-            <React.Fragment>
-                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-2" data-pr-tooltip="XLS" />
-            </React.Fragment>
+                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-auto" data-pr-tooltip="XLS" />
         )
     }
 
+    const header=()=>{
+        return (
+            <div className={'flex'}>
+                {rightToolbarTemplate()}
+            </div>
+        )
+    }
     return (
         <Card className="datatable-scroll-demo">
             <div className="card">
-                <Toolbar className="mb-4" right={rightToolbarTemplate}/>
-                <DataTable value={products} sortMode="multiple" removableSort
+                <DataTable value={products} sortMode="multiple" removableSort header={header}
                            paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable scrollHeight="500px"
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                            responsiveLayout="scroll">

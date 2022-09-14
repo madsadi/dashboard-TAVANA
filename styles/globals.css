@@ -163,3 +163,16 @@ a {
 .rtl{
   direction:rtl;
 }
+
+.sideBarActive .p-panelmenu-header > a{
+  background:#af893c !important;
+  color:white !important;
+}
+
+.sideBarActive > a{
+  background:#af893c !important;
+  color:white !important;
+}
+.p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link .p-menuitem-text{
+  color:unset !important;
+}

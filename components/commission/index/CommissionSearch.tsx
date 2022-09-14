@@ -42,7 +42,7 @@ export default function CommissionSearch() {
                 if (res?.result?.length > 1 || res?.result?.length === 0) {
                     toast.current?.show({
                         severity: 'error',
-                        summary: `${res?.result?.length} نتیجه یافت شد`,
+                        summary: `کارمزد ابزار مالی`,
                         detail: `${res?.result?.length} نتیجه یافت شد`,
                         life: 6000
                     })
@@ -75,7 +75,7 @@ export default function CommissionSearch() {
                 if (res?.result?.pagedData?.length > 1 || res?.result?.pagedData?.length === 0) {
                     toast.current?.show({
                         severity: 'error',
-                        summary: `${res?.result?.pagedData?.length} نتیجه یافت شد`,
+                        summary: `کارمزد گروه بندی ضرایب`,
                         detail: `${res?.result?.pagedData?.length} نتیجه یافت شد`,
                         life: 6000
                     })
@@ -272,7 +272,7 @@ export default function CommissionSearch() {
                                 </div>
                             </div>
                         </div>
-                        <Button className={'justify-content-center mt-4 px-5 w-fit'} type={'submit'}>
+                        <Button className={'justify-content-center mt-4 px-5 mr-auto w-fit'} type={'submit'}>
                             جستجو
                         </Button>
                     </form>

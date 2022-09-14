@@ -12,7 +12,7 @@ import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picke
 import {shouldEditObject} from "../../store/marketRulesConfig";
 import {useDispatch} from "react-redux";
 import {Dropdown} from "primereact/dropdown";
-import { validate as uuidValidate } from 'uuid';
+import {validate as uuidValidate} from 'uuid';
 
 export default function RulesList() {
     const [products, setProducts] = useState<any[]>([]);
@@ -82,11 +82,7 @@ export default function RulesList() {
 
         return (
             <React.Fragment>
-                <span className="p-input-icon-left">
-                    <i className="pi pi-search"/>
-                    <InputText type="search" onChange={(e) => setGlobalFilter(e.target.value)} placeholder="جستجو..."/>
-                </span>
-                <Button label="تغییر" icon="pi pi-pencil" className="p-button-success mr-2" onClick={openUpdate}/>
+                <Button label="تغییر" icon="pi pi-pencil" className="p-button-success mr-auto" onClick={openUpdate}/>
             </React.Fragment>
         )
     }
@@ -115,10 +111,8 @@ export default function RulesList() {
         }
 
         return (
-            <React.Fragment>
                 <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel}
                         className="p-button-success mr-2" data-pr-tooltip="XLS"/>
-            </React.Fragment>
         )
     }
 
@@ -150,41 +144,45 @@ export default function RulesList() {
             </div>
         )
 
-        return <div className={'flex align-items-center'}>
-            <div className="p-float-label py-2 ml-5">
-                <Dropdown value={status} options={states} className={'w-full'}
-                          onChange={(e) => setStatus(e.target.value)} optionLabel={'name'}/>
-                <label htmlFor="CustomerTypeTitle">وضیعت</label>
+        return (
+            <div className={'flex align-items-center'}>
+                <div className="p-float-label py-2 ml-5">
+                    <Dropdown value={status} options={states} className={'w-full'}
+                              onChange={(e) => setStatus(e.target.value)} optionLabel={'name'}/>
+                    <label htmlFor="CustomerTypeTitle">وضیعت</label>
+                </div>
+                <div>
+                    <DatePicker
+                        value={selectedDayRange}
+                        onChange={setSelectedDayRange}
+                        shouldHighlightWeekends
+                        renderInput={renderCustomInput}
+                        locale={'fa'}
+                        calendarPopperPosition={'bottom'}
+                        renderFooter={() => (
+                            <div style={{display: 'flex', justifyContent: 'center', padding: '1rem 2rem'}}>
+                                <Button
+                                    type="button"
+                                    onClick={() => {
+                                        setSelectedDayRange({from: null, to: null})
+                                    }}
+                                >
+                                    لغو
+                                </Button>
+                            </div>
+                        )}
+                    />
+                </div>
+                <div className="p-float-label py-2 h-fit mr-5">
+                    <InputText id="name" className={'w-full'} value={name}
+                               onChange={(e) => setName(e.target.value)}/>
+                    <label htmlFor="name">عنوان قانون</label>
+                </div>
+                {leftToolbarTemplate()}
+                {rightToolbarTemplate()}
+                <Button label="جتسجو" icon="pi pi-search" className="h-fit mr-2" onClick={getTheList}/>
             </div>
-            <div>
-                <DatePicker
-                    value={selectedDayRange}
-                    onChange={setSelectedDayRange}
-                    shouldHighlightWeekends
-                    renderInput={renderCustomInput}
-                    locale={'fa'}
-                    calendarPopperPosition={'bottom'}
-                    renderFooter={() => (
-                        <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem 2rem' }}>
-                            <Button
-                                type="button"
-                                onClick={() => {
-                                    setSelectedDayRange({from:null,to:null})
-                                }}
-                            >
-                                لغو
-                            </Button>
-                        </div>
-                    )}
-                />
-            </div>
-            <div className="p-float-label py-2 h-fit mr-5">
-                <InputText id="name" className={'w-full'} value={name}
-                           onChange={(e) => setName(e.target.value)}/>
-                <label htmlFor="name">عنوان قانون</label>
-            </div>
-            <Button label="جتسجو" icon="pi pi-search" className="mr-auto h-fit" onClick={getTheList}/>
-        </div>
+        )
     }
 
     return (
@@ -192,7 +190,6 @@ export default function RulesList() {
             <Toast ref={toast} position="top-center"/>
 
             <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
                 <DataTable ref={dt} value={products} selection={selectedProducts} removableSort
                            sortField="createDateTime" sortOrder={-1} header={header}
                            expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)}
@@ -225,7 +222,9 @@ export default function RulesList() {
                             {rowData.updatedDateTime ? moment(rowData.updatedDateTime).locale('fa').format("HH:mm") : '-'}
                         </div>
                     } style={{minWidth: '12rem'}}/>
-                    <Column field="updatedBy" header="کاربر تغییر دهنده" body={(rowData)=>uuidValidate(rowData.updatedBy) ? '-':rowData.updatedBy} sortable style={{minWidth: '12rem'}}/>
+                    <Column field="updatedBy" header="کاربر تغییر دهنده"
+                            body={(rowData) => uuidValidate(rowData.updatedBy) ? '-' : rowData.updatedBy} sortable
+                            style={{minWidth: '12rem'}}/>
                     <Column field="userIP" header="آی پی کاربر" sortable style={{minWidth: '12rem'}}/>
                 </DataTable>
             </div>

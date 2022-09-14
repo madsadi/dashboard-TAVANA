@@ -6,7 +6,7 @@ const LayoutHOC = ({children}:{children:any}) => {
         <>
             <Appbar/>
             <div className={'page-content '}>
-                <div className={'container flex-grow-1 py-3 md:px-3'}>
+                <div className={'container flex-grow-1 py-3'}>
                     {/*<BreadCrumbComponent/>*/}
                     {children}
                 </div>
