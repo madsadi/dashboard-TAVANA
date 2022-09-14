@@ -4,12 +4,9 @@ import {Button} from "primereact/button";
 import {activationWithOUtBody} from "../../api/getInformation";
 import { Toast } from 'primereact/toast';
 
-
-
 export default function Operation() {
     const toast:any = useRef(null);
-
-
+    
     const submitHandler = async () => {
         await activationWithOUtBody('/Trade/operation')
             .then(res=> {

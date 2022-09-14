@@ -1,9 +1,8 @@
 import {Card} from "primereact/card";
-import React, {useRef} from "react";
+import React, {useEffect, useLayoutEffect, useRef} from "react";
 import {Button} from "primereact/button";
 import {activationWithOUtBody} from "../../api/getInformation";
 import { Toast } from 'primereact/toast';
-
 
 export default function Rules() {
     const toast:any = useRef(null);
