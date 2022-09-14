@@ -47,7 +47,8 @@ export default function SideBarContent() {
                     label: 'معاملات'
                 },
                 {
-                    label: 'معاملات تسویه شده'
+                    label: 'معاملات تسویه شده',
+                    url: '/netFlow/clearedTradesReport'
                 },
                 {
                     label: 'تسویه روزانه کارگزاری'
@@ -63,11 +64,20 @@ export default function SideBarContent() {
                 },
                 {
                     label: 'دریافت اطلاعات',
-                    url: '/getInformation',
-                    className:router.pathname==='/getInformation' ? 'sideBarActive':'',
+                    className:router.pathname==='/netFlow/information' ? 'sideBarActive':'',
+                    url: '/netFlow/information'
                 }
             ]
         },
+        {
+            label: 'عرضه اولیه',
+            url: '/bookBuilding/',
+            expanded:false,
+            className:router.pathname==='/bookBuilding' ? 'sideBarActive':'',
+        },
+        // {
+        //     label:'مدیریت سفارش ها',
+        // },
         {
             label:'مدیریت قوانین بازار',
             url:'/marketRulesManagement',

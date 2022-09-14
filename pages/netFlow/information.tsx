@@ -1,12 +1,12 @@
 import Layout from "../../components/common/Layout";
 import React, {useState} from "react";
-import BuyDeclaration from "../../components/information/BuyDeclaration";
-import SellDeclaration from "../../components/information/SellDeclaration";
-import RollingClearing from "../../components/information/RollingClearing";
-import ClearedTrade from "../../components/information/ClearedTrade";
-import ClearingDateRange from "../../components/information/ClearingDateRange";
-import Rules from "../../components/information/Rules";
-import Operation from "../../components/information/Operation";
+import BuyDeclaration from "../../components/newFlow/information/BuyDeclaration";
+import SellDeclaration from "../../components/newFlow/information/SellDeclaration";
+import RollingClearing from "../../components/newFlow/information/RollingClearing";
+import ClearedTrade from "../../components/newFlow/information/ClearedTrade";
+import ClearingDateRange from "../../components/newFlow/information/ClearingDateRange";
+import Rules from "../../components/newFlow/information/Rules";
+import Operation from "../../components/newFlow/information/Operation";
 
 export default function GetInformation() {
 

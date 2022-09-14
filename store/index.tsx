@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import commissionConfig from './commissionConfig'
 import marketRulesConfig from './marketRulesConfig'
+import netFlowConfig from "./netFlowConfig";
+import bookBuildingConfig from "./bookBuildingConfig";
 import _ from 'lodash';
 
 export const saveState = (state:object) => {
@@ -30,6 +32,8 @@ const store= configureStore({
     preloadedState: persistedState,
     reducer: {
         commissionConfig,
+        netFlowConfig,
+        bookBuildingConfig,
         marketRulesConfig
     },
     devTools: process.env.NODE_ENV==='development'

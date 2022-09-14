@@ -35,7 +35,7 @@ class MyDocument extends Document {
             <Html className={'h-full '} dir={"rtl"}>
                 <Head>
                     <link rel='stylesheet' href='/yekanBakhFont.css'/>
-                    <link rel='shortcut icon' href='/tavanaLogo.jpeg'/>
+                    <link rel='shortcut icon' href='/logo-2.png'/>
                 </Head>
                 <body className={'custom-scrollbar'}>
                 <Main />

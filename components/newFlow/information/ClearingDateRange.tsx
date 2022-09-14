@@ -3,7 +3,7 @@ import {Card} from "primereact/card";
 import React, {useRef, useState} from "react";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
-import {activation} from "../../api/getInformation";
+import {activation} from "../../../api/getInformation";
 import { Toast } from 'primereact/toast';
 
 
@@ -43,7 +43,7 @@ export default function ClearingDateRange() {
     )
 
     const submitHandler = async () => {
-        await activation('/Trade/buy-declaration', {fromDate:`${fromDate?.year}${fromDate && fromDate?.month<10 ? `0${fromDate?.month}`:fromDate?.month}${fromDate && fromDate?.day<10 ? `0${fromDate?.day}`:fromDate?.day}`,
+        await activation('/Trade/clearing-date-range', {fromDate:`${fromDate?.year}${fromDate && fromDate?.month<10 ? `0${fromDate?.month}`:fromDate?.month}${fromDate && fromDate?.day<10 ? `0${fromDate?.day}`:fromDate?.day}`,
             toDate:`${toDate?.year}${toDate && toDate?.month<10 ? `0${toDate?.month}`:toDate?.month}${toDate && toDate?.day<10 ? `0${toDate?.day}`:toDate?.day}`,
             settlementDelay: `${settlementDelay}`})
             .then(res=> {
@@ -57,8 +57,8 @@ export default function ClearingDateRange() {
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'لطفا سه فیلد را پر کنید',
-                    detail: err?.response?.data?.title,
+                    summary: err?.response?.data?.title,
+                    detail: err?.response?.data?.message,
                     life: 6000
                 });
             })

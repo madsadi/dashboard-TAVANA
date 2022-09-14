@@ -3,7 +3,7 @@ import {Card} from "primereact/card";
 import React, {useRef, useState} from "react";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
-import {activation} from "../../api/getInformation";
+import {activation} from "../../../api/getInformation";
 import { Toast } from 'primereact/toast';
 
 
@@ -38,8 +38,8 @@ export default function ClearedTrade() {
             })  .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'لطفا تاریخ را انتخاب کنید',
-                    detail: err?.response?.data?.title,
+                    summary: err?.response?.data?.title,
+                    detail: err?.response?.data?.message,
                     life: 6000
                 });
             })
