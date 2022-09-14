@@ -14,7 +14,14 @@ export const getBookBuilding = async (api: string) => {
         })
     return create
 }
-export const addBookBuilding = async (body: { maxQuantity: any; instrumentId: any; minPrice: any; maxPrice: any; fromActiveDateTime: any; toActiveDateTime: any }) => {
+export const addBookBuilding = async (
+    body: {
+        maxQuantity: any;
+        instrumentId: string;
+        minPrice: any;
+        maxPrice: any;
+        fromActiveDateTime: any;
+        toActiveDateTime: any;}) => {
     const newBookBuilding = await axios.post(`${BOOKBUILDING_BASE_URL}/addBookBuilding`,
         body,
         {
@@ -28,9 +35,8 @@ export const addBookBuilding = async (body: { maxQuantity: any; instrumentId: an
         })
     return newBookBuilding
 }
-export const deleteBookBuilding = async (body: { id: number }) => {
-    const deleteBookBuilding = await axios.put(`${BOOKBUILDING_BASE_URL}/CommissionInstrumentType/Delete`,
-        body,
+export const deleteBookBuilding = async ( id: any ) => {
+    const deleteBookBuilding = await axios.delete(`${BOOKBUILDING_BASE_URL}/DeleteBookBuilding?InstrumentId=${id}`,
         {
             headers: {
                 'Accept': '*/*'
@@ -43,11 +49,14 @@ export const deleteBookBuilding = async (body: { id: number }) => {
     return deleteBookBuilding
 }
 export const updateBookBuilding = async (body: {
-    id: number,
-    sectorCode: string,
-    subSectorCode: string
+    maxQuantity: any;
+    instrumentId: string;
+    minPrice: any;
+    maxPrice: any;
+    fromActiveDateTime: any;
+    toActiveDateTime: any;
 }) => {
-    const updateBookBuilding = await axios.put(`${BOOKBUILDING_BASE_URL}/CommissionInstrumentType/Update`,
+    const updateBookBuilding = await axios.put(`${BOOKBUILDING_BASE_URL}/EditBookBuilding`,
         body,
         {
             headers: {

@@ -5,6 +5,7 @@ import {Toast} from 'primereact/toast';
 import {Button} from 'primereact/button';
 import {Toolbar} from 'primereact/toolbar';
 import {Dialog} from 'primereact/dialog';
+import moment from 'jalali-moment'
 import {useSelector} from "react-redux";
 import {
     getBookBuilding,
@@ -15,6 +16,7 @@ import {
 import {Chip} from "primereact/chip";
 import {Card} from "primereact/card";
 import {InputText} from "primereact/inputtext";
+import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function ResultTable() {
 
@@ -29,7 +31,7 @@ export default function ResultTable() {
         rating: 0,
         inventoryStatus: 'INSTOCK'
     };
-    const {instrumentSearchResult} = useSelector((state: any) => state.commissionConfig)
+    const {bookBuildingResult} = useSelector((state: any) => state.bookBuildingConfig)
 
     const [products, setProducts] = useState<any[]>([]);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
@@ -44,23 +46,52 @@ export default function ResultTable() {
     const [maxQuantity, setMaxQuantity] = useState<string>('');
     const [minPrice, setMinPrice] = useState<string>('');
     const [maxPrice, setMaxPrice] = useState<string>('');
-    const [toActiveDateTime, setToActiveDateTime] = useState<string>('');
-    const [fromActiveDateTime, setFromActiveDateTime] = useState<string>('');
+    const [faInsCode, setFaInsCode] = useState<string>('');
+    const [toActiveDateTime, setToActiveDateTime] = useState<DayValue>(null);
+    const [fromActiveDateTime, setFromActiveDateTime] = useState<DayValue>(null);
     const [createdBy, setCreatedBy] = useState<string>('');
     const [indexOfDeletings, setIndexOfDeletings] = useState(0)
     const [fault, setFaulty] = useState<boolean>(false)
 
+    console.log(selectedProducts)
     const toast: any = useRef(null);
     const dt: any = useRef(null);
 
+    const toActiveDateTimeCustomInput = ({ref}: { ref: any }) => (
+        <InputText readOnly ref={ref}
+                   style={{
+                       textAlign: 'center',
+                       padding: '1rem 1.5rem',
+                       border: '1px solid #9c88ff',
+                       borderRadius: '5px',
+                       color: '#6366F1',
+                       outline: 'none',
+                   }}
+                   value={toActiveDateTime ? `${toActiveDateTime?.year}-${toActiveDateTime?.month}-${toActiveDateTime?.day}` : ''}
+                   aria-describedby="username1-help" className="block" placeholder={"تاریخ روز را انتخاب کنید"}/>
+    )
+    const fromActiveDateTimeCustomInput = ({ref}: { ref: any }) => (
+        <InputText readOnly ref={ref}
+                   style={{
+                       textAlign: 'center',
+                       padding: '1rem 1.5rem',
+                       border: '1px solid #9c88ff',
+                       borderRadius: '5px',
+                       color: '#6366F1',
+                       outline: 'none',
+                   }}
+                   value={toActiveDateTime ? `${fromActiveDateTime?.year}-${fromActiveDateTime?.month}-${fromActiveDateTime?.day}` : ''}
+                   aria-describedby="username1-help" className="block" placeholder={"تاریخ روز را انتخاب کنید"}/>
+    )
+
     useEffect(() => {
-        if (instrumentSearchResult) {
-            setProducts(instrumentSearchResult)
+        if (bookBuildingResult) {
+            setProducts(bookBuildingResult)
         }
-    }, [instrumentSearchResult]);
+    }, [bookBuildingResult]);
 
     const deleteHandler = async (index: number) => {
-        await deleteBookBuilding({id: selectedProducts[index]?.id})
+        await deleteBookBuilding(selectedProducts?.[0]?.instrumentId)
             .then(res => {
                 toast.current?.show({
                     severity: 'success',
@@ -91,6 +122,7 @@ export default function ResultTable() {
 
 
     const hideDialog = () => {
+        setSelectedProducts([]);
         setProductDialog(false);
         setUpdateDialog(false);
         setDeleteProductsDialog(false);
@@ -98,8 +130,8 @@ export default function ResultTable() {
         setMaxQuantity('')
         setMinPrice('')
         setMaxPrice('')
-        setToActiveDateTime('')
-        setFromActiveDateTime('')
+        setToActiveDateTime(null)
+        setFromActiveDateTime(null)
         setCreatedBy('')
         setFaulty(false)
     }
@@ -114,6 +146,7 @@ export default function ResultTable() {
         const openUpdate = () => {
             if (selectedProducts.length === 1) {
                 setUpdateDialog(true);
+
             } else {
                 toast.current?.show({
                     severity: 'error',
@@ -161,10 +194,8 @@ export default function ResultTable() {
         }
 
         return (
-            <React.Fragment>
                 <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel}
                         className="p-button-success mr-2" data-pr-tooltip="XLS"/>
-            </React.Fragment>
         )
     }
 
@@ -188,8 +219,9 @@ export default function ResultTable() {
                 maxQuantity: maxQuantity,
                 minPrice: minPrice,
                 maxPrice: maxPrice,
-                toActiveDateTime: toActiveDateTime,
-                fromActiveDateTime: fromActiveDateTime,
+                toActiveDateTime: moment.from(`${toActiveDateTime?.year}${toActiveDateTime && toActiveDateTime?.month<10 ? `0${toActiveDateTime?.month}`:toActiveDateTime?.month}${toActiveDateTime && toActiveDateTime?.day<10 ? `0${toActiveDateTime?.day}`:toActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                fromActiveDateTime: moment.from(`${fromActiveDateTime?.year}${fromActiveDateTime && fromActiveDateTime?.month<10 ? `0${fromActiveDateTime?.month}`:fromActiveDateTime?.month}${fromActiveDateTime && fromActiveDateTime?.day<10 ? `0${fromActiveDateTime?.day}`:fromActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
+
             }).then(res => {
                 setProductDialog(false);
                 toast.current?.show({
@@ -208,8 +240,8 @@ export default function ResultTable() {
                 setMaxQuantity('')
                 setMinPrice('')
                 setMaxPrice('')
-                setToActiveDateTime('')
-                setFromActiveDateTime('')
+                setToActiveDateTime(null)
+                setFromActiveDateTime(null)
             })
                 .catch(err => {
                     toast.current?.show({
@@ -247,9 +279,13 @@ export default function ResultTable() {
 
     const updateHandler = async () => {
         await updateBookBuilding({
-            id: selectedProducts[0]?.id,
-            sectorCode: updateSectorCode,
-            subSectorCode: updateSubSectorCode
+            instrumentId: selectedProducts?.[0]?.instrumentId,
+            maxQuantity: maxQuantity,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            toActiveDateTime: moment.from(`${toActiveDateTime?.year}${toActiveDateTime && toActiveDateTime?.month<10 ? `0${toActiveDateTime?.month}`:toActiveDateTime?.month}${toActiveDateTime && toActiveDateTime?.day<10 ? `0${toActiveDateTime?.day}`:toActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
+            fromActiveDateTime: moment.from(`${fromActiveDateTime?.year}${fromActiveDateTime && fromActiveDateTime?.month<10 ? `0${fromActiveDateTime?.month}`:fromActiveDateTime?.month}${fromActiveDateTime && fromActiveDateTime?.day<10 ? `0${fromActiveDateTime?.day}`:fromActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
+
         })
             .then(res => {
                 toast.current?.show({
@@ -282,23 +318,43 @@ export default function ResultTable() {
                 <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
                 <DataTable ref={dt} value={products} selection={selectedProducts} removableSort
                            onSelectionChange={(e) => setSelectedProducts(e.value)}
-                           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable
+                           dataKey="instrumentId" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable
                            scrollHeight="500px"
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                            globalFilter={globalFilter} responsiveLayout="scroll">
                     <Column selectionMode="multiple" headerStyle={{width: '3rem'}} exportable={false}/>
-                    <Column field="id" header="شماره" sortable style={{minWidth: '6rem'}}/>
                     <Column field="instrumentId" header="شناسه نماد" sortable style={{minWidth: '8rem'}}/>
-                    <Column field="FaInsCode" header="نماد" style={{minWidth: '8rem'}}/>
-                    <Column field="FaInsName" header="عنوان نماد" style={{minWidth: '8rem'}}/>
+                    <Column field="faInsCode" header="نماد" style={{minWidth: '8rem'}}/>
+                    <Column field="faInsName" header="عنوان نماد" style={{minWidth: '8rem'}}/>
                     <Column field="maxQuantity" header="بیشینه حجم سفارش" sortable
                             style={{minWidth: '14rem'}}/>
                     <Column field="minPrice" header="حداقل قیمت سفارش" sortable style={{minWidth: '8rem'}}/>
                     <Column field="maxPrice" header="حداکثر قیمت سفارش" sortable style={{minWidth: '8rem'}}/>
-                    <Column field="fromActiveDateTime" header="زمان شروع" sortable style={{minWidth: '8rem'}}/>
-                    <Column field="toActiveDateTime" header="زمان پایان" sortable style={{minWidth: '8rem'}}/>
+                    <Column field="fromActiveDateTime" header="زمان شروع" body={(rowData) =>
+                        <div>
+                            <div>
+                                {rowData.fromActiveDateTime ? moment(rowData.fromActiveDateTime).locale('fa')?.format("YYYY/MM/DD") : '-'}
+                            </div>
+                            {rowData.fromActiveDateTime ? moment(rowData.fromActiveDateTime).locale('fa').format("HH:mm") : '-'}
+                        </div>
+                    } sortable style={{minWidth: '8rem'}}/>
+                    <Column field="toActiveDateTime" header="زمان پایان" body={(rowData) =>
+                        <div>
+                            <div>
+                                {rowData.toActiveDateTime ? moment(rowData.toActiveDateTime).locale('fa')?.format("YYYY/MM/DD") : '-'}
+                            </div>
+                            {rowData.toActiveDateTime ? moment(rowData.toActiveDateTime).locale('fa').format("HH:mm") : '-'}
+                        </div>
+                    } sortable style={{minWidth: '8rem'}}/>
                     <Column field="createdBy" header="کاربر ایجاد کننده" sortable style={{minWidth: '8rem'}}/>
-                    <Column field="createDateTime" header="زمان ایجاد" sortable style={{minWidth: '8rem'}}/>
+                    <Column field="createDateTime" header="زمان ایجاد"  body={(rowData) =>
+                        <div>
+                            <div>
+                                {rowData.createDateTime ? moment(rowData.createDateTime).locale('fa')?.format("YYYY/MM/DD") : '-'}
+                            </div>
+                            {rowData.createDateTime ? moment(rowData.createDateTime).locale('fa').format("HH:mm") : '-'}
+                        </div>
+                    } sortable style={{minWidth: '8rem'}}/>
                     <Column field="updatedBy" header="کاربر تغییر دهنده" sortable style={{minWidth: '8rem'}}/>
                     <Column field="updatedDateTime" header="زمان تغییر" sortable style={{minWidth: '8rem'}}/>
                 </DataTable>
@@ -316,12 +372,12 @@ export default function ResultTable() {
                 <div className="field mt-4">
                     <form className={'grid'}>
                         <div className="p-float-label col-12">
-                            <InputText id="bourseCode" className={fault && !instrumentId ? 'attention':''} value={instrumentId}
+                            <InputText id="faInsCode" className={fault && !instrumentId ? 'attention':''} value={instrumentId}
                                        onChange={(e) => {
                                            setInstrumentId(e.target.value);
                                            setFaulty(false)
                                        }}/>
-                            <label htmlFor="bourseCode">نماد</label>
+                            <label htmlFor="faInsCode">نماد</label>
                         </div>
                         <div className="p-float-label col-12 mt-3">
                             <InputText id="instrumentTypeCode" className={fault && !maxQuantity ? 'attention':''} value={maxQuantity}
@@ -342,13 +398,23 @@ export default function ResultTable() {
                             <label htmlFor="subSectorCode">حداکثر قیمت سفارش</label>
                         </div>
                         <div className="p-float-label col-12 mt-3">
-                            <InputText id="subSectorCode" value={fromActiveDateTime}
-                                       onChange={(e) => setFromActiveDateTime(e.target.value)}/>
+                            <DatePicker
+                                value={fromActiveDateTime}
+                                onChange={setFromActiveDateTime}
+                                renderInput={fromActiveDateTimeCustomInput}
+                                locale={'fa'}
+                                shouldHighlightWeekends
+                            />
                             <label htmlFor="subSectorCode">زمان شروع</label>
                         </div>
                         <div className="p-float-label col-12 mt-3">
-                            <InputText id="subSectorCode" value={toActiveDateTime}
-                                       onChange={(e) => setToActiveDateTime(e.target.value)}/>
+                            <DatePicker
+                                value={toActiveDateTime}
+                                onChange={setToActiveDateTime}
+                                renderInput={toActiveDateTimeCustomInput}
+                                locale={'fa'}
+                                shouldHighlightWeekends
+                            />
                             <label htmlFor="subSectorCode">زمان پایان</label>
                         </div>
                     </form>
@@ -358,15 +424,55 @@ export default function ResultTable() {
                     footer={updateDialogFooter} onHide={hideDialog}>
                 <div className="field mt-4">
                     <form className={'grid'}>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" value={updateSectorCode}
-                                       onChange={(e) => setUpdateSectorCode(e.target.value)}/>
-                            <label htmlFor="instrumentTypeCode">کد گروه صنعت</label>
+                        <div className="p-float-label col-12">
+                            <InputText id="instrumentId" readOnly  value={selectedProducts?.[0]?.instrumentId}/>
+                            <label htmlFor="instrumentId">شناسه نماد</label>
+                        </div>
+                        <div className="p-float-label col-12">
+                            <InputText id="faInsCode2"  readOnly value={selectedProducts?.[0]?.faInsCode}/>
+                            <label htmlFor="faInsCode2">نماد</label>
+                        </div>
+                        <div className="p-float-label col-12">
+                            <InputText id="faInsName2" readOnly value={selectedProducts?.[0]?.faInsName}/>
+                            <label htmlFor="faInsName2">عنوان نماد</label>
                         </div>
                         <div className="p-float-label col-12 mt-3">
-                            <InputText id="sectorCode" value={updateSubSectorCode}
-                                       onChange={(e) => setUpdateSectorCode(e.target.value)}/>
-                            <label htmlFor="sectorCode">کد زیرگروه صنعت</label>
+                            <InputText id="instrumentTypeCode" className={fault && !maxQuantity ? 'attention':''} value={maxQuantity}
+                                       onChange={(e) => {
+                                           setMaxQuantity(e.target.value);
+                                           setFaulty(false)
+                                       }}/>
+                            <label htmlFor="instrumentTypeCode">بیشینه حجم سفارش</label>
+                        </div>
+                        <div className="p-float-label col-12 mt-3">
+                            <InputText id="sectorCode" value={minPrice}
+                                       onChange={(e) => setMinPrice(e.target.value)}/>
+                            <label htmlFor="sectorCode">حداقل قیمت سفارش</label>
+                        </div>
+                        <div className="p-float-label col-12 mt-3">
+                            <InputText id="subSectorCode" value={maxPrice}
+                                       onChange={(e) => setMaxPrice(e.target.value)}/>
+                            <label htmlFor="subSectorCode">حداکثر قیمت سفارش</label>
+                        </div>
+                        <div className="p-float-label col-12 mt-3">
+                            <DatePicker
+                                value={fromActiveDateTime}
+                                onChange={setFromActiveDateTime}
+                                renderInput={fromActiveDateTimeCustomInput}
+                                locale={'fa'}
+                                shouldHighlightWeekends
+                            />
+                            <label htmlFor="subSectorCode">زمان شروع</label>
+                        </div>
+                        <div className="p-float-label col-12 mt-3">
+                            <DatePicker
+                                value={toActiveDateTime}
+                                onChange={setToActiveDateTime}
+                                renderInput={toActiveDateTimeCustomInput}
+                                locale={'fa'}
+                                shouldHighlightWeekends
+                            />
+                            <label htmlFor="subSectorCode">زمان پایان</label>
                         </div>
                     </form>
                 </div>

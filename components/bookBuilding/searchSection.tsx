@@ -1,14 +1,15 @@
 import React, {useRef, useState} from 'react';
 import {getBookBuilding} from "../../api/bookBuilding";
 import {Button} from "primereact/button";
-import {useDispatch} from "react-redux";
-import {bookBuildingResult} from "../../store/bookBuildingConfig";
+import {useDispatch, useSelector} from "react-redux";
 import {Dropdown} from "primereact/dropdown";
 import {Accordion, AccordionTab} from "primereact/accordion";
 import {Toast} from "primereact/toast";
+import {bookBuildingResult} from "../../store/bookBuildingConfig";
 
 export default function SearchSection() {
     const [val1, setVal1] = useState<{ name: string, code: any }>({name: 'فعال', code: 'GetAllActive'});
+
 
     const toast: any = useRef(null);
 

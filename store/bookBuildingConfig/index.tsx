@@ -2,8 +2,8 @@ import {createSlice, PayloadAction } from "@reduxjs/toolkit"
 type InitialType={bookBuildingResult:[]}
 const initialState:InitialType ={bookBuildingResult:[]};
 
-const netFlowConfig = createSlice({
-    name: 'netFlowConfig',
+const bookBuildingConfig = createSlice({
+    name: 'bookBuildingConfig',
     initialState,
     reducers: {
         bookBuildingResult:(state:InitialType,action:PayloadAction<[]>)=>{
@@ -13,6 +13,6 @@ const netFlowConfig = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const {bookBuildingResult} = netFlowConfig.actions
+export const {bookBuildingResult} = bookBuildingConfig.actions
 
-export default netFlowConfig.reducer
+export default bookBuildingConfig.reducer
