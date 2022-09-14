@@ -48,7 +48,8 @@ export default function SideBarContent() {
                 // },
                 {
                     label: 'معاملات تسویه شده',
-                    url: '/netFlow/clearedTradesReport'
+                    url: '/netFlow/clearedTradesReport',
+                    className:router.pathname==='/netFlow/clearedTradesReport' ? 'sideBarActive':'',
                 },
                 // {
                 //     label: 'تسویه روزانه کارگزاری'
