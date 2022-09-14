@@ -43,25 +43,25 @@ export default function SideBarContent() {
             label:'نت فلو',
             expanded:router.pathname.startsWith('/netFlow'),
             items: [
-                {
-                    label: 'معاملات'
-                },
+                // {
+                //     label: 'معاملات'
+                // },
                 {
                     label: 'معاملات تسویه شده',
                     url: '/netFlow/clearedTradesReport'
                 },
-                {
-                    label: 'تسویه روزانه کارگزاری'
-                },
-                {
-                    label: 'تسویه تهاتری'
-                },
-                {
-                    label: 'ضرایب کارمزرد ها'
-                },
-                {
-                    label: 'استثنا ضرایب کارمزد ها'
-                },
+                // {
+                //     label: 'تسویه روزانه کارگزاری'
+                // },
+                // {
+                //     label: 'تسویه تهاتری'
+                // },
+                // {
+                //     label: 'ضرایب کارمزرد ها'
+                // },
+                // {
+                //     label: 'استثنا ضرایب کارمزد ها'
+                // },
                 {
                     label: 'دریافت اطلاعات',
                     className:router.pathname==='/netFlow/information' ? 'sideBarActive':'',

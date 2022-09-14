@@ -12,8 +12,11 @@ export default function BreadCrumbComponent() {
         commission: 'ضرایب کارمزد',
         categoryPanel: 'گروه بندی ضرایب',
         instrumentType: 'گروه بندی ابزار مالی',
-        getInformation: 'دریافت  اطلاعات',
-        marketRulesManagement: 'مدیریت قوانین بازار'
+        information: 'دریافت  اطلاعات',
+        marketRulesManagement: 'مدیریت قوانین بازار',
+        bookBuilding: 'عرضه اولیه',
+        netFlow: 'نت فلو',
+        clearedTradesReport: 'معاملات تسویه شده'
     }
 
     useEffect(() => {

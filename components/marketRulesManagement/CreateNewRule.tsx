@@ -103,9 +103,9 @@ export default function CreateNewRule() {
                 life: 6000
             }))
     }
-    // useEffect(() => {
-    //     getFieldItems()
-    // }, [])
+    useEffect(() => {
+        getFieldItems()
+    }, [])
 
     const remove = (index: number) => {
         expression.splice(index, 1)
