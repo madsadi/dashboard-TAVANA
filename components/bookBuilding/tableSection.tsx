@@ -16,7 +16,7 @@ import {
 import {Chip} from "primereact/chip";
 import {Card} from "primereact/card";
 import {InputText} from "primereact/inputtext";
-import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
+import DatePicker, {DayRange, DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function ResultTable() {
 
@@ -52,37 +52,54 @@ export default function ResultTable() {
     const [createdBy, setCreatedBy] = useState<string>('');
     const [indexOfDeletings, setIndexOfDeletings] = useState(0)
     const [fault, setFaulty] = useState<boolean>(false)
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
+    const [createdDayRange, setCreatedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
 
-    console.log(selectedProducts)
     const toast: any = useRef(null);
     const dt: any = useRef(null);
 
-    const toActiveDateTimeCustomInput = ({ref}: { ref: any }) => (
-        <InputText readOnly ref={ref}
-                   style={{
-                       textAlign: 'center',
-                       padding: '1rem 1.5rem',
-                       border: '1px solid #9c88ff',
-                       borderRadius: '5px',
-                       color: '#6366F1',
-                       outline: 'none',
-                   }}
-                   value={toActiveDateTime ? `${toActiveDateTime?.year}-${toActiveDateTime?.month}-${toActiveDateTime?.day}` : ''}
-                   aria-describedby="username1-help" className="block" placeholder={"تاریخ روز را انتخاب کنید"}/>
+
+    const createdRenderCustomInput = ({ref}: { ref: any }) => (
+        <div className={'col-12 p-float-label w-full'}>
+            <InputText readOnly ref={ref} id="rangeDate" value={createdDateRangeHandler(createdDayRange)}/>
+            <label htmlFor="rangeDate">تاریخ شروع و پایان</label>
+        </div>
     )
-    const fromActiveDateTimeCustomInput = ({ref}: { ref: any }) => (
-        <InputText readOnly ref={ref}
-                   style={{
-                       textAlign: 'center',
-                       padding: '1rem 1.5rem',
-                       border: '1px solid #9c88ff',
-                       borderRadius: '5px',
-                       color: '#6366F1',
-                       outline: 'none',
-                   }}
-                   value={toActiveDateTime ? `${fromActiveDateTime?.year}-${fromActiveDateTime?.month}-${fromActiveDateTime?.day}` : ''}
-                   aria-describedby="username1-help" className="block" placeholder={"تاریخ روز را انتخاب کنید"}/>
+    const renderCustomInput = ({ref}: { ref: any }) => (
+        <div className={'col-12 p-float-label w-full'}>
+            <InputText readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
+            <label htmlFor="rangeDate">تاریخ شروع و پایان</label>
+        </div>
     )
+    const dateRangeHandler = (selectedDayRange: any) => {
+        if (selectedDayRange.from && selectedDayRange.to) {
+            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا ${selectedDayRange.to.year}/${selectedDayRange.to.month}/${selectedDayRange.to.day}`
+        } else if (!selectedDayRange.from && !selectedDayRange.to) {
+            return ''
+        } else if (!selectedDayRange.from) {
+            return ''
+        } else if (!selectedDayRange.to) {
+            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا اطلاع ثانویه`
+        }
+    }
+
+    const createdDateRangeHandler = (createdDayRange: any) => {
+        if (createdDayRange.from && createdDayRange.to) {
+            return `از ${createdDayRange.from.year}/${createdDayRange.from.month}/${createdDayRange.from.day} تا ${createdDayRange.to.year}/${createdDayRange.to.month}/${createdDayRange.to.day}`
+        } else if (!createdDayRange.from && !createdDayRange.to) {
+            return ''
+        } else if (!createdDayRange.from) {
+            return ''
+        } else if (!createdDayRange.to) {
+            return `از ${createdDayRange.from.year}/${createdDayRange.from.month}/${createdDayRange.from.day} تا اطلاع ثانویه`
+        }
+    }
 
     useEffect(() => {
         if (bookBuildingResult) {
@@ -105,7 +122,7 @@ export default function ResultTable() {
                 toast.current?.show({
                     severity: 'error',
                     summary: 'مشکلی رخ داده است',
-                    detail: err?.response?.data?.title,
+                    detail: err?.response?.data?.message,
                     life: 6000
                 });
                 setIndexOfDeletings(index + 1)
@@ -132,6 +149,8 @@ export default function ResultTable() {
         setMaxPrice('')
         setToActiveDateTime(null)
         setFromActiveDateTime(null)
+        setCreatedDayRange({from:null,to:null})
+
         setCreatedBy('')
         setFaulty(false)
     }
@@ -213,14 +232,14 @@ export default function ResultTable() {
     );
 
     const addNewHandler = async () => {
-        if (instrumentId && maxQuantity && minPrice && maxPrice && toActiveDateTime && fromActiveDateTime) {
+        if (instrumentId && maxQuantity && minPrice && maxPrice && createdDayRange) {
             await addBookBuilding({
                 instrumentId: instrumentId,
                 maxQuantity: maxQuantity,
                 minPrice: minPrice,
                 maxPrice: maxPrice,
-                toActiveDateTime: moment.from(`${toActiveDateTime?.year}${toActiveDateTime && toActiveDateTime?.month<10 ? `0${toActiveDateTime?.month}`:toActiveDateTime?.month}${toActiveDateTime && toActiveDateTime?.day<10 ? `0${toActiveDateTime?.day}`:toActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
-                fromActiveDateTime: moment.from(`${fromActiveDateTime?.year}${fromActiveDateTime && fromActiveDateTime?.month<10 ? `0${fromActiveDateTime?.month}`:fromActiveDateTime?.month}${fromActiveDateTime && fromActiveDateTime?.day<10 ? `0${fromActiveDateTime?.day}`:fromActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                toActiveDateTime: moment.from(`${createdDayRange.to?.year}${createdDayRange.to && createdDayRange.to?.month<10 ? `0${createdDayRange.to?.month}`:createdDayRange.to?.month}${createdDayRange.to && createdDayRange.to?.day<10 ? `0${createdDayRange.to?.day}`:createdDayRange.to?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                fromActiveDateTime: moment.from(`${createdDayRange.from?.year}${createdDayRange.from && createdDayRange.from?.month<10 ? `0${createdDayRange.from?.month}`:createdDayRange.from?.month}${createdDayRange.from && createdDayRange.from?.day<10 ? `0${createdDayRange.from?.day}`:createdDayRange.from?.day}`, 'fa', 'YYYY-MM-DD').format(),
 
             }).then(res => {
                 setProductDialog(false);
@@ -240,8 +259,7 @@ export default function ResultTable() {
                 setMaxQuantity('')
                 setMinPrice('')
                 setMaxPrice('')
-                setToActiveDateTime(null)
-                setFromActiveDateTime(null)
+                setCreatedDayRange({from:null,to:null})
             })
                 .catch(err => {
                     toast.current?.show({
@@ -325,11 +343,11 @@ export default function ResultTable() {
                     <Column selectionMode="multiple" headerStyle={{width: '3rem'}} exportable={false}/>
                     <Column field="instrumentId" header="شناسه نماد" sortable style={{minWidth: '8rem'}}/>
                     <Column field="faInsCode" header="نماد" style={{minWidth: '8rem'}}/>
-                    <Column field="faInsName" header="عنوان نماد" style={{minWidth: '8rem'}}/>
+                    <Column field="faInsName" header="عنوان نماد" style={{minWidth: '14rem'}}/>
                     <Column field="maxQuantity" header="بیشینه حجم سفارش" sortable
                             style={{minWidth: '14rem'}}/>
-                    <Column field="minPrice" header="حداقل قیمت سفارش" sortable style={{minWidth: '8rem'}}/>
-                    <Column field="maxPrice" header="حداکثر قیمت سفارش" sortable style={{minWidth: '8rem'}}/>
+                    <Column field="minPrice" header="حداقل قیمت سفارش" sortable style={{minWidth: '12rem'}}/>
+                    <Column field="maxPrice" header="حداکثر قیمت سفارش" sortable style={{minWidth: '12rem'}}/>
                     <Column field="fromActiveDateTime" header="زمان شروع" body={(rowData) =>
                         <div>
                             <div>
@@ -346,7 +364,7 @@ export default function ResultTable() {
                             {rowData.toActiveDateTime ? moment(rowData.toActiveDateTime).locale('fa').format("HH:mm") : '-'}
                         </div>
                     } sortable style={{minWidth: '8rem'}}/>
-                    <Column field="createdBy" header="کاربر ایجاد کننده" sortable style={{minWidth: '8rem'}}/>
+                    <Column field="createdBy" header="کاربر ایجاد کننده" sortable style={{minWidth: '12rem'}}/>
                     <Column field="createDateTime" header="زمان ایجاد"  body={(rowData) =>
                         <div>
                             <div>
@@ -355,7 +373,7 @@ export default function ResultTable() {
                             {rowData.createDateTime ? moment(rowData.createDateTime).locale('fa').format("HH:mm") : '-'}
                         </div>
                     } sortable style={{minWidth: '8rem'}}/>
-                    <Column field="updatedBy" header="کاربر تغییر دهنده" sortable style={{minWidth: '8rem'}}/>
+                    <Column field="updatedBy" header="کاربر تغییر دهنده" sortable style={{minWidth: '12rem'}}/>
                     <Column field="updatedDateTime" header="زمان تغییر" sortable style={{minWidth: '8rem'}}/>
                 </DataTable>
             </div>
@@ -399,23 +417,13 @@ export default function ResultTable() {
                         </div>
                         <div className="p-float-label col-12 mt-3">
                             <DatePicker
-                                value={fromActiveDateTime}
-                                onChange={setFromActiveDateTime}
-                                renderInput={fromActiveDateTimeCustomInput}
-                                locale={'fa'}
+                                value={createdDayRange}
+                                onChange={setCreatedDayRange}
                                 shouldHighlightWeekends
-                            />
-                            <label htmlFor="subSectorCode">زمان شروع</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <DatePicker
-                                value={toActiveDateTime}
-                                onChange={setToActiveDateTime}
-                                renderInput={toActiveDateTimeCustomInput}
+                                renderInput={createdRenderCustomInput}
                                 locale={'fa'}
-                                shouldHighlightWeekends
+                                calendarPopperPosition={'bottom'}
                             />
-                            <label htmlFor="subSectorCode">زمان پایان</label>
                         </div>
                     </form>
                 </div>
@@ -454,25 +462,15 @@ export default function ResultTable() {
                                        onChange={(e) => setMaxPrice(e.target.value)}/>
                             <label htmlFor="subSectorCode">حداکثر قیمت سفارش</label>
                         </div>
-                        <div className="p-float-label col-12 mt-3">
+                        <div className="col-12 w-full px-2 mt-3">
                             <DatePicker
-                                value={fromActiveDateTime}
-                                onChange={setFromActiveDateTime}
-                                renderInput={fromActiveDateTimeCustomInput}
-                                locale={'fa'}
+                                value={selectedDayRange}
+                                onChange={setSelectedDayRange}
                                 shouldHighlightWeekends
-                            />
-                            <label htmlFor="subSectorCode">زمان شروع</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <DatePicker
-                                value={toActiveDateTime}
-                                onChange={setToActiveDateTime}
-                                renderInput={toActiveDateTimeCustomInput}
+                                renderInput={renderCustomInput}
                                 locale={'fa'}
-                                shouldHighlightWeekends
+                                calendarPopperPosition={'auto'}
                             />
-                            <label htmlFor="subSectorCode">زمان پایان</label>
                         </div>
                     </form>
                 </div>

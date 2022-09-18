@@ -8,7 +8,7 @@ import {Toast} from "primereact/toast";
 import {bookBuildingResult} from "../../store/bookBuildingConfig";
 
 export default function SearchSection() {
-    const [val1, setVal1] = useState<{ name: string, code: any }>({name: 'فعال', code: 'GetAllActive'});
+    const [val1, setVal1] = useState<{ name: string, code: any }>({name: 'همه', code: 'GetAll'});
 
 
     const toast: any = useRef(null);
@@ -17,7 +17,7 @@ export default function SearchSection() {
 
     const options = [
         {name: 'فعال', code: 'GetAllActive'},
-        {name: 'غیر فعال', code: 'GetAll'},
+        {name: 'همه', code: 'GetAll'},
     ];
 
     const onSubmit = async (event: any) => {
@@ -35,7 +35,7 @@ export default function SearchSection() {
                 toast.current?.show({
                     severity: 'error',
                     summary: 'مشکلی رخ داده',
-                    detail: `${err?.response?.data?.title}`,
+                    detail: `${err?.response?.data.error?.message}`,
                     life: 6000
                 });
             })

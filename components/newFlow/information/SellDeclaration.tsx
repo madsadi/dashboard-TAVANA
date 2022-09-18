@@ -49,7 +49,7 @@ export default function SellDeclaration() {
         <Card>
             <Toast ref={toast} position="top-center" />
             <label htmlFor="username1" className="block mb-3">دریافت معاملات فروش</label>
-            <div className="cardBox">
+            <div className="cardBox text-right">
                 <DatePicker
                     value={selectedDay}
                     onChange={setSelectedDay}

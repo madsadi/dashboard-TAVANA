@@ -4,18 +4,21 @@ import {InputText} from "primereact/inputtext";
 import {useDispatch} from "react-redux";
 import {Accordion, AccordionTab} from "primereact/accordion";
 import {Toast} from "primereact/toast";
-import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
+import DatePicker, {DayRange, DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 import {Dropdown} from "primereact/dropdown";
 import {clearedTradesReportSearch} from "../../../api/clearedTradesReport";
 import {clearedTradesResult} from "../../../store/netFlowConfig";
+import moment from "jalali-moment";
 
 export default function ClearedTradesSearchSection() {
-    const [StartDate, setStartDate] = useState<DayValue>(null);
-    const [EndDate, setEndDate] = useState<DayValue>(null);
     const [Ticket, setTicket] = useState<string>('');
     const [Symbol, setSymbol] = useState<string>('');
     const [InstrumentId, setInstrumentId] = useState<string>('');
     const [Side, setSide] = useState<{ name: string, code: any }>({name: 'خرید', code: '1'});
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
 
 
     const toast:any = useRef(null);
@@ -24,24 +27,35 @@ export default function ClearedTradesSearchSection() {
     const options = [
         {name: 'خرید', code: '1'},
         {name: 'فروش', code: '2'},
+        {name: 'هردو'},
     ];
 
-    const renderStartDateInput = ({ref}: { ref: any }) => (
-        <InputText readOnly ref={ref}
-                   value={StartDate ? `${StartDate?.year}-${StartDate?.month}-${StartDate?.day}` : ''}
-                   aria-describedby="username1-help"  className="block"  placeholder={"تاریخ روز را انتخاب کنید"}/>
-    )
-    const renderEndDateInput = ({ref}: { ref: any }) => (
-        <InputText readOnly ref={ref}
-                   value={StartDate ? `${EndDate?.year}-${EndDate?.month}-${EndDate?.day}` : ''}
-                   aria-describedby="username1-help"  className="block"  placeholder={"تاریخ روز را انتخاب کنید"}/>
+    const dateRangeHandler = (selectedDayRange: any) => {
+        if (selectedDayRange.from && selectedDayRange.to) {
+            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا ${selectedDayRange.to.year}/${selectedDayRange.to.month}/${selectedDayRange.to.day}`
+        } else if (!selectedDayRange.from && !selectedDayRange.to) {
+            return ''
+        } else if (!selectedDayRange.from) {
+            return ''
+        } else if (!selectedDayRange.to) {
+            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا اطلاع ثانویه`
+        }
+    }
+
+    const renderCustomInput = ({ref}: { ref: any }) => (
+        <div className={'col-12 p-float-label '}>
+            <InputText readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
+            <label htmlFor="rangeDate">تاریخ شروع و پایان</label>
+        </div>
     )
 
+
     const onSubmit = async (event: any) => {
+        console.log(selectedDayRange)
         event.preventDefault()
         await clearedTradesReportSearch('/Report/cleared-trade', [
-            {StartDate: StartDate},
-            {EndDate: EndDate},
+            {StartDate: moment.from(`${selectedDayRange.from?selectedDayRange.from.year: ''}/${selectedDayRange.from?selectedDayRange.from.month: ''}/${selectedDayRange.from?selectedDayRange.from.day: ''}`, 'fa', 'YYYY/MM/DD').format('YYYY.MM.DD')},
+            {EndDate: moment.from(`${selectedDayRange.to?selectedDayRange.to.year: ''}/${selectedDayRange.to?selectedDayRange.to.month: ''}/${selectedDayRange.to?selectedDayRange.to.day: ''}`, 'fa', 'YYYY/MM/DD').format('YYYY.MM.DD')},
             {Ticket: Ticket},
             {Symbol: Symbol},
             {Side: Side.code}],
@@ -71,27 +85,15 @@ export default function ClearedTradesSearchSection() {
                 <AccordionTab
                     header={<React.Fragment><i className="pi pi-search mx-1"/><span>جستجو</span></React.Fragment>}>
                     <form className="p-fluid grid" onSubmit={onSubmit}>
-                        <div className="p-float-label col-12 md:col-4 mt-4">
+                        <div className="col-12 md:col-4 px-2 mt-3">
                             <DatePicker
-                                value={StartDate}
-                                onChange={setStartDate}
-                                maximumDate={utils('fa').getToday()}
-                                renderInput={renderStartDateInput}
-                                locale={'fa'}
+                                value={selectedDayRange}
+                                onChange={setSelectedDayRange}
                                 shouldHighlightWeekends
-                            />
-                            <label htmlFor="StartDate" style={{top: '-18%'}}>تاریخ شروع</label>
-                        </div>
-                        <div className="p-float-label col-12 md:col-4  mt-4">
-                            <DatePicker
-                                value={EndDate}
-                                onChange={setEndDate}
-                                maximumDate={utils('fa').getToday()}
-                                renderInput={renderEndDateInput}
+                                renderInput={renderCustomInput}
                                 locale={'fa'}
-                                shouldHighlightWeekends
+                                calendarPopperPosition={'bottom'}
                             />
-                            <label htmlFor="EndDate" style={{top: '-18%'}}>تاریخ پایان</label>
                         </div>
                         <div className="p-float-label col-12 md:col-4  mt-4">
                             <InputText id="ticket" value={Ticket} onChange={(e) => setTicket(e.target.value)}/>
