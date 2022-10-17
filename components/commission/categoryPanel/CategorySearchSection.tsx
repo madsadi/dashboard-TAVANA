@@ -1,5 +1,4 @@
 import React, {useRef, useState} from 'react';
-import {commissionSearch} from "../../../api/commissionInstrumentType";
 import {Button} from "primereact/button";
 import {InputText} from "primereact/inputtext";
 import {useDispatch} from "react-redux";
@@ -16,35 +15,26 @@ export default function CategorySearchSection() {
     const [CustomerTypeTitle, setCustomerTypeTitle] = useState<string>('');
     const [CustomerCounterSideTitle, setCustomerCounterSideTitle] = useState<string>();
 
-    const toast:any = useRef(null);
     const dispatch = useDispatch()
+    const toast:any = useRef(null);
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await commissionSearch('/CommissionCategory/Search?', [
-            {CategoryId: CategoryId},
+        let body:any=[
+            {CommissionCategoryId: CategoryId},
             {MarketTitle: MarketTitle},
             {OfferTypeTitle: OfferTypeTitle},
             {SideTitle: SideTitle},
             {SettlementDelayTitle: SettlementDelayTitle},
             {CustomerTypeTitle: CustomerTypeTitle},
             {CustomerCounterSideTitle: CustomerCounterSideTitle}]
-        ).then(res => {
-            dispatch(categorySearchResult(res?.result?.pagedData));
-            toast.current?.show({
-                severity: 'success',
-                summary: 'با موفقیت انجام شد',
-                detail: 'نتایج جستجو لیست شد',
-                life: 6000
-            })
+        dispatch(categorySearchResult(body));
+        toast.current?.show({
+            severity: 'success',
+            summary: 'با موفقیت انجام شد',
+            detail: 'نتایج جستجو لیست شد',
+            life: 6000
         })
-            .catch(err =>
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده',
-                    detail: `${err?.response?.data?.title}`,
-                    life: 6000
-                }))
     }
 
     return (
@@ -86,7 +76,7 @@ export default function CategorySearchSection() {
                             <InputText id="CustomerCounterSideTitle" value={CustomerCounterSideTitle} onChange={(e) => setCustomerCounterSideTitle(e.target.value)}/>
                             <label htmlFor="CustomerCounterSideTitle">نوع طرف مقابل</label>
                         </div>
-                        <div className={'flex flex-grow-1 mt-3'}>
+                        <div className={'flex flex-grow-1 mt-3 col-12 md:col-4'}>
                             <Button className={'mt-auto w-fit mr-auto'} type={'submit'}>
                                 جستجو
                             </Button>

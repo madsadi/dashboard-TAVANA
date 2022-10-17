@@ -29,6 +29,9 @@ a {
   font-family: "Yekan Bakh", sans-serif;
 }
 
+.ltr{
+  direction:ltr;
+}
 .page-content{
   margin:65px 0 0 0 !important;
 }
@@ -114,10 +117,62 @@ a {
   content:"" !important;
 }
 
-.DatePicker{
-  width:100% !important;
-}
-
 .customHeight{
   height:38px !important;
+}
+
+.p-accordion-header-link{
+  background: #af893c !important;
+  color:white !important;
+}
+
+/*.p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus{*/
+/*  box-shadow:0 0 3px 0.2rem rgba(175, 137, 60, 0.66) !important;*/
+/*}*/
+
+/*.p-dropdown:not(.p-disabled).p-focus{*/
+/*  border-color:darkgrey !important;*/
+/*  box-shadow:0 0 3px 0.2rem rgba(175, 137, 60, 0.1) !important;*/
+/*}*/
+
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-toggler{
+  margin-right:0 !important;
+  margin-left:0.5rem !important;
+}
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a{
+  padding:0.75rem !important;
+}
+
+.p-dropdown-panel .p-dropdown-header .p-dropdown-filter{
+  margin-right:0 !important;
+}
+
+.p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon{
+  right:unset !important;
+  left:0.75rem !important;
+}
+
+.p-chip-text .flex .pi-times:before{
+  vertical-align: middle !important;
+}
+
+.rtl{
+  direction:rtl;
+}
+
+.sideBarActive .p-panelmenu-header > a{
+  background:#af893c !important;
+  color:white !important;
+}
+
+.sideBarActive > a{
+  background:#af893c !important;
+  color:white !important;
+}
+.p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link .p-menuitem-text{
+  color:unset !important;
+}
+
+.DatePicker {
+  width:100%;
 }

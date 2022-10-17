@@ -3,7 +3,7 @@ import {Card} from "primereact/card";
 import React, {useRef, useState} from "react";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
-import {activation} from "../../api/getInformation";
+import {activation} from "../../../api/getInformation";
 import { Toast } from 'primereact/toast';
 
 
@@ -38,7 +38,7 @@ export default function SellDeclaration() {
             .catch(err=> {
                 toast.current?.show({
                     severity: 'error',
-                    summary: 'لطفا تاریخ را انتخاب کنید',
+                    summary: err?.response?.data?.title,
                     detail: err?.response?.data?.title,
                     life: 6000
                 });
@@ -49,7 +49,7 @@ export default function SellDeclaration() {
         <Card>
             <Toast ref={toast} position="top-center" />
             <label htmlFor="username1" className="block mb-3">دریافت معاملات فروش</label>
-            <div className="cardBox">
+            <div className="cardBox text-right">
                 <DatePicker
                     value={selectedDay}
                     onChange={setSelectedDay}

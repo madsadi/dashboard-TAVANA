@@ -27,9 +27,11 @@ export default function Appbar () {
 
     return (
         <>
-            <div className={'fixed top-0 w-full z-5'}>
+            <div className={'fixed top-0 w-full z-5 bg-white border-bottom-1 border-200'}>
                 <div className="card">
-                    <Menubar model={items} start={start} end={end} className={'bg-white'}/>
+                    <div className={'container'}>
+                        <Menubar model={items} start={start} end={end} className={'border-0 bg-white px-0'}/>
+                    </div>
                 </div>
             </div>
         </>

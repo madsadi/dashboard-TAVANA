@@ -8,7 +8,7 @@ const Home: NextPage = () => {
 
   const signIn=(e:any)=>{
     e.preventDefault()
-    Router.push('/commission/categoryPanel')
+    Router.push('/commissionManagement/categoryPanel')
   }
 
   return (

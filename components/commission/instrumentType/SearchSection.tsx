@@ -104,7 +104,7 @@ export default function SearchSection() {
                             <Dropdown value={val8} options={options} onChange={(e) => setVal8(e.target.value)}
                                       optionLabel="name"/>
                         </div>
-                        <div className={'flex flex-grow-1 mt-3'}>
+                        <div className={'flex flex-grow-1 mt-3 col-12 md:col-4'}>
                             <Button className={'mt-auto w-fit mr-auto'} type={'submit'}>
                                 جستجو
                             </Button>

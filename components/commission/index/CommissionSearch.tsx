@@ -10,6 +10,8 @@ import useForm from "../../../hooks/useForm";
 import {Dropdown} from "primereact/dropdown";
 import {commission} from "../../../store/commissionConfig";
 
+const commissionDic=require('../../../dictionary/commission.json')
+
 export default function CommissionSearch() {
     const {inputs, handleChange, reset} = useForm()
     const [idObject, setIdObject] = useState<{ instrumentTypeId: number, categoryId: number }>({
@@ -40,7 +42,7 @@ export default function CommissionSearch() {
                 if (res?.result?.length > 1 || res?.result?.length === 0) {
                     toast.current?.show({
                         severity: 'error',
-                        summary: `${res?.result?.length} نتیجه یافت شد`,
+                        summary: `کارمزد ابزار مالی`,
                         detail: `${res?.result?.length} نتیجه یافت شد`,
                         life: 6000
                     })
@@ -73,7 +75,7 @@ export default function CommissionSearch() {
                 if (res?.result?.pagedData?.length > 1 || res?.result?.pagedData?.length === 0) {
                     toast.current?.show({
                         severity: 'error',
-                        summary: `${res?.result?.pagedData?.length} نتیجه یافت شد`,
+                        summary: `کارمزد گروه بندی ضرایب`,
                         detail: `${res?.result?.pagedData?.length} نتیجه یافت شد`,
                         life: 6000
                     })
@@ -181,70 +183,59 @@ export default function CommissionSearch() {
                         <div className={'col border-dashed border-round-md border-200'}>
                             <div className={'grid'}>
                                 <div className={'col-12'}>
-                                    گروه بندی ضرایب
+                                    ابزار مالی گروه بندی ضرایب
                                 </div>
-                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
-                                    <InputText id="MarketTitle" value={inputs.MarketTitle} name={'MarketTitle'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="MarketTitle">عنوان بازار</label>
-                                </div>
-                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
-                                    <InputText id="OfferTypeTitle" value={inputs.OfferTypeTitle} name={'OfferTypeTitle'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="OfferTypeTitle">نوع عرضه</label>
+                                <div className="p-float-label col-12 md:col-6 mt-4">
+                                    <Dropdown value={inputs.BourseTitle} options={commissionDic.bourse} onChange={handleChange} name={'BourseTitle'} optionLabel={'BourseTitle'}/>
+                                    <label htmlFor="BourseTitle">عنوان بورس</label>
                                 </div>
 
-                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
-                                    <InputText id="SettlementDelayTitle " value={inputs.SettlementDelayTitle}
-                                               name={'SettlementDelayTitle'} onChange={handleChange}/>
-                                    <label htmlFor="SettlementDelayTitle ">تاخیر در تسویه</label>
+                                <div className="p-float-label col-12 md:col-6 mt-4">
+                                    <Dropdown value={inputs.InstrumentTypeTitle} options={commissionDic.instrumentType} onChange={handleChange} name={'InstrumentTypeTitle'} optionLabel={'InstrumentTypeTitle'}/>
+                                    <label htmlFor="InstrumentTypeTitle">عنوان ابزار مالی</label>
                                 </div>
 
-                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
-                                    <InputText id="SideTitle" value={inputs.SideTitle} name={'SideTitle'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="SideTitle">سمت سفارش</label>
+                                <div className="p-float-label col-12 md:col-6 mt-4">
+                                    <Dropdown value={inputs.SectorTitle} options={commissionDic.sector} onChange={handleChange} name={'SectorTitle'} optionLabel={'SectorTitle'}/>
+                                    <label htmlFor="SectorTitle">عنوان گروه صنعت </label>
                                 </div>
 
-                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
-                                    <InputText id="CustomerTypeTitle" value={inputs.CustomerTypeTitle}
-                                               name={'CustomerTypeTitle'} onChange={handleChange}/>
-                                    <label htmlFor="CustomerTypeTitle">نوع مشتری</label>
-                                </div>
-                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
-                                    <InputText id="CustomerCounterSideTitle" value={inputs.CustomerCounterSideTitle}
-                                               name={'CustomerCounterSideTitle'} onChange={handleChange}/>
-                                    <label htmlFor="CustomerCounterSideTitle">نوع مشتری طرف مقابل</label>
+                                <div className="p-float-label col-12 md:col-6 mt-4">
+                                    <Dropdown value={inputs.SubSectorTitle} options={commissionDic.subSector} onChange={handleChange} name={'SubSectorTitle'} optionLabel={'SubSectorTitle'}/>
+                                    <label htmlFor="SubSectorTitle">عنوان زیر گروه صنعت</label>
                                 </div>
                             </div>
                         </div>
                         <div className={'col border-dashed border-round-md border-200'}>
                             <div className={'grid'}>
                                 <div className={'col-12'}>
-                                    ابزار مالی گروه بندی ضرایب
+                                    گروه بندی ضرایب
                                 </div>
-                                <div className="p-float-label col-12 md:col-6 mt-4">
-                                    <InputText id="BourseTitle" value={inputs.BourseTitle} name={'BourseTitle'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="BourseTitle">عنوان بورس</label>
+                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
+                                    <Dropdown value={inputs.MarketTitle} options={commissionDic.market} onChange={handleChange} name={'MarketTitle'} optionLabel={'MarketTitle'}/>
+                                    <label htmlFor="MarketTitle">عنوان بازار</label>
                                 </div>
-
-                                <div className="p-float-label col-12 md:col-6 mt-4">
-                                    <InputText id="InstrumentTypeTitle" value={inputs.InstrumentTypeTitle}
-                                               name={'InstrumentTypeTitle'} onChange={handleChange}/>
-                                    <label htmlFor="InstrumentTypeTitle">عنوان ابزار مالی</label>
+                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
+                                    <Dropdown value={inputs.OfferTypeTitle} options={commissionDic.offerType} onChange={handleChange} name={'OfferTypeTitle'} optionLabel={'OfferTypeTitle'}/>
+                                    <label htmlFor="OfferTypeTitle">نوع عرضه</label>
                                 </div>
-
-                                <div className="p-float-label col-12 md:col-6 mt-4">
-                                    <InputText id="SectorTitle" value={inputs.SectorTitle} name={'SectorTitle'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="SectorTitle">عنوان گروه صنعت </label>
+                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
+                                    <Dropdown value={inputs.SettlementDelayTitle} options={commissionDic.SettlementDelay} onChange={handleChange} name={'SettlementDelayTitle'} optionLabel={'SettlementDelayTitle'}/>
+                                    <label htmlFor="SettlementDelayTitle ">تاخیر در تسویه</label>
                                 </div>
 
-                                <div className="p-float-label col-12 md:col-6 mt-4">
-                                    <InputText id="SubSectorTitle" value={inputs.SubSectorTitle} name={'SubSectorTitle'}
-                                               onChange={handleChange}/>
-                                    <label htmlFor="SubSectorTitle">عنوان زیر گروه صنعت</label>
+                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
+                                    <Dropdown value={inputs.SideTitle} options={commissionDic.side} onChange={handleChange} name={'SideTitle'} optionLabel={'SideTitle'}/>
+                                    <label htmlFor="SideTitle">سمت سفارش</label>
+                                </div>
+
+                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
+                                    <Dropdown value={inputs.CustomerTypeTitle} options={commissionDic.customerType} onChange={handleChange} name={'CustomerTypeTitle'} optionLabel={'CustomerTypeTitle'}/>
+                                    <label htmlFor="CustomerTypeTitle">نوع مشتری</label>
+                                </div>
+                                <div className="p-float-label col-12 md:col-6 mt-4 h-fit">
+                                    <Dropdown value={inputs.CustomerCounterSideTitle} options={commissionDic.customerCounterSideType} onChange={handleChange} name={'CustomerCounterSideTitle'} optionLabel={'CustomerCounterSideTypeTitle'}/>
+                                    <label htmlFor="CustomerCounterSideTitle">نوع مشتری طرف مقابل</label>
                                 </div>
                             </div>
                         </div>
@@ -281,7 +272,7 @@ export default function CommissionSearch() {
                                 </div>
                             </div>
                         </div>
-                        <Button className={'justify-content-center mt-4 px-5 w-fit'} type={'submit'}>
+                        <Button className={'justify-content-center mt-4 px-5 mr-auto w-fit'} type={'submit'}>
                             جستجو
                         </Button>
                     </form>

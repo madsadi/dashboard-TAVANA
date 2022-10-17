@@ -1,33 +1,78 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import {useSelector} from "react-redux";
 import {Card} from "primereact/card";
+import {commissionSearch} from "../../../api/commissionInstrumentType";
+import {Toast} from "primereact/toast";
+import {Paginator} from "primereact/paginator";
 
 export default function CategoryResultTableSection() {
-
     const {categorySearchResult}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [basicFirst, setBasicFirst] = useState(0);
+    const [basicRows, setBasicRows] = useState(10);
+    const [loading, setLoading] = useState(false);
 
     const toast:any = useRef(null);
 
+    const search=async (body:any)=>{
+        await commissionSearch('/CommissionCategory/Search?', body
+        ).then(res => {
+            setProducts(res?.result?.pagedData)
+            if (totalRecords!==res?.result?.totalCount){
+                setTotalRecords(res?.result?.totalCount)
+            }
+        })
+            .catch(err =>
+                toast.current?.show({
+                    severity: 'error',
+                    summary: 'مشکلی رخ داده',
+                    detail: `${err?.response?.data?.title}`,
+                    life: 6000
+                }))
+    }
+
     useEffect(() => {
-        if (categorySearchResult){
-            setProducts(categorySearchResult)
-        }
-    }, [categorySearchResult]);
+        let body=[...categorySearchResult,{PageNumber:(Number(basicFirst)/Number(basicRows))+1},{PageSize:basicRows}]
+        search(body)
+    }, [basicFirst,basicRows]);
+
+    const onBasicPageChange = (event:any) => {
+        setBasicFirst(event.first);
+        setBasicRows(event.rows);
+    }
 
     const rightToolbarTemplate = () => {
-        const exportExcel = () => {
+        let body=[...categorySearchResult,{PageSize:totalRecords}]
+        const search=async (body:any)=>{
+            setLoading(true)
+            await commissionSearch('/CommissionCategory/Search?', body)
+                .then(res => {
+                    exportExcel(res?.result?.pagedData);
+                    setLoading(false)
+                })
+                .catch(err => {
+                    setLoading(false)
+                    toast.current?.show({
+                        severity: 'error',
+                        summary: 'مشکلی رخ داده',
+                        detail: `${err?.response?.data?.title}`,
+                        life: 6000
+                    })
+                })
+        }
+
+        const exportExcel = (records:any) => {
             import('xlsx').then(xlsx => {
-                const worksheet = xlsx.utils.json_to_sheet(products);
+                const worksheet = xlsx.utils.json_to_sheet(records);
                 const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
                 const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-                saveAsExcelFile(excelBuffer, 'products');
+                saveAsExcelFile(excelBuffer, 'گروه بندی ضرایب');
             });
         }
 
@@ -46,20 +91,22 @@ export default function CategoryResultTableSection() {
         }
 
         return (
-            <React.Fragment>
-                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-2" data-pr-tooltip="XLS" />
-            </React.Fragment>
+            <>
+                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={()=>search(body)} className="p-button-success mr-auto" data-pr-tooltip="XLS" />
+                {loading && <i className="pi pi-spin pi-spinner" style={{'fontSize': '2em'}}/>}
+            </>
         )
     }
 
+    const header=()=>{
+        return <div className={'flex'}>{rightToolbarTemplate()}</div>
+    }
     return (
         <Card className="datatable-scroll-demo">
             <Toast ref={toast} position="top-center"/>
             <div className="card">
-                <Toolbar className="mb-4" right={rightToolbarTemplate}/>
-                <DataTable value={products} sortMode="multiple" removableSort
-                           paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable scrollHeight="500px"
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                <DataTable value={products} sortMode="multiple" removableSort header={header}
+                           stripedRows scrollable scrollHeight="500px"
                            responsiveLayout="scroll">
                     <Column field="id" header="شناسه" sortable style={{ minWidth: '6rem'}}/>
                     <Column field="marketCode" header="کد بازار" sortable  style={{ minWidth: '12rem'}}/>
@@ -75,6 +122,7 @@ export default function CategoryResultTableSection() {
                     <Column field="customerCounterSideCode" header="کد نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
                     <Column field="customerCounterSideTitle" header="نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
                 </DataTable>
+                <Paginator className={'ltr'} first={basicFirst} rows={basicRows} totalRecords={totalRecords} rowsPerPageOptions={[10, 20, 30]} onPageChange={onBasicPageChange}/>
             </div>
         </Card>
     );

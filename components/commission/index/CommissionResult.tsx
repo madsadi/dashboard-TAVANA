@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import {useSelector} from "react-redux";
@@ -12,8 +11,6 @@ export default function CommissionResult() {
     const {commission}=useSelector((state:any)=>state.commissionConfig)
 
     const [products, setProducts] = useState<any[]>([]);
-
-    const toast:any = useRef(null);
 
     useEffect(() => {
         if (commission){
@@ -46,18 +43,21 @@ export default function CommissionResult() {
         }
 
         return (
-            <React.Fragment>
-                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-2" data-pr-tooltip="XLS" />
-            </React.Fragment>
+                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-auto" data-pr-tooltip="XLS" />
         )
     }
 
+    const header=()=>{
+        return (
+            <div className={'flex'}>
+                {rightToolbarTemplate()}
+            </div>
+        )
+    }
     return (
         <Card className="datatable-scroll-demo">
-            <Toast ref={toast} position="top-center"/>
             <div className="card">
-                <Toolbar className="mb-4" right={rightToolbarTemplate}/>
-                <DataTable value={products} sortMode="multiple" removableSort
+                <DataTable value={products} sortMode="multiple" removableSort header={header}
                            paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable scrollHeight="500px"
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                            responsiveLayout="scroll">

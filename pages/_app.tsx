@@ -8,6 +8,8 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import {Provider} from "react-redux";
 import store from "../store";
 import Head from "next/head";
+import React from 'react';
+React.useLayoutEffect = React.useEffect
 
 function MyApp({Component, pageProps}: AppProps) {
     return (

@@ -157,7 +157,7 @@ export default function ResultTable() {
         return (
             <React.Fragment>
                 <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel}
-                        className="p-button-success mr-2" data-pr-tooltip="XLS"/>
+                        className="p-button-success mr-auto" data-pr-tooltip="XLS"/>
             </React.Fragment>
         )
     }
@@ -264,13 +264,20 @@ export default function ResultTable() {
         </React.Fragment>
     );
 
+    const header = () => {
+        return (
+            <div className={'flex'}>
+                {leftToolbarTemplate()}
+                {rightToolbarTemplate()}
+            </div>
+        )
+    }
     return (
         <Card className="datatable-scroll-demo">
             <Toast ref={toast} position="top-center"/>
 
             <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
-                <DataTable ref={dt} value={products} selection={selectedProducts} removableSort
+                <DataTable ref={dt} value={products} selection={selectedProducts} removableSort header={header}
                            onSelectionChange={(e) => setSelectedProducts(e.value)}
                            dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable
                            scrollHeight="500px"
@@ -306,7 +313,8 @@ export default function ResultTable() {
                 <div className="field mt-4">
                     <form className={'grid'}>
                         <div className="p-float-label col-12">
-                            <InputText id="bourseCode" className={fault && !bourseCode ? 'attention':''} value={bourseCode}
+                            <InputText id="bourseCode" className={fault && !bourseCode ? 'attention' : ''}
+                                       value={bourseCode}
                                        onChange={(e) => {
                                            setBourseCode(e.target.value);
                                            setFaulty(false)
@@ -314,7 +322,9 @@ export default function ResultTable() {
                             <label htmlFor="bourseCode">کد بورس</label>
                         </div>
                         <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" className={fault && !instrumentTypeCode ? 'attention':''} value={instrumentTypeCode}
+                            <InputText id="instrumentTypeCode"
+                                       className={fault && !instrumentTypeCode ? 'attention' : ''}
+                                       value={instrumentTypeCode}
                                        onChange={(e) => {
                                            setInstrumentTypeCode(e.target.value);
                                            setFaulty(false)
@@ -345,7 +355,7 @@ export default function ResultTable() {
                         </div>
                         <div className="p-float-label col-12 mt-3">
                             <InputText id="sectorCode" value={updateSubSectorCode}
-                                       onChange={(e) => setUpdateSectorCode(e.target.value)}/>
+                                       onChange={(e) => setUpdateSubSectorCode(e.target.value)}/>
                             <label htmlFor="sectorCode">کد زیرگروه صنعت</label>
                         </div>
                     </form>
