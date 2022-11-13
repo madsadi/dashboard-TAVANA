@@ -12,7 +12,7 @@ function classNames(...classes: any) {
 }
 
 export default function SearchSection() {
-    const [val1, setVal1] = useState<{ name: string, code: any }>({name: 'همه', code: 'GetAll'});
+    const [val1, setVal1] = useState<string>('GetAll');
 
     const dispatch = useDispatch()
 
@@ -23,7 +23,7 @@ export default function SearchSection() {
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await getBookBuilding(`${val1}`).then(res => {
+        await getBookBuilding(val1).then(res => {
             dispatch(bookBuildingResult(res?.result));
             toast.success('با موفقیت انجام شد')
         })
