@@ -1,17 +1,23 @@
 import {createSlice, PayloadAction } from "@reduxjs/toolkit"
-type InitialType={searchResult:any}
-const initialState:InitialType ={searchResult:[]};
-const tradeConfig = createSlice({
-    name: 'tradeConfig',
+type InitialType={instrumentSearchResult:any,categorySearchResult:any,commission:[]}
+const initialState:InitialType ={instrumentSearchResult:[],categorySearchResult:[],commission:[]};
+const commissionConfig = createSlice({
+    name: 'commissionConfig',
     initialState,
     reducers: {
-        searchResult:(state:InitialType,action:PayloadAction<[]>)=>{
-            return {...state,searchResult: action.payload }
+        instrumentSearchResult:(state:InitialType,action:PayloadAction<[]>)=>{
+            return {...state,instrumentSearchResult: action.payload }
+        },
+        categorySearchResult:(state:InitialType,action:PayloadAction<any>)=>{
+            return {...state,categorySearchResult: action.payload }
+        },
+        commission:(state:InitialType,action:PayloadAction<[]>)=>{
+            return {...state,commission: action.payload }
         },
     }
 })
 
 // Action creators are generated for each case reducer function
-export const {searchResult} = tradeConfig.actions
+export const {instrumentSearchResult,categorySearchResult,commission} = commissionConfig.actions
 
-export default tradeConfig.reducer
+export default commissionConfig.reducer

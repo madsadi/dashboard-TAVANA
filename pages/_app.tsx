@@ -1,18 +1,84 @@
 import '../styles/globals.css'
 import type {AppProps} from 'next/app'
-import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
-import "primereact/resources/primereact.min.css";                  //core css
-import "primeicons/primeicons.css";                                //icons
-import 'primeflex/primeflex.css';
-import '../styles/DataTableDemo.css';
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import {Provider} from "react-redux";
 import store from "../store";
+import Head from "next/head";
+import React, {useRef} from 'react';
+import {AuthProvider} from "react-oidc-context"
+import Router from "next/router";
+import '../api/axios_interceptor';
+import Layout from "../components/common/Layout";
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import 'ag-grid-enterprise';
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
+import {SWRConfig} from 'swr';
+import {fetcher} from "../api/fetcher";
+
+React.useLayoutEffect = React.useEffect
 
 function MyApp({Component, pageProps}: AppProps) {
+    const toast: any = useRef(null);
+
+    const authorityPath = 'https://cluster.tech1a.co';
+    // const authorityPath = 'http://localhost:3000';
+    const clientId = 'admin-gateway';
+    const clientURL = typeof window !== 'undefined' && window.location.origin;
+
+    const oidcConfig = {
+        authority: `${authorityPath}`,
+        client_id: `${clientId}`,
+        scope: 'openid IdentityServerApi',
+        response_type: 'code',
+        redirect_uri: `${clientURL}/authentication/callback`,
+        post_logout_redirect_uri: `${clientURL}`, // Auth0 uses returnTo
+        silent_redirect_uri: `${clientURL}/authentication/silent_callback`,
+        automaticSilentRenew: true,
+        loadUserInfo: true,
+        metadata: {
+            issuer: `${authorityPath}/`,
+            authorization_endpoint: `${authorityPath}/connect/authorize`,
+            token_endpoint: `${authorityPath}/connect/token`,
+            userinfo_endpoint: `${authorityPath}/connect/userinfo`,
+            end_session_endpoint: `${authorityPath}/connect/endsession`
+        }
+    }
+
+    const onSignIn = () => {
+        Router.push('/dashboard')
+    }
+
     return (
-        <Provider store={store}>
-            <Component {...pageProps} />
-        </Provider>
+        <AuthProvider {...oidcConfig} onSigninCallback={onSignIn}>
+            <Provider store={store}>
+                <Head>
+                    <title>پنل ادمین | tech1a</title>
+                </Head>
+                <ToastContainer
+                    ref={toast}
+                    position="top-left"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={true}
+                    closeOnClick
+                    rtl={true}
+                    pauseOnFocusLoss
+                    toastStyle={{fontFamily: "Yekan Bakh", fontSize: '14px'}}
+                />
+                <SWRConfig
+                    value={{
+                        revalidateOnFocus: false,
+                        fetcher: fetcher
+                    }}
+                >
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </SWRConfig>
+            </Provider>
+        </AuthProvider>
     )
 }
 
