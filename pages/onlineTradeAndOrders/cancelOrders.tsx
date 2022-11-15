@@ -10,6 +10,7 @@ import {Accordion} from "flowbite-react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
+import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
 
 export default function CancelOrders() {
 
@@ -106,7 +107,6 @@ export default function CancelOrders() {
     });
     const {inputs, handleChange} = useForm()
 
-
     //Grid
     const gridRef: any = useRef();
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
@@ -200,7 +200,7 @@ export default function CancelOrders() {
     }
     const confirmInsRemoving = async () => {
         await insCancel({
-            isin: inputs.instrumentId,
+            isin: inputs.InstrumentId,
             orderSide: Number(inputs.orderSide),
         }).then(() => {
             toast.success('با موفقیت انجام شد')
@@ -223,6 +223,10 @@ export default function CancelOrders() {
                 gridRef.current?.api?.setRowData(res?.result?.pagedData);
                 setTotalCount(res?.result?.totalCount)
             })
+    }
+
+    const queryUpdate = (key: string, value: any) => {
+        handleChange({target:{name:key,value:value}})
     }
 
     return (
@@ -262,10 +266,11 @@ export default function CancelOrders() {
             <Modal title={"حذف سفارش نماد"} open={InsRemoving} setOpen={setInsRemoving}>
                 <div className="grid grid-cols-2 gap-4 pt-5">
                     <div className={'text-center'}>
-                        <label className={'block'} htmlFor="instrumentId">نماد</label>
-                        <input id="instrumentId" value={inputs.instrumentId}
-                               name={'instrumentId'}
-                               onChange={handleChange}/>
+                        <SymbolSearchSection query={inputs} queryUpdate={queryUpdate}/>
+                        {/*<label className={'block'} htmlFor="InstrumentId">نماد</label>*/}
+                        {/*<input id="InstrumentId" value={inputs.instrumentId}*/}
+                        {/*       name={'InstrumentId'}*/}
+                        {/*       onChange={handleChange}/>*/}
                     </div>
                     <div className={'text-center'}>
                         <label className={'block'} htmlFor="orderSide">سمت خرید</label>

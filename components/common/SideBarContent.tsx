@@ -40,19 +40,19 @@ export default function SideBarContent() {
                 {
                     id: 3.1,
                     label: 'سفارشات',
-                    url: '/onlineTradeAndOrders/onlineOrders/',
+                    url: '/onlineTradeAndOrders/onlineOrders',
                     className: router.pathname === '/onlineTradeAndOrders/onlineOrders' ? 'sideBarActive' : '',
                 },
                 {
                     id: 3.2,
                     label: 'معاملات',
-                    url: '/onlineTradeAndOrders/onlineTrades/',
+                    url: '/onlineTradeAndOrders/onlineTrades',
                     className: router.pathname === '/onlineTradeAndOrders/onlineTrades' ? 'sideBarActive' : '',
                 },
                 {
                     id: 3.3,
                     label: 'حذف گروهی سفارشها',
-                    url: '/onlineTradeAndOrders/cancelOrders/',
+                    url: '/onlineTradeAndOrders/cancelOrders',
                     className: router.pathname === '/onlineTradeAndOrders/cancelOrders' ? 'sideBarActive' : '',
                 }
             ],

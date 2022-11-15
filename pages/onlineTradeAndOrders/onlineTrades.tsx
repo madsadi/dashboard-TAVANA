@@ -9,6 +9,7 @@ import {originEnum, sides} from "../../components/commonFn/Enums";
 import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import {Accordion} from "flowbite-react";
 import {Listbox, Transition} from "@headlessui/react";
+import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -244,9 +245,7 @@ export default function OnlineTrades() {
                                            onChange={(e) => queryUpdate('OrderId', e.target.value)}/>
                                 </div>
                                 <div>
-                                    <label className={'block'} htmlFor="InstrumentId">شناسه نماد</label>
-                                    <input id="InstrumentId" value={query.InstrumentId}
-                                           onChange={(e) => queryUpdate('InstrumentId', e.target.value)}/>
+                                    <SymbolSearchSection query={query} queryUpdate={queryUpdate}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="TradeId">شناسه معامله</label>

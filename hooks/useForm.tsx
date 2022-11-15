@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-type initialType = { MarketTitle: string, OfferTypeTitle: string, SettlementDelayTitle: string, SideTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string,SubSectorTitle:string,SectorTitle:string,InstrumentTypeTitle:string,BourseTitle:string,CommissionDetailId:string,rangeDate:any,Deleted:any,instrumentGroupIdentification:string,orderSide:any,instrumentId:string }
+type initialType = { MarketTitle: string, OfferTypeTitle: string, SettlementDelayTitle: string, SideTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string,SubSectorTitle:string,SectorTitle:string,InstrumentTypeTitle:string,BourseTitle:string,CommissionDetailId:string,rangeDate:any,Deleted:any,instrumentGroupIdentification:string,orderSide:any,instrumentId:string,InstrumentId:string }
 const initialValue = {
     MarketTitle: '',
     OfferTypeTitle: '',
@@ -17,7 +17,8 @@ const initialValue = {
     Deleted:null,
     instrumentGroupIdentification:'',
     orderSide:undefined,
-    instrumentId:''
+    instrumentId:'',
+    InstrumentId:''
 }
 
 export default function useForm(initial: initialType = initialValue) {

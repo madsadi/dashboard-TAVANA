@@ -10,6 +10,7 @@ import {EnumsStatus, OrderType, originEnum, sides, validityType} from "../../com
 import {Accordion} from "flowbite-react";
 import {Listbox, Menu, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
+import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -17,7 +18,6 @@ function classNames(...classes: any) {
 
 export default function OnlineOrders() {
     const columnDefStructure = [
-
         // {
         //     field: 'userTitle',
         //     headerName: 'عنوان کاربر',
@@ -278,10 +278,8 @@ export default function OnlineOrders() {
                                     <input id="OrderId" value={query.OrderId}
                                            onChange={(e) => queryUpdate('OrderId', e.target.value)}/>
                                 </div>
-                                <div>
-                                    <label className={'block'} htmlFor="InstrumentId">شناسه نماد</label>
-                                    <input id="InstrumentId" value={query.InstrumentId}
-                                           onChange={(e) => queryUpdate('InstrumentId', e.target.value)}/>
+                                <div className={'relative'}>
+                                    <SymbolSearchSection query={query} queryUpdate={queryUpdate}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="OrderSide">سمت</label>
