@@ -239,15 +239,15 @@ export default function RulesList() {
                 <div>
                     <label className={'block'} htmlFor="CustomerTypeTitle">وضیعت</label>
                     <div className="relative rounded">
-                        <Listbox name={'status'} value={query?.status}
-                                 onChange={(e) => setQuery({...query,status:e})}>
+                        <Listbox name={'status'} value={query?.isActive}
+                                 onChange={(e) => setQuery({...query,isActive:e})}>
                             {({open}) => (
                                 <div className="relative">
                                     <Listbox.Button
                                         className="relative flex min-w-[100px] cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                         <span className="flex items-center">
                                                             <span
-                                                                className="ml-2 block truncate text-sm">{states.find((item: any) => item.isActive === query?.status)?.name}</span>
+                                                                className="ml-2 block truncate text-sm">{states.find((item: any) => item.isActive === query?.isActive)?.name}</span>
                                                         </span>
                                         <span className="pointer-events-none flex items-center mr-auto">
                                                             <ChevronDownIcon className="h-5 w-5 text-gray-400"

@@ -156,7 +156,7 @@ export default function SideBarContent() {
         <div className={'w-full'}>
             <Sidebar aria-label="Sidebar with multi-level dropdown example" style={{width:'100%'}}>
                 <Sidebar.Items>
-                    <Sidebar.ItemGroup id={'menuGroup'}>
+                    <Sidebar.ItemGroup id={'menuGroup'} >
                         {
                             items.map((item: any) => {
                                 if (item.children) {
@@ -165,7 +165,7 @@ export default function SideBarContent() {
                                             id={'collapse'}
                                             label={item.label}
                                             key={item.label}
-                                            active={router.pathname===item.url}
+                                            collapseBehavior={'collapse'}
                                         >
                                             {item.children.map((child:any)=>{
                                                 return (
