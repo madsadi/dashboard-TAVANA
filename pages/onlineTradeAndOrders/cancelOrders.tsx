@@ -193,6 +193,7 @@ export default function CancelOrders() {
             orderSide: Number(inputs.orderSide),
         }).then(() => {
             toast.success('با موفقیت انجام شد')
+            setGPRemoving(false)
         })
             .catch(() => {
                 toast.error('نا موفق')
@@ -204,6 +205,7 @@ export default function CancelOrders() {
             orderSide: Number(inputs.orderSide),
         }).then(() => {
             toast.success('با موفقیت انجام شد')
+            setInsRemoving(false)
         })
             .catch(() => {
                 toast.error('نا موفق')
