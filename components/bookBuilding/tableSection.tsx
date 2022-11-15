@@ -467,29 +467,31 @@ export default function ResultTable() {
     }
 
     return (
-        <div className={'relative grow overflow-hidden border border-border rounded'}>
+        <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
             <div>
                 {ToolbarTemplate()}
             </div>
-            <div style={gridStyle} className="ag-theme-alpine absolute">
-                <AgGridReact
-                    ref={gridRef}
-                    enableRtl={true}
-                    columnDefs={columnDefStructure}
-                    defaultColDef={defaultColDef}
-                    loadingOverlayComponent={loadingOverlayComponent}
-                    loadingOverlayComponentParams={loadingOverlayComponentParams}
-                    noRowsOverlayComponent={noRowsOverlayComponent}
-                    noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                    rowHeight={35}
-                    headerHeight={35}
-                    animateRows={true}
-                    getRowId={getRowId}
-                    asyncTransactionWaitMillis={1000}
-                    columnHoverHighlight={true}
-                    detailRowHeight={100}
-                    rowSelection={'single'}
-                />
+            <div className={'relative grow'}>
+                <div style={gridStyle} className="ag-theme-alpine absolute">
+                    <AgGridReact
+                        ref={gridRef}
+                        enableRtl={true}
+                        columnDefs={columnDefStructure}
+                        defaultColDef={defaultColDef}
+                        loadingOverlayComponent={loadingOverlayComponent}
+                        loadingOverlayComponentParams={loadingOverlayComponentParams}
+                        noRowsOverlayComponent={noRowsOverlayComponent}
+                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                        rowHeight={35}
+                        headerHeight={35}
+                        animateRows={true}
+                        getRowId={getRowId}
+                        asyncTransactionWaitMillis={1000}
+                        columnHoverHighlight={true}
+                        detailRowHeight={100}
+                        rowSelection={'single'}
+                    />
+                </div>
             </div>
         </div>
     );
