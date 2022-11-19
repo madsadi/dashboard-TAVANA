@@ -32,9 +32,6 @@ export default function CustomDetailComponent({data, node, api}: { data: any, no
             api: params.api,
             columnApi: params.columnApi,
         };
-
-        console.log('adding detail grid info with id: ', rowId);
-
         api.addDetailGridInfo(rowId, gridInfo);
     };
     const getRowId = useCallback((params: any) => {
@@ -66,41 +63,47 @@ export default function CustomDetailComponent({data, node, api}: { data: any, no
                     <img src="/icons/avatar.svg" className={'h-3rem'} alt="avatar"/>
                 </div>
                 <div className={'mr-4'}>
-                    <div>
-                        عنوان کاربر: <span className={'font-semibold'}>{data?.customerTitle}</span>
-                    </div>
-                    <div>
-                        کد ملی:<span className={'font-semibold'}> {data?.customerNationalId}</span>
-                    </div>
-                </div>
-                <div className={'flex mr-6 gap-4'}>
-                    <div>
+                    <div className={'flex space-x-5 space-x-reverse'}>
+                        <div>
+                            عنوان کاربر: <span className={'font-semibold'}>{data?.customerTitle}</span>
+                        </div>
+                        <div>
+                            کد ملی:<span className={'font-semibold'}> {data?.customerNationalId}</span>
+                        </div>
                         <div>
                             شناسه مشتری: <span className={'font-semibold'}>{data?.customerId}</span>
                         </div>
                         <div>
-                            شناسه سفارش اولیه: <span className={'font-semibold'}>{data?.referenceOrderId}</span>
+                            شناسه کاربر: <span className={'font-semibold'}>{data?.userId}</span>
                         </div>
                     </div>
-                    <div>
+                    <div className={'flex space-x-5 space-x-reverse'}>
                         <div>
-                            شناسه کاربر: <span className={'font-semibold'}>{data?.userId}</span>
+                            شناسه سفارش اولیه: <span className={'font-semibold'}>{data?.referenceOrderId}</span>
                         </div>
                         <div>
                             شناسه نماد: <span className={'font-semibold'}>{data?.instrumentId}</span>
                         </div>
-                    </div>
-                    <div>
-                        تاریخ اعتبار سفارش: <span className={'font-semibold'}>{data?.orderValidityDate ? jalali(data?.orderValidityDate).date:'-'}</span>
-                    </div>
-                    <div>
-                        زمان دریافت: <span className={'font-semibold'}>{data?.orderEntryDateTime ? jalali(data?.orderEntryDateTime).date:'-'}</span>
-                    </div>
-                    <div>
-                        زمان ارسال: <span className={'font-semibold'}>{data?.submitInCapDateTime ? jalali(data?.submitInCapDateTime).date:'-'}</span>
-                    </div>
-                    <div>
-                        نام نرم افزار: <span className={'font-semibold'}>{data?.applicationSourceName}</span>
+                        <div>
+                            زمان دریافت: <span
+                            className={'font-semibold'}>{data?.orderEntryDateTime ? jalali(data?.orderEntryDateTime).time : '-'}-{data?.orderEntryDateTime ? jalali(data?.orderEntryDateTime).date : '-'}</span>
+                        </div>
+                        <div>
+                            زمان ثبت: <span
+                            className={'font-semibold'}>{data?.submitInBrokerDateTime ? jalali(data?.submitInBrokerDateTime).time : '-'}-{data?.submitInBrokerDateTime ? jalali(data?.submitInBrokerDateTime).date : '-'}</span>
+                        </div>
+
+                        <div>
+                            تاریخ اعتبار سفارش: <span
+                            className={'font-semibold'}>{data?.orderValidityDate ? jalali(data?.orderValidityDate).date : '-'}</span>
+                        </div>
+                        <div>
+                            زمان اولویت سفارش: <span
+                            className={'font-semibold'}>{data?.orderPriorityDateTime ? jalali(data?.orderPriorityDateTime).time : '-'}-{data?.orderPriorityDateTime ? jalali(data?.orderPriorityDateTime).date : '-'}</span>
+                        </div>
+                        <div>
+                            نام نرم افزار: <span className={'font-semibold'}>{data?.applicationSourceName}</span>
+                        </div>
                     </div>
                 </div>
             </div>

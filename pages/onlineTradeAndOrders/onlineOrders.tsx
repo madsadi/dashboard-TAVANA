@@ -163,14 +163,14 @@ export default function OnlineOrders() {
         // },
         // },
         {
-            field: 'orderSubmitInBrokerDateTime',
+            field: 'receiveResponseFromCapServerDateTime',
             headerName: 'زمان ثبت در هسته',
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
-                            <span>{jalali(props.data.orderSubmitInBrokerDateTime).date}</span>
-                            <span className={'ml-2'}>{jalali(props.data.orderSubmitInBrokerDateTime).time}</span>
+                            <span>{jalali(props.data.receiveResponseFromCapServerDateTime).date}</span>
+                            <span className={'ml-2'}>{jalali(props.data.receiveResponseFromCapServerDateTime).time}</span>
                         </>
                     )
                 };
