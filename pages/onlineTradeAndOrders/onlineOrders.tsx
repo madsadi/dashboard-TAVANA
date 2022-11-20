@@ -115,8 +115,8 @@ export default function OnlineOrders() {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
-                            <span>{jalali(props.data.userRequestDateTime).date}</span>
-                            <span className={'ml-2'}>{jalali(props.data.userRequestDateTime).time}</span>
+                            <span>{props.data.userRequestDateTime ? jalali(props.data.userRequestDateTime).date:'-'}</span>
+                            <span className={'ml-2'}>{props.data.userRequestDateTime ? jalali(props.data.userRequestDateTime).time:'-'}</span>
                         </>
                     )
                 };
@@ -169,8 +169,8 @@ export default function OnlineOrders() {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
-                            <span>{jalali(props.data.receiveResponseFromCapServerDateTime).date}</span>
-                            <span className={'ml-2'}>{jalali(props.data.receiveResponseFromCapServerDateTime).time}</span>
+                            <span>{props.data.receiveResponseFromCapServerDateTime ? jalali(props.data.receiveResponseFromCapServerDateTime).date:'-'}</span>
+                            <span className={'ml-2'}>{props.data.receiveResponseFromCapServerDateTime ? jalali(props.data.receiveResponseFromCapServerDateTime).time:'-'}</span>
                         </>
                     )
                 };

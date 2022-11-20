@@ -165,7 +165,6 @@ export default function SideBarContent() {
                                             id={'collapse'}
                                             label={item.label}
                                             key={item.label}
-                                            collapseBehavior={'collapse'}
                                         >
                                             {item.children.map((child:any)=>{
                                                 return (
