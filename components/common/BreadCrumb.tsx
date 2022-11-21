@@ -29,6 +29,9 @@ export default function BreadCrumbComponent() {
         users:'کاربران',
         logs:'ورود/خروج کاربران',
         cancelOrders:'حذف گروهی سفارشها',
+        oms:'وضعیت oms',
+        tradingDayTimeTable:'زمانبندی روز معاملاتی',
+        tradingSession:'وضعیت جلسه معاملاتی',
     }
 
     useEffect(() => {

@@ -55,6 +55,20 @@ export const groupCancel = async (body:any) => {
         })
     return create
 }
+export const cancelOrder = async (body:any) => {
+    const create = await axios.post(`${MARKET_RULES_MANAGEMENT}/request/Cancel`,
+        body,
+        {
+            headers: {
+                'Accept':'*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return create
+}
 export const insCancel = async (body:any) => {
     const create = await axios.post(`${MARKET_RULES_MANAGEMENT}/GlobalCancel/CancelAllOrderForInstrument`,
         body,

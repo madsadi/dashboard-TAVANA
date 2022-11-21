@@ -59,82 +59,73 @@ export default function SideBarContent() {
         },
         {
             id: 4,
+            label: 'وضعیت OMS',
+            expanded: router.pathname.startsWith('/oms'),
+            children: [
+                {
+                    id: 4.1,
+                    label: 'وضعیت جلسه معاملاتی',
+                    url: '/oms/tradingSession',
+                    className: router.pathname === '/oms/tradingSession' ? 'sideBarActive' : '',
+                },
+                {
+                    id: 4.2,
+                    label: 'زمانبندی روز معاملاتی',
+                    url: '/oms/tradingDayTimeTable',
+                    className: router.pathname === '/oms/tradingDayTimeTable' ? 'sideBarActive' : '',
+                }
+            ]
+        },
+        {
+            id: 5,
             label: 'مدیریت قوانین بازار',
             url: '/marketRulesManagement',
             expanded: false,
             className: router.pathname === '/marketRulesManagement' ? 'sideBarActive' : '',
         },
         {
-            id: 5,
+            id: 6,
             label: 'عرضه اولیه',
             url: '/bookBuilding',
             expanded: false,
             className: router.pathname === '/bookBuilding' ? 'sideBarActive' : '',
         },
-        // {
-        // id:
-        //     label:'مدیریت مشتریان',
-        // },
         {
-            id: 5,
+            id: 7,
             label: 'مدیریت کارمزد ها',
             expanded: router.pathname.startsWith('/commissionManagement'),
             children: [
                 {
-                    id: 5.1,
+                    id: 7.1,
                     label: 'ضرایب کارمزد',
                     url: '/commissionManagement/commission',
                     className: router.pathname === '/commissionManagement/commission' ? 'sideBarActive' : '',
                 },
                 {
-                    id: 5.2,
+                    id: 7.2,
                     label: 'گروه بندی ابزار مالی',
                     url: '/commissionManagement/instrumentType',
                     className: router.pathname === '/commissionManagement/instrumentType' ? 'sideBarActive' : '',
                 },
                 {
-                    id: 5.3,
+                    id: 7.3,
                     label: 'گروه بندی ضرایب کارمزد',
                     url: '/commissionManagement/categoryPanel',
                     className: router.pathname === '/commissionManagement/categoryPanel' ? 'sideBarActive' : '',
                 },
             ]
         },
-        // {
-        // id:
-        //     label:'ثبت نام غیر حضوری',
-        // },
         {
             id: 6,
             label: 'نت فلو',
             expanded: router.pathname.startsWith('/netFlow'),
             children: [
-                // {
-                // id:
-                //     label: 'معاملات'
-                // },
                 {
                     id: 6.1,
                     label: 'معاملات تسویه شده',
                     url: '/netFlow/clearedTradesReport',
                     className: router.pathname === '/netFlow/clearedTradesReport' ? 'sideBarActive' : '',
                 },
-                // {
-                // id:
-                //     label: 'تسویه روزانه کارگزاری'
-                // },
-                // {
-                // id:
-                //     label: 'تسویه تهاتری'
-                // },
-                // {
-                // id:
-                //     label: 'ضرایب کارمزرد ها'
-                // },
-                // {
-                // id:
-                //     label: 'استثنا ضرایب کارمزد ها'
-                // },
                 {
                     id: 6.2,
                     label: 'دریافت اطلاعات',
@@ -143,13 +134,6 @@ export default function SideBarContent() {
                 }
             ]
         },
-        // {
-        // id:
-        //     label:'فایل معاملاتی',
-        // },
-        // {
-        //     label:'بازاریابی',
-        // },
     ];
 
     return (

@@ -1,5 +1,5 @@
 import React, {Fragment, useCallback, useMemo, useRef, useState} from "react";
-import {getOrders} from "../../api/onlineTrade";
+import {cancelOrder, getOrders} from "../../api/onlineTrade";
 import {dateRangeHandler, formatNumber, jalali} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
 import {AgGridReact} from 'ag-grid-react';
@@ -9,8 +9,9 @@ import CustomDetailComponent from "../../components/onlineOrders/customDetailCom
 import {EnumsStatus, OrderType, originEnum, sides, validityType} from "../../components/commonFn/Enums";
 import {Accordion} from "flowbite-react";
 import {Listbox, Menu, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
+import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon,TrashIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
+import {toast} from "react-toastify";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -18,28 +19,20 @@ function classNames(...classes: any) {
 
 export default function OnlineOrders() {
     const columnDefStructure = [
-        // {
-        //     field: 'userTitle',
-        //     headerName: 'عنوان کاربر',
-        //     flex: 0.8
-        // },
-        // {
-        //     field: 'customerNationalID',
-        //     headerName: 'کد ملی مشتری',
-        // },
+        {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            showDisabledCheckboxes: true,
+            headerCheckboxSelectionFilteredOnly: true,
+            resizable: false,
+            minWidth: 40,
+            maxWidth: 40,
+        },
         {
             field: 'customerTitle',
             headerName: 'عنوان مشتری',
             cellRenderer: 'agGroupCellRenderer'
         },
-        // {
-        //     field: 'referenceOrderId',
-        //     headerName: 'شناسه سفارش اولیه',
-        // },
-        // {
-        //     field: 'instrumentId',
-        //     headerName: 'شناسه نماد',
-        // },
         {
             field: 'faInsCode',
             headerName: 'نماد',
@@ -86,28 +79,6 @@ export default function OnlineOrders() {
             field: 'validityTypeTitle',
             headerName: 'اعتبار سفارش',
         },
-        // {
-        //     field: 'orderValidityDate',
-        //     headerName: 'تاریخ اعتبار سفارش',
-        //     // cellRendererSelector: () => {
-        //     //     const ColourCellRenderer = (props: any) => {
-        //     //         return (
-        //     //             <>
-        //     //                 <span>{jalali(props.data.orderValidityDate).date}</span>
-        //     //                 <span>{jalali(props.data.orderValidityDate).time}</span>
-        //     //             </>
-        //     //         )
-        //     //     };
-        //     //     const moodDetails = {
-        //     //         component: ColourCellRenderer,
-        //     //     }
-        //     //     return moodDetails;
-        //     // },
-        // }
-        // ,{
-        //     field: 'applicationSourceName',
-        //     headerName: 'نام نرم افزار',
-        // },
         {
             field: 'userRequestDateTime',
             headerName: 'زمان درخواست کاربر',
@@ -126,42 +97,6 @@ export default function OnlineOrders() {
                 return moodDetails;
             },
         },
-        // {
-        //     field: 'orderEntryDateTime',
-        //     headerName: 'زمان دریافت سفارش',
-        // cellRendererSelector: () => {
-        //     const ColourCellRenderer = (props: any) => {
-        //         return (
-        //             <>
-        //                 <span>{jalali(props.data.orderEntryDateTime).date}</span>
-        //                 <span>{jalali(props.data.orderEntryDateTime).time}</span>
-        //             </>
-        //         )
-        //     };
-        //     const moodDetails = {
-        //         component: ColourCellRenderer,
-        //     }
-        //     return moodDetails;
-        // },
-        // },
-        // {
-        //     field: 'submitInCapDateTime',
-        //     headerName: 'زمان ارسال به هسته',
-        // cellRendererSelector: () => {
-        //     const ColourCellRenderer = (props: any) => {
-        //         return (
-        //             <>
-        //                 <span>{jalali(props.data.submitInCapDateTime).date}</span>
-        //                 <span>{jalali(props.data.submitInCapDateTime).time}</span>
-        //             </>
-        //         )
-        //     };
-        //     const moodDetails = {
-        //         component: ColourCellRenderer,
-        //     }
-        //     return moodDetails;
-        // },
-        // },
         {
             field: 'receiveResponseFromCapServerDateTime',
             headerName: 'زمان ثبت در هسته',
@@ -202,6 +137,7 @@ export default function OnlineOrders() {
     }
 
     const [query, setQuery] = useState<initialType>(initialValue)
+    const [selected, setSelected] = useState<any>([]);
     const [totalCount, setTotal] = useState<any>(null);
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
@@ -259,6 +195,30 @@ export default function OnlineOrders() {
             <input readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
         </div>
     )
+
+    const onSelectionChanged = () => {
+        const selectedRow = gridRef.current?.api?.getSelectedRows();
+        if (selectedRow.length>0){
+            setSelected(selectedRow)
+        }
+    }
+
+    const cancelMultipleOrders=()=> {
+        const cancel = async (order: any) => {
+            await cancelOrder({
+                orderId: order.orderId,
+                customerId: order.customerId,
+                sourceOfRequests: 3
+            }).then((res:any)=>gridRef.current?.api?.applyTransaction({
+                remove:[{orderId: res?.result.orderId}]
+            }))
+                .catch((err: any) => toast.error(`${err?.response?.data?.result?.message}`))
+        }
+        selected.map((order: any) => {
+            cancel(order)
+        })
+        setSelected([])
+    }
 
     return (
         <div className="flex flex-col h-full grow">
@@ -657,20 +617,27 @@ export default function OnlineOrders() {
                                     />
                                 </div>
                             </div>
-                            <div className={'flex mt-4 space-x-2 space-x-reverse mr-auto'}>
-                                <button
-                                    className={'justify-content-center rounded-full bg-red-500 border-red-500 px-5 p-1 w-fit h-fit mt-auto'}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setQuery(initialValue)
-                                        onGridReady(initialValue)
-                                    }}>
-                                    لغو فیلتر ها
-                                </button>
-                                <button className={'justify-content-center bg-lime-600 rounded-full px-5 p-1 w-fit h-fit mt-auto'}
-                                        type={'submit'}>
-                                    جستجو
-                                </button>
+                            <div className={'flex flex-col mt-4 mr-auto'}>
+                                {selected.length>0 && <div
+                                    className={'bg-gray-200 dark:bg-buttonShape hover:opacity-70 transition-all border border-gray-300 dark:border-none rounded-md p-1 cursor-pointer w-fit mr-auto'}
+                                    onClick={cancelMultipleOrders}>
+                                    <TrashIcon className={'h-5 w-5 text-red-600'}/>
+                                </div>}
+                                <div className={'flex mt-auto space-x-2 space-x-reverse'}>
+                                    <button
+                                        className={'justify-content-center rounded-full bg-red-500 border-red-500 px-5 p-1 w-fit h-fit '}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setQuery(initialValue)
+                                            onGridReady(initialValue)
+                                        }}>
+                                        لغو فیلتر ها
+                                    </button>
+                                    <button className={'justify-content-center bg-lime-600 rounded-full px-5 p-1 w-fit h-fit'}
+                                            type={'submit'}>
+                                        جستجو
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </Accordion.Content>
@@ -697,6 +664,8 @@ export default function OnlineOrders() {
                         detailCellRenderer={'myDetailCellRenderer'}
                         frameworkComponents={{myDetailCellRenderer: CustomDetailComponent}}
                         masterDetail={true}
+                        rowSelection={'multiple'}
+                        onSelectionChanged={onSelectionChanged}
                     />
                 </div>
             </div>
