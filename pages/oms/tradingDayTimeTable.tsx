@@ -43,6 +43,7 @@ export default function TradingDayTimeTable() {
                     return (
                         <>
                             <span>{rowData.data.eventTriggerTime ? jalali(rowData.data.eventTriggerTime).date:'-'}</span>
+                            <span className={'ml-4'}>{rowData.data.eventTriggerTime ? jalali(rowData.data.eventTriggerTime).time:'-'}</span>
                         </>)
                 };
                 const moodDetails = {

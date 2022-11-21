@@ -27,7 +27,7 @@ export default function TradingSession() {
                     return (
                         <>
                             <span>{rowData.data.startDate ? jalali(rowData.data.startDate).date:'-'}</span>
-                            <span>{rowData.data.startDate ? jalali(rowData.data.startDate).time:'-'}</span>
+                            <span className={'ml-4'}>{rowData.data.startDate ? jalali(rowData.data.startDate).time:'-'}</span>
                         </>)
                 };
                 const moodDetails = {
@@ -44,7 +44,7 @@ export default function TradingSession() {
                     return (
                         <>
                             <span>{rowData.data.endDate ? jalali(rowData.data.endDate).date:'-'}</span>
-                            <span>{rowData.data.endDate ? jalali(rowData.data.endDate).time:'-'}</span>
+                            <span className={'ml-4'}>{rowData.data.endDate ? jalali(rowData.data.endDate).time:'-'}</span>
                         </>)
                 };
                 const moodDetails = {
