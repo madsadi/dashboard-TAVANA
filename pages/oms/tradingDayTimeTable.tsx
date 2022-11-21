@@ -30,9 +30,6 @@ export default function TradingDayTimeTable() {
                 return moodDetails;
             },
         },{
-            field: 'tradingDayInsGroupCode',
-            headerName: 'کد وضعیت معاملاتی گروه',
-        },{
             field: 'tradingDayInsGroupTitle',
             headerName: 'وضعیت معاملاتی گروه',
         },{
@@ -51,9 +48,6 @@ export default function TradingDayTimeTable() {
                 }
                 return moodDetails;
             },
-        },{
-            field: 'afterOpeningInsGroupCode',
-            headerName: 'کد وضعیت بعد از گشایش',
         },{
             field: 'afterOpeningInsGroupTitle',
             headerName: 'وضعیت بعد از گشایش',
