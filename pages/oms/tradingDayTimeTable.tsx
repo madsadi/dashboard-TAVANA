@@ -6,7 +6,9 @@ import moment from "jalali-moment";
 import {AgGridReact} from "ag-grid-react";
 import {dateRangeHandler, formatNumber, jalali} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
-import {tradingDayTimeTable, tradingSession} from "../../api/oms";
+import {tradingDayTimeTable} from "../../api/oms";
+import TablePagination from "../../components/common/TablePagination";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 
 export default function TradingDayTimeTable() {
     const columnDefStructure = [
@@ -216,7 +218,7 @@ export default function TradingDayTimeTable() {
                     </Accordion.Content>
                 </Accordion.Panel>
             </Accordion>
-            <div className={'relative grow overflow-hidden border border-border'}>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
@@ -235,29 +237,7 @@ export default function TradingDayTimeTable() {
                     />
                 </div>
             </div>
-            <div className={'flex items-center mx-auto py-3'}>
-                {/*<ChevronDoubleRightIcon className={'h-4 w-4'}/>*/}
-                <button onClick={() => {
-                    queryUpdate('PageNumber', query.PageNumber - 1)
-                    onGridReady({...query, PageNumber: query.PageNumber - 1})
-                }}
-                        className={`${query.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber <= 1}>
-
-                    <ChevronRightIcon className={'h-4 w-4'}/>
-                </button>
-                <div className={'mx-3 h-fit'}>صفحه {query.PageNumber}<span
-                    className={'mx-4'}>از</span>{Math.ceil(totalCount / pageSize)} </div>
-                <button onClick={() => {
-                    queryUpdate('PageNumber', query.PageNumber + 1)
-                    onGridReady({...query, PageNumber: query.PageNumber + 1})
-                }}
-                        className={`${query.PageNumber >= Math.ceil(totalCount / query.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber >= Math.ceil(totalCount / query.PageSize)}>
-                    <ChevronLeftIcon className={'h-4 w-4'}/>
-                </button>
-                {/*<ChevronDoubleLeftIcon className={'h-4 w-4'}/>*/}
-            </div>
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingDayTimetable?`} setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
         </div>
     )
 }

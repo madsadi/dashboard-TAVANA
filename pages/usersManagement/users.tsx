@@ -4,7 +4,6 @@ import {AgGridReact} from "ag-grid-react";
 import CustomDetailComponent from "../../components/onlineOrders/customDetailComponent";
 import {formatNumber, jalali} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
-import useSearchUserForm from "../../hooks/useSearchUserForm";
 import {Accordion} from "flowbite-react";
 
 export default function Users() {
@@ -58,8 +57,19 @@ export default function Users() {
         }
     ]
 
-    const {inputs, handleChange, reset} = useSearchUserForm()
-    const [page, setPage] = useState(0)
+    type initialType = { Skip: number, PageSize: number, firstName: string, lastName: string, userName: string, phoneNumber: string, roleId: string}
+    const initialValue = {
+        Skip: 1,
+        PageSize: 20,
+        firstName: '',
+        lastName: '',
+        userName: '',
+        phoneNumber: '',
+        roleId: '',
+    }
+    const [query, setQuery] = useState<initialType>(initialValue)
+    const [totalCount, setTotal] = useState<any>(null);
+
     //Grid
     const gridRef: any = useRef();
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
@@ -100,6 +110,12 @@ export default function Users() {
     }, []);
     //Grid
 
+    const queryUpdate = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
+
     return (
         <div className={'flex flex-col h-full grow'}>
             <Accordion alwaysOpen={true} style={{borderBottomRightRadius: 0, borderBottomLeftRadius: 0}}>
@@ -110,32 +126,34 @@ export default function Users() {
                     <Accordion.Content style={{transition: 'all'}}>
                         <form className={'flex'} onSubmit={(e) => {
                             e.preventDefault();
-                            onGridReady({...inputs, skip: page});
+                            onGridReady(query);
                         }}>
                             <div className={'grid grid-cols-5 gap-4'}>
                                 <div>
                                     <label className={'block'} htmlFor="firstName">نام</label>
-                                    <input id="firstName" value={inputs.firstName} name={'firstName'}
-                                           onChange={handleChange}/>
+                                    <input id="firstName" value={query.firstName} name={'firstName'}
+                                           onChange={(e)=>queryUpdate('firstName',e.target.value)}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="lastName">نام خانوادگی</label>
-                                    <input id="lastName" value={inputs.lastName} name={'lastName'}
-                                           onChange={handleChange}/>
+                                    <input id="lastName" value={query.lastName} name={'lastName'}
+                                           onChange={(e)=>queryUpdate('lastName',e.target.value)}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="userName">نام کاربری</label>
-                                    <input id="userName" value={inputs.userName} name={'userName'}
-                                           onChange={handleChange}/>
+                                    <input id="userName" value={query.userName} name={'userName'}
+                                           onChange={(e)=>queryUpdate('userName',e.target.value)}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="phoneNumber">تلفن همراه</label>
-                                    <input id="phoneNumber" value={inputs.phoneNumber} name={'phoneNumber'}
-                                           onChange={handleChange}/>
+                                    <input id="phoneNumber" value={query.phoneNumber} name={'phoneNumber'}
+                                           onChange={(e)=>queryUpdate('phoneNumber',e.target.value)}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="roleId">آیدی نقش کاربر</label>
-                                    <input id="roleId" value={inputs.roleId} name={'roleId'} onChange={handleChange}/>
+                                    <input id="roleId" value={query.roleId} name={'roleId'}
+                                           onChange={(e)=>queryUpdate('roleId',e.target.value)}/>
+
                                 </div>
                             </div>
                             <div className={'flex mt-4 space-x-2 space-x-reverse mr-auto'}>
@@ -143,8 +161,8 @@ export default function Users() {
                                     className={'justify-center rounded-full bg-red-500 border-red-500 px-5 p-1 ml-2 w-fit h-fit mt-auto'}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        reset();
-                                        onGridReady({});
+                                        setQuery(initialValue)
+                                        onGridReady(initialValue);
                                     }}>
                                     لغو فیلتر ها
                                 </button>
@@ -163,7 +181,7 @@ export default function Users() {
                         ref={gridRef}
                         enableRtl={true}
                         columnDefs={columnDefStructure}
-                        onGridReady={() => onGridReady({})}
+                        onGridReady={() => onGridReady(query)}
                         defaultColDef={defaultColDef}
                         loadingOverlayComponent={loadingOverlayComponent}
                         loadingOverlayComponentParams={loadingOverlayComponentParams}
@@ -181,30 +199,6 @@ export default function Users() {
                     />
                 </div>
             </div>
-            {/*<div className={'flex items-center mx-auto py-3'}>*/}
-            {/*    /!*<ChevronDoubleRightIcon className={'h-4 w-4'}/>*!/*/}
-            {/*    <Button onClick={() => {*/}
-            {/*        setPage(page - 1)*/}
-            {/*        onGridReady({...inputs,skip:page - 1})*/}
-            {/*    }}*/}
-            {/*            className={`${page <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} p-button-rounded p-button-secondary p-button-outlined transition-all p-1`}*/}
-            {/*            disabled={page <= 1}>*/}
-            {/*        <img src={'/icons/arrowRight.svg'} className={'h-1rem w-1rem'}/>*/}
-            {/*    </Button>*/}
-            {/*    <div className={'mx-3 h-1rem'}>صفحه {page}*/}
-            {/*        /!*<span className={'mx-4'}>از</span>{Math.ceil(totalCount / page)} *!/*/}
-            {/*    </div>*/}
-            {/*    <Button onClick={() => {*/}
-            {/*        setPage(page + 1)*/}
-            {/*        onGridReady({...inputs,skip:page + 1})*/}
-            {/*    }}*/}
-            {/*            className={`hover:bg-gray-400'} p-button-rounded p-button-secondary p-button-outlined transition-all p-1`}*/}
-            {/*            // disabled={page >= Math.ceil(totalCount / page)}*/}
-            {/*    >*/}
-            {/*        <img src={'/icons/arrowleft.svg'} className={'h-1rem w-1rem'}/>*/}
-            {/*    </Button>*/}
-            {/*    /!*<ChevronDoubleLeftIcon className={'h-4 w-4'}/>*!/*/}
-            {/*</div>*/}
         </div>
     )
 }

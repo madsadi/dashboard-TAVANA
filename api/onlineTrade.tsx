@@ -40,6 +40,25 @@ export const getOrders = async (body:any) => {
         })
     return orders;
 }
+export const apiCallToGetData = async (api:string,body:any) => {
+    let bodyToQuery:any=[];
+    Object.keys(body).map((item:any)=>{
+        if (body[`${item}`]){
+            bodyToQuery.push(`${item}=`+body[`${item}`])
+        }
+    })
+    const orders = await axios.get(`${api}${bodyToQuery.join('&')}`,
+        {
+            headers: {
+                'Accept':'*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return orders;
+}
 
 export const groupCancel = async (body:any) => {
     const create = await axios.post(`${MARKET_RULES_MANAGEMENT}/GlobalCancel/CancelAllOrderForInstrumentGroup`,

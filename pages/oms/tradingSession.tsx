@@ -8,6 +8,8 @@ import CustomDetailComponent from "../../components/onlineOrders/customDetailCom
 import {dateRangeHandler, formatNumber, jalali} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
 import {tradingSession} from "../../api/oms";
+import TablePagination from "../../components/common/TablePagination";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 
 export default function TradingSession() {
     const columnDefStructure = [
@@ -177,7 +179,7 @@ export default function TradingSession() {
                     </Accordion.Content>
                 </Accordion.Panel>
             </Accordion>
-            <div className={'relative grow overflow-hidden border border-border'}>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-lg'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
@@ -197,29 +199,7 @@ export default function TradingSession() {
                     />
                 </div>
             </div>
-            <div className={'flex items-center mx-auto py-3'}>
-                {/*<ChevronDoubleRightIcon className={'h-4 w-4'}/>*/}
-                <button onClick={() => {
-                    queryUpdate('PageNumber', query.PageNumber - 1)
-                    onGridReady({...query, PageNumber: query.PageNumber - 1})
-                }}
-                        className={`${query.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber <= 1}>
-
-                    <ChevronRightIcon className={'h-4 w-4'}/>
-                </button>
-                <div className={'mx-3 h-fit'}>صفحه {query.PageNumber}<span
-                    className={'mx-4'}>از</span>{Math.ceil(totalCount / pageSize)} </div>
-                <button onClick={() => {
-                    queryUpdate('PageNumber', query.PageNumber + 1)
-                    onGridReady({...query, PageNumber: query.PageNumber + 1})
-                }}
-                        className={`${query.PageNumber >= Math.ceil(totalCount / query.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber >= Math.ceil(totalCount / query.PageSize)}>
-                    <ChevronLeftIcon className={'h-4 w-4'}/>
-                </button>
-                {/*<ChevronDoubleLeftIcon className={'h-4 w-4'}/>*/}
-            </div>
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingSessionStatus?`} setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
         </div>
     )
 }

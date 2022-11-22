@@ -8,10 +8,12 @@ import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picke
 import CustomDetailComponent from "../../components/onlineOrders/customDetailComponent";
 import {EnumsStatus, OrderType, originEnum, sides, validityType} from "../../components/commonFn/Enums";
 import {Accordion} from "flowbite-react";
-import {Listbox, Menu, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon,TrashIcon} from "@heroicons/react/20/solid";
+import {Listbox, Transition} from "@headlessui/react";
+import {CheckIcon, ChevronDownIcon,TrashIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
 import {toast} from "react-toastify";
+import TablePagination from "../../components/common/TablePagination";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -117,7 +119,6 @@ export default function OnlineOrders() {
         }
     ]
 
-    const pageSize = 20;
     type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, OrderType: number | undefined, ValidityType: number | undefined, OrderSide: number | undefined, OrderStatus: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
     const initialValue = {
         PageNumber: 1,
@@ -200,6 +201,8 @@ export default function OnlineOrders() {
         const selectedRow = gridRef.current?.api?.getSelectedRows();
         if (selectedRow.length>0){
             setSelected(selectedRow)
+        }else{
+            setSelected([])
         }
     }
 
@@ -643,7 +646,7 @@ export default function OnlineOrders() {
                     </Accordion.Content>
                 </Accordion.Panel>
             </Accordion>
-            <div className={'relative grow overflow-hidden border border-border'}>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
@@ -669,29 +672,7 @@ export default function OnlineOrders() {
                     />
                 </div>
             </div>
-            <div className={'flex items-center mx-auto py-3'}>
-                {/*<ChevronDoubleRightIcon className={'h-4 w-4'}/>*/}
-                <button onClick={() => {
-                    queryUpdate('PageNumber', query.PageNumber - 1)
-                    onGridReady({...query, PageNumber: query.PageNumber - 1})
-                }}
-                        className={`${query.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber <= 1}>
-
-                    <ChevronRightIcon className={'h-4 w-4'}/>
-                </button>
-                <div className={'mx-3 h-fit'}>صفحه {query.PageNumber}<span
-                    className={'mx-4'}>از</span>{Math.ceil(totalCount / pageSize)} </div>
-                <button onClick={() => {
-                    queryUpdate('PageNumber', query.PageNumber + 1)
-                    onGridReady({...query, PageNumber: query.PageNumber + 1})
-                }}
-                        className={`${query.PageNumber >= Math.ceil(totalCount / query.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber >= Math.ceil(totalCount / query.PageSize)}>
-                    <ChevronLeftIcon className={'h-4 w-4'}/>
-                </button>
-                {/*<ChevronDoubleLeftIcon className={'h-4 w-4'}/>*/}
-            </div>
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/SearchOrders?`} setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
         </div>
     )
 }

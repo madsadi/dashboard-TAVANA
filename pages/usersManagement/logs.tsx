@@ -9,6 +9,8 @@ import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picke
 import moment from "jalali-moment";
 import {Accordion} from "flowbite-react";
 import {ChevronRightIcon,ChevronLeftIcon} from "@heroicons/react/20/solid";
+import TablePagination from "../../components/common/TablePagination";
+import {USERS} from "../../api/constants";
 
 export default function Users() {
     const columnDefStructure: any = [
@@ -85,10 +87,17 @@ export default function Users() {
         }
     ]
 
-    const pageSize = 15;
-    const {inputs, handleChange, reset} = useSearchUserForm()
-    const [page, setPage] = useState(1)
-    const [query, setQuery] = useState<any>({pageSize: pageSize, pageNumber: 1})
+    type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string}
+    const initialValue = {
+        PageNumber: 1,
+        PageSize: 20,
+        StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+        EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+        userId: '',
+        nationalId: '',
+        phoneNumber: '',
+    }
+    const [query, setQuery] = useState<initialType>(initialValue)
     const [totalCount, setTotal] = useState<any>(null);
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
@@ -143,6 +152,12 @@ export default function Users() {
         </div>
     )
 
+    const queryUpdate = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
+
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <Accordion alwaysOpen={true} style={{borderBottomRightRadius: 0, borderBottomLeftRadius: 0}}>
@@ -153,23 +168,23 @@ export default function Users() {
                     <Accordion.Content style={{transition:'all'}}>
                         <form className={'flex'} onSubmit={(e) => {
                             e.preventDefault();
-                            onGridReady({...inputs, ...query});
+                            onGridReady(query);
                         }}>
                             <div className={'grid grid-cols-4 gap-4'}>
                                 <div>
                                     <label className={'block'} htmlFor="userId">شناسه کاربر</label>
-                                    <input id="userId" value={inputs.userId} name={'userId'}
-                                           onChange={handleChange}/>
+                                    <input id="userId" value={query.userId} name={'userId'}
+                                           onChange={(e)=>queryUpdate('userId', e.target.value)}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="nationalId">کد ملی کاربر</label>
-                                    <input id="nationalId" value={inputs.nationalId} name={'nationalId'}
-                                           onChange={handleChange}/>
+                                    <input id="nationalId" value={query.nationalId} name={'nationalId'}
+                                           onChange={(e)=>queryUpdate('nationalId', e.target.value)}/>
                                 </div>
                                 <div>
                                     <label className={'block'} htmlFor="phoneNumber">تلفن همراه</label>
-                                    <input id="phoneNumber" value={inputs.phoneNumber} name={'phoneNumber'}
-                                           onChange={handleChange}/>
+                                    <input id="phoneNumber" value={query.phoneNumber} name={'phoneNumber'}
+                                           onChange={(e)=>queryUpdate('phoneNumber', e.target.value)}/>
                                 </div>
                                 <div>
                                     <DatePicker
@@ -198,16 +213,16 @@ export default function Users() {
                             </div>
                             <div className={'flex mt-4 space-x-2 space-x-reverse mr-auto'}>
                                 <button
-                                    className={'justify-center rounded bg-red-500 border-red-500 px-5 p-1 mr-auto w-fit h-fit mt-auto'}
+                                    className={'justify-center rounded-full bg-red-500 border-red-500 px-5 p-1 mr-auto w-fit h-fit mt-auto'}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        reset();
                                         setSelectedDayRange({from:null,to:null})
-                                        onGridReady({pageSize: pageSize, pageNumber: 1});
+                                        setQuery(initialValue)
+                                        onGridReady(initialValue);
                                     }}>
                                     لغو فیلتر ها
                                 </button>
-                                <button className={'justify-center bg-lime-600 rounded px-5 p-1 w-fit h-fit mt-auto'}
+                                <button className={'justify-center bg-lime-600 rounded-full px-5 p-1 w-fit h-fit mt-auto'}
                                         type={'submit'}>
                                     جستجو
                                 </button>
@@ -216,7 +231,7 @@ export default function Users() {
                     </Accordion.Content>
                 </Accordion.Panel>
             </Accordion>
-            <div className={'relative grow overflow-x-hidden border border-border'}>
+            <div className={'relative grow overflow-x-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
@@ -240,31 +255,7 @@ export default function Users() {
                     />
                 </div>
             </div>
-            <div className={'flex items-center mx-auto py-3'}>
-                {/*<ChevronDoubleRightIcon className={'h-4 w-4'}/>*/}
-                <button onClick={() => {
-                    setPage(page - 1)
-                    setQuery({...query, pageNumber: page - 1})
-                    onGridReady({...inputs, ...query, pageNumber: page - 1})
-                }}
-                        className={`${page <= 1 ? 'text-gray-300' : 'hover:bg-gray-300'} rounded-full bg-border transition-all p-1`}
-                        disabled={page <= 1}>
-                    <ChevronRightIcon className={'h-4 w-4'}/>
-                </button>
-                <div className={'mx-3'}>صفحه {page}
-                    <span className={'mx-4'}>از</span>{Math.ceil(totalCount / pageSize)}
-                </div>
-                <button onClick={() => {
-                    setPage(page + 1)
-                    setQuery({...query, pageNumber: page + 1})
-                    onGridReady({...inputs, ...query, pageNumber: page + 1})
-                }}
-                        className={`${page >= Math.ceil(totalCount / pageSize) ? 'text-gray-300' : 'hover:bg-gray-300'} rounded-full bg-border transition-all p-1`}
-                        disabled={page >= Math.ceil(totalCount / pageSize)}>
-                    <ChevronLeftIcon className={'h-4 w-4'}/>
-                </button>
-                {/*<ChevronDoubleLeftIcon className={'h-4 w-4'}/>*/}
-            </div>
+            <TablePagination query={query} api={`${USERS}/users/SearchUserActivityLogs?`} setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
         </div>
     )
 }

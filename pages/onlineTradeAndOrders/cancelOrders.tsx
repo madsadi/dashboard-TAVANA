@@ -11,6 +11,8 @@ import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picke
 import moment from "jalali-moment";
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
+import TablePagination from "../../components/common/TablePagination";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 
 export default function CancelOrders() {
 
@@ -380,29 +382,7 @@ export default function CancelOrders() {
                     />
                 </div>
             </div>
-            <div className={'flex items-center mx-auto py-3'}>
-                {/*<ChevronDoubleRightIcon className={'h-4 w-4'}/>*/}
-                <button onClick={() => {
-                    setQuery({...query,PageNumber:query.PageNumber - 1})
-                    getCanceledOrders({...query,PageNumber:query.PageNumber - 1})
-                }}
-                        className={`${query.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber <= 1}>
-
-                    <ChevronRightIcon className={'h-4 w-4'}/>
-                </button>
-                <div className={'mx-3 h-fit'}>صفحه {query.PageNumber}<span
-                    className={'mx-4'}>از</span>{Math.ceil(totalCount / query.PageSize)} </div>
-                <button onClick={() => {
-                    setQuery({...query,PageNumber:query.PageNumber + 1})
-                    getCanceledOrders({...query,PageNumber:query.PageNumber + 1})
-                }}
-                        className={`${query.PageNumber >= Math.ceil(totalCount / query.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                        disabled={query.PageNumber >= Math.ceil(totalCount / query.PageSize)}>
-                    <ChevronLeftIcon className={'h-4 w-4'}/>
-                </button>
-                {/*<ChevronDoubleLeftIcon className={'h-4 w-4'}/>*/}
-            </div>
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder?`} setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
         </div>
     )
 }
