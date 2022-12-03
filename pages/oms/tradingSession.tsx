@@ -110,11 +110,6 @@ export default function TradingSession() {
     }, []);
     //Grid
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
             <label className={'block'} htmlFor="rangeDate">تاریخ شروع و پایان</label>

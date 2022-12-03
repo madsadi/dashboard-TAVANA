@@ -122,9 +122,9 @@ export default function SideBarContent() {
             children: [
                 {
                     id: 6.1,
-                    label: 'معاملات تسویه شده',
-                    url: '/netFlow/clearedTradesReport',
-                    className: router.pathname === '/netFlow/clearedTradesReport' ? 'sideBarActive' : '',
+                    label: 'معاملات',
+                    url: '/netFlow/TradesReport',
+                    className: router.pathname === '/netFlow/TradesReport' ? 'sideBarActive' : '',
                 },
                 {
                     id: 6.2,

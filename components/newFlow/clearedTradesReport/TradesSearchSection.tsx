@@ -13,16 +13,32 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function ClearedTradesSearchSection() {
-    const [Ticket, setTicket] = useState<string>('');
-    const [Symbol, setSymbol] = useState<string>('');
-    const [InstrumentId, setInstrumentId] = useState<string>('');
-    const [Side, setSide] = useState<{ name: string, code: any }>({name: 'خرید', code: '1'});
+type initialType = { StartDate: string, EndDate: string, PageIndex: number, PageSize: number ,Side:{ name: string, code: any },InstrumentId:string,Ticket:string,StationCode:string,BourseCode:string,NationalCode:string, LastName:string,
+    FirstName:string,
+    Symbol:string}
+const initialValue = {
+    PageIndex: 1,
+    PageSize: 20,
+    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    Side:{name: 'خرید', code: '1'},
+    InstrumentId:'',
+    Ticket:'',
+    StationCode:'',
+    BourseCode:'',
+    NationalCode:'',
+    LastName:'',
+    FirstName:'',
+    Symbol:''
+}
+
+export default function TradesSearchSection() {
     const [totalCount, setTotalCount] = useState<number>(0);
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
     });
+    const [query, setQuery] = useState<initialType>(initialValue)
 
     const dispatch = useDispatch()
 
@@ -31,7 +47,6 @@ export default function ClearedTradesSearchSection() {
         {name: 'فروش', code: '2'},
         {name: 'هردو'},
     ];
-
     const dateRangeHandler = (selectedDayRange: any) => {
         if (selectedDayRange.from && selectedDayRange.to) {
             return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا ${selectedDayRange.to.year}/${selectedDayRange.to.month}/${selectedDayRange.to.day}`
@@ -43,7 +58,6 @@ export default function ClearedTradesSearchSection() {
             return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا اطلاع ثانویه`
         }
     }
-
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
             <label className={'block'} htmlFor="rangeDate">تاریخ شروع و پایان</label>
@@ -51,15 +65,18 @@ export default function ClearedTradesSearchSection() {
         </div>
     )
 
-
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await clearedTradesReportSearch('/Report/cleared-trade', [
+        await clearedTradesReportSearch('/Report/trades', [
                 {StartDate: moment.from(`${selectedDayRange.from ? selectedDayRange.from.year : ''}/${selectedDayRange.from ? selectedDayRange.from.month : ''}/${selectedDayRange.from ? selectedDayRange.from.day : ''}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')},
                 {EndDate: moment.from(`${selectedDayRange.to ? selectedDayRange.to.year : ''}/${selectedDayRange.to ? selectedDayRange.to.month : ''}/${selectedDayRange.to ? selectedDayRange.to.day : ''}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')},
-                {Ticket: Ticket},
-                {Symbol: Symbol},
-                {Side: Side.code}],
+                {Ticket: query.Ticket},
+                {Symbol: query.Symbol},
+                {Side: query.Side.code},
+                {FirstName: query.FirstName},
+                {LastName: query.LastName},
+                {NationalCode: query.NationalCode},
+                {BourseCode: query.BourseCode},{StationCode: query.StationCode},{InstrumentId: query.InstrumentId},{PageIndex: query.PageIndex},{PageSize: query.PageSize}],
             // {InstrumentId: setInstrumentId}],
         ).then(res => {
             dispatch(clearedTradesResult(res?.result));
@@ -67,6 +84,12 @@ export default function ClearedTradesSearchSection() {
             toast.success('با موفقیت انجام شد')
         })
             .catch(() => toast.error('ناموفق'))
+    }
+
+    const queryUpdate = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
     }
 
     return (
@@ -92,34 +115,34 @@ export default function ClearedTradesSearchSection() {
                                 />
                             </div>
                             <div>
-                                <label className={'block'} htmlFor="ticket">شماره تیکت</label>
-                                <input className={'w-full'} id="ticket" value={Ticket}
-                                       onChange={(e) => setTicket(e.target.value)}/>
+                                <label className={'block'} htmlFor="Ticket">شماره تیکت</label>
+                                <input className={'w-full'} id="Ticket" value={query.Ticket}
+                                       onChange={(e) => queryUpdate('Ticket',e.target.value)}/>
                             </div>
                             <div>
-                                <label className={'block'} htmlFor="symbol">نماد</label>
-                                <input className={'w-full'} id="symbol" value={Symbol}
-                                       onChange={(e) => setSymbol(e.target.value)}/>
+                                <label className={'block'} htmlFor="Symbol">نماد</label>
+                                <input className={'w-full'} id="Symbol" value={query.Symbol}
+                                       onChange={(e) => queryUpdate('Symbol',e.target.value)}/>
                             </div>
 
                             <div>
                                 <label className={'block'} htmlFor="InstrumentId">شناسه نماد</label>
-                                <input className={'w-full'} id="InstrumentId" value={InstrumentId}
-                                       onChange={(e) => setInstrumentId(e.target.value)}/>
+                                <input className={'w-full'} id="InstrumentId" value={query.InstrumentId}
+                                       onChange={(e) => queryUpdate('InstrumentId',e.target.value)}/>
                             </div>
 
                             <div>
                                 <div className={'mt-auto'}>دسته بندی</div>
                                 <div className="relative rounded">
-                                    <Listbox name={'Deleted'} value={Side}
-                                             onChange={(e) => setSide(e)}>
+                                    <Listbox name={'Deleted'} value={query.Side}
+                                             onChange={(e) => queryUpdate('Side',e)}>
                                         {({open}) => (
                                             <div className="relative">
                                                 <Listbox.Button
                                                     className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                         <span className="flex items-center">
                                                             <span
-                                                                className="ml-2 block truncate text-sm">{options.find((item: any) => item.code === Side)?.name}</span>
+                                                                className="ml-2 block truncate text-sm">{options.find((item: any) => item.code === query.Side)?.name}</span>
                                                         </span>
                                                     <span className="pointer-events-none flex items-center mr-auto">
                                                             <ChevronDownIcon className="h-5 w-5 text-gray-400"

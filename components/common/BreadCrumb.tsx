@@ -20,7 +20,7 @@ export default function BreadCrumbComponent() {
         marketRulesManagement: 'مدیریت قوانین بازار',
         bookBuilding: 'عرضه اولیه',
         netFlow: 'نت فلو',
-        clearedTradesReport: 'معاملات تسویه شده',
+        TradesReport: 'معاملات',
         onlineTradeAndOrders:'سفارشات آنلاین',
         onlineTrades:'معاملات',
         onlineOrders:'سفارشات',

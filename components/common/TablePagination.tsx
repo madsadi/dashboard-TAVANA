@@ -29,6 +29,7 @@ export default function TablePagination({
     }
 
     const onGridReady = async (query: any) => {
+        console.log(query)
         await apiCallToGetData(api, query)
             .then((res: any) => {
                 gridRef.current?.api?.setRowData(res?.result?.pagedData);
