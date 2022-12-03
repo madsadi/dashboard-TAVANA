@@ -57,14 +57,14 @@ export default function RulesList() {
             field: 'createDateTime',
             headerName: 'زمان ایجاد',
             flex:0,
-            width:150,
-            minWidth:150,
+            width:170,
+            minWidth:170,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
                             <span>{jalali(props.data.createDateTime).date}</span>
-                            <span>{jalali(props.data.createDateTime).time}</span>
+                            <span className={'ml-2'}>{jalali(props.data.createDateTime).time}</span>
                         </>
                     )
                 };
@@ -84,14 +84,14 @@ export default function RulesList() {
             field: 'updatedDateTime',
             headerName: 'زمان تغییر',
             flex:0,
-            width:150,
-            minWidth:150,
+            width:170,
+            minWidth:170,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
                             <span>{jalali(props.data.updatedDateTime).date}</span>
-                            <span>{jalali(props.data.updatedDateTime).time}</span>
+                            <span className={'ml-2'}>{jalali(props.data.updatedDateTime).time}</span>
                         </>
                     )
                 };

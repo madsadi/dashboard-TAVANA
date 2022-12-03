@@ -18,6 +18,7 @@ export default function ClearedTradesSearchSection() {
     const [Symbol, setSymbol] = useState<string>('');
     const [InstrumentId, setInstrumentId] = useState<string>('');
     const [Side, setSide] = useState<{ name: string, code: any }>({name: 'خرید', code: '1'});
+    const [totalCount, setTotalCount] = useState<number>(0);
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -62,6 +63,7 @@ export default function ClearedTradesSearchSection() {
             // {InstrumentId: setInstrumentId}],
         ).then(res => {
             dispatch(clearedTradesResult(res?.result));
+            setTotalCount(res?.result?.length)
             toast.success('با موفقیت انجام شد')
         })
             .catch(() => toast.error('ناموفق'))
@@ -72,6 +74,9 @@ export default function ClearedTradesSearchSection() {
             <Accordion.Panel>
                 <Accordion.Title style={{padding: '0.5rem'}}>
                     جستجو
+                    <span className={'mx-3'}>
+                    {totalCount}
+                        </span>
                 </Accordion.Title>
                 <Accordion.Content style={{transition: 'all'}}>
                     <form onSubmit={onSubmit}>
@@ -88,11 +93,13 @@ export default function ClearedTradesSearchSection() {
                             </div>
                             <div>
                                 <label className={'block'} htmlFor="ticket">شماره تیکت</label>
-                                <input className={'w-full'} id="ticket" value={Ticket} onChange={(e) => setTicket(e.target.value)}/>
+                                <input className={'w-full'} id="ticket" value={Ticket}
+                                       onChange={(e) => setTicket(e.target.value)}/>
                             </div>
                             <div>
                                 <label className={'block'} htmlFor="symbol">نماد</label>
-                                <input className={'w-full'} id="symbol" value={Symbol} onChange={(e) => setSymbol(e.target.value)}/>
+                                <input className={'w-full'} id="symbol" value={Symbol}
+                                       onChange={(e) => setSymbol(e.target.value)}/>
                             </div>
 
                             <div>

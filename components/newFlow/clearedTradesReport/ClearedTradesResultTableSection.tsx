@@ -7,9 +7,11 @@ import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
 export default function ClearedTradesResultTableSection() {
     const columnDefStructure = [
         {
-            field: 'id',
-            headerName: 'تاریخ',
+            field: 'ticket',
+            headerName: 'شناسه',
             cellRenderer: 'agGroupCellRenderer',
+            flex: 0,
+            width: 160,
         },
         {
             field: 'date',
@@ -32,6 +34,18 @@ export default function ClearedTradesResultTableSection() {
             width: 180,
         },
         {
+            field: 'symbol',
+            headerName: 'نماد',
+            flex: 0,
+            width: 180,
+        },
+        {
+            field: 'symbolName',
+            headerName: 'نام نماد',
+            flex: 0,
+            width: 180,
+        },
+        {
             field: 'fullName',
             headerName: 'عنوان مشتری',
         },
@@ -49,10 +63,10 @@ export default function ClearedTradesResultTableSection() {
             field: 'stationCode',
             headerName: 'کد ایستگاه',
         },
-        {
-            field: 'ticket',
-            headerName: 'تیکت',
-        },
+        // {
+        //     field: 'ticket',
+        //     headerName: 'تیکت',
+        // },
         {
             field: 'tradeDate',
             headerName: 'تاریخ معامله',
@@ -60,18 +74,6 @@ export default function ClearedTradesResultTableSection() {
         {
             field: 'instrumentId',
             headerName: 'شناسه نماد',
-        },
-        {
-            field: 'symbolName',
-            headerName: 'نام نماد',
-            flex: 0,
-            width: 180,
-        },
-        {
-            field: 'symbol',
-            headerName: 'نماد',
-            flex: 0,
-            width: 180,
         },
         {
             field: 'settlementDelay',
@@ -108,8 +110,7 @@ export default function ClearedTradesResultTableSection() {
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
 
     const getRowId = useCallback((params: any) => {
-        var data = params.data;
-        return data.orderId
+        return params.data.ticket
     }, []);
 
     const defaultColDef = useMemo(() => {
@@ -176,8 +177,8 @@ export default function ClearedTradesResultTableSection() {
                     valueFormatter: formatNumber
                 },
             },
-            getDetailRowData: (params: any) => {
-                params.successCallback(params?.feeDetail)
+            getDetailRowData: async (params: any) => {
+                params.successCallback([params.data?.feeDetail])
             },
         };
     }, []);
@@ -203,7 +204,6 @@ export default function ClearedTradesResultTableSection() {
                     getRowId={getRowId}
                     asyncTransactionWaitMillis={1000}
                     columnHoverHighlight={true}
-                    detailRowHeight={100}
                     rowSelection={'single'}
                     detailCellRendererParams={detailCellRendererParams}
                     masterDetail={true}
