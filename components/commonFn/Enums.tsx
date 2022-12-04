@@ -152,4 +152,123 @@ export const originEnum: any = [
 ]
 
 
+export const enTierNameEnum: any = [
+    {
+        "enTitle": "BTEF-T2"
+    },
+    {
+        "enTitle": "ETF-T2",
+        "faTitle": "صندوق سهام"
+    },
+    {
+        "enTitle": "ETF-T3",
+        "faTitle": "صندوق سهام"
+    },
+    {
+        "enTitle": "IEE-ETF",
+        "faTitle": "صندوق پروژه بورس انرژي"
+    },
+    {
+        "enTitle": "IRR-NT2",
+        "faTitle": "تهاتر ريالي سهام تمام بورسها-جديد"
+    },
+    {
+        "enTitle": "IRR-T1",
+        "faTitle": "تهاتر ريالي اوراق تمام بورسها"
+    },
+    {
+        "enTitle": "IRR-T2",
+        "faTitle": "صندوق مختلط"
+    },
+    {
+        "enTitle": "IRR-T3",
+        "faTitle": "تهاتر ريالي سهام تمام بورسها"
+    },
+    {
+        "enTitle": "OTC-EPO"
+    },
+    {
+        "enTitle": "OTC-FOFETF-T2"
+    },
+    {
+        "enTitle": "OTC-FTEF-T1",
+        "faTitle": "اوراق با درآمد ثابت ETF صندوق فرابورسي"
+    },
+    {
+        "enTitle": "OTC-T1",
+        "faTitle": "اوراق  فرابورس"
+    },
+    {
+        "enTitle": "OTC-T2",
+        "faTitle": "سهام فرابورس"
+    },
+    {
+        "enTitle": "OTC-T3",
+        "faTitle": "سهام فرابورس"
+    },
+    {
+        "enTitle": "OTC-T-T1",
+        "faTitle": "اوراق خزانه اسلامي"
+    },
+    {
+        "enTitle": "OTC-VETF-T2",
+        "faTitle": "صندوق جسورانه"
+    },
+    {
+        "enTitle": "TME-ETF-T1",
+        "faTitle": "صندوق ETF کالايي"
+    },
+    {
+        "enTitle": "TME-T1",
+        "faTitle": "گواهي سپرده کالايي-محصولات کشاورزی"
+    },
+    {
+        "enTitle": "TME-T1-IRR",
+        "faTitle": "ريال حاصل از اوراق سلف بورس کالا"
+    },
+    {
+        "enTitle": "TME-T1-V",
+        "faTitle": "گواهي سپرده کالايي-فلزات گران بها"
+    },
+    {
+        "enTitle": "TME-T2",
+        "faTitle": "بورس کالا-انبار-ريالي"
+    },
+    {
+        "enTitle": "TSE-EPO"
+    },
+    {
+        "enTitle": "TSE-FTEF-T1",
+        "faTitle": "اوراق با درآمد ثابت ETF صندوق بورسي"
+    },
+    {
+        "enTitle": "TSE-OTC-EPO"
+    },
+    {
+        "enTitle": "TSE-OTC-T1",
+        "faTitle": "تهاتر اوراق بورس و فرابورس"
+    },
+    {
+        "enTitle": "TSE-OTC-T2",
+        "faTitle": "تهاتر سهام بورس و فرابورس"
+    },
+    {
+        "enTitle": "TSE-OTC-T3",
+        "faTitle": "تهاتر سهام بورس و فرابورس"
+    },
+    {
+        "enTitle": "TSE-T1",
+        "faTitle": "اوراق بورس"
+    },
+    {
+        "enTitle": "TSE-T2",
+        "faTitle": "سهام بورس"
+    },
+    {
+        "enTitle": "TSE-T3",
+        "faTitle": "سهام بورس"
+    }
+]
+
+
 

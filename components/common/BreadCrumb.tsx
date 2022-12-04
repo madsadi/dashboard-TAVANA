@@ -34,6 +34,7 @@ export default function BreadCrumbComponent() {
         tradingSession:'وضعیت جلسه معاملاتی',
         rules:'ضرایب کارمزد',
         clearedTrade:'معاملات تسویه شده',
+        clearingDateRangeT:'تسویه و پایاپای',
     }
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import React, {useState, useRef, useMemo, useCallback} from 'react';
 import {AgGridReact} from "ag-grid-react";
-import {formatNumber} from "../../commonFn/commonFn";
+import {formatNumber, jalali} from "../../commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
 import {Accordion} from "flowbite-react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
@@ -9,83 +9,99 @@ import moment from "jalali-moment";
 import {toast} from "react-toastify";
 import TablePagination from "../../common/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
+import {enTierNameEnum} from '../../commonFn/Enums'
 
-type initialType = { StartDate: string, EndTime: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
+type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number ,EnTierName:string,SettlementDelay:string}
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
-    StartDate: '',
-    EndTime: '',
-    Name: '',
-    BuyerCode: '',
-    SellerCode: '',
-    Symbol: '',
-    SettlementDelay: ''
+    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EnTierName:'',
+    SettlementDelay:'',
 }
 
-export default function RulesResultTableSection() {
+export default function ClearingDateRangeTTradeResultTableSection() {
     const columnDefStructure = [
         {
-            field: 'name',
-            headerName: 'نام',
+            field: 'georgianTradeDate',
+            headerName: 'تاریخ معامله',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <span>{jalali(props.data.georgianTradeDate).date}</span>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
+            flex: 0,
+            width: 120,
+        },
+        {
+            field: 'enTierName',
+            headerName: 'نام گروه',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <span>{enTierNameEnum.find((item:any)=>props.data.enTierName===item.enTitle).faTitle}</span>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
+            flex: 0,
+            width: 250,
+        },
+        {
+            field: 'brokerCode',
+            headerName: 'کد کارگزار',
+        },
+        {
             cellRenderer: 'agGroupCellRenderer',
-            flex: 0,
-            width: 260,
-        },
-        {
-            field: 'startDate',
-            headerName: 'تاریخ شروع',
-            cellRendererSelector: () => {
-                const ColourCellRenderer = (props: any) => {
-                    return (
-                        <span>{props.data.startDate}</span>
-                    )
-                };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
-            },
-            flex: 0,
-            width: 180,
-        },
-        {
-            field: 'endDate',
-            headerName: 'تاریخ شروع',
-            cellRendererSelector: () => {
-                const ColourCellRenderer = (props: any) => {
-                    return (
-                        <span>{props.data.endDate}</span>
-                    )
-                };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
-            },
-            flex: 0,
-            width: 180,
-        },
-        {
-            field: 'symbol',
-            headerName: 'نماد',
-            flex: 0,
-            width: 180,
-        },
-        {
-            field: 'buyerCode',
-            headerName: 'شناسه خریدار',
-            flex: 0,
-            width: 180,
-        },
-        {
-            field: 'sellerCode',
-            headerName: 'شناسه فروشنده',
+            field: 'brokerName',
+            headerName: 'نام کارگزار',
         },
         {
             field: 'settlementDelay',
             headerName: 'تاخیر',
-        }
+        },
+        {
+            field: 'buy',
+            headerName: 'مبلغ خرید',
+        },
+        {
+            field: 'sell',
+            headerName: 'مبلغ فروش',
+        },
+        {
+            field: 'sellerInterest',
+            headerName: 'سود فروشنده',
+        },
+        {
+            field: 'buyerInterest',
+            headerName: 'سود خریدار',
+        },
+        {
+            field: 'credit',
+            headerName: 'بستانکار',
+        },
+        {
+            field: 'debit',
+            headerName: 'بدهکار',
+        },
+        {
+            field: 'sellerBalance',
+            headerName: 'مانده فروشنده',
+        },
+        {
+            field: 'buyerBalance',
+            headerName: 'مانده خریدار',
+        },
     ]
 
     //GRID CUSTOMISATION
@@ -93,7 +109,7 @@ export default function RulesResultTableSection() {
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
 
     const getRowId = useCallback((params: any) => {
-        return params.data.tierName + params.data.name+ params.data.startDate+ params.data.endDate
+        return params.data.georgianTradeDate+params.data.enTierName+params.data.settlementDelay+params.data.sell
     }, []);
 
     const defaultColDef = useMemo(() => {
@@ -121,30 +137,28 @@ export default function RulesResultTableSection() {
         };
     }, []);
     //GRID CUSTOMISATION
+
     const rowStyle = {}
     const getRowStyle = (params: any) => {
-        if (params?.node?.data?.side === 1) {
-            return {backgroundColor: 'rgba(5,122,85,0.18)'};
+        if (params?.node?.rowIndex === 0) {
+            return {borderRight: '2px solid rgba(5,122,85,1)'};
         } else {
-            return {backgroundColor: 'rgba(225,29,72,0.18)'};
+            return {borderRight: '2px solid rgba(225,29,72,1)'};
         }
     };
+
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
                 enableRtl: true,
                 rowStyle:rowStyle,
                 getRowStyle:getRowStyle,
-                suppressRowTransform:true,
                 columnDefs: [
-                    {field: 'type', headerName: 'دسته',rowSpan: (params:any) => params.data.side === 1 ? 2 : 1 ,
-                        cellClassRules: {
-                            'cell-span': (params:any)=>params.data.side === 1,
-                        },
+                    {field: 'type', headerName: 'سمت معامله',
                         cellRendererSelector: () => {
                             const ColourCellRenderer = (props: any) => {
                                 return (
-                                    <span className={`my-auto`}>{props.node.rowIndex >1 ? 'ضریب کارمزد':'سقف کارمزد'}</span>
+                                    <span className={`my-auto`}>{props.node.rowIndex === 0  ? 'کارمزد خرید':'کارمزد فروش'}</span>
                                 )
                             };
                             const moodDetails = {
@@ -153,7 +167,9 @@ export default function RulesResultTableSection() {
                             return moodDetails;
                         },
                     },
-                    {field: 'accountCommission', headerName: 'هزینه دسترسی'},
+                    {field: 'brokerCommission', headerName: 'کارگزار'},
+                    {field: 'brfCommission', headerName: 'سهم صندوق توسعه'},
+                    {field: 'accessCommission', headerName: 'کارمزد دسترسی'},
                     {
                         field: 'seoCommission',
                         headerName: 'کارمزد سازمان'
@@ -161,24 +177,12 @@ export default function RulesResultTableSection() {
                     {field: 'tmcCommission', headerName: 'کارمزد فناوری'},
                     {field: 'csdCommission', headerName: 'کارمزد سپرده گزاری'},
                     {field: 'rayanBourseCommission', headerName: 'کارمزد رایان'},
-                    {field: 'bourseCommission', headerName: 'بورس مربوطه'},
-                    {field: 'brokerCommission', headerName: 'کارگزار'},
+                    {field: 'bourseCommisison', headerName: 'بورس مربوطه'},
+                    {field: 'inventoryCommission', headerName: 'هزینه انبارداری'},
+                    {field: 'farCommission', headerName: 'کارمزد فراوری'},
                     {field: 'tax', headerName: 'مالیات'},
                     {field: 'vatCommission', headerName: 'مالیات ارزش افزوده'},
                     {field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری'},
-                    {field: 'side', headerName: 'سمت',
-                        cellRendererSelector: () => {
-                            const ColourCellRenderer = (props: any) => {
-                                return (
-                                    <span>{props.data.side === 1 ? 'خرید':'فروش'}</span>
-                                )
-                            };
-                            const moodDetails = {
-                                component: ColourCellRenderer,
-                            }
-                            return moodDetails;
-                        },
-                    },
                 ],
                 defaultColDef: {
                     resizable: true,
@@ -188,10 +192,11 @@ export default function RulesResultTableSection() {
                 },
             },
             getDetailRowData: async (params: any) => {
-                params.successCallback([...params.data?.feeBond,...params.data?.feeValue])
+                params.successCallback([params.data?.buyCommission,params.data?.sellCommission])
             },
         };
     }, []);
+
 
     //search
     const [totalCount, setTotalCount] = useState<number>(0);
@@ -221,18 +226,13 @@ export default function RulesResultTableSection() {
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await clearedTradesReportSearch('/Report/rules',
-            {
-                StartDate: selectedDayRange.from ? moment.from(`${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD'):'',
-                EndTime: selectedDayRange.to ? moment.from(`${selectedDayRange.to.year}/${selectedDayRange.to.month}/${selectedDayRange.to.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD'):'',
-                Name: query.Name,
-                Symbol: query.Symbol,
-                SettlementDelay: Number(query.SettlementDelay),
-                BuyerCode: query.BuyerCode,
-                SellerCode: query.SellerCode,
+        await clearedTradesReportSearch('/Report/clearing-date-range-T',
+            {StartDate: selectedDayRange.from ? moment.from(`${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD'):'',
+                EndDate: selectedDayRange.to ? moment.from(`${selectedDayRange.to.year}/${selectedDayRange.to.month}/${selectedDayRange.to.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD'):'',
+                EnTierName: query.EnTierName,
+                SettlementDelay: query.SettlementDelay,
                 PageNumber: query.PageNumber,
-                PageSize: query.PageSize
-            },
+                PageSize: query.PageSize},
         ).then(res => {
             gridRef?.current?.api?.setRowData(res?.result)
             setTotalCount(res?.totalRecord)
@@ -261,7 +261,7 @@ export default function RulesResultTableSection() {
                                 <div>
                                     <DatePicker
                                         value={selectedDayRange}
-                                        onChange={(e) => {
+                                        onChange={(e)=>{
                                             setSelectedDayRange(e)
                                             if (e.from) {
                                                 setQuery({
@@ -272,7 +272,7 @@ export default function RulesResultTableSection() {
                                             if (e.to) {
                                                 setQuery({
                                                     ...query,
-                                                    EndTime: `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                                                    EndDate: `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
                                                 })
                                             }
                                         }}
@@ -283,36 +283,20 @@ export default function RulesResultTableSection() {
                                     />
                                 </div>
                                 <div>
-                                    <label className={'block'} htmlFor="Name">نام</label>
-                                    <input className={'w-full'} id="Name" value={query.Name}
-                                           onChange={(e) => queryUpdate('Name', e.target.value)}/>
-                                </div>
-                                <div>
                                     <label className={'block'} htmlFor="SettlementDelay">تاخیر</label>
                                     <input className={'w-full'} id="SettlementDelay" value={query.SettlementDelay}
                                            onChange={(e) => queryUpdate('SettlementDelay', e.target.value)}/>
                                 </div>
-
                                 <div>
-                                    <label className={'block'} htmlFor="BuyerCode">شناسه خریدار</label>
-                                    <input className={'w-full'} id="BuyerCode" value={query.BuyerCode}
-                                           onChange={(e) => queryUpdate('BuyerCode', e.target.value)}/>
-                                </div>
-                                <div>
-                                    <label className={'block'} htmlFor="SellerCode">شناسه فروشنده</label>
-                                    <input className={'w-full'} id="SellerCode" value={query.SellerCode}
-                                           onChange={(e) => queryUpdate('SellerCode', e.target.value)}/>
-                                </div>
-                                <div>
-                                    <label className={'block'} htmlFor="Symbol">نماد</label>
-                                    <input className={'w-full'} id="Symbol" value={query.Symbol}
-                                           onChange={(e) => queryUpdate('Symbol', e.target.value)}/>
+                                    <label className={'block'} htmlFor="EnTierName">نام انگلیسی گروه</label>
+                                    <input className={'w-full'} id="EnTierName" value={query.EnTierName}
+                                           onChange={(e) => queryUpdate('EnTierName', e.target.value)}/>
                                 </div>
                             </div>
                             <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                                <button className={'p-1 px-2 rounded-full bg-red-600'} onClick={(e) => {
+                                <button className={'p-1 px-2 rounded-full bg-red-600'} onClick={(e)=>{
                                     e.preventDefault()
-                                    setSelectedDayRange({from: null, to: null})
+                                    setSelectedDayRange({from:null,to:null})
                                     setQuery(initialValue)
                                 }}>
                                     لغو
@@ -326,9 +310,6 @@ export default function RulesResultTableSection() {
                 </Accordion.Panel>
             </Accordion>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-                {/*<div>*/}
-                {/*    {header()}*/}
-                {/*</div>*/}
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
@@ -345,15 +326,12 @@ export default function RulesResultTableSection() {
                         getRowId={getRowId}
                         asyncTransactionWaitMillis={1000}
                         columnHoverHighlight={true}
-                        rowSelection={'single'}
                         detailCellRendererParams={detailCellRendererParams}
                         masterDetail={true}
-                        suppressRowTransform={true}
                     />
                 </div>
             </div>
-            <TablePagination query={query} api={`${NETFLOW_BASE_URL}/Report/rules?`} setQuery={setQuery}
-                             totalCount={totalCount} gridRef={gridRef} pagedData={false}/>
+            <TablePagination query={query} api={`${NETFLOW_BASE_URL}/Report/clearing-date-range-T?`} setQuery={setQuery} totalCount={totalCount} gridRef={gridRef} pagedData={false}/>
         </>
     );
 }

@@ -143,6 +143,12 @@ export default function SideBarContent() {
                     label: 'معاملات تسویه شده',
                     className: router.pathname === '/netFlow/clearedTrade' ? 'sideBarActive' : '',
                     url: '/netFlow/clearedTrade'
+                },
+                {
+                    id: 6.4,
+                    label: 'تسویه و پایاپای',
+                    className: router.pathname === '/netFlow/clearingDateRangeT' ? 'sideBarActive' : '',
+                    url: '/netFlow/clearingDateRangeT'
                 }
             ]
         },
