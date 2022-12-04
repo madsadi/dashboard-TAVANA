@@ -1,4 +1,4 @@
-import TradesResultTableSection from "../../components/newFlow/clearedTradesReport/TradesResultTableSection";
+import TradesResultTableSection from "../../components/newFlow/TradesReport/TradesResultTableSection";
 
 export default function TradesReport(){
     return(

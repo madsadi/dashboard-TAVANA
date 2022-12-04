@@ -32,6 +32,8 @@ export default function BreadCrumbComponent() {
         oms:'وضعیت oms',
         tradingDayTimeTable:'زمانبندی روز معاملاتی',
         tradingSession:'وضعیت جلسه معاملاتی',
+        rules:'ضرایب کارمزد',
+        clearedTrade:'معاملات تسویه شده',
     }
 
     useEffect(() => {

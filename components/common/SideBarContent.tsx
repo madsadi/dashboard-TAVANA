@@ -131,6 +131,18 @@ export default function SideBarContent() {
                     label: 'دریافت اطلاعات',
                     className: router.pathname === '/netFlow/information' ? 'sideBarActive' : '',
                     url: '/netFlow/information'
+                },
+                {
+                    id: 6.3,
+                    label: 'ضرایب کارمزد',
+                    className: router.pathname === '/netFlow/rules' ? 'sideBarActive' : '',
+                    url: '/netFlow/rules'
+                },
+                {
+                    id: 6.4,
+                    label: 'معاملات تسویه شده',
+                    className: router.pathname === '/netFlow/clearedTrade' ? 'sideBarActive' : '',
+                    url: '/netFlow/clearedTrade'
                 }
             ]
         },
