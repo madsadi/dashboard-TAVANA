@@ -88,11 +88,11 @@ export default function ClearingDateRangeTTradeResultTableSection() {
         },
         {
             field: 'credit',
-            headerName: 'بستانکار',
+            headerName: 'بدهکار',
         },
         {
             field: 'debit',
-            headerName: 'بدهکار',
+            headerName: 'بستانکار',
         },
         {
             field: 'sellerBalance',
