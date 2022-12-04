@@ -3,13 +3,14 @@ import {NETFLOW_BASE_URL} from "./constants";
 
 
 export const clearedTradesReportSearch = async (api:string,body: any) => {
-    let bodyToQuery = body.map((item:any)=> {
-        if (Object.values(item)[0]) {
-            return `&${Object.keys(item)[0]}=${Object.values(item)[0]}`
+    let bodyToQuery:any=[];
+    Object.keys(body).map((item:any)=>{
+        if (body[`${item}`]){
+            bodyToQuery.push(`${item}=`+body[`${item}`])
         }
-    }).join('')
+    })
 
-    const search = await axios.get(`${NETFLOW_BASE_URL}${api}?${bodyToQuery}`,
+    const search = await axios.get(`${NETFLOW_BASE_URL}${api}?${bodyToQuery.join('&')}`,
         {
             headers: {
                 'Accept': '*/*'

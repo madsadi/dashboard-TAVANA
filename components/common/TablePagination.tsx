@@ -8,6 +8,7 @@ import {
 import React, {Dispatch, Fragment} from "react";
 import {apiCallToGetData} from "../../api/onlineTrade";
 import {Listbox, Transition} from "@headlessui/react";
+import Modal from "./Modal";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -18,8 +19,9 @@ export default function TablePagination({
                                             gridRef,
                                             setQuery,
                                             api,
-                                            totalCount
-                                        }: { query: any, gridRef: any, setQuery: Dispatch<any>, api: string, totalCount: number }) {
+                                            totalCount,
+                                            pagedData
+                                        }: { query: any, gridRef: any, setQuery: Dispatch<any>, api: string, totalCount: number ,pagedData:boolean}) {
 
     const sizes=[10,20,50]
     const queryUpdate = (key: string, value: any) => {
@@ -29,10 +31,13 @@ export default function TablePagination({
     }
 
     const onGridReady = async (query: any) => {
-        console.log(query)
         await apiCallToGetData(api, query)
             .then((res: any) => {
-                gridRef.current?.api?.setRowData(res?.result?.pagedData);
+                if (pagedData){
+                    gridRef.current?.api?.setRowData(res?.result?.pagedData);
+                }else{
+                    gridRef.current?.api?.setRowData(res?.result);
+                }
             })
     };
 
@@ -144,3 +149,7 @@ export default function TablePagination({
         </div>
     )
 }
+
+TablePagination.defaultProps = {
+    pagedData: true,
+};

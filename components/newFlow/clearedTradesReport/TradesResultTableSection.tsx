@@ -239,20 +239,20 @@ export default function TradesResultTableSection() {
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await clearedTradesReportSearch('/Report/trades', [
-                {StartDate: moment.from(`${selectedDayRange.from ? selectedDayRange.from.year : ''}/${selectedDayRange.from ? selectedDayRange.from.month : ''}/${selectedDayRange.from ? selectedDayRange.from.day : ''}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')},
-                {EndDate: moment.from(`${selectedDayRange.to ? selectedDayRange.to.year : ''}/${selectedDayRange.to ? selectedDayRange.to.month : ''}/${selectedDayRange.to ? selectedDayRange.to.day : ''}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')},
-                {Ticket: query.Ticket},
-                {Symbol: query.Symbol},
-                {Side: Number(query.Side)},
-                {FirstName: query.FirstName},
-                {LastName: query.LastName},
-                {NationalCode: query.NationalCode},
-                {BourseCode: query.BourseCode},
-                {StationCode: query.StationCode},
-                {InstrumentId: query.InstrumentId},
-                {PageIndex: query.PageNumber},
-                {PageSize: query.PageSize}],
+        await clearedTradesReportSearch('/Report/trades',
+                {StartDate: moment.from(`${selectedDayRange.from ? selectedDayRange.from.year : ''}/${selectedDayRange.from ? selectedDayRange.from.month : ''}/${selectedDayRange.from ? selectedDayRange.from.day : ''}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD'),
+                EndDate: moment.from(`${selectedDayRange.to ? selectedDayRange.to.year : ''}/${selectedDayRange.to ? selectedDayRange.to.month : ''}/${selectedDayRange.to ? selectedDayRange.to.day : ''}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD'),
+                Ticket: query.Ticket,
+                Symbol: query.Symbol,
+                Side: Number(query.Side),
+                FirstName: query.FirstName,
+                LastName: query.LastName,
+                NationalCode: query.NationalCode,
+                BourseCode: query.BourseCode,
+                StationCode: query.StationCode,
+                InstrumentId: query.InstrumentId,
+                PageNumber: query.PageNumber,
+                PageSize: query.PageSize},
         ).then(res => {
             gridRef?.current?.api?.setRowData(res?.result)
             setTotalCount(res?.totalRecord)
@@ -281,7 +281,21 @@ export default function TradesResultTableSection() {
                                 <div>
                                     <DatePicker
                                         value={selectedDayRange}
-                                        onChange={setSelectedDayRange}
+                                        onChange={(e)=>{
+                                            setSelectedDayRange(e)
+                                            if (e.from) {
+                                                setQuery({
+                                                    ...query,
+                                                    StartDate: `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                                                })
+                                            }
+                                            if (e.to) {
+                                                setQuery({
+                                                    ...query,
+                                                    EndDate: `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                                                })
+                                            }
+                                        }}
                                         shouldHighlightWeekends
                                         renderInput={renderCustomInput}
                                         locale={'fa'}
@@ -436,7 +450,7 @@ export default function TradesResultTableSection() {
                     />
                 </div>
             </div>
-            <TablePagination query={query} api={`${NETFLOW_BASE_URL}/Report/trades?`} setQuery={setQuery} totalCount={totalCount} gridRef={gridRef}/>
+            <TablePagination query={query} api={`${NETFLOW_BASE_URL}/Report/trades?`} setQuery={setQuery} totalCount={totalCount} gridRef={gridRef} pagedData={false}/>
         </>
     );
 }
