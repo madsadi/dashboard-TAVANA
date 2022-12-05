@@ -1,6 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import DatePicker, {Day, DayRange, DayValue} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
+import {jalali} from "../commonFn/commonFn";
+import {Listbox, Transition} from "@headlessui/react";
+import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
+import {Options, sides} from "../commonFn/Enums";
+
+function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ')
+}
 
 export default function InputComponent({
                                            query,
@@ -23,20 +31,32 @@ export default function InputComponent({
         }
         if (selectedDayRange.to){
             queryUpdate(
-                'EndTime', `${moment.from(`${selectedDayRange.to?.year}/${selectedDayRange.to?.month}/${selectedDayRange.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                'EndDate', `${moment.from(`${selectedDayRange.to?.year}/${selectedDayRange.to?.month}/${selectedDayRange.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
             )
         }
     },[selectedDayRange.from,selectedDayRange.to])
 
     useEffect(()=>{
-        if (!query.StartDate && !query.EndTime){
+        if (!query.StartDate && !query.EndDate){
             setSelectedDayRange({from:null,to:null})
-        }else if (!query.EndTime){
+        }else if (!query.EndDate){
             setSelectedDayRange({...selectedDayRange,to:null})
         }else if (!query.StartDate){
             setSelectedDayRange({...selectedDayRange,from:null})
+        }else {
+            let from:any = {}
+            let StartDateGeo = jalali(query.StartDate).date
+            from.year = Number(StartDateGeo?.split('/')[0])
+            from.month = Number(StartDateGeo?.split('/')[1])
+            from.day = Number(StartDateGeo?.split('/')[2])
+            let to:any = {}
+            let EndDateGeo = jalali(query.EndDate).date
+            to.year = Number(EndDateGeo?.split('/')[0])
+            to.month = Number(EndDateGeo?.split('/')[1])
+            to.day = Number(EndDateGeo?.split('/')[2])
+            setSelectedDayRange({from:from,to:to})
         }
-    },[query.StartDate,query.EndTime])
+    },[query.StartDate,query.EndDate])
 
     const dateRangeHandler = (selectedDayRange: any) => {
         if (selectedDayRange.from && selectedDayRange.to) {
@@ -57,6 +77,16 @@ export default function InputComponent({
         </div>
     )
 
+    const FindEnum = ()=>{
+        switch (title){
+            case 'Side':
+                return sides
+            case 'Deleted':
+                return Options
+            default:
+                return []
+        }
+    }
     const componentRender=()=>{
         switch (type) {
             case "date":
@@ -79,6 +109,78 @@ export default function InputComponent({
                         <input className={'w-full'} id={title} value={query[title]}
                                onChange={(e) => queryUpdate(title, e.target.value)}/>
                     </div>
+                )
+            case "selectInput":
+                return (
+                    <div>
+                        <label className={'mt-auto'} htmlFor={title}>{name}</label>
+                        <div className="relative rounded">
+                            <Listbox name={title} value={query[title]}
+                                     onChange={(e) => queryUpdate(title, e)}>
+                                {({open}) => (
+                                    <div className="relative">
+                                        <Listbox.Button
+                                            className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                                        <span className="flex items-center">
+                                                            <span
+                                                                className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query[title])?.title}</span>
+                                                        </span>
+                                            <span className="pointer-events-none flex items-center mr-auto">
+                                                            <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                             aria-hidden="false"/>
+                                                        </span>
+                                        </Listbox.Button>
+
+                                        <Transition
+                                            show={open}
+                                            as={Fragment}
+                                            leave="transition ease-in duration-100"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <Listbox.Options
+                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                {FindEnum().map((item: any) => (
+                                                    <Listbox.Option
+                                                        key={item.name}
+                                                        className={({active}) =>
+                                                            classNames(
+                                                                active ? 'bg-border' : '',
+                                                                'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                            )
+                                                        }
+                                                        value={item.id}
+                                                    >
+                                                        {({selected, active}) => (
+                                                            <>
+                                                                <div className="flex items-center">
+                                                                    <span>
+                                                                        {item.title}
+                                                                    </span>
+                                                                    {selected ? (
+                                                                        <span
+                                                                            className={classNames(
+                                                                                active ? '' : '',
+                                                                                'flex items-center mr-auto'
+                                                                            )}
+                                                                        >
+                                                                        <CheckIcon className="h-5 w-5"
+                                                                                   aria-hidden="true"/>
+                                                                    </span>
+                                                                    ) : null}
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </Listbox.Option>
+                                                ))}
+                                            </Listbox.Options>
+                                        </Transition>
+                                    </div>
+                                )}
+                            </Listbox>
+                        </div>
+                    </div>
+
                 )
             default:
                 return null

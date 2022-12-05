@@ -13,6 +13,20 @@ import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
 import TablePagination from "../../components/common/TablePagination";
 import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import AccordionComponent from "../../components/common/AccordionComponent";
+
+type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number }
+const initialValue = {
+    PageNumber: 1,
+    PageSize: 20,
+    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+}
+const listOfFilters = [
+    {title:'PageNumber',name:'شماره صفحه',type:null},
+    {title:'PageSize',name:'تعداد',type:null},
+    {title:'date',name:'تاریخ',type:'date'},
+]
 
 export default function CancelOrders() {
 
@@ -300,60 +314,7 @@ export default function CancelOrders() {
                     <button className="rounded-full bg-lime-600 p-1 px-5" onClick={confirmInsRemoving}>تایید</button>
                 </div>
             </Modal>
-            <Accordion alwaysOpen={true} style={{borderBottomRightRadius: 0, borderBottomLeftRadius: 0}}>
-                <Accordion.Panel>
-                    <Accordion.Title style={{padding: '0.5rem'}}>
-                        جستجو
-                    </Accordion.Title>
-                    <Accordion.Content style={{transition: 'all'}}>
-                        <form className={'flex'} onSubmit={(e) => {
-                            e.preventDefault()
-                            getCanceledOrders(query);
-                        }}>
-                                <div>
-                                    <DatePicker
-                                        value={selectedDayRange}
-                                        onChange={(e) => {
-                                            setSelectedDayRange(e);
-                                            if (e.from) {
-                                                setQuery({
-                                                    ...query,
-                                                    StartDate: `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-M-D')}`
-                                                })
-                                            }
-                                            if (e.to) {
-                                                setQuery({
-                                                    ...query,
-                                                    EndDate: `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-M-D')}`
-                                                })
-                                            }
-                                        }}
-                                        shouldHighlightWeekends
-                                        renderInput={renderCustomInput}
-                                        locale={'fa'}
-                                        calendarPopperPosition={'bottom'}
-                                    />
-                                </div>
-                            <div className={'flex mt-4 space-x-2 space-x-reverse mr-auto'}>
-                                <button
-                                    className={'justify-content-center rounded-full bg-red-500 border-red-500 px-5 p-1 w-fit h-fit mt-auto'}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setQuery(initialValue)
-                                        setSelectedDayRange({from:null,to:null})
-                                        getCanceledOrders(initialValue)
-                                    }}>
-                                    لغو فیلتر ها
-                                </button>
-                                <button className={'justify-content-center bg-lime-600 rounded-full px-5 p-1 w-fit h-fit mt-auto'}
-                                        type={'submit'}>
-                                    جستجو
-                                </button>
-                            </div>
-                        </form>
-                    </Accordion.Content>
-                </Accordion.Panel>
-            </Accordion>
+            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
             <div className={'flex justify-end space-x-reverse space-x-2 border-x border-border p-2'}>
                 <button className="rounded-full bg-red-500 p-1 px-2"
                         onClick={() => setGPRemoving(true)}>حذف سفارش گروه</button>

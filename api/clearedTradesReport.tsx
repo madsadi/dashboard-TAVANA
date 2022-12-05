@@ -2,7 +2,7 @@ import axios from "axios";
 import {NETFLOW_BASE_URL} from "./constants";
 
 
-export const clearedTradesReportSearch = async (api:string,body: any) => {
+export const fetchData = async (api:string,body: any) => {
     let bodyToQuery:any=[];
     Object.keys(body).map((item:any)=>{
         if (body[`${item}`]){
@@ -10,7 +10,7 @@ export const clearedTradesReportSearch = async (api:string,body: any) => {
         }
     })
 
-    const search = await axios.get(`${NETFLOW_BASE_URL}${api}?${bodyToQuery.join('&')}`,
+    const search = await axios.get(`${api}?${bodyToQuery.join('&')}`,
         {
             headers: {
                 'Accept': '*/*'

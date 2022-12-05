@@ -2,21 +2,17 @@ import React, {useState, useRef, useMemo, useCallback} from 'react';
 import {AgGridReact} from "ag-grid-react";
 import {formatNumber} from "../../commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
-import {Accordion} from "flowbite-react";
-import DatePicker, {DayRange, DayValue} from "@amir04lm26/react-modern-calendar-date-picker";
-import {clearedTradesReportSearch} from "../../../api/clearedTradesReport";
-import moment from "jalali-moment";
-import {toast} from "react-toastify";
+import {DayValue} from "@amir04lm26/react-modern-calendar-date-picker";
 import TablePagination from "../../common/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
 import AccordionComponent from "../../common/AccordionComponent";
 
-type initialType = { StartDate: DayValue, EndTime: DayValue, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
+type initialType = { StartDate: DayValue, EndDate: DayValue, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
     StartDate: null,
-    EndTime: null,
+    EndDate: null,
     Name: '',
     BuyerCode: '',
     SellerCode: '',
@@ -99,14 +95,15 @@ export default function RulesResultTableSection() {
         }
     ]
 
+    const [totalCount, setTotalCount] = useState<number>(0);
+    const [query, setQuery] = useState<initialType>(initialValue)
+
     //GRID CUSTOMISATION
     const gridRef: any = useRef();
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
-
     const getRowId = useCallback((params: any) => {
         return params.data.tierName + params.data.name+ params.data.startDate+ params.data.endDate
     }, []);
-
     const defaultColDef = useMemo(() => {
         return {
             resizable: true,
@@ -132,6 +129,7 @@ export default function RulesResultTableSection() {
         };
     }, []);
     //GRID CUSTOMISATION
+
     const rowStyle = {}
     const getRowStyle = (params: any) => {
         if (params?.node?.data?.side === 1) {
@@ -204,19 +202,10 @@ export default function RulesResultTableSection() {
         };
     }, []);
 
-    //search
-    const [totalCount, setTotalCount] = useState<number>(0);
-    const [query, setQuery] = useState<initialType>(initialValue)
-
-    console.log(query)
-    //search
     return (
         <>
-            <AccordionComponent query={query} setQuery={setQuery} api={'/Report/rules'} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
+            <AccordionComponent query={query} setQuery={setQuery} api={`${NETFLOW_BASE_URL}/Report/rules`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-                {/*<div>*/}
-                {/*    {header()}*/}
-                {/*</div>*/}
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}

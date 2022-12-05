@@ -11,7 +11,31 @@ import {AgGridReact} from "ag-grid-react";
 import {formatNumber, jalali} from "../../commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
 import Modal from "../../common/Modal";
+import moment from "jalali-moment";
+import AccordionComponent from "../../common/AccordionComponent";
+import {COMMISSION_BASE_URL, NETFLOW_BASE_URL} from "../../../api/constants";
 
+type initialType = {CommissionInstrumentTypeId:string,BourseTitle:string,InstrumentTypeTitle:string,InstrumentTypeDescription:string,SectorTitle:string,SubSectorTitle:string,Deleted:string}
+const initialValue = {
+    CommissionInstrumentTypeId:'',
+    BourseTitle:'',
+    InstrumentTypeTitle:'',
+    InstrumentTypeDescription:'',
+    SectorTitle:'',
+    SubSectorTitle:'',
+    Deleted:'',
+}
+const listOfFilters = [
+    // {title:'PageNumber',name:'شماره صفحه',type:null},
+    // {title:'PageSize',name:'تعداد',type:null},
+    // {title:'CommissionInstrumentTypeId',name:'تاریخ',type:'date'},
+    {title:'BourseTitle',name:'عنوان بورس',type:'input'},
+    {title:'InstrumentTypeTitle',name:'عنوان نوع ابزار مالی',type:'input'},
+    {title:'InstrumentTypeDescription',name:'توضیحات نوع ابزار',type:'input'},
+    {title:'SectorTitle',name:'گروه صنعت',type:'input'},
+    {title:'SubSectorTitle',name:'زیرگروه صنعت',type:'input'},
+    {title:'Deleted',name:'دسته بندی',type:'selectInput'},
+]
 export default function ResultTable() {
     const columnDefStructure = [
         {
@@ -100,8 +124,6 @@ export default function ResultTable() {
         }
     ]
 
-    const {instrumentSearchResult} = useSelector((state: any) => state.commissionConfig)
-
     const [products, setProducts] = useState<any[]>([]);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
     const [updateSectorCode, setUpdateSectorCode] = useState<string>('');
@@ -113,6 +135,8 @@ export default function ResultTable() {
     const [sectorCode, setSectorCode] = useState<string>('');
     const [subSectorCode, setSubSectorCode] = useState<string>('');
     const [fault, setFaulty] = useState<boolean>(false)
+    const [totalCount, setTotalCount] = useState<number>(0);
+    const [query, setQuery] = useState<initialType>(initialValue)
 
     //Grid
     const gridRef: any = useRef();
@@ -144,13 +168,6 @@ export default function ResultTable() {
             noRowsMessageFunc: () => 'گزارشی ثبت نشده.',
         };
     }, []);
-
-    useEffect(() => {
-        if (instrumentSearchResult) {
-            gridRef.current?.api?.setRowData(instrumentSearchResult)
-        }
-    }, [instrumentSearchResult]);
-
     //Grid
 
     const ToolbarTemplate = () => {
@@ -336,11 +353,12 @@ export default function ResultTable() {
     }
 
     return (
-        <div className={'relative flex flex-col grow overflow-hidden border border-border rounded-b-xl'}>
-            <div>
+        <div className={'relative flex flex-col grow overflow-hidden'}>
+            <AccordionComponent query={query} setQuery={setQuery} api={`${COMMISSION_BASE_URL}/CommissionInstrumentType/Search`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
+            <div className={'border-x border-border'}>
                 {header()}
             </div>
-            <div className={'relative grow'}>
+            <div className={'relative grow border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}

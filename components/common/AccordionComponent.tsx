@@ -1,6 +1,6 @@
 import {Accordion} from "flowbite-react";
 import React, {Dispatch} from "react";
-import {clearedTradesReportSearch} from "../../api/clearedTradesReport";
+import {fetchData} from "../../api/clearedTradesReport";
 import {toast} from "react-toastify";
 import InputComponent from "./InputComponent";
 
@@ -30,7 +30,7 @@ export default function AccordionComponent({
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-        await clearedTradesReportSearch(api, bodyConstructor(query))
+        await fetchData(api, bodyConstructor(query))
             .then(res => {
                 gridRef?.current?.api?.setRowData(res?.result)
                 setTotalCount(res?.totalRecord)

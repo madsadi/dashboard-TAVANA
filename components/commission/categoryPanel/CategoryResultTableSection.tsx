@@ -1,10 +1,29 @@
-import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react';
-import {useSelector} from "react-redux";
-import {commissionSearch} from "../../../api/commissionInstrumentType";
-import {toast} from "react-toastify";
-import {formatNumber, jalali} from "../../commonFn/commonFn";
+import React, {useState, useRef, useMemo, useCallback} from 'react';
+import {formatNumber} from "../../commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
 import {AgGridReact} from "ag-grid-react";
+import AccordionComponent from "../../common/AccordionComponent";
+import {COMMISSION_BASE_URL} from "../../../api/constants";
+
+type initialType = { CommissionCategoryId: string, MarketTitle: string, OfferTypeTitle: string, SideTitle: string, SettlementDelayTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string }
+const initialValue = {
+    CommissionCategoryId: '',
+    MarketTitle: '',
+    OfferTypeTitle: '',
+    SideTitle: '',
+    SettlementDelayTitle: '',
+    CustomerTypeTitle: '',
+    CustomerCounterSideTitle: '',
+}
+const listOfFilters = [
+    {title: 'CommissionCategoryId', name: 'شناسه', type: 'input'},
+    {title: 'MarketTitle', name: 'بازار', type: 'input'},
+    {title: 'OfferTypeTitle', name: 'نوع عرضه', type: 'input'},
+    {title: 'SideTitle', name: 'سمت سفارش', type: 'input'},
+    {title: 'SettlementDelayTitle', name: 'تاخیر در تسویه', type: 'input'},
+    {title: 'CustomerTypeTitle', name: 'نوع مشتری', type: 'input'},
+    {title: 'CustomerCounterSideTitle', name: 'نوع طرف مقابل', type: 'input'},
+]
 
 export default function CategoryResultTableSection() {
     const columnDefStructure = [
@@ -99,12 +118,8 @@ export default function CategoryResultTableSection() {
         }
     ]
 
-    const {categorySearchResult}=useSelector((state:any)=>state.commissionConfig)
-
-    const [totalRecords, setTotalRecords] = useState(0);
-    const [basicFirst, setBasicFirst] = useState(0);
-    const [basicRows, setBasicRows] = useState(10);
-    const [loading, setLoading] = useState(false);
+    const [totalCount, setTotalCount] = useState<number>(0);
+    const [query, setQuery] = useState<initialType>(initialValue)
 
     //Grid
     const gridRef: any = useRef();
@@ -115,7 +130,7 @@ export default function CategoryResultTableSection() {
             sortable: true,
             flex: 1,
             valueFormatter: formatNumber,
-            minWidth:120
+            minWidth: 120
         };
     }, []);
     const getRowId = useCallback((params: any) => {
@@ -139,27 +154,6 @@ export default function CategoryResultTableSection() {
     }, []);
     //Grid
 
-    const search=async (body:any)=>{
-        await commissionSearch('/CommissionCategory/Search?', body
-        ).then(res => {
-            gridRef.current?.api?.setRowData(res?.result?.pagedData)
-            if (totalRecords!==res?.result?.totalCount){
-                setTotalRecords(res?.result?.totalCount)
-            }
-        })
-            .catch(err =>toast.error('ناموفق'))
-    }
-
-    useEffect(() => {
-        let body=[...categorySearchResult,{PageNumber:(Number(basicFirst)/Number(basicRows))+1},{PageSize:basicRows}]
-        search(body)
-    }, [basicFirst,basicRows]);
-
-    const onBasicPageChange = (event:any) => {
-        setBasicFirst(event.first);
-        setBasicRows(event.rows);
-    }
-
     // const rightToolbarTemplate = () => {
     //     let body=[...categorySearchResult,{PageSize:totalRecords}]
     //     const search=async (body:any)=>{
@@ -174,7 +168,6 @@ export default function CategoryResultTableSection() {
     //             })
     //     }
     //
-    //
     //     return (
     //         <>
     //             {/*<button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={()=>search(body)} className="p-button-success mr-auto" data-pr-tooltip="XLS" />*/}
@@ -186,27 +179,34 @@ export default function CategoryResultTableSection() {
     // const header=()=>{
     //     return <div className={'flex'}>{rightToolbarTemplate()}</div>
     // }
+
     return (
-        <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-            <div style={gridStyle} className="ag-theme-alpine absolute">
-                <AgGridReact
-                    ref={gridRef}
-                    enableRtl={true}
-                    columnDefs={columnDefStructure}
-                    defaultColDef={defaultColDef}
-                    loadingOverlayComponent={loadingOverlayComponent}
-                    loadingOverlayComponentParams={loadingOverlayComponentParams}
-                    noRowsOverlayComponent={noRowsOverlayComponent}
-                    noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                    rowHeight={35}
-                    headerHeight={35}
-                    animateRows={true}
-                    getRowId={getRowId}
-                    asyncTransactionWaitMillis={1000}
-                    columnHoverHighlight={true}
-                    rowSelection={'single'}
-                />
+        <>
+            <AccordionComponent query={query} setQuery={setQuery}
+                                api={`${COMMISSION_BASE_URL}/CommissionCategory/Search`} gridRef={gridRef}
+                                listOfFilters={listOfFilters} initialValue={initialValue}
+                                setTotalCount={setTotalCount}/>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
+                <div style={gridStyle} className="ag-theme-alpine absolute">
+                    <AgGridReact
+                        ref={gridRef}
+                        enableRtl={true}
+                        columnDefs={columnDefStructure}
+                        defaultColDef={defaultColDef}
+                        loadingOverlayComponent={loadingOverlayComponent}
+                        loadingOverlayComponentParams={loadingOverlayComponentParams}
+                        noRowsOverlayComponent={noRowsOverlayComponent}
+                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                        rowHeight={35}
+                        headerHeight={35}
+                        animateRows={true}
+                        getRowId={getRowId}
+                        asyncTransactionWaitMillis={1000}
+                        columnHoverHighlight={true}
+                        rowSelection={'single'}
+                    />
+                </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -5,6 +5,20 @@ import CustomDetailComponent from "../../components/onlineOrders/customDetailCom
 import {formatNumber, jalali} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
 import {Accordion} from "flowbite-react";
+import moment from "jalali-moment";
+
+type initialType = { Skip: number, PageSize: number, firstName: string, lastName: string, userName: string, phoneNumber: string, roleId: string}
+const initialValue = {
+    PageNumber: 1,
+    PageSize: 20,
+    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+}
+const listOfFilters = [
+    {title:'PageNumber',name:'شماره صفحه',type:null},
+    {title:'PageSize',name:'تعداد',type:null},
+    {title:'date',name:'تاریخ',type:'date'},
+]
 
 export default function Users() {
     const columnDefStructure: any = [

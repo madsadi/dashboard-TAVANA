@@ -1,3 +1,4 @@
+
 export const OrderType: any = [
     {
         "id": 0,
@@ -41,6 +42,25 @@ export const sides = [
         "id": 2,
         "name": "Sell",
         "title": "فروش"
+    },
+    {
+        "id": null,
+        "name": "all",
+        "title": "هردو"
+    }
+];
+export const Options:any[] = [
+    {
+        "id": 'true',
+        "title": "حذف شده"
+    },
+    {
+        "id": 'false',
+        "title": "حذف نشده"
+    },
+    {
+        "id": null,
+        "title": "همه"
     }
 ];
 
@@ -150,7 +170,6 @@ export const originEnum: any = [
         "title": "موبایل"
     }
 ]
-
 
 export const enTierNameEnum: any = [
     {
