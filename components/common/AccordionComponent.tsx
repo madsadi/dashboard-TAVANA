@@ -50,7 +50,7 @@ export default function AccordionComponent({
                         <div className="grid grid-cols-5 gap-4">
                             {
                                 listOfFilters.map((item:any)=>{
-                                    return <InputComponent query={query} title={item?.title} name={item?.name} queryUpdate={queryUpdate} type={item?.type}/>
+                                    return <InputComponent key={item.title} query={query} title={item?.title} name={item?.name} queryUpdate={queryUpdate} type={item?.type}/>
                                 })
                             }
                         </div>
