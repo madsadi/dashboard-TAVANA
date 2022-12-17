@@ -2,17 +2,17 @@ import React, {useState, useRef, useMemo, useCallback} from 'react';
 import {AgGridReact} from "ag-grid-react";
 import {formatNumber} from "../../commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
-import {DayValue} from "@amir04lm26/react-modern-calendar-date-picker";
 import TablePagination from "../../common/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
 import AccordionComponent from "../../common/AccordionComponent";
+import moment from "jalali-moment";
 
-type initialType = { StartDate: DayValue, EndDate: DayValue, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
+type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
-    StartDate: null,
-    EndDate: null,
+    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
     Name: '',
     BuyerCode: '',
     SellerCode: '',

@@ -109,7 +109,7 @@ export default function TradingSession() {
 
     return (
         <div className="flex flex-col h-full grow">
-            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingSessionStatus`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotal}/>
+            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingSessionStatus`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotal} pagedData={true}/>
             <div className={'relative grow overflow-hidden border border-border rounded-b-lg'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact

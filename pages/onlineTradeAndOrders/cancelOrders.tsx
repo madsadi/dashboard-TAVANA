@@ -314,7 +314,7 @@ export default function CancelOrders() {
                     <button className="rounded-full bg-lime-600 p-1 px-5" onClick={confirmInsRemoving}>تایید</button>
                 </div>
             </Modal>
-            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
+            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount} pagedData={true}/>
             <div className={'flex justify-end space-x-reverse space-x-2 border-x border-border p-2'}>
                 <button className="rounded-full bg-red-500 p-1 px-2"
                         onClick={() => setGPRemoving(true)}>حذف سفارش گروه</button>

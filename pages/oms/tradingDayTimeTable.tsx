@@ -107,7 +107,7 @@ export default function TradingDayTimeTable() {
     const [totalCount, setTotal] = useState<any>(null);
 
     //Grid
-    const gridRef: any = useRef();
+    const timeTableGridRef: any = useRef();
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
     const defaultColDef = useMemo(() => {
         return {
@@ -120,7 +120,7 @@ export default function TradingDayTimeTable() {
     const onGridReady = async (query: any) => {
         await tradingDayTimeTable(query)
             .then((res: any) => {
-                gridRef.current.api.setRowData(res?.result?.pagedData);
+                timeTableGridRef.current.api.setRowData(res?.result?.pagedData);
                 setTotal(res?.result?.totalCount)
             })
     };
@@ -145,15 +145,15 @@ export default function TradingDayTimeTable() {
 
     return (
         <div className="flex flex-col h-full grow">
-            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingDayTimetable`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotal}/>
+            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingDayTimetable`} gridRef={timeTableGridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotal} pagedData={true}/>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
-                        ref={gridRef}
+                        ref={timeTableGridRef}
                         enableRtl={true}
                         columnDefs={columnDefStructure}
                         defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
+                        onGridReady={()=>onGridReady(query)}
                         loadingOverlayComponent={loadingOverlayComponent}
                         loadingOverlayComponentParams={loadingOverlayComponentParams}
                         noRowsOverlayComponent={noRowsOverlayComponent}
@@ -161,12 +161,11 @@ export default function TradingDayTimeTable() {
                         rowHeight={35}
                         headerHeight={35}
                         animateRows={true}
-                        asyncTransactionWaitMillis={1000}
                         columnHoverHighlight={true}
                     />
                 </div>
             </div>
-            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingDayTimetable?`} setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingDayTimetable?`} setQuery={setQuery} gridRef={timeTableGridRef} totalCount={totalCount}/>
         </div>
     )
 }

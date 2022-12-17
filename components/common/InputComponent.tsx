@@ -24,26 +24,13 @@ export default function InputComponent({
     });
 
     useEffect(()=>{
-        if (selectedDayRange.from){
-            queryUpdate(
-                'StartDate',`${moment.from(`${selectedDayRange.from?.year}/${selectedDayRange.from?.month}/${selectedDayRange.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
-            )
-        }
-        if (selectedDayRange.to){
-            queryUpdate(
-                'EndDate', `${moment.from(`${selectedDayRange.to?.year}/${selectedDayRange.to?.month}/${selectedDayRange.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
-            )
-        }
-    },[selectedDayRange.from,selectedDayRange.to])
-
-    useEffect(()=>{
         if (!query.StartDate && !query.EndDate){
             setSelectedDayRange({from:null,to:null})
         }else if (!query.EndDate){
-            setSelectedDayRange({...selectedDayRange,to:null})
+            setSelectedDayRange({from:query.StartDate,to:null})
         }else if (!query.StartDate){
-            setSelectedDayRange({...selectedDayRange,from:null})
-        }else {
+            setSelectedDayRange({from:null,to:query.EndDate})
+        }else{
             let from:any = {}
             let StartDateGeo = jalali(query.StartDate).date
             from.year = Number(StartDateGeo?.split('/')[0])
@@ -94,7 +81,19 @@ export default function InputComponent({
                     <div>
                         <DatePicker
                             value={selectedDayRange}
-                            onChange={setSelectedDayRange}
+                            onChange={(e)=>{
+                                setSelectedDayRange(e)
+                                if (selectedDayRange.from){
+                                    queryUpdate(
+                                        'StartDate',`${moment.from(`${selectedDayRange.from?.year}/${selectedDayRange.from?.month}/${selectedDayRange.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                                    )
+                                }
+                                if (selectedDayRange.to){
+                                    queryUpdate(
+                                        'EndDate', `${moment.from(`${selectedDayRange.to?.year}/${selectedDayRange.to?.month}/${selectedDayRange.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                                    )
+                                }
+                            }}
                             shouldHighlightWeekends
                             renderInput={renderCustomInput}
                             locale={'fa'}
