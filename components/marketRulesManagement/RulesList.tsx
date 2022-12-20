@@ -199,7 +199,7 @@ export default function RulesList() {
                     });
                 }
             } else {
-                toast.error('لطفا یک گزینه برای تغییر انتخاب کنید')
+                toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
             }
         }
 
@@ -492,17 +492,17 @@ export default function RulesList() {
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
-            <Modal title={'ثبت قانون جدید'} setOpen={setModal} open={modal} ModalWidth={'max-w-5xl'}>
+            <Modal title={edit?.id ? 'ویرایش قانون':'ثبت قانون جدید'} setOpen={setModal} open={modal} ModalWidth={'max-w-5xl'}>
                 <form onSubmit={(e)=>submitForm(e,edit?.id ? {
                     id: edit.id,
-                    name: name,
-                    isActive: status.isActive,
-                    expression: expression.join(' '),
-                    sequenceNumber: sequence,
-                    errorMessage: errorMessage
-                }:{
                     name: nameModal,
                     isActive: statusModal,
+                    expression: expression.join(' '),
+                    sequenceNumber: Number(sequence),
+                    errorMessage: errorMessage
+                }:{
+                    name: name,
+                    isActive: status.isActive,
                     expression: expression.join(' '),
                     sequenceNumber: Number(sequence),
                     errorMessage: errorMessage
