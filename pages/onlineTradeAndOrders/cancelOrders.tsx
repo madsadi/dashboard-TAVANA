@@ -258,7 +258,7 @@ export default function CancelOrders() {
                                onChange={handleChange}/>
                     </div>
                     <div className={'text-center'}>
-                        <label className={'block'} htmlFor="orderSide">سمت خرید</label>
+                        <label className={'block'} htmlFor="orderSide">سمت سفارش</label>
                         <input id="orderSide" value={inputs.orderSide}
                                name={'orderSide'}
                                onChange={handleChange}/>
@@ -291,7 +291,7 @@ export default function CancelOrders() {
                         {/*       onChange={handleChange}/>*/}
                     </div>
                     <div className={'text-center'}>
-                        <label className={'block'} htmlFor="orderSide">سمت خرید</label>
+                        <label className={'block'} htmlFor="orderSide">سمت سفارش</label>
                         <input id="orderSide" value={inputs.orderSide}
                                name={'orderSide'}
                                onChange={handleChange}/>
