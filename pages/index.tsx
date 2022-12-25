@@ -1,6 +1,5 @@
 import type {NextPage} from 'next'
 import {useAuth} from 'react-oidc-context';
-import {NextRouter, useRouter} from "next/router";
 
 const Home: NextPage = () => {
     const auth = useAuth();

@@ -5,6 +5,7 @@ import {jalali} from "../commonFn/commonFn";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {Options, orderOrigin, orderTechnicalOrigin, sides} from "../commonFn/Enums";
+import SymbolSearchSection from "./SymbolSearchSecion";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -185,6 +186,12 @@ export default function InputComponent({
                         </div>
                     </div>
 
+                )
+            case "search":
+                return (
+                    <div>
+                        <SymbolSearchSection query={query} queryUpdate={queryUpdate}/>
+                    </div>
                 )
             default:
                 return null

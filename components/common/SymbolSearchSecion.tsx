@@ -9,23 +9,21 @@ export default function SymbolSearchSection({query,queryUpdate}: {query:any,quer
     const [searchItem, setSearchItem] = useState('')
     const [findings, setFindings] = useState<any>([])
     const [open, setOpen] = useState(true)
-    const {data, mutate: search, isLoading} = useSearchSymbol(searchApi)
+    const {data, isLoading} = useSearchSymbol(searchApi)
 
     const searchHandler = (item: string,page:number) => {
-        if (item){
-            setSearchApi(`/SearchInstrumentBySymbolTitle?SymbolTitle=${item}&IsValid=true&pageNumber=${page}`)
-        }
+
         queryUpdate('InstrumentId',item)
-        if (item.length > 3) {
+        if (item.length > 2) {
             if (searchItem===item){
                 setSearchItem(item)
                 setPage(page+1)
-                search()
+                setSearchApi(`/SearchInstrumentBySymbolTitle?SymbolTitle=${item}&IsValid=true&pageNumber=${page+1}`)
             }else{
                 setSearchItem(item)
-                setPage(page+1)
+                setPage(page)
                 setFindings([])
-                search()
+                setSearchApi(`/SearchInstrumentBySymbolTitle?SymbolTitle=${item}&IsValid=true&pageNumber=${page}`)
             }
         }
     }
@@ -70,15 +68,15 @@ export default function SymbolSearchSection({query,queryUpdate}: {query:any,quer
         <div className={`relative`} ref={wrapperRef}>
             <div className={'relative'}>
                 <label className={'block'} htmlFor="InstrumentId">شناسه نماد</label>
-                <input id="InstrumentId" value={query.InstrumentId}
+                <input id="InstrumentId" className={'w-full'} value={query.InstrumentId}
                        onFocus={() => setOpen(true)}
                        onChange={(e) => {
                            searchHandler(e.target.value,1);
                            setOpen(true)
                        }}/>
-                <div className={'absolute left-1 bottom-2 flex space-x-reverse space-x-2'}>
+                <div className={'absolute left-1 bottom-0 -translate-y-1/3 flex'}>
                     {isLoading && query.InstrumentId &&
-                        <img src={'/icons/spinner.svg'} className={'animate-spin h-6 w-6'}/>}
+                        <div><img src={'/icons/spinner.svg'} className={'animate-spin h-5 w-5 text-black'}/></div>}
                     <MagnifyingGlassIcon className={'h-5 w-5'}/>
                 </div>
             </div>

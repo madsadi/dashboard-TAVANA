@@ -59,17 +59,30 @@ export default function SideBarContent() {
         },
         {
             id: 4,
+            label: 'پرتفو',
+            expanded: router.pathname.startsWith('/portfo'),
+            children: [
+                {
+                    id: 4.1,
+                    label: 'پرتفو لحضه ای',
+                    url: '/portfo/livePortfo',
+                    className: router.pathname === '/portfo/livePortfo' ? 'sideBarActive' : '',
+                }
+            ],
+        },
+        {
+            id: 5,
             label: 'وضعیت OMS',
             expanded: router.pathname.startsWith('/oms'),
             children: [
                 {
-                    id: 4.1,
+                    id: 5.1,
                     label: 'وضعیت جلسه معاملاتی',
                     url: '/oms/tradingSession',
                     className: router.pathname === '/oms/tradingSession' ? 'sideBarActive' : '',
                 },
                 {
-                    id: 4.2,
+                    id: 5.2,
                     label: 'زمانبندی روز معاملاتی',
                     url: '/oms/tradingDayTimeTable',
                     className: router.pathname === '/oms/tradingDayTimeTable' ? 'sideBarActive' : '',
@@ -77,38 +90,38 @@ export default function SideBarContent() {
             ]
         },
         {
-            id: 5,
+            id: 6,
             label: 'مدیریت قوانین بازار',
             url: '/marketRulesManagement',
             expanded: false,
             className: router.pathname === '/marketRulesManagement' ? 'sideBarActive' : '',
         },
         {
-            id: 6,
+            id: 7,
             label: 'عرضه اولیه',
             url: '/bookBuilding',
             expanded: false,
             className: router.pathname === '/bookBuilding' ? 'sideBarActive' : '',
         },
         {
-            id: 7,
+            id: 8,
             label: 'مدیریت کارمزد ها',
             expanded: router.pathname.startsWith('/commissionManagement'),
             children: [
                 {
-                    id: 7.1,
+                    id: 8.1,
                     label: 'ضرایب کارمزد',
                     url: '/commissionManagement/commission',
                     className: router.pathname === '/commissionManagement/commission' ? 'sideBarActive' : '',
                 },
                 {
-                    id: 7.2,
+                    id: 8.2,
                     label: 'گروه بندی ابزار مالی',
                     url: '/commissionManagement/instrumentType',
                     className: router.pathname === '/commissionManagement/instrumentType' ? 'sideBarActive' : '',
                 },
                 {
-                    id: 7.3,
+                    id: 8.3,
                     label: 'گروه بندی ضرایب کارمزد',
                     url: '/commissionManagement/categoryPanel',
                     className: router.pathname === '/commissionManagement/categoryPanel' ? 'sideBarActive' : '',
@@ -116,36 +129,36 @@ export default function SideBarContent() {
             ]
         },
         {
-            id: 6,
+            id: 9,
             label: 'نت فلو',
             expanded: router.pathname.startsWith('/netFlow'),
             children: [
                 {
-                    id: 6.1,
+                    id: 9.1,
                     label: 'معاملات',
                     url: '/netFlow/TradesReport',
                     className: router.pathname === '/netFlow/TradesReport' ? 'sideBarActive' : '',
                 },
                 {
-                    id: 6.2,
+                    id: 9.2,
                     label: 'دریافت اطلاعات',
                     className: router.pathname === '/netFlow/information' ? 'sideBarActive' : '',
                     url: '/netFlow/information'
                 },
                 {
-                    id: 6.3,
+                    id: 9.3,
                     label: 'ضرایب کارمزد',
                     className: router.pathname === '/netFlow/rules' ? 'sideBarActive' : '',
                     url: '/netFlow/rules'
                 },
                 {
-                    id: 6.4,
+                    id: 9.4,
                     label: 'معاملات تسویه شده',
                     className: router.pathname === '/netFlow/clearedTrade' ? 'sideBarActive' : '',
                     url: '/netFlow/clearedTrade'
                 },
                 {
-                    id: 6.4,
+                    id: 9.4,
                     label: 'تسویه و پایاپای',
                     className: router.pathname === '/netFlow/clearingDateRangeT' ? 'sideBarActive' : '',
                     url: '/netFlow/clearingDateRangeT'

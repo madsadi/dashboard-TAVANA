@@ -35,6 +35,8 @@ export default function BreadCrumbComponent() {
         rules:'ضرایب کارمزد',
         clearedTrade:'معاملات تسویه شده',
         clearingDateRangeT:'تسویه و پایاپای',
+        portfo:'پرتفو',
+        livePortfo:'پرتفو لحضه ای',
     }
 
     useEffect(() => {
