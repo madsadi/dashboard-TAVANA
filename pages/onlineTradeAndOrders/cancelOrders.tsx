@@ -4,17 +4,20 @@ import {canceledOrders, groupCancel, insCancel} from "../../api/onlineTrade";
 import Modal from "../../components/common/Modal";
 import {toast} from "react-toastify";
 import {AgGridReact} from "ag-grid-react";
-import {dateRangeHandler, formatNumber, jalali} from "../../components/commonFn/commonFn";
+import {formatNumber, jalali} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
-import {Accordion} from "flowbite-react";
-import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
-import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
 import TablePagination from "../../components/common/TablePagination";
 import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import AccordionComponent from "../../components/common/AccordionComponent";
+import InputComponent from "../../components/common/InputComponent";
 
+const listOfFilters = [
+    {title: 'PageNumber', name: 'شماره صفحه', type: null},
+    {title: 'PageSize', name: 'تعداد', type: null},
+    {title: 'date', name: 'تاریخ', type: 'date'},
+]
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number }
 const initialValue = {
     PageNumber: 1,
@@ -22,12 +25,18 @@ const initialValue = {
     StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
     EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
 }
-const listOfFilters = [
-    {title:'PageNumber',name:'شماره صفحه',type:null},
-    {title:'PageSize',name:'تعداد',type:null},
-    {title:'date',name:'تاریخ',type:'date'},
-]
 
+const InstrumentGroupFilters = [
+    {title: 'instrumentGroupIdentification', name: 'کد گروه نمادها', type: 'input'},
+    {title: 'orderSide', name: 'سمت سفارش', type: 'selectInput'},
+    {title: 'orderOrigin', name: 'نوع کاربر', type: 'selectInput'},
+    {title: 'orderTechnicalOrigin', name: 'مرجع تکنیکال سفارش', type: 'selectInput'},
+]
+const InstrumentFilters = [
+    {title: 'orderSide', name: 'سمت سفارش', type: 'selectInput'},
+    {title: 'orderOrigin', name: 'نوع کاربر', type: 'selectInput'},
+    {title: 'orderTechnicalOrigin', name: 'مرجع تکنیکال سفارش', type: 'selectInput'},
+]
 export default function CancelOrders() {
 
     const columnDefStructure = [
@@ -105,22 +114,10 @@ export default function CancelOrders() {
         }
     ]
 
-    type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number}
-    const initialValue = {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-        EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    }
-
     const [query, setQuery] = useState<initialType>(initialValue)
     const [GPRemoving, setGPRemoving] = useState(false)
     const [InsRemoving, setInsRemoving] = useState(false)
     const [totalCount, setTotalCount] = useState<any>(null)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
     const {inputs, handleChange} = useForm()
 
     //Grid
@@ -153,7 +150,6 @@ export default function CancelOrders() {
             noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
         };
     }, []);
-
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
@@ -170,7 +166,8 @@ export default function CancelOrders() {
                         headerName: 'IP کاربر'
                     },
                     {field: 'sourceOfRequestTitle', headerName: 'نرم افزار'},
-                    {field: 'tradingDateTime', headerName: 'زمان اجرا',
+                    {
+                        field: 'tradingDateTime', headerName: 'زمان اجرا',
                         cellRendererSelector: () => {
                             const ColourCellRenderer = (props: any) => {
                                 return (
@@ -206,7 +203,9 @@ export default function CancelOrders() {
     const confirmGPRemoving = async () => {
         await groupCancel({
             instrumentGroupIdentification: inputs.instrumentGroupIdentification,
-            orderSide: Number(inputs.orderSide),
+            orderSide: inputs.orderSide,
+            orderOrigin: inputs.orderOrigin,
+            orderTechnicalOrigin: inputs.orderTechnicalOrigin,
         }).then(() => {
             toast.success('با موفقیت انجام شد')
             setGPRemoving(false)
@@ -218,7 +217,9 @@ export default function CancelOrders() {
     const confirmInsRemoving = async () => {
         await insCancel({
             isin: inputs.InstrumentId,
-            orderSide: Number(inputs.orderSide),
+            orderSide: inputs.orderSide,
+            orderOrigin: inputs.orderOrigin,
+            orderTechnicalOrigin: inputs.orderTechnicalOrigin
         }).then(() => {
             toast.success('با موفقیت انجام شد')
             setInsRemoving(false)
@@ -228,56 +229,23 @@ export default function CancelOrders() {
             })
     }
 
-    const renderCustomInput = ({ref}: { ref: any }) => (
-        <div>
-            <label className={'block'} htmlFor="rangeDate">تاریخ شروع و پایان</label>
-            <input readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
-        </div>
-    )
-
-    const getCanceledOrders=async (query:any)=>{
-        await canceledOrders(query)
-            .then((res)=> {
-                gridRef.current?.api?.setRowData(res?.result?.pagedData);
-                setTotalCount(res?.result?.totalCount)
-            })
-    }
-
     const queryUpdate = (key: string, value: any) => {
-        handleChange({target:{name:key,value:value}})
+        handleChange({target: {name: key, value: value}})
     }
 
     return (
         <div className="flex flex-col h-full flex-1">
             <Modal title="حذف سفارش گروه" open={GPRemoving} setOpen={setGPRemoving}>
                 <div className="grid grid-cols-2 gap-4 pt-5">
-                    <div className={'text-center'}>
-                        <label className={'block'} htmlFor="instrumentGroupIdentification">کد گروه نمادها</label>
-                        <input id="instrumentGroupIdentification" value={inputs.instrumentGroupIdentification}
-                               name={'instrumentGroupIdentification'}
-                               onChange={handleChange}/>
-                    </div>
-                    <div className={'text-center'}>
-                        <label className={'block'} htmlFor="orderSide">سمت سفارش</label>
-                        <input id="orderSide" value={inputs.orderSide}
-                               name={'orderSide'}
-                               onChange={handleChange}/>
-                    </div>
-                    {/*<div className="col-12 md:col-6 p-float-label">*/}
-                    {/*    <input id="orderOrigin" value={inputs.orderOrigin}*/}
-                    {/*               name={'orderOrigin'}*/}
-                    {/*               onChange={handleChange}/>*/}
-                    {/*    <label htmlFor="orderOrigin">نوع کاربر</label>*/}
-                    {/*</div>*/}
-                    {/*<div className="col-12 md:col-6 p-float-label">*/}
-                    {/*    <input id="orderTechnicalOrigin" value={inputs.orderTechnicalOrigin}*/}
-                    {/*               name={'orderTechnicalOrigin'}*/}
-                    {/*               onChange={handleChange}/>*/}
-                    {/*    <label htmlFor="orderTechnicalOrigin">مرجع تکنیکال سفارش</label>*/}
-                    {/*</div>*/}
+                    {InstrumentGroupFilters.map((filter: any) => {
+                        return <InputComponent type={filter.type} name={filter.name} queryUpdate={queryUpdate}
+                                               query={inputs} title={filter.title}/>
+
+                    })}
                 </div>
                 <div className={'text-left space-x-2 space-x-reverse mt-4'}>
-                    <button className="rounded-full bg-red-500 p-1 px-5" onClick={() => setGPRemoving(false)}>لغو</button>
+                    <button className="rounded-full bg-red-500 p-1 px-5" onClick={() => setGPRemoving(false)}>لغو
+                    </button>
                     <button className="rounded-full bg-lime-600 p-1 px-5" onClick={confirmGPRemoving}>تایید</button>
                 </div>
             </Modal>
@@ -285,41 +253,30 @@ export default function CancelOrders() {
                 <div className="grid grid-cols-2 gap-4 pt-5">
                     <div className={'text-center'}>
                         <SymbolSearchSection query={inputs} queryUpdate={queryUpdate}/>
-                        {/*<label className={'block'} htmlFor="InstrumentId">نماد</label>*/}
-                        {/*<input id="InstrumentId" value={inputs.instrumentId}*/}
-                        {/*       name={'InstrumentId'}*/}
-                        {/*       onChange={handleChange}/>*/}
                     </div>
-                    <div className={'text-center'}>
-                        <label className={'block'} htmlFor="orderSide">سمت سفارش</label>
-                        <input id="orderSide" value={inputs.orderSide}
-                               name={'orderSide'}
-                               onChange={handleChange}/>
-                    </div>
-                    {/*<div className="col-12 md:col-6 p-float-label">*/}
-                    {/*    <input id="orderOrigin" value={inputs.orderOrigin}*/}
-                    {/*               name={'orderOrigin'}*/}
-                    {/*               onChange={handleChange}/>*/}
-                    {/*    <label htmlFor="orderOrigin">نوع کاربر</label>*/}
-                    {/*</div>*/}
-                    {/*<div className="col-12 md:col-6 p-float-label">*/}
-                    {/*    <input id="orderTechnicalOrigin" value={inputs.orderTechnicalOrigin}*/}
-                    {/*               name={'orderTechnicalOrigin'}*/}
-                    {/*               onChange={handleChange}/>*/}
-                    {/*    <label htmlFor="orderTechnicalOrigin">مرجع تکنیکال سفارش</label>*/}
-                    {/*</div>*/}
+                    {InstrumentFilters.map((filter: any) => {
+                        return <InputComponent type={filter.type} name={filter.name} queryUpdate={queryUpdate}
+                                               query={inputs} title={filter.title}/>
+
+                    })}
                 </div>
                 <div className={'text-left space-x-2 space-x-reverse mt-4'}>
-                    <button className="rounded-full bg-red-500 p-1 px-5" onClick={() => setInsRemoving(false)}>لغو</button>
+                    <button className="rounded-full bg-red-500 p-1 px-5" onClick={() => setInsRemoving(false)}>لغو
+                    </button>
                     <button className="rounded-full bg-lime-600 p-1 px-5" onClick={confirmInsRemoving}>تایید</button>
                 </div>
             </Modal>
-            <AccordionComponent query={query} setQuery={setQuery} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount} pagedData={true}/>
+            <AccordionComponent query={query} setQuery={setQuery}
+                                api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`}
+                                gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue}
+                                setTotalCount={setTotalCount} pagedData={true}/>
             <div className={'flex justify-end space-x-reverse space-x-2 border-x border-border p-2'}>
                 <button className="rounded-full bg-red-500 p-1 px-2"
-                        onClick={() => setGPRemoving(true)}>حذف سفارش گروه</button>
+                        onClick={() => setGPRemoving(true)}>حذف سفارش گروه
+                </button>
                 <button className="rounded-full bg-lime-600 p-1 px-2"
-                        onClick={() => setInsRemoving(true)}>حذف سفارش نماد</button>
+                        onClick={() => setInsRemoving(true)}>حذف سفارش نماد
+                </button>
             </div>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
@@ -343,7 +300,8 @@ export default function CancelOrders() {
                     />
                 </div>
             </div>
-            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder?`} setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder?`}
+                             setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
         </div>
     )
 }

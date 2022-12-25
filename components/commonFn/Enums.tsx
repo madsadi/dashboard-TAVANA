@@ -63,6 +63,82 @@ export const Options:any[] = [
         "title": "همه"
     }
 ];
+export const orderTechnicalOrigin:any[] = [
+    // {
+    //     "id": 1,
+    //     "code": 0,
+    //     "enTitle": "None",
+    //     "title": "ناموجود"
+    // },
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "NotProvided",
+        "title": "نامعین"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "OtherOrders",
+        "title": "سایز"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "ManualBuyingInOrder",
+        "title": "سفارش غیرخودکار"
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "AutomaticBuyingInOrder",
+        "title": "سفارش خودکار"
+    }
+];
+export const orderOrigin:any[] =  [
+    // {
+    //     "code": 0,
+    //     "title": "نامعتبر",
+    //     "enTitle": "NotValid",
+    //     "isActive": true
+    // },
+    {
+        "id": 1,
+        "title": "کاربر",
+        "enTitle": "Client",
+        "isActive": true
+    },
+    {
+        "id": 2,
+        "title": "کارگزاري",
+        "enTitle": "House",
+        "isActive": true
+    },
+    {
+        "id": 3,
+        "title": "ايستگاه آنلاين",
+        "enTitle": "Group",
+        "isActive": true
+    },
+    {
+        "id": 4,
+        "title": "ساير",
+        "enTitle": "Others",
+        "isActive": true
+    },
+    {
+        "id": 5,
+        "title": "بازارگردان",
+        "enTitle": "MarketMaker",
+        "isActive": true
+    },
+    {
+        "id": 6,
+        "title": "بخش مرتبط",
+        "enTitle": "RelatedParty",
+        "isActive": true
+    }
+];
 
 export const validityType =  [
     {

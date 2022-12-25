@@ -4,7 +4,7 @@ import moment from "jalali-moment";
 import {jalali} from "../commonFn/commonFn";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import {Options, sides} from "../commonFn/Enums";
+import {Options, orderOrigin, orderTechnicalOrigin, sides} from "../commonFn/Enums";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -67,9 +67,14 @@ export default function InputComponent({
     const FindEnum = ()=>{
         switch (title){
             case 'Side':
+            case 'orderSide':
                 return sides
             case 'Deleted':
                 return Options
+            case 'orderTechnicalOrigin':
+                return orderTechnicalOrigin
+            case 'orderOrigin':
+                return orderOrigin
             default:
                 return []
         }
@@ -141,7 +146,7 @@ export default function InputComponent({
                                                 className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum().map((item: any) => (
                                                     <Listbox.Option
-                                                        key={item.name}
+                                                        key={item.id}
                                                         className={({active}) =>
                                                             classNames(
                                                                 active ? 'bg-border' : '',
