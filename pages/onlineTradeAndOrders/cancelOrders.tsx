@@ -238,7 +238,7 @@ export default function CancelOrders() {
             <Modal title="حذف سفارش گروه" open={GPRemoving} setOpen={setGPRemoving}>
                 <div className="grid grid-cols-2 gap-4 pt-5">
                     {InstrumentGroupFilters.map((filter: any) => {
-                        return <InputComponent type={filter.type} name={filter.name} queryUpdate={queryUpdate}
+                        return <InputComponent key={filter.title} type={filter.type} name={filter.name} queryUpdate={queryUpdate}
                                                query={inputs} title={filter.title}/>
 
                     })}
@@ -255,7 +255,7 @@ export default function CancelOrders() {
                         <SymbolSearchSection query={inputs} queryUpdate={queryUpdate}/>
                     </div>
                     {InstrumentFilters.map((filter: any) => {
-                        return <InputComponent type={filter.type} name={filter.name} queryUpdate={queryUpdate}
+                        return <InputComponent key={filter.title} type={filter.type} name={filter.name} queryUpdate={queryUpdate}
                                                query={inputs} title={filter.title}/>
 
                     })}
