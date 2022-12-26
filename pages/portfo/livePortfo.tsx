@@ -5,6 +5,7 @@ import {AgGridReact} from "ag-grid-react";
 import TablePagination from "../../components/common/TablePagination";
 import {formatNumber} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
+import {useRouter} from "next/router";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -21,7 +22,7 @@ const initialValue = {
 }
 
 export default function LivePortfo(){
-
+    const router=useRouter()
     const columnDefStructure = [
         {
             field: 'customerId',
@@ -121,6 +122,9 @@ export default function LivePortfo(){
                         animateRows={true}
                         getRowId={getRowId}
                         columnHoverHighlight={true}
+                        onRowClicked={(e)=>{
+                            router.push(`/portfo/${e.data.customerId}&${e.data.instrumentId}`)
+                        }}
                     />
                 </div>
             </div>
