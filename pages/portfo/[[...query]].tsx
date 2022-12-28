@@ -122,7 +122,7 @@ export default function PortfolioBook(){
         };
     }, []);
     const getRowId = useCallback((params: any) => {
-        return params.data.transactionId
+        return params.data.transactionId+params.data.receivedDateTime
     }, []);
     const loadingOverlayComponent = useMemo(() => {
         return LoadingOverlay;
@@ -205,7 +205,7 @@ export default function PortfolioBook(){
                     />
                 </div>
             </div>
-            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio?`}
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolioBook?`}
                              setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
         </div>
     )

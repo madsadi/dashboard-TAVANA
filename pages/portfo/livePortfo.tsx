@@ -87,7 +87,7 @@ export default function LivePortfo(){
     }, []);
     const loadingOverlayComponentParams = useMemo(() => {
         return {
-            loadingMessage: 'در حال بارگزاری...',
+            loadingMessage: 'هنوز گزارشی ثبت نشده.',
         };
     }, []);
     const noRowsOverlayComponent = useMemo(() => {
