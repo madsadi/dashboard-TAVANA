@@ -80,7 +80,7 @@ export const orderTechnicalOrigin:any[] = [
         "id": 2,
         "code": 2,
         "enTitle": "OtherOrders",
-        "title": "سایز"
+        "title": "سایر"
     },
     {
         "id": 3,

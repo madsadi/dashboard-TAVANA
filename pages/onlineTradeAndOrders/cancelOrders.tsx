@@ -1,6 +1,6 @@
-import React, {Fragment, useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import useForm from "../../hooks/useForm";
-import {canceledOrders, groupCancel, insCancel} from "../../api/onlineTrade";
+import {groupCancel, insCancel} from "../../api/onlineTrade";
 import Modal from "../../components/common/Modal";
 import {toast} from "react-toastify";
 import {AgGridReact} from "ag-grid-react";
@@ -71,20 +71,20 @@ export default function CancelOrders() {
         {
             field: 'userRequestDateTime',
             headerName: 'زمان درخواست',
-            // cellRendererSelector: () => {
-            //         const ColourCellRenderer = (props: any) => {
-            //             return (
-            //                 <>
-            //                     <span>{jalali(props.data.userRequestDateTime).date}</span>
-            //                     <span>{jalali(props.data.userRequestDateTime).time}</span>
-            //                 </>
-            //             )
-            //         };
-            //         const moodDetails = {
-            //             component: ColourCellRenderer,
-            //         }
-            //         return moodDetails;
-            //     },
+            cellRendererSelector: () => {
+                    const ColourCellRenderer = (props: any) => {
+                        return (
+                            <>
+                                <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date:'-'}</span>
+                                <span className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time:'-'}</span>
+                            </>
+                        )
+                    };
+                    const moodDetails = {
+                        component: ColourCellRenderer,
+                    }
+                    return moodDetails;
+                },
         },
         {
             field: 'lrf',
@@ -93,20 +93,20 @@ export default function CancelOrders() {
         {
             field: 'submitInCapDateTime',
             headerName: 'زمان ثبت در هسته',
-            // cellRendererSelector: () => {
-            //     const ColourCellRenderer = (props: any) => {
-            //         return (
-            //             <>
-            //                 <span>{jalali(props.data.submitInCapDateTime).date}</span>
-            //                 <span className={'ml-2'}>{jalali(props.data.submitInCapDateTime).time}</span>
-            //             </>
-            //         )
-            //     };
-            //     const moodDetails = {
-            //         component: ColourCellRenderer,
-            //     }
-            //     return moodDetails;
-            // },
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{props.data?.submitInCapDateTime ? jalali(props.data?.submitInCapDateTime).date:'-'}</span>
+                            <span className={'ml-2'}>{props.data?.submitInCapDateTime ? jalali(props.data?.submitInCapDateTime).time:'-'}</span>
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
         },
         {
             field: 'errorText',
@@ -203,9 +203,9 @@ export default function CancelOrders() {
     const confirmGPRemoving = async () => {
         await groupCancel({
             instrumentGroupIdentification: inputs.instrumentGroupIdentification,
-            orderSide: inputs.orderSide,
-            orderOrigin: inputs.orderOrigin,
-            orderTechnicalOrigin: inputs.orderTechnicalOrigin,
+            orderSide: inputs.orderSide ? Number(inputs.orderSide):0,
+            orderOrigin: inputs.orderOrigin ? Number(inputs.orderOrigin):0,
+            orderTechnicalOrigin: inputs.orderTechnicalOrigin ? Number(inputs.orderTechnicalOrigin):0,
         }).then(() => {
             toast.success('با موفقیت انجام شد')
             setGPRemoving(false)
@@ -217,9 +217,9 @@ export default function CancelOrders() {
     const confirmInsRemoving = async () => {
         await insCancel({
             isin: inputs.InstrumentId,
-            orderSide: inputs.orderSide,
-            orderOrigin: inputs.orderOrigin,
-            orderTechnicalOrigin: inputs.orderTechnicalOrigin
+            orderSide: inputs.orderSide ? Number(inputs.orderSide):0,
+            orderOrigin: inputs.orderOrigin ? Number(inputs.orderOrigin):0,
+            orderTechnicalOrigin: inputs.orderTechnicalOrigin ? Number(inputs.orderTechnicalOrigin):0,
         }).then(() => {
             toast.success('با موفقیت انجام شد')
             setInsRemoving(false)
