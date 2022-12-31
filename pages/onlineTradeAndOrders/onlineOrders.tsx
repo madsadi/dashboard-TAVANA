@@ -223,6 +223,12 @@ export default function OnlineOrders() {
         setSelected([])
     }
 
+    const isRowSelectable = useMemo(() => {
+        return (rowNode:any) => {
+            return rowNode.data.orderStatus < 4 && rowNode.data.orderStatus > 1 ;
+        };
+    }, []);
+
     return (
         <div className="flex flex-col h-full grow">
             <Accordion alwaysOpen={true} style={{borderBottomRightRadius: 0, borderBottomLeftRadius: 0}}>
@@ -669,6 +675,7 @@ export default function OnlineOrders() {
                         masterDetail={true}
                         rowSelection={'multiple'}
                         onSelectionChanged={onSelectionChanged}
+                        isRowSelectable={isRowSelectable}
                     />
                 </div>
             </div>

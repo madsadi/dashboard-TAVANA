@@ -156,7 +156,7 @@ export default function OnlineTrades() {
             });
     };
     const getRowId = useCallback((params: any) => {
-        return params.data.tradeId
+        return params.data.tradeId+params.data.orderId
     }, []);
     const loadingOverlayComponent = useMemo(() => {
         return LoadingOverlay;
