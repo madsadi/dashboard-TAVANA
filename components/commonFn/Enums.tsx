@@ -1,4 +1,3 @@
-
 export const OrderType: any = [
     {
         "id": 0,
@@ -49,6 +48,7 @@ export const sides = [
         "title": "هردو"
     }
 ];
+
 export const Options:any[] = [
     {
         "id": 'true',
@@ -63,6 +63,7 @@ export const Options:any[] = [
         "title": "همه"
     }
 ];
+
 export const orderTechnicalOrigin:any[] = [
     // {
     //     "id": 1,
@@ -95,6 +96,7 @@ export const orderTechnicalOrigin:any[] = [
         "title": "سفارش خودکار"
     }
 ];
+
 export const orderOrigin:any[] =  [
     // {
     //     "code": 0,
@@ -365,5 +367,321 @@ export const enTierNameEnum: any = [
     }
 ]
 
-
+export const errors:any =  [
+    {
+        "errorCode": 1,
+        "errorText": "مشتری مجاز به خرید نميباشد",
+        "description": "مشتری مجاز به خرید نمي باشد"
+    },
+    {
+        "errorCode": 2,
+        "errorText": "مشتری مجاز به خرید در این کارگزاری نميباشد",
+        "description": "مشتری مجاز به خرید در این کارگزاری نمي باشد"
+    },
+    {
+        "errorCode": 3,
+        "errorText": "حجم درخواستی خارج از حد مجاز ميباشد",
+        "description": "حجم درخواستی خارج از حد مجاز مي باشد"
+    },
+    {
+        "errorCode": 4,
+        "errorText": "حجم درخواستی باید مضربی از واحد معاملاتی باشد",
+        "description": "حجم درخواستی باید مضربی از واحد معاملاتی باشد"
+    },
+    {
+        "errorCode": 5,
+        "errorText": "قيمت وارد شده خارج از آستانه ميباشد",
+        "description": "قيمت وارد شده خارج از آستانه مي باشد"
+    },
+    {
+        "errorCode": 6,
+        "errorText": "قيمت درخواستی باید مضربی از تيک باشد",
+        "description": "قيمت درخواستی باید مضربی از تيک باشد"
+    },
+    {
+        "errorCode": 7,
+        "errorText": "درخواست خرید برای این سهامدار قبلا ثبت گردیده است",
+        "description": "درخواست خرید برای این سهامدار قبلا ثبت گردیده است"
+    },
+    {
+        "errorCode": 9,
+        "errorText": "زمان ورود درخواست برای عرضه اوليه هنوز شروع نشده است",
+        "description": "زمان ورود درخواست برای عرضه اوليه هنوز شروع نشده است"
+    },
+    {
+        "errorCode": 10,
+        "errorText": "پایان زمان قبول درخواست",
+        "description": "پایان زمان قبول درخواست"
+    },
+    {
+        "errorCode": 11,
+        "errorText": "این نماد شامل درخواست عرضه اوليه نميباشد",
+        "description": "این نماد شامل درخواست عرضه اوليه نمي باشد"
+    },
+    {
+        "errorCode": 12,
+        "errorText": "هيچ رکوردی برای کنسل شدن پيدا نشد",
+        "description": "هيچ رکوردی برای کنسل شدن پيدا نشد"
+    },
+    {
+        "errorCode": 13,
+        "errorText": "کدکارگزار در AccountID با کد کارگزار در TraderID یکسان نيست",
+        "description": "کدکارگزار در AccountID با کد کارگزار در TraderID یکسان نيست"
+    },
+    {
+        "errorCode": 14,
+        "errorText": "کدکارگزار صحیح نمی باشد.",
+        "description": "کدکارگزار صحیح نمی باشد"
+    },
+    {
+        "errorCode": 15,
+        "errorText": "این کارگزار اجازه ثبت درخواست عرضه اولیه را ندارد.",
+        "description": "این کارگزار اجازه ثبت درخواست عرضه اولیه را ندارد."
+    },
+    {
+        "errorCode": 98,
+        "errorText": "REJECT",
+        "description": "خطای ارتباط با سرور"
+    },
+    {
+        "errorCode": 99,
+        "errorText": "BookBuldingOrderEntryRejected",
+        "description": "خطا در ارتباط با هسته"
+    },
+    {
+        "errorCode": 1003,
+        "errorText": "Group state doesn t allow this function",
+        "description": "وضعیت گروه اجازه این عملیات را نمی دهد"
+    },
+    {
+        "errorCode": 1004,
+        "errorText": "Instrument state doesn t allow this function",
+        "description": "وضعیت نماد اجازه این عملیات را نمی دهد "
+    },
+    {
+        "errorCode": 1006,
+        "errorText": "Price format is not valid",
+        "description": "قیمت معتبر نیست"
+    },
+    {
+        "errorCode": 1009,
+        "errorText": "Group not authorized for this broker",
+        "description": "گروه برای کارگزار مجاز نمی باشد"
+    },
+    {
+        "errorCode": 1050,
+        "errorText": "Field CLIENT ACCOUNT NUMBER is bad filled",
+        "description": "کد معاملاتی مشتری پر نشده است"
+    },
+    {
+        "errorCode": 1501,
+        "errorText": "Nationality group cannot own more than n%",
+        "description": "گروه ملیت نمی تواند بیش از n٪ داشته باشد"
+    },
+    {
+        "errorCode": 1504,
+        "errorText": "Investor suspended",
+        "description": "سرمایه گذار به حالت تعلیق درآمد"
+    },
+    {
+        "errorCode": 1520,
+        "errorText": "No %Ownership for this instrument",
+        "description": "بدون٪ مالکیت این ابزار"
+    },
+    {
+        "errorCode": 1523,
+        "errorText": "Limit Cap Eceeded",
+        "description": "محدودیت ارسال سفارش در هسته"
+    },
+    {
+        "errorCode": 1525,
+        "errorText": "Held quantity of shares is insufficient",
+        "description": "مانده سهام کافی نیست"
+    },
+    {
+        "errorCode": 2005,
+        "errorText": "Quantities must be multiple of traded lot",
+        "description": "حجم باید ضریبی از LOT باشد"
+    },
+    {
+        "errorCode": 2006,
+        "errorText": "Type of price invalid or not authorized according to instr or GR state",
+        "description": "نوع قیمت معتبر نیست یا طبق دستورالعمل GR یا مجاز نیست"
+    },
+    {
+        "errorCode": 2009,
+        "errorText": "CROSS orders forbidden in pre-opening stage",
+        "description": "سفارشات CROSS در مرحله پیش گشایش ممنوع است"
+    },
+    {
+        "errorCode": 2013,
+        "errorText": "MARKET TO LIMIT order not supported by opposite limit",
+        "description": "سفارش MARKET TO LIMIT با حد مخالف پشتیبانی نمی شود"
+    },
+    {
+        "errorCode": 2014,
+        "errorText": "Price must be valid against tick table",
+        "description": "قیمت باید در برابر جدول تیک معتبر باشد"
+    },
+    {
+        "errorCode": 2019,
+        "errorText": "Validity date must be higher than current session date",
+        "description": "تاریخ اعتبار باید بیشتر از تاریخ جلسه فعلی باشد"
+    },
+    {
+        "errorCode": 2026,
+        "errorText": "Validity date must be filled",
+        "description": "تاریخ اعتبار در سفارش، پر نشده است"
+    },
+    {
+        "errorCode": 2029,
+        "errorText": "Min quantity forbidden for this order type",
+        "description": "حداقل مقدار برای این نوع سفارش ممنوع می باشد"
+    },
+    {
+        "errorCode": 2031,
+        "errorText": "Disclosed quantity too small",
+        "description": "مقدار افشا شده خیلی کم است"
+    },
+    {
+        "errorCode": 2032,
+        "errorText": "Disclosed quantity forbidden for FAK,MOO,CROSS,MARKET and STOP-LOSS ord",
+        "description": "مقدار آشکار شده برای سفارش های FAK ، MOO ، CROSS ، MARKET و STOP-LOSS ممنوع است"
+    },
+    {
+        "errorCode": 2040,
+        "errorText": "Minimum quantity cannot be modified",
+        "description": "حداقل مقدار قابل اصلاح نیست"
+    },
+    {
+        "errorCode": 2044,
+        "errorText": "Validity date for this type of order must be FAK",
+        "description": "تاریخ اعتبار این نوع سفارش باید FAK باشد"
+    },
+    {
+        "errorCode": 2045,
+        "errorText": "This order is not in the book",
+        "description": "سفارش وجود ندارد"
+    },
+    {
+        "errorCode": 2046,
+        "errorText": "Disclosed quantity cannot be greater than total or remaining qty",
+        "description": "مقدار افشا شده نمی تواند از مقدار کل یا باقی مانده بیشتر باشد"
+    },
+    {
+        "errorCode": 2058,
+        "errorText": "STOP PRICE maxi-mini must be >= TRIGGER PRICE",
+        "description": "STOP PRICE maxi-mini باید>> TRIGGER PRICE باشد\r\n"
+    },
+    {
+        "errorCode": 2059,
+        "errorText": "STOP PRICE maxi-mini must be <= TRIGGER PRICE",
+        "description": "STOP PRICE maxi-mini باید <= TRIGGER PRICE باشد"
+    },
+    {
+        "errorCode": 2060,
+        "errorText": "TRIGGER PRICE must be < last price or last day price",
+        "description": "قیمت باید کوچکتر از آخرین قیمت و یا قیمت آخرین روز باشد"
+    },
+    {
+        "errorCode": 2061,
+        "errorText": "TRIGGER PRICE must be > last price or last day price",
+        "description": "قیمت باید بزرگتر از آخرین قیمت و یا قیمت آخرین روز باشد"
+    },
+    {
+        "errorCode": 2115,
+        "errorText": "Total quantity must be inside the limits",
+        "description": "مقدار کل باید در آستانه مجاز باشد"
+    },
+    {
+        "errorCode": 2130,
+        "errorText": "Minimum quantity forbidden in pre-opening stage",
+        "description": "حداقل مقدار در مرحله پیش گشایش ممنوع است"
+    },
+    {
+        "errorCode": 2137,
+        "errorText": "Order price is outside the thresholds",
+        "description": "قیمت سفارش خارج از آستانه مجاز است"
+    },
+    {
+        "errorCode": 2500,
+        "errorText": "Confirmation mandatory for this order",
+        "description": "تأیید برای این سفارش اجباری است"
+    },
+    {
+        "errorCode": 2501,
+        "errorText": "Order handled in PreOpening - rejected in Continuous Trading",
+        "description": "سفارش ثبت شده در مرحله پیش گشایش، در زمان معامله رد شد"
+    },
+    {
+        "errorCode": 2604,
+        "errorText": "Trader Id is invalid",
+        "description": "شناسه معامله گر نامعتبر است"
+    },
+    {
+        "errorCode": 3402,
+        "errorText": "CROSS order price must be inside the limits",
+        "description": "قیمت سفارش CROSS باید در حد مجاز باشد"
+    },
+    {
+        "errorCode": 6231,
+        "errorText": "Group not authorized for this Trader",
+        "description": "گروه برای این معامله گر مجاز نیست"
+    },
+    {
+        "errorCode": 9010,
+        "errorText": "Group not authorized on Buy Side for this broker",
+        "description": "سفارش خرید در این گروه برای کارگزار مجاز نیست"
+    },
+    {
+        "errorCode": 9011,
+        "errorText": "Group not authorized on Sell Side for this broker",
+        "description": "سفارش فروش در این گروه برای کارگزار مجاز نیست"
+    },
+    {
+        "errorCode": 100000,
+        "errorText": "UnknownError",
+        "description": "خطای ناشناخته در سیستم"
+    },
+    {
+        "errorCode": 100001,
+        "errorText": "PortfolioError",
+        "description": "سیستم : خطا در دارایی مشتری"
+    },
+    {
+        "errorCode": 100002,
+        "errorText": "CashflowError",
+        "description": "سیستم : خطا در مانده مشتری"
+    },
+    {
+        "errorCode": 100003,
+        "errorText": "MarketRuleError",
+        "description": "سیستم : خطای قوانین بازار"
+    },
+    {
+        "errorCode": 100004,
+        "errorText": "OrderIsDisabled",
+        "description": "سیستم : سفارش غیر فعال می باشد"
+    },
+    {
+        "errorCode": 100005,
+        "errorText": "OrderIsLocked",
+        "description": "سیستم : سفارش قفل می باشد"
+    },
+    {
+        "errorCode": 100006,
+        "errorText": "OrderNotExist",
+        "description": "سیستم : سفارش وجود ندارد"
+    },
+    {
+        "errorCode": 100008,
+        "errorText": "Book Bulding Order Existance",
+        "description": "تنها امکان ثبت یک سفارش فعال برای نماد عرضه اولیه امکان پذیر می باشد"
+    },
+    {
+        "errorCode": 100009,
+        "errorText": "Delay error",
+        "description": "توالی زمان در ارسال سفارش رعایت نشده است"
+    }
+]
 

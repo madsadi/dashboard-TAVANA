@@ -128,7 +128,7 @@ export default function TablePagination({
                     disabled={query.PageNumber <= 1}>
                 <ChevronRightIcon className={'h-4 w-4'}/>
             </button>
-            <div className={'h-fit'}>صفحه {query.PageNumber}<span
+            <div className={'h-fit'}>صفحه {query.PageNumber>Math.ceil(totalCount / query.PageSize) ? 0:query.PageNumber}<span
                 className={'mx-4'}>از</span>{Math.ceil(totalCount / query.PageSize)} </div>
             <button onClick={() => {
                 queryUpdate('PageNumber', query.PageNumber + 1)

@@ -12,6 +12,7 @@ import TablePagination from "../../components/common/TablePagination";
 import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import AccordionComponent from "../../components/common/AccordionComponent";
 import InputComponent from "../../components/common/InputComponent";
+import {errors} from "../../components/commonFn/Enums";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -210,8 +211,8 @@ export default function CancelOrders() {
             toast.success('با موفقیت انجام شد')
             setGPRemoving(false)
         })
-            .catch(() => {
-                toast.error('نا موفق')
+            .catch((err) => {
+                toast.error(`${err?.response?.data?.error?.message || errors.find((item:any)=>item.errorCode === err?.response?.data?.error?.code).errorText}`)
             })
     }
     const confirmInsRemoving = async () => {
@@ -224,8 +225,8 @@ export default function CancelOrders() {
             toast.success('با موفقیت انجام شد')
             setInsRemoving(false)
         })
-            .catch(() => {
-                toast.error('نا موفق')
+            .catch((err) => {
+                toast.error(`${err?.response?.data?.error?.message || errors.find((item:any)=>item.errorCode === err?.response?.data?.error?.code).errorText}`)
             })
     }
 

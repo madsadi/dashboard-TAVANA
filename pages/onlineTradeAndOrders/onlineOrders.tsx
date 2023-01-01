@@ -6,7 +6,7 @@ import {AgGridReact} from 'ag-grid-react';
 import moment from "jalali-moment";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import CustomDetailComponent from "../../components/onlineOrders/customDetailComponent";
-import {EnumsStatus, OrderType, originEnum, sides, validityType} from "../../components/commonFn/Enums";
+import {EnumsStatus, errors, OrderType, originEnum, sides, validityType} from "../../components/commonFn/Enums";
 import {Accordion} from "flowbite-react";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon,TrashIcon} from "@heroicons/react/20/solid";
@@ -162,6 +162,9 @@ export default function OnlineOrders() {
                 gridRef.current.api.setRowData(res?.result?.pagedData);
                 setTotal(res?.result?.totalCount)
             })
+            .catch((err)=>{
+                toast.error(`${err?.response?.data?.error?.message || errors.find((item:any)=>item.errorCode === err?.response?.data?.error?.code).errorText}`)
+            })
     };
     const getRowId = useCallback((params: any) => {
         return params.data.orderId
@@ -212,10 +215,13 @@ export default function OnlineOrders() {
                 orderId: order.orderId,
                 customerId: order.customerId,
                 sourceOfRequests: 3
-            }).then((res:any)=>gridRef.current?.api?.applyTransaction({
+            }).then((res:any)=>
+                gridRef.current?.api?.applyTransaction({
                 remove:[{orderId: res?.result.orderId}]
             }))
-                .catch((err: any) => toast.error(`${err?.response?.data?.result?.message}`))
+                .catch((err: any) => {
+                    toast.error(`${err?.response?.data?.error?.message || errors.find((item:any)=>item.errorCode === err?.response?.data?.error?.code).errorText}`)
+                })
         }
         selected.map((order: any) => {
             cancel(order)

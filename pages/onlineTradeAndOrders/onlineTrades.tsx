@@ -5,13 +5,14 @@ import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverla
 import {AgGridReact} from 'ag-grid-react';
 import moment from "jalali-moment";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
-import {originEnum, sides} from "../../components/commonFn/Enums";
+import {errors, originEnum, sides} from "../../components/commonFn/Enums";
 import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import {Accordion} from "flowbite-react";
 import {Listbox, Transition} from "@headlessui/react";
 import SymbolSearchSection from "../../components/common/SymbolSearchSecion";
 import TablePagination from "../../components/common/TablePagination";
 import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {toast} from "react-toastify";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -153,7 +154,10 @@ export default function OnlineTrades() {
             .then((res: any) => {
                 gridRef.current.api.setRowData(res?.result?.pagedData);
                 setTotal(res?.result?.totalCount)
-            });
+            })
+            .catch((err)=>{
+                toast.error(`${err?.response?.data?.error?.message || errors.find((item:any)=>item.errorCode === err?.response?.data?.error?.code).errorText}`)
+            })
     };
     const getRowId = useCallback((params: any) => {
         return params.data.tradeId+params.data.orderId
@@ -432,7 +436,8 @@ export default function OnlineTrades() {
                                 className={'justify-content-center rounded-full bg-red-500 border-red-500 px-5 p-1 w-fit h-fit mt-auto'}
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    setQuery(initialValue)
+                                    setQuery(initialValue);
+                                    setSelectedDayRange({from:null,to:null})
                                     onGridReady(initialValue)
                                 }}>
                                 لغو فیلتر ها
