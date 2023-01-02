@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Popover} from '@headlessui/react'
 import {
     Bars3Icon,
@@ -16,6 +16,10 @@ export default function Example() {
 
     const auth = useAuth();
     const router = useRouter();
+
+    useEffect(()=>{
+        setOpen(false)
+    },[router.pathname])
 
     return (
         <Popover className="fixed top-0 w-full z-10 bg-white border-b border-border">

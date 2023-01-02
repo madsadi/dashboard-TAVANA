@@ -41,6 +41,11 @@ a {
   border:1px solid #eee;
   border-radius: 8px;
 }
+#nonCollapse>li{
+  border:1px solid #eee;
+  border-radius: 8px;
+  margin-top:0.5rem;
+}
 #nonCollapse>span{
   padding: 0;
 }

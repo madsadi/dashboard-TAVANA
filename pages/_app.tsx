@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
 import {SWRConfig} from 'swr';
 import {fetcher} from "../api/fetcher";
+import {WebStorageStateStore} from "oidc-client-ts";
 
 React.useLayoutEffect = React.useEffect
 
@@ -28,6 +29,7 @@ function MyApp({Component, pageProps}: AppProps) {
     const clientURL = typeof window !== 'undefined' && window.location.origin;
 
     const oidcConfig = {
+        userStore: typeof window !== 'undefined' ? new WebStorageStateStore({ store: window.localStorage}): undefined,
         authority: `${authorityPath}`,
         client_id: `${clientId}`,
         scope: 'openid IdentityServerApi',

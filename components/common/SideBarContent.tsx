@@ -1,6 +1,7 @@
 import React from 'react';
 import {useRouter} from "next/router";
-import { Sidebar } from 'flowbite-react';
+import {Sidebar} from 'flowbite-react';
+import Link from "next/link";
 
 export default function SideBarContent() {
     const router = useRouter()
@@ -169,9 +170,9 @@ export default function SideBarContent() {
 
     return (
         <div className={'w-full'}>
-            <Sidebar aria-label="Sidebar with multi-level dropdown example" style={{width:'100%'}}>
+            <Sidebar aria-label="Sidebar with multi-level dropdown example" style={{width: '100%'}}>
                 <Sidebar.Items>
-                    <Sidebar.ItemGroup id={'menuGroup'} >
+                    <Sidebar.ItemGroup id={'menuGroup'}>
                         {
                             items.map((item: any) => {
                                 if (item.children) {
@@ -181,24 +182,28 @@ export default function SideBarContent() {
                                             label={item.label}
                                             key={item.label}
                                         >
-                                            {item.children.map((child:any)=>{
+                                            {item.children.map((child: any) => {
                                                 return (
-                                                    <Sidebar.Item href={child.url} key={child.label} active={router.pathname===child.url}>
-                                                        {child.label}
-                                                    </Sidebar.Item>
+                                                    <Link href={child.url} key={child.label}>
+                                                        <Sidebar.Item active={router.pathname === child.url}>
+                                                            {child.label}
+                                                        </Sidebar.Item>
+                                                    </Link>
                                                 )
                                             })}
                                         </Sidebar.Collapse>
                                     )
                                 } else {
                                     return (
-                                        <Sidebar.Item key={item.label}
-                                                      id={'nonCollapse'}
-                                                      href={item.url}
-                                                      active={router.pathname===item.url}
-                                        >
-                                            {item.label}
-                                        </Sidebar.Item>
+                                        <Link href={item.url} key={item.label} id={'nonCollapse'} >
+                                            <Sidebar.Item
+
+                                                          active={router.pathname === item.url}
+                                            >
+                                                {item.label}
+                                            </Sidebar.Item>
+                                        </Link>
+
                                     )
                                 }
                             })

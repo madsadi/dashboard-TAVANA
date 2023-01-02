@@ -6,7 +6,7 @@ axios.interceptors.request.use((value) => {
     const authorityPath = 'https://cluster.tech1a.co';
 
     if (typeof window !== 'undefined') {
-        const oidcStorage:any = sessionStorage.getItem(`oidc.user:${authorityPath}:${clientId}`)
+        const oidcStorage:any = localStorage.getItem(`oidc.user:${authorityPath}:${clientId}`)
         let token = JSON.parse(oidcStorage)?.access_token
         value.headers = {
             'Accept': 'application/json',
@@ -25,7 +25,7 @@ axios.interceptors.response.use(
     async (error) => {
         if (error.response) {
             if (error.response.status === 401) {
-                sessionStorage.clear();
+                localStorage.clear();
                 Router.push('/');
             }
         }

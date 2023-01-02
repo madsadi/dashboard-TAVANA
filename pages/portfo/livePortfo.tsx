@@ -59,7 +59,7 @@ export default function LivePortfo(){
         },
         {
             field: 'openSellOrder',
-            headerName: 'حجم سفرش های باز فروش',
+            headerName: 'حجم سفارش های باز فروش',
         },
         {
             field: 'sellableShareCount',
