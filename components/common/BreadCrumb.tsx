@@ -37,6 +37,7 @@ export default function BreadCrumbComponent() {
         clearingDateRangeT:'تسویه و پایاپای',
         portfo:'پرتفو',
         livePortfo:'پرتفو لحضه ای',
+        '[[...query]]':'تاریخچه',
     }
 
     useEffect(() => {
@@ -46,7 +47,7 @@ export default function BreadCrumbComponent() {
         })
         _path.splice(0, 1)
         setPath(_path)
-    }, [])
+    }, [router.pathname])
 
     return (
         <div className={'flex items-center border border-border rounded-md'}>

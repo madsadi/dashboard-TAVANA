@@ -6,6 +6,8 @@ import TablePagination from "../../components/common/TablePagination";
 import {formatNumber} from "../../components/commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
 import {useRouter} from "next/router";
+import {fetchData} from "../../api/clearedTradesReport";
+import {toast} from "react-toastify";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -98,7 +100,22 @@ export default function LivePortfo(){
             noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
         };
     }, []);
-
+    const gridReady = async ()=>{
+        let body: any = {}
+        Object.keys(query).map((item: any) => {
+            // @ts-ignore
+            if (query[item]){
+                // @ts-ignore
+                body[item] = query[item]
+            }
+        })
+        await fetchData(`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio`, body)
+            .then((res) => {
+                    gridRef?.current?.api?.setRowData(res.result?.pagedData)
+                    setTotalCount(res?.result?.totalCount)
+            })
+            .catch(() => toast.error('ناموفق'))
+    }
     //GRID
     return(
         <div className={'flex flex-col h-full flex-1'}>
@@ -118,6 +135,7 @@ export default function LivePortfo(){
                         noRowsOverlayComponent={noRowsOverlayComponent}
                         noRowsOverlayComponentParams={noRowsOverlayComponentParams}
                         rowHeight={35}
+                        onGridReady={gridReady}
                         headerHeight={35}
                         animateRows={true}
                         getRowId={getRowId}
