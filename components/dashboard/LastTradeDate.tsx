@@ -15,22 +15,22 @@ export default function LastTradeDate(){
                 setCounts({...counts,..._counts})
             })
     }
-    const fetchLastTradeDate=async (index:number)=>{
-        let _date:any = date
-        await lastTradeDate(index)
-            .then(res=> {
-                _date[index] = res
-                setDate({...date,..._date})
-                count((jalali(res).date).replaceAll('/',''),index)
-                if (index===1){
-                    fetchLastTradeDate(index+1)
-                }
-            })
-    }
 
     useEffect(()=>{
+        const fetchLastTradeDate=async (index:number)=>{
+            let _date:any = date
+            await lastTradeDate(index)
+                .then(res=> {
+                    _date[index] = res
+                    setDate({...date,..._date})
+                    count((jalali(res).date).replaceAll('/',''),index)
+                    if (index===1){
+                        fetchLastTradeDate(index+1)
+                    }
+                })
+        }
         fetchLastTradeDate(1)
-    },[])
+    },[])// eslint-disable-line react-hooks/exhaustive-deps
 
     return(
         <div className={'absolute top-[51px] w-full right-0 border border-border bg-yellow-100 flex space-x-reverse space-x-5 p-1 text-sm divide-x divide-x-reverse'}>

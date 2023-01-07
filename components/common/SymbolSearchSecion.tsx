@@ -2,6 +2,7 @@ import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import React, {useEffect, useRef, useState} from "react";
 import {useSearchSymbol} from "../../api/useSearchSymbol";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Image from "next/image";
 
 export default function SymbolSearchSection({query,queryUpdate}: {query:any,queryUpdate:any}) {
     const [searchApi, setSearchApi] = useState('')
@@ -32,7 +33,7 @@ export default function SymbolSearchSection({query,queryUpdate}: {query:any,quer
         if (data){
             setFindings([...findings,...data?.result?.pagedData])
         }
-    },[data])
+    },[data])// eslint-disable-line react-hooks/exhaustive-deps
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
@@ -62,7 +63,7 @@ export default function SymbolSearchSection({query,queryUpdate}: {query:any,quer
         if (!query?.InstrumentId){
             queryUpdate('InstrumentId','')
         }
-    },[query?.InstrumentId])
+    },[query?.InstrumentId])// eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className={`relative`} ref={wrapperRef}>
@@ -76,8 +77,8 @@ export default function SymbolSearchSection({query,queryUpdate}: {query:any,quer
                        }}/>
                 <div className={'absolute left-1 bottom-0 -translate-y-1/3 flex'}>
                     {isLoading && query.InstrumentId &&
-                        <div><img src={'/icons/spinner.svg'} className={'animate-spin h-5 w-5 text-black'}/></div>}
-                    <MagnifyingGlassIcon className={'h-5 w-5'}/>
+                        <div className={'animate-spin h-5 w-5'}><Image alt={'search'} height={32} width={32} src={'/icons/spinner.svg'}/></div>}
+                        <MagnifyingGlassIcon className={'h-5 w-5'}/>
                 </div>
             </div>
             {query.InstrumentId && open && <div

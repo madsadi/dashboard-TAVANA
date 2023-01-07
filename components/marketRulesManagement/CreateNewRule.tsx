@@ -78,7 +78,7 @@ export default function CreateNewRule() {
             setStatus({name: shouldEditObject?.isActive ? 'فعال' : 'غیرفعال', isActive: shouldEditObject?.isActive});
             expressionTranslate(shouldEditObject?.expression)
         }
-    }, [shouldEditObject?.id])
+    }, [shouldEditObject?.id])// eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (variableList?.remoteUrl) {

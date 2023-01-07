@@ -6,7 +6,6 @@ class MyDocument extends Document {
         return (
             <Html className={'h-full '} dir={"rtl"}>
                 <Head>
-                    <link rel='stylesheet' href='/yekanBakhFont.css'/>
                     <link rel='shortcut icon' href='/logo-2.png'/>
                 </Head>
                 <body className={'custom-scrollbar'}>

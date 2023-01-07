@@ -47,7 +47,7 @@ export default function BreadCrumbComponent() {
         })
         _path.splice(0, 1)
         setPath(_path)
-    }, [router.pathname])
+    }, [router.pathname])// eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className={'flex items-center border border-border rounded-md'}>

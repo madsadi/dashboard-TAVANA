@@ -130,7 +130,6 @@ export default function RulesResultTableSection() {
     }, []);
     //GRID CUSTOMISATION
 
-    const rowStyle = {}
     const getRowStyle = (params: any) => {
         if (params?.node?.data?.side === 1) {
             return {backgroundColor: 'rgba(5,122,85,0.18)'};
@@ -142,7 +141,7 @@ export default function RulesResultTableSection() {
         return {
             detailGridOptions: {
                 enableRtl: true,
-                rowStyle:rowStyle,
+                rowStyle:{},
                 getRowStyle:getRowStyle,
                 suppressRowTransform:true,
                 columnDefs: [

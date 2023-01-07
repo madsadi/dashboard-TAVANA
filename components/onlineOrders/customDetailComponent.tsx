@@ -2,6 +2,7 @@ import {AgGridReact} from "ag-grid-react";
 import {useCallback, useMemo, useRef} from "react";
 import {formatNumber, jalali} from "../commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../common/customOverlay";
+import Image from "next/image";
 
 export default function CustomDetailComponent({data, node, api}: { data: any, node: any, api: any }) {
     const rowId = node.id;
@@ -59,8 +60,8 @@ export default function CustomDetailComponent({data, node, api}: { data: any, no
     return (
         <div className={'m-3'}>
             <div className={'mb-3 p-2 flex align-items-center bg-black-alpha-10 border-round-sm'}>
-                <div className={'h-3rem'}>
-                    <img src="/icons/avatar.svg" className={'h-3rem'} alt="avatar"/>
+                <div className={'h-6 w-6'}>
+                    <Image width={48} height={48} src="/icons/avatar.svg" alt="avatar"/>
                 </div>
                 <div className={'mr-4'}>
                     <div className={'flex space-x-5 space-x-reverse'}>

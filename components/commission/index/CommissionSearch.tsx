@@ -90,10 +90,9 @@ export default function CommissionSearch() {
                     })
                     .catch(err => toast.error('نا موفق'))
             }
-
             detailSearch()
         }
-    }, [idObject.categoryId, idObject.instrumentTypeId])
+    }, [idObject.categoryId, idObject.instrumentTypeId])// eslint-disable-line react-hooks/exhaustive-deps
 
     const onSubmit = (event: any) => {
         event.preventDefault()

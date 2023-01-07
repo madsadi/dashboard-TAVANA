@@ -141,7 +141,6 @@ export default function ClearingDateRangeTTradeResultTableSection() {
             noRowsMessageFunc: () => 'اطلاعاتی با این فیلتر یافت نشد.',
         };
     }, []);
-    const rowStyle = {}
     const getRowStyle = (params: any) => {
         if (params?.node?.rowIndex === 0) {
             return {borderRight: '2px solid rgba(5,122,85,1)'};
@@ -153,7 +152,7 @@ export default function ClearingDateRangeTTradeResultTableSection() {
         return {
             detailGridOptions: {
                 enableRtl: true,
-                rowStyle:rowStyle,
+                rowStyle: {},
                 getRowStyle:getRowStyle,
                 columnDefs: [
                     {field: 'type', headerName: 'سمت معامله',

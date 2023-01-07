@@ -417,7 +417,7 @@ export default function RulesList() {
             setStatusModal(edit?.isActive);
             expressionTranslate(edit?.expression)
         }
-    }, [edit?.id])
+    }, [edit?.id])// eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (variableList?.remoteUrl) {

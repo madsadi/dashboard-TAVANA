@@ -150,9 +150,10 @@ export default function PortfolioBook(){
                 setTotalCount(res?.result?.totalCount)
             })
     }
+    let dep = router.query?.query?.[0]
     useEffect(()=>{
-            if (router.query?.query?.[0]){
-                const queryData = (router.query?.query?.[0]).split('&')
+            if (dep){
+                const queryData = dep.split('&')
                 let _query = {...query};
                 _query['InstrumentId'] = queryData[1];
                 _query['CustomerId'] = queryData[0];
@@ -160,7 +161,7 @@ export default function PortfolioBook(){
                 getPortfolioData({...query,InstrumentId:queryData[1],CustomerId:queryData[0]})
 
             }
-    },[router.query?.query?.[0]])
+    },[dep]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return(
         <div className={'flex flex-col h-full flex-1'}>
