@@ -19,7 +19,7 @@ export default function Example() {
 
     useEffect(()=>{
         setOpen(false)
-    },[router.pathname])
+    },[router.pathname,router.query?.page?.[0]])
 
     return (
         <Popover className="fixed top-0 w-full z-10 bg-white border-b border-border">

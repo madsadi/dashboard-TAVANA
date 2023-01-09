@@ -379,6 +379,7 @@ export default function RulesList() {
         {name: 'ضرب', symbol: '*'},
         {name: 'تقسیم', symbol: '/'},
         {name: 'مساوی', symbol: '='},
+        {name: 'مخالف', symbol: '!='},
         {name: 'بزرگتر', symbol: '>'},
         {name: 'کوچکتر', symbol: '<'},
         {name: 'بزرگتر یا مساوی', symbol: '>='},

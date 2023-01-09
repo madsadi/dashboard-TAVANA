@@ -38,16 +38,30 @@ export default function BreadCrumbComponent() {
         portfo:'پرتفو',
         livePortfo:'پرتفو لحضه ای',
         '[[...query]]':'تاریخچه',
+        financialHoldings:'هلدینگ مالی',
+        subsidiary:'زیر مجموعه ها',
+        branches:'شعب',
+        employee:'کارمندان',
+        businessUnit:'واحده کاری',
+        station:'ایستگاه معاملاتی',
+        trader:'معامله گران',
+        marketer:'بازاریاب ها',
+        agreement:'توافقنامه ها',
+        customerAgreement:'توافقنامه های بین طرفین',
     }
 
     useEffect(() => {
         let _path: any = []
         router.pathname.split('/').map((item: any) => {
-            _path.push(routesInPersian?.[item])
+            if (item === '[[...page]]' && router.query?.page?.[0]){
+                _path.push(routesInPersian?.[router.query?.page?.[0]])
+            }else{
+                _path.push(routesInPersian?.[item])
+            }
         })
         _path.splice(0, 1)
         setPath(_path)
-    }, [router.pathname])// eslint-disable-line react-hooks/exhaustive-deps
+    }, [router.pathname,router.query?.page?.[0]])// eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className={'flex items-center border border-border rounded-md'}>
