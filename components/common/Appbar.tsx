@@ -16,10 +16,11 @@ export default function Example() {
 
     const auth = useAuth();
     const router = useRouter();
+    let query = router.query?.page?.[0]
 
     useEffect(()=>{
         setOpen(false)
-    },[router.pathname,router.query?.page?.[0]])
+    },[router.pathname,query])
 
     return (
         <Popover className="fixed top-0 w-full z-10 bg-white border-b border-border">
