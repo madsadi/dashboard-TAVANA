@@ -1,58 +1,176 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {Toast} from 'primereact/toast';
-import {Button} from 'primereact/button';
-import {Toolbar} from 'primereact/toolbar';
-import {Dialog} from 'primereact/dialog';
+import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react';
 import moment from 'jalali-moment'
 import {useSelector} from "react-redux";
 import {
-    getBookBuilding,
     addBookBuilding,
     deleteBookBuilding,
     updateBookBuilding
 } from "../../api/bookBuilding";
-import {Chip} from "primereact/chip";
-import {Card} from "primereact/card";
-import {InputText} from "primereact/inputtext";
-import DatePicker, {DayRange, DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
+import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import Modal from "../common/Modal";
+import {formatNumber, jalali} from "../commonFn/commonFn";
+import {AgGridReact} from "ag-grid-react";
+import {toast} from "react-toastify";
+import {LoadingOverlay, NoRowOverlay} from "../common/customOverlay";
+import SearchSection from "./searchSection";
 
 export default function ResultTable() {
+    const columnDefStructure = [
+        {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            showDisabledCheckboxes: true,
+            headerCheckboxSelectionFilteredOnly: true,
+            resizable: false,
+            minWidth: 40,
+            maxWidth: 40,
+        },
+        {
+            field: 'instrumentId',
+            headerName: 'شناسه نماد',
+            flex: 0,
+            width: 90,
+            minWidth: 90
+        },
+        {
+            field: 'faInsCode',
+            headerName: 'نماد',
+        },
+        {
+            field: 'faInsName',
+            headerName: 'عنوان نماد',
+        },
+        {
+            field: 'maxQuantity',
+            headerName: 'بیشینه حجم سفارش',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'minPrice',
+            headerName: 'حداقل قیمت سفارش',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'maxPrice',
+            headerName: 'حداکثر قیمت سفارش',
+            flex: 0,
+            width: 150,
+            minWidth: 150
+        }, {
+            field: 'fromActiveDateTime',
+            headerName: 'زمان شروع',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{jalali(props.data.fromActiveDateTime).date}</span>
+                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
+        },
+        {
+            field: 'toActiveDateTime',
+            headerName: 'زمان پایان',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{jalali(props.data.toActiveDateTime).date}</span>
+                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
+        },
+        {
+            field: 'createdBy',
+            headerName: 'کاربر ایجاد کننده',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'createDateTime',
+            headerName: 'زمان ایجاد',
+            flex: 0,
+            width: 120,
+            minWidth: 120,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{jalali(props.data.createDateTime).date}</span>
+                            {/*<span>{jalali(props.data.createDateTime).time}</span>*/}
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
+        },
+        {
+            field: 'updatedBy',
+            headerName: 'کاربر تغییر دهنده',
+            flex: 0,
+            width: 120,
+            minWidth: 120,
+        },
+        {
+            field: 'updatedDateTime',
+            headerName: 'زمان تغییر',
+            flex: 0,
+            width: 120,
+            minWidth: 120,
+            // cellRendererSelector: () => {
+            //     const ColourCellRenderer = (props: any) => {
+            //         return (
+            //             <>
+            //                 <span>{jalali(props.data.updatedDateTime).date}</span>
+            //                 <span>{jalali(props.data.updatedDateTime).time}</span>
+            //             </>
+            //         )
+            //     };
+            //     const moodDetails = {
+            //         component: ColourCellRenderer,
+            //     }
+            //     return moodDetails;
+            // }
+        }
+    ]
 
-    let emptyProduct = {
-        id: null,
-        name: '',
-        image: null,
-        description: '',
-        category: null,
-        price: 0,
-        quantity: 0,
-        rating: 0,
-        inventoryStatus: 'INSTOCK'
-    };
     const {bookBuildingResult} = useSelector((state: any) => state.bookBuildingConfig)
 
-    const [products, setProducts] = useState<any[]>([]);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState<any>([]);
-    const [globalFilter, setGlobalFilter] = useState<any>(null);
-    const [updateSectorCode, setUpdateSectorCode] = useState<string>('');
-    const [updateSubSectorCode, setUpdateSubSectorCode] = useState<string>('');
     const [productDialog, setProductDialog] = useState(false);
     const [updateDialog, setUpdateDialog] = useState(false);
     const [instrumentId, setInstrumentId] = useState<string>('');
     const [maxQuantity, setMaxQuantity] = useState<string>('');
     const [minPrice, setMinPrice] = useState<string>('');
     const [maxPrice, setMaxPrice] = useState<string>('');
-    const [faInsCode, setFaInsCode] = useState<string>('');
-    const [toActiveDateTime, setToActiveDateTime] = useState<DayValue>(null);
-    const [fromActiveDateTime, setFromActiveDateTime] = useState<DayValue>(null);
-    const [createdBy, setCreatedBy] = useState<string>('');
-    const [indexOfDeletings, setIndexOfDeletings] = useState(0)
     const [fault, setFaulty] = useState<boolean>(false)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+    const [date, setDate] = useState<DayRange>({
         from: null,
         to: null
     });
@@ -61,20 +179,56 @@ export default function ResultTable() {
         to: null
     });
 
-    const toast: any = useRef(null);
-    const dt: any = useRef(null);
+    //Grid
+    const gridRef: any = useRef();
+    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
+    const defaultColDef = useMemo(() => {
+        return {
+            resizable: true,
+            sortable: true,
+            flex: 1,
+            valueFormatter: formatNumber
+        };
+    }, []);
+    const getRowId = useCallback((params: any) => {
+        return params.data.instrumentId
+    }, []);
+    const loadingOverlayComponent = useMemo(() => {
+        return LoadingOverlay;
+    }, []);
+    const loadingOverlayComponentParams = useMemo(() => {
+        return {
+            loadingMessage: 'در حال بارگزاری...',
+        };
+    }, []);
+    const noRowsOverlayComponent = useMemo(() => {
+        return NoRowOverlay;
+    }, []);
+    const noRowsOverlayComponentParams = useMemo(() => {
+        return {
+            noRowsMessageFunc: () => 'نمادی ثبت نشده.',
+        };
+    }, []);
 
+    useEffect(() => {
+        if (bookBuildingResult) {
+            gridRef.current?.api?.setRowData(bookBuildingResult)
+        }
+    }, [bookBuildingResult]);
+
+    //Grid
 
     const createdRenderCustomInput = ({ref}: { ref: any }) => (
-        <div className={'col-12 p-float-label w-full'}>
-            <InputText readOnly ref={ref} id="rangeDate" value={createdDateRangeHandler(createdDayRange)}/>
-            <label htmlFor="rangeDate">تاریخ شروع و پایان</label>
+        <div className={'w-full'}>
+            <label className={'block'} htmlFor="rangeDate">تاریخ شروع و پایان</label>
+            <input readOnly ref={ref} className={'w-full'} id="rangeDate"
+                   value={dateRangeHandler(createdDayRange)}/>
         </div>
     )
     const renderCustomInput = ({ref}: { ref: any }) => (
-        <div className={'col-12 p-float-label w-full'}>
-            <InputText readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
-            <label htmlFor="rangeDate">تاریخ شروع و پایان</label>
+        <div>
+            <label className={'block'} htmlFor="rangeDate">تاریخ شروع و پایان</label>
+            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={dateRangeHandler(date)}/>
         </div>
     )
     const dateRangeHandler = (selectedDayRange: any) => {
@@ -89,383 +243,207 @@ export default function ResultTable() {
         }
     }
 
-    const createdDateRangeHandler = (createdDayRange: any) => {
-        if (createdDayRange.from && createdDayRange.to) {
-            return `از ${createdDayRange.from.year}/${createdDayRange.from.month}/${createdDayRange.from.day} تا ${createdDayRange.to.year}/${createdDayRange.to.month}/${createdDayRange.to.day}`
-        } else if (!createdDayRange.from && !createdDayRange.to) {
-            return ''
-        } else if (!createdDayRange.from) {
-            return ''
-        } else if (!createdDayRange.to) {
-            return `از ${createdDayRange.from.year}/${createdDayRange.from.month}/${createdDayRange.from.day} تا اطلاع ثانویه`
-        }
-    }
-
-    useEffect(() => {
-        if (bookBuildingResult) {
-            setProducts(bookBuildingResult)
-        }
-    }, [bookBuildingResult]);
-
-    const deleteHandler = async (index: number) => {
-        await deleteBookBuilding(selectedProducts?.[0]?.instrumentId)
-            .then(res => {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    detail: 'کارمزد حذف شد',
-                    life: 6000
-                });
-                setIndexOfDeletings(index + 1)
-            })
-            .catch(err => {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده است',
-                    detail: err?.response?.data?.message,
-                    life: 6000
-                });
-                setIndexOfDeletings(index + 1)
-            })
-    }
-
-    useEffect(() => {
-        if (selectedProducts?.[indexOfDeletings]?.id) {
-            deleteHandler(indexOfDeletings)
-        } else {
-            setSelectedProducts([]);
-        }
-    }, [indexOfDeletings])
-
-
-    const hideDialog = () => {
-        setSelectedProducts([]);
-        setProductDialog(false);
-        setUpdateDialog(false);
-        setDeleteProductsDialog(false);
-        setInstrumentId('')
-        setMaxQuantity('')
-        setMinPrice('')
-        setMaxPrice('')
-        setToActiveDateTime(null)
-        setFromActiveDateTime(null)
-        setCreatedDayRange({from:null,to:null})
-
-        setCreatedBy('')
-        setFaulty(false)
-    }
-
-
-    const leftToolbarTemplate = () => {
-        const openNew = () => {
-            setProduct(emptyProduct);
-            setProductDialog(true);
-        }
-
+    const ToolbarTemplate = () => {
         const openUpdate = () => {
-            if (selectedProducts.length === 1) {
+            if (gridRef.current?.api?.getSelectedRows().length ===1) {
+                let _date:any={from:null,to:null}
+                _date['from']={year:jalali(gridRef.current?.api?.getSelectedRows()[0]?.fromActiveDateTime).date.split('/')[0],month:jalali(gridRef.current?.api?.getSelectedRows()[0]?.fromActiveDateTime).date.split('/')[1],day:jalali(gridRef.current?.api?.getSelectedRows()[0]?.fromActiveDateTime).date.split('/')[2]}
+                _date['to']={year:jalali(gridRef.current?.api?.getSelectedRows()[0]?.toActiveDateTime).date.split('/')[0],month:jalali(gridRef.current?.api?.getSelectedRows()[0]?.toActiveDateTime).date.split('/')[1],day:jalali(gridRef.current?.api?.getSelectedRows()[0]?.toActiveDateTime).date.split('/')[2]}
+                setDate(_date)
                 setUpdateDialog(true);
-
             } else {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'لطفا یک گزینه برای تغییر انتخاب کنید',
-                    life: 6000
-                });
+                toast.error('لطفا یک گزینه را انتخاب کنید')
             }
         }
 
         const confirmDeleteSelected = () => {
-            setDeleteProductsDialog(true);
+            if (gridRef.current?.api?.getSelectedRows().length ===1) {
+                setDeleteProductsDialog(true);
+            } else {
+                toast.error('لطفا یک گزینه را انتخاب کنید')
+            }
         }
 
-        return (
-            <React.Fragment>
-                <Button label="حذف" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected}
-                        disabled={!selectedProducts || !selectedProducts.length}/>
-                <Button label="جدید" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew}/>
-                <Button label="تغییر" icon="pi pi-pencil" className="p-button-success mr-2" onClick={openUpdate}/>
-            </React.Fragment>
-        )
-    }
-    const rightToolbarTemplate = () => {
-        const exportExcel = () => {
-            import('xlsx').then(xlsx => {
-                const worksheet = xlsx.utils.json_to_sheet(products);
-                const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
-                const excelBuffer = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
-                saveAsExcelFile(excelBuffer, 'products');
-            });
+        const updateHandler = async () => {
+            let item = gridRef.current?.api?.getSelectedRows()?.[0]
+            await updateBookBuilding({
+                instrumentId: item?.instrumentId,
+                maxQuantity: item?.maxQuantity,
+                minPrice: item?.minPrice,
+                maxPrice: item?.maxPrice,
+                toActiveDateTime: moment.from(`${item?.toActiveDateTime?.year}${item?.toActiveDateTime && item?.toActiveDateTime?.month < 10 ? `0${item?.toActiveDateTime?.month}` : item?.toActiveDateTime?.month}${item?.toActiveDateTime && item?.toActiveDateTime?.day < 10 ? `0${item?.toActiveDateTime?.day}` : item?.toActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                fromActiveDateTime: moment.from(`${item?.fromActiveDateTime?.year}${item?.fromActiveDateTime && item?.fromActiveDateTime?.month < 10 ? `0${item?.fromActiveDateTime?.month}` : item?.fromActiveDateTime?.month}${item?.fromActiveDateTime && item?.fromActiveDateTime?.day < 10 ? `0${item?.fromActiveDateTime?.day}` : item?.fromActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
+
+            })
+                .then(res => {
+                    toast.success('با موفقیت انجام شد')
+                    setUpdateDialog(false)
+                    gridRef.current?.api?.applyTransaction({
+                        update:[{
+                            instrumentId: item?.instrumentId,
+                            maxQuantity: item?.maxQuantity,
+                            minPrice: item?.minPrice,
+                            maxPrice: item?.maxPrice,
+                            toActiveDateTime: moment.from(`${date?.from?.year}${date?.from && date?.from?.month < 10 ? `0${date?.from?.month}` : date?.from?.month}${date?.from && date?.from?.day < 10 ? `0${date?.from?.day}` : date?.from?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                            fromActiveDateTime: moment.from(`${date?.to?.year}${date?.to && date?.to?.month < 10 ? `0${date?.to?.month}` : date?.to?.month}${date?.to && date?.to?.day < 10 ? `0${date?.to?.day}` : date?.to?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                        }]
+                    })
+                })
+                .catch(err => toast.error(`${err?.response?.data?.title}`))
         }
 
-        const saveAsExcelFile = (buffer: any, fileName: any) => {
-            import('file-saver').then(module => {
-                if (module && module.default) {
-                    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-                    let EXCEL_EXTENSION = '.xlsx';
-                    const data = new Blob([buffer], {
-                        type: EXCEL_TYPE
-                    });
-
-                    module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-                }
-            });
-        }
-
-        return (
-                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel}
-                        className="p-button-success mr-2" data-pr-tooltip="XLS"/>
-        )
-    }
-
-    const deleteSelectedProducts = () => {
-        let _products = products.filter((val: any) => !selectedProducts?.includes(val));
-        setProducts(_products);
-        setDeleteProductsDialog(false);
-        deleteHandler(0)
-    }
-    const deleteProductsDialogFooter = (
-        <React.Fragment>
-            <Button label="خیر" icon="pi pi-times" className="p-button-text" onClick={hideDialog}/>
-            <Button label="بله" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts}/>
-        </React.Fragment>
-    );
-
-    const addNewHandler = async () => {
-        if (instrumentId && maxQuantity && minPrice && maxPrice && createdDayRange) {
-            await addBookBuilding({
-                instrumentId: instrumentId,
-                maxQuantity: maxQuantity,
-                minPrice: minPrice,
-                maxPrice: maxPrice,
-                toActiveDateTime: moment.from(`${createdDayRange.to?.year}${createdDayRange.to && createdDayRange.to?.month<10 ? `0${createdDayRange.to?.month}`:createdDayRange.to?.month}${createdDayRange.to && createdDayRange.to?.day<10 ? `0${createdDayRange.to?.day}`:createdDayRange.to?.day}`, 'fa', 'YYYY-MM-DD').format(),
-                fromActiveDateTime: moment.from(`${createdDayRange.from?.year}${createdDayRange.from && createdDayRange.from?.month<10 ? `0${createdDayRange.from?.month}`:createdDayRange.from?.month}${createdDayRange.from && createdDayRange.from?.day<10 ? `0${createdDayRange.from?.day}`:createdDayRange.from?.day}`, 'fa', 'YYYY-MM-DD').format(),
-
-            }).then(res => {
-                setProductDialog(false);
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    detail: `${res}`,
-                    life: 6000
-                });
-                setProducts([{
+        const addNewHandler = async () => {
+            if (instrumentId && maxQuantity && minPrice && maxPrice && createdDayRange) {
+                await addBookBuilding({
                     instrumentId: instrumentId,
                     maxQuantity: maxQuantity,
                     minPrice: minPrice,
-                    maxPrice: maxPrice
-                }, ...products])
-                setInstrumentId('')
-                setMaxQuantity('')
-                setMinPrice('')
-                setMaxPrice('')
-                setCreatedDayRange({from:null,to:null})
-            })
-                .catch(err => {
-                    toast.current?.show({
-                        severity: 'error',
-                        summary: 'مشکلی رخ داده است',
-                        detail: err?.response?.data?.title,
-                        life: 6000
-                    });
+                    maxPrice: maxPrice,
+                    toActiveDateTime: moment.from(`${createdDayRange.to?.year}${createdDayRange.to && createdDayRange.to?.month < 10 ? `0${createdDayRange.to?.month}` : createdDayRange.to?.month}${createdDayRange.to && createdDayRange.to?.day < 10 ? `0${createdDayRange.to?.day}` : createdDayRange.to?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                    fromActiveDateTime: moment.from(`${createdDayRange.from?.year}${createdDayRange.from && createdDayRange.from?.month < 10 ? `0${createdDayRange.from?.month}` : createdDayRange.from?.month}${createdDayRange.from && createdDayRange.from?.day < 10 ? `0${createdDayRange.from?.day}` : createdDayRange.from?.day}`, 'fa', 'YYYY-MM-DD').format(),
+                }).then(res => {
+                    setProductDialog(false);
+                    toast.success('با موفقیت انجام شد')
+                    gridRef.current.api.applyTransaction({
+                        add: [{
+                            instrumentId: instrumentId,
+                            maxQuantity: maxQuantity,
+                            minPrice: minPrice,
+                            maxPrice: maxPrice
+                        }],
+                        addIndex: 0
+                    })
                 })
-        } else {
-            setFaulty(true)
-            if (!maxQuantity) {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'اطلاعات اجباری',
-                    detail: 'بیشینه حجم سفارش را لطفا وارد کنید',
-                    life: 6000
-                });
-            } else if (!instrumentId) {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'اطلاعات اجباری',
-                    detail: 'کد نماد را لطفا وارد کنید',
-                    life: 6000
-                });
+                    .catch(err => {
+                        toast.error('ناموفق')
+                    })
+            } else {
+                setFaulty(true)
+                if (!maxQuantity) {
+                    toast.error('بیشینه حجم سفارش را لطفا وارد کنید')
+                } else if (!instrumentId) {
+                    toast.error('کد نماد را لطفا وارد کنید')
+                }
             }
         }
-    }
-    const productDialogFooter = (
-        <React.Fragment>
-            <Button label="لغو" icon="pi pi-times" className="p-button-text" onClick={hideDialog}/>
-            <Button label="تایید" icon="pi pi-check" className="p-button-text" onClick={addNewHandler}/>
-        </React.Fragment>
-    );
+        const deleteHandler = async () => {
+            await deleteBookBuilding(gridRef.current?.api?.getSelectedRows()?.[0]?.instrumentId)
+                .then(res => {
+                    gridRef.current.api.applyTransaction({
+                        remove: [gridRef.current?.api?.getSelectedRows()?.[0]]
+                    })
+                    setDeleteProductsDialog(false);
+                    toast.success('با موفقیت انجام شد')
+                })
+                .catch(err => {
+                    toast.error('ناموفق')
+                })
+        }
 
-    const updateHandler = async () => {
-        await updateBookBuilding({
-            instrumentId: selectedProducts?.[0]?.instrumentId,
-            maxQuantity: maxQuantity,
-            minPrice: minPrice,
-            maxPrice: maxPrice,
-            toActiveDateTime: moment.from(`${toActiveDateTime?.year}${toActiveDateTime && toActiveDateTime?.month<10 ? `0${toActiveDateTime?.month}`:toActiveDateTime?.month}${toActiveDateTime && toActiveDateTime?.day<10 ? `0${toActiveDateTime?.day}`:toActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
-            fromActiveDateTime: moment.from(`${fromActiveDateTime?.year}${fromActiveDateTime && fromActiveDateTime?.month<10 ? `0${fromActiveDateTime?.month}`:fromActiveDateTime?.month}${fromActiveDateTime && fromActiveDateTime?.day<10 ? `0${fromActiveDateTime?.day}`:fromActiveDateTime?.day}`, 'fa', 'YYYY-MM-DD').format(),
-
-        })
-            .then(res => {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    life: 6000
-                });
-                setUpdateDialog(false)
-                setUpdateSectorCode('')
-                setUpdateSubSectorCode('')
-            })
-            .catch(err => toast.current?.show({
-                severity: 'error',
-                summary: err?.response?.data?.title,
-                life: 6000
-            }))
-    }
-    const updateDialogFooter = (
-        <React.Fragment>
-            <Button label="لغو" icon="pi pi-times" className="p-button-text" onClick={hideDialog}/>
-            <Button label="تایید" icon="pi pi-check" className="p-button-text" onClick={updateHandler}/>
-        </React.Fragment>
-    );
-
-    return (
-        <Card className="datatable-scroll-demo">
-            <Toast ref={toast} position="top-center"/>
-
-            <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
-                <DataTable ref={dt} value={products} selection={selectedProducts} removableSort
-                           onSelectionChange={(e) => setSelectedProducts(e.value)}
-                           dataKey="instrumentId" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable
-                           scrollHeight="500px"
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                           globalFilter={globalFilter} responsiveLayout="scroll">
-                    <Column selectionMode="multiple" headerStyle={{width: '3rem'}} exportable={false}/>
-                    <Column field="instrumentId" header="شناسه نماد" sortable style={{minWidth: '8rem'}}/>
-                    <Column field="faInsCode" header="نماد" style={{minWidth: '8rem'}}/>
-                    <Column field="faInsName" header="عنوان نماد" style={{minWidth: '14rem'}}/>
-                    <Column field="maxQuantity" header="بیشینه حجم سفارش" sortable
-                            style={{minWidth: '14rem'}}/>
-                    <Column field="minPrice" header="حداقل قیمت سفارش" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="maxPrice" header="حداکثر قیمت سفارش" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="fromActiveDateTime" header="زمان شروع" body={(rowData) =>
-                        <div>
-                            <div>
-                                {rowData.fromActiveDateTime ? moment(rowData.fromActiveDateTime).locale('fa')?.format("YYYY/MM/DD") : '-'}
-                            </div>
-                            {rowData.fromActiveDateTime ? moment(rowData.fromActiveDateTime).locale('fa').format("HH:mm") : '-'}
+        return (
+            <div className={'flex p-2'}>
+                <Modal title={'تایید حذف'} open={deleteProductsDialog} setOpen={setDeleteProductsDialog}>
+                    <div className="flex flex-col">
+                        <div className={'mx-auto'}>آیا از حذف ردیف مورد نظر اطمینان دارید؟</div>
+                        <div className={'mr-auto space-x-reverse space-x-2 mt-3'}>
+                            <button className="p-1 px-4 rounded-full bg-red-500"
+                                    onClick={() => setDeleteProductsDialog(false)}>خیر
+                            </button>
+                            <button className="p-1 px-4 rounded-full bg-lime-600" onClick={deleteHandler}>بله</button>
                         </div>
-                    } sortable style={{minWidth: '8rem'}}/>
-                    <Column field="toActiveDateTime" header="زمان پایان" body={(rowData) =>
-                        <div>
+                    </div>
+                </Modal>
+                <Modal title={'جزییات کارمزد جدید'} ModalWidth={'max-w-3xl'} setOpen={setProductDialog}
+                       open={productDialog}>
+                    <div className="field mt-4">
+                        <form className={'grid grid-cols-2 gap-4'}>
                             <div>
-                                {rowData.toActiveDateTime ? moment(rowData.toActiveDateTime).locale('fa')?.format("YYYY/MM/DD") : '-'}
-                            </div>
-                            {rowData.toActiveDateTime ? moment(rowData.toActiveDateTime).locale('fa').format("HH:mm") : '-'}
-                        </div>
-                    } sortable style={{minWidth: '8rem'}}/>
-                    <Column field="createdBy" header="کاربر ایجاد کننده" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="createDateTime" header="زمان ایجاد"  body={(rowData) =>
-                        <div>
-                            <div>
-                                {rowData.createDateTime ? moment(rowData.createDateTime).locale('fa')?.format("YYYY/MM/DD") : '-'}
-                            </div>
-                            {rowData.createDateTime ? moment(rowData.createDateTime).locale('fa').format("HH:mm") : '-'}
-                        </div>
-                    } sortable style={{minWidth: '8rem'}}/>
-                    <Column field="updatedBy" header="کاربر تغییر دهنده" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="updatedDateTime" header="زمان تغییر" sortable style={{minWidth: '8rem'}}/>
-                </DataTable>
-            </div>
-
-            <Dialog visible={deleteProductsDialog} style={{width: '450px'}} header="تایید حذف" modal
-                    footer={deleteProductsDialogFooter} onHide={hideDialog}>
-                <div className="confirmation-content align-content-center flex">
-                    <i className="pi pi-exclamation-triangle ml-3" style={{fontSize: '1.4rem'}}/>
-                    {product && <span>آیا از حذف ردیف مورد نظر اطمینان دارید؟</span>}
-                </div>
-            </Dialog>
-            <Dialog visible={productDialog} style={{width: '450px'}} header="جزییات کارمزد جدید" modal
-                    className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                <div className="field mt-4">
-                    <form className={'grid'}>
-                        <div className="p-float-label col-12">
-                            <InputText id="faInsCode" className={fault && !instrumentId ? 'attention':''} value={instrumentId}
+                                <label className={'block'} htmlFor="faInsCode">نماد</label>
+                                <input id="faInsCode" className={fault && !instrumentId ? 'attention w-full' : 'w-full'}
+                                       value={instrumentId}
                                        onChange={(e) => {
                                            setInstrumentId(e.target.value);
                                            setFaulty(false)
                                        }}/>
-                            <label htmlFor="faInsCode">نماد</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" className={fault && !maxQuantity ? 'attention':''} value={maxQuantity}
+                            </div>
+                            <div>
+                                <label className={'block'} htmlFor="instrumentTypeCode">بیشینه حجم سفارش</label>
+                                <input id="instrumentTypeCode"
+                                       className={fault && !maxQuantity ? 'attention w-full' : 'w-full'} value={maxQuantity}
                                        onChange={(e) => {
                                            setMaxQuantity(e.target.value);
                                            setFaulty(false)
                                        }}/>
-                            <label htmlFor="instrumentTypeCode">بیشینه حجم سفارش</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="sectorCode" value={minPrice}
+                            </div>
+                            <div>
+                                <label className={'block'} htmlFor="sectorCode">حداقل قیمت سفارش</label>
+                                <input id="sectorCode" value={minPrice} className={'w-full'}
                                        onChange={(e) => setMinPrice(e.target.value)}/>
-                            <label htmlFor="sectorCode">حداقل قیمت سفارش</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="subSectorCode" value={maxPrice}
+                            </div>
+                            <div>
+                                <label className={'block w-full'} htmlFor="subSectorCode">حداکثر قیمت سفارش</label>
+                                <input id="subSectorCode" value={maxPrice} className={'w-full'}
                                        onChange={(e) => setMaxPrice(e.target.value)}/>
-                            <label htmlFor="subSectorCode">حداکثر قیمت سفارش</label>
+                            </div>
+                            <div>
+                                <DatePicker
+                                    value={createdDayRange}
+                                    onChange={setCreatedDayRange}
+                                    shouldHighlightWeekends
+                                    renderInput={createdRenderCustomInput}
+                                    locale={'fa'}
+                                    calendarPopperPosition={'auto'}
+                                />
+                            </div>
+                        </form>
+                        <div className={'flex justify-end space-x-reverse space-x-2'}>
+                            <button className="p-1 px-3 rounded-full bg-red-500"
+                                    onClick={() => setProductDialog(false)}>لغو
+                            </button>
+                            <button className="p-1 px-3 rounded-full bg-lime-600" onClick={addNewHandler}>تایید</button>
                         </div>
-                        <div className="p-float-label col-12 mt-3">
+                    </div>
+                </Modal>
+                <Modal title={'ایجاد تغییرات'} ModalWidth={'max-w-3xl'} open={updateDialog} setOpen={setUpdateDialog}>
+                    <form className={'grid grid-cols-3 gap-4'}>
+                        <div>
+                            <label className={'block'} htmlFor="instrumentId">شناسه نماد</label>
+                            <input className={'w-full'} id="instrumentId" readOnly
+                                   value={gridRef.current?.api?.getSelectedRows()[0]?.instrumentId}/>
+                        </div>
+                        <div>
+                            <label className={'block'} htmlFor="faInsCode2">نماد</label>
+                            <input className={'w-full'} id="faInsCode2" readOnly
+                                   value={gridRef.current?.api?.getSelectedRows()[0]?.faInsCode}/>
+                        </div>
+                        <div>
+                            <label className={'block'} htmlFor="faInsName2">عنوان نماد</label>
+                            <input className={'w-full'} id="faInsName2" readOnly
+                                   value={gridRef.current?.api?.getSelectedRows()[0]?.faInsName}/>
+                        </div>
+                        <div>
+                            <label className={'block'} htmlFor="instrumentTypeCode">بیشینه حجم سفارش</label>
+                            <input id="instrumentTypeCode" className={fault && !maxQuantity ? 'attention w-full' : 'w-full'}
+                                   value={gridRef.current?.api?.getSelectedRows()[0]?.maxQuantity}
+                                   onChange={(e) => {
+                                       setMaxQuantity(e.target.value);
+                                       setFaulty(false)
+                                   }}/>
+                        </div>
+                        <div>
+                            <label className={'block'} htmlFor="sectorCode">حداقل قیمت سفارش</label>
+                            <input id="sectorCode" value={gridRef.current?.api?.getSelectedRows()[0]?.minPrice} className={'w-full'}
+                                   onChange={(e) => setMinPrice(e.target.value)}/>
+                        </div>
+                        <div>
+                            <label className={'block'} htmlFor="subSectorCode">حداکثر قیمت سفارش</label>
+                            <input id="subSectorCode" value={gridRef.current?.api?.getSelectedRows()[0]?.maxPrice} className={'w-full'}
+                                   onChange={(e) => setMaxPrice(e.target.value)}/>
+                        </div>
+                        <div>
                             <DatePicker
-                                value={createdDayRange}
-                                onChange={setCreatedDayRange}
-                                shouldHighlightWeekends
-                                renderInput={createdRenderCustomInput}
-                                locale={'fa'}
-                                calendarPopperPosition={'bottom'}
-                            />
-                        </div>
-                    </form>
-                </div>
-            </Dialog>
-            <Dialog visible={updateDialog} style={{width: '450px'}} header="ایجاد تغییرات" modal className="p-fluid"
-                    footer={updateDialogFooter} onHide={hideDialog}>
-                <div className="field mt-4">
-                    <form className={'grid'}>
-                        <div className="p-float-label col-12">
-                            <InputText id="instrumentId" readOnly  value={selectedProducts?.[0]?.instrumentId}/>
-                            <label htmlFor="instrumentId">شناسه نماد</label>
-                        </div>
-                        <div className="p-float-label col-12">
-                            <InputText id="faInsCode2"  readOnly value={selectedProducts?.[0]?.faInsCode}/>
-                            <label htmlFor="faInsCode2">نماد</label>
-                        </div>
-                        <div className="p-float-label col-12">
-                            <InputText id="faInsName2" readOnly value={selectedProducts?.[0]?.faInsName}/>
-                            <label htmlFor="faInsName2">عنوان نماد</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" className={fault && !maxQuantity ? 'attention':''} value={maxQuantity}
-                                       onChange={(e) => {
-                                           setMaxQuantity(e.target.value);
-                                           setFaulty(false)
-                                       }}/>
-                            <label htmlFor="instrumentTypeCode">بیشینه حجم سفارش</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="sectorCode" value={minPrice}
-                                       onChange={(e) => setMinPrice(e.target.value)}/>
-                            <label htmlFor="sectorCode">حداقل قیمت سفارش</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="subSectorCode" value={maxPrice}
-                                       onChange={(e) => setMaxPrice(e.target.value)}/>
-                            <label htmlFor="subSectorCode">حداکثر قیمت سفارش</label>
-                        </div>
-                        <div className="col-12 w-full px-2 mt-3">
-                            <DatePicker
-                                value={selectedDayRange}
-                                onChange={setSelectedDayRange}
+                                value={date}
+                                onChange={setDate}
                                 shouldHighlightWeekends
                                 renderInput={renderCustomInput}
                                 locale={'fa'}
@@ -473,8 +451,48 @@ export default function ResultTable() {
                             />
                         </div>
                     </form>
+                    <div className={'flex justify-end space-x-reverse space-x-2'}>
+                        <button className="p-1 px-3 rounded-full bg-red-500" onClick={()=>setUpdateDialog(false)}>لغو</button>
+                        <button className="p-1 px-3 rounded-full bg-lime-500" onClick={updateHandler}>تایید</button>
+                    </div>
+                </Modal>
+                <SearchSection/>
+                <div className={'flex space-x-2 space-x-reverse mr-auto'}>
+                    <button className="bg-red-500 p-1 px-2 rounded-full h-fit" onClick={confirmDeleteSelected}>حذف</button>
+                    <button className="bg-lime-600 p-1 px-2 rounded-full h-fit" onClick={()=>setProductDialog(true)}>جدید</button>
+                    <button className="bg-lime-600 p-1 px-2 rounded-full h-fit" onClick={openUpdate}>تغییر</button>
                 </div>
-            </Dialog>
-        </Card>
+            </div>
+        )
+    }
+
+    return (
+        <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
+            <div>
+                {ToolbarTemplate()}
+            </div>
+            <div className={'relative grow'}>
+                <div style={gridStyle} className="ag-theme-alpine absolute">
+                    <AgGridReact
+                        ref={gridRef}
+                        enableRtl={true}
+                        columnDefs={columnDefStructure}
+                        defaultColDef={defaultColDef}
+                        loadingOverlayComponent={loadingOverlayComponent}
+                        loadingOverlayComponentParams={loadingOverlayComponentParams}
+                        noRowsOverlayComponent={noRowsOverlayComponent}
+                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                        rowHeight={35}
+                        headerHeight={35}
+                        animateRows={true}
+                        getRowId={getRowId}
+                        asyncTransactionWaitMillis={1000}
+                        columnHoverHighlight={true}
+                        detailRowHeight={100}
+                        rowSelection={'single'}
+                    />
+                </div>
+            </div>
+        </div>
     );
 }

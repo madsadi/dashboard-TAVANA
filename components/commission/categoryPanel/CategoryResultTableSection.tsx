@@ -1,129 +1,212 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Toolbar } from 'primereact/toolbar';
-import {useSelector} from "react-redux";
-import {Card} from "primereact/card";
-import {commissionSearch} from "../../../api/commissionInstrumentType";
-import {Toast} from "primereact/toast";
-import {Paginator} from "primereact/paginator";
+import React, {useState, useRef, useMemo, useCallback} from 'react';
+import {formatNumber} from "../../commonFn/commonFn";
+import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
+import {AgGridReact} from "ag-grid-react";
+import AccordionComponent from "../../common/AccordionComponent";
+import {COMMISSION_BASE_URL} from "../../../api/constants";
+
+type initialType = { CommissionCategoryId: string, MarketTitle: string, OfferTypeTitle: string, SideTitle: string, SettlementDelayTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string }
+const initialValue = {
+    CommissionCategoryId: '',
+    MarketTitle: '',
+    OfferTypeTitle: '',
+    SideTitle: '',
+    SettlementDelayTitle: '',
+    CustomerTypeTitle: '',
+    CustomerCounterSideTitle: '',
+}
+const listOfFilters = [
+    {title: 'CommissionCategoryId', name: 'شناسه', type: 'input'},
+    {title: 'MarketTitle', name: 'بازار', type: 'input'},
+    {title: 'OfferTypeTitle', name: 'نوع عرضه', type: 'input'},
+    {title: 'SideTitle', name: 'سمت سفارش', type: 'input'},
+    {title: 'SettlementDelayTitle', name: 'تاخیر در تسویه', type: 'input'},
+    {title: 'CustomerTypeTitle', name: 'نوع مشتری', type: 'input'},
+    {title: 'CustomerCounterSideTitle', name: 'نوع طرف مقابل', type: 'input'},
+]
 
 export default function CategoryResultTableSection() {
-    const {categorySearchResult}=useSelector((state:any)=>state.commissionConfig)
-
-    const [products, setProducts] = useState<any[]>([]);
-    const [totalRecords, setTotalRecords] = useState(0);
-    const [basicFirst, setBasicFirst] = useState(0);
-    const [basicRows, setBasicRows] = useState(10);
-    const [loading, setLoading] = useState(false);
-
-    const toast:any = useRef(null);
-
-    const search=async (body:any)=>{
-        await commissionSearch('/CommissionCategory/Search?', body
-        ).then(res => {
-            setProducts(res?.result?.pagedData)
-            if (totalRecords!==res?.result?.totalCount){
-                setTotalRecords(res?.result?.totalCount)
-            }
-        })
-            .catch(err =>
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده',
-                    detail: `${err?.response?.data?.title}`,
-                    life: 6000
-                }))
-    }
-
-    useEffect(() => {
-        let body=[...categorySearchResult,{PageNumber:(Number(basicFirst)/Number(basicRows))+1},{PageSize:basicRows}]
-        search(body)
-    }, [basicFirst,basicRows]);
-
-    const onBasicPageChange = (event:any) => {
-        setBasicFirst(event.first);
-        setBasicRows(event.rows);
-    }
-
-    const rightToolbarTemplate = () => {
-        let body=[...categorySearchResult,{PageSize:totalRecords}]
-        const search=async (body:any)=>{
-            setLoading(true)
-            await commissionSearch('/CommissionCategory/Search?', body)
-                .then(res => {
-                    exportExcel(res?.result?.pagedData);
-                    setLoading(false)
-                })
-                .catch(err => {
-                    setLoading(false)
-                    toast.current?.show({
-                        severity: 'error',
-                        summary: 'مشکلی رخ داده',
-                        detail: `${err?.response?.data?.title}`,
-                        life: 6000
-                    })
-                })
+    const columnDefStructure = [
+        {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            showDisabledCheckboxes: true,
+            headerCheckboxSelectionFilteredOnly: true,
+            resizable: false,
+            minWidth: 40,
+            maxWidth: 40,
+        },
+        {
+            field: 'id',
+            headerName: 'شناسه',
+            flex: 0,
+            width: 90,
+            minWidth: 90
+        },
+        {
+            field: 'marketCode',
+            headerName: 'کد بازار',
+        },
+        {
+            field: 'marketTitle',
+            headerName: 'بازار',
+        },
+        {
+            field: 'offerTypeCode',
+            headerName: 'کد نوع عرضه',
+            flex: 0,
+        },
+        {
+            field: 'offerTypeTitle',
+            headerName: 'نوع عرضه',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'sideCode',
+            headerName: 'کد سمت سفارش',
+            flex: 0,
+        }, {
+            field: 'sideTitle',
+            headerName: 'سمت سفارش',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'settlementDelayCode',
+            headerName: 'کد تاخیر در تسویه',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'settlementDelayTitle',
+            headerName: 'تاخیر در تسویه',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'customerTypeCode',
+            headerName: 'کد نوع مشتری',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'customerTypeTitle',
+            headerName: 'نوع مشتری',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'customerCounterSideCode',
+            headerName: 'کد نوع طرف مقابل',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'customerCounterSideTitle',
+            headerName: 'نوع طرف مقابل',
+            flex: 0,
+            width: 120,
+            minWidth: 120
         }
+    ]
 
-        const exportExcel = (records:any) => {
-            import('xlsx').then(xlsx => {
-                const worksheet = xlsx.utils.json_to_sheet(records);
-                const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-                const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-                saveAsExcelFile(excelBuffer, 'گروه بندی ضرایب');
-            });
-        }
+    const [totalCount, setTotalCount] = useState<number>(0);
+    const [query, setQuery] = useState<initialType>(initialValue)
 
-        const saveAsExcelFile = (buffer:any, fileName:any) => {
-            import('file-saver').then(module => {
-                if (module && module.default) {
-                    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-                    let EXCEL_EXTENSION = '.xlsx';
-                    const data = new Blob([buffer], {
-                        type: EXCEL_TYPE
-                    });
+    //Grid
+    const gridRef: any = useRef();
+    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
+    const defaultColDef = useMemo(() => {
+        return {
+            resizable: true,
+            sortable: true,
+            flex: 1,
+            valueFormatter: formatNumber,
+            minWidth: 120
+        };
+    }, []);
+    const getRowId = useCallback((params: any) => {
+        return params.data.instrumentId
+    }, []);
+    const loadingOverlayComponent = useMemo(() => {
+        return LoadingOverlay;
+    }, []);
+    const loadingOverlayComponentParams = useMemo(() => {
+        return {
+            loadingMessage: 'در حال بارگزاری...',
+        };
+    }, []);
+    const noRowsOverlayComponent = useMemo(() => {
+        return NoRowOverlay;
+    }, []);
+    const noRowsOverlayComponentParams = useMemo(() => {
+        return {
+            noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
+        };
+    }, []);
+    //Grid
 
-                    module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-                }
-            });
-        }
+    // const rightToolbarTemplate = () => {
+    //     let body=[...categorySearchResult,{PageSize:totalRecords}]
+    //     const search=async (body:any)=>{
+    //         setLoading(true)
+    //         await commissionSearch('/CommissionCategory/Search?', body)
+    //             .then(res => {
+    //                 setLoading(false)
+    //             })
+    //             .catch(err => {
+    //                 setLoading(false)
+    //                 toast.error('ناموفق')
+    //             })
+    //     }
+    //
+    //     return (
+    //         <>
+    //             {/*<button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={()=>search(body)} className="p-button-success mr-auto" data-pr-tooltip="XLS" />*/}
+    //             {/*{loading && <i className="pi pi-spin pi-spinner" style={{'fontSize': '2em'}}/>}*/}
+    //         </>
+    //     )
+    // }
 
-        return (
-            <>
-                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={()=>search(body)} className="p-button-success mr-auto" data-pr-tooltip="XLS" />
-                {loading && <i className="pi pi-spin pi-spinner" style={{'fontSize': '2em'}}/>}
-            </>
-        )
-    }
+    // const header=()=>{
+    //     return <div className={'flex'}>{rightToolbarTemplate()}</div>
+    // }
 
-    const header=()=>{
-        return <div className={'flex'}>{rightToolbarTemplate()}</div>
-    }
     return (
-        <Card className="datatable-scroll-demo">
-            <Toast ref={toast} position="top-center"/>
-            <div className="card">
-                <DataTable value={products} sortMode="multiple" removableSort header={header}
-                           stripedRows scrollable scrollHeight="500px"
-                           responsiveLayout="scroll">
-                    <Column field="id" header="شناسه" sortable style={{ minWidth: '6rem'}}/>
-                    <Column field="marketCode" header="کد بازار" sortable  style={{ minWidth: '12rem'}}/>
-                    <Column field="marketTitle" header="بازار" style={{ minWidth: '8rem'}}/>
-                    <Column field="offerTypeCode" header="کد نوع عرضه" sortable style={{ minWidth: '14rem'}}/>
-                    <Column field="offerTypeTitle" header="نوع عرضه" sortable style={{ minWidth: '10rem'}}/>
-                    <Column field="sideCode" header="کد سمت سفارش" sortable style={{ minWidth: '10rem'}}/>
-                    <Column field="sideTitle" header="سمت سفارش" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="settlementDelayCode" header="کد تاخیر در تسویه" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="settlementDelayTitle" header="تاخیر در تسویه" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerTypeCode" header="کد نوع مشتری"  sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerTypeTitle" header="نوع مشتری"  sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerCounterSideCode" header="کد نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerCounterSideTitle" header="نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
-                </DataTable>
-                <Paginator className={'ltr'} first={basicFirst} rows={basicRows} totalRecords={totalRecords} rowsPerPageOptions={[10, 20, 30]} onPageChange={onBasicPageChange}/>
+        <>
+            <AccordionComponent query={query} setQuery={setQuery}
+                                api={`${COMMISSION_BASE_URL}/CommissionCategory/Search`} gridRef={gridRef}
+                                listOfFilters={listOfFilters} initialValue={initialValue}
+                                setTotalCount={setTotalCount}/>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
+                <div style={gridStyle} className="ag-theme-alpine absolute">
+                    <AgGridReact
+                        ref={gridRef}
+                        enableRtl={true}
+                        columnDefs={columnDefStructure}
+                        defaultColDef={defaultColDef}
+                        loadingOverlayComponent={loadingOverlayComponent}
+                        loadingOverlayComponentParams={loadingOverlayComponentParams}
+                        noRowsOverlayComponent={noRowsOverlayComponent}
+                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                        rowHeight={35}
+                        headerHeight={35}
+                        animateRows={true}
+                        getRowId={getRowId}
+                        asyncTransactionWaitMillis={1000}
+                        columnHoverHighlight={true}
+                        rowSelection={'single'}
+                    />
+                </div>
             </div>
-        </Card>
+        </>
     );
 }

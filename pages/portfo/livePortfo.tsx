@@ -1,0 +1,153 @@
+import AccordionComponent from "../../components/common/AccordionComponent";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import React, {useCallback, useMemo, useRef, useState} from "react";
+import {AgGridReact} from "ag-grid-react";
+import TablePagination from "../../components/common/TablePagination";
+import {formatNumber} from "../../components/commonFn/commonFn";
+import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
+import {useRouter} from "next/router";
+import {fetchData} from "../../api/clearedTradesReport";
+import {toast} from "react-toastify";
+
+const listOfFilters = [
+    {title: 'PageNumber', name: 'شماره صفحه', type: null},
+    {title: 'PageSize', name: 'تعداد', type: null},
+    {title: 'customerId', name: 'شناسه مشتری', type: 'input'},
+    {title: 'InstrumentId', name: 'شناسه نماد', type: 'search'},
+]
+type initialType = { customerId: string, InstrumentId: string, PageNumber: number, PageSize: number }
+const initialValue = {
+    PageNumber: 1,
+    PageSize: 20,
+    InstrumentId: '',
+    customerId: '',
+}
+
+export default function LivePortfo(){
+    const router=useRouter()
+    const columnDefStructure = [
+        {
+            field: 'customerId',
+            headerName: 'شناسه مشتری',
+        },{
+            field: 'customerTitle',
+            headerName: 'عنوان مشتری',
+        },{
+            field: 'customerNationalId',
+            headerName: 'کد ملی مشتری',
+        },{
+            field: 'instrumentId',
+            headerName: 'شناسه نماد',
+        },{
+            field: 'faInsCode',
+            headerName: 'نماد',
+        },
+        {
+            field: 'currentShareCount',
+            headerName: 'حجم مانده',
+        },
+        {
+            field: 'intradayBuy',
+            headerName: 'حجم خرید',
+        },
+        {
+            field: 'intradaySell',
+            headerName: 'حجم فروش',
+        }, {
+            field: 'openBuyOrder',
+            headerName: 'حجم سفارش های باز خرید',
+        },
+        {
+            field: 'openSellOrder',
+            headerName: 'حجم سفارش های باز فروش',
+        },
+        {
+            field: 'sellableShareCount',
+            headerName: 'حجم قابل فروش',
+        }
+    ]
+
+    const [query, setQuery] = useState<initialType>(initialValue)
+    const [totalCount, setTotalCount] = useState<any>(null)
+
+    //GRID
+    const gridRef: any = useRef();
+    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
+    const defaultColDef = useMemo(() => {
+        return {
+            resizable: true,
+            sortable: true,
+            flex: 1,
+            valueFormatter: formatNumber
+        };
+    }, []);
+    const getRowId = useCallback((params: any) => {
+        return params.data.instrumentId+params.data.customerId
+    }, []);
+    const loadingOverlayComponent = useMemo(() => {
+        return LoadingOverlay;
+    }, []);
+    const loadingOverlayComponentParams = useMemo(() => {
+        return {
+            loadingMessage: 'هنوز گزارشی ثبت نشده.',
+        };
+    }, []);
+    const noRowsOverlayComponent = useMemo(() => {
+        return NoRowOverlay;
+    }, []);
+    const noRowsOverlayComponentParams = useMemo(() => {
+        return {
+            noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
+        };
+    }, []);
+    const gridReady = async ()=>{
+        let body: any = {}
+        Object.keys(query).map((item: any) => {
+            // @ts-ignore
+            if (query[item]){
+                // @ts-ignore
+                body[item] = query[item]
+            }
+        })
+        await fetchData(`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio`, body)
+            .then((res) => {
+                    gridRef?.current?.api?.setRowData(res.result?.pagedData)
+                    setTotalCount(res?.result?.totalCount)
+            })
+            .catch(() => toast.error('ناموفق'))
+    }
+    //GRID
+    return(
+        <div className={'flex flex-col h-full flex-1'}>
+            <AccordionComponent query={query} setQuery={setQuery}
+                                api={`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio`}
+                                gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue}
+                                setTotalCount={setTotalCount} pagedData={true}/>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
+                <div style={gridStyle} className="ag-theme-alpine absolute">
+                    <AgGridReact
+                        ref={gridRef}
+                        enableRtl={true}
+                        columnDefs={columnDefStructure}
+                        defaultColDef={defaultColDef}
+                        loadingOverlayComponent={loadingOverlayComponent}
+                        loadingOverlayComponentParams={loadingOverlayComponentParams}
+                        noRowsOverlayComponent={noRowsOverlayComponent}
+                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                        rowHeight={35}
+                        onGridReady={gridReady}
+                        headerHeight={35}
+                        animateRows={true}
+                        getRowId={getRowId}
+                        columnHoverHighlight={true}
+                        onRowClicked={(e)=>{
+                            router.push(`/portfo/${e.data.customerId}&${e.data.instrumentId}`)
+                        }}
+                    />
+                </div>
+            </div>
+            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio?`}
+                             setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
+        </div>
+    )
+}

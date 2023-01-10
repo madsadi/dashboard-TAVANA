@@ -66,13 +66,13 @@ export const updateCommission = async (body: {
     return updateComm
 }
 export const commissionSearch = async (api:string,body: any) => {
-    let bodyToQuery = body.map((item:any)=> {
-            if (Object.values(item)[0]) {
-                return `&${Object.keys(item)[0]}=${Object.values(item)[0]}`
-            }
-        }).join('')
-
-    const search = await axios.get(`${COMMISSION_BASE_URL}${api}${bodyToQuery}`,
+    let bodyToQuery:any=[];
+    Object.keys(body).map((item:any)=>{
+        if (body[`${item}`]){
+            bodyToQuery.push(`${item}=`+body[`${item}`])
+        }
+    })
+    const search = await axios.get(`${COMMISSION_BASE_URL}${api}${bodyToQuery.join('&')}`,
         {
             headers: {
                 'Accept': '*/*'

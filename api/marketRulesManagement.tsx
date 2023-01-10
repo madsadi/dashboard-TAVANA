@@ -2,7 +2,7 @@ import axios from "axios";
 import {MARKET_RULES_MANAGEMENT} from "./constants";
 
 export const filedList = async () => {
-    const create = await axios.get(`${MARKET_RULES_MANAGEMENT}/GetFieldsList`,
+    const create = await axios.get(`${MARKET_RULES_MANAGEMENT}/request/GetFieldsList`,
         {
             headers: {
                 'Accept':'*/*'
@@ -28,7 +28,7 @@ export const remoteUrl = async (api:string) => {
     return create
 }
 export const addRule = async (body:any) => {
-    const add = await axios.post(`${MARKET_RULES_MANAGEMENT}/AddRule`,
+    const add = await axios.post(`${MARKET_RULES_MANAGEMENT}/request/AddRule`,
         body,
         {
             headers: {
@@ -42,7 +42,7 @@ export const addRule = async (body:any) => {
     return add
 }
 export const updateRule = async (body:any) => {
-    const update = await axios.put(`${MARKET_RULES_MANAGEMENT}/UpdateRule`,
+    const update = await axios.put(`${MARKET_RULES_MANAGEMENT}/request/UpdateRule`,
         body,
         {
             headers: {
@@ -56,13 +56,13 @@ export const updateRule = async (body:any) => {
     return update
 }
 export const rulesList = async (body:any) => {
-    let bodyToQuery = body.map((item:any)=> {
-        if (Object.values(item)[0]) {
-            return `&${Object.keys(item)[0]}=${Object.values(item)[0]}`
+    let bodyToQuery:any=[];
+    Object.keys(body).map((item:any)=>{
+        if (body[`${item}`]!==undefined && body[`${item}`]!==null && body[`${item}`]!==''){
+            bodyToQuery.push(`${item}=`+body[`${item}`])
         }
-    }).join('')
-
-    const list = await axios.get(`${MARKET_RULES_MANAGEMENT}/GetRules?${bodyToQuery}`,
+    })
+    const list = await axios.get(`${MARKET_RULES_MANAGEMENT}/request/GetRules?${bodyToQuery.join('&')}`,
         {
             headers: {
                 'Accept':'*/*'

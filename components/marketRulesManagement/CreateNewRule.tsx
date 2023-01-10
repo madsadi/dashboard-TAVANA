@@ -1,15 +1,15 @@
-import {Card} from "primereact/card";
-import {InputText} from "primereact/inputtext";
-import React, {useEffect, useRef, useState} from "react";
-import {Button} from "primereact/button";
+import React, {Fragment, useEffect, useRef, useState} from "react";
 import {shouldEditObject as shouldEditObjectFn} from "../../store/marketRulesConfig";
-import {Dropdown} from "primereact/dropdown";
-import {InputNumber} from "primereact/inputnumber";
-import {InputTextarea} from "primereact/inputtextarea";
 import {addRule, filedList, remoteUrl, updateRule} from "../../api/marketRulesManagement";
-import {Toast} from "primereact/toast";
-import {Chip} from "primereact/chip";
 import {useDispatch, useSelector} from "react-redux";
+import {Accordion, Badge} from "flowbite-react";
+import {Listbox, Transition} from "@headlessui/react";
+import {CheckIcon, ChevronDownIcon, XCircleIcon} from "@heroicons/react/20/solid";
+import {toast} from "react-toastify";
+
+function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ')
+}
 
 export default function CreateNewRule() {
     const {shouldEditObject} = useSelector((state: any) => state.marketRulesConfig)
@@ -17,15 +17,13 @@ export default function CreateNewRule() {
     const [sequence, setSequence] = useState<any>(null)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [status, setStatus] = useState({name: '', isActive: false});
-    const [fieldOptions, setFieldOptions] = useState<string[]>([])
+    const [fieldOptions, setFieldOptions] = useState<{ name: string, displayName: string }[]>([])
     const [variableList, setVariableList] = useState<any>({name: '', fieldType: '', remoteUrl: '', displayName: ''})
     const [selectedOperator, setSelectedOperator] = useState<any>({name: '', symbol: ''})
     const [expression, setExpression] = useState<string[]>([])
     const [faExpression, setFaExpression] = useState<string[]>([])
     const [valueOptions, setValueOptions] = useState<string[]>([])
     const [value, setValue] = useState<string>('')
-
-    const toast: any = useRef(null);
 
     const dispatch = useDispatch();
     const states = [
@@ -53,12 +51,7 @@ export default function CreateNewRule() {
     const getValueFromRemoteUrl = async (api: string) => {
         await remoteUrl(api)
             .then(res => setValueOptions(res?.result))
-            .catch(err => toast.current?.show({
-                severity: 'error',
-                summary: 'مشکلی رخ داده است',
-                detail: err?.response?.data?.title,
-                life: 6000
-            }))
+            .catch(err => toast.error('نا موفق'))
     }
 
     const expressionTranslate = (expression: string) => {
@@ -85,7 +78,7 @@ export default function CreateNewRule() {
             setStatus({name: shouldEditObject?.isActive ? 'فعال' : 'غیرفعال', isActive: shouldEditObject?.isActive});
             expressionTranslate(shouldEditObject?.expression)
         }
-    }, [shouldEditObject?.id])
+    }, [shouldEditObject?.id])// eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (variableList?.remoteUrl) {
@@ -96,13 +89,9 @@ export default function CreateNewRule() {
     const getFieldItems = async () => {
         await filedList()
             .then(res => setFieldOptions(res?.result))
-            .catch(err => toast.current?.show({
-                severity: 'error',
-                summary: 'مشکلی رخ داده است',
-                detail: err?.response?.data?.title,
-                life: 6000
-            }))
+            .catch(err => toast.error('نا موفق'))
     }
+
     useEffect(() => {
         getFieldItems()
     }, [])
@@ -126,20 +115,10 @@ export default function CreateNewRule() {
                 errorMessage: errorMessage
             })
                 .then(res => {
-                    toast.current?.show({
-                        severity: 'success',
-                        summary: 'با موفقیت انجام شد',
-                        detail: 'با موفقیت اضافه شد',
-                        life: 6000
-                    });
+                    toast.success('با موفقیت انجام شد');
                     reset(e)
                 })
-                .catch(err => toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده است',
-                    detail: err?.response?.data?.title,
-                    life: 6000
-                }))
+                .catch(err => toast.error('نا موفق'))
         } else {
             await addRule({
                 name: name,
@@ -149,20 +128,10 @@ export default function CreateNewRule() {
                 errorMessage: errorMessage
             })
                 .then(res => {
-                    toast.current?.show({
-                        severity: 'success',
-                        summary: 'با موفقیت انجام شد',
-                        detail: 'با موفقیت اضافه شد',
-                        life: 6000
-                    });
+                    toast.success('با موفقیت انجام شد');
                     reset(e)
                 })
-                .catch(err => toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده است',
-                    detail: err?.response?.data?.title,
-                    life: 6000
-                }))
+                .catch(err => toast.error('نا موفق'))
         }
     }
 
@@ -180,127 +149,380 @@ export default function CreateNewRule() {
 
     return (
         <>
-            <Toast ref={toast} position="top-center"/>
-            <Card>
-                <form onSubmit={submitForm}>
-                    <div>
-                        <div className={'grid'}>
-                            <div className={'col'}>
-                                <div className="p-float-label py-2 h-fit">
-                                    <InputText id="name" className={'w-full'} value={name}
-                                               onChange={(e) => setName(e.target.value)}/>
-                                    <label htmlFor="name">عنوان قانون</label>
+            <Accordion alwaysOpen={true}>
+                <Accordion.Panel>
+                    <Accordion.Title style={{padding: '0.5rem'}}>
+                        ثبت قانون جدید
+                    </Accordion.Title>
+                    <Accordion.Content style={{transition: 'all'}}>
+                        <form onSubmit={submitForm}>
+                            <div className={'grid grid-cols-4 gap-4'}>
+                                <div>
+                                    <label className={'block'} htmlFor="name">عنوان قانون</label>
+                                    <input id="name" className={'w-full'} value={name}
+                                           onChange={(e) => setName(e.target.value)}/>
                                 </div>
-                            </div>
-                            <div className={'col'}>
-                                <div className="p-float-label py-2 h-fit">
-                                    <InputNumber className={'w-full'} inputId="sequence" value={sequence}
-                                                 onChange={(e) => setSequence(e.value)} mode="decimal"
-                                                 useGrouping={false}/>
-                                    <label htmlFor="sequence">مرتبه/اولویت</label>
+                                <div>
+                                    <label className={'block'} htmlFor="sequence">مرتبه/اولویت</label>
+                                    <input id={'sequence'} className={'w-full'} value={sequence}
+                                           onChange={(e) => setSequence(e.target.value)}/>
                                 </div>
-                            </div>
-                            <div className={'col'}>
-                                <div className="p-float-label py-2 h-fit">
-                                    <Dropdown value={status} options={states} className={'w-full'}
-                                              onChange={(e) => setStatus(e.target.value)} optionLabel={'name'}/>
-                                    <label htmlFor="CustomerTypeTitle">وضیعت</label>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="p-float-label py-2">
-                                    <InputText className={'w-full'} value={errorMessage}
-                                               onChange={(e) => setErrorMessage(e.target.value)}/>
-                                    <label htmlFor="CustomerTypeTitle">پیام خطا</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={'grid mt-4'}>
-                            <div className={'col'}>
-                                <div className="p-float-label py-2 h-fit">
-                                    <Dropdown value={variableList} filter filterBy="name,displayName"
-                                              className={'w-full'} options={fieldOptions}
-                                              onChange={(e) => {
-                                                  setVariableList(e.target.value);
-                                                  setExpression([...expression, e.target.value?.name])
-                                                  setFaExpression([...faExpression, `"${e.target.value?.displayName}"`])
-                                                  setVariableList({
-                                                      name: '',
-                                                      fieldType: '',
-                                                      remoteUrl: '',
-                                                      displayName: ''
-                                                  })
-                                              }} optionLabel={'displayName'}/>
-                                    <label htmlFor="name">متغیر </label>
-                                </div>
-                            </div>
-                            <div className={'col'}>
-                                <div className="p-float-label py-2 h-fit">
-                                    <Dropdown value={selectedOperator} filter filterBy="name" className={'w-full'}
-                                              options={operators}
-                                              onChange={(e) => {
-                                                  setSelectedOperator(e.target.value);
-                                                  setExpression([...expression, e.target.value?.symbol])
-                                                  setFaExpression([...faExpression, `"${e.target.value?.symbol}"`])
-                                                  setSelectedOperator({name: '', symbol: ''})
-                                              }} optionLabel={'name'}/>
-                                    <label htmlFor="name">عملگر</label>
-                                </div>
-                            </div>
-                            <div className={'col'}>
-                                <div className="p-inputgroup">
-                                    <div className={'p-float-label py-2 h-fit'}>
-                                        <Dropdown value={value} filter editable filterBy="value"
-                                                  className={'w-full border-round-right'}
-                                                  options={valueOptions}
-                                                  onChange={(e) => setValue(e.target.value)} optionLabel={'value'}/>
-                                        <label htmlFor="name">مقدار</label>
+                                <div>
+                                    <label className={'block'} htmlFor="status">وضیعت</label>
+                                    <div className="relative rounded">
+                                        <Listbox value={status}
+                                                 onChange={(e) => setStatus(e)}>
+                                            {({open}) => (
+                                                <div className="relative">
+                                                    <Listbox.Button
+                                                        className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                                        <span className="flex items-center">
+                                                            <span
+                                                                className="ml-2 block truncate text-sm">{states.find((item: any) => item.isActive === status)?.name}</span>
+                                                        </span>
+                                                        <span className="pointer-events-none flex items-center mr-auto">
+                                                            <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                             aria-hidden="false"/>
+                                                        </span>
+                                                    </Listbox.Button>
+
+                                                    <Transition
+                                                        show={open}
+                                                        as={Fragment}
+                                                        leave="transition ease-in duration-100"
+                                                        leaveFrom="opacity-100"
+                                                        leaveTo="opacity-0"
+                                                    >
+                                                        <Listbox.Options
+                                                            className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                            {states.map((side: any) => (
+                                                                <Listbox.Option
+                                                                    key={side.name}
+                                                                    className={({active}) =>
+                                                                        classNames(
+                                                                            active ? 'bg-border' : '',
+                                                                            'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                        )
+                                                                    }
+                                                                    value={side.isActive}
+                                                                >
+                                                                    {({selected, active}) => (
+                                                                        <>
+                                                                            <div className="flex items-center">
+                                                                    <span>
+                                                                        {side.name}
+                                                                    </span>
+                                                                                {selected ? (
+                                                                                    <span
+                                                                                        className={classNames(
+                                                                                            active ? '' : '',
+                                                                                            'flex items-center mr-auto'
+                                                                                        )}
+                                                                                    >
+                                                                        <CheckIcon className="h-5 w-5"
+                                                                                   aria-hidden="true"/>
+                                                                    </span>
+                                                                                ) : null}
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </Listbox.Option>
+                                                            ))}
+                                                        </Listbox.Options>
+                                                    </Transition>
+                                                </div>
+                                            )}
+                                        </Listbox>
                                     </div>
-                                    <Button
-                                        className={`border-noround-right border-round-left my-2 ${value ? '' : 'surface-300'} border-300`}
-                                        label="اضافه" onClick={(e) => {
-                                        e.preventDefault()
-                                        if (value) {
-                                            setExpression([...expression, value])
-                                            setFaExpression([...faExpression, `"${value}"`])
-                                        }
-                                    }
-                                    }/>
+                                </div>
+                                <div>
+                                    <label className={'block'} htmlFor="CustomerTypeTitle">پیام خطا</label>
+                                    <input className={'w-full'} id={'CustomerTypeTitle'} value={errorMessage}
+                                           onChange={(e) => setErrorMessage(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label className={'block'} htmlFor="fieldOptions">متغیر</label>
+                                    <div className="relative rounded">
+                                        <Listbox name={'fieldOptions'} value={variableList}
+                                                 onChange={(e) => {
+                                                     setVariableList(e);
+                                                     setExpression([...expression, e?.name])
+                                                     setFaExpression([...faExpression, `${e?.displayName}`])
+                                                     // setVariableList({
+                                                     //     name: '',
+                                                     //     fieldType: '',
+                                                     //     remoteUrl: '',
+                                                     //     displayName: ''
+                                                     // })
+                                                 }}>
+                                            {({open}) => (
+                                                <div className="relative">
+                                                    <Listbox.Button
+                                                        className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                                        <span className="flex items-center">
+                                                            <span
+                                                                className="ml-2 block truncate text-sm">{variableList.displayName}</span>
+                                                        </span>
+                                                        <span className="pointer-events-none flex items-center mr-auto">
+                                                            <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                             aria-hidden="false"/>
+                                                        </span>
+                                                    </Listbox.Button>
 
+                                                    <Transition
+                                                        show={open}
+                                                        as={Fragment}
+                                                        leave="transition ease-in duration-100"
+                                                        leaveFrom="opacity-100"
+                                                        leaveTo="opacity-0"
+                                                    >
+                                                        <Listbox.Options
+                                                            className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                            {fieldOptions.map((option: any) => (
+                                                                <Listbox.Option
+                                                                    key={option.name}
+                                                                    className={({active}) =>
+                                                                        classNames(
+                                                                            active ? 'bg-border' : '',
+                                                                            'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                        )
+                                                                    }
+                                                                    value={option}
+                                                                >
+                                                                    {({selected, active}) => (
+                                                                        <>
+                                                                            <div className="flex items-center">
+                                                                    <span>
+                                                                        {option.displayName}
+                                                                    </span>
+                                                                                {selected ? (
+                                                                                    <span
+                                                                                        className={classNames(
+                                                                                            active ? '' : '',
+                                                                                            'flex items-center mr-auto'
+                                                                                        )}
+                                                                                    >
+                                                                        <CheckIcon className="h-5 w-5"
+                                                                                   aria-hidden="true"/>
+                                                                    </span>
+                                                                                ) : null}
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </Listbox.Option>
+                                                            ))}
+                                                        </Listbox.Options>
+                                                    </Transition>
+                                                </div>
+                                            )}
+                                        </Listbox>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className={'block'} htmlFor="operator">عملگر</label>
+                                    <div className="relative rounded">
+                                        <Listbox name={'status'} value={selectedOperator}
+                                                 onChange={(e) => {
+                                                     setSelectedOperator(e);
+                                                     setExpression([...expression, e?.symbol])
+                                                     setFaExpression([...faExpression, `"${e?.symbol}"`])
+                                                     setSelectedOperator({name: '', symbol: ''})
+                                                 }}>
+                                            {({open}) => (
+                                                <div className="relative">
+                                                    <Listbox.Button
+                                                        className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                                <span className="flex items-center">
+                                                    <span
+                                                        className="ml-2 block truncate text-sm">{selectedOperator.name}</span>
+                                                </span>
+                                                        <span className="pointer-events-none flex items-center mr-auto">
+                                                    <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                     aria-hidden="false"/>
+                                                </span>
+                                                    </Listbox.Button>
+
+                                                    <Transition
+                                                        show={open}
+                                                        as={Fragment}
+                                                        leave="transition ease-in duration-100"
+                                                        leaveFrom="opacity-100"
+                                                        leaveTo="opacity-0"
+                                                    >
+                                                        <Listbox.Options
+                                                            className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                            {operators.map((operator: any) => (
+                                                                <Listbox.Option
+                                                                    key={operator.name}
+                                                                    className={({active}) =>
+                                                                        classNames(
+                                                                            active ? 'bg-border' : '',
+                                                                            'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                        )
+                                                                    }
+                                                                    value={operator}
+                                                                >
+                                                                    {({selected, active}) => (
+                                                                        <>
+                                                                            <div className="flex items-center">
+                                                            <span>
+                                                                {operator.name}
+                                                            </span>
+                                                                                {selected ? (
+                                                                                    <span
+                                                                                        className={classNames(
+                                                                                            active ? '' : '',
+                                                                                            'flex items-center mr-auto'
+                                                                                        )}
+                                                                                    >
+                                                                <CheckIcon className="h-5 w-5"
+                                                                           aria-hidden="true"/>
+                                                            </span>
+                                                                                ) : null}
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </Listbox.Option>
+                                                            ))}
+                                                        </Listbox.Options>
+                                                    </Transition>
+                                                </div>
+                                            )}
+                                        </Listbox>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className={'block'} htmlFor="value">مقدار</label>
+                                    <div className={'flex'}>
+                                        <div className="relative grow">
+                                            <Listbox name={'status'} value={value}
+                                                     onChange={(e) => setValue(e)}>
+                                                {({open}) => (
+                                                    <div className="relative">
+                                                        <Listbox.Button
+                                                            className="relative flex min-w-full cursor-pointer border rounded-r border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                                    <span className="flex items-center">
+                                                        <span
+                                                            className="ml-2 block truncate text-sm">{value}</span>
+                                                    </span>
+                                                            <span
+                                                                className="pointer-events-none flex items-center mr-auto">
+                                                        <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                         aria-hidden="false"/>
+                                                    </span>
+                                                        </Listbox.Button>
+
+                                                        <Transition
+                                                            show={open}
+                                                            as={Fragment}
+                                                            leave="transition ease-in duration-100"
+                                                            leaveFrom="opacity-100"
+                                                            leaveTo="opacity-0"
+                                                        >
+                                                            <Listbox.Options
+                                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                                <div className={'flex w-full p-1 items-center'}>
+                                                                    <label className={'text-sm min-w-fit ml-2'} htmlFor="value">مقدار دلخواه:</label>
+                                                                    <input id={'value'} className={'w-full'} onChange={(e)=>setValue(e.target.value)} value={value}/>
+                                                                </div>
+                                                                {valueOptions.map((value: any) => (
+                                                                    <Listbox.Option
+                                                                        key={value.id}
+                                                                        className={({active}) =>
+                                                                            classNames(
+                                                                                active ? 'bg-border' : '',
+                                                                                'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                            )
+                                                                        }
+                                                                        value={value.id}
+                                                                    >
+                                                                        {({selected, active}) => (
+                                                                            <>
+                                                                                <div className="flex items-center">
+                                                                <span>
+                                                                    {value.title}
+                                                                </span>
+                                                                                    {selected ? (
+                                                                                        <span
+                                                                                            className={classNames(
+                                                                                                active ? '' : '',
+                                                                                                'flex items-center mr-auto'
+                                                                                            )}
+                                                                                        >
+                                                                    <CheckIcon className="h-5 w-5"
+                                                                               aria-hidden="true"/>
+                                                                </span>
+                                                                                    ) : null}
+                                                                                </div>
+                                                                            </>
+                                                                        )}
+                                                                    </Listbox.Option>
+                                                                ))}
+                                                            </Listbox.Options>
+                                                        </Transition>
+                                                    </div>
+                                                )}
+                                            </Listbox>
+                                        </div>
+                                        <button
+                                            className={`rounded-l ${value ? '' : 'bg-border text-gray-300'} shadow-sm border-r-0 px-2 border border-border`}
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                if (value) {
+                                                    setExpression([...expression, value])
+                                                    setFaExpression([...faExpression, `"${value}"`])
+                                                }
+                                            }
+                                            }>اضافه
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            {faExpression.map((item: string, index) => {
-                                let appearance: any = <div className={'flex align-items-center'}>{item}<i
-                                    className="pi pi-times mr-1 cursor-pointer text-xs bg-white border-round-xl p-1"/></div>
-                                return <Chip key={index} onClick={() => remove(index)} label={appearance}
-                                             className="mr-2 mb-2"/>
-                            })}
-                        </div>
-                        <InputTextarea className={'w-full'} placeholder={'عبارت'} value={faExpression.join(' ')}
-                                       readOnly rows={5} cols={30}/>
-                        <div className={'text-left ltr'}>
-                            <div>{expression.join(' ')}</div>
-                            {expression.map((item: string, index) => {
-                                let appearance: any = <div className={'flex align-items-center'}>{item}<i
-                                    className="pi pi-times ml-1 cursor-pointer text-xs bg-white border-round-xl p-1"/></div>
-                                return <Chip key={index} onClick={() => remove(index)} label={appearance}
-                                             className="mr-2 mb-2 "/>
-                            })}
-                        </div>
-                    </div>
-                    <div className={'flex'}>
-                        <Button type={'submit'} className={'mt-5 mr-auto'}
-                                label={shouldEditObject?.id ? "ثبت تغییرات" : "تایید و ثبت"}/>
-                        {shouldEditObject?.id && <Button className={'mr-3 mt-5 bg-red-600 border-red-600'}
-                                                         label={"لغو"} onClick={reset}/>}
-
-                    </div>
-                </form>
-            </Card>
+                            <div>
+                                <div className={'flex space-x-reverse space-x-2 my-2'}>
+                                    {faExpression.map((item: string, index) => {
+                                        let appearance: any = <div className={'flex items-center cursor-pointer'}>{item}<XCircleIcon
+                                            className={'h-3 w-3 text-black'}/></div>
+                                        return (<Badge
+                                            color="gray"
+                                            key={index}
+                                            onClick={() => remove(index)}
+                                        >
+                                            {appearance}
+                                        </Badge>)
+                                    })}
+                                </div>
+                                <textarea className={'w-full border border-border rounded shadow-sm'} placeholder={'عبارت'}
+                                          value={faExpression.join(' ')}
+                                          readOnly rows={5} cols={30}/>
+                                <div className={'text-left ltr my-2'}>
+                                    <div>{expression.join(' ')}</div>
+                                    <div className={'flex space-x-2 my-2'}>
+                                        {expression.map((item: string, index) => {
+                                            let appearance: any = <div
+                                                className={'flex items-center cursor-pointer'}>{item} <XCircleIcon
+                                                className={'h-3 w-3 text-black'}/></div>
+                                            return (<Badge
+                                                color="gray"
+                                                key={index}
+                                                onClick={() => remove(index)}
+                                            >
+                                                {appearance}
+                                            </Badge>)
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={'flex justify-end'}>
+                                {shouldEditObject?.id && <button className={'rounded-full p-1 px-2 mt-5 bg-red-600 border-red-600'}
+                                                                 onClick={reset}>لغو</button>}
+                                <button type={'submit'}
+                                        className={'mt-5 bg-lime-600 rounded-full p-1 px-2 mr-3'}>{shouldEditObject?.id ? "ثبت تغییرات" : "تایید و ثبت"}</button>
+                            </div>
+                        </form>
+                    </Accordion.Content>
+                </Accordion.Panel>
+            </Accordion>
         </>
     )
 }

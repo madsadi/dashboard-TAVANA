@@ -1,46 +1,35 @@
-import Layout from "../../components/common/Layout";
-import React, {useState} from "react";
-import BuyDeclaration from "../../components/newFlow/information/BuyDeclaration";
-import SellDeclaration from "../../components/newFlow/information/SellDeclaration";
-import RollingClearing from "../../components/newFlow/information/RollingClearing";
-import ClearedTrade from "../../components/newFlow/information/ClearedTrade";
+import React from "react";
 import ClearingDateRange from "../../components/newFlow/information/ClearingDateRange";
-import Rules from "../../components/newFlow/information/Rules";
-import Operation from "../../components/newFlow/information/Operation";
+import Box from "../../components/newFlow/information/Box";
+import NoDateBox from "../../components/newFlow/information/NoDateBox";
 
 export default function GetInformation() {
 
     return (
-        <Layout>
-            <div className={'grid'}>
-                <div className={'col text-center'}>
-                    <BuyDeclaration/>
+        <div className="flex flex-col h-full grow">
+            <div className={'grid grid-cols-3 gap-4'}>
+                <div className={'text-center z-10'}>
+                    <Box api={'/Trade/buy-declaration'} title={'دریافت معاملات خرید'}/>
                 </div>
-                <div className={'col text-center'}>
-                    <SellDeclaration/>
+                <div className={'text-center z-[9]'}>
+                    <Box api={'/Trade/sell-declaration'} title={'دریافت معاملات فروش'}/>
                 </div>
-            </div>
-            <div className={'grid'}>
-                <div className={'col text-center'}>
-                    <RollingClearing/>
+                <div className={'text-center z-[8]'}>
+                    <Box api={'/Trade/rolling-clearing'} title={'دریافت تسویه های تهاتری'}/>
                 </div>
-                <div className={'col text-center'}>
-                    <ClearedTrade/>
+                <div className={'text-center z-[7]'}>
+                    <Box api={'/Trade/cleared-trade'} title={'دریافت معاملات تسویه شده'}/>
                 </div>
-            </div>
-            <div className={'grid'}>
-                <div className={'col text-center'}>
-                    <Rules/>
+                <div className={'text-center'}>
+                    <NoDateBox api={'/Trade/rules'} title={'دریافت ضرایب کارمزد'}/>
                 </div>
-                <div className={'col text-center'}>
-                    <Operation/>
+                <div className={'text-center'}>
+                    <NoDateBox api={'/Trade/operation'} title={'دریافت استثنا ضرایب کارمزد'}/>
                 </div>
-            </div>
-            <div className={'grid'}>
-                <div className={'col text-center'}>
+                <div className={'text-center z-[6]'}>
                     <ClearingDateRange/>
                 </div>
             </div>
-        </Layout>
+        </div>
     )
 }

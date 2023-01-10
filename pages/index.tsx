@@ -1,44 +1,21 @@
-import type { NextPage } from 'next'
-import {InputText} from "primereact/inputtext";
-import {Checkbox} from "primereact/checkbox";
-import {Button} from "primereact/button";
-import Router from "next/router";
+import type {NextPage} from 'next'
+import {useAuth} from 'react-oidc-context';
+import Image from "next/image";
 
 const Home: NextPage = () => {
+    const auth = useAuth();
 
-  const signIn=(e:any)=>{
-    e.preventDefault()
-    Router.push('/commissionManagement/categoryPanel')
-  }
-
-  return (
-      <div className="flex align-items-center justify-content-center m-auto lg:w-3 md:w-8">
-        <div className="p-4 border-round flex-grow-1">
-          <div className="text-center mb-5">
-            <img src="logo-2.png" alt="hyper" height={100} className="mb-3" />
-          </div>
-
-          <form onSubmit={signIn}>
-            <label htmlFor="email" className="block text-900 font-medium mb-2">ایمیل</label>
-            <InputText id="email" type="text" className="w-full mb-3" />
-
-            <label htmlFor="password" className="block text-900 font-medium mb-2">رمز عبور</label>
-            <InputText id="password" type="password" className="w-full mb-3" />
-
-            <div className="flex align-items-center justify-content-between mb-6">
-              <div className="flex align-items-center">
-                <Checkbox id="rememberme" className="mr-2" />
-                <label htmlFor="rememberme">مرا به خاطر بسپار</label>
-              </div>
-              <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">رمز عبور را فراموش کردید؟</a>
+    return (
+        <div className="m-auto">
+            <div className="p-4 rounded grow">
+                <div className="text-center mb-10">
+                    <Image width={150} height={150} src={"/logo-2.png"} alt="hyper"/>
+                </div>
+                <button className="w-full bg-active text-white p-1 rounded-full" onClick={() => void auth.signinRedirect()}>ورود</button>
             </div>
-
-            <Button label="ورود" icon="pi pi-user" className="w-full" />
-          </form>
         </div>
-      </div>
 
-  )
+    )
 }
 
 export default Home

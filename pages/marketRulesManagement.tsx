@@ -1,12 +1,9 @@
-import Layout from "../components/common/Layout";
-import CreateNewRule from "../components/marketRulesManagement/CreateNewRule";
 import RulesList from "../components/marketRulesManagement/RulesList";
 
 export default function MarketRulesManagement(){
     return(
-        <Layout>
-            <CreateNewRule/>
+        <div className="flex flex-col h-full grow">
             <RulesList/>
-        </Layout>
+        </div>
     )
 }

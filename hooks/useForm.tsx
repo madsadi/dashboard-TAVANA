@@ -1,20 +1,13 @@
 import {useState} from "react";
 
-type initialType = { MarketTitle: string, OfferTypeTitle: string, SettlementDelayTitle: string, SideTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string,SubSectorTitle:string,SectorTitle:string,InstrumentTypeTitle:string,BourseTitle:string,CommissionDetailId:string,rangeDate:any,Deleted:any }
+type initialType = {instrumentGroupIdentification:string,orderSide:any,InstrumentId:string ,orderOrigin:string,orderTechnicalOrigin:string}
 const initialValue = {
-    MarketTitle: '',
-    OfferTypeTitle: '',
-    SettlementDelayTitle: '',
-    SideTitle: '',
-    CustomerTypeTitle: '',
-    CustomerCounterSideTitle: '',
-    SubSectorTitle:'',
-    SectorTitle:'',
-    InstrumentTypeTitle:'',
-    BourseTitle:'',
-    rangeDate:null,
-    CommissionDetailId:'',
-    Deleted:null
+    InstrumentId:'',
+    orderTechnicalOrigin:'',
+    orderOrigin:'',
+    orderSide:undefined,
+    instrumentGroupIdentification:'',
+
 }
 
 export default function useForm(initial: initialType = initialValue) {
