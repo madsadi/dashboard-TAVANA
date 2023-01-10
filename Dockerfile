@@ -1,7 +1,7 @@
 # Dockerfile
 
 # base image
-FROM node:alpine
+FROM registry.tech1a.co:81/repository/tech1a-docker-registry/node:alpine
 
 # create & set working directory
 RUN mkdir -p /usr/src
