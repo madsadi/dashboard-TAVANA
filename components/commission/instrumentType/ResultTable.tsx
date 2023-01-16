@@ -1,10 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {Toast} from 'primereact/toast';
-import {Button} from 'primereact/button';
-import {Toolbar} from 'primereact/toolbar';
-import {Dialog} from 'primereact/dialog';
+import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react';
 import {useSelector} from "react-redux";
 import {
     addNewCommission,
@@ -12,30 +6,126 @@ import {
     getCommission,
     updateCommission
 } from "../../../api/commissionInstrumentType";
-import {Chip} from "primereact/chip";
-import {Card} from "primereact/card";
-import {InputText} from "primereact/inputtext";
+import {toast} from "react-toastify";
+import {AgGridReact} from "ag-grid-react";
+import {formatNumber, jalali} from "../../commonFn/commonFn";
+import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
+import Modal from "../../common/Modal";
+import moment from "jalali-moment";
+import AccordionComponent from "../../common/AccordionComponent";
+import {COMMISSION_BASE_URL, NETFLOW_BASE_URL} from "../../../api/constants";
 
+type initialType = {CommissionInstrumentTypeId:string,BourseTitle:string,InstrumentTypeTitle:string,InstrumentTypeDescription:string,SectorTitle:string,SubSectorTitle:string,Deleted:string}
+const initialValue = {
+    CommissionInstrumentTypeId:'',
+    BourseTitle:'',
+    InstrumentTypeTitle:'',
+    InstrumentTypeDescription:'',
+    SectorTitle:'',
+    SubSectorTitle:'',
+    Deleted:'',
+}
+const listOfFilters = [
+    // {title:'PageNumber',name:'شماره صفحه',type:null},
+    // {title:'PageSize',name:'تعداد',type:null},
+    // {title:'CommissionInstrumentTypeId',name:'تاریخ',type:'date'},
+    {title:'BourseTitle',name:'عنوان بورس',type:'input'},
+    {title:'InstrumentTypeTitle',name:'عنوان نوع ابزار مالی',type:'input'},
+    {title:'InstrumentTypeDescription',name:'توضیحات نوع ابزار',type:'input'},
+    {title:'SectorTitle',name:'گروه صنعت',type:'input'},
+    {title:'SubSectorTitle',name:'زیرگروه صنعت',type:'input'},
+    {title:'Deleted',name:'دسته بندی',type:'selectInput'},
+]
 export default function ResultTable() {
-
-    let emptyProduct = {
-        id: null,
-        name: '',
-        image: null,
-        description: '',
-        category: null,
-        price: 0,
-        quantity: 0,
-        rating: 0,
-        inventoryStatus: 'INSTOCK'
-    };
-    const {instrumentSearchResult} = useSelector((state: any) => state.commissionConfig)
+    const columnDefStructure = [
+        {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            showDisabledCheckboxes: true,
+            headerCheckboxSelectionFilteredOnly: true,
+            resizable: false,
+            minWidth: 40,
+            maxWidth: 40,
+        },
+        {
+            field: 'id',
+            headerName: 'شماره',
+            flex: 0,
+            width: 90,
+            minWidth: 90
+        },
+        {
+            field: 'bourseTitle',
+            headerName: 'عنوان بورس',
+            flex: 0,
+        },
+        {
+            field: 'instrumentTypeCode',
+            headerName: 'کد نوع ابزار مالی',
+            flex: 0,
+        },
+        {
+            field: 'instrumentTypeTitle',
+            headerName: 'عنوان نوع ابزار مالی',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'sectorCode',
+            headerName: 'کد گروه صنعت',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'sectorTitle',
+            headerName: ' گروه صنعت',
+            flex: 0,
+            width: 150,
+            minWidth: 150
+        }, {
+            field: 'subSectorCode',
+            headerName: 'کد زیرگروه صنعت',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'subSectorTitle',
+            headerName: 'زیرگروه صنعت',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'inventoryStatus',
+            headerName: 'حذف شده',
+            flex: 0,
+            width: 120,
+            minWidth: 120,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <div className={`${props.data.deleted ? 'bg-red-400' : 'bg-green-400'} text-white text-xs`}>{`${props.data.deleted ? 'حذف شده' : 'حذف نشده'}`}</div>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
+        },
+        {
+            field: 'instrumentTypeDescription',
+            headerName: 'توضیحات',
+            width: 120,
+            minWidth: 120,
+        }
+    ]
 
     const [products, setProducts] = useState<any[]>([]);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState<any>([]);
-    const [globalFilter, setGlobalFilter] = useState<any>(null);
     const [updateSectorCode, setUpdateSectorCode] = useState<string>('');
     const [updateSubSectorCode, setUpdateSubSectorCode] = useState<string>('');
     const [productDialog, setProductDialog] = useState(false);
@@ -44,313 +134,252 @@ export default function ResultTable() {
     const [instrumentTypeCode, setInstrumentTypeCode] = useState<string>('');
     const [sectorCode, setSectorCode] = useState<string>('');
     const [subSectorCode, setSubSectorCode] = useState<string>('');
-    const [indexOfDeletings, setIndexOfDeletings] = useState(0)
     const [fault, setFaulty] = useState<boolean>(false)
+    const [totalCount, setTotalCount] = useState<number>(0);
+    const [query, setQuery] = useState<initialType>(initialValue)
 
-    const toast: any = useRef(null);
-    const dt: any = useRef(null);
+    //Grid
+    const gridRef: any = useRef();
+    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
+    const defaultColDef = useMemo(() => {
+        return {
+            resizable: true,
+            sortable: true,
+            flex: 1,
+            valueFormatter: formatNumber
+        };
+    }, []);
+    const getRowId = useCallback((params: any) => {
+        return params.data.instrumentId
+    }, []);
+    const loadingOverlayComponent = useMemo(() => {
+        return LoadingOverlay;
+    }, []);
+    const loadingOverlayComponentParams = useMemo(() => {
+        return {
+            loadingMessage: 'در حال بارگزاری...',
+        };
+    }, []);
+    const noRowsOverlayComponent = useMemo(() => {
+        return NoRowOverlay;
+    }, []);
+    const noRowsOverlayComponentParams = useMemo(() => {
+        return {
+            noRowsMessageFunc: () => 'گزارشی ثبت نشده.',
+        };
+    }, []);
+    //Grid
 
-    useEffect(() => {
-        if (instrumentSearchResult) {
-            setProducts(instrumentSearchResult)
-        }
-    }, [instrumentSearchResult]);
-
-    const deleteHandler = async (index: number) => {
-        await deleteCommission({id: selectedProducts[index]?.id})
-            .then(res => {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    detail: 'کارمزد حذف شد',
-                    life: 6000
-                });
-                setIndexOfDeletings(index + 1)
-            })
-            .catch(err => {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'مشکلی رخ داده است',
-                    detail: err?.response?.data?.title,
-                    life: 6000
-                });
-                setIndexOfDeletings(index + 1)
-            })
-    }
-
-    useEffect(() => {
-        if (selectedProducts?.[indexOfDeletings]?.id) {
-            deleteHandler(indexOfDeletings)
-        } else {
-            setSelectedProducts([]);
-        }
-    }, [indexOfDeletings])
-
-
-    const hideDialog = () => {
-        setProductDialog(false);
-        setUpdateDialog(false);
-        setDeleteProductsDialog(false);
-        setBourseCode('')
-        setInstrumentTypeCode('')
-        setSubSectorCode('')
-        setSectorCode('')
-        setFaulty(false)
-    }
-
-
-    const leftToolbarTemplate = () => {
-        const openNew = () => {
-            setProduct(emptyProduct);
-            setProductDialog(true);
-        }
-
+    const ToolbarTemplate = () => {
         const openUpdate = () => {
-            if (selectedProducts.length === 1) {
+            if (gridRef.current?.api?.getSelectedRows().length ===1) {
                 setUpdateDialog(true);
             } else {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'لطفا یک گزینه برای تغییر انتخاب کنید',
-                    life: 6000
-                });
+                toast.error('لطفا یک گزینه را انتخاب کنید')
             }
         }
 
         const confirmDeleteSelected = () => {
-            setDeleteProductsDialog(true);
+            if (gridRef.current?.api?.getSelectedRows().length ===1) {
+                setDeleteProductsDialog(true);
+            } else {
+                toast.error('لطفا یک گزینه را انتخاب کنید')
+            }
         }
-
-        return (
-            <React.Fragment>
-                <Button label="حذف" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected}
-                        disabled={!selectedProducts || !selectedProducts.length}/>
-                <Button label="جدید" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew}/>
-                <Button label="تغییر" icon="pi pi-pencil" className="p-button-success mr-2" onClick={openUpdate}/>
-            </React.Fragment>
-        )
-    }
-    const rightToolbarTemplate = () => {
-        const exportExcel = () => {
-            import('xlsx').then(xlsx => {
-                const worksheet = xlsx.utils.json_to_sheet(products);
-                const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
-                const excelBuffer = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
-                saveAsExcelFile(excelBuffer, 'products');
-            });
+        const deleteHandler = async () => {
+            await deleteCommission({id: gridRef.current?.api?.getSelectedRows()?.[0]?.id})
+                .then(() => {
+                    gridRef.current.api.applyTransaction({
+                        remove: [gridRef.current?.api?.getSelectedRows()?.[0]]
+                    })
+                    toast.success('با موفقیت انجام شد')
+                })
+                .catch(() => toast.error('ناموفق'))
         }
-
-        const saveAsExcelFile = (buffer: any, fileName: any) => {
-            import('file-saver').then(module => {
-                if (module && module.default) {
-                    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-                    let EXCEL_EXTENSION = '.xlsx';
-                    const data = new Blob([buffer], {
-                        type: EXCEL_TYPE
-                    });
-
-                    module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-                }
-            });
-        }
-
-        return (
-            <React.Fragment>
-                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel}
-                        className="p-button-success mr-2" data-pr-tooltip="XLS"/>
-            </React.Fragment>
-        )
-    }
-
-    const deleteSelectedProducts = () => {
-        let _products = products.filter((val: any) => !selectedProducts?.includes(val));
-        setProducts(_products);
-        setDeleteProductsDialog(false);
-        deleteHandler(0)
-    }
-    const deleteProductsDialogFooter = (
-        <React.Fragment>
-            <Button label="خیر" icon="pi pi-times" className="p-button-text" onClick={hideDialog}/>
-            <Button label="بله" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts}/>
-        </React.Fragment>
-    );
-
-    const addNewHandler = async () => {
-        if (instrumentTypeCode && bourseCode) {
-            await addNewCommission({
-                bourseCode: bourseCode,
-                instrumentTypeCode: instrumentTypeCode,
-                sectorCode: sectorCode,
-                subSectorCode: subSectorCode
-            }).then(res => {
-                setProductDialog(false);
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    detail: 'کارمزد جدید اضافه شد',
-                    life: 6000
-                });
-                setProducts([{
-                    id: bourseCode,
+        const addNewHandler = async () => {
+            if (instrumentTypeCode && bourseCode) {
+                await addNewCommission({
+                    bourseCode: bourseCode,
                     instrumentTypeCode: instrumentTypeCode,
                     sectorCode: sectorCode,
                     subSectorCode: subSectorCode
-                }, ...products])
-                setBourseCode('')
-                setInstrumentTypeCode('')
-                setSectorCode('')
-                setSubSectorCode('')
-            })
-                .catch(err => {
-                    toast.current?.show({
-                        severity: 'error',
-                        summary: 'مشکلی رخ داده است',
-                        detail: err?.response?.data?.title,
-                        life: 6000
-                    });
+                }).then(res => {
+                    setProductDialog(false);
+                    toast.error('با موفقیت انجام شد')
+                    setProducts([{
+                        id: bourseCode,
+                        instrumentTypeCode: instrumentTypeCode,
+                        sectorCode: sectorCode,
+                        subSectorCode: subSectorCode
+                    }, ...products])
+                    setBourseCode('')
+                    setInstrumentTypeCode('')
+                    setSectorCode('')
+                    setSubSectorCode('')
+                    gridRef.current.api.applyTransaction({
+                        add: [{
+                            bourseCode: bourseCode,
+                            instrumentTypeCode: instrumentTypeCode,
+                            sectorCode: sectorCode,
+                            subSectorCode: subSectorCode
+                        }],
+                        addIndex: 0
+                    })
                 })
-        } else {
-            setFaulty(true)
-            if (!bourseCode) {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'اطلاعات اجباری',
-                    detail: 'کد بورس را لطفا وارد کنید',
-                    life: 6000
-                });
-            } else if (!instrumentTypeCode) {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'اطلاعات اجباری',
-                    detail: 'کد نوع ابزار را لطفا وارد کنید',
-                    life: 6000
-                });
+                    .catch(err => {
+                        toast.error('ناموفق')
+                    })
+            } else {
+                setFaulty(true)
+                if (!bourseCode) {
+                    toast.error('کد بورس را لطفا وارد کنید')
+                } else if (!instrumentTypeCode) {
+                    toast.error('کد نوع ابزار را لطفا وارد کنید')
+                }
             }
         }
-    }
-    const productDialogFooter = (
-        <React.Fragment>
-            <Button label="لغو" icon="pi pi-times" className="p-button-text" onClick={hideDialog}/>
-            <Button label="تایید" icon="pi pi-check" className="p-button-text" onClick={addNewHandler}/>
-        </React.Fragment>
-    );
-
-    const updateHandler = async () => {
-        await updateCommission({
-            id: selectedProducts[0]?.id,
-            sectorCode: updateSectorCode,
-            subSectorCode: updateSubSectorCode
-        })
-            .then(res => {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    life: 6000
-                });
-                setUpdateDialog(false)
-                setUpdateSectorCode('')
-                setUpdateSubSectorCode('')
+        const updateHandler = async () => {
+            await updateCommission({
+                id: gridRef.current?.api?.getSelectedRows()[0]?.id,
+                sectorCode: updateSectorCode,
+                subSectorCode: updateSubSectorCode
             })
-            .catch(err => toast.current?.show({
-                severity: 'error',
-                summary: err?.response?.data?.title,
-                life: 6000
-            }))
-    }
-    const updateDialogFooter = (
-        <React.Fragment>
-            <Button label="لغو" icon="pi pi-times" className="p-button-text" onClick={hideDialog}/>
-            <Button label="تایید" icon="pi pi-check" className="p-button-text" onClick={updateHandler}/>
-        </React.Fragment>
-    );
+                .then(res => {
+                    toast.success('با موفقیت انجام شد')
+                    setUpdateDialog(false)
+                    setUpdateSectorCode('')
+                    setUpdateSubSectorCode('');
+                    gridRef.current?.api?.applyTransaction({
+                        update:[{
+                            id: gridRef.current?.api?.getSelectedRows()[0]?.id,
+                            sectorCode: updateSectorCode,
+                            subSectorCode: updateSubSectorCode
+                        }]
+                    })
+                })
+                .catch(err => toast.error(`${err?.response?.data?.title}`))
+        }
 
-    return (
-        <Card className="datatable-scroll-demo">
-            <Toast ref={toast} position="top-center"/>
-
-            <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}/>
-                <DataTable ref={dt} value={products} selection={selectedProducts} removableSort
-                           onSelectionChange={(e) => setSelectedProducts(e.value)}
-                           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable
-                           scrollHeight="500px"
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                           globalFilter={globalFilter} responsiveLayout="scroll">
-                    <Column selectionMode="multiple" headerStyle={{width: '3rem'}} exportable={false}/>
-                    <Column field="id" header="شماره" sortable style={{minWidth: '6rem'}}/>
-                    <Column field="bourseTitle" header="عنوان بورس" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="instrumentTypeCode" header="کد نوع ابزار مالی" style={{minWidth: '8rem'}}/>
-                    <Column field="instrumentTypeTitle" header="عنوان نوع ابزار مالی" sortable
-                            style={{minWidth: '14rem'}}/>
-                    <Column field="sectorCode" header="کد گروه صنعت" sortable style={{minWidth: '10rem'}}/>
-                    <Column field="sectorTitle" header=" گروه صنعت" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="subSectorCode" header="کد زیرگروه صنعت" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="subSectorTitle" header="زیرگروه صنعت" sortable style={{minWidth: '12rem'}}/>
-                    <Column field="inventoryStatus" header="حذف شده"
-                            body={(rowData) => <Chip label={`${rowData.deleted ? 'حذف شده' : 'حذف نشده'}`}
-                                                     className={`${rowData.deleted ? 'bg-red-400' : 'bg-green-400'} text-white text-xs`}/>}
-                            sortable style={{minWidth: '12rem'}}/>
-                    <Column field="instrumentTypeDescription" header="توضیحات" sortable style={{minWidth: '10rem'}}/>
-                </DataTable>
-            </div>
-
-            <Dialog visible={deleteProductsDialog} style={{width: '450px'}} header="تایید حذف" modal
-                    footer={deleteProductsDialogFooter} onHide={hideDialog}>
-                <div className="confirmation-content align-content-center flex">
-                    <i className="pi pi-exclamation-triangle ml-3" style={{fontSize: '1.4rem'}}/>
-                    {product && <span>آیا از حذف ردیف مورد نظر اطمینان دارید؟</span>}
-                </div>
-            </Dialog>
-            <Dialog visible={productDialog} style={{width: '450px'}} header="جزییات کارمزد جدید" modal
-                    className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                <div className="field mt-4">
-                    <form className={'grid'}>
-                        <div className="p-float-label col-12">
-                            <InputText id="bourseCode" className={fault && !bourseCode ? 'attention':''} value={bourseCode}
+        return (
+            <div className={'flex p-2'}>
+                <Modal title={'تایید حذف'} open={deleteProductsDialog} setOpen={setDeleteProductsDialog}>
+                    <div className="flex flex-col">
+                        <div className={'mx-auto'}>آیا از حذف ردیف مورد نظر اطمینان دارید؟</div>
+                        <div className={'mr-auto space-x-reverse space-x-2 mt-3'}>
+                            <button className="p-1 px-4 rounded-full bg-red-500"
+                                    onClick={() => setDeleteProductsDialog(false)}>خیر
+                            </button>
+                            <button className="p-1 px-4 rounded-full bg-lime-600" onClick={deleteHandler}>بله</button>
+                        </div>
+                    </div>
+                </Modal>
+                <Modal title={'جزییات کارمزد جدید'} ModalWidth={'max-w-3xl'} setOpen={setProductDialog}
+                       open={productDialog}>
+                    <div className="field mt-4">
+                        <form className={'grid grid-cols-2 gap-4'}>
+                            <div>
+                                <label className={'block'} htmlFor="bourseCode">کد بورس</label>
+                                <input id="bourseCode" className={fault && !bourseCode ? 'attention w-full' : 'w-full'}
+                                       value={bourseCode}
                                        onChange={(e) => {
                                            setBourseCode(e.target.value);
                                            setFaulty(false)
                                        }}/>
-                            <label htmlFor="bourseCode">کد بورس</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" className={fault && !instrumentTypeCode ? 'attention':''} value={instrumentTypeCode}
+                            </div>
+                            <div>
+                                <label className={'block'} htmlFor="instrumentTypeCode">کد نوع ابزار مالی</label>
+                                <input id="instrumentTypeCode"
+                                       className={fault && !instrumentTypeCode ? 'attention w-full' : 'w-full'} value={instrumentTypeCode}
                                        onChange={(e) => {
                                            setInstrumentTypeCode(e.target.value);
                                            setFaulty(false)
                                        }}/>
-                            <label htmlFor="instrumentTypeCode">کد نوع ابزار مالی</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="sectorCode" value={sectorCode}
+                            </div>
+                            <div>
+                                <label className={'block'} htmlFor="sectorCode">کد گروه صنعت</label>
+                                <input id="sectorCode" value={sectorCode} className={'w-full'}
                                        onChange={(e) => setSectorCode(e.target.value)}/>
-                            <label htmlFor="sectorCode">کد گروه صنعت</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="subSectorCode" value={subSectorCode}
+                            </div>
+                            <div>
+                                <label className={'block w-full'} htmlFor="subSectorCode">کد زیرگروه صنعت</label>
+                                <input id="subSectorCode" value={subSectorCode} className={'w-full'}
                                        onChange={(e) => setSubSectorCode(e.target.value)}/>
-                            <label htmlFor="subSectorCode">کد زیرگروه صنعت</label>
+                            </div>
+                        </form>
+                        <div className={'flex justify-end space-x-reverse space-x-2'}>
+                            <button className="p-1 px-3 rounded-full bg-red-500"
+                                    onClick={() => setProductDialog(false)}>لغو
+                            </button>
+                            <button className="p-1 px-3 rounded-full bg-lime-600" onClick={addNewHandler}>تایید</button>
+                        </div>
+                    </div>
+                </Modal>
+                <Modal title={'ایجاد تغییرات'} ModalWidth={'max-w-3xl'} open={updateDialog} setOpen={setUpdateDialog}>
+                    <form className={'grid grid-cols-3 gap-4'}>
+                        <div>
+                            <label className={'block'} htmlFor="instrumentTypeCode">کد گروه صنعت</label>
+                            <input id="instrumentTypeCode" className={fault && !updateSectorCode ? 'attention w-full' : 'w-full'}
+                                   value={updateSectorCode || gridRef.current?.api?.getSelectedRows()[0]?.SectorCode}
+                                   onChange={(e) => {
+                                       setUpdateSectorCode(e.target.value);
+                                       setFaulty(false)
+                                   }}/>
+                        </div>
+                        <div>
+                            <label className={'block'} htmlFor="sectorCode">کد زیرگروه صنعت</label>
+                            <input id="sectorCode" value={updateSubSectorCode || gridRef.current?.api?.getSelectedRows()[0]?.SubSectorCode} className={'w-full'}
+                                   onChange={(e) => setUpdateSubSectorCode(e.target.value)}/>
                         </div>
                     </form>
+                    <div className={'flex justify-end space-x-reverse space-x-2'}>
+                        <button className="p-1 px-3 rounded-full bg-red-500" onClick={()=>setUpdateDialog(false)}>لغو</button>
+                        <button className="p-1 px-3 rounded-full bg-lime-500" onClick={updateHandler}>تایید</button>
+                    </div>
+                </Modal>
+
+                <button className="p-1 px-2 rounded-full bg-red-600" onClick={confirmDeleteSelected}>حذف</button>
+                <button className="p-1 px-2 rounded-full bg-lime-600 mx-2" onClick={()=>setProductDialog(true)}>جدید</button>
+                <button className="p-1 px-2 rounded-full bg-lime-600" onClick={openUpdate}>تغییر</button>
+            </div>
+        )
+    }
+
+    const header = () => {
+        return (
+            <div className={'flex'}>
+                {ToolbarTemplate()}
+            </div>
+        )
+    }
+
+    return (
+        <div className={'relative flex flex-col grow overflow-hidden'}>
+            <AccordionComponent query={query} setQuery={setQuery} api={`${COMMISSION_BASE_URL}/CommissionInstrumentType/Search`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
+            <div className={'border-x border-border'}>
+                {header()}
+            </div>
+            <div className={'relative grow border border-border rounded-b-xl'}>
+                <div style={gridStyle} className="ag-theme-alpine absolute">
+                    <AgGridReact
+                        ref={gridRef}
+                        enableRtl={true}
+                        columnDefs={columnDefStructure}
+                        defaultColDef={defaultColDef}
+                        loadingOverlayComponent={loadingOverlayComponent}
+                        loadingOverlayComponentParams={loadingOverlayComponentParams}
+                        noRowsOverlayComponent={noRowsOverlayComponent}
+                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                        rowHeight={35}
+                        headerHeight={35}
+                        animateRows={true}
+                        getRowId={getRowId}
+                        asyncTransactionWaitMillis={1000}
+                        columnHoverHighlight={true}
+                        detailRowHeight={100}
+                        rowSelection={'single'}
+                    />
                 </div>
-            </Dialog>
-            <Dialog visible={updateDialog} style={{width: '450px'}} header="ایجاد تغییرات" modal className="p-fluid"
-                    footer={updateDialogFooter} onHide={hideDialog}>
-                <div className="field mt-4">
-                    <form className={'grid'}>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="instrumentTypeCode" value={updateSectorCode}
-                                       onChange={(e) => setUpdateSectorCode(e.target.value)}/>
-                            <label htmlFor="instrumentTypeCode">کد گروه صنعت</label>
-                        </div>
-                        <div className="p-float-label col-12 mt-3">
-                            <InputText id="sectorCode" value={updateSubSectorCode}
-                                       onChange={(e) => setUpdateSectorCode(e.target.value)}/>
-                            <label htmlFor="sectorCode">کد زیرگروه صنعت</label>
-                        </div>
-                    </form>
-                </div>
-            </Dialog>
-        </Card>
+            </div>
+        </div>
     );
 }

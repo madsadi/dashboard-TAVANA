@@ -8,7 +8,7 @@ const commissionConfig = createSlice({
         instrumentSearchResult:(state:InitialType,action:PayloadAction<[]>)=>{
             return {...state,instrumentSearchResult: action.payload }
         },
-        categorySearchResult:(state:InitialType,action:PayloadAction<[]>)=>{
+        categorySearchResult:(state:InitialType,action:PayloadAction<any>)=>{
             return {...state,categorySearchResult: action.payload }
         },
         commission:(state:InitialType,action:PayloadAction<[]>)=>{

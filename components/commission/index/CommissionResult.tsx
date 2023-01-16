@@ -1,81 +1,201 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { Toolbar } from 'primereact/toolbar';
+import React, {useEffect, useRef, useMemo, useCallback} from 'react';
 import {useSelector} from "react-redux";
-import {Card} from "primereact/card";
+import {formatNumber, jalali} from "../../commonFn/commonFn";
+import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
+import {AgGridReact} from "ag-grid-react";
+import RulesExpressionDetail from "../../marketRulesManagement/RulesExpressionDetail";
 
 export default function CommissionResult() {
+    const columnDefStructure = [
+        {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            showDisabledCheckboxes: true,
+            headerCheckboxSelectionFilteredOnly: true,
+            resizable: false,
+            minWidth: 40,
+            maxWidth: 40,
+        },
+        {
+            field: 'instrumentId',
+            headerName: 'شناسه نماد',
+            flex: 0,
+            width: 90,
+            minWidth: 90
+        },
+        {
+            field: 'faInsCode',
+            headerName: 'نماد',
+        },
+        {
+            field: 'faInsName',
+            headerName: 'عنوان نماد',
+        },
+        {
+            field: 'maxQuantity',
+            headerName: 'بیشینه حجم سفارش',
+            flex: 0,
+        },
+        {
+            field: 'minPrice',
+            headerName: 'حداقل قیمت سفارش',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+        },
+        {
+            field: 'maxPrice',
+            headerName: 'حداکثر قیمت سفارش',
+            flex: 0,
+        }, {
+            field: 'fromActiveDateTime',
+            headerName: 'زمان شروع',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{jalali(props.data.fromActiveDateTime).date}</span>
+                            <span>{jalali(props.data.fromActiveDateTime).time}</span>
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
+        },
+        {
+            field: 'toActiveDateTime',
+            headerName: 'زمان پایان',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{jalali(props.data.toActiveDateTime).date}</span>
+                            <span>{jalali(props.data.toActiveDateTime).time}</span>
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
+        },
+        {
+            field: 'createdBy',
+            headerName: 'کاربر ایجاد کننده',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'createDateTime',
+            headerName: 'زمان ایجاد',
+            flex: 0,
+            width: 150,
+            minWidth: 150,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{jalali(props.data.createDateTime).date}</span>
+                            <span>{jalali(props.data.createDateTime).time}</span>
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
+        },
+        {
+            field: 'updatedBy',
+            headerName: 'کاربر تغییر دهنده',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        },
+        {
+            field: 'updatedDateTime',
+            headerName: 'زمان تغییر',
+            flex: 0,
+            width: 120,
+            minWidth: 120
+        }
+    ]
 
-    const {commission}=useSelector((state:any)=>state.commissionConfig)
+    const {commission} = useSelector((state: any) => state.commissionConfig)
 
-    const [products, setProducts] = useState<any[]>([]);
-
-    const toast:any = useRef(null);
+    //Grid
+    const gridRef: any = useRef();
+    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
+    const defaultColDef = useMemo(() => {
+        return {
+            resizable: true,
+            sortable: true,
+            flex: 1,
+            valueFormatter: formatNumber,
+            minWidth:120
+        };
+    }, []);
+    const getRowId = useCallback((params: any) => {
+        return params.data.instrumentId
+    }, []);
+    const loadingOverlayComponent = useMemo(() => {
+        return LoadingOverlay;
+    }, []);
+    const loadingOverlayComponentParams = useMemo(() => {
+        return {
+            loadingMessage: 'در حال بارگزاری...',
+        };
+    }, []);
+    const noRowsOverlayComponent = useMemo(() => {
+        return NoRowOverlay;
+    }, []);
+    const noRowsOverlayComponentParams = useMemo(() => {
+        return {
+            noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
+        };
+    }, []);
 
     useEffect(() => {
-        if (commission){
-            setProducts(commission)
+        if (commission) {
+            gridRef.current?.api?.setRowData(commission)
         }
     }, [commission]);
 
-    const rightToolbarTemplate = () => {
-        const exportExcel = () => {
-            import('xlsx').then(xlsx => {
-                const worksheet = xlsx.utils.json_to_sheet(products);
-                const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-                const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-                saveAsExcelFile(excelBuffer, 'products');
-            });
-        }
-
-        const saveAsExcelFile = (buffer:any, fileName:any) => {
-            import('file-saver').then(module => {
-                if (module && module.default) {
-                    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-                    let EXCEL_EXTENSION = '.xlsx';
-                    const data = new Blob([buffer], {
-                        type: EXCEL_TYPE
-                    });
-
-                    module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-                }
-            });
-        }
-
-        return (
-            <React.Fragment>
-                <Button type="button" icon="pi pi-file-excel" label={'خروجی'} onClick={exportExcel} className="p-button-success mr-2" data-pr-tooltip="XLS" />
-            </React.Fragment>
-        )
-    }
+    //Grid
 
     return (
-        <Card className="datatable-scroll-demo">
-            <Toast ref={toast} position="top-center"/>
-            <div className="card">
-                <Toolbar className="mb-4" right={rightToolbarTemplate}/>
-                <DataTable value={products} sortMode="multiple" removableSort
-                           paginator rows={10} rowsPerPageOptions={[5, 10, 25]} stripedRows scrollable scrollHeight="500px"
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                           responsiveLayout="scroll">
-                    <Column field="id" header="شناسه" sortable style={{ minWidth: '6rem'}}/>
-                    <Column field="marketCode" header="کد بازار" sortable  style={{ minWidth: '12rem'}}/>
-                    <Column field="marketTitle" header="بازار" style={{ minWidth: '8rem'}}/>
-                    <Column field="offerTypeCode" header="کد نوع عرضه" sortable style={{ minWidth: '14rem'}}/>
-                    <Column field="offerTypeTitle" header="نوع عرضه" sortable style={{ minWidth: '10rem'}}/>
-                    <Column field="sideCode" header="کد سمت سفارش" sortable style={{ minWidth: '10rem'}}/>
-                    <Column field="sideTitle" header="سمت سفارش" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="settlementDelayCode" header="کد تاخیر در تسویه" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="settlementDelayTitle" header="تاخیر در تسویه" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerTypeCode" header="کد نوع مشتری"  sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerTypeTitle" header="نوع مشتری"  sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerCounterSideCode" header="کد نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
-                    <Column field="customerCounterSideTitle" header="نوع طرف مقابل" sortable style={{ minWidth: '12rem'}}/>
-                </DataTable>
+        <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
+            <div style={gridStyle} className="ag-theme-alpine absolute">
+                <AgGridReact
+                    ref={gridRef}
+                    enableRtl={true}
+                    columnDefs={columnDefStructure}
+                    defaultColDef={defaultColDef}
+                    loadingOverlayComponent={loadingOverlayComponent}
+                    loadingOverlayComponentParams={loadingOverlayComponentParams}
+                    noRowsOverlayComponent={noRowsOverlayComponent}
+                    noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                    rowHeight={35}
+                    headerHeight={35}
+                    animateRows={true}
+                    getRowId={getRowId}
+                    asyncTransactionWaitMillis={1000}
+                    columnHoverHighlight={true}
+                    rowSelection={'single'}
+                />
             </div>
-        </Card>
+        </div>
     );
 }

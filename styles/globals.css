@@ -1,19 +1,14 @@
-@import "Menu.css";
-@import "Information.css";
+@import '../public/yekanBakhFont.css';
+
 html,
 body {
   padding: 0;
   margin: 0;
-  background:#f9fafb;
-  scroll-behavior: smooth;
   font-family: "Yekan Bakh", sans-serif;
-  font-size:14px;
-}
-.p-component{
-  font-family: "Yekan Bakh", sans-serif !important;
+  color:#495057;
 }
 
-#__next {
+#__next{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -26,98 +21,245 @@ a {
 
 * {
   box-sizing: border-box;
-  font-family: "Yekan Bakh", sans-serif;
 }
 
-.page-content{
-  margin:65px 0 0 0 !important;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
 }
 
-.container{
-  margin:0 30px;
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.p-menubar-root-list{
-  margin-right:auto !important;
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
 }
-.p-menubar-end{
-  margin-left: 0 !important;
-}
-
-.p-menubar{
-  border-radius:0 !important;
+#collapse>span{
+  text-align: right;
 }
 
-.p-button{
-  padding:0.25rem 1rem !important;
+#menuGroup>li{
+  border:1px solid #eee;
+  border-radius: 8px;
 }
-.p-inputtext{
-  padding:0.5rem 0.5rem !important;
+#nonCollapse>li{
+  border:1px solid #eee;
+  border-radius: 8px;
+  margin-top:0.5rem;
 }
-.p-sidebar-mask{
-  direction:ltr !important;
-}
-
-.p-panelmenu .p-panelmenu-header-link {
-  justify-content: flex-end;
-}
-
-.pi-chevron-right:before {
-  content: "\e900"!important;
+#nonCollapse>span{
+  padding: 0;
 }
 
-.p-panelmenu .p-panelmenu-header > a .p-panelmenu-icon {
-  margin-right: auto!important;
+.hiddenScrollBar::-webkit-scrollbar{
+  display: none !important;
 }
 
-.p-panelmenu .p-menuitem-link {
-  justify-content: flex-end;
+.backTransparent{
+  background: transparent !important;
+  border: 0 solid transparent !important;
 }
 
-@media screen and (max-width: 960px) {
-  .p-menubar .p-menubar-button {
-    display: flex;
-    margin-right: auto;
-  }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-
-.p-float-label label{
-  right:1rem;
-  left:unset !important;
+* input{
+  border:1px solid #eee !important;
+  border-radius: 5px !important;
+  padding:5px !important;
+  font-size: 14px !important;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
 }
 
-.p-button .p-button-icon-left{
-  margin-left:0.5rem;
-  margin-right:0 !important;
-}
-.p-datatable .p-datatable-tbody > tr > td{
-  text-align:right !important;
-}
-
-.p-float-label input:focus ~ label, .p-float-label input:-webkit-autofill ~ label, .p-float-label input.p-filled ~ label, .p-float-label textarea:focus ~ label, .p-float-label textarea.p-filled ~ label, .p-float-label .p-inputwrapper-focus ~ label, .p-float-label .p-inputwrapper-filled ~ label{
-  top:-0.25rem !important;
-}
-
-.p-datatable .p-paginator-bottom{
-  direction:ltr !important;
-}
-
-.attention{
-  border:1px solid red !important;
-}
-
-.p-toast-message-content>span.pi-check:before{
-  content:"" !important;
-}
-.p-toast-message-content>span.pi-times:before{
-  content:"" !important;
+input:focus{
+  border:1px solid #727171;
+  box-shadow: none;
 }
 
 .DatePicker{
-  width:100% !important;
+  z-index: 9 !important;
+  width: 100%;
+}
+  /* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
-.customHeight{
-  height:38px !important;
+.ag-theme-alpine {
+  --ag-font-family: "Yekan Bakh", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif !important;
+  --ag-borders: none !important;
+  --ag-borders-row: dashed 1px !important;
+  --ag-row-border-color: rgba(166, 166, 166, 0.41) !important;
+  --ag-background-color:transparent !important;
 }
+
+.ag-body-viewport.ag-layout-normal::-webkit-scrollbar{
+  width: 6px;
+}
+.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track{
+  background: transparent;
+}
+.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar{
+  height: 6px;
+}
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track{
+  background: transparent;
+}
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.ag-header-cell-resize::after{
+  width: 3px !important;
+}
+
+.Toastify__toast {
+  color: white;
+  background: #404040;
+}
+
+.ag-overlay-loading-center{
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.bgMoon{
+  background: url("/moonShape.svg") no-repeat 50%;
+  background-size: cover;
+}
+
+.sortableHelper{
+  z-index: 10;
+}
+
+.mustVisible > div.card{
+  visibility: visible !important;
+}
+
+.Toastify__toast{
+  min-height: unset !important;
+}
+
+.ltr{
+  direction:ltr;
+}
+
+.tooltipReferencePrice:hover #tooltip-referencePrice {
+  visibility: visible;
+  opacity: 1;
+}
+.maxTreshold:hover #tooltip-maxTreshold {
+  visibility: visible;
+  opacity: 1;
+}
+.minTreshold:hover #tooltip-minTreshold {
+  visibility: visible;
+  opacity: 1;
+}
+.priceTooltip{
+  transform: translateX(50%);
+}
+
+.ag-overlay-loading-wrapper{
+  background: transparent !important;
+}
+
+.ag-watermark{
+  display: none;
+}
+
+.placeholderStyle::placeholder{
+  color: #e5b651;
+  text-align: right;
+}
+
+.Calendar__monthSelector, .Calendar__yearSelector{
+  color: black !important;
+}
+.rc-slider{
+  font-size: 1rem !important;
+  width: auto !important;
+  height:10px !important;
+}
+
+.rc-slider-rail{
+  height:10px !important;
+}
+
+.rc-slider-track{
+  height:100% !important;
+}
+
+.rc-slider-step{
+  display: none !important;
+}
+
+.rc-slider-mark-text-active{
+  color:white !important;
+}
+
+.rc-slider-mark{
+  bottom:200%;
+  top: unset !important;
+}
+
+.rc-slider-handle .rc-slider-handle-2{
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+.rc-slider-handle{
+  margin-top: -2px !important;
+}
+
+.rc-slider-disabled{
+  background-color: transparent !important;
+}
+
+.rc-slider-mark-text:first-child{
+  color:rgb(240 82 82);
+}
+.rc-slider-mark-text:last-child{
+  color:rgb(49 196 141);
+}
+
+.sortableHelper{
+  display: none;
+}
+
+.cell-span {
+  background-color: #d0d0d0 !important;
+  display: flex !important;
+  border-bottom: 1px solid black !important;
+}
+
+.animated-container{
+  direction: ltr;
+}
+
+/*.dark .Calendar{*/
+/*  background: #3d3d3d !important;*/
+/*  --cl-color-black:white !important;*/
+/*}*/
+/*.dark .Calendar .Calendar__day{*/
+/*  color:white !important;*/
+/*}*/
+/*.dark .Calendar .Calendar__day:not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween):not(.-selected):hover{*/
+/*  color:black !important;*/
+/*}*/
+/*.dark .Calendar .Calendar__day.-weekend:not(.-selected):not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween){*/
+/*  color:red !important;*/
+/*}*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

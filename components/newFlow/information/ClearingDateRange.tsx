@@ -1,75 +1,38 @@
 import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
-import {Card} from "primereact/card";
-import React, {useRef, useState} from "react";
-import {InputText} from "primereact/inputtext";
-import {Button} from "primereact/button";
+import React, {useState} from "react";
 import {activation} from "../../../api/getInformation";
-import { Toast } from 'primereact/toast';
+import {toast} from "react-toastify";
 
 
 export default function ClearingDateRange() {
     const [toDate, setToDate] = useState<DayValue>(null);
     const [fromDate, setFromDate] = useState<DayValue>(null);
     const [settlementDelay, setSettlementDelay] = useState<string>('');
-    const toast:any = useRef(null);
-
-
 
     const renderFromDateInput = ({ref}: { ref: any }) => (
-        <InputText readOnly ref={ref}
-                   style={{
-                       textAlign: 'center',
-                       padding: '1rem 1.5rem',
-                       border: '1px solid #9c88ff',
-                       borderRadius: '5px',
-                       color: '#6366F1',
-                       outline: 'none',
-                   }}
+        <input readOnly ref={ref}
                    value={fromDate ? `${fromDate?.year}-${fromDate?.month}-${fromDate?.day}` : ''}
-                   aria-describedby="username1-help" className="block" placeholder={"تا تاریخ"}/>
+                   aria-describedby="username1-help" className="block w-full text-center " placeholder={"تا تاریخ"}/>
     )
     const renderToDateInput = ({ref}: { ref: any }) => (
-        <InputText readOnly ref={ref}
-                   style={{
-                       textAlign: 'center',
-                       padding: '1rem 1.5rem',
-                       border: '1px solid #9c88ff',
-                       borderRadius: '5px',
-                       color: '#6366F1',
-                       outline: 'none',
-                   }}
+        <input readOnly ref={ref}
                    value={toDate ? `${toDate?.year}-${toDate?.month}-${toDate?.day}` : ''}
-                   aria-describedby="username1-help" className="block" placeholder={"از تاریخ"}/>
+                   aria-describedby="username1-help" className="block w-full text-center my-4 " placeholder={"از تاریخ"}/>
     )
 
     const submitHandler = async () => {
-        await activation('/Trade/buy-declaration', {fromDate:`${fromDate?.year}${fromDate && fromDate?.month<10 ? `0${fromDate?.month}`:fromDate?.month}${fromDate && fromDate?.day<10 ? `0${fromDate?.day}`:fromDate?.day}`,
+        await activation('/Trade/clearing-date-range', {fromDate:`${fromDate?.year}${fromDate && fromDate?.month<10 ? `0${fromDate?.month}`:fromDate?.month}${fromDate && fromDate?.day<10 ? `0${fromDate?.day}`:fromDate?.day}`,
             toDate:`${toDate?.year}${toDate && toDate?.month<10 ? `0${toDate?.month}`:toDate?.month}${toDate && toDate?.day<10 ? `0${toDate?.day}`:toDate?.day}`,
             settlementDelay: `${settlementDelay}`})
-            .then(res=> {
-                toast.current?.show({
-                    severity: 'success',
-                    summary: 'با موفقیت انجام شد',
-                    detail: `${res} معامله خرید ذخیره شد `,
-                    life: 6000
-                });
-            })
-            .catch(err=> {
-                toast.current?.show({
-                    severity: 'error',
-                    summary: 'لطفا سه فیلد را پر کنید',
-                    detail: err?.response?.data?.title,
-                    life: 6000
-                });
-            })
+            .then(()=> toast.success('با موفقیت انجام شد'))
+            .catch((err)=> toast.error(`${err?.response?.data?.message}`))
     }
 
     return (
-        <Card>
-            <Toast ref={toast} position="top-center" />
+        <div className={'bg-white p-2 rounded shadow-sm border border-border'}>
             <label htmlFor="username1" className="block mb-3">دریافت تسویه روزانه کارگزاری</label>
             <div className="dateRange">
-                <div className='field'>
+                <div className='field z-[1]'>
                     <DatePicker
                         value={fromDate}
                         onChange={setFromDate}
@@ -79,7 +42,7 @@ export default function ClearingDateRange() {
                         shouldHighlightWeekends
                     />
                 </div>
-                <div className={'field'}>
+                <div className={'field z-0'}>
                     <DatePicker
                         value={fromDate}
                         onChange={setToDate}
@@ -90,10 +53,10 @@ export default function ClearingDateRange() {
                     />
                 </div>
                 <div className={'field'}>
-                    <InputText placeholder='تاخیر در تسویه' value={settlementDelay} onChange={(e) => setSettlementDelay(e.target.value)}/>
+                    <input className="w-full text-center" placeholder='تاخیر در تسویه' value={settlementDelay} onChange={(e) => setSettlementDelay(e.target.value)}/>
                 </div>
             </div>
-            <Button onClick={submitHandler} className="col-3 p-button-outlined" label="بروزرسانی"/>
-        </Card>
+            <button onClick={submitHandler} className="rounded-full border border-lime-600 p-1 px-2 mt-4">بروزرسانی</button>
+        </div>
     )
 }
