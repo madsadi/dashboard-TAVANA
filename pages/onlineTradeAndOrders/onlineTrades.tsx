@@ -51,6 +51,21 @@ export default function OnlineTrades() {
             headerName: 'نماد',
         },
         {
+            field: 'isCanceled',
+            headerName: 'وضعیت',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <span>{rowData.data.isCanceled ? 'ابطال کامل معاملات':'تائید شده'}</span>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
+        },
+        {
             field: 'orderSideTitle',
             headerName: 'طرف سفارش',
             cellRendererSelector: () => {

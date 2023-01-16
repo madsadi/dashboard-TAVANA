@@ -20,6 +20,7 @@ function classNames(...classes: any) {
 
 export default function RulesList() {
 
+
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
