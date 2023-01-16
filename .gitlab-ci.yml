@@ -68,6 +68,7 @@ deploy:
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H $DOCKER_SWARM_IP >> ~/.ssh/known_hosts
   script:
+    - docker stack rm $IMAGE_NAME 
     - docker stack deploy -c docker-compose.yml $IMAGE_NAME
   needs:
     - job: build
