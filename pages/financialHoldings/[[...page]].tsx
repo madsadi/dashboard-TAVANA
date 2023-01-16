@@ -16,7 +16,7 @@ const initialValue = {
     Id: '',
 }
 
-export default function holdingsSubPages(){
+export default function HoldingsSubPages(){
 
     const [query, setQuery] = useState<initialType>(initialValue)
     const [totalCount, setTotal] = useState<any>(null);
