@@ -42,9 +42,15 @@ export default function CancelOrders() {
 
     const columnDefStructure = [
         {
+            field: 'id',
+            cellRenderer: 'agGroupCellRenderer',
+            flex:0,
+            minWidth:40,
+            maxWidth:40
+        },
+        {
             field: 'instrumentGroupIdentification',
             headerName: 'کد گروه نمادها',
-            cellRenderer: 'agGroupCellRenderer'
         },
         {
             field: 'instrumentId',
@@ -73,33 +79,11 @@ export default function CancelOrders() {
             field: 'userRequestDateTime',
             headerName: 'زمان درخواست',
             cellRendererSelector: () => {
-                    const ColourCellRenderer = (props: any) => {
-                        return (
-                            <>
-                                <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date:'-'}</span>
-                                <span className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time:'-'}</span>
-                            </>
-                        )
-                    };
-                    const moodDetails = {
-                        component: ColourCellRenderer,
-                    }
-                    return moodDetails;
-                },
-        },
-        {
-            field: 'lrf',
-            headerName: 'شناسه درخواست در هسته',
-        },
-        {
-            field: 'submitInCapDateTime',
-            headerName: 'زمان ثبت در هسته',
-            cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
-                            <span>{props.data?.submitInCapDateTime ? jalali(props.data?.submitInCapDateTime).date:'-'}</span>
-                            <span className={'ml-2'}>{props.data?.submitInCapDateTime ? jalali(props.data?.submitInCapDateTime).time:'-'}</span>
+                            <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date:'-'}</span>
+                            <span className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time:'-'}</span>
                         </>
                     )
                 };
@@ -109,6 +93,28 @@ export default function CancelOrders() {
                 return moodDetails;
             },
         },
+        // {
+        //     field: 'lrf',
+        //     headerName: 'شناسه درخواست در هسته',
+        // },
+        // {
+        //     field: 'submitInCapDateTime',
+        //     headerName: 'زمان ثبت در هسته',
+        //     cellRendererSelector: () => {
+        //         const ColourCellRenderer = (props: any) => {
+        //             return (
+        //                 <>
+        //                     <span>{props.data?.submitInCapDateTime ? jalali(props.data?.submitInCapDateTime).date:'-'}</span>
+        //                     <span className={'ml-2'}>{props.data?.submitInCapDateTime ? jalali(props.data?.submitInCapDateTime).time:'-'}</span>
+        //                 </>
+        //             )
+        //         };
+        //         const moodDetails = {
+        //             component: ColourCellRenderer,
+        //         }
+        //         return moodDetails;
+        //     },
+        // },
         {
             field: 'errorText',
             headerName: 'خطا',
@@ -133,7 +139,7 @@ export default function CancelOrders() {
         };
     }, []);
     const getRowId = useCallback((params: any) => {
-        return params.data.id
+        return params.data.id + params.data.userRequestDateTime
     }, []);
     const loadingOverlayComponent = useMemo(() => {
         return LoadingOverlay;
@@ -163,7 +169,7 @@ export default function CancelOrders() {
                         headerName: 'شناسه کاربر'
                     },
                     {
-                        field: 'userIp',
+                        field: 'userIP',
                         headerName: 'IP کاربر'
                     },
                     {field: 'sourceOfRequestTitle', headerName: 'نرم افزار'},
@@ -173,8 +179,8 @@ export default function CancelOrders() {
                             const ColourCellRenderer = (props: any) => {
                                 return (
                                     <>
-                                        <span>{jalali(props.data.tradingDateTime).date}</span>
-                                        <span>{jalali(props.data.tradingDateTime).time}</span>
+                                        <span>{jalali(props.tradingDateTime).date}</span>
+                                        <span>{jalali(props.tradingDateTime).time}</span>
                                     </>
                                 )
                             };
@@ -184,7 +190,7 @@ export default function CancelOrders() {
                             return moodDetails;
                         },
                     },
-                    {field: 'errorCode', headerName: 'کد خطای,'},
+                    {field: 'errorCode', headerName: 'کد خطای'},
                 ],
                 defaultColDef: {
                     resizable: true,
@@ -194,7 +200,7 @@ export default function CancelOrders() {
                 },
             },
             getDetailRowData: async (params: any) => {
-                params.successCallback([params])
+                params.successCallback([params.data])
             },
         };
     }, []);
