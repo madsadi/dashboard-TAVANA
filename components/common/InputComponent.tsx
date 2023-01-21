@@ -4,7 +4,7 @@ import moment from "jalali-moment";
 import {jalali} from "../commonFn/commonFn";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import {Options, orderOrigin, orderTechnicalOrigin, sides} from "../commonFn/Enums";
+import {Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches} from "../commonFn/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
 
 function classNames(...classes: any) {
@@ -25,26 +25,26 @@ export default function InputComponent({
     });
 
     useEffect(()=>{
-        if (!query.StartDate && !query.EndDate){
+        if (!query?.StartDate && !query?.EndDate){
             setSelectedDayRange({from:null,to:null})
-        }else if (!query.EndDate){
-            setSelectedDayRange({from:query.StartDate,to:null})
-        }else if (!query.StartDate){
-            setSelectedDayRange({from:null,to:query.EndDate})
+        }else if (!query?.EndDate){
+            setSelectedDayRange({from:query?.StartDate,to:null})
+        }else if (!query?.StartDate){
+            setSelectedDayRange({from:null,to:query?.EndDate})
         }else{
             let from:any = {}
-            let StartDateGeo = jalali(query.StartDate).date
+            let StartDateGeo = jalali(query?.StartDate).date
             from.year = Number(StartDateGeo?.split('/')[0])
             from.month = Number(StartDateGeo?.split('/')[1])
             from.day = Number(StartDateGeo?.split('/')[2])
             let to:any = {}
-            let EndDateGeo = jalali(query.EndDate).date
+            let EndDateGeo = jalali(query?.EndDate).date
             to.year = Number(EndDateGeo?.split('/')[0])
             to.month = Number(EndDateGeo?.split('/')[1])
             to.day = Number(EndDateGeo?.split('/')[2])
             setSelectedDayRange({from:from,to:to})
         }
-    },[query.StartDate,query.EndDate])
+    },[query?.StartDate,query?.EndDate])
 
     const dateRangeHandler = (selectedDayRange: any) => {
         if (selectedDayRange.from && selectedDayRange.to) {
@@ -71,11 +71,14 @@ export default function InputComponent({
             case 'orderSide':
                 return sides
             case 'Deleted':
+            case 'IsDeleted':
                 return Options
             case 'orderTechnicalOrigin':
                 return orderTechnicalOrigin
             case 'orderOrigin':
                 return orderOrigin
+            case 'Type':
+                return TypeOfBranches
             default:
                 return []
         }
@@ -111,7 +114,7 @@ export default function InputComponent({
                 return (
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
-                        <input className={'w-full'} id={title} value={query[title]}
+                        <input className={'w-full'} id={title} value={query?.[title]}
                                onChange={(e) => queryUpdate(title, e.target.value)}/>
                     </div>
                 )
@@ -120,7 +123,7 @@ export default function InputComponent({
                     <div>
                         <label className={'mt-auto'} htmlFor={title}>{name}</label>
                         <div className="relative rounded">
-                            <Listbox name={title} value={query[title]}
+                            <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => queryUpdate(title, e)}>
                                 {({open}) => (
                                     <div className="relative">
@@ -128,7 +131,7 @@ export default function InputComponent({
                                             className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                         <span className="flex items-center">
                                                             <span
-                                                                className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query[title])?.title}</span>
+                                                                className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query?.[title])?.title}</span>
                                                         </span>
                                             <span className="pointer-events-none flex items-center mr-auto">
                                                             <ChevronDownIcon className="h-5 w-5 text-gray-400"

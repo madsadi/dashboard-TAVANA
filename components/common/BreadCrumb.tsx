@@ -40,7 +40,7 @@ export default function BreadCrumbComponent() {
         '[[...query]]':'تاریخچه',
         financialHoldings:'هلدینگ مالی',
         subsidiary:'زیر مجموعه ها',
-        branches:'شعب',
+        branch:'شعب',
         employee:'کارمندان',
         businessUnit:'واحده کاری',
         station:'ایستگاه معاملاتی',

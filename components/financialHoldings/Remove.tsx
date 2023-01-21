@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {toast} from "react-toastify";
 import {remove} from "../../api/holdings";
 import usePageStructure from "../../hooks/usePageStructure";
+import moment from "jalali-moment";
 
 export default function Remove({gridRef}:{gridRef:any}){
     const [editModal, setEditModal] = useState(false)
@@ -14,7 +15,7 @@ export default function Remove({gridRef}:{gridRef:any}){
             .then(()=> {
                 setEditModal(false);
                 gridRef.current.api.applyTransaction({
-                    remove:[targetToEdit]
+                    update:[{...targetToEdit,updateDateTime:moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')}]
                 })
             })
             .catch(()=> {

@@ -248,6 +248,16 @@ export const originEnum: any = [
         "title": "موبایل"
     }
 ]
+export const TypeOfBranches: any = [
+    {
+        "id": 1,
+        "title": "شعبه"
+    },
+    {
+        "id": 2,
+        "title": "نمایندگی"
+    }
+]
 
 export const enTierNameEnum: any = [
     {
