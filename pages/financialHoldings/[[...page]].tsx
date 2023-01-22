@@ -20,12 +20,12 @@ export default function HoldingsSubPages() {
 
     useEffect(()=>{
         if (page?.listOfFilters){
-            let initialValue:any = {};
+            let initialValue:any = {PageNumber: 1,PageSize: 20};
             (page?.listOfFilters)?.map((item:any)=>{
                 if (item.title === 'date'){
-                    initialValue['StartDate'] = null;
-                    initialValue['EndDate'] = null;
-                }else{
+                    initialValue['StartDate'] = `${moment().locale('en').format('YYYY-MM-DD')}`;
+                    initialValue['EndDate'] = `${moment().locale('en').format('YYYY-MM-DD')}`;
+                }else if (item.title !== 'PageNumber' && item.title !== 'PageSize'){
                     initialValue[item.title] = '';
                 }
             })
@@ -33,8 +33,6 @@ export default function HoldingsSubPages() {
             setInitialValue(initialValue)
         }
     },[page?.listOfFilters])
-
-    console.log(query)
 
     //Grid
     const gridRef: any = useRef();

@@ -5,11 +5,16 @@ import {addNew} from "../../api/holdings";
 import InputComponent from "../common/InputComponent";
 import {toast} from "react-toastify";
 import moment from "jalali-moment";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function AddNew({gridRef}:{gridRef:any}){
     const [modal, setModal] = useState(false)
     const {page} = usePageStructure()
     const [query, setQuery] = useState<any>(null)
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
 
     useEffect(()=>{
         if (page?.form){
@@ -65,7 +70,7 @@ export default function AddNew({gridRef}:{gridRef:any}){
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
                                                        name={item?.name} queryUpdate={queryUpdate}
-                                                       type={item?.type}/>
+                                                       type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
                             })
                         }
                     </form>

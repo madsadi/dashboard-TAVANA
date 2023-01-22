@@ -5,11 +5,17 @@ import {edit} from "../../api/holdings";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/InputComponent";
 import moment from "jalali-moment";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function Edit({gridRef}:{gridRef:any}){
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
+
     const {page} = usePageStructure()
 
     useEffect(()=>{
@@ -71,7 +77,7 @@ export default function Edit({gridRef}:{gridRef:any}){
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
                                                        name={item?.name} queryUpdate={queryUpdate}
-                                                       type={item?.type}/>
+                                                       type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
                             })
                         }
                     </form>
