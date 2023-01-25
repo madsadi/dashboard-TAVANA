@@ -23,8 +23,8 @@ export default function HoldingsSubPages() {
             let initialValue:any = {PageNumber: 1,PageSize: 20};
             (page?.listOfFilters)?.map((item:any)=>{
                 if (item.title === 'date'){
-                    initialValue['StartDate'] = `${moment().locale('en').format('YYYY-MM-DD')}`;
-                    initialValue['EndDate'] = `${moment().locale('en').format('YYYY-MM-DD')}`;
+                    initialValue['StartDate'] = '';
+                    initialValue['EndDate'] = '';
                 }else if (item.title !== 'PageNumber' && item.title !== 'PageSize'){
                     initialValue[item.title] = '';
                 }
