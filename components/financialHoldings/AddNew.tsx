@@ -15,10 +15,10 @@ export default function AddNew({gridRef}:{gridRef:any}){
         from: null,
         to: null
     });
+    let initialValue:any = {};
 
     useEffect(()=>{
         if (page?.form){
-            let initialValue:any = {};
             (page?.form)?.map((item:any)=>{
                 initialValue[item.title] = null;
             })
@@ -56,6 +56,7 @@ export default function AddNew({gridRef}:{gridRef:any}){
                     setModal(false);
                     setQuery(page?.form)
                 })
+            setQuery(initialValue)
         }else{
             toast.warning('تمام ورودی ها اجباری می باشد.')
         }
