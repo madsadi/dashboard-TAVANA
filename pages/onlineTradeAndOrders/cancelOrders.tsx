@@ -13,6 +13,7 @@ import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import AccordionComponent from "../../components/common/AccordionComponent";
 import InputComponent from "../../components/common/InputComponent";
 import {errors} from "../../components/commonFn/Enums";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -79,19 +80,19 @@ export default function CancelOrders() {
             field: 'userRequestDateTime',
             headerName: 'زمان درخواست',
             cellRendererSelector: () => {
-                    const ColourCellRenderer = (props: any) => {
-                        return (
-                            <>
-                                <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date:'-'}</span>
-                                <span className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time:'-'}</span>
-                            </>
-                        )
-                    };
-                    const moodDetails = {
-                        component: ColourCellRenderer,
-                    }
-                    return moodDetails;
-                },
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date:'-'}</span>
+                            <span className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time:'-'}</span>
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
         },
         // {
         //     field: 'lrf',
@@ -125,6 +126,10 @@ export default function CancelOrders() {
     const [GPRemoving, setGPRemoving] = useState(false)
     const [InsRemoving, setInsRemoving] = useState(false)
     const [totalCount, setTotalCount] = useState<any>(null)
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
     const {inputs, handleChange} = useForm()
 
     //Grid
@@ -179,8 +184,8 @@ export default function CancelOrders() {
                             const ColourCellRenderer = (props: any) => {
                                 return (
                                     <>
-                                        <span>{jalali(props.tradingDateTime).date}</span>
-                                        <span>{jalali(props.tradingDateTime).time}</span>
+                                        <span>{jalali(props.data.tradingDateTime).date}</span>
+                                        <span>{jalali(props.data.tradingDateTime).time}</span>
                                     </>
                                 )
                             };
@@ -246,7 +251,7 @@ export default function CancelOrders() {
                 <div className="grid grid-cols-2 gap-4 pt-5">
                     {InstrumentGroupFilters.map((filter: any) => {
                         return <InputComponent key={filter.title} type={filter.type} name={filter.name} queryUpdate={queryUpdate}
-                                               query={inputs} title={filter.title}/>
+                                               query={inputs} title={filter.title} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
 
                     })}
                 </div>
@@ -263,7 +268,7 @@ export default function CancelOrders() {
                     </div>
                     {InstrumentFilters.map((filter: any) => {
                         return <InputComponent key={filter.title} type={filter.type} name={filter.name} queryUpdate={queryUpdate}
-                                               query={inputs} title={filter.title}/>
+                                               query={inputs} title={filter.title} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
 
                     })}
                 </div>

@@ -1,47 +1,30 @@
 import Modal from "../common/Modal";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import usePageStructure from "../../hooks/usePageStructure";
 import {addNew} from "../../api/holdings";
 import InputComponent from "../common/InputComponent";
+import {toast} from "react-toastify";
+import moment from "jalali-moment";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
-type initialType = { subsidiaryId: string,
-    code: number,
-    type: number,
-    title: string,
-    countryId: number,
-    provinceId: number,
-    cityId: number,
-    sectionId: number,
-    tel: string,
-    mobile: string,
-    fax: string,
-    address: string,
-    alley: string,
-    plaque: string,
-    postalCode: string
-}
-const initialValue = {
-    subsidiaryId: '',
-    code: 0,
-    type: 0,
-    title: '',
-    countryId: 0,
-    provinceId: 0,
-    cityId: 0,
-    sectionId: 0,
-    tel: '',
-    mobile: '',
-    fax: '',
-    address: '',
-    alley: '',
-    plaque: '',
-    postalCode: '',
-}
-
-export default function AddNew(){
+export default function AddNew({gridRef}:{gridRef:any}){
     const [modal, setModal] = useState(false)
-    const [query, setQuery] = useState<initialType>(initialValue)
     const {page} = usePageStructure()
+    const [query, setQuery] = useState<any>(null)
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
+    let initialValue:any = {};
+
+    useEffect(()=>{
+        if (page?.form){
+            (page?.form)?.map((item:any)=>{
+                initialValue[item.title] = null;
+            })
+            setQuery(initialValue)
+        }
+    },[page?.form])
 
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...query};
@@ -50,15 +33,33 @@ export default function AddNew(){
     }
 
     const addNewHandler = async ()=>{
-        await addNew(page.api,query)
-            .then(()=> {
-                setModal(false);
-                setQuery(initialValue)
-            })
-            .catch(()=> {
-                setModal(false);
-                setQuery(initialValue)
-            })
+        if (Object.values(query)?.every((item:any)=>item)){
+            const generateGridObject = (query:any)=>{
+                let _query:any = {};
+                _query['subsidiaryId'] = query.subsidiaryId
+                _query['code'] = query.code
+                _query['type'] = query.Type
+                _query['title'] = query.title
+                _query['createDateTime'] = moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')
+                return _query
+            }
+            await addNew(page.api,query)
+                .then((res)=> {
+                    gridRef.current.api.applyTransactionAsync({
+                        add:[{id:res?.result?.id,...generateGridObject(query)}],
+                        addIndex:0
+                    })
+                    setModal(false);
+                    setQuery(page?.form)
+                })
+                .catch(()=> {
+                    setModal(false);
+                    setQuery(page?.form)
+                })
+            setQuery(initialValue)
+        }else{
+            toast.warning('تمام ورودی ها اجباری می باشد.')
+        }
     }
 
     return(
@@ -70,7 +71,7 @@ export default function AddNew(){
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
                                                        name={item?.name} queryUpdate={queryUpdate}
-                                                       type={item?.type}/>
+                                                       type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
                             })
                         }
                     </form>

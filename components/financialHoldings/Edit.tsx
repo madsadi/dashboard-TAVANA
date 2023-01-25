@@ -1,49 +1,32 @@
 import Modal from "../common/Modal";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {edit} from "../../api/holdings";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/InputComponent";
-
-type initialType = { subsidiaryId: string,
-    code: number,
-    type: number,
-    title: string,
-    countryId: number,
-    provinceId: number,
-    cityId: number,
-    sectionId: number,
-    tel: string,
-    mobile: string,
-    fax: string,
-    address: string,
-    alley: string,
-    plaque: string,
-    postalCode: string
-}
-const initialValue = {
-    subsidiaryId: '',
-    code: 0,
-    type: 0,
-    title: '',
-    countryId: 0,
-    provinceId: 0,
-    cityId: 0,
-    sectionId: 0,
-    tel: '',
-    mobile: '',
-    fax: '',
-    address: '',
-    alley: '',
-    plaque: '',
-    postalCode: '',
-}
+import moment from "jalali-moment";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function Edit({gridRef}:{gridRef:any}){
     const [modal, setModal] = useState(false)
-    const [query, setQuery] = useState<initialType>(initialValue)
+    const [query, setQuery] = useState<any>(null)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
+
     const {page} = usePageStructure()
+
+    useEffect(()=>{
+        if (page?.form){
+            let initialValue:any = {};
+            (page?.form)?.map((item:any)=>{
+                initialValue[item.title] = null;
+            })
+            setQuery(initialValue)
+        }
+    },[page?.form])
 
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...query};
@@ -52,21 +35,33 @@ export default function Edit({gridRef}:{gridRef:any}){
     }
 
     const addNewHandler = async ()=>{
-        await edit(page.api,query)
-            .then(()=> {
+        const generateGridObject = (query:any)=>{
+            let _query:any = {};
+            _query['subsidiaryId'] = query.subsidiaryId
+            _query['code'] = query.code
+            _query['type'] = query.Type
+            _query['title'] = query.title
+            _query['createDateTime'] = moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')
+            return _query
+        }
+        await edit(page.api, {...query,id:targetToEdit.id,addressId:targetToEdit.address.id})
+            .then((res)=> {
+                gridRef.current.api.applyTransactionAsync({
+                    update:[{id:res?.result?.id,...generateGridObject(query)}],
+                })
                 setModal(false);
-                setQuery(initialValue)
+                setQuery(page?.form)
             })
             .catch(()=> {
                 setModal(false);
-                setQuery(initialValue)
+                setQuery(page?.form)
             })
     }
 
     const openModalHandler = ()=>{
         let selectedProducts = gridRef.current?.api?.getSelectedRows();
         if (selectedProducts.length === 1) {
-            setTargetToEdit(selectedProducts)
+            setTargetToEdit(selectedProducts[0])
             setModal(true)
         } else {
             toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
@@ -82,7 +77,7 @@ export default function Edit({gridRef}:{gridRef:any}){
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
                                                        name={item?.name} queryUpdate={queryUpdate}
-                                                       type={item?.type}/>
+                                                       type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
                             })
                         }
                     </form>

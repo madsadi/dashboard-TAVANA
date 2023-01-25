@@ -1,8 +1,9 @@
 import {Accordion} from "flowbite-react";
-import React, {Dispatch} from "react";
+import React, {Dispatch, useState} from "react";
 import {fetchData} from "../../api/clearedTradesReport";
 import {toast} from "react-toastify";
 import InputComponent from "./InputComponent";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function AccordionComponent({
                                                initialValue,
@@ -14,6 +15,10 @@ export default function AccordionComponent({
                                                setQuery,
                                                pagedData
                                            }: { initialValue: any, listOfFilters: any, gridRef: any, api: string, setTotalCount: Dispatch<number>, query: any, setQuery: Dispatch<any>,pagedData:boolean }) {
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
 
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...query};
@@ -57,10 +62,10 @@ export default function AccordionComponent({
                         <form onSubmit={(e)=>onSubmit(e,query)}>
                             <div className="grid grid-cols-5 gap-4">
                                 {
-                                    listOfFilters.map((item: any) => {
+                                    listOfFilters?.map((item: any) => {
                                         return <InputComponent key={item.title} query={query} title={item?.title}
                                                                name={item?.name} queryUpdate={queryUpdate}
-                                                               type={item?.type}/>
+                                                               type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
                                     })
                                 }
                             </div>
@@ -68,6 +73,7 @@ export default function AccordionComponent({
                                 <button className={'p-1 px-2 rounded-full bg-red-600'} onClick={(e) => {
                                     e.preventDefault()
                                     setQuery(initialValue)
+                                    setSelectedDayRange({from:null,to:null})
                                     onSubmit(e,initialValue)
                                 }}>
                                     لغو

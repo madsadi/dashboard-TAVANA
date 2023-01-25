@@ -8,7 +8,7 @@ export default function Toolbar({gridRef}:{gridRef:any}) {
     return (
         <div className={'border-x border-border'}>
             <div className={'flex p-2'}>
-                <AddNew/>
+                <AddNew gridRef={gridRef}/>
                 <Edit gridRef={gridRef}/>
                 <Remove gridRef={gridRef}/>
             </div>
