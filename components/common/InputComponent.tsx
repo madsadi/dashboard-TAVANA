@@ -18,10 +18,11 @@ export default function InputComponent({
                                            name,
                                            type,
                                            selectedDayRange,
-                                           setSelectedDayRange
+                                           setSelectedDayRange,
+                                           valueType
                                        }: {
     query: any, queryUpdate: any, title: string, name: string, type: string, selectedDayRange: DayRange,
-    setSelectedDayRange: any
+    setSelectedDayRange: any,valueType:string
 }) {
 
     const renderCustomInput = ({ref}: { ref: any }) => (
@@ -38,6 +39,7 @@ export default function InputComponent({
                 return sides
             case 'Deleted':
             case 'IsDeleted':
+            case 'IsActive':
                 return Options
             case 'orderTechnicalOrigin':
                 return orderTechnicalOrigin
@@ -80,8 +82,14 @@ export default function InputComponent({
                 return (
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
-                        <input className={'w-full'} id={title} value={query?.[title]}
-                               onChange={(e) => queryUpdate(title, e.target.value)}/>
+                        <input className={'w-full'} type={valueType || 'text'} id={title} value={query?.[title]}
+                               onChange={(e) => {
+                                   if (valueType === 'number'){
+                                       queryUpdate(title, Number(e.target.value))
+                                   }else{
+                                       queryUpdate(title, e.target.value)
+                                   }
+                               }}/>
                     </div>
                 )
             case "selectInput":
