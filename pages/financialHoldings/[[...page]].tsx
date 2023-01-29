@@ -17,7 +17,7 @@ export default function HoldingsSubPages() {
     const [totalCount, setTotal] = useState<any>(null);
     const {page} = usePageStructure()
     const router = useRouter()
-
+    let pageAddress = router.query.page?.[0]
     useEffect(()=>{
         if (page?.listOfFilters){
             let initialValue:any = {PageNumber: 1,PageSize: 20};
@@ -34,6 +34,10 @@ export default function HoldingsSubPages() {
         }
     },[page?.listOfFilters])
 
+    useEffect(()=>{
+        gridRef?.current?.api?.setRowData([])
+        setTotal(null)
+    },[pageAddress])
     //Grid
     const gridRef: any = useRef();
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);

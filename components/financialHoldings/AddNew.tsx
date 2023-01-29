@@ -70,7 +70,7 @@ export default function AddNew({gridRef}:{gridRef:any}){
                         {
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
-                                                       name={item?.name} queryUpdate={queryUpdate}
+                                                       name={item?.name} queryUpdate={queryUpdate} valueType={item?.valueType}
                                                        type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
                             })
                         }

@@ -704,7 +704,7 @@ export default function usePageStructure() {
 
     const branchesListOfForm = [
         {title: 'subsidiaryId', name: 'شناسه شرکت', type: 'input'},
-        {title: 'code', name: 'کد شعبه', type: 'input'},
+        {title: 'code', name: 'کد شعبه', type: 'input',valueType:'number'},
         {title: 'title', name: 'نام شعبه', type: 'input'},
         {title: 'countryId', name: 'شناسه کشور (برای آدرس شعبه)', type: 'input'},
         {title: 'provinceId', name: 'شناسه استان (برای آدرس شعبه)', type: 'input'},
@@ -722,7 +722,7 @@ export default function usePageStructure() {
     const subsidiaryListOfForm = [
         {title: 'sejamProfileId', name: 'شناسه ثبت نام شرکت', type: 'input'},
         {title: 'title', name: 'عنوان شرکت', type: 'input'},
-        {title: 'subsidiaryTypeCode', name: 'کد نوع شرکت', type: 'input'},
+        {title: 'subsidiaryTypeCode', name: 'کد نوع شرکت', type: 'input',valueType:'number'},
     ]
     const employeeListOfForm = [
         {title: 'firstName', name: 'نام', type: 'input'},
@@ -735,13 +735,13 @@ export default function usePageStructure() {
         {title: 'branchId', name: 'شناسه شعبه', type: 'input'},
     ]
     const businessUnitListOfForm = [
-        {title: 'code', name: 'کد واحد کاری', type: 'input'},
+        {title: 'code', name: 'کد واحد کاری', type: 'input',valueType:'number'},
         {title: 'title', name: 'عنوان واحد کاری', type: 'input'},
-        {title: 'businessUnitOrder', name: 'اولویت واحد کاری', type: 'input'},
+        {title: 'businessUnitOrder', name: 'اولویت واحد کاری', type: 'input',valueType:'number'},
     ]
     const stationListOfForm = [
-        {title: 'brokerCode', name: 'کد کارگزاری', type: 'input'},
-        {title: 'code', name: 'کد ایستگاه معاملاتی', type: 'input'},
+        {title: 'brokerCode', name: 'کد کارگزاری', type: 'input',valueType:'number'},
+        {title: 'code', name: 'کد ایستگاه معاملاتی', type: 'input',valueType:'number'},
         {title: 'title', name: 'عنوان ایستگاه معاملاتی', type: 'input'},
         {title: 'type', name: 'نوع ایستگاه معاملاتی', type: 'input'},
         {title: 'branchId', name: 'شناسه شعبه کارگزاری', type: 'input'},
@@ -770,14 +770,14 @@ export default function usePageStructure() {
     const customerAgreementListOfForm = [
         {title: 'customerId', name: 'شناسه مشتری', type: 'input'},
         {title: 'agreementId', name: 'شناسه توافقنامه', type: 'input'},
-        {title: 'bourseCode', name: 'کدبورسی مشتری', type: 'input'},
-        {title: 'tradeCode', name: 'کدمعاملاتی', type: 'input'},
+        {title: 'bourseCode', name: 'کدبورسی مشتری', type: 'input',valueType:'number'},
+        {title: 'tradeCode', name: 'کدمعاملاتی', type: 'input',valueType:'number'},
         {title: 'state', name: 'وضعیت', type: 'input'},
         {title: 'description', name: 'توضیحات', type: 'input'},
         {title: 'customerApprovalDateTime', name: 'زمان تائید مشتری', type: 'date'},
         {title: 'adminApprovalDateTime', name: 'زمان تائید امین', type: 'date'},
         {title: 'startDateTime', name: 'تاریخ شروع', type: 'date'},
-        {title: 'endDateTimeک ', name: 'تاریخ پایان', type: 'date'},
+        {title: 'endDateTime', name: 'تاریخ پایان', type: 'date'},
     ]
 
     const subsidiaryListOfFilters = [
@@ -789,10 +789,69 @@ export default function usePageStructure() {
                 {title: 'PageNumber', name: 'شماره صفحه', type: null},
                 {title: 'PageSize', name: 'تعداد', type: null},
                 {title: 'Title', name: ` عنوان شعبه `, type: 'input'},
-                {title: 'Code', name: ` کد شعبه`, type: 'input'},
+                {title: 'Code', name: ` کد شعبه`, type: 'input',valueType:'number'},
                 {title: 'Type', name: ` نوع شعبه`, type: 'selectInput'},
                 {title: 'SubsidiaryTitle', name: ` عنوان شرکت `, type: 'input'},
                 {title: 'IsDeleted', name: ` وضعیت `, type: 'selectInput'},
+                {title: 'date', name: ` تاریخ شروع و پایان `, type: 'date'},
+            ]
+    const employeeListOfFilters = [
+                {title: 'PageNumber', name: 'شماره صفحه', type: null},
+                {title: 'PageSize', name: 'تعداد', type: null},
+                {title: 'Id', name: `شناسه کارمند`, type: 'input'},
+            ]
+    const businessUnitListOfFilters = [
+                {title: 'PageNumber', name: 'شماره صفحه', type: null},
+                {title: 'PageSize', name: 'تعداد', type: null},
+                {title: 'Title', name: `عنوان کارمند`, type: 'input'},
+                {title: 'Code', name: `کد کارمند`, type: 'input',valueType:'number'},
+                {title: 'date', name: ` تاریخ شروع و پایان `, type: 'date'},
+            ]
+    const stationListOfFilters = [
+                {title: 'PageNumber', name: 'شماره صفحه', type: null},
+                {title: 'PageSize', name: 'تعداد', type: null},
+                {title: 'Title', name: `عنوان ایستگاه`, type: 'input'},
+                {title: 'Code', name: `کد ایستگاه`, type: 'input',valueType:'number'},
+                {title: 'BrokerTitle', name: `عنوان کارگزاری`, type: 'input'},
+                {title: 'BranchTitle', name: `عنوان شعبه`, type: 'input'},
+                {title: 'Type', name: `نوع`, type: 'input'},
+                {title: 'date', name: ` تاریخ شروع و پایان `, type: 'date'},
+            ]
+    const traderListOfFilters = [
+                {title: 'PageNumber', name: 'شماره صفحه', type: null},
+                {title: 'PageSize', name: 'تعداد', type: null},
+                {title: 'Title', name: `عنوان ایستگاه`, type: 'input'},
+                {title: 'Code', name: `کد ایستگاه`, type: 'input',valueType:'number'},
+                {title: 'BrokerTitle', name: `عنوان کارگزاری`, type: 'input'},
+                {title: 'BranchTitle', name: `عنوان شعبه`, type: 'input'},
+                {title: 'Type', name: `نوع`, type: 'input'},
+                {title: 'date', name: ` تاریخ شروع و پایان `, type: 'date'},
+            ]
+    const marketerListOfFilters = [
+                {title: 'PageNumber', name: 'شماره صفحه', type: null},
+                {title: 'PageSize', name: 'تعداد', type: null},
+                {title: 'UniqueId', name: `شناسه`, type: 'input'},
+                {title: 'FirstName', name: `نام`, type: 'input',valueType:'number'},
+                {title: 'LastName', name: `نام خانوادگی`, type: 'input'},
+                {title: 'Mobile', name: `شماره موبایل`, type: 'input'},
+                {title: 'Type', name: `نوع`, type: 'selectInput'},
+                {title: 'SubsidiaryId', name: `شناسه شرکت`, type: 'input'},
+                {title: 'BranchId', name: `شناسه شعبه`, type: 'input'},
+                {title: 'IsActive', name: `وضعیت`, type: 'selectInput'},
+                {title: 'date', name: ` تاریخ شروع و پایان `, type: 'date'},
+            ]
+    const customerAgreementListOfFilters = [
+                {title: 'PageNumber', name: 'شماره صفحه', type: null},
+                {title: 'PageSize', name: 'تعداد', type: null},
+                {title: 'AgreementTitle', name: `عنوان توافقنامه`, type: 'input'},
+                {title: 'CustomerUniqueId', name: `شناسه مشتری`, type: 'input'},
+                {title: 'SubsidiaryTitle', name: `عنوان شرکت`, type: 'input'},
+                {title: 'BranchTitle', name: `عنوان شعبه`, type: 'input'},
+                {title: 'RelatedBourseCodeTitle', name: `عنوان کد بورسی مرتبط`, type: 'input'},
+                {title: 'State', name: `وضعیت`, type: 'selectInput'},
+                {title: 'IsRequired', name: `ضروری`, type: 'selectInput'},
+                {title: 'IsActive', name: `فعال / غیرفعال`, type: 'selectInput'},
+                {title: 'IsDeleted', name: `وضعیت`, type: 'selectInput'},
                 {title: 'date', name: ` تاریخ شروع و پایان `, type: 'date'},
             ]
 
@@ -828,7 +887,7 @@ export default function usePageStructure() {
                             api: 'employee',
                             columnsDefStructure: employeeColumnDefStructure,
                             searchFilter: 'کارمند',
-                            form: employeeListOfForm
+                            form: employeeListOfForm,
                         }
                     )
                     break;
@@ -838,7 +897,8 @@ export default function usePageStructure() {
                             api: 'businessUnit',
                             columnsDefStructure: businessUnitColumnDefStructure,
                             searchFilter: 'واحده کاری',
-                            form: businessUnitListOfForm
+                            form: businessUnitListOfForm,
+                            listOfFilters: businessUnitListOfFilters
                         }
                     )
                     break;
@@ -848,7 +908,8 @@ export default function usePageStructure() {
                             api: 'station',
                             columnsDefStructure: stationColumnDefStructure,
                             searchFilter: 'ایستگاه معاملاتی',
-                            form: stationListOfForm
+                            form: stationListOfForm,
+                            listOfFilters: stationListOfFilters
                         }
                     )
                     break;
@@ -858,7 +919,7 @@ export default function usePageStructure() {
                             api: 'trader',
                             columnsDefStructure: traderColumnDefStructure,
                             searchFilter: 'معامله گران',
-                            form: traderListOfForm
+                            form: traderListOfForm,
                         }
                     )
                     break;
@@ -868,7 +929,8 @@ export default function usePageStructure() {
                             api: 'marketer',
                             columnsDefStructure: marketerColumnDefStructure,
                             searchFilter: 'بازاریاب ها',
-                            form: marketerListOfForm
+                            form: marketerListOfForm,
+                            listOfFilters: marketerListOfFilters
                         }
                     )
                     break;
@@ -878,7 +940,8 @@ export default function usePageStructure() {
                             api: 'agreement',
                             columnsDefStructure: agreementColumnDefStructure,
                             searchFilter: 'توافقنامه ها',
-                            form: agreementListOfForm
+                            form: agreementListOfForm,
+                            listOfFilters: marketerListOfFilters
                         }
                     )
                     break;
@@ -888,7 +951,8 @@ export default function usePageStructure() {
                             api: 'customerAgreement',
                             columnsDefStructure: customerAgreementColumnDefStructure,
                             searchFilter: 'توافقنامه های بین طرفین',
-                            form: customerAgreementListOfForm
+                            form: customerAgreementListOfForm,
+                            listOfFilters: customerAgreementListOfFilters
                         }
                     )
                     break;

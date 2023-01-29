@@ -19,14 +19,14 @@ export default function Edit({gridRef}:{gridRef:any}){
     const {page} = usePageStructure()
 
     useEffect(()=>{
-        if (page?.form){
+        if (page?.form && targetToEdit){
             let initialValue:any = {};
             (page?.form)?.map((item:any)=>{
-                initialValue[item.title] = null;
+                initialValue[item.title] = targetToEdit[item.title];
             })
             setQuery(initialValue)
         }
-    },[page?.form])
+    },[page?.form,targetToEdit])
 
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...query};
@@ -76,7 +76,7 @@ export default function Edit({gridRef}:{gridRef:any}){
                         {
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
-                                                       name={item?.name} queryUpdate={queryUpdate}
+                                                       name={item?.name} queryUpdate={queryUpdate} valueType={item?.valueType}
                                                        type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
                             })
                         }
