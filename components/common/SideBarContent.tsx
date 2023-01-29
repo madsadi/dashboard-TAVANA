@@ -47,8 +47,8 @@ export default function SideBarContent() {
                 {
                     id: 3.2,
                     label: 'شعب',
-                    url: '/financialHoldings/branches',
-                    className: router.pathname === '/financialHoldings/branches' ? 'sideBarActive' : '',
+                    url: '/financialHoldings/branch',
+                    className: router.pathname === '/financialHoldings/branch' ? 'sideBarActive' : '',
                 },
                 {
                     id: 3.3,

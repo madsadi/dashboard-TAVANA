@@ -44,7 +44,7 @@ export default function TablePagination({
     return (
         <div className={'flex items-center mx-auto py-3 space-x-2 space-x-reverse'}>
             <div className="relative rounded">
-                <Listbox name={'PageSize'} value={query.PageSize}
+                <Listbox name={'PageSize'} value={query?.PageSize}
                          onChange={(e) => {
                              queryUpdate('PageSize', e);
                              onGridReady({...query, PageSize: e})
@@ -55,7 +55,7 @@ export default function TablePagination({
                                 className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                         <span className="flex items-center">
                                                             <span
-                                                                className="ml-2 block truncate text-sm">{query.PageSize}</span>
+                                                                className="ml-2 block truncate text-sm">{query?.PageSize}</span>
                                                         </span>
                                 <span className="pointer-events-none flex items-center mr-auto">
                                                             <ChevronUpIcon className="h-5 w-5 text-gray-400"
@@ -116,34 +116,34 @@ export default function TablePagination({
                 queryUpdate('PageNumber', 1)
                 onGridReady({...query, PageNumber: 1})
             }}
-                    className={`${query.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                    disabled={query.PageNumber <= 1}>
+                    className={`${query?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
+                    disabled={query?.PageNumber <= 1}>
                 <ChevronDoubleRightIcon className={'h-4 w-4'}/>
             </button>
             <button onClick={() => {
-                queryUpdate('PageNumber', query.PageNumber - 1)
-                onGridReady({...query, PageNumber: query.PageNumber - 1})
+                queryUpdate('PageNumber', query?.PageNumber - 1)
+                onGridReady({...query, PageNumber: query?.PageNumber - 1})
             }}
-                    className={`${query.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                    disabled={query.PageNumber <= 1}>
+                    className={`${query?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
+                    disabled={query?.PageNumber <= 1}>
                 <ChevronRightIcon className={'h-4 w-4'}/>
             </button>
-            <div className={'h-fit'}>صفحه {query.PageNumber>Math.ceil(totalCount / query.PageSize) ? 0:query.PageNumber}<span
-                className={'mx-4'}>از</span>{Math.ceil(totalCount / query.PageSize)} </div>
+            <div className={'h-fit'}>صفحه {query?.PageNumber>Math.ceil(totalCount / query?.PageSize) ? 0:query?.PageNumber}<span
+                className={'mx-4'}>از</span>{Math.ceil(totalCount / query?.PageSize)} </div>
             <button onClick={() => {
-                queryUpdate('PageNumber', query.PageNumber + 1)
-                onGridReady({...query, PageNumber: query.PageNumber + 1})
+                queryUpdate('PageNumber', query?.PageNumber + 1)
+                onGridReady({...query, PageNumber: query?.PageNumber + 1})
             }}
-                    className={`${query.PageNumber >= Math.ceil(totalCount / query.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                    disabled={query.PageNumber >= Math.ceil(totalCount / query.PageSize)}>
+                    className={`${query?.PageNumber >= Math.ceil(totalCount / query?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
+                    disabled={query?.PageNumber >= Math.ceil(totalCount / query?.PageSize)}>
                 <ChevronLeftIcon className={'h-4 w-4'}/>
             </button>
             <button onClick={() => {
-                queryUpdate('PageNumber', Math.ceil(totalCount / query.PageSize))
-                onGridReady({...query, PageNumber: Math.ceil(totalCount / query.PageSize)})
+                queryUpdate('PageNumber', Math.ceil(totalCount / query?.PageSize))
+                onGridReady({...query, PageNumber: Math.ceil(totalCount / query?.PageSize)})
             }}
-                    className={`${query.PageNumber >= Math.ceil(totalCount / query.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                    disabled={query.PageNumber >= Math.ceil(totalCount / query.PageSize)}>
+                    className={`${query?.PageNumber >= Math.ceil(totalCount / query?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
+                    disabled={query?.PageNumber >= Math.ceil(totalCount / query?.PageSize)}>
                 <ChevronDoubleLeftIcon className={'h-4 w-4'}/>
             </button>
         </div>

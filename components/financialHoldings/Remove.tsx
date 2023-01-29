@@ -3,26 +3,27 @@ import React, {useState} from "react";
 import {toast} from "react-toastify";
 import {remove} from "../../api/holdings";
 import usePageStructure from "../../hooks/usePageStructure";
+import moment from "jalali-moment";
 
-export default function Remove({gridRef}:{gridRef:any}){
+export default function Remove({gridRef}: { gridRef: any }) {
     const [editModal, setEditModal] = useState(false)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
     const {page} = usePageStructure()
 
-    const removeHandler = async ()=>{
-        await remove(page.api,targetToEdit.id)
-            .then(()=> {
+    const removeHandler = async () => {
+        await remove(page.api, targetToEdit.id)
+            .then(() => {
                 setEditModal(false);
                 gridRef.current.api.applyTransaction({
-                    remove:[targetToEdit]
+                    update: [{...targetToEdit, updateDateTime: moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')}]
                 })
             })
-            .catch(()=> {
+            .catch(() => {
                 setEditModal(false);
             })
     }
 
-    const openModalHandler = ()=>{
+    const openModalHandler = () => {
         let selectedProducts = gridRef.current?.api?.getSelectedRows();
         if (selectedProducts.length === 1) {
             setTargetToEdit(selectedProducts[0])
@@ -33,12 +34,17 @@ export default function Remove({gridRef}:{gridRef:any}){
     }
 
 
-    return(
+    return (
         <>
-            <Modal title={'ایجاد شرکت جدید'} setOpen={setEditModal} open={editModal}>
+            <Modal title={'حذف شرکت'} setOpen={setEditModal} open={editModal}>
                 <div className="field mt-4">
-                    <div>
-                        آیا از حذف{page?.searchFilter} {targetToEdit?.title}      اطمینان دارید؟
+                    <div>{
+                        "آیا از حذف"
+                        + " " +
+                        page?.searchFilter + " " +
+                        targetToEdit?.title + " " +
+                        "اطمینان دارید؟"
+                    }
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2'}>
                         <button className="p-1 px-3 rounded-full bg-red-500"

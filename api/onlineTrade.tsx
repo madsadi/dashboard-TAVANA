@@ -1,5 +1,5 @@
 import axios from "axios";
-import {MARKET_RULES_MANAGEMENT, NETFLOW_BASE_URL} from "./constants";
+import {MARKET_RULES_MANAGEMENT} from "./constants";
 
 export const getTrade = async (body:any) => {
     let bodyToQuery:any=[];

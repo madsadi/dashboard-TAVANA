@@ -1,10 +1,10 @@
 import React, {Fragment, useEffect, useState} from "react";
 import DatePicker, {Day, DayRange, DayValue} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
-import {jalali} from "../commonFn/commonFn";
+import {dateRangeHandler, jalali} from "../commonFn/commonFn";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import {Options, orderOrigin, orderTechnicalOrigin, sides} from "../commonFn/Enums";
+import {Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches} from "../commonFn/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
 
 function classNames(...classes: any) {
@@ -16,47 +16,14 @@ export default function InputComponent({
                                            queryUpdate,
                                            title,
                                            name,
-                                           type
-                                       }: { query: any, queryUpdate: any, title: string, name: string, type: string }) {
-
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
-
-    useEffect(()=>{
-        if (!query.StartDate && !query.EndDate){
-            setSelectedDayRange({from:null,to:null})
-        }else if (!query.EndDate){
-            setSelectedDayRange({from:query.StartDate,to:null})
-        }else if (!query.StartDate){
-            setSelectedDayRange({from:null,to:query.EndDate})
-        }else{
-            let from:any = {}
-            let StartDateGeo = jalali(query.StartDate).date
-            from.year = Number(StartDateGeo?.split('/')[0])
-            from.month = Number(StartDateGeo?.split('/')[1])
-            from.day = Number(StartDateGeo?.split('/')[2])
-            let to:any = {}
-            let EndDateGeo = jalali(query.EndDate).date
-            to.year = Number(EndDateGeo?.split('/')[0])
-            to.month = Number(EndDateGeo?.split('/')[1])
-            to.day = Number(EndDateGeo?.split('/')[2])
-            setSelectedDayRange({from:from,to:to})
-        }
-    },[query.StartDate,query.EndDate])
-
-    const dateRangeHandler = (selectedDayRange: any) => {
-        if (selectedDayRange.from && selectedDayRange.to) {
-            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا ${selectedDayRange.to.year}/${selectedDayRange.to.month}/${selectedDayRange.to.day}`
-        } else if (!selectedDayRange.from && !selectedDayRange.to) {
-            return ''
-        } else if (!selectedDayRange.from) {
-            return ''
-        } else if (!selectedDayRange.to) {
-            return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا اطلاع ثانویه`
-        }
-    }
+                                           type,
+                                           selectedDayRange,
+                                           setSelectedDayRange,
+                                           valueType
+                                       }: {
+    query: any, queryUpdate: any, title: string, name: string, type: string, selectedDayRange: DayRange,
+    setSelectedDayRange: any,valueType:string
+}) {
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
@@ -65,38 +32,42 @@ export default function InputComponent({
         </div>
     )
 
-    const FindEnum = ()=>{
-        switch (title){
+    const FindEnum = () => {
+        switch (title) {
             case 'Side':
             case 'orderSide':
                 return sides
             case 'Deleted':
+            case 'IsDeleted':
+            case 'IsActive':
                 return Options
             case 'orderTechnicalOrigin':
                 return orderTechnicalOrigin
             case 'orderOrigin':
                 return orderOrigin
+            case 'Type':
+                return TypeOfBranches
             default:
                 return []
         }
     }
-    const componentRender=()=>{
+    const componentRender = () => {
         switch (type) {
             case "date":
                 return (
                     <div>
                         <DatePicker
                             value={selectedDayRange}
-                            onChange={(e)=>{
+                            onChange={(e) => {
                                 setSelectedDayRange(e)
-                                if (selectedDayRange.from){
+                                if (e.from) {
                                     queryUpdate(
-                                        'StartDate',`${moment.from(`${selectedDayRange.from?.year}/${selectedDayRange.from?.month}/${selectedDayRange.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                                        'StartDate', `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
                                     )
                                 }
-                                if (selectedDayRange.to){
+                                if (e.to) {
                                     queryUpdate(
-                                        'EndDate', `${moment.from(`${selectedDayRange.to?.year}/${selectedDayRange.to?.month}/${selectedDayRange.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
+                                        'EndDate', `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
                                     )
                                 }
                             }}
@@ -111,8 +82,14 @@ export default function InputComponent({
                 return (
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
-                        <input className={'w-full'} id={title} value={query[title]}
-                               onChange={(e) => queryUpdate(title, e.target.value)}/>
+                        <input className={'w-full'} type={valueType || 'text'} id={title} value={query?.[title]}
+                               onChange={(e) => {
+                                   if (valueType === 'number'){
+                                       queryUpdate(title, Number(e.target.value))
+                                   }else{
+                                       queryUpdate(title, e.target.value)
+                                   }
+                               }}/>
                     </div>
                 )
             case "selectInput":
@@ -120,7 +97,7 @@ export default function InputComponent({
                     <div>
                         <label className={'mt-auto'} htmlFor={title}>{name}</label>
                         <div className="relative rounded">
-                            <Listbox name={title} value={query[title]}
+                            <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => queryUpdate(title, e)}>
                                 {({open}) => (
                                     <div className="relative">
@@ -128,7 +105,7 @@ export default function InputComponent({
                                             className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                         <span className="flex items-center">
                                                             <span
-                                                                className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query[title])?.title}</span>
+                                                                className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query?.[title])?.title}</span>
                                                         </span>
                                             <span className="pointer-events-none flex items-center mr-auto">
                                                             <ChevronDownIcon className="h-5 w-5 text-gray-400"
