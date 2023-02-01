@@ -1,22 +1,30 @@
 import Modal from "../common/Modal";
-import React, {useState} from "react";
-import {toast} from "react-toastify";
-import {remove} from "../../api/holdings";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { remove } from "../../api/holdings";
 import usePageStructure from "../../hooks/usePageStructure";
 import moment from "jalali-moment";
 
-export default function Remove({gridRef}: { gridRef: any }) {
+export default function Remove({ gridRef }: { gridRef: any }) {
     const [editModal, setEditModal] = useState(false)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
-    const {page} = usePageStructure()
+    const { page } = usePageStructure()
+
+    console.log(targetToEdit);
 
     const removeHandler = async () => {
         await remove(page.api, targetToEdit.id)
             .then(() => {
                 setEditModal(false);
-                gridRef.current.api.applyTransaction({
-                    update: [{...targetToEdit, updateDateTime: moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')}]
-                })
+                if (targetToEdit.isDeleted !== undefined) {
+                    gridRef.current.api.applyTransaction({
+                        remove: [targetToEdit]
+                    })
+                } else {
+                    gridRef.current.api.applyTransaction({
+                        update: [{ ...targetToEdit, updateDateTime: moment().locale('en').format('YYYY-MM-DDTHH:mm:ss') }]
+                    })
+                }
             })
             .catch(() => {
                 setEditModal(false);
@@ -48,7 +56,7 @@ export default function Remove({gridRef}: { gridRef: any }) {
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2'}>
                         <button className="p-1 px-3 rounded-full bg-red-500"
-                                onClick={() => setEditModal(false)}>لغو
+                            onClick={() => setEditModal(false)}>لغو
                         </button>
                         <button className="p-1 px-3 rounded-full bg-lime-600" onClick={removeHandler}>تایید</button>
                     </div>
