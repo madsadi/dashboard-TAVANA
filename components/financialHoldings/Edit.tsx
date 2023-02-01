@@ -1,13 +1,13 @@
 import Modal from "../common/Modal";
-import React, {useEffect, useState} from "react";
-import {toast} from "react-toastify";
-import {edit} from "../../api/holdings";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { edit } from "../../api/holdings";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/InputComponent";
 import moment from "jalali-moment";
-import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 
-export default function Edit({gridRef}:{gridRef:any}){
+export default function Edit({ gridRef }: { gridRef: any }) {
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
@@ -16,27 +16,29 @@ export default function Edit({gridRef}:{gridRef:any}){
         to: null
     });
 
-    const {page} = usePageStructure()
+    const { page } = usePageStructure()
 
-    useEffect(()=>{
-        if (page?.form && targetToEdit){
-            let initialValue:any = {};
-            (page?.form)?.map((item:any)=>{
-                initialValue[item.title] = targetToEdit[item.title];
+    useEffect(() => {
+        if (page?.form && targetToEdit) {
+            let initialValue: any = {};
+            (page?.form)?.map((item: any) => {
+                if (typeof targetToEdit[item.title] == "string" || typeof targetToEdit[item.title] == "number") {
+                    initialValue[item.title] = targetToEdit[item.title];
+                }
             })
             setQuery(initialValue)
         }
-    },[page?.form,targetToEdit])
+    }, [page?.form, targetToEdit])
 
     const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
+        let _query: any = { ...query };
         _query[key] = value
         setQuery(_query)
     }
 
-    const addNewHandler = async ()=>{
-        const generateGridObject = (query:any)=>{
-            let _query:any = {};
+    const addNewHandler = async () => {
+        const generateGridObject = (query: any) => {
+            let _query: any = {};
             _query['subsidiaryId'] = query.subsidiaryId
             _query['code'] = query.code
             _query['type'] = query.Type
@@ -44,21 +46,22 @@ export default function Edit({gridRef}:{gridRef:any}){
             _query['createDateTime'] = moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')
             return _query
         }
-        await edit(page.api, {...query,id:targetToEdit.id,addressId:targetToEdit.address.id})
-            .then((res)=> {
+        await edit(page.api, { ...query, id: targetToEdit?.id, addressId: targetToEdit?.address?.id })
+            .then((res) => {
                 gridRef.current.api.applyTransactionAsync({
-                    update:[{id:res?.result?.id,...generateGridObject(query)}],
+                    update: [{ id: res?.result?.id, ...generateGridObject(query) }],
                 })
                 setModal(false);
                 setQuery(page?.form)
             })
-            .catch(()=> {
+            .catch((err: any) => {
+                toast.error(`${err?.response?.data?.error?.message}`)
                 setModal(false);
                 setQuery(page?.form)
             })
     }
 
-    const openModalHandler = ()=>{
+    const openModalHandler = () => {
         let selectedProducts = gridRef.current?.api?.getSelectedRows();
         if (selectedProducts.length === 1) {
             setTargetToEdit(selectedProducts[0])
@@ -68,7 +71,7 @@ export default function Edit({gridRef}:{gridRef:any}){
         }
     }
 
-    return(
+    return (
         <>
             <Modal title={'ویرایش شعبه'} ModalWidth={'max-w-3xl'} setOpen={setModal} open={modal}>
                 <div className="field mt-4">
@@ -76,14 +79,14 @@ export default function Edit({gridRef}:{gridRef:any}){
                         {
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
-                                                       name={item?.name} queryUpdate={queryUpdate} valueType={item?.valueType}
-                                                       type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
+                                    name={item?.name} queryUpdate={queryUpdate} valueType={item?.valueType}
+                                    type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange} />
                             })
                         }
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-4'}>
                         <button className="p-1 px-3 rounded-full bg-red-500"
-                                onClick={() => setModal(false)}>لغو
+                            onClick={() => setModal(false)}>لغو
                         </button>
                         <button className="p-1 px-3 rounded-full bg-lime-600" onClick={addNewHandler}>تایید</button>
                     </div>

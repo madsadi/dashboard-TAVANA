@@ -1,10 +1,10 @@
-import React, {Fragment, useEffect, useState} from "react";
-import DatePicker, {Day, DayRange, DayValue} from "@amir04lm26/react-modern-calendar-date-picker";
+import React, { Fragment, useEffect, useState } from "react";
+import DatePicker, { Day, DayRange, DayValue } from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
-import {dateRangeHandler, jalali} from "../commonFn/commonFn";
-import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import {Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches} from "../commonFn/Enums";
+import { dateRangeHandler, jalali } from "../commonFn/commonFn";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches } from "../commonFn/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
 
 function classNames(...classes: any) {
@@ -12,23 +12,23 @@ function classNames(...classes: any) {
 }
 
 export default function InputComponent({
-                                           query,
-                                           queryUpdate,
-                                           title,
-                                           name,
-                                           type,
-                                           selectedDayRange,
-                                           setSelectedDayRange,
-                                           valueType
-                                       }: {
+    query,
+    queryUpdate,
+    title,
+    name,
+    type,
+    selectedDayRange,
+    setSelectedDayRange,
+    valueType
+}: {
     query: any, queryUpdate: any, title: string, name: string, type: string, selectedDayRange: DayRange,
-    setSelectedDayRange: any,valueType:string
+    setSelectedDayRange: any, valueType: string
 }) {
 
-    const renderCustomInput = ({ref}: { ref: any }) => (
+    const renderCustomInput = ({ ref }: { ref: any }) => (
         <div>
             <label className={'block'} htmlFor="rangeDate">تاریخ شروع و پایان</label>
-            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
+            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)} />
         </div>
     )
 
@@ -74,7 +74,7 @@ export default function InputComponent({
                             shouldHighlightWeekends
                             renderInput={renderCustomInput}
                             locale={'fa'}
-                            calendarPopperPosition={'bottom'}
+                            calendarPopperPosition={'auto'}
                         />
                     </div>
                 )
@@ -83,13 +83,13 @@ export default function InputComponent({
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
                         <input className={'w-full'} type={valueType || 'text'} id={title} value={query?.[title]}
-                               onChange={(e) => {
-                                   if (valueType === 'number'){
-                                       queryUpdate(title, Number(e.target.value))
-                                   }else{
-                                       queryUpdate(title, e.target.value)
-                                   }
-                               }}/>
+                            onChange={(e) => {
+                                if (valueType === 'number') {
+                                    queryUpdate(title, Number(e.target.value))
+                                } else {
+                                    queryUpdate(title, e.target.value)
+                                }
+                            }} />
                     </div>
                 )
             case "selectInput":
@@ -98,19 +98,19 @@ export default function InputComponent({
                         <label className={'mt-auto'} htmlFor={title}>{name}</label>
                         <div className="relative rounded">
                             <Listbox name={title} value={query?.[title]}
-                                     onChange={(e) => queryUpdate(title, e)}>
-                                {({open}) => (
+                                onChange={(e) => queryUpdate(title, e)}>
+                                {({ open }) => (
                                     <div className="relative">
                                         <Listbox.Button
                                             className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
-                                                        <span className="flex items-center">
-                                                            <span
-                                                                className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query?.[title])?.title}</span>
-                                                        </span>
+                                            <span className="flex items-center">
+                                                <span
+                                                    className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query?.[title])?.title}</span>
+                                            </span>
                                             <span className="pointer-events-none flex items-center mr-auto">
-                                                            <ChevronDownIcon className="h-5 w-5 text-gray-400"
-                                                                             aria-hidden="false"/>
-                                                        </span>
+                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                    aria-hidden="false" />
+                                            </span>
                                         </Listbox.Button>
 
                                         <Transition
@@ -125,7 +125,7 @@ export default function InputComponent({
                                                 {FindEnum().map((item: any) => (
                                                     <Listbox.Option
                                                         key={item.id}
-                                                        className={({active}) =>
+                                                        className={({ active }) =>
                                                             classNames(
                                                                 active ? 'bg-border' : '',
                                                                 'relative cursor-pointer select-none py-1 pl-3 pr-3'
@@ -133,7 +133,7 @@ export default function InputComponent({
                                                         }
                                                         value={item.id}
                                                     >
-                                                        {({selected, active}) => (
+                                                        {({ selected, active }) => (
                                                             <>
                                                                 <div className="flex items-center">
                                                                     <span>
@@ -146,9 +146,9 @@ export default function InputComponent({
                                                                                 'flex items-center mr-auto'
                                                                             )}
                                                                         >
-                                                                        <CheckIcon className="h-5 w-5"
-                                                                                   aria-hidden="true"/>
-                                                                    </span>
+                                                                            <CheckIcon className="h-5 w-5"
+                                                                                aria-hidden="true" />
+                                                                        </span>
                                                                     ) : null}
                                                                 </div>
                                                             </>
@@ -167,7 +167,7 @@ export default function InputComponent({
             case "search":
                 return (
                     <div>
-                        <SymbolSearchSection query={query} queryUpdate={queryUpdate}/>
+                        <SymbolSearchSection query={query} queryUpdate={queryUpdate} />
                     </div>
                 )
             default:

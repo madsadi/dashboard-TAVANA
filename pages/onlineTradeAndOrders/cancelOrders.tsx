@@ -184,8 +184,8 @@ export default function CancelOrders() {
                             const ColourCellRenderer = (props: any) => {
                                 return (
                                     <>
-                                        <span>{jalali(props.tradingDateTime).date}</span>
-                                        <span>{jalali(props.tradingDateTime).time}</span>
+                                        <span>{jalali(props.data.tradingDateTime).date}</span>
+                                        <span>{jalali(props.data.tradingDateTime).time}</span>
                                     </>
                                 )
                             };
