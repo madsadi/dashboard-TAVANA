@@ -18,6 +18,10 @@ export default function Edit({ gridRef }: { gridRef: any }) {
 
     const { page } = usePageStructure()
 
+    useEffect(()=>{
+        setQuery(null)
+    },[modal])
+
     useEffect(() => {
         if (page?.form && targetToEdit) {
             let initialValue: any = {};
@@ -36,14 +40,14 @@ export default function Edit({ gridRef }: { gridRef: any }) {
         setQuery(_query)
     }
 
-    const addNewHandler = async () => {
+    const editHandler = async () => {
         const generateGridObject = (query: any) => {
             let _query: any = {};
-            _query['subsidiaryId'] = query.subsidiaryId
-            _query['code'] = query.code
-            _query['type'] = query.Type
-            _query['title'] = query.title
+            page.form.map((k:any)=>{
+                _query[k.title] = query[k.title]
+            })
             _query['createDateTime'] = moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')
+            _query['updateDateTime'] = moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')
             return _query
         }
         await edit(page.api, { ...query, id: targetToEdit?.id, addressId: targetToEdit?.address?.id })
@@ -88,7 +92,7 @@ export default function Edit({ gridRef }: { gridRef: any }) {
                         <button className="p-1 px-3 rounded-full bg-red-500"
                             onClick={() => setModal(false)}>لغو
                         </button>
-                        <button className="p-1 px-3 rounded-full bg-lime-600" onClick={addNewHandler}>تایید</button>
+                        <button className="p-1 px-3 rounded-full bg-lime-600" onClick={editHandler}>تایید</button>
                     </div>
                 </div>
             </Modal>

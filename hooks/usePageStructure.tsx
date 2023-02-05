@@ -742,7 +742,7 @@ export default function usePageStructure() {
         { title: 'brokerCode', name: 'کد کارگزاری', type: 'input', valueType: 'number' },
         { title: 'code', name: 'کد ایستگاه معاملاتی', type: 'input', valueType: 'number' },
         { title: 'title', name: 'عنوان ایستگاه معاملاتی', type: 'input' },
-        { title: 'type', name: 'نوع ایستگاه معاملاتی', type: 'input' },
+        { title: 'type', name: 'نوع ایستگاه معاملاتی', type: 'input', valueType: 'number' },
         { title: 'branchId', name: 'شناسه شعبه کارگزاری', type: 'input' },
     ]
     const traderListOfForm = [

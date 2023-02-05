@@ -17,6 +17,10 @@ export default function AddNew({ gridRef }: { gridRef: any }) {
     });
     let initialValue: any = {};
 
+    useEffect(()=>{
+        setQuery(null)
+    },[modal])
+
     useEffect(() => {
         if (page?.form) {
             (page?.form)?.map((item: any) => {
@@ -51,7 +55,8 @@ export default function AddNew({ gridRef }: { gridRef: any }) {
                     setModal(false);
                     setQuery(page?.form)
                 })
-                .catch(() => {
+                .catch((err) => {
+                    toast.error(`${err?.response?.data?.error?.message}`)
                     setModal(false);
                     setQuery(page?.form)
                 })

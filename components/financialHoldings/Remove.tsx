@@ -10,21 +10,13 @@ export default function Remove({ gridRef }: { gridRef: any }) {
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
     const { page } = usePageStructure()
 
-    console.log(targetToEdit);
-
     const removeHandler = async () => {
         await remove(page.api, targetToEdit.id)
             .then(() => {
                 setEditModal(false);
-                if (targetToEdit.isDeleted !== undefined) {
                     gridRef.current.api.applyTransaction({
                         remove: [targetToEdit]
                     })
-                } else {
-                    gridRef.current.api.applyTransaction({
-                        update: [{ ...targetToEdit, updateDateTime: moment().locale('en').format('YYYY-MM-DDTHH:mm:ss') }]
-                    })
-                }
             })
             .catch(() => {
                 setEditModal(false);
