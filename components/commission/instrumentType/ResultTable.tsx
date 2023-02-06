@@ -8,11 +8,11 @@ import {
 } from "../../../api/commissionInstrumentType";
 import {toast} from "react-toastify";
 import {AgGridReact} from "ag-grid-react";
-import {formatNumber, jalali} from "../../commonFn/commonFn";
-import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
-import Modal from "../../common/Modal";
+import {formatNumber, jalali} from "../../common/functions/common-funcions";
+import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
+import Modal from "../../common/layout/Modal";
 import moment from "jalali-moment";
-import AccordionComponent from "../../common/AccordionComponent";
+import AccordionComponent from "../../common/components/AccordionComponent";
 import {COMMISSION_BASE_URL, NETFLOW_BASE_URL} from "../../../api/constants";
 
 type initialType = {CommissionInstrumentTypeId:string,BourseTitle:string,InstrumentTypeTitle:string,InstrumentTypeDescription:string,SectorTitle:string,SubSectorTitle:string,Deleted:string}

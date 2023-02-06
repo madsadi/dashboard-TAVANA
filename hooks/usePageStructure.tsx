@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { jalali } from "../components/commonFn/commonFn";
+import { jalali } from "../components/common/functions/common-funcions";
 
 export default function usePageStructure() {
     const [page, setPage] = useState<any>(null);

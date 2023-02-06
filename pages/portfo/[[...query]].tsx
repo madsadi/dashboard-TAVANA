@@ -1,10 +1,10 @@
-import AccordionComponent from "../../components/common/AccordionComponent";
+import AccordionComponent from "../../components/common/components/AccordionComponent";
 import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {AgGridReact} from "ag-grid-react";
-import TablePagination from "../../components/common/TablePagination";
-import {formatNumber, jalali} from "../../components/commonFn/commonFn";
-import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverlay";
+import TablePagination from "../../components/common/table/TablePagination";
+import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
+import {LoadingOverlay, NoRowOverlay} from "../../components/common/table/customOverlay";
 import {useRouter} from "next/router";
 import {getPortfolioBook} from "../../api/portfo";
 

@@ -2,248 +2,263 @@
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: "Yekan Bakh", sans-serif;
-  color:#495057;
+    padding: 0;
+    margin: 0;
+    font-family: "Yekan Bakh", sans-serif;
+    color: #495057;
 }
 
-#__next{
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+#__next {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+    width: 6px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-#collapse>span{
-  text-align: right;
+    background: #888;
+    border-radius: 4px;
 }
 
-#menuGroup>li{
-  border:1px solid #eee;
-  border-radius: 8px;
-}
-#nonCollapse>li{
-  border:1px solid #eee;
-  border-radius: 8px;
-  margin-top:0.5rem;
-}
-#nonCollapse>span{
-  padding: 0;
+#collapse > span {
+    text-align: right;
 }
 
-.hiddenScrollBar::-webkit-scrollbar{
-  display: none !important;
+#menuGroup > li {
+    border: 1px solid #eee;
+    border-radius: 8px;
 }
 
-.backTransparent{
-  background: transparent !important;
-  border: 0 solid transparent !important;
+#nonCollapse > li {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+#nonCollapse > span {
+    padding: 0;
+}
+
+.hiddenScrollBar::-webkit-scrollbar {
+    display: none !important;
+}
+
+.backTransparent {
+    background: transparent !important;
+    border: 0 solid transparent !important;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-* input{
-  border:1px solid #eee !important;
-  border-radius: 5px !important;
-  padding:5px !important;
-  font-size: 14px !important;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+* input {
+    border: 1px solid #eee !important;
+    border-radius: 5px !important;
+    padding: 5px !important;
+    font-size: 14px !important;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
 }
 
-input:focus{
-  border:1px solid #727171;
-  box-shadow: none;
+input:focus {
+    border: 1px solid #727171;
+    box-shadow: none;
 }
 
-.DatePicker{
-  z-index: 9 !important;
-  width: 100%;
+.DatePicker {
+    z-index: 9 !important;
+    width: 100%;
 }
-  /* Firefox */
+
+/* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 .ag-theme-alpine {
-  --ag-font-family: "Yekan Bakh", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif !important;
-  --ag-borders: none !important;
-  --ag-borders-row: dashed 1px !important;
-  --ag-row-border-color: rgba(166, 166, 166, 0.41) !important;
-  --ag-background-color:transparent !important;
+    --ag-font-family: "Yekan Bakh", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif !important;
+    --ag-borders: none !important;
+    --ag-borders-row: dashed 1px !important;
+    --ag-row-border-color: rgba(166, 166, 166, 0.41) !important;
+    --ag-background-color: transparent !important;
 }
 
-.ag-body-viewport.ag-layout-normal::-webkit-scrollbar{
-  width: 6px;
+.ag-body-viewport.ag-layout-normal::-webkit-scrollbar {
+    width: 6px;
 }
-.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track{
-  background: transparent;
+
+.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track {
+    background: transparent;
 }
+
 .ag-body-viewport.ag-layout-normal::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-.ag-body-horizontal-scroll-viewport::-webkit-scrollbar{
-  height: 6px;
-}
-.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track{
-  background: transparent;
-}
-.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+    background: #888;
+    border-radius: 4px;
 }
 
-.ag-header-cell-resize::after{
-  width: 3px !important;
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar {
+    height: 6px;
+}
+
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.ag-header-cell-resize::after {
+    width: 3px !important;
 }
 
 .Toastify__toast {
-  color: white;
-  background: #404040;
+    color: white;
+    background: #404040;
 }
 
-.ag-overlay-loading-center{
-  background: none !important;
-  box-shadow: none !important;
+.ag-overlay-loading-center {
+    background: none !important;
+    box-shadow: none !important;
 }
 
-.bgMoon{
-  background: url("/moonShape.svg") no-repeat 50%;
-  background-size: cover;
+.bgMoon {
+    background: url("/moonShape.svg") no-repeat 50%;
+    background-size: cover;
 }
 
-.sortableHelper{
-  z-index: 10;
+.sortableHelper {
+    z-index: 10;
 }
 
-.mustVisible > div.card{
-  visibility: visible !important;
+.mustVisible > div.card {
+    visibility: visible !important;
 }
 
-.Toastify__toast{
-  min-height: unset !important;
+.Toastify__toast {
+    min-height: unset !important;
 }
 
-.ltr{
-  direction:ltr;
+.ltr {
+    direction: ltr;
 }
 
 .tooltipReferencePrice:hover #tooltip-referencePrice {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
+
 .maxTreshold:hover #tooltip-maxTreshold {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
+
 .minTreshold:hover #tooltip-minTreshold {
-  visibility: visible;
-  opacity: 1;
-}
-.priceTooltip{
-  transform: translateX(50%);
+    visibility: visible;
+    opacity: 1;
 }
 
-.ag-overlay-loading-wrapper{
-  background: transparent !important;
+.priceTooltip {
+    transform: translateX(50%);
 }
 
-.ag-watermark{
-  display: none;
+.ag-overlay-loading-wrapper {
+    background: transparent !important;
 }
 
-.placeholderStyle::placeholder{
-  color: #e5b651;
-  text-align: right;
+.ag-watermark {
+    display: none;
 }
 
-.Calendar__monthSelector, .Calendar__yearSelector{
-  color: black !important;
-}
-.rc-slider{
-  font-size: 1rem !important;
-  width: auto !important;
-  height:10px !important;
+.placeholderStyle::placeholder {
+    color: #e5b651;
+    text-align: right;
 }
 
-.rc-slider-rail{
-  height:10px !important;
+.Calendar__monthSelector, .Calendar__yearSelector {
+    color: black !important;
 }
 
-.rc-slider-track{
-  height:100% !important;
+.rc-slider {
+    font-size: 1rem !important;
+    width: auto !important;
+    height: 10px !important;
 }
 
-.rc-slider-step{
-  display: none !important;
+.rc-slider-rail {
+    height: 10px !important;
 }
 
-.rc-slider-mark-text-active{
-  color:white !important;
+.rc-slider-track {
+    height: 100% !important;
 }
 
-.rc-slider-mark{
-  bottom:200%;
-  top: unset !important;
+.rc-slider-step {
+    display: none !important;
 }
 
-.rc-slider-handle .rc-slider-handle-2{
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-.rc-slider-handle{
-  margin-top: -2px !important;
+.rc-slider-mark-text-active {
+    color: white !important;
 }
 
-.rc-slider-disabled{
-  background-color: transparent !important;
+.rc-slider-mark {
+    bottom: 200%;
+    top: unset !important;
 }
 
-.rc-slider-mark-text:first-child{
-  color:rgb(240 82 82);
-}
-.rc-slider-mark-text:last-child{
-  color:rgb(49 196 141);
+.rc-slider-handle .rc-slider-handle-2 {
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
 
-.sortableHelper{
-  display: none;
+.rc-slider-handle {
+    margin-top: -2px !important;
+}
+
+.rc-slider-disabled {
+    background-color: transparent !important;
+}
+
+.rc-slider-mark-text:first-child {
+    color: rgb(240 82 82);
+}
+
+.rc-slider-mark-text:last-child {
+    color: rgb(49 196 141);
+}
+
+.sortableHelper {
+    display: none;
 }
 
 .cell-span {
-  background-color: #d0d0d0 !important;
-  display: flex !important;
-  border-bottom: 1px solid black !important;
+    background-color: #d0d0d0 !important;
+    display: flex !important;
+    border-bottom: 1px solid black !important;
 }
 
-.animated-container{
-  direction: ltr;
+.animated-container {
+    direction: ltr;
 }
 
 /*.dark .Calendar{*/
@@ -263,3 +278,11 @@ input[type=number] {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .button {
+        @apply
+        text-sm text-white p-1 px-2 rounded px-10 transition-all hover:opacity-70
+    }
+
+}

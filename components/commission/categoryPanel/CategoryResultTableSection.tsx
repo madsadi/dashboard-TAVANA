@@ -1,8 +1,8 @@
 import React, {useState, useRef, useMemo, useCallback} from 'react';
-import {formatNumber} from "../../commonFn/commonFn";
-import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
+import {formatNumber} from "../../common/functions/common-funcions";
+import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import {AgGridReact} from "ag-grid-react";
-import AccordionComponent from "../../common/AccordionComponent";
+import AccordionComponent from "../../common/components/AccordionComponent";
 import {COMMISSION_BASE_URL} from "../../../api/constants";
 
 type initialType = { CommissionCategoryId: string, MarketTitle: string, OfferTypeTitle: string, SideTitle: string, SettlementDelayTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string }

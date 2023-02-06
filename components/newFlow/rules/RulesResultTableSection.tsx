@@ -1,10 +1,10 @@
 import React, {useState, useRef, useMemo, useCallback} from 'react';
 import {AgGridReact} from "ag-grid-react";
-import {formatNumber} from "../../commonFn/commonFn";
-import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
-import TablePagination from "../../common/TablePagination";
+import {formatNumber} from "../../common/functions/common-funcions";
+import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
+import TablePagination from "../../common/table/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
-import AccordionComponent from "../../common/AccordionComponent";
+import AccordionComponent from "../../common/components/AccordionComponent";
 import moment from "jalali-moment";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }

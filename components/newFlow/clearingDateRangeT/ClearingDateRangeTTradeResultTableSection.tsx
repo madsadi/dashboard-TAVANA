@@ -1,12 +1,12 @@
 import React, {useState, useRef, useMemo, useCallback} from 'react';
 import {AgGridReact} from "ag-grid-react";
-import {formatNumber, jalali} from "../../commonFn/commonFn";
-import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
+import {formatNumber, jalali} from "../../common/functions/common-funcions";
+import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import moment from "jalali-moment";
-import TablePagination from "../../common/TablePagination";
+import TablePagination from "../../common/table/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
 import {enTierNameEnum} from '../../../dictionary/Enums'
-import AccordionComponent from "../../common/AccordionComponent";
+import AccordionComponent from "../../common/components/AccordionComponent";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number ,EnTierName:string,SettlementDelay:string}
 const initialValue = {

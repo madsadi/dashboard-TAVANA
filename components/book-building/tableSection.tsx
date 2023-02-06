@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useMemo, useCallback} from 'react';
-import {useSelector} from "react-redux";
-import {formatNumber, jalali} from "../../common/functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
-import {AgGridReact} from "ag-grid-react";
-import RulesExpressionDetail from "../../market-rules-management/RulesExpressionDetail";
+import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+import { useSelector } from "react-redux";
+import { formatNumber, jalali } from "../common/functions/common-funcions";
+import { AgGridReact } from "ag-grid-react";
+import { LoadingOverlay, NoRowOverlay } from "../common/table/customOverlay";
+import ToolBar from "./ToolBar";
 
-export default function CommissionResult() {
+export default function ResultTable() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -35,6 +35,8 @@ export default function CommissionResult() {
             field: 'maxQuantity',
             headerName: 'بیشینه حجم سفارش',
             flex: 0,
+            width: 120,
+            minWidth: 120
         },
         {
             field: 'minPrice',
@@ -47,6 +49,8 @@ export default function CommissionResult() {
             field: 'maxPrice',
             headerName: 'حداکثر قیمت سفارش',
             flex: 0,
+            width: 150,
+            minWidth: 150
         }, {
             field: 'fromActiveDateTime',
             headerName: 'زمان شروع',
@@ -58,7 +62,7 @@ export default function CommissionResult() {
                     return (
                         <>
                             <span>{jalali(props.data.fromActiveDateTime).date}</span>
-                            <span>{jalali(props.data.fromActiveDateTime).time}</span>
+                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
                         </>
                     )
                 };
@@ -79,7 +83,7 @@ export default function CommissionResult() {
                     return (
                         <>
                             <span>{jalali(props.data.toActiveDateTime).date}</span>
-                            <span>{jalali(props.data.toActiveDateTime).time}</span>
+                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
                         </>
                     )
                 };
@@ -100,14 +104,14 @@ export default function CommissionResult() {
             field: 'createDateTime',
             headerName: 'زمان ایجاد',
             flex: 0,
-            width: 150,
-            minWidth: 150,
+            width: 120,
+            minWidth: 120,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
                             <span>{jalali(props.data.createDateTime).date}</span>
-                            <span>{jalali(props.data.createDateTime).time}</span>
+                            {/*<span>{jalali(props.data.createDateTime).time}</span>*/}
                         </>
                     )
                 };
@@ -122,29 +126,42 @@ export default function CommissionResult() {
             headerName: 'کاربر تغییر دهنده',
             flex: 0,
             width: 120,
-            minWidth: 120
+            minWidth: 120,
         },
         {
             field: 'updatedDateTime',
             headerName: 'زمان تغییر',
             flex: 0,
             width: 120,
-            minWidth: 120
+            minWidth: 120,
+            // cellRendererSelector: () => {
+            //     const ColourCellRenderer = (props: any) => {
+            //         return (
+            //             <>
+            //                 <span>{jalali(props.data.updatedDateTime).date}</span>
+            //                 <span>{jalali(props.data.updatedDateTime).time}</span>
+            //             </>
+            //         )
+            //     };
+            //     const moodDetails = {
+            //         component: ColourCellRenderer,
+            //     }
+            //     return moodDetails;
+            // }
         }
     ]
 
-    const {commission} = useSelector((state: any) => state.commissionConfig)
+    const { bookBuildingResult } = useSelector((state: any) => state.bookBuildingConfig)
 
     //Grid
     const gridRef: any = useRef();
-    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
+    const gridStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
     const defaultColDef = useMemo(() => {
         return {
             resizable: true,
             sortable: true,
             flex: 1,
-            valueFormatter: formatNumber,
-            minWidth:120
+            valueFormatter: formatNumber
         };
     }, []);
     const getRowId = useCallback((params: any) => {
@@ -163,38 +180,44 @@ export default function CommissionResult() {
     }, []);
     const noRowsOverlayComponentParams = useMemo(() => {
         return {
-            noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
+            noRowsMessageFunc: () => 'نمادی ثبت نشده.',
         };
     }, []);
 
     useEffect(() => {
-        if (commission) {
-            gridRef.current?.api?.setRowData(commission)
+        if (bookBuildingResult) {
+            gridRef.current?.api?.setRowData(bookBuildingResult)
         }
-    }, [commission]);
+    }, [bookBuildingResult]);
 
     //Grid
 
     return (
-        <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-            <div style={gridStyle} className="ag-theme-alpine absolute">
-                <AgGridReact
-                    ref={gridRef}
-                    enableRtl={true}
-                    columnDefs={columnDefStructure}
-                    defaultColDef={defaultColDef}
-                    loadingOverlayComponent={loadingOverlayComponent}
-                    loadingOverlayComponentParams={loadingOverlayComponentParams}
-                    noRowsOverlayComponent={noRowsOverlayComponent}
-                    noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                    rowHeight={35}
-                    headerHeight={35}
-                    animateRows={true}
-                    getRowId={getRowId}
-                    asyncTransactionWaitMillis={1000}
-                    columnHoverHighlight={true}
-                    rowSelection={'single'}
-                />
+        <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
+            <div>
+                <ToolBar gridRef={gridRef} />
+            </div>
+            <div className={'relative grow'}>
+                <div style={gridStyle} className="ag-theme-alpine absolute">
+                    <AgGridReact
+                        ref={gridRef}
+                        enableRtl={true}
+                        columnDefs={columnDefStructure}
+                        defaultColDef={defaultColDef}
+                        loadingOverlayComponent={loadingOverlayComponent}
+                        loadingOverlayComponentParams={loadingOverlayComponentParams}
+                        noRowsOverlayComponent={noRowsOverlayComponent}
+                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+                        rowHeight={35}
+                        headerHeight={35}
+                        animateRows={true}
+                        getRowId={getRowId}
+                        asyncTransactionWaitMillis={1000}
+                        columnHoverHighlight={true}
+                        detailRowHeight={100}
+                        rowSelection={'single'}
+                    />
+                </div>
             </div>
         </div>
     );
