@@ -4,7 +4,7 @@ import moment from "jalali-moment";
 import { dateRangeHandler, jalali } from "../commonFn/commonFn";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches } from "../commonFn/Enums";
+import { Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches } from "../../dictionary/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
 
 function classNames(...classes: any) {

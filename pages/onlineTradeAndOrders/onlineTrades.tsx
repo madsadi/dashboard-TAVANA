@@ -5,7 +5,7 @@ import {LoadingOverlay, NoRowOverlay} from "../../components/common/customOverla
 import {AgGridReact} from 'ag-grid-react';
 import moment from "jalali-moment";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
-import {errors, originEnum, sides} from "../../components/commonFn/Enums";
+import {errors, originEnum, sides} from "../../dictionary/Enums";
 import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import {Accordion} from "flowbite-react";
 import {Listbox, Transition} from "@headlessui/react";
