@@ -34,7 +34,7 @@ export default function SideBarContent() {
             ]
         },
         {
-            id:3,
+            id: 3,
             label: 'مدیریت مشتریان',
             expanded: router.pathname.startsWith('/customer-management'),
             children: [
@@ -245,25 +245,23 @@ export default function SideBarContent() {
                                         >
                                             {item.children.map((child: any) => {
                                                 return (
-                                                    <Link href={child.url} key={child.label}>
-                                                        <Sidebar.Item active={router.pathname === child.url}>
-                                                            {child.label}
-                                                        </Sidebar.Item>
-                                                    </Link>
+                                                    <Sidebar.Item active={router.pathname === child.url}
+                                                                  href={child.url}>
+                                                        {child.label}
+                                                    </Sidebar.Item>
                                                 )
                                             })}
                                         </Sidebar.Collapse>
                                     )
                                 } else {
                                     return (
-                                        <Link href={item.url} key={item.label} id={'nonCollapse'} >
-                                            <Sidebar.Item
-
-                                                          active={router.pathname === item.url}
-                                            >
-                                                {item.label}
-                                            </Sidebar.Item>
-                                        </Link>
+                                        <Sidebar.Item
+                                            active={router.pathname === item.url}
+                                            href={item.url}
+                                            key={item.label}
+                                        >
+                                            {item.label}
+                                        </Sidebar.Item>
 
                                     )
                                 }

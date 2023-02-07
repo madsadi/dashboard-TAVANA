@@ -38,6 +38,7 @@ a {
 
 #collapse > span {
     text-align: right;
+    margin-right: 0.75rem;
 }
 
 #menuGroup > li {
@@ -259,6 +260,11 @@ input[type=number] {
 
 .animated-container {
     direction: ltr;
+}
+
+#nonCollapse>span{
+    padding-right: 0;
+    padding-left: 0;
 }
 
 /*.dark .Calendar{*/
