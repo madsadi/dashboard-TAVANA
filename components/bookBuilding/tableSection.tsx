@@ -19,17 +19,18 @@ export default function ResultTable() {
         {
             field: 'instrumentId',
             headerName: 'شناسه نماد',
-            flex: 0,
-            width: 90,
-            minWidth: 90
         },
         {
             field: 'faInsCode',
             headerName: 'نماد',
+            flex: 0,
+            width: 120,
         },
         {
             field: 'faInsName',
             headerName: 'عنوان نماد',
+            flex: 0,
+            width: 120,
         },
         {
             field: 'maxQuantity',
@@ -62,7 +63,7 @@ export default function ResultTable() {
                     return (
                         <>
                             <span>{jalali(props.data.fromActiveDateTime).date}</span>
-                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
+                            <span className={'ml-2'}>{jalali(props.data.fromActiveDateTime).time}</span>
                         </>
                     )
                 };
@@ -83,7 +84,7 @@ export default function ResultTable() {
                     return (
                         <>
                             <span>{jalali(props.data.toActiveDateTime).date}</span>
-                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
+                            <span className={'ml-2'}>{jalali(props.data.fromActiveDateTime).time}</span>
                         </>
                     )
                 };
@@ -97,21 +98,21 @@ export default function ResultTable() {
             field: 'createdBy',
             headerName: 'کاربر ایجاد کننده',
             flex: 0,
-            width: 120,
-            minWidth: 120
+            width: 200,
+            minWidth: 200
         },
         {
             field: 'createDateTime',
             headerName: 'زمان ایجاد',
             flex: 0,
-            width: 120,
-            minWidth: 120,
+            width: 150,
+            minWidth: 150,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
                             <span>{jalali(props.data.createDateTime).date}</span>
-                            {/*<span>{jalali(props.data.createDateTime).time}</span>*/}
+                            <span className={'ml-2'}>{jalali(props.data.createDateTime).time}</span>
                         </>
                     )
                 };
@@ -125,29 +126,29 @@ export default function ResultTable() {
             field: 'updatedBy',
             headerName: 'کاربر تغییر دهنده',
             flex: 0,
-            width: 120,
-            minWidth: 120,
+            width: 200,
+            minWidth: 200,
         },
         {
             field: 'updatedDateTime',
             headerName: 'زمان تغییر',
             flex: 0,
-            width: 120,
-            minWidth: 120,
-            // cellRendererSelector: () => {
-            //     const ColourCellRenderer = (props: any) => {
-            //         return (
-            //             <>
-            //                 <span>{jalali(props.data.updatedDateTime).date}</span>
-            //                 <span>{jalali(props.data.updatedDateTime).time}</span>
-            //             </>
-            //         )
-            //     };
-            //     const moodDetails = {
-            //         component: ColourCellRenderer,
-            //     }
-            //     return moodDetails;
-            // }
+            width: 150,
+            minWidth: 150,
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <>
+                            <span>{jalali(props.data.updatedDateTime).date}</span>
+                            <span className={'ml-2'}>{jalali(props.data.updatedDateTime).time}</span>
+                        </>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
         }
     ]
 
