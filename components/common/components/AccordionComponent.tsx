@@ -13,9 +13,9 @@ export default function AccordionComponent({
                                                setTotalCount,
                                                query,
                                                setQuery,
-                                               pagedData
-                                           }: { initialValue: any, listOfFilters: any, api: string, setTotalCount: Dispatch<number>, query: any, setQuery: Dispatch<any>,pagedData:boolean }) {
-    const {setData} = useContext<any>(CustomerManagement)
+                                               context
+                                           }: { initialValue: any, listOfFilters: any, api: string, setTotalCount: Dispatch<number>, query: any, setQuery: Dispatch<any>,pagedData:boolean,context:any }) {
+    const {setData} = useContext<any>(context)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null

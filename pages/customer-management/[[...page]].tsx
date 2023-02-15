@@ -63,6 +63,7 @@ export default function HoldingsSubPages() {
                                     listOfFilters={page?.listOfFilters}
                                     initialValue={initialValue}
                                     setTotalCount={setTotal}
+                                    context={CustomerManagement}
                                     />
                 <Toolbar/>
                 <TableComponent columnDefStructure={page?.columnsDefStructure}
@@ -70,11 +71,14 @@ export default function HoldingsSubPages() {
                                 detailComponent={HoldingsBranchesDetail}
                                 rowSelection={'single'}
                                 masterDetail={router.query?.page?.[0] === 'branch'}
+                                context={CustomerManagement}
                                 />
                 <TablePagination query={query}
                                  api={`${MARKET_RULES_MANAGEMENT}/request/${page?.api}/Search?`}
                                  setQuery={setQuery}
-                                 totalCount={totalCount}/>
+                                 totalCount={totalCount}
+                                 context={CustomerManagement}
+                />
             </div>
         </CustomerManagement.Provider>
     )

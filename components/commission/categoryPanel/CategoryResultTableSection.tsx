@@ -182,9 +182,11 @@ export default function CategoryResultTableSection() {
 
     return (
         <>
-            <AccordionComponent query={query} setQuery={setQuery}
-                                api={`${COMMISSION_BASE_URL}/CommissionCategory/Search`} gridRef={gridRef}
-                                listOfFilters={listOfFilters} initialValue={initialValue}
+            <AccordionComponent query={query}
+                                setQuery={setQuery}
+                                api={`${COMMISSION_BASE_URL}/CommissionCategory/Search`}
+                                listOfFilters={listOfFilters}
+                                initialValue={initialValue}
                                 setTotalCount={setTotalCount}/>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">

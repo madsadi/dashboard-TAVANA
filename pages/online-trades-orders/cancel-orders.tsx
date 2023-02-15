@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {createContext, useCallback, useMemo, useRef, useState} from "react";
 import useForm from "../../hooks/useForm";
 import {groupCancel, insCancel} from "../../api/onlineTrade";
 import Modal from "../../components/common/layout/Modal";
@@ -14,6 +14,8 @@ import AccordionComponent from "../../components/common/components/AccordionComp
 import InputComponent from "../../components/common/components/InputComponent";
 import {errors} from "../../dictionary/Enums";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import TableComponent from "../../components/common/table/table-component";
+import {HoldingsBranchesDetail} from "../customer-management/[[...page]]";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -39,15 +41,19 @@ const InstrumentFilters = [
     {title: 'orderOrigin', name: 'نوع کاربر', type: 'selectInput'},
     {title: 'orderTechnicalOrigin', name: 'مرجع تکنیکال سفارش', type: 'selectInput'},
 ]
+
+const CancelOrderContext = createContext({})
 export default function CancelOrders() {
+    const [selectedProducts, setSelectedProducts] = useState<any>([]);
+    const [data, setData] = useState<any>([]);
 
     const columnDefStructure = [
         {
             field: 'id',
             cellRenderer: 'agGroupCellRenderer',
-            flex:0,
-            minWidth:40,
-            maxWidth:40
+            flex: 0,
+            minWidth: 40,
+            maxWidth: 40
         },
         {
             field: 'instrumentGroupIdentification',
@@ -83,8 +89,9 @@ export default function CancelOrders() {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <>
-                            <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date:'-'}</span>
-                            <span className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time:'-'}</span>
+                            <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date : '-'}</span>
+                            <span
+                                className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time : '-'}</span>
                         </>
                     )
                 };
@@ -215,29 +222,29 @@ export default function CancelOrders() {
     const confirmGPRemoving = async () => {
         await groupCancel({
             instrumentGroupIdentification: inputs.instrumentGroupIdentification,
-            orderSide: inputs.orderSide ? Number(inputs.orderSide):0,
-            orderOrigin: inputs.orderOrigin ? Number(inputs.orderOrigin):0,
-            orderTechnicalOrigin: inputs.orderTechnicalOrigin ? Number(inputs.orderTechnicalOrigin):0,
+            orderSide: inputs.orderSide ? Number(inputs.orderSide) : 0,
+            orderOrigin: inputs.orderOrigin ? Number(inputs.orderOrigin) : 0,
+            orderTechnicalOrigin: inputs.orderTechnicalOrigin ? Number(inputs.orderTechnicalOrigin) : 0,
         }).then(() => {
             toast.success('با موفقیت انجام شد')
             setGPRemoving(false)
         })
             .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message || errors.find((item:any)=>item.errorCode === err?.response?.data?.error?.code).errorText}`)
+                toast.error(`${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code).errorText}`)
             })
     }
     const confirmInsRemoving = async () => {
         await insCancel({
             isin: inputs.InstrumentId,
-            orderSide: inputs.orderSide ? Number(inputs.orderSide):0,
-            orderOrigin: inputs.orderOrigin ? Number(inputs.orderOrigin):0,
-            orderTechnicalOrigin: inputs.orderTechnicalOrigin ? Number(inputs.orderTechnicalOrigin):0,
+            orderSide: inputs.orderSide ? Number(inputs.orderSide) : 0,
+            orderOrigin: inputs.orderOrigin ? Number(inputs.orderOrigin) : 0,
+            orderTechnicalOrigin: inputs.orderTechnicalOrigin ? Number(inputs.orderTechnicalOrigin) : 0,
         }).then(() => {
             toast.success('با موفقیت انجام شد')
             setInsRemoving(false)
         })
             .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message || errors.find((item:any)=>item.errorCode === err?.response?.data?.error?.code).errorText}`)
+                toast.error(`${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code).errorText}`)
             })
     }
 
@@ -246,74 +253,75 @@ export default function CancelOrders() {
     }
 
     return (
-        <div className="flex flex-col h-full flex-1">
-            <Modal title="حذف سفارش گروه" open={GPRemoving} setOpen={setGPRemoving}>
-                <div className="grid grid-cols-2 gap-4 pt-5">
-                    {InstrumentGroupFilters.map((filter: any) => {
-                        return <InputComponent key={filter.title} type={filter.type} name={filter.name} queryUpdate={queryUpdate} valueType={filter?.valueType}
-                                               query={inputs} title={filter.title} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
+        <CancelOrderContext.Provider value={{data,setData,query,selectedProducts,setSelectedProducts}}>
+            <div className="flex flex-col h-full flex-1">
+                <Modal title="حذف سفارش گروه" open={GPRemoving} setOpen={setGPRemoving}>
+                    <div className="grid grid-cols-2 gap-4 pt-5">
+                        {InstrumentGroupFilters.map((filter: any) => {
+                            return <InputComponent key={filter.title} type={filter.type} name={filter.name}
+                                                   queryUpdate={queryUpdate} valueType={filter?.valueType}
+                                                   query={inputs} title={filter.title}
+                                                   selectedDayRange={selectedDayRange}
+                                                   setSelectedDayRange={setSelectedDayRange}/>
 
-                    })}
-                </div>
-                <div className={'text-left space-x-2 space-x-reverse mt-4'}>
-                    <button className="rounded-full bg-red-500 p-1 px-5" onClick={() => setGPRemoving(false)}>لغو
-                    </button>
-                    <button className="rounded-full bg-lime-600 p-1 px-5" onClick={confirmGPRemoving}>تایید</button>
-                </div>
-            </Modal>
-            <Modal title={"حذف سفارش نماد"} open={InsRemoving} setOpen={setInsRemoving}>
-                <div className="grid grid-cols-2 gap-4 pt-5">
-                    <div className={'text-center'}>
-                        <SymbolSearchSection query={inputs} queryUpdate={queryUpdate}/>
+                        })}
                     </div>
-                    {InstrumentFilters.map((filter: any) => {
-                        return <InputComponent key={filter.title} type={filter.type} name={filter.name} queryUpdate={queryUpdate} valueType={filter?.valueType}
-                                               query={inputs} title={filter.title} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
+                    <div className={'text-left space-x-2 space-x-reverse mt-4'}>
+                        <button className="button bg-red-500" onClick={() => setGPRemoving(false)}>
+                            لغو
+                        </button>
+                        <button className="button bg-lime-600" onClick={confirmGPRemoving}>تایید</button>
+                    </div>
+                </Modal>
+                <Modal title={"حذف سفارش نماد"} open={InsRemoving} setOpen={setInsRemoving}>
+                    <div className="grid grid-cols-2 gap-4 pt-5">
+                        <div className={'text-center'}>
+                            <SymbolSearchSection query={inputs} queryUpdate={queryUpdate}/>
+                        </div>
+                        {InstrumentFilters.map((filter: any) => {
+                            return <InputComponent key={filter.title} type={filter.type} name={filter.name}
+                                                   queryUpdate={queryUpdate} valueType={filter?.valueType}
+                                                   query={inputs} title={filter.title}
+                                                   selectedDayRange={selectedDayRange}
+                                                   setSelectedDayRange={setSelectedDayRange}/>
 
-                    })}
-                </div>
-                <div className={'text-left space-x-2 space-x-reverse mt-4'}>
-                    <button className="rounded-full bg-red-500 p-1 px-5" onClick={() => setInsRemoving(false)}>لغو
+                        })}
+                    </div>
+                    <div className={'text-left space-x-2 space-x-reverse mt-4'}>
+                        <button className="button bg-red-500" onClick={() => setInsRemoving(false)}>لغو
+                        </button>
+                        <button className="button bg-lime-600" onClick={confirmInsRemoving}>تایید</button>
+                    </div>
+                </Modal>
+                <AccordionComponent query={query}
+                                    setQuery={setQuery}
+                                    api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`}
+                                    listOfFilters={listOfFilters}
+                                    initialValue={initialValue}
+                                    setTotalCount={setTotalCount}
+                                    context={CancelOrderContext}
+                />
+                <div className={'flex space-x-reverse space-x-2 border-x border-border p-2'}>
+                    <button className="button bg-red-500 "
+                            onClick={() => setGPRemoving(true)}>حذف سفارش گروه
                     </button>
-                    <button className="rounded-full bg-lime-600 p-1 px-5" onClick={confirmInsRemoving}>تایید</button>
+                    <button className="button bg-lime-600"
+                            onClick={() => setInsRemoving(true)}>حذف سفارش نماد
+                    </button>
                 </div>
-            </Modal>
-            <AccordionComponent query={query} setQuery={setQuery}
-                                api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`}
-                                gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue}
-                                setTotalCount={setTotalCount} pagedData={true}/>
-            <div className={'flex justify-end space-x-reverse space-x-2 border-x border-border p-2'}>
-                <button className="rounded-full bg-red-500 p-1 px-2"
-                        onClick={() => setGPRemoving(true)}>حذف سفارش گروه
-                </button>
-                <button className="rounded-full bg-lime-600 p-1 px-2"
-                        onClick={() => setInsRemoving(true)}>حذف سفارش نماد
-                </button>
+                <TableComponent columnDefStructure={columnDefStructure}
+                                rowId={['id', 'userRequestDateTime']}
+                                masterDetail={true}
+                                detailCellRendererParams={detailCellRendererParams}
+                                context={CancelOrderContext}
+                />
+                <TablePagination query={query}
+                                 api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder?`}
+                                 setQuery={setQuery}
+                                 totalCount={totalCount}
+                                 context={CancelOrderContext}
+                />
             </div>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-                <div style={gridStyle} className="ag-theme-alpine absolute">
-                    <AgGridReact
-                        ref={gridRef}
-                        enableRtl={true}
-                        columnDefs={columnDefStructure}
-                        defaultColDef={defaultColDef}
-                        loadingOverlayComponent={loadingOverlayComponent}
-                        loadingOverlayComponentParams={loadingOverlayComponentParams}
-                        noRowsOverlayComponent={noRowsOverlayComponent}
-                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                        rowHeight={35}
-                        headerHeight={35}
-                        animateRows={true}
-                        getRowId={getRowId}
-                        asyncTransactionWaitMillis={1000}
-                        columnHoverHighlight={true}
-                        detailCellRendererParams={detailCellRendererParams}
-                        masterDetail={true}
-                    />
-                </div>
-            </div>
-            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder?`}
-                             setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
-        </div>
+        </CancelOrderContext.Provider>
     )
 }

@@ -22,9 +22,10 @@ export default function TablePagination({
                                             setQuery,
                                             api,
                                             totalCount,
-                                            pagedData
-                                        }: { query: any, gridRef: any, setQuery: Dispatch<any>, api: string, totalCount: number ,pagedData:boolean}) {
-    const {setData} = useContext<any>(CustomerManagement)
+                                            pagedData,
+                                            context
+                                        }: { query: any, gridRef: any, setQuery: Dispatch<any>, api: string, totalCount: number ,pagedData:boolean,context:any}) {
+    const {setData} = useContext<any>(context)
 
     const sizes=[10,20,50]
     const queryUpdate = (key: string, value: any) => {

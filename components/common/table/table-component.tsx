@@ -6,8 +6,8 @@ import {CustomerManagement} from "../../../pages/customer-management/[[...page]]
 import {useRouter} from "next/router";
 
 const TableComponent: React.FC<any> = (props) =>{
-    let {columnDefStructure,rowSelection,onGridReady=null,rowId,isRowSelectable=true,masterDetail=false,detailComponent=null} = props
-    const {data,setData,setSelectedProducts} = useContext<any>(CustomerManagement)
+    let {columnDefStructure,rowSelection,onGridReady=null,rowId,isRowSelectable=true,masterDetail=false,detailComponent=null,detailCellRendererParams=null,context=null} = props
+    const {data,setData,setSelectedProducts} = useContext<any>(context)
     const router = useRouter()
     const gridRef: any = useRef();
 
@@ -76,6 +76,7 @@ const TableComponent: React.FC<any> = (props) =>{
                         asyncTransactionWaitMillis={1000}
                         columnHoverHighlight={true}
                         detailCellRenderer={detailComponent}
+                        detailCellRendererParams={detailCellRendererParams}
                         masterDetail={masterDetail}
                         rowSelection={rowSelection}
                         onSelectionChanged={onSelectionChanged}

@@ -448,7 +448,7 @@ export default function Trades() {
                             </div>
                             <div className={'flex mt-4 space-x-2 space-x-reverse mr-auto'}>
                             <button
-                                className={'justify-content-center rounded-full bg-red-500 border-red-500 px-5 p-1 w-fit h-fit mt-auto'}
+                                className={'button bg-red-500 mt-auto'}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setQuery(initialValue);
@@ -457,7 +457,7 @@ export default function Trades() {
                                 }}>
                                 لغو فیلتر ها
                             </button>
-                                <button className={'justify-content-center bg-lime-600 rounded-full px-5 p-1 w-fit h-fit mt-auto'}
+                                <button className={'button bg-lime-600 mt-auto'}
                                     type={'submit'}>
                                 جستجو
                             </button>

@@ -640,7 +640,7 @@ export default function Orders() {
                                 </div>}
                                 <div className={'flex mt-auto space-x-2 space-x-reverse'}>
                                     <button
-                                        className={'justify-content-center rounded-full bg-red-500 border-red-500 px-5 p-1 w-fit h-fit '}
+                                        className={'button bg-red-500'}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             setQuery(initialValue)
@@ -648,7 +648,7 @@ export default function Orders() {
                                         }}>
                                         لغو فیلتر ها
                                     </button>
-                                    <button className={'justify-content-center bg-lime-600 rounded-full px-5 p-1 w-fit h-fit'}
+                                    <button className={'button bg-lime-600'}
                                             type={'submit'}>
                                         جستجو
                                     </button>
