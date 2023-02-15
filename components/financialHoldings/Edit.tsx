@@ -1,13 +1,17 @@
 import Modal from "../common/Modal";
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { toast } from "react-toastify";
 import { edit } from "../../api/holdings";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/InputComponent";
 import moment from "jalali-moment";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
+import {fetchData} from "../../api/clearedTradesReport";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {CustomerManagement} from "../../pages/financialHoldings/[[...page]]";
 
 export default function Edit({ gridRef }: { gridRef: any }) {
+    const {setTotal:setTotalCount,query:searchFilter} = useContext<any>(CustomerManagement)
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
@@ -17,6 +21,10 @@ export default function Edit({ gridRef }: { gridRef: any }) {
     });
 
     const { page } = usePageStructure()
+
+    useEffect(()=>{
+        setQuery(null)
+    },[modal])
 
     useEffect(() => {
         if (page?.form && targetToEdit) {
@@ -36,21 +44,45 @@ export default function Edit({ gridRef }: { gridRef: any }) {
         setQuery(_query)
     }
 
-    const addNewHandler = async () => {
+    const onSubmit = async (event: any,query:any) => {
+        event.preventDefault()
+        const bodyConstructor = (query: any) => {
+            let body: any = {}
+            Object.keys(query).map((item: any) => {
+                body[item] = query[item]
+            })
+            return body
+        }
+        await fetchData(`${MARKET_RULES_MANAGEMENT}/request/${page?.api}/Search`, bodyConstructor(query))
+            .then((res) => {
+                if (res.result?.pagedData){
+                    gridRef?.current?.api?.setRowData(res.result?.pagedData)
+                    setTotalCount(res?.result?.totalCount)
+                    toast.success('با موفقیت انجام شد')
+                }else{
+                    gridRef?.current?.api?.setRowData(res?.result)
+                    setTotalCount(res?.totalRecord)
+                    toast.success('با موفقیت انجام شد')
+                }
+            })
+            .catch(() => toast.error('ناموفق'))
+    }
+    const editHandler = async (e:any) => {
         const generateGridObject = (query: any) => {
             let _query: any = {};
-            _query['subsidiaryId'] = query.subsidiaryId
-            _query['code'] = query.code
-            _query['type'] = query.Type
-            _query['title'] = query.title
+            page.form.map((k:any)=>{
+                _query[k.title] = query[k.title]
+            })
             _query['createDateTime'] = moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')
+            _query['updateDateTime'] = moment().locale('en').format('YYYY-MM-DDTHH:mm:ss')
             return _query
         }
         await edit(page.api, { ...query, id: targetToEdit?.id, addressId: targetToEdit?.address?.id })
             .then((res) => {
-                gridRef.current.api.applyTransactionAsync({
-                    update: [{ id: res?.result?.id, ...generateGridObject(query) }],
-                })
+                // gridRef.current.api.applyTransactionAsync({
+                //     update: [{ id: res?.result?.id, ...generateGridObject(query) }],
+                // })
+                onSubmit(e,searchFilter)
                 setModal(false);
                 setQuery(page?.form)
             })
@@ -88,7 +120,7 @@ export default function Edit({ gridRef }: { gridRef: any }) {
                         <button className="p-1 px-3 rounded-full bg-red-500"
                             onClick={() => setModal(false)}>لغو
                         </button>
-                        <button className="p-1 px-3 rounded-full bg-lime-600" onClick={addNewHandler}>تایید</button>
+                        <button className="p-1 px-3 rounded-full bg-lime-600" onClick={editHandler}>تایید</button>
                     </div>
                 </div>
             </Modal>

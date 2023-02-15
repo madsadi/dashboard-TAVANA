@@ -1,9 +1,10 @@
 import {Accordion} from "flowbite-react";
-import React, {Dispatch, useState} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import {fetchData} from "../../api/clearedTradesReport";
 import {toast} from "react-toastify";
 import InputComponent from "./InputComponent";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import {useRouter} from "next/router";
 
 export default function AccordionComponent({
                                                initialValue,
@@ -33,6 +34,13 @@ export default function AccordionComponent({
         })
         return body
     }
+
+    useEffect(() => {
+        if (!query?.StartDate && !query?.EndDate){
+            setSelectedDayRange({from:null,to:null})
+        }
+    }, [initialValue])
+
 
     const onSubmit = async (event: any,query:any) => {
         event.preventDefault()

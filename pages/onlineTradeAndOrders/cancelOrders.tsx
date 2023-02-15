@@ -12,7 +12,7 @@ import TablePagination from "../../components/common/TablePagination";
 import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import AccordionComponent from "../../components/common/AccordionComponent";
 import InputComponent from "../../components/common/InputComponent";
-import {errors} from "../../components/commonFn/Enums";
+import {errors} from "../../dictionary/Enums";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
 const listOfFilters = [

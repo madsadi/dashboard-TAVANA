@@ -58,7 +58,7 @@ export default function SideBarContent() {
                 },
                 {
                     id: 3.4,
-                    label: 'واحده کاری',
+                    label: 'واحد کاری',
                     url: '/financialHoldings/businessUnit',
                     className: router.pathname === '/financialHoldings/businessUnit' ? 'sideBarActive' : '',
                 },

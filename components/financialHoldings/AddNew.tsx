@@ -1,13 +1,17 @@
 import Modal from "../common/Modal";
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import usePageStructure from "../../hooks/usePageStructure";
 import { addNew } from "../../api/holdings";
 import InputComponent from "../common/InputComponent";
 import { toast } from "react-toastify";
 import moment from "jalali-moment";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
+import {fetchData} from "../../api/clearedTradesReport";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {CustomerManagement} from "../../pages/financialHoldings/[[...page]]";
 
 export default function AddNew({ gridRef }: { gridRef: any }) {
+    const {setTotal:setTotalCount,query:searchFilter} = useContext<any>(CustomerManagement)
     const [modal, setModal] = useState(false)
     const { page } = usePageStructure()
     const [query, setQuery] = useState<any>(null)
@@ -16,6 +20,10 @@ export default function AddNew({ gridRef }: { gridRef: any }) {
         to: null
     });
     let initialValue: any = {};
+
+    useEffect(()=>{
+        setQuery(null)
+    },[modal])
 
     useEffect(() => {
         if (page?.form) {
@@ -32,8 +40,31 @@ export default function AddNew({ gridRef }: { gridRef: any }) {
         setQuery(_query)
     }
 
-    const addNewHandler = async () => {
-        if (Object.values(query)?.every((item: any) => item)) {
+    const onSubmit = async (event: any,query:any) => {
+        event.preventDefault()
+        const bodyConstructor = (query: any) => {
+            let body: any = {}
+            Object.keys(query).map((item: any) => {
+                body[item] = query[item]
+            })
+            return body
+        }
+        await fetchData(`${MARKET_RULES_MANAGEMENT}/request/${page?.api}/Search`, bodyConstructor(query))
+            .then((res) => {
+                if (res.result?.pagedData){
+                    gridRef?.current?.api?.setRowData(res.result?.pagedData)
+                    setTotalCount(res?.result?.totalCount)
+                    toast.success('با موفقیت انجام شد')
+                }else{
+                    gridRef?.current?.api?.setRowData(res?.result)
+                    setTotalCount(res?.totalRecord)
+                    toast.success('با موفقیت انجام شد')
+                }
+            })
+            .catch(() => toast.error('ناموفق'))
+    }
+    const addNewHandler = async (e:any) => {
+        if (query && Object.values(query)?.every((item: any) => item)) {
             const generateGridObject = (query: any) => {
                 let _query: any = {};
                 page.form.map((item: any) => {
@@ -44,14 +75,16 @@ export default function AddNew({ gridRef }: { gridRef: any }) {
             }
             await addNew(page.api, query)
                 .then((res) => {
-                    gridRef.current.api.applyTransactionAsync({
-                        add: [{ id: res?.result?.id, ...generateGridObject(query) }],
-                        addIndex: 0
-                    })
+                    // gridRef.current.api.applyTransactionAsync({
+                    //     add: [{ id: res?.result?.id, ...generateGridObject(query) }],
+                    //     addIndex: 0
+                    // })
+                    onSubmit(e,searchFilter)
                     setModal(false);
                     setQuery(page?.form)
                 })
-                .catch(() => {
+                .catch((err) => {
+                    toast.error(`${err?.response?.data?.error?.message}`)
                     setModal(false);
                     setQuery(page?.form)
                 })

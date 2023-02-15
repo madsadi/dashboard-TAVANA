@@ -6,7 +6,7 @@ import {AgGridReact} from 'ag-grid-react';
 import moment from "jalali-moment";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import CustomDetailComponent from "../../components/onlineOrders/customDetailComponent";
-import {EnumsStatus, errors, OrderType, originEnum, sides, validityType} from "../../components/commonFn/Enums";
+import {EnumsStatus, errors, OrderType, originEnum, sides, validityType} from "../../dictionary/Enums";
 import {Accordion} from "flowbite-react";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon,TrashIcon} from "@heroicons/react/20/solid";

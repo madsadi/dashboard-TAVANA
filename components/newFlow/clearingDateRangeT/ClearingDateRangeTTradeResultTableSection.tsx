@@ -5,7 +5,7 @@ import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
 import moment from "jalali-moment";
 import TablePagination from "../../common/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
-import {enTierNameEnum} from '../../commonFn/Enums'
+import {enTierNameEnum} from '../../../dictionary/Enums'
 import AccordionComponent from "../../common/AccordionComponent";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number ,EnTierName:string,SettlementDelay:string}
