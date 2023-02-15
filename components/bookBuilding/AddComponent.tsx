@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/Modal";
 import { addBookBuilding } from "../../api/bookBuilding";
@@ -12,6 +12,10 @@ const bookBuildingInputs = [
     { title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number' },
     { title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number' },
     { title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number' },
+    { title: 'startHour', name: 'زمان شروع', type: 'selectInputTime'},
+    { title: 'startMinute', name: 'زمان شروع'},
+    { title: 'endHour', name: 'زمان پایان', type: 'selectInputTime'},
+    { title: 'endMinute', name: 'زمان پایان'},
     { title: 'date', name: 'تاریخ شروع و پایان', type: 'date' },
 ]
 export default function AddModal({ gridRef }: { gridRef: any }) {
@@ -35,8 +39,8 @@ export default function AddModal({ gridRef }: { gridRef: any }) {
                 maxQuantity: query.maxQuantity,
                 minPrice: query.minPrice,
                 maxPrice: query.maxPrice,
-                fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD'),
-                toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD'),
+                fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD')+'T'+query.startHour+':'+query.startMinute+':'+'00',
+                toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD')+'T'+query.endHour+':'+query.endMinute+':'+'00',
             }).then(res => {
                 setOpen(false)
                 toast.success('با موفقیت انجام شد')
@@ -66,6 +70,10 @@ export default function AddModal({ gridRef }: { gridRef: any }) {
         }
     }
 
+    useEffect(()=>{
+        setQuery(null)
+        setSelectedDayRange({from:null,to:null})
+    },[open])
     return (
         <>
             <button className="bg-lime-600 p-1 px-2 rounded-full h-fit" onClick={() => setOpen(true)}>جدید</button>
@@ -78,7 +86,6 @@ export default function AddModal({ gridRef }: { gridRef: any }) {
                                 return <InputComponent key={item.title} query={query} title={item?.title}
                                     name={item?.name} queryUpdate={queryUpdate} valueType={item?.valueType}
                                     type={item?.type} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange} />
-
                             })
                         }
                     </form>
