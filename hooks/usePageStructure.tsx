@@ -749,22 +749,22 @@ export default function usePageStructure() {
         { title: 'stationId', name: 'شناسه ایستگاه معاملاتی', type: 'input' },
         { title: 'employeeId', name: 'شناسه کارمند', type: 'input' },
         { title: 'title', name: 'عنوان معامله گر', type: 'input' },
-        { title: 'isActive', name: 'فعال/غیرفعال', type: 'input' },
+        { title: 'isActive', name: 'فعال/غیرفعال', type: 'selectInput' },
     ]
     const marketerListOfForm = [
-        { title: 'type', name: 'نوع بازاریاب', type: 'input' },
+        { title: 'type', name: 'نوع بازاریاب', type: 'input', valueType: 'number' },
         { title: 'customerId', name: 'شناسه مشتری', type: 'input' },
         { title: 'branchId', name: 'شناسه شعبه', type: 'input' },
     ]
     const agreementListOfForm = [
         { title: 'subsidiaryId', name: 'شناسه شرکت', type: 'input' },
-        { title: 'bourseCodeType', name: 'نوع کدبورسی', type: 'input' },
+        { title: 'bourseCodeType', name: 'نوع کدبورسی', type: 'input', valueType: 'number' },
         { title: 'name', name: 'عنوان توافقنامه', type: 'input' },
         { title: 'description', name: 'توضیحات', type: 'input' },
         { title: 'context', name: 'متن توافقنامه', type: 'input' },
         { title: 'defaultFileId', name: 'شناسه فایل پیش فرض توافقنامه', type: 'input' },
-        { title: 'isBourseCodeRequired', name: 'کد بورسی نیاز دارد؟', type: 'input' },
-        { title: 'isRequired', name: 'توافقنامه اجباری است؟', type: 'input' },
+        { title: 'isBourseCodeRequired', name: 'کد بورسی نیاز دارد؟', type: 'input', valueType: 'number' },
+        { title: 'isRequired', name: 'توافقنامه اجباری است؟', type: 'input', valueType: 'number' },
     ]
     const customerAgreementListOfForm = [
         { title: 'customerId', name: 'شناسه مشتری', type: 'input' },

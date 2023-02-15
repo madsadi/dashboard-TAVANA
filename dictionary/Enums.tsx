@@ -63,6 +63,34 @@ export const Options:any[] = [
         "title": "همه"
     }
 ];
+export const Booleans:any[] = [
+    {
+        "id": true,
+        "title": "حذف شده"
+    },
+    {
+        "id": false,
+        "title": "حذف نشده"
+    },
+    {
+        "id": null,
+        "title": "همه"
+    }
+];
+export const ActivityStatus:any[] = [
+    {
+        "id": 1,
+        "title": "فعال"
+    },
+    {
+        "id": 2,
+        "title": "غیر فعال"
+    },
+    {
+        "id": 3,
+        "title": "همه"
+    }
+];
 
 export const orderTechnicalOrigin:any[] = [
     // {

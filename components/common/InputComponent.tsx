@@ -4,7 +4,15 @@ import moment from "jalali-moment";
 import { dateRangeHandler, jalali } from "../commonFn/commonFn";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches } from "../../dictionary/Enums";
+import {
+    ActivityStatus,
+    Booleans,
+    Options,
+    orderOrigin,
+    orderTechnicalOrigin,
+    sides,
+    TypeOfBranches
+} from "../../dictionary/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
 
 function classNames(...classes: any) {
@@ -39,8 +47,11 @@ export default function InputComponent({
                 return sides
             case 'Deleted':
             case 'IsDeleted':
-            case 'IsActive':
                 return Options
+            case 'IsActive':
+                return ActivityStatus
+            case 'isActive':
+                return Booleans
             case 'orderTechnicalOrigin':
                 return orderTechnicalOrigin
             case 'orderOrigin':
@@ -86,7 +97,7 @@ export default function InputComponent({
                             onChange={(e) => {
                                 if (valueType === 'number') {
                                     queryUpdate(title, Number(e.target.value))
-                                } else {
+                                } else  {
                                     queryUpdate(title, e.target.value)
                                 }
                             }} />
