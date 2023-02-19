@@ -763,8 +763,8 @@ export default function usePageStructure() {
         { title: 'description', name: 'توضیحات', type: 'input' },
         { title: 'context', name: 'متن توافقنامه', type: 'input' },
         { title: 'defaultFileId', name: 'شناسه فایل پیش فرض توافقنامه', type: 'input' },
-        { title: 'isBourseCodeRequired', name: 'کد بورسی نیاز دارد؟', type: 'input', valueType: 'number' },
-        { title: 'isRequired', name: 'توافقنامه اجباری است؟', type: 'input', valueType: 'number' },
+        { title: 'isBourseCodeRequired', name: 'کد بورسی نیاز دارد؟', type: 'selectInput' },
+        { title: 'isRequired', name: 'توافقنامه اجباری است؟', type: 'selectInput' },
     ]
     const customerAgreementListOfForm = [
         { title: 'customerId', name: 'شناسه مشتری', type: 'input' },
