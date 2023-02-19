@@ -63,6 +63,20 @@ export const Options:any[] = [
         "title": "همه"
     }
 ];
+export const activeStatus:any[] = [
+    {
+        "id": 'true',
+        "title": "فعال"
+    },
+    {
+        "id": 'false',
+        "title": "غیر فعال"
+    },
+    {
+        "id": null,
+        "title": "همه"
+    }
+];
 
 export const orderTechnicalOrigin:any[] = [
     // {

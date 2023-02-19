@@ -1,12 +1,10 @@
-import AccordionComponent from "../../components/common/components/AccordionComponent";
 import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import {AgGridReact} from "ag-grid-react";
+import React, { useEffect, useState} from "react";
 import TablePagination from "../../components/common/table/TablePagination";
-import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "../../components/common/table/customOverlay";
+import { jalali} from "../../components/common/functions/common-funcions";
 import {useRouter} from "next/router";
 import {getPortfolioBook} from "../../api/portfo";
+import TableComponent from "../../components/common/table/table-component";
 
 type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, PageSize: number }
 const initialValue = {
@@ -107,45 +105,14 @@ export default function PortfolioBook(){
     const router = useRouter()
 
     const [query, setQuery] = useState<initialType>(initialValue)
+    const [data, setData] = useState<any>([])
     const [totalCount, setTotalCount] = useState<any>(null)
     const [userInfo, setUserInfo] = useState<any>([])
-
-    //GRID
-    const gridRef: any = useRef();
-    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
-    const defaultColDef = useMemo(() => {
-        return {
-            resizable: true,
-            sortable: true,
-            flex: 1,
-            valueFormatter: formatNumber
-        };
-    }, []);
-    const getRowId = useCallback((params: any) => {
-        return params.data.transactionId+params.data.receivedDateTime
-    }, []);
-    const loadingOverlayComponent = useMemo(() => {
-        return LoadingOverlay;
-    }, []);
-    const loadingOverlayComponentParams = useMemo(() => {
-        return {
-            loadingMessage: 'در حال بارگزاری...',
-        };
-    }, []);
-    const noRowsOverlayComponent = useMemo(() => {
-        return NoRowOverlay;
-    }, []);
-    const noRowsOverlayComponentParams = useMemo(() => {
-        return {
-            noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
-        };
-    }, []);
-    //GRID
 
     const getPortfolioData = async (query:initialType)=>{
         await getPortfolioBook(query)
             .then((res)=> {
-                gridRef.current.api.setRowData(res?.result?.pagedData);
+                setData(res?.result?.pagedData);
                 setUserInfo(res?.result?.pagedData[0])
                 setTotalCount(res?.result?.totalCount)
             })
@@ -187,27 +154,15 @@ export default function PortfolioBook(){
                     <span className={'mr-2 font-bold'}>{userInfo?.faInsCode }</span>
                 </div>
             </div>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-                <div style={gridStyle} className="ag-theme-alpine absolute">
-                    <AgGridReact
-                        ref={gridRef}
-                        enableRtl={true}
-                        columnDefs={columnDefStructure}
-                        defaultColDef={defaultColDef}
-                        loadingOverlayComponent={loadingOverlayComponent}
-                        loadingOverlayComponentParams={loadingOverlayComponentParams}
-                        noRowsOverlayComponent={noRowsOverlayComponent}
-                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                        rowHeight={35}
-                        headerHeight={35}
-                        animateRows={true}
-                        getRowId={getRowId}
-                        columnHoverHighlight={true}
-                    />
-                </div>
-            </div>
-            <TablePagination query={query} api={`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolioBook?`}
-                             setQuery={setQuery} gridRef={gridRef} totalCount={totalCount}/>
+            <TableComponent data={data}
+                            columnDefStructure={columnDefStructure}
+                            rowId={['receivedDateTime','transactionId']}
+                            />
+            <TablePagination setData={setData}
+                             query={query}
+                             api={`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolioBook?`}
+                             setQuery={setQuery}
+                             totalCount={totalCount}/>
         </div>
     )
 }

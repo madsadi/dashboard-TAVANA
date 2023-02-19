@@ -4,7 +4,7 @@ import {formatNumber} from "../functions/common-funcions";
 import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
 
 const TableComponent: React.FC<any> = (props) =>{
-    let {data=[],columnDefStructure,rowSelection,onGridReady=null,rowId,isRowSelectable=null,masterDetail=false,detailComponent=null,detailCellRendererParams=null,setSelectedRows=null,selectedRows=[]} = props
+    let {data=[],columnDefStructure,rowSelection,onGridReady=null,rowId,isRowSelectable=null,masterDetail=false,detailComponent=null,detailCellRendererParams=null,setSelectedRows=null,selectedRows=[],onRowClicked=null} = props
 
     const gridRef: any = useRef();
 
@@ -79,6 +79,7 @@ const TableComponent: React.FC<any> = (props) =>{
                         isRowSelectable={isRowSelectable}
                         rowSelection={rowSelection}
                         onSelectionChanged={onSelectionChanged}
+                        onRowClicked={onRowClicked}
                     />
                 </div>
             </div>

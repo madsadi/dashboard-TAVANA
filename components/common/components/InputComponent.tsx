@@ -5,6 +5,7 @@ import { dateRangeHandler } from "../functions/common-funcions";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
+    activeStatus,
     Options,
     orderOrigin, orderStatus,
     orderTechnicalOrigin,
@@ -42,6 +43,8 @@ export default function InputComponent({
 
     const FindEnum = () => {
         switch (title) {
+            case 'isActive':
+                return activeStatus
             case 'OrderType':
                 return OrderType
             case 'OrderStatus':
