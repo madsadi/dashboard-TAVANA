@@ -15,7 +15,7 @@ export const filedList = async () => {
     return create
 }
 export const remoteUrl = async (api:string) => {
-    const create = await axios.get(`http://cluster.tech1a.co:9020/${api}`,
+    const create = await axios.get(api,
         {
             headers: {
                 'Accept':'*/*'

@@ -13,14 +13,13 @@ import {formatNumber, jalali} from "../commonFn/commonFn";
 import {LoadingOverlay, NoRowOverlay} from "../common/customOverlay";
 import Modal from '../common/Modal';
 import {Badge} from "flowbite-react";
+import SymbolSearchSection from "../common/SymbolSearchSecion";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function RulesList() {
-
-
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -35,9 +34,9 @@ export default function RulesList() {
             field: 'id',
             headerName: 'شناسه',
             cellRenderer: 'agGroupCellRenderer',
-            flex:0,
-            width:90,
-            minWidth:90
+            flex: 0,
+            width: 90,
+            minWidth: 90
         },
         {
             field: 'name',
@@ -50,16 +49,16 @@ export default function RulesList() {
         {
             field: 'sequenceNumber',
             headerName: 'مرتبه/اولویت',
-            flex:0,
-            width:120,
-            minWidth:120
+            flex: 0,
+            width: 120,
+            minWidth: 120
         },
         {
             field: 'createDateTime',
             headerName: 'زمان ایجاد',
-            flex:0,
-            width:170,
-            minWidth:170,
+            flex: 0,
+            width: 170,
+            minWidth: 170,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -78,15 +77,15 @@ export default function RulesList() {
         {
             field: 'createBy',
             headerName: 'کاربر ایجاد کننده',
-            flex:0,
-            width:150,
-            minWidth:150
+            flex: 0,
+            width: 150,
+            minWidth: 150
         }, {
             field: 'updatedDateTime',
             headerName: 'زمان تغییر',
-            flex:0,
-            width:170,
-            minWidth:170,
+            flex: 0,
+            width: 170,
+            minWidth: 170,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -105,9 +104,9 @@ export default function RulesList() {
         {
             field: 'updatedBy',
             headerName: 'کاربر تغییر دهنده',
-            flex:0,
-            width:150,
-            minWidth:150,
+            flex: 0,
+            width: 150,
+            minWidth: 150,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -125,21 +124,28 @@ export default function RulesList() {
         {
             field: 'userIP',
             headerName: 'آی پی کاربر',
-            flex:0,
-            width:120,
-            minWidth:120
+            flex: 0,
+            width: 120,
+            minWidth: 120
         }
     ]
 
     const [modal, setModal] = useState<boolean>(false);
     const [status, setStatus] = useState({name: '', isActive: null})
     const [name, setName] = useState<any>(null);
-    const [query, setQuery] = useState<any>(null);
+    const [query, setQuery] = useState<any>({});
+    const [searchQuery, setSearchQuery] = useState<any>({});
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
     });
 
+    const SearchQueryUpdate = (key: string, value: any) => {
+        let _query: any = {...searchQuery};
+        _query[key] = value
+        setValue(value)
+        setSearchQuery(_query)
+    }
     const states = [
         {name: 'فعال', isActive: true},
         {name: 'غیر فعال', isActive: false},
@@ -160,7 +166,7 @@ export default function RulesList() {
             valueFormatter: formatNumber
         };
     }, []);
-    const onGridReady = async (query:any) => {
+    const onGridReady = async (query: any) => {
         await rulesList(query)
             .then(res => gridRef.current.api.setRowData(res?.result))
             .catch(err => toast.error('نا موفق'))
@@ -207,10 +213,11 @@ export default function RulesList() {
         return (
             <>
                 <button className="rounded-full p-1 px-2 bg-orange-500" onClick={openUpdate}>تغییر</button>
-                <button className="rounded-full p-1 px-2 bg-orange-500" onClick={(e)=> {
+                <button className="rounded-full p-1 px-2 bg-orange-500" onClick={(e) => {
                     reset(e)
                     setModal(true);
-                }}>قانون جدید</button>
+                }}>قانون جدید
+                </button>
             </>
         )
     }
@@ -241,7 +248,7 @@ export default function RulesList() {
                     <label className={'block'} htmlFor="CustomerTypeTitle">وضیعت</label>
                     <div className="relative rounded">
                         <Listbox name={'status'} value={query?.isActive}
-                                 onChange={(e) => setQuery({...query,isActive:e})}>
+                                 onChange={(e) => setQuery({...query, isActive: e})}>
                             {({open}) => (
                                 <div className="relative">
                                     <Listbox.Button
@@ -333,7 +340,7 @@ export default function RulesList() {
                                     type="button"
                                     onClick={() => {
                                         setSelectedDayRange({from: null, to: null})
-                                        setQuery({...query,createDateTimeFrom:null,createDateTimeTo:null})
+                                        setQuery({...query, createDateTimeFrom: null, createDateTimeTo: null})
                                     }}
                                 >
                                     لغو
@@ -345,19 +352,20 @@ export default function RulesList() {
                 <div>
                     <label className={'block'} htmlFor="name">عنوان قانون</label>
                     <input id="name" className={'w-full'} value={query?.name}
-                           onChange={(e) => setQuery({...query,name:e.target.value})}/>
+                           onChange={(e) => setQuery({...query, name: e.target.value})}/>
                 </div>
                 <div className={'flex grow items-center space-x-reverse space-x-2 justify-end'}>
                     {leftToolbarTemplate()}
                     {/*{rightToolbarTemplate()}*/}
-                    <button className="rounded-full p-1 px-2 bg-lime-600" onClick={()=>onGridReady(query)}>جستجو</button>
+                    <button className="rounded-full p-1 px-2 bg-lime-600" onClick={() => onGridReady(query)}>جستجو
+                    </button>
                 </div>
             </div>
         )
     }
 
     //modal
-    const {shouldEditObject:edit} = useSelector((state: any) => state.marketRulesConfig)
+    const {shouldEditObject: edit} = useSelector((state: any) => state.marketRulesConfig)
     const [nameModal, setNameModal] = useState<string>('')
     const [sequence, setSequence] = useState<any>(null)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -368,6 +376,7 @@ export default function RulesList() {
     const [expression, setExpression] = useState<string[]>([])
     const [faExpression, setFaExpression] = useState<string[]>([])
     const [valueOptions, setValueOptions] = useState<string[]>([])
+    const [searchMode, setSearchMode] = useState<boolean>(false)
     const [value, setValue] = useState<string>('')
 
     const operators = [
@@ -392,7 +401,7 @@ export default function RulesList() {
     const getValueFromRemoteUrl = async (api: string) => {
         await remoteUrl(api)
             .then(res => setValueOptions(res?.result))
-            .catch(err => toast.error('نا موفق'))
+            .catch(() => toast.error('نا موفق'))
     }
 
     const expressionTranslate = (expression: string) => {
@@ -423,7 +432,11 @@ export default function RulesList() {
 
     useEffect(() => {
         if (variableList?.remoteUrl) {
-            getValueFromRemoteUrl(variableList?.remoteUrl)
+            if (variableList.displayName === 'نماد') {
+                setSearchMode(true)
+            } else {
+                getValueFromRemoteUrl(variableList?.remoteUrl)
+            }
         }
     }, [variableList?.remoteUrl])
 
@@ -444,26 +457,27 @@ export default function RulesList() {
         setExpression([...expression])
     }
 
-    const addToTable=useCallback((query:any)=>{
+    const addToTable = useCallback((query: any) => {
         gridRef.current?.api?.applyTransaction({
             addIndex: 0,
             add: [query]
         })
-    },[])
+    }, [])
 
-    const UpdateTable=useCallback((query:any)=>{
+    const UpdateTable = useCallback((query: any) => {
         gridRef.current?.api?.applyTransaction({
             update: [query]
         })
-    },[])
+    }, [])
 
-    const submitForm = async (e: any,query:any) => {
+    const submitForm = async (e: any, query: any) => {
         e.preventDefault()
         if (edit?.id) {
             await updateRule(query)
                 .then(res => {
                     toast.success('با موفقیت انجام شد');
                     reset(e)
+                    setModal(false)
                     UpdateTable(query)
                 })
                 .catch(err => toast.error('نا موفق'))
@@ -472,7 +486,8 @@ export default function RulesList() {
                 .then((res) => {
                     toast.success('با موفقیت انجام شد');
                     reset(e)
-                    addToTable({...query,id:res?.result.id})
+                    setModal(false)
+                    addToTable({...query, id: res?.result.id})
                 })
                 .catch(() => toast.error('نا موفق'))
         }
@@ -485,24 +500,28 @@ export default function RulesList() {
         setSequence(null);
         setErrorMessage('');
         setStatusModal({name: '', isActive: false});
+        setStatus({name: '', isActive: null});
+        setVariableList({name: '', fieldType: '', remoteUrl: '', displayName: ''});
         setValue('')
         setExpression([])
         setFaExpression([])
+        setSearchMode(false)
     }
 
     //modal
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
-            <Modal title={edit?.id ? 'ویرایش قانون':'ثبت قانون جدید'} setOpen={setModal} open={modal} ModalWidth={'max-w-5xl'}>
-                <form onSubmit={(e)=>submitForm(e,edit?.id ? {
+            <Modal title={edit?.id ? 'ویرایش قانون' : 'ثبت قانون جدید'} setOpen={setModal} open={modal}
+                   ModalWidth={'max-w-5xl'}>
+                <form onSubmit={(e) => submitForm(e, edit?.id ? {
                     id: edit.id,
                     name: nameModal,
                     isActive: statusModal,
                     expression: expression.join(' '),
                     sequenceNumber: Number(sequence),
                     errorMessage: errorMessage
-                }:{
+                } : {
                     name: name,
                     isActive: status.isActive,
                     expression: expression.join(' '),
@@ -512,8 +531,8 @@ export default function RulesList() {
                     <div className={'grid grid-cols-4 gap-4'}>
                         <div>
                             <label className={'block'} htmlFor="name">عنوان قانون</label>
-                            <input id="name" className={'w-full'} value={edit?.id ? nameModal:name}
-                                   onChange={(e) =>edit?.id ? setNameModal(e.target.value):setName(e.target.value)}/>
+                            <input id="name" className={'w-full'} value={edit?.id ? nameModal : name}
+                                   onChange={(e) => edit?.id ? setNameModal(e.target.value) : setName(e.target.value)}/>
                         </div>
                         <div>
                             <label className={'block'} htmlFor="sequence">مرتبه/اولویت</label>
@@ -523,15 +542,15 @@ export default function RulesList() {
                         <div>
                             <label className={'block'} htmlFor="status">وضیعت</label>
                             <div className="relative rounded">
-                                <Listbox value={edit?.id ? statusModal:status}
-                                         onChange={(e:any) =>edit?.id ? setStatusModal(e):setStatus(e)}>
+                                <Listbox value={edit?.id ? statusModal : status}
+                                         onChange={(e: any) => edit?.id ? setStatusModal(e) : setStatus(e)}>
                                     {({open}) => (
                                         <div className="relative">
                                             <Listbox.Button
                                                 className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                         <span className="flex items-center">
                                                             <span
-                                                                className="ml-2 block truncate text-sm">{states.find((item: any) => item.isActive === statusModal)?.name}</span>
+                                                                className="ml-2 block truncate text-sm">{states.find((item: any) => item.isActive === statusModal || item.isActive === status)?.name}</span>
                                                         </span>
                                                 <span className="pointer-events-none flex items-center mr-auto">
                                                             <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -599,8 +618,11 @@ export default function RulesList() {
                                 <Listbox name={'fieldOptions'} value={variableList}
                                          onChange={(e) => {
                                              setVariableList(e);
+                                             setSearchMode(false)
+                                             setValue('')
                                              setExpression([...expression, e?.name])
                                              setFaExpression([...faExpression, `${e?.displayName}`])
+                                             setValueOptions([])
                                              // setVariableList({
                                              //     name: '',
                                              //     fieldType: '',
@@ -745,84 +767,94 @@ export default function RulesList() {
                             </div>
                         </div>
                         <div className={'col-span-2'}>
-                            <label className={'block'} htmlFor="value">مقدار</label>
+                            {!searchMode && <label className={'block'} htmlFor="value">مقدار</label>}
                             <div className={'flex'}>
-                                <div className="relative grow">
-                                    <Listbox name={'status'} value={value}
-                                             onChange={(e) => setValue(e)}>
-                                        {({open}) => (
-                                            <div className="relative">
-                                                <Listbox.Button
-                                                    className="relative flex min-w-full cursor-pointer border rounded-r border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                {searchMode ?
+                                    <div className={'grow'}><SymbolSearchSection query={searchQuery} queryUpdate={SearchQueryUpdate}/></div> :
+                                    <div className="relative grow">
+                                        <Listbox name={'status'} value={value}
+                                                 onChange={(e) => setValue(e)}>
+                                            {({open}) => (
+                                                <div className="relative">
+                                                    <Listbox.Button
+                                                        className="relative flex min-w-full cursor-pointer border rounded-r border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                     <span className="flex items-center">
                                                         <span
                                                             className="ml-2 block truncate text-sm">{value}</span>
                                                     </span>
-                                                    <span
-                                                        className="pointer-events-none flex items-center mr-auto">
+                                                        <span
+                                                            className="pointer-events-none flex items-center mr-auto">
                                                         <ChevronDownIcon className="h-5 w-5 text-gray-400"
                                                                          aria-hidden="false"/>
                                                     </span>
-                                                </Listbox.Button>
+                                                    </Listbox.Button>
 
-                                                <Transition
-                                                    show={open}
-                                                    as={Fragment}
-                                                    leave="transition ease-in duration-100"
-                                                    leaveFrom="opacity-100"
-                                                    leaveTo="opacity-0"
-                                                >
-                                                    <Listbox.Options
-                                                        className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                        <div className={'flex w-full p-1 items-center'}>
-                                                            <label className={'text-sm min-w-fit ml-2'} htmlFor="value">مقدار دلخواه:</label>
-                                                            <input id={'value'} className={'w-full'} onChange={(e)=>setValue(e.target.value)} value={value}/>
-                                                        </div>
-                                                        {valueOptions.map((value: any) => (
-                                                            <Listbox.Option
-                                                                key={value.id}
-                                                                className={({active}) =>
-                                                                    classNames(
-                                                                        active ? 'bg-border' : '',
-                                                                        'relative cursor-pointer select-none py-1 pl-3 pr-3'
-                                                                    )
-                                                                }
-                                                                value={value.id}
-                                                            >
-                                                                {({selected, active}) => (
-                                                                    <>
-                                                                        <div className="flex items-center">
-                                                                <span>
-                                                                    {value.title}
-                                                                </span>
-                                                                            {selected ? (
-                                                                                <span
-                                                                                    className={classNames(
-                                                                                        active ? '' : '',
-                                                                                        'flex items-center mr-auto'
-                                                                                    )}
-                                                                                >
+                                                    <Transition
+                                                        show={open}
+                                                        as={Fragment}
+                                                        leave="transition ease-in duration-100"
+                                                        leaveFrom="opacity-100"
+                                                        leaveTo="opacity-0"
+                                                    >
+                                                        <Listbox.Options
+                                                            className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                            {!variableList.remoteUrl && <div className={'flex w-full p-1 items-center'}>
+                                                                <label className={'text-sm min-w-fit ml-2'}
+                                                                       htmlFor="value">مقدار دلخواه:</label>
+                                                                <input id={'value'} className={'w-full'} type={variableList.fieldType === 'int' ? 'number':'text'}
+                                                                       onChange={(e) => setValue(e.target.value)}
+                                                                       value={value}/>
+                                                            </div>}
+                                                            {valueOptions.map((value: any) => (
+                                                                <Listbox.Option
+                                                                    key={value.id}
+                                                                    className={({active}) =>
+                                                                        classNames(
+                                                                            active ? 'bg-border' : '',
+                                                                            'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                        )
+                                                                    }
+                                                                    value={value.id}
+                                                                >
+                                                                    {({selected, active}) => (
+                                                                        <>
+                                                                            <div className="flex items-center">
+                                                                        <span>
+                                                                            {value.title}
+                                                                        </span>
+                                                                                {selected ? (
+                                                                                    <span
+                                                                                        className={classNames(
+                                                                                            active ? '' : '',
+                                                                                            'flex items-center mr-auto'
+                                                                                        )}
+                                                                                    >
                                                                     <CheckIcon className="h-5 w-5"
                                                                                aria-hidden="true"/>
-                                                                </span>
-                                                                            ) : null}
-                                                                        </div>
-                                                                    </>
-                                                                )}
-                                                            </Listbox.Option>
-                                                        ))}
-                                                    </Listbox.Options>
-                                                </Transition>
-                                            </div>
-                                        )}
-                                    </Listbox>
-                                </div>
+                                                                        </span>
+                                                                                ) : null}
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </Listbox.Option>
+                                                            ))}
+                                                        </Listbox.Options>
+                                                    </Transition>
+                                                </div>
+                                            )}
+                                        </Listbox>
+                                    </div>}
                                 <button
-                                    className={`rounded-l ${value ? '' : 'bg-border text-gray-300'} shadow-sm border-r-0 px-2 border border-border`}
+                                    className={`rounded-l ${value ? '' : 'bg-border text-gray-300'} shadow-sm h-[33px] mt-auto border-r-0 px-2 border border-border`}
                                     onClick={(e) => {
                                         e.preventDefault()
                                         if (value) {
-                                            setExpression([...expression, value])
+                                            if (variableList.fieldType === 'string') {
+                                                let _value = `\"${value}\"`
+                                                setExpression([...expression, _value])
+                                            } else {
+                                                setExpression([...expression, value])
+                                            }
                                             setFaExpression([...faExpression, `"${value}"`])
                                         }
                                     }
@@ -868,7 +900,7 @@ export default function RulesList() {
                     </div>
                     <div className={'flex justify-end'}>
                         {edit?.id && <button className={'rounded-full p-1 px-2 mt-5 bg-red-600 border-red-600'}
-                                                         onClick={reset}>لغو</button>}
+                                             onClick={reset}>لغو</button>}
                         <button type={'submit'}
                                 className={'mt-5 bg-lime-600 rounded-full p-1 px-2 mr-3'}>{edit?.id ? "ثبت تغییرات" : "تایید و ثبت"}</button>
                     </div>
@@ -896,7 +928,7 @@ export default function RulesList() {
                         columnHoverHighlight={true}
                         detailCellRenderer={'myDetailCellRenderer'}
                         detailRowHeight={100}
-                        onGridReady={()=>onGridReady({})}
+                        onGridReady={() => onGridReady({})}
                         frameworkComponents={{myDetailCellRenderer: RulesExpressionDetail}}
                         masterDetail={true}
                         rowSelection={'single'}

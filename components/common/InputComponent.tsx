@@ -9,7 +9,7 @@ import {
     Booleans, Hours, Minutes,
     Options,
     orderOrigin,
-    orderTechnicalOrigin,
+    orderTechnicalOrigin, Required,
     sides,
     TypeOfBranches
 } from "../../dictionary/Enums";
@@ -55,6 +55,9 @@ export default function InputComponent({
                 return {hours: Hours, minutes: Minutes}
             case 'isActive':
                 return Booleans
+            case 'isRequired':
+            case 'isBourseCodeRequired':
+                return Required
             case 'orderTechnicalOrigin':
                 return orderTechnicalOrigin
             case 'orderOrigin':

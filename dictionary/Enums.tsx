@@ -77,6 +77,16 @@ export const Booleans:any[] = [
         "title": "همه"
     }
 ];
+export const Required:any[] = [
+    {
+        "id": true,
+        "title": "اجباری است"
+    },
+    {
+        "id": false,
+        "title": "اجباری نیست"
+    }
+];
 export const ActivityStatus:any[] = [
     {
         "id": 1,
