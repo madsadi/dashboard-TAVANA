@@ -70,7 +70,7 @@ export default function AddNew() {
                             })
                         }
                     </form>
-                    <div className={'flex justify-end space-x-reverse space-x-2 mt-4'}>
+                    <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <button className="button bg-red-500"
                             onClick={() => setModal(false)}>لغو
                         </button>

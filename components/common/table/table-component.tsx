@@ -2,20 +2,12 @@ import {AgGridReact} from "ag-grid-react";
 import React, {useCallback, useContext, useEffect, useMemo, useRef} from "react";
 import {formatNumber} from "../functions/common-funcions";
 import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
-import {CustomerManagement} from "../../../pages/customer-management/[[...page]]";
-import {useRouter} from "next/router";
 
 const TableComponent: React.FC<any> = (props) =>{
-    let {columnDefStructure,rowSelection,onGridReady=null,rowId,isRowSelectable=true,masterDetail=false,detailComponent=null,detailCellRendererParams=null,context=null} = props
-    const {data,setData,setSelectedProducts} = useContext<any>(context)
-    const router = useRouter()
+    let {data=[],columnDefStructure,rowSelection,onGridReady=null,rowId,isRowSelectable=null,masterDetail=false,detailComponent=null,detailCellRendererParams=null,setSelectedRows=null,selectedRows=[]} = props
+
     const gridRef: any = useRef();
 
-    let pageAddress = router.query.page?.[0]
-
-    useEffect(() => {
-        setData([])
-    }, [pageAddress])
     useEffect(() => {
         gridRef?.current?.api?.setRowData(data)
     }, [data])
@@ -51,8 +43,14 @@ const TableComponent: React.FC<any> = (props) =>{
     }, []);
     const onSelectionChanged = ()=>{
         const selectedRows = gridRef.current?.api?.getSelectedRows();
-        setSelectedProducts(selectedRows)
+        setSelectedRows(selectedRows)
     }
+
+    useEffect(()=>{
+        if (selectedRows.length === 0){
+            gridRef.current?.api?.deselectAll()
+        }
+    },[selectedRows.length])
     //Grid
 
     return(
@@ -78,6 +76,7 @@ const TableComponent: React.FC<any> = (props) =>{
                         detailCellRenderer={detailComponent}
                         detailCellRendererParams={detailCellRendererParams}
                         masterDetail={masterDetail}
+                        isRowSelectable={isRowSelectable}
                         rowSelection={rowSelection}
                         onSelectionChanged={onSelectionChanged}
                     />

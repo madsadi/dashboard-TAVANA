@@ -6,10 +6,8 @@ import {
     ChevronUpIcon, CheckIcon
 } from "@heroicons/react/20/solid";
 import React, {Dispatch, Fragment, useContext} from "react";
-import {apiCallToGetData} from "../../../api/onlineTrade";
+import {apiCallToGetData} from "../../../api/online-trades-orders.api";
 import {Listbox, Transition} from "@headlessui/react";
-import Modal from "../layout/Modal";
-import {CustomerManagement} from "../../../pages/customer-management/[[...page]]";
 import {toast} from "react-toastify";
 
 function classNames(...classes: any) {
@@ -17,15 +15,12 @@ function classNames(...classes: any) {
 }
 
 export default function TablePagination({
+                                            setData,
                                             query,
-                                            gridRef,
                                             setQuery,
                                             api,
                                             totalCount,
-                                            pagedData,
-                                            context
-                                        }: { query: any, gridRef: any, setQuery: Dispatch<any>, api: string, totalCount: number ,pagedData:boolean,context:any}) {
-    const {setData} = useContext<any>(context)
+                                        }: { setData:Dispatch<any>,query: any, setQuery: Dispatch<any>, api: string, totalCount: number}) {
 
     const sizes=[10,20,50]
     const queryUpdate = (key: string, value: any) => {
@@ -37,11 +32,11 @@ export default function TablePagination({
     const onGridReady = async (query: any) => {
         await apiCallToGetData(api, query)
             .then((res: any) => {
-                if (pagedData){
-                    gridRef.current?.api?.setRowData(res?.result?.pagedData);
+                if (res?.result?.pagedData){
+                    // gridRef.current?.api?.setRowData(res?.result?.pagedData);
                     setData(res?.result?.pagedData);
                 }else{
-                    gridRef.current?.api?.setRowData(res?.result);
+                    // gridRef.current?.api?.setRowData(res?.result);
                     setData(res?.result);
                 }
             })
@@ -159,8 +154,3 @@ export default function TablePagination({
         </div>
     )
 }
-
-TablePagination.defaultProps = {
-    pagedData: true,
-    gridRef:''
-};

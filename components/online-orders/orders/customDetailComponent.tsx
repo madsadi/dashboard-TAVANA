@@ -1,7 +1,7 @@
 import {AgGridReact} from "ag-grid-react";
 import {useCallback, useMemo, useRef} from "react";
-import {formatNumber, jalali} from "../common/functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "../common/table/customOverlay";
+import {formatNumber, jalali} from "../../common/functions/common-funcions";
+import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import Image from "next/image";
 
 export default function CustomDetailComponent({data, node, api}: { data: any, node: any, api: any }) {

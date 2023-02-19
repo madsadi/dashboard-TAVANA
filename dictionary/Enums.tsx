@@ -175,7 +175,7 @@ export const validityType =  [
     // }
 ]
 
-export const EnumsStatus: any = [
+export const orderStatus: any = [
     {
         "id": 1,
         "title": "در حال ارسال درخواست",

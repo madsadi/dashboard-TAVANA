@@ -24,7 +24,7 @@ export const getTrade = async (body:any) => {
 export const getOrders = async (body:any) => {
     let bodyToQuery:any=[];
     Object.keys(body).map((item:any)=>{
-        if (body[`${item}`]){
+        if (body[`${item}`]!== undefined && body[`${item}`]!== null && body[`${item}`]!== ''){
             bodyToQuery.push(`${item}=`+body[`${item}`])
         }
     })
@@ -102,7 +102,7 @@ export const insCancel = async (body:any) => {
         })
     return create
 }
-export const canceledOrders = async (query:any) => {
+export const getCanceledOrders = async (query:any) => {
     let bodyToQuery:any=[];
     Object.keys(query).map((item:any)=>{
         if (query[`${item}`]){

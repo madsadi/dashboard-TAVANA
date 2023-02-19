@@ -1,10 +1,18 @@
-import React, { Fragment, useEffect, useState } from "react";
-import DatePicker, { Day, DayRange, DayValue } from "@amir04lm26/react-modern-calendar-date-picker";
+import React, { Fragment } from "react";
+import DatePicker, { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
-import { dateRangeHandler, jalali } from "../functions/common-funcions";
+import { dateRangeHandler } from "../functions/common-funcions";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Options, orderOrigin, orderTechnicalOrigin, sides, TypeOfBranches } from "../../../dictionary/Enums";
+import {
+    Options,
+    orderOrigin, orderStatus,
+    orderTechnicalOrigin,
+    OrderType, originEnum,
+    sides,
+    TypeOfBranches,
+    validityType
+} from "../../../dictionary/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
 
 function classNames(...classes: any) {
@@ -34,8 +42,17 @@ export default function InputComponent({
 
     const FindEnum = () => {
         switch (title) {
+            case 'OrderType':
+                return OrderType
+            case 'OrderStatus':
+                return orderStatus
+            case 'ApplicationSource':
+                return originEnum
+            case 'ValidityType':
+                return validityType
             case 'Side':
             case 'orderSide':
+            case 'OrderSide':
                 return sides
             case 'Deleted':
             case 'IsDeleted':
@@ -45,7 +62,7 @@ export default function InputComponent({
                 return orderTechnicalOrigin
             case 'orderOrigin':
                 return orderOrigin
-            case 'Type':
+            case 'type':
                 return TypeOfBranches
             default:
                 return []
@@ -98,7 +115,13 @@ export default function InputComponent({
                         <label className={'mt-auto'} htmlFor={title}>{name}</label>
                         <div className="relative rounded">
                             <Listbox name={title} value={query?.[title]}
-                                onChange={(e) => queryUpdate(title, e)}>
+                                onChange={(e) => {
+                                    if (valueType === 'number') {
+                                        queryUpdate(title, Number(e))
+                                    } else {
+                                        queryUpdate(title, e)
+                                    }
+                                }}>
                                 {({ open }) => (
                                     <div className="relative">
                                         <Listbox.Button
@@ -178,4 +201,9 @@ export default function InputComponent({
     return (
         componentRender()
     )
+}
+
+InputComponent.defaultProps = {
+    setSelectedDayRange: null,
+    selectedDayRange: '',
 }
