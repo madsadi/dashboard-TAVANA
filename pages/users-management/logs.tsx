@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import {getUsersLogs} from "../../api/users";
+import {getUsersLogs} from "../../api/users.api";
 import CustomDetailComponent from "../../components/online-orders/orders/customDetailComponent";
 import { jalali} from "../../components/common/functions/common-funcions";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";

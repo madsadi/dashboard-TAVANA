@@ -1,5 +1,5 @@
-import React, {Fragment, useEffect, useState} from "react";
-import {addRule, filedList, remoteUrl} from "../../api/marketRulesManagement";
+import React, {Fragment, useContext, useEffect, useState} from "react";
+import {addRule, filedList, remoteUrl} from "../../api/market-rules-management.api";
 import {toast} from "react-toastify";
 import Modal from "../common/layout/Modal";
 import {Badge} from "flowbite-react";
@@ -8,6 +8,7 @@ import InputComponent from "../common/components/InputComponent";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../common/components/SymbolSearchSecion";
+import {MarketRulesContext} from "./RulesList";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -36,20 +37,19 @@ const extraListOfFilters = [
     {title: 'operator', name: 'عملگر', type: 'selectInput'},
 ]
 export default function Edit() {
+    const {dynamicOptions,onSubmit,query:rulesQuery} = useContext<any>(MarketRulesContext)
     const [modal, setModal] = useState<boolean>(false)
-
     const [query, setQuery] = useState<queryType>(initialQuery)
-    const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any }>({
+    const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
         variable: null,
         operator: '',
-        value: ''
+        value: '',
+        InstrumentId: ''
     })
-    const [dynamicOptions, setDynamics] = useState<any>([])
     const [valueOptions, setValueOptions] = useState<any>([])
     const [expression, setExpression] = useState<string[]>([])
     const [faExpression, setFaExpression] = useState<string[]>([])
 
-    console.log(expressionQuery)
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...query};
         _query[key] = value
@@ -59,39 +59,32 @@ export default function Edit() {
         let _query: any = {...expressionQuery};
         _query[key] = value
         setExpressionQuery(_query)
-        if (key === 'InstrumentId'){
-            expressionQueryUpdate('value',value)
-        }else{
-            if (key !== 'value'){
-                if (key === 'variable'){
-                    setExpression([...expression, value.name])
-                    setFaExpression([...faExpression, value.displayName])
-                }else{
-                    setExpression([...expression, value])
-                    setFaExpression([...faExpression, value])
-                }
+
+        if (key === 'InstrumentId') {
+            _query.value = value
+            setExpressionQuery(_query)
+        }
+
+        if (key !== 'value' && key !== 'InstrumentId') {
+            if (key === 'variable') {
+                setExpression([...expression, value.name])
+                setFaExpression([...faExpression, value.displayName])
+            } else {
+                setExpression([...expression, value])
+                setFaExpression([...faExpression, value])
             }
         }
     }
 
     useEffect(() => {
-        const getFieldItems = async () => {
-            await filedList()
-                .then((res)=>setDynamics(res.result))
-
-        }
-
-        getFieldItems()
-    }, [])
-
-    useEffect(() => {
+        expressionQueryUpdate('value','')
         if (expressionQuery.variable?.remoteUrl) {
             const getValueFromRemoteUrl = async (api: string) => {
                 await remoteUrl(api)
                     .then(res => setValueOptions(res?.result))
                     .catch(() => toast.error('نا موفق'))
             }
-            if (expressionQuery.variable?.displayName !== 'نماد'){
+            if (expressionQuery.variable?.displayName !== 'نماد') {
                 getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
             }
         }
@@ -99,16 +92,17 @@ export default function Edit() {
 
     const submitForm = async (e: any) => {
         e.preventDefault()
-            let _query = {
-                expression: expression.join(' '),
-                ...query
-            }
-            await addRule(_query)
-                .then(() => {
-                    toast.success('با موفقیت انجام شد');
-                    setModal(false)
-                })
-                .catch(() => toast.error('نا موفق'))
+        let _query = {
+            expression: expression.join(' '),
+            ...query
+        }
+        await addRule(_query)
+            .then(() => {
+                onSubmit(e,rulesQuery)
+                toast.success('با موفقیت انجام شد');
+                setModal(false)
+            })
+            .catch(() => toast.error('نا موفق'))
     }
 
     const remove = (index: number) => {
@@ -118,17 +112,17 @@ export default function Edit() {
         setExpression([...expression])
     }
 
-    useEffect(()=>{
-       if (!modal){
-           setExpressionQuery({variable:null,operator:'',value:''})
-           setExpression([])
-           setFaExpression([])
-           setQuery(initialQuery)
-       }
-    },[modal])
+    useEffect(() => {
+        if (!modal) {
+            setExpressionQuery({variable: null, operator: '', value: '', InstrumentId: ''})
+            setExpression([])
+            setFaExpression([])
+            setQuery(initialQuery)
+        }
+    }, [modal])
     return (
         <>
-            <button className="button bg-orange-500" onClick={()=>setModal(true)}>قانون جدید</button>
+            <button className="button bg-orange-500" onClick={() => setModal(true)}>قانون جدید</button>
             <Modal title={'قانون جدید'} setOpen={setModal} open={modal} ModalWidth={'max-w-5xl'}>
                 <form onSubmit={submitForm}>
                     <div className={'grid grid-cols-4 gap-4'}>
@@ -145,7 +139,7 @@ export default function Edit() {
                             })
                         }
                         {
-                            dynamicOptions.length && extraListOfFilters?.map((item: any) => {
+                            extraListOfFilters?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={expressionQuery}
                                                        title={item?.title}
@@ -159,8 +153,8 @@ export default function Edit() {
                         }
                         <div className={'col-span-2 flex items-center'}>
                             <div className={'grow'}>
-                                {expressionQuery?.variable?.displayName==='نماد' ?
-                                    <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate}/>:
+                                {expressionQuery?.variable?.displayName === 'نماد' ?
+                                    <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate}/> :
                                     <>
                                         <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
                                         <div className="relative rounded">
@@ -175,7 +169,8 @@ export default function Edit() {
                                                         {expressionQuery?.value}
                                                     </span>
                                                 </span>
-                                                            <span className="pointer-events-none flex items-center mr-auto">
+                                                            <span
+                                                                className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
                                                                  aria-hidden="false"/>
                                             </span>
@@ -243,7 +238,7 @@ export default function Edit() {
                                     if (expressionQuery?.variable?.fieldType === 'string') {
                                         setExpression([...expression, `\"${expressionQuery?.value}\"`])
                                         setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
-                                    }else{
+                                    } else {
                                         setExpression([...expression, expressionQuery?.value])
                                         setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
                                     }

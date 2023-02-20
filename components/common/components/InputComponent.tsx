@@ -15,7 +15,7 @@ import {
     validityType
 } from "../../../dictionary/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
-import {filedList, remoteUrl} from "../../../api/marketRulesManagement";
+import {filedList, remoteUrl} from "../../../api/market-rules-management.api";
 import {toast} from "react-toastify";
 
 function classNames(...classes: any) {

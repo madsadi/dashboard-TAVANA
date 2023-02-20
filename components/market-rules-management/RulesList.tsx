@@ -1,5 +1,5 @@
-import React, {createContext, useState} from 'react';
-import {rulesList} from "../../api/marketRulesManagement";
+import React, {createContext, useEffect, useState} from 'react';
+import {filedList, rulesList} from "../../api/market-rules-management.api";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {validate as uuidValidate} from 'uuid';
 import {toast} from "react-toastify";
@@ -9,7 +9,6 @@ import TableComponent from "../common/table/table-component";
 import RulesToolbar from "./RulesToolbar";
 import InputComponent from "../common/components/InputComponent";
 import AccordionComponent from "../common/components/AccordionComponent";
-import moment from "jalali-moment";
 
 type initialType = { StartDate: string, EndDate: string, name: string, isActive: any }
 const initialValue = {
@@ -139,6 +138,7 @@ export default function RulesList() {
     const [selectedRows, setSelectedRows] = useState<any>([])
     const [data, setData] = useState<any>([])
     const [query, setQuery] = useState<initialType>(initialValue);
+    const [dynamicOptions, setDynamics] = useState<any>([])
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -157,9 +157,19 @@ export default function RulesList() {
             .catch(() => toast.error('نا موفق'))
     };
 
+    useEffect(() => {
+        const getFieldItems = async () => {
+            await filedList()
+                .then((res) => setDynamics(res.result))
+
+        }
+
+        getFieldItems()
+    }, [])
+
     return (
-        <MarketRulesContext.Provider value={{selectedRows,setData}}>
-            <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
+        <MarketRulesContext.Provider value={{selectedRows,setData,dynamicOptions,onSubmit,query}}>
+            <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <form onSubmit={(e) => onSubmit(e, query)}>
                         <div className="grid grid-cols-5 gap-4">

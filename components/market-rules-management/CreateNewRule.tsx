@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import {shouldEditObject as shouldEditObjectFn} from "../../store/marketRulesConfig";
-import {addRule, filedList, remoteUrl, updateRule} from "../../api/marketRulesManagement";
+import {addRule, filedList, remoteUrl, updateRule} from "../../api/market-rules-management.api";
 import {useDispatch, useSelector} from "react-redux";
 import {Accordion, Badge} from "flowbite-react";
 import {Listbox, Transition} from "@headlessui/react";

@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import {getUsers} from "../../api/users";
+import {getUsers} from "../../api/users.api";
 import CustomDetailComponent from "../../components/online-orders/orders/customDetailComponent";
 import { jalali} from "../../components/common/functions/common-funcions";
 import InputComponent from "../../components/common/components/InputComponent";

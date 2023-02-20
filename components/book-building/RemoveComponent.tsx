@@ -1,30 +1,30 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/Modal";
-import { deleteBookBuilding, updateBookBuilding } from "../../api/bookBuilding";
+import { deleteBookBuilding, updateBookBuilding } from "../../api/book-building.api";
 import moment from "jalali-moment";
 import { toast } from "react-toastify";
 import InputComponent from "../common/components/InputComponent";
 import { jalali } from "../common/functions/common-funcions";
+import {BookBuildingContext} from "./tableSection";
 
-export default function RemoveModal({ gridRef }: { gridRef: any }) {
-    const [open, setOpen] = useState(false);
+export default function RemoveModal() {
+    const {onSubmit, query: bookBuildingQuery,selectedRows} = useContext<any>(BookBuildingContext)
+    const [modal, setModal] = useState(false);
 
     const confirmDeleteSelected = () => {
-        if (gridRef.current?.api?.getSelectedRows().length === 1) {
-            setOpen(true);
+        if (selectedRows.length === 1) {
+            setModal(true);
         } else {
-            toast.error('لطفا یک گزینه را انتخاب کنید')
+            toast.warning('لطفا یک گزینه را انتخاب کنید')
         }
     }
 
-    const deleteHandler = async () => {
-        await deleteBookBuilding(gridRef.current?.api?.getSelectedRows()?.[0]?.instrumentId)
-            .then(res => {
-                gridRef.current.api.applyTransaction({
-                    remove: [gridRef.current?.api?.getSelectedRows()?.[0]]
-                })
-                setOpen(false);
+    const deleteHandler = async (e:any) => {
+        await deleteBookBuilding(selectedRows[0]?.instrumentId)
+            .then(() => {
+                onSubmit(e,bookBuildingQuery)
+                setModal(false);
                 toast.success('با موفقیت انجام شد')
             })
             .catch(err => {
@@ -35,15 +35,15 @@ export default function RemoveModal({ gridRef }: { gridRef: any }) {
 
     return (
         <>
-            <button className="bg-red-500 p-1 px-2 rounded-full h-fit" onClick={confirmDeleteSelected}>حذف</button>
-            <Modal title={'تایید حذف'} open={open} setOpen={setOpen}>
+            <button className="bg-red-500 button" onClick={confirmDeleteSelected}>حذف</button>
+            <Modal title={'تایید حذف'} open={modal} setOpen={setModal}>
                 <div className="flex flex-col">
                     <div className={'mx-auto'}>آیا از حذف ردیف مورد نظر اطمینان دارید؟</div>
-                    <div className={'mr-auto space-x-reverse space-x-2 mt-3'}>
-                        <button className="p-1 px-4 rounded-full bg-red-500"
-                            onClick={() => setOpen(false)}>خیر
+                    <div className={'mr-auto space-x-reverse space-x-2 mt-10'}>
+                        <button className="button bg-red-500"
+                            onClick={() => setModal(false)}>خیر
                         </button>
-                        <button className="p-1 px-4 rounded-full bg-lime-600" onClick={deleteHandler}>بله</button>
+                        <button className="button bg-lime-600" onClick={deleteHandler}>بله</button>
                     </div>
                 </div>
             </Modal>

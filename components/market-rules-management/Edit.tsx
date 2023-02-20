@@ -1,5 +1,5 @@
 import React, {Fragment, useCallback, useContext, useEffect, useState} from "react";
-import {addRule, filedList, remoteUrl, updateRule} from "../../api/marketRulesManagement";
+import {addRule, filedList, remoteUrl, updateRule} from "../../api/market-rules-management.api";
 import {toast} from "react-toastify";
 import {operators} from '../../dictionary/Enums'
 import Modal from "../common/layout/Modal";
@@ -39,16 +39,15 @@ const extraListOfFilters = [
 ]
 export default function Edit() {
     const [modal, setModal] = useState<boolean>(false)
-    const {selectedRows} = useContext<any>(MarketRulesContext)
+    const {selectedRows,dynamicOptions,onSubmit,query:rulesQuery} = useContext<any>(MarketRulesContext)
     const [query, setQuery] = useState<queryType>(initialQuery)
-    const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any }>({
+    const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
         variable: null,
         operator: '',
-        value: ''
+        value: '',
+        InstrumentId: ''
     })
-    const [dynamicOptions, setDynamics] = useState<any>([])
     const [valueOptions, setValueOptions] = useState<any>([])
-    const [fieldOptions, setFieldOptions] = useState<{ name: string, displayName: string }[]>([])
     const [expression, setExpression] = useState<string[]>([])
     const [faExpression, setFaExpression] = useState<string[]>([])
 
@@ -59,11 +58,22 @@ export default function Edit() {
     }
     const expressionQueryUpdate = (key: string, value: any) => {
         let _query: any = {...expressionQuery};
-        if (key === 'InstrumentId'){
-            expressionQueryUpdate('value',value)
-        }else{
-            _query[key] = value
+        _query[key] = value
+        setExpressionQuery(_query)
+
+        if (key === 'InstrumentId') {
+            _query.value = value
             setExpressionQuery(_query)
+        }
+
+        if (key !== 'value' && key !== 'InstrumentId') {
+            if (key === 'variable') {
+                setExpression([...expression, value.name])
+                setFaExpression([...faExpression, value.displayName])
+            } else {
+                setExpression([...expression, value])
+                setFaExpression([...faExpression, value])
+            }
         }
     }
 
@@ -76,23 +86,16 @@ export default function Edit() {
     }
 
     useEffect(() => {
-        const getFieldItems = async () => {
-            const response = await filedList()
-            setDynamics(response.result)
-        }
-
-        getFieldItems()
-    }, [])
-
-    useEffect(() => {
+        expressionQueryUpdate('value','')
         if (expressionQuery.variable?.remoteUrl) {
             const getValueFromRemoteUrl = async (api: string) => {
                 await remoteUrl(api)
                     .then(res => setValueOptions(res?.result))
                     .catch(() => toast.error('نا موفق'))
             }
-
-            getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
+            if (expressionQuery.variable?.displayName !== 'نماد') {
+                getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
+            }
         }
     }, [expressionQuery?.variable])
 
@@ -106,34 +109,12 @@ export default function Edit() {
             }
             await updateRule(_query)
                 .then(() => {
+                    onSubmit(e,rulesQuery)
                     toast.success('با موفقیت انجام شد');
+                    setModal(false)
                 })
                 .catch(() => toast.error('نا موفق'))
         }
-        // else {
-        //     await addRule(query)
-        //         .then((res) => {
-        //             toast.success('با موفقیت انجام شد');
-        //             addToTable({...query, id: res?.result.id})
-        //         })
-        //         .catch(() => toast.error('نا موفق'))
-        // }
-    }
-
-    const expressionTranslate = (expression: string) => {
-        let _array = expression.split(' ')
-        let _faArray: string[] = [];
-        setExpression(_array)
-        _array.map((item: any) => {
-            if (fieldOptions?.find((field: any) => field.name === item)) {
-                //@ts-ignore
-                _faArray.push(`"${fieldOptions?.find((field: any) => field.name === item)?.displayName}"`)
-                setFaExpression(_faArray)
-            } else {
-                _faArray.push(`"${item}"`)
-                setFaExpression(_faArray)
-            }
-        })
     }
 
     const remove = (index: number) => {
@@ -142,6 +123,36 @@ export default function Edit() {
         setFaExpression([...faExpression])
         setExpression([...expression])
     }
+
+    const expressionTranslate = (expression: string) => {
+        let _array = expression.split(' ')
+        let _faArray: string[] = [];
+        setExpression(_array)
+        _array.map((item: any) => {
+            if (dynamicOptions?.find((field: any) => field.name === item)) {
+                //@ts-ignore
+                _faArray.push(`"${dynamicOptions?.find((field: any) => field.name === item)?.displayName}"`)
+                setFaExpression(_faArray)
+            } else {
+                _faArray.push(`"${item}"`)
+                setFaExpression(_faArray)
+            }
+        })
+    }
+    useEffect(() => {
+        if (!modal) {
+            setExpressionQuery({variable: null, operator: '', value: '', InstrumentId: ''})
+            setExpression([])
+            setFaExpression([])
+            setQuery(initialQuery)
+        }else{
+            if (selectedRows[0]){
+                let _query: any = {name:selectedRows[0]?.name,sequenceNumber:selectedRows[0]?.sequenceNumber,errorMessage:selectedRows[0]?.errorMessage,isActive:selectedRows[0]?.isActive,};
+                setQuery(_query)
+                expressionTranslate(selectedRows[0]?.expression)
+            }
+        }
+    }, [modal,selectedRows[0]])
 
     return (
         <>
@@ -176,89 +187,93 @@ export default function Edit() {
                         }
                         <div className={'col-span-2 flex items-center'}>
                             <div className={'grow'}>
-                                {expressionQuery?.variable?.displayName==='نماد' ?
-                                    <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate}/>:
+                                {expressionQuery?.variable?.displayName === 'نماد' ?
+                                    <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate}/> :
                                     <>
-                                    <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
-                                    <div className="relative rounded">
-                                        <Listbox name={'value'} value={expressionQuery?.value}
-                                                 onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e.id)?.title)}>
-                                            {({open}) => (
-                                                <div className="relative">
-                                                    <Listbox.Button
-                                                        className="relative flex min-w-full cursor-pointer rounded-r-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                        <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
+                                        <div className="relative rounded">
+                                            <Listbox name={'value'} value={expressionQuery?.value}
+                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e.id)?.title)}>
+                                                {({open}) => (
+                                                    <div className="relative">
+                                                        <Listbox.Button
+                                                            className="relative flex min-w-full cursor-pointer rounded-r-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                                 <span className="flex items-center">
                                                     <span className="ml-2 block truncate text-sm">
                                                         {expressionQuery?.value}
                                                     </span>
                                                 </span>
-                                                        <span className="pointer-events-none flex items-center mr-auto">
+                                                            <span
+                                                                className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
                                                                  aria-hidden="false"/>
                                             </span>
-                                                    </Listbox.Button>
+                                                        </Listbox.Button>
 
-                                                    <Transition
-                                                        show={open}
-                                                        as={Fragment}
-                                                        leave="transition ease-in duration-100"
-                                                        leaveFrom="opacity-100"
-                                                        leaveTo="opacity-0"
-                                                    >
-                                                        <Listbox.Options
-                                                            className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                            {!expressionQuery?.variable?.isRemote && <input
-                                                                className={'w-full p-1.5 border border-border rounded-md'}
-                                                                type={expressionQuery?.variable?.valueType === 'int' ? 'number' : 'text'}
-                                                                value={expressionQuery?.value}
-                                                                onChange={(e) => expressionQueryUpdate('value', e.target.value)}/>}
-                                                            {valueOptions.map((item: any) => (
-                                                                <Listbox.Option
-                                                                    key={item.id}
-                                                                    className={({active}) =>
-                                                                        classNames(
-                                                                            active ? 'bg-border' : '',
-                                                                            'relative cursor-pointer select-none py-1 pl-3 pr-3'
-                                                                        )
-                                                                    }
-                                                                    value={item.id}
-                                                                >
-                                                                    {({selected, active}) => (
-                                                                        <>
-                                                                            <div className="flex items-center">
+                                                        <Transition
+                                                            show={open}
+                                                            as={Fragment}
+                                                            leave="transition ease-in duration-100"
+                                                            leaveFrom="opacity-100"
+                                                            leaveTo="opacity-0"
+                                                        >
+                                                            <Listbox.Options
+                                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                                {!expressionQuery?.variable?.isRemote && <input
+                                                                    className={'w-full p-1.5 border border-border rounded-md'}
+                                                                    type={expressionQuery?.variable?.valueType === 'int' ? 'number' : 'text'}
+                                                                    value={expressionQuery?.value}
+                                                                    onChange={(e) => expressionQueryUpdate('value', e.target.value)}/>}
+                                                                {valueOptions.map((item: any) => (
+                                                                    <Listbox.Option
+                                                                        key={item.id}
+                                                                        className={({active}) =>
+                                                                            classNames(
+                                                                                active ? 'bg-border' : '',
+                                                                                'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                            )
+                                                                        }
+                                                                        value={item.id}
+                                                                    >
+                                                                        {({selected, active}) => (
+                                                                            <>
+                                                                                <div className="flex items-center">
                                                                     <span>
                                                                         {item.title}
                                                                     </span>
-                                                                                {selected ? (
-                                                                                    <span
-                                                                                        className={classNames(
-                                                                                            active ? '' : '',
-                                                                                            'flex items-center mr-auto'
-                                                                                        )}
-                                                                                    >
+                                                                                    {selected ? (
+                                                                                        <span
+                                                                                            className={classNames(
+                                                                                                active ? '' : '',
+                                                                                                'flex items-center mr-auto'
+                                                                                            )}
+                                                                                        >
                                                                             <CheckIcon className="h-5 w-5"
                                                                                        aria-hidden="true"/>
                                                                         </span>
-                                                                                ) : null}
-                                                                            </div>
-                                                                        </>
-                                                                    )}
-                                                                </Listbox.Option>
-                                                            ))}
-                                                        </Listbox.Options>
-                                                    </Transition>
-                                                </div>
-                                            )}
-                                        </Listbox>
-                                    </div>
-                                </>}
+                                                                                    ) : null}
+                                                                                </div>
+                                                                            </>
+                                                                        )}
+                                                                    </Listbox.Option>
+                                                                ))}
+                                                            </Listbox.Options>
+                                                        </Transition>
+                                                    </div>
+                                                )}
+                                            </Listbox>
+                                        </div>
+                                    </>}
                             </div>
                             <button
                                 className={`rounded-l ${expressionQuery?.value ? '' : 'bg-border text-gray-300'} h-[34px] mt-auto border-r-0 px-2 border border-border`}
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    if (expressionQuery?.value) {
+                                    if (expressionQuery?.variable?.fieldType === 'string') {
                                         setExpression([...expression, `\"${expressionQuery?.value}\"`])
+                                        setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
+                                    } else {
+                                        setExpression([...expression, expressionQuery?.value])
                                         setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
                                     }
                                 }

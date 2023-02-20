@@ -1,8 +1,14 @@
 import axios from "axios";
 import {COMMISSION_BASE_URL} from "./constants";
 
-export const getCommission = async (id: string) => {
-    const create = await axios.get(`${COMMISSION_BASE_URL}/CommissionInstrumentType/Get?CommissionInstrumentTypeId=${id}`,
+export const getCommission = async (body: any) => {
+    let bodyToQuery:any=[];
+    Object.keys(body).map((item:any)=>{
+        if (body[`${item}`]!==undefined && body[`${item}`]!==null && body[`${item}`]!==''){
+            bodyToQuery.push(`${item}=`+body[`${item}`])
+        }
+    })
+    const create = await axios.get(`${COMMISSION_BASE_URL}/CommissionInstrumentType/Get?${bodyToQuery.join('&')}`,
         {
             headers: {
                 'Accept': '*/*'
@@ -14,12 +20,7 @@ export const getCommission = async (id: string) => {
         })
     return create
 }
-export const addNewCommission = async (body: {
-    bourseCode: string,
-    instrumentTypeCode: string,
-    sectorCode: string,
-    subSectorCode: string
-}) => {
+export const addNewCommission = async (body: any) => {
     const newCommission = await axios.post(`${COMMISSION_BASE_URL}/CommissionInstrumentType/Add`,
         body,
         {
@@ -65,14 +66,34 @@ export const updateCommission = async (body: {
         })
     return updateComm
 }
-export const commissionSearch = async (api:string,body: any) => {
+export const commissionSearch = async (body: any) => {
     let bodyToQuery:any=[];
     Object.keys(body).map((item:any)=>{
-        if (body[`${item}`]){
+        if (body[`${item}`]!==undefined && body[`${item}`]!==null && body[`${item}`]!==''){
             bodyToQuery.push(`${item}=`+body[`${item}`])
         }
     })
-    const search = await axios.get(`${COMMISSION_BASE_URL}${api}${bodyToQuery.join('&')}`,
+    const search = await axios.get(`${COMMISSION_BASE_URL}/CommissionInstrumentType/Search?${bodyToQuery.join('&')}`,
+        {
+            headers: {
+                'Accept': '*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return search
+}
+
+export const commissionCategorySearch = async (body: any) => {
+    let bodyToQuery:any=[];
+    Object.keys(body).map((item:any)=>{
+        if (body[`${item}`]!==undefined && body[`${item}`]!==null && body[`${item}`]!==''){
+            bodyToQuery.push(`${item}=`+body[`${item}`])
+        }
+    })
+    const search = await axios.get(`${COMMISSION_BASE_URL}/CommissionCategory/Search?${bodyToQuery.join('&')}`,
         {
             headers: {
                 'Accept': '*/*'

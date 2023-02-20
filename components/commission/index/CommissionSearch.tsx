@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import {commissionSearch} from "../../../api/commissionInstrumentType";
+import {commissionSearch} from "../../../api/commission.api";
 import {useDispatch} from "react-redux";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {commission} from "../../../store/commissionConfig";

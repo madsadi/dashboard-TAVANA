@@ -3,7 +3,7 @@ import React, { useEffect, useState} from "react";
 import TablePagination from "../../components/common/table/TablePagination";
 import { jalali} from "../../components/common/functions/common-funcions";
 import {useRouter} from "next/router";
-import {getPortfolioBook} from "../../api/portfo";
+import {getPortfolioBook} from "../../api/portfo.api";
 import TableComponent from "../../components/common/table/table-component";
 
 type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, PageSize: number }

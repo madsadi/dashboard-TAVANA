@@ -1,10 +1,21 @@
-import React, { useEffect, useRef, useMemo, useCallback } from 'react';
-import { useSelector } from "react-redux";
-import { formatNumber, jalali } from "../common/functions/common-funcions";
-import { AgGridReact } from "ag-grid-react";
-import { LoadingOverlay, NoRowOverlay } from "../common/table/customOverlay";
+import React, {createContext, useState} from 'react';
+import {jalali} from "../common/functions/common-funcions";
 import ToolBar from "./ToolBar";
+import TableComponent from "../common/table/table-component";
+import AccordionComponent from "../common/components/AccordionComponent";
+import InputComponent from "../common/components/InputComponent";
+import {getBookBuilding} from "../../api/book-building.api";
+import {toast} from "react-toastify";
 
+const listOfFilters = [
+    {title: 'api', name: 'دسته بندی', type: 'dynamicSelectInput'},
+]
+const options = [
+    {displayName: 'فعال', id: 'GetAllActive'},
+    {displayName: 'همه', id: 'GetAll'},
+];
+
+export const BookBuildingContext = createContext({})
 export default function ResultTable() {
     const columnDefStructure = [
         {
@@ -19,38 +30,32 @@ export default function ResultTable() {
         {
             field: 'instrumentId',
             headerName: 'شناسه نماد',
+        },
+        {
+            field: 'faInsCode',
+            headerName: 'نماد',
             flex: 0,
             width: 90,
             minWidth: 90
         },
         {
-            field: 'faInsCode',
-            headerName: 'نماد',
-        },
-        {
             field: 'faInsName',
             headerName: 'عنوان نماد',
+            flex: 0,
+            width: 150,
+            minWidth: 150
         },
         {
             field: 'maxQuantity',
             headerName: 'بیشینه حجم سفارش',
-            flex: 0,
-            width: 120,
-            minWidth: 120
         },
         {
             field: 'minPrice',
             headerName: 'حداقل قیمت سفارش',
-            flex: 0,
-            width: 150,
-            minWidth: 150,
         },
         {
             field: 'maxPrice',
             headerName: 'حداکثر قیمت سفارش',
-            flex: 0,
-            width: 150,
-            minWidth: 150
         }, {
             field: 'fromActiveDateTime',
             headerName: 'زمان شروع',
@@ -151,74 +156,57 @@ export default function ResultTable() {
         }
     ]
 
-    const { bookBuildingResult } = useSelector((state: any) => state.bookBuildingConfig)
+    const [data, setData] = useState([])
+    const [selectedRows, setSelectedRows] = useState([])
+    const [query, setQuery] = useState<{ api: any }>({api: {displayName: 'همه', id: 'GetAll'}})
+    const onSubmit = async (event: any, query: { api: any }) => {
+        event.preventDefault()
+        await getBookBuilding(query.api.id).then(res => {
+            setData(res?.result);
+            toast.success('با موفقیت انجام شد')
+        })
+            .catch(() => toast.success('نا موفق'))
+    }
 
-    //Grid
-    const gridRef: any = useRef();
-    const gridStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
-    const defaultColDef = useMemo(() => {
-        return {
-            resizable: true,
-            sortable: true,
-            flex: 1,
-            valueFormatter: formatNumber
-        };
-    }, []);
-    const getRowId = useCallback((params: any) => {
-        return params.data.instrumentId
-    }, []);
-    const loadingOverlayComponent = useMemo(() => {
-        return LoadingOverlay;
-    }, []);
-    const loadingOverlayComponentParams = useMemo(() => {
-        return {
-            loadingMessage: 'در حال بارگزاری...',
-        };
-    }, []);
-    const noRowsOverlayComponent = useMemo(() => {
-        return NoRowOverlay;
-    }, []);
-    const noRowsOverlayComponentParams = useMemo(() => {
-        return {
-            noRowsMessageFunc: () => 'نمادی ثبت نشده.',
-        };
-    }, []);
-
-    useEffect(() => {
-        if (bookBuildingResult) {
-            gridRef.current?.api?.setRowData(bookBuildingResult)
-        }
-    }, [bookBuildingResult]);
-
-    //Grid
+    const queryUpdate = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
 
     return (
-        <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
-            <div>
-                <ToolBar gridRef={gridRef} />
+        <BookBuildingContext.Provider value={{selectedRows,query,onSubmit}}>
+            <div className="flex flex-col h-full grow">
+                <AccordionComponent>
+                    <form className={'flex items-center'} onSubmit={(e) => onSubmit(e, query)}>
+                        <div className="grid grid-cols-5 gap-4">
+                            {
+                                listOfFilters?.map((item: any) => {
+                                    return <InputComponent key={item.title}
+                                                           query={query}
+                                                           title={item?.title}
+                                                           name={item?.name}
+                                                           queryUpdate={queryUpdate}
+                                                           valueType={item?.valueType}
+                                                           type={item?.type}
+                                                           dynamicsOption={options}
+                                    />
+                                })
+                            }
+                        </div>
+                        <button className={'button bg-lime-600 mr-auto'} type={'submit'}>
+                            جستجو
+                        </button>
+                    </form>
+                </AccordionComponent>
+                <ToolBar/>
+                <TableComponent data={data}
+                                columnDefStructure={columnDefStructure}
+                                rowId={['instrumentId']}
+                                rowSelection={'single'}
+                                setSelectedRows={setSelectedRows}
+                />
             </div>
-            <div className={'relative grow'}>
-                <div style={gridStyle} className="ag-theme-alpine absolute">
-                    <AgGridReact
-                        ref={gridRef}
-                        enableRtl={true}
-                        columnDefs={columnDefStructure}
-                        defaultColDef={defaultColDef}
-                        loadingOverlayComponent={loadingOverlayComponent}
-                        loadingOverlayComponentParams={loadingOverlayComponentParams}
-                        noRowsOverlayComponent={noRowsOverlayComponent}
-                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                        rowHeight={35}
-                        headerHeight={35}
-                        animateRows={true}
-                        getRowId={getRowId}
-                        asyncTransactionWaitMillis={1000}
-                        columnHoverHighlight={true}
-                        detailRowHeight={100}
-                        rowSelection={'single'}
-                    />
-                </div>
-            </div>
-        </div>
+        </BookBuildingContext.Provider>
     );
 }
