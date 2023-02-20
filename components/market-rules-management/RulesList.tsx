@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { rulesList} from "../../api/marketRulesManagement";
+import React, {createContext, useState} from 'react';
+import {rulesList} from "../../api/marketRulesManagement";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {validate as uuidValidate} from 'uuid';
 import {toast} from "react-toastify";
@@ -11,12 +11,12 @@ import InputComponent from "../common/components/InputComponent";
 import AccordionComponent from "../common/components/AccordionComponent";
 import moment from "jalali-moment";
 
-type initialType = { StartDate: string, EndDate: string, name: string,isActive:any }
+type initialType = { StartDate: string, EndDate: string, name: string, isActive: any }
 const initialValue = {
     name: '',
     isActive: null,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    StartDate: ``,
+    EndDate: ``,
 }
 const listOfFilters = [
     {title: 'isActive', name: 'وضعیت', type: 'selectInput'},
@@ -24,6 +24,7 @@ const listOfFilters = [
     {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
 ]
 
+export const MarketRulesContext = createContext({})
 export default function RulesList() {
     const columnDefStructure = [
         {
@@ -39,9 +40,9 @@ export default function RulesList() {
             field: 'id',
             headerName: 'شناسه',
             cellRenderer: 'agGroupCellRenderer',
-            flex:0,
-            width:90,
-            minWidth:90
+            flex: 0,
+            width: 90,
+            minWidth: 90
         },
         {
             field: 'name',
@@ -54,16 +55,16 @@ export default function RulesList() {
         {
             field: 'sequenceNumber',
             headerName: 'مرتبه/اولویت',
-            flex:0,
-            width:120,
-            minWidth:120
+            flex: 0,
+            width: 120,
+            minWidth: 120
         },
         {
             field: 'createDateTime',
             headerName: 'زمان ایجاد',
-            flex:0,
-            width:170,
-            minWidth:170,
+            flex: 0,
+            width: 170,
+            minWidth: 170,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -82,15 +83,15 @@ export default function RulesList() {
         {
             field: 'createBy',
             headerName: 'کاربر ایجاد کننده',
-            flex:0,
-            width:150,
-            minWidth:150
+            flex: 0,
+            width: 150,
+            minWidth: 150
         }, {
             field: 'updatedDateTime',
             headerName: 'زمان تغییر',
-            flex:0,
-            width:170,
-            minWidth:170,
+            flex: 0,
+            width: 170,
+            minWidth: 170,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -109,9 +110,9 @@ export default function RulesList() {
         {
             field: 'updatedBy',
             headerName: 'کاربر تغییر دهنده',
-            flex:0,
-            width:150,
-            minWidth:150,
+            flex: 0,
+            width: 150,
+            minWidth: 150,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -129,14 +130,14 @@ export default function RulesList() {
         {
             field: 'userIP',
             headerName: 'آی پی کاربر',
-            flex:0,
-            width:120,
-            minWidth:120
+            flex: 0,
+            width: 120,
+            minWidth: 120
         }
     ]
 
-    const [selectedRows,setSelectedRows] = useState<any>([])
-    const [data,setData] = useState<any>([])
+    const [selectedRows, setSelectedRows] = useState<any>([])
+    const [data, setData] = useState<any>([])
     const [query, setQuery] = useState<initialType>(initialValue);
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
@@ -149,57 +150,58 @@ export default function RulesList() {
         setQuery(_query)
     }
 
-    const onSubmit = async (e:any,query:any) => {
+    const onSubmit = async (e: any, query: any) => {
         e.preventDefault()
         await rulesList(query)
             .then(res => setData(res?.result))
-            .catch(err => toast.error('نا موفق'))
+            .catch(() => toast.error('نا موفق'))
     };
 
     return (
-        <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
-            <AccordionComponent>
-                <form onSubmit={(e) => onSubmit(e, query)}>
-                    <div className="grid grid-cols-5 gap-4">
-                        {
-                            listOfFilters?.map((item: any) => {
-                                return <InputComponent key={item.title}
-                                                       query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       queryUpdate={queryUpdate}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
-                                                       selectedDayRange={selectedDayRange}
-                                                       setSelectedDayRange={setSelectedDayRange}/>
-                            })
-                        }
-                    </div>
-                    <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                        <button className={'button bg-red-600'} onClick={(e) => {
-                            e.preventDefault()
-                            setQuery(initialValue)
-                            setSelectedDayRange({from: null, to: null})
-                            onSubmit(e, initialValue)
-                        }}>
-                            لغو فیلتر ها
-                        </button>
-                        <button className={'button bg-lime-600'} type={'submit'}>
-                            جستجو
-                        </button>
-                    </div>
-                </form>
-            </AccordionComponent>
-            <RulesToolbar/>
-            <TableComponent data={data}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['id']}
-                            rowSelection={'single'}
-                            masterDetail={true}
-                            setSelectedRows={setSelectedRows}
-                            detailComponent={'myDetailCellRenderer'}
-                            detailCellRendererParams={RulesExpressionDetail}
-            />
-        </div>
+        <MarketRulesContext.Provider value={{selectedRows,setData}}>
+            <div className={'relative flex flex-col grow overflow-hidden border border-border rounded'}>
+                <AccordionComponent>
+                    <form onSubmit={(e) => onSubmit(e, query)}>
+                        <div className="grid grid-cols-5 gap-4">
+                            {
+                                listOfFilters?.map((item: any) => {
+                                    return <InputComponent key={item.title}
+                                                           query={query}
+                                                           title={item?.title}
+                                                           name={item?.name}
+                                                           queryUpdate={queryUpdate}
+                                                           valueType={item?.valueType}
+                                                           type={item?.type}
+                                                           selectedDayRange={selectedDayRange}
+                                                           setSelectedDayRange={setSelectedDayRange}/>
+                                })
+                            }
+                        </div>
+                        <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
+                            <button className={'button bg-red-600'} onClick={(e) => {
+                                e.preventDefault()
+                                setQuery(initialValue)
+                                setSelectedDayRange({from: null, to: null})
+                                onSubmit(e, initialValue)
+                            }}>
+                                لغو فیلتر ها
+                            </button>
+                            <button className={'button bg-lime-600'} type={'submit'}>
+                                جستجو
+                            </button>
+                        </div>
+                    </form>
+                </AccordionComponent>
+                <RulesToolbar/>
+                <TableComponent data={data}
+                                columnDefStructure={columnDefStructure}
+                                rowId={['id']}
+                                rowSelection={'single'}
+                                masterDetail={true}
+                                setSelectedRows={setSelectedRows}
+                                detailComponent={RulesExpressionDetail}
+                />
+            </div>
+        </MarketRulesContext.Provider>
     );
 }

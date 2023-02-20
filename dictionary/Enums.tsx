@@ -63,13 +63,14 @@ export const Options:any[] = [
         "title": "همه"
     }
 ];
+
 export const activeStatus:any[] = [
     {
-        "id": 'true',
+        "id": true,
         "title": "فعال"
     },
     {
-        "id": 'false',
+        "id": false,
         "title": "غیر فعال"
     },
     {
@@ -252,6 +253,25 @@ export const orderStatus: any = [
     }
 ]
 
+export const operators = [
+    {title: ')', id: ')'},
+    {title: '(', id: '('},
+    {title: 'و', id: '&&'},
+    {title: 'یا', id: '||'},
+    {title: 'جمع', id: '+'},
+    {title: 'تفریق', id: '-'},
+    {title: 'ضرب', id: '*'},
+    {title: 'تقسیم', id: '/'},
+    {title: 'مساوی', id: '='},
+    {title: 'مخالف', id: '!='},
+    {title: 'بزرگتر', id: '>'},
+    {title: 'کوچکتر', id: '<'},
+    {title: 'بزرگتر یا مساوی', id: '>='},
+    {title: 'کوچکتر یا مساوی', id: '<='},
+    {title: 'شامل', id: 'contain'},
+    {title: 'دقیقا شامل', id: 'exact'},
+];
+
 export const originEnum: any = [
     {
         "id": 1,
@@ -262,6 +282,7 @@ export const originEnum: any = [
         "title": "موبایل"
     }
 ]
+
 export const TypeOfBranches: any = [
     {
         "id": 1,
