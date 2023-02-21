@@ -3,10 +3,10 @@ import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import React, {useState} from "react";
 import TablePagination from "../../components/common/table/TablePagination";
 import {useRouter} from "next/router";
-import {fetchData} from "../../api/clearedTradesReport";
 import {toast} from "react-toastify";
 import InputComponent from "../../components/common/components/InputComponent";
 import TableComponent from "../../components/common/table/table-component";
+import {getPortfolio} from "../../api/portfo.api";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -86,7 +86,7 @@ export default function LivePortfo() {
                 body[item] = query[item]
             }
         })
-        await fetchData(`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio`, body)
+        await getPortfolio(body)
             .then((res) => {
                 setData(res.result?.pagedData)
                 setTotalCount(res?.result?.totalCount)

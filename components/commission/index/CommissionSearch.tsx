@@ -35,7 +35,7 @@ export default function CommissionSearch() {
     ];
 
     const instrumentSearch = async () => {
-        await commissionSearch('/CommissionInstrumentType/Search?', {
+        await commissionSearch( {
             BourseTitle: inputs.BourseTitle,
             InstrumentTypeTitle: inputs.InstrumentTypeTitle,
             SectorTitle: inputs.SectorTitle,
@@ -51,7 +51,7 @@ export default function CommissionSearch() {
             .catch(err => toast.error('نا موفق'))
     }
     const categorySearch = async () => {
-        await commissionSearch('/CommissionCategory/Search?', {
+        await commissionSearch({
             MarketTitle: inputs.MarketTitle,
             OfferTypeTitle: inputs.OfferTypeTitle,
             SettlementDelayTitle: inputs.SettlementDelayTitle,
@@ -72,7 +72,7 @@ export default function CommissionSearch() {
     useEffect(() => {
         if (idObject.categoryId > 0 && idObject.instrumentTypeId > 0) {
             const detailSearch = async () => {
-                await commissionSearch('/CommissionDetail/Search?', {
+                await commissionSearch({
                     CommissionDetailId: inputs.CommissionDetailId,
                     CommissionInstrumentTypeId: idObject.instrumentTypeId > 0 ? idObject.instrumentTypeId : '',
                     CommissionCategoryId: idObject.categoryId > 0 ? idObject.categoryId : '',

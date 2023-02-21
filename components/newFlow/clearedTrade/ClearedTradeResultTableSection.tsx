@@ -1,31 +1,34 @@
-import React, {useState, useRef, useMemo, useCallback} from 'react';
-import {AgGridReact} from "ag-grid-react";
+import React, {useState, useMemo} from 'react';
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import moment from "jalali-moment";
 import TablePagination from "../../common/table/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
 import AccordionComponent from "../../common/components/AccordionComponent";
+import TableComponent from "../../common/table/table-component";
+import InputComponent from "../../common/components/InputComponent";
+import {netflowClearedTradeSearch} from "../../../api/netflow.api";
+import {toast} from "react-toastify";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number ,Side:string,InstrumentId:string,Ticket:string,Symbol:string}
+type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, Symbol: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
     StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
     EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    Side:'',
-    InstrumentId:'',
-    Ticket:'',
-    Symbol:''
+    Side: '',
+    InstrumentId: '',
+    Ticket: '',
+    Symbol: ''
 }
 const listOfFilters = [
-    {title:'PageNumber',name:'شماره صفحه',type:null},
-    {title:'PageSize',name:'تعداد',type:null},
-    {title:'date',name:'تاریخ',type:'date'},
-    {title:'Ticket',name:'شماره تیکت',type:'input'},
-    {title:'Symbol',name:'نماد',type:'input'},
-    {title:'InstrumentId',name:'شناسه نماد',type:'input'},
-    {title:'Side',name:'سمت',type:'selectInput'},
+    {title: 'PageNumber', name: 'شماره صفحه', type: null},
+    {title: 'PageSize', name: 'تعداد', type: null},
+    {title: 'date', name: 'تاریخ', type: 'date'},
+    {title: 'Ticket', name: 'شماره تیکت', type: 'input'},
+    {title: 'Symbol', name: 'نماد', type: 'input'},
+    {title: 'InstrumentId', name: 'شناسه نماد', type: 'input'},
+    {title: 'Side', name: 'سمت', type: 'selectInput'},
 ]
 
 export default function ClearedTradeResultTableSection() {
@@ -80,37 +83,17 @@ export default function ClearedTradeResultTableSection() {
 
     const [totalCount, setTotalCount] = useState<number>(0);
     const [query, setQuery] = useState<initialType>(initialValue)
+    const [data, setData] = useState<any>([])
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
+    const queryUpdate = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
 
-    //GRID CUSTOMISATION
-    const gridRef: any = useRef();
-    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
-    const getRowId = useCallback((params: any) => {
-        return params.data.ticket
-    }, []);
-    const defaultColDef = useMemo(() => {
-        return {
-            resizable: true,
-            sortable: true,
-            flex: 1,
-            valueFormatter: formatNumber
-        };
-    }, []);
-    const loadingOverlayComponent = useMemo(() => {
-        return LoadingOverlay;
-    }, []);
-    const loadingOverlayComponentParams = useMemo(() => {
-        return {
-            loadingMessage: 'در حال بارگزاری...',
-        };
-    }, []);
-    const noRowsOverlayComponent = useMemo(() => {
-        return NoRowOverlay;
-    }, []);
-    const noRowsOverlayComponentParams = useMemo(() => {
-        return {
-            noRowsMessageFunc: () => 'سفارشی با این فیلتر یافت نشد.',
-        };
-    }, []);
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
@@ -148,35 +131,62 @@ export default function ClearedTradeResultTableSection() {
             },
         };
     }, []);
-    //GRID CUSTOMISATION
 
+    const onSubmit = async (e: any, query: any) => {
+        e.preventDefault()
+        await netflowClearedTradeSearch(query)
+            .then(res => {
+                setData(res?.result)
+                setTotalCount(res?.totalRecord)
+            })
+            .catch(() => toast.error('نا موفق'))
+    };
     return (
-        <>
-            <AccordionComponent query={query} setQuery={setQuery} api={`${NETFLOW_BASE_URL}/Report/cleared-trade`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-                <div style={gridStyle} className="ag-theme-alpine absolute">
-                    <AgGridReact
-                        ref={gridRef}
-                        enableRtl={true}
-                        columnDefs={columnDefStructure}
-                        defaultColDef={defaultColDef}
-                        loadingOverlayComponent={loadingOverlayComponent}
-                        loadingOverlayComponentParams={loadingOverlayComponentParams}
-                        noRowsOverlayComponent={noRowsOverlayComponent}
-                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                        rowHeight={35}
-                        headerHeight={35}
-                        animateRows={true}
-                        getRowId={getRowId}
-                        asyncTransactionWaitMillis={1000}
-                        columnHoverHighlight={true}
-                        rowSelection={'single'}
-                        detailCellRendererParams={detailCellRendererParams}
-                        masterDetail={true}
-                    />
-                </div>
-            </div>
-            <TablePagination query={query} api={`${NETFLOW_BASE_URL}/Report/cleared-trade?`} setQuery={setQuery} totalCount={totalCount} gridRef={gridRef} pagedData={false}/>
-        </>
+        <div className={'relative flex flex-col grow overflow-hidden'}>
+            <AccordionComponent >
+                <form onSubmit={(e) => onSubmit(e, query)}>
+                    <div className="grid grid-cols-5 gap-4">
+                        {
+                            listOfFilters?.map((item: any) => {
+                                return <InputComponent key={item.title}
+                                                       query={query}
+                                                       title={item?.title}
+                                                       name={item?.name}
+                                                       queryUpdate={queryUpdate}
+                                                       valueType={item?.valueType}
+                                                       type={item?.type}
+                                                       selectedDayRange={selectedDayRange}
+                                                       setSelectedDayRange={setSelectedDayRange}
+                                />
+                            })
+                        }
+                    </div>
+                    <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
+                        <button className={'button bg-red-600'} onClick={(e) => {
+                            e.preventDefault()
+                            setQuery(initialValue)
+                            setSelectedDayRange({from:null,to:null})
+                            onSubmit(e, initialValue)
+                        }}>
+                            لغو فیلتر ها
+                        </button>
+                        <button className={'button bg-lime-600'} type={'submit'}>
+                            جستجو
+                        </button>
+                    </div>
+                </form>
+            </AccordionComponent>
+            <TableComponent data={data}
+                            columnDefStructure={columnDefStructure}
+                            rowId={['ticket']}
+                            masterDetail={true}
+                            detailCellRendererParams={detailCellRendererParams}
+            />
+            <TablePagination setData={setData}
+                             query={query}
+                             api={`${NETFLOW_BASE_URL}/Report/cleared-trade?`}
+                             setQuery={setQuery}
+                             totalCount={totalCount}/>
+        </div>
     );
 }

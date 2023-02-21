@@ -1,16 +1,14 @@
-import React, {useState, useRef, useMemo, useCallback} from 'react';
-import {AgGridReact} from "ag-grid-react";
+import React, {useState, useMemo} from 'react';
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import moment from "jalali-moment";
 import TablePagination from "../../common/table/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
 import AccordionComponent from "../../common/components/AccordionComponent";
 import TableComponent from "../../common/table/table-component";
 import InputComponent from "../../common/components/InputComponent";
-import {commissionSearch} from "../../../api/commission.api";
 import {toast} from "react-toastify";
-import {netflowSearch} from "../../../api/netflow.api";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import {netflowTradesSearch} from "../../../api/netflow.api";
 
 type initialType = {
     StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, StationCode: string, BourseCode: string, NationalCode: string, LastName: string,
@@ -142,10 +140,12 @@ export default function TradesResultTableSection() {
         },
     ]
     const [data, setData] = useState<any>([]);
-    const [selectedRows, setSelectedRows] = useState<any>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [query, setQuery] = useState<initialType>(initialValue)
-
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...query};
         _query[key] = value
@@ -154,10 +154,10 @@ export default function TradesResultTableSection() {
 
     const onSubmit = async (e: any, query: any) => {
         e.preventDefault()
-        await netflowSearch(query)
+        await netflowTradesSearch(query)
             .then(res => {
                 setData(res?.result)
-                setTotalCount(res?.totalCount)
+                setTotalCount(res?.totalRecord)
             })
             .catch(() => toast.error('نا موفق'))
     };
@@ -215,6 +215,8 @@ export default function TradesResultTableSection() {
                                                        queryUpdate={queryUpdate}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
+                                                       selectedDayRange={selectedDayRange}
+                                                       setSelectedDayRange={setSelectedDayRange}
                                 />
                             })
                         }
@@ -223,6 +225,7 @@ export default function TradesResultTableSection() {
                         <button className={'button bg-red-600'} onClick={(e) => {
                             e.preventDefault()
                             setQuery(initialValue)
+                            setSelectedDayRange({from:null,to:null})
                             onSubmit(e, initialValue)
                         }}>
                             لغو فیلتر ها
@@ -236,10 +239,8 @@ export default function TradesResultTableSection() {
             <TableComponent data={data}
                             columnDefStructure={columnDefStructure}
                             rowId={['ticket']}
-                            rowSelection={'single'}
-                            setSelectedRows={setSelectedRows}
                             masterDetail={true}
-                            detailComponent={detailCellRendererParams}
+                            detailCellRendererParams={detailCellRendererParams}
             />
             <TablePagination setData={setData}
                              query={query}

@@ -1,11 +1,15 @@
-import React, {useState, useRef, useMemo, useCallback} from 'react';
-import {AgGridReact} from "ag-grid-react";
+import React, {useState, useMemo} from 'react';
 import {formatNumber} from "../../common/functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import TablePagination from "../../common/table/TablePagination";
 import {NETFLOW_BASE_URL} from "../../../api/constants";
 import AccordionComponent from "../../common/components/AccordionComponent";
 import moment from "jalali-moment";
+import TableComponent from "../../common/table/table-component";
+import InputComponent from "../../common/components/InputComponent";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import {rulesList} from "../../../api/market-rules-management.api";
+import {toast} from "react-toastify";
+import {netflowRulesSearch} from "../../../api/netflow.api";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
 const initialValue = {
@@ -20,14 +24,14 @@ const initialValue = {
     SettlementDelay: ''
 }
 const listOfFilters = [
-    {title:'PageNumber',name:'شماره صفحه',type:null},
-    {title:'PageSize',name:'تعداد',type:null},
-    {title:'date',name:'تاریخ',type:'date'},
-    {title:'Name',name:'نام',type:'input'},
-    {title:'BuyerCode',name:'شناسه خریدار',type:'input'},
-    {title:'SellerCode',name:'شناسه فروشنده',type:'input'},
-    {title:'Symbol',name:'نماد',type:'input'},
-    {title:'SettlementDelay',name:'تاخیر',type:'input'},
+    {title: 'PageNumber', name: 'شماره صفحه', type: null},
+    {title: 'PageSize', name: 'تعداد', type: null},
+    {title: 'date', name: 'تاریخ', type: 'date'},
+    {title: 'Name', name: 'نام', type: 'input'},
+    {title: 'BuyerCode', name: 'شناسه خریدار', type: 'input'},
+    {title: 'SellerCode', name: 'شناسه فروشنده', type: 'input'},
+    {title: 'Symbol', name: 'نماد', type: 'input'},
+    {title: 'SettlementDelay', name: 'تاخیر', type: 'input'},
 ]
 
 export default function RulesResultTableSection() {
@@ -95,41 +99,19 @@ export default function RulesResultTableSection() {
         }
     ]
 
+    const [data, setData] = useState<any>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [query, setQuery] = useState<initialType>(initialValue)
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
+        from: null,
+        to: null
+    });
 
-    //GRID CUSTOMISATION
-    const gridRef: any = useRef();
-    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
-    const getRowId = useCallback((params: any) => {
-        return params.data.tierName + params.data.name+ params.data.startDate+ params.data.endDate
-    }, []);
-    const defaultColDef = useMemo(() => {
-        return {
-            resizable: true,
-            sortable: true,
-            flex: 1,
-            valueFormatter: formatNumber
-        };
-    }, []);
-    const loadingOverlayComponent = useMemo(() => {
-        return LoadingOverlay;
-    }, []);
-    const loadingOverlayComponentParams = useMemo(() => {
-        return {
-            loadingMessage: 'در حال بارگزاری...',
-        };
-    }, []);
-    const noRowsOverlayComponent = useMemo(() => {
-        return NoRowOverlay;
-    }, []);
-    const noRowsOverlayComponentParams = useMemo(() => {
-        return {
-            noRowsMessageFunc: () => 'اطلاعاتی با این فیلتر یافت نشد.',
-        };
-    }, []);
-    //GRID CUSTOMISATION
-
+    const queryUpdate = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     const getRowStyle = (params: any) => {
         if (params?.node?.data?.side === 1) {
             return {backgroundColor: 'rgba(5,122,85,0.18)'};
@@ -141,18 +123,20 @@ export default function RulesResultTableSection() {
         return {
             detailGridOptions: {
                 enableRtl: true,
-                rowStyle:{},
-                getRowStyle:getRowStyle,
-                suppressRowTransform:true,
+                rowStyle: {},
+                getRowStyle: getRowStyle,
+                suppressRowTransform: true,
                 columnDefs: [
-                    {field: 'type', headerName: 'دسته',rowSpan: (params:any) => params.data.side === 1 ? 2 : 1 ,
+                    {
+                        field: 'type', headerName: 'دسته', rowSpan: (params: any) => params.data.side === 1 ? 2 : 1,
                         cellClassRules: {
-                            'cell-span': (params:any)=>params.data.side === 1,
+                            'cell-span': (params: any) => params.data.side === 1,
                         },
                         cellRendererSelector: () => {
                             const ColourCellRenderer = (props: any) => {
                                 return (
-                                    <span className={`my-auto`}>{props.node.rowIndex >1 ? 'ضریب کارمزد':'سقف کارمزد'}</span>
+                                    <span
+                                        className={`my-auto`}>{props.node.rowIndex > 1 ? 'ضریب کارمزد' : 'سقف کارمزد'}</span>
                                 )
                             };
                             const moodDetails = {
@@ -174,11 +158,12 @@ export default function RulesResultTableSection() {
                     {field: 'tax', headerName: 'مالیات'},
                     {field: 'vatCommission', headerName: 'مالیات ارزش افزوده'},
                     {field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری'},
-                    {field: 'side', headerName: 'سمت',
+                    {
+                        field: 'side', headerName: 'سمت',
                         cellRendererSelector: () => {
                             const ColourCellRenderer = (props: any) => {
                                 return (
-                                    <span>{props.data.side === 1 ? 'خرید':'فروش'}</span>
+                                    <span>{props.data.side === 1 ? 'خرید' : 'فروش'}</span>
                                 )
                             };
                             const moodDetails = {
@@ -196,40 +181,67 @@ export default function RulesResultTableSection() {
                 },
             },
             getDetailRowData: async (params: any) => {
-                params.successCallback([...params.data?.feeBond,...params.data?.feeValue])
+                params.successCallback([...params.data?.feeBond, ...params.data?.feeValue])
             },
         };
     }, []);
 
+    const onSubmit = async (e: any, query: any) => {
+        e.preventDefault()
+        await netflowRulesSearch(query)
+            .then(res => {
+                setData(res?.result);
+                setTotalCount(res?.totalRecord)
+            })
+            .catch(() => toast.error('نا موفق'))
+    };
+
     return (
         <>
-            <AccordionComponent query={query} setQuery={setQuery} api={`${NETFLOW_BASE_URL}/Report/rules`} gridRef={gridRef} listOfFilters={listOfFilters} initialValue={initialValue} setTotalCount={setTotalCount}/>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
-                <div style={gridStyle} className="ag-theme-alpine absolute">
-                    <AgGridReact
-                        ref={gridRef}
-                        enableRtl={true}
-                        columnDefs={columnDefStructure}
-                        defaultColDef={defaultColDef}
-                        loadingOverlayComponent={loadingOverlayComponent}
-                        loadingOverlayComponentParams={loadingOverlayComponentParams}
-                        noRowsOverlayComponent={noRowsOverlayComponent}
-                        noRowsOverlayComponentParams={noRowsOverlayComponentParams}
-                        rowHeight={35}
-                        headerHeight={35}
-                        animateRows={true}
-                        getRowId={getRowId}
-                        asyncTransactionWaitMillis={1000}
-                        columnHoverHighlight={true}
-                        rowSelection={'single'}
-                        detailCellRendererParams={detailCellRendererParams}
-                        masterDetail={true}
-                        suppressRowTransform={true}
-                    />
-                </div>
-            </div>
-            <TablePagination query={query} api={`${NETFLOW_BASE_URL}/Report/rules?`} setQuery={setQuery}
-                             totalCount={totalCount} gridRef={gridRef} pagedData={false}/>
+            <AccordionComponent>
+                <form onSubmit={(e) => onSubmit(e, query)}>
+                    <div className="grid grid-cols-5 gap-4">
+                        {
+                            listOfFilters?.map((item: any) => {
+                                return <InputComponent key={item.title}
+                                                       query={query}
+                                                       title={item?.title}
+                                                       name={item?.name}
+                                                       queryUpdate={queryUpdate}
+                                                       valueType={item?.valueType}
+                                                       type={item?.type}
+                                                       selectedDayRange={selectedDayRange}
+                                                       setSelectedDayRange={setSelectedDayRange}/>
+                            })
+                        }
+                    </div>
+                    <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
+                        <button className={'button bg-red-600'} onClick={(e) => {
+                            e.preventDefault()
+                            setQuery(initialValue)
+                            setSelectedDayRange({from: null, to: null})
+                            onSubmit(e, initialValue)
+                        }}>
+                            لغو فیلتر ها
+                        </button>
+                        <button className={'button bg-lime-600'} type={'submit'}>
+                            جستجو
+                        </button>
+                    </div>
+                </form>
+            </AccordionComponent>
+            <TableComponent data={data}
+                            columnDefStructure={columnDefStructure}
+                            rowId={['endDate','startDate','name','tierName']}
+                            rowSelection={'single'}
+                            masterDetail={true}
+                            detailCellRendererParams={detailCellRendererParams}
+            />
+            <TablePagination setData={setData}
+                             query={query}
+                             api={`${NETFLOW_BASE_URL}/Report/rules?`}
+                             setQuery={setQuery}
+                             totalCount={totalCount}/>
         </>
     );
 }

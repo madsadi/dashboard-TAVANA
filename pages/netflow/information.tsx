@@ -5,27 +5,50 @@ import NoDateBox from "../../components/newFlow/information/NoDateBox";
 
 export default function GetInformation() {
 
+    const info = [
+        {
+            title:'دریافت معاملات خرید',
+            api:'/Trade/buy-declaration',
+            date:true
+        },
+        {
+            title:'دریافت معاملات فروش',
+            api:'/Trade/sell-declaration',
+            date:true
+        },
+        {
+            title:'دریافت تسویه های تهاتری',
+            api:'/Trade/rolling-clearing',
+            date:true
+        },
+        {
+            title:'دریافت معاملات تسویه شده',
+            api:'/Trade/cleared-trade',
+            date:true
+        },
+        {
+            title:'دریافت ضرایب کارمزد',
+            api:'/Trade/rules',
+            date:false
+        },
+        {
+            title:'دریافت استثنا ضرایب کارمزد',
+            api:'/Trade/operation',
+            date:false
+        },
+    ]
     return (
         <div className="flex flex-col h-full grow">
             <div className={'grid grid-cols-3 gap-4'}>
-                <div className={'text-center z-10'}>
-                    <Box api={'/Trade/buy-declaration'} title={'دریافت معاملات خرید'}/>
-                </div>
-                <div className={'text-center z-[9]'}>
-                    <Box api={'/Trade/sell-declaration'} title={'دریافت معاملات فروش'}/>
-                </div>
-                <div className={'text-center z-[8]'}>
-                    <Box api={'/Trade/rolling-clearing'} title={'دریافت تسویه های تهاتری'}/>
-                </div>
-                <div className={'text-center z-[7]'}>
-                    <Box api={'/Trade/cleared-trade'} title={'دریافت معاملات تسویه شده'}/>
-                </div>
-                <div className={'text-center'}>
-                    <NoDateBox api={'/Trade/rules'} title={'دریافت ضرایب کارمزد'}/>
-                </div>
-                <div className={'text-center'}>
-                    <NoDateBox api={'/Trade/operation'} title={'دریافت استثنا ضرایب کارمزد'}/>
-                </div>
+                {
+                    info.map((item:{api:string,title:string,date:boolean})=>{
+                        return(
+                            <div className={`text-center`}>
+                                {item.date ? <Box api={item.api} title={item.title}/>:<NoDateBox api={item.api} title={item.title}/>}
+                            </div>
+                        )
+                    })
+                }
                 <div className={'text-center z-[6]'}>
                     <ClearingDateRange/>
                 </div>

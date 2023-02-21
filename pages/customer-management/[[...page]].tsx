@@ -5,7 +5,7 @@ import TablePagination from "../../components/common/table/TablePagination";
 import Toolbar from "../../components/customer-management/Toolbar";
 import usePageStructure from "../../hooks/usePageStructure";
 import TableComponent from "../../components/common/table/table-component";
-import {fetchData} from "../../api/clearedTradesReport";
+import {customerManagement} from "../../api/customer-management.api";
 import {toast} from "react-toastify";
 import InputComponent from "../../components/common/components/InputComponent";
 import {DayRange} from "react-modern-calendar-datepicker";
@@ -56,7 +56,7 @@ export default function HoldingsSubPages() {
             return body
         }
 
-        await fetchData(`${MARKET_RULES_MANAGEMENT}/request/${page?.api}/Search`, bodyConstructor(query))
+        await customerManagement(page?.api, bodyConstructor(query))
             .then((res) => {
                 setData(res.result?.pagedData)
                 setTotal(res?.result?.totalCount)
