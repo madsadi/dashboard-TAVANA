@@ -60,7 +60,7 @@ export default function GpOrderCancel(){
                         return <InputComponent key={filter.title}
                                                type={filter.type}
                                                name={filter.name}
-                                               queryUpdate={queryUpdate}
+                                               setQuery={setQuery}
                                                valueType={filter?.valueType}
                                                query={query}
                                                title={filter.title}

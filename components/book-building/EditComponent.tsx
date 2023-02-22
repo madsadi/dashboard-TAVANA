@@ -14,6 +14,10 @@ const bookBuildingInputs = [
     {title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number'},
     {title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number'},
     {title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number'},
+    { title: 'startHour', name: 'زمان شروع', type: 'selectInputTime'},
+    { title: 'startMinute', name: 'زمان شروع'},
+    { title: 'endHour', name: 'زمان پایان', type: 'selectInputTime'},
+    { title: 'endMinute', name: 'زمان پایان'},
     {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
 ]
 
@@ -25,6 +29,10 @@ const bookBuildingInputsInitialValue = {
     maxPrice: null,
     StartDate: null,
     EndDate: null,
+    startHour:null,
+    startMinute:null,
+    endHour:null,
+    endMinute:null
 }
 
 export default function EditModal() {
@@ -52,8 +60,12 @@ export default function EditModal() {
             setSelectedDayRange(_date)
             setQuery({
                 ...selectedRows[0],
-                StartDate: moment(selectedRows[0].fromActiveDateTime).locale('en').format('YYYY-MM-DDTHH:MM:SSZ'),
-                EndDate: moment(selectedRows[0].toActiveDateTime).locale('en').format('YYYY-MM-DDTHH:MM:SSZ')
+                StartDate: moment(selectedRows[0].fromActiveDateTime).locale('en').format('YYYY-MM-DD'),
+                EndDate: moment(selectedRows[0].toActiveDateTime).locale('en').format('YYYY-MM-DD'),
+                startHour: (selectedRows[0].fromActiveDateTime).split('T')[1].split(':')[0],
+                startMinute: (selectedRows[0].fromActiveDateTime).split('T')[1].split(':')[1],
+                endHour: (selectedRows[0].toActiveDateTime).split('T')[1].split(':')[0],
+                endMinute: (selectedRows[0].toActiveDateTime).split('T')[1].split(':')[0]
             })
             setModal(true);
         } else {
@@ -67,8 +79,8 @@ export default function EditModal() {
             maxQuantity: query?.maxQuantity,
             minPrice: query?.minPrice,
             maxPrice: query?.maxPrice,
-            fromActiveDateTime: query.StartDate,
-            toActiveDateTime: query.EndDate,
+            fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD')+`${query?.startHour ? 'T'+query?.startHour+':':''}`+`${query?.startMinute ? query?.startMinute+':00':''}`,
+            toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD')+`${query?.endHour ? 'T'+query?.endHour+':':''}`+`${query?.endMinute ? query?.endMinute+':00':''}`,
         })
             .then(() => {
                 toast.success('با موفقیت انجام شد')

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/Modal";
 import {addBookBuilding} from "../../api/book-building.api";
@@ -12,10 +12,14 @@ const bookBuildingInputs = [
     {title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number'},
     {title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number'},
     {title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number'},
+    { title: 'startHour', name: 'زمان شروع', type: 'selectInputTime'},
+    { title: 'startMinute', name: 'زمان شروع'},
+    { title: 'endHour', name: 'زمان پایان', type: 'selectInputTime'},
+    { title: 'endMinute', name: 'زمان پایان'},
     {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
 ]
 
-const bookBuildingInitialValue = {instrumentId:'',maxQuantity:null,minPrice:null,maxPrice:null,StartDate:'',EndDate:''}
+const bookBuildingInitialValue = {instrumentId:'',maxQuantity:null,minPrice:null,maxPrice:null,StartDate:'',EndDate:'',startHour:null,startMinute:null,endHour:null,endMinute:null}
 export default function AddModal() {
     const {onSubmit, query: bookBuildingQuery} = useContext<any>(BookBuildingContext)
     const [modal, setModal] = useState(false)
@@ -32,8 +36,8 @@ export default function AddModal() {
                 maxQuantity: query.maxQuantity,
                 minPrice: query.minPrice,
                 maxPrice: query.maxPrice,
-                fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD'),
-                toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD'),
+                fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD')+`${query?.startHour ? 'T'+query?.startHour+':':''}`+`${query?.startMinute ? query?.startMinute+':00':''}`,
+                toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD')+`${query?.endHour ? 'T'+query?.endHour+':':''}`+`${query?.endMinute ? query?.endMinute+':00':''}`,
             }).then(() => {
                 setModal(false)
                 toast.success('با موفقیت انجام شد')
@@ -52,6 +56,13 @@ export default function AddModal() {
             }
         }
     }
+
+    useEffect(()=>{
+        if (!modal){
+            setQuery(bookBuildingInitialValue)
+            setSelectedDayRange({from:null,to:null})
+        }
+    },[modal])
 
     return (
         <>

@@ -5,7 +5,7 @@ import {dateRangeHandler} from "../functions/common-funcions";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {
-    activeStatus, category, isRequired, operators,
+    activeStatus, category, Hours, isRequired, Minutes, operators,
     Options,
     orderOrigin, orderStatus,
     orderTechnicalOrigin,
@@ -86,6 +86,9 @@ export default function InputComponent({
                 return dynamicsOption
             case 'api':
                 return category
+            case 'startHour':
+            case 'endHour':
+                return {hours: Hours, minutes: Minutes}
             case 'isActive':
             case 'IsActive':
                 return activeStatus
@@ -271,6 +274,151 @@ export default function InputComponent({
                     </div>
 
                 )
+            case "selectInputTime":
+                return (
+                    <div className={'flex items-center space-x-reverse space-x-2'}>
+                        <label className={'mt-auto'} htmlFor={title}>{name}</label>
+                        <div className={'grow'}>
+                            <div className="relative rounded">
+                                <Listbox name={title === 'startHour' ? 'startMinute':'endMinute'} value={query?.[title === 'startHour' ? 'startMinute':'endMinute']}
+                                         onChange={(e) => queryUpdate(title === 'startHour' ? 'startMinute':'endMinute', e)}>
+                                    {({open}) => (
+                                        <div className="relative">
+                                            <Listbox.Button
+                                                className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                            <span className="flex items-center">
+                                                <span
+                                                    className="ml-2 block truncate text-sm">{FindEnum().minutes.find((item: any) => item === query?.[title === 'startHour' ? 'startMinute':'endMinute'])}</span>
+                                            </span>
+                                                <span className="pointer-events-none flex items-center mr-auto">
+                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                 aria-hidden="false"/>
+                                            </span>
+                                            </Listbox.Button>
+
+                                            <Transition
+                                                show={open}
+                                                as={Fragment}
+                                                leave="transition ease-in duration-100"
+                                                leaveFrom="opacity-100"
+                                                leaveTo="opacity-0"
+                                            >
+                                                <Listbox.Options
+                                                    className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                    {FindEnum().minutes.map((item: any) => (
+                                                        <Listbox.Option
+                                                            key={item}
+                                                            className={({active}) =>
+                                                                classNames(
+                                                                    active ? 'bg-border' : '',
+                                                                    'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                )
+                                                            }
+                                                            value={item}
+                                                        >
+                                                            {({selected, active}) => (
+                                                                <>
+                                                                    <div className="flex items-center">
+                                                                    <span>
+                                                                        {item}
+                                                                    </span>
+                                                                        {selected ? (
+                                                                            <span
+                                                                                className={classNames(
+                                                                                    active ? '' : '',
+                                                                                    'flex items-center mr-auto'
+                                                                                )}
+                                                                            >
+                                                                            <CheckIcon className="h-5 w-5"
+                                                                                       aria-hidden="true"/>
+                                                                        </span>
+                                                                        ) : null}
+                                                                    </div>
+                                                                </>
+                                                            )}
+                                                        </Listbox.Option>
+                                                    ))}
+                                                </Listbox.Options>
+                                            </Transition>
+                                        </div>
+                                    )}
+                                </Listbox>
+                            </div>
+                        </div>
+                        <div>
+                            :
+                        </div>
+                        <div className={'grow'}>
+                            <div className="relative rounded">
+                                <Listbox name={title} value={query?.[title]}
+                                         onChange={(e) => queryUpdate(title, e)}>
+                                    {({open}) => (
+                                        <div className="relative">
+                                            <Listbox.Button
+                                                className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                            <span className="flex items-center">
+                                                <span
+                                                    className="ml-2 block truncate text-sm">{FindEnum().hours.find((item: any) => item === query?.[title])}</span>
+                                            </span>
+                                                <span className="pointer-events-none flex items-center mr-auto">
+                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                 aria-hidden="false"/>
+                                            </span>
+                                            </Listbox.Button>
+
+                                            <Transition
+                                                show={open}
+                                                as={Fragment}
+                                                leave="transition ease-in duration-100"
+                                                leaveFrom="opacity-100"
+                                                leaveTo="opacity-0"
+                                            >
+                                                <Listbox.Options
+                                                    className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                    {FindEnum().hours.map((item: any) => (
+                                                        <Listbox.Option
+                                                            key={item}
+                                                            className={({active}) =>
+                                                                classNames(
+                                                                    active ? 'bg-border' : '',
+                                                                    'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                )
+                                                            }
+                                                            value={item}
+                                                        >
+                                                            {({selected, active}) => (
+                                                                <>
+                                                                    <div className="flex items-center">
+                                                                    <span>
+                                                                        {item}
+                                                                    </span>
+                                                                        {selected ? (
+                                                                            <span
+                                                                                className={classNames(
+                                                                                    active ? '' : '',
+                                                                                    'flex items-center mr-auto'
+                                                                                )}
+                                                                            >
+                                                                            <CheckIcon className="h-5 w-5"
+                                                                                       aria-hidden="true"/>
+                                                                        </span>
+                                                                        ) : null}
+                                                                    </div>
+                                                                </>
+                                                            )}
+                                                        </Listbox.Option>
+                                                    ))}
+                                                </Listbox.Options>
+                                            </Transition>
+                                        </div>
+                                    )}
+                                </Listbox>
+                            </div>
+                        </div>
+                    </div>
+
+                )
+
             case "dynamicSelectInput":
                 return (
                     <div>

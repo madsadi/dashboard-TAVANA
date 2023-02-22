@@ -245,7 +245,7 @@ export default function SideBarContent() {
                                         >
                                             {item.children.map((child: any) => {
                                                 return (
-                                                    <Sidebar.Item active={router.pathname === child.url}
+                                                    <Sidebar.Item key={child.label} active={router.pathname === child.url}
                                                                   href={child.url}>
                                                         {child.label}
                                                     </Sidebar.Item>

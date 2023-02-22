@@ -43,7 +43,7 @@ export default function GetInformation() {
                 {
                     info.map((item:{api:string,title:string,date:boolean})=>{
                         return(
-                            <div className={`text-center`}>
+                            <div key={item.title} className={`text-center`}>
                                 {item.date ? <Box api={item.api} title={item.title}/>:<NoDateBox api={item.api} title={item.title}/>}
                             </div>
                         )
