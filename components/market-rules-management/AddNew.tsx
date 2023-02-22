@@ -36,7 +36,7 @@ const extraListOfFilters = [
     {title: 'variable', name: 'متغیر', type: 'dynamicSelectInput'},
     {title: 'operator', name: 'عملگر', type: 'selectInput'},
 ]
-export default function Edit() {
+export default function AddNew() {
     const {dynamicOptions,onSubmit,query:rulesQuery} = useContext<any>(MarketRulesContext)
     const [modal, setModal] = useState<boolean>(false)
     const [query, setQuery] = useState<queryType>(initialQuery)
@@ -50,11 +50,6 @@ export default function Edit() {
     const [expression, setExpression] = useState<string[]>([])
     const [faExpression, setFaExpression] = useState<string[]>([])
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
     const expressionQueryUpdate = (key: string, value: any) => {
         let _query: any = {...expressionQuery};
         _query[key] = value
@@ -132,7 +127,7 @@ export default function Edit() {
                                                        query={query}
                                                        title={item?.title}
                                                        name={item?.name}
-                                                       queryUpdate={queryUpdate}
+                                                       setQuery={setQuery}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                 />
@@ -144,7 +139,7 @@ export default function Edit() {
                                                        query={expressionQuery}
                                                        title={item?.title}
                                                        name={item?.name}
-                                                       queryUpdate={expressionQueryUpdate}
+                                                       setQuery={setExpressionQuery}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                                        dynamicsOption={dynamicOptions}

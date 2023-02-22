@@ -46,12 +46,6 @@ export default function Edit() {
         }
     }, [page?.form, selectedRows[0]])
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...queryEdit};
-        _query[key] = value
-        setQueryEdit(_query)
-    }
-
     const editHandler = async (e: any) => {
         await edit(page.api, {...queryEdit, id: selectedRows[0]?.id, addressId: selectedRows[0]?.address?.id})
             .then((res) => {
@@ -75,7 +69,7 @@ export default function Edit() {
 
     return (
         <>
-            <Modal title={'ویرایش شعبه'} ModalWidth={'max-w-3xl'} setOpen={setModal} open={modal}>
+            <Modal title={` ویرایش ${page?.searchFilter} `} ModalWidth={'max-w-3xl'} setOpen={setModal} open={modal}>
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
@@ -84,7 +78,7 @@ export default function Edit() {
                                                        query={queryEdit}
                                                        title={item?.title}
                                                        name={item?.name}
-                                                       queryUpdate={queryUpdate}
+                                                       setQuery={setQueryEdit}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                                        selectedDayRange={selectedDayRange}

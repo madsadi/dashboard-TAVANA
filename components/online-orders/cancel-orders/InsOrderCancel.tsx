@@ -5,7 +5,6 @@ import {errors} from "../../../dictionary/Enums";
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 
-
 const InstrumentFilters = [
     {title: 'InstrumentId', name: 'نماد', type: 'search'},
     {title: 'orderSide', name: 'سمت سفارش', type: 'selectInput',valueType:"number"},
@@ -29,12 +28,6 @@ const InitialValue = {
 export default function InsOrderCancel(){
     const [modal,setModal] = useState(false)
     const [query,setQuery] = useState<InitialType>(InitialValue)
-
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
 
     const confirmInsRemoving = async () => {
         await insCancel({
@@ -61,7 +54,7 @@ export default function InsOrderCancel(){
                         return <InputComponent key={filter.title}
                                                type={filter.type}
                                                name={filter.name}
-                                               queryUpdate={queryUpdate}
+                                               setQuery={setQuery}
                                                valueType={filter?.valueType}
                                                query={query}
                                                title={filter.title}

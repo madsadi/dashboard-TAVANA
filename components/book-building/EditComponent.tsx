@@ -36,12 +36,6 @@ export default function EditModal() {
         to: null
     });
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
-
     const openUpdate = () => {
         if (selectedRows.length) {
             let _date: any = {}
@@ -81,7 +75,7 @@ export default function EditModal() {
                 setModal(false)
                 onSubmit(e, bookBuildingQuery)
             })
-            .catch((err) => toast.error(`${err?.response?.data?.title}`))
+            .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
     }
 
     return (
@@ -95,7 +89,7 @@ export default function EditModal() {
                                                    query={query}
                                                    title={item?.title}
                                                    name={item?.name}
-                                                   queryUpdate={queryUpdate}
+                                                   setQuery={setQuery}
                                                    valueType={item?.valueType}
                                                    type={item?.type}
                                                    selectedDayRange={selectedDayRange}

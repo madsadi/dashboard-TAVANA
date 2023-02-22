@@ -1,14 +1,12 @@
 import React, {useEffect, useState, createContext} from "react";
 import AccordionComponent from "../../components/common/components/AccordionComponent";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import TablePagination from "../../components/common/table/TablePagination";
 import Toolbar from "../../components/customer-management/Toolbar";
 import usePageStructure from "../../hooks/usePageStructure";
 import TableComponent from "../../components/common/table/table-component";
 import {customerManagement} from "../../api/customer-management.api";
 import {toast} from "react-toastify";
-import InputComponent from "../../components/common/components/InputComponent";
-import {DayRange} from "react-modern-calendar-datepicker";
+import SearchComponent from "../../components/common/components/Search.component";
 
 export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
@@ -16,19 +14,9 @@ export default function HoldingsSubPages() {
     const [initialValue, setInitialValue] = useState<any>({})
     const [totalCount, setTotal] = useState<any>(0);
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
+
     const [data, setData] = useState<any>([]);
     const {page} = usePageStructure()
-
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
-
 
     useEffect(() => {
         if (page?.listOfFilters) {
@@ -47,7 +35,7 @@ export default function HoldingsSubPages() {
     }, [page?.listOfFilters])
 
     const onSubmit = async (event: any, query: any) => {
-        event.preventDefault()
+        event?.preventDefault()
         const bodyConstructor = (query: any) => {
             let body: any = {}
             Object.keys(query).map((item: any) => {
@@ -56,49 +44,27 @@ export default function HoldingsSubPages() {
             return body
         }
 
-        await customerManagement(page?.api, bodyConstructor(query))
+        await customerManagement(page?.api, query)
             .then((res) => {
                 setData(res.result?.pagedData)
                 setTotal(res?.result?.totalCount)
                 toast.success('با موفقیت انجام شد')
             })
-            .catch(() => toast.error('ناموفق'))
+            .catch((err) => {
+                toast.error(`${err?.response?.data.error?.message}`)
+            })
     }
 
     return (
-        <CustomerManagement.Provider value={{onSubmit,selectedRows,setSelectedRows,query}}>
+        <CustomerManagement.Provider value={{onSubmit, selectedRows, setSelectedRows, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <form onSubmit={(e) => onSubmit(e, query)}>
-                        <div className="grid grid-cols-5 gap-4">
-                            {
-                                (page?.listOfFilters)?.map((item: any) => {
-                                    return <InputComponent key={item.title}
-                                                           query={query}
-                                                           title={item?.title}
-                                                           name={item?.name}
-                                                           queryUpdate={queryUpdate}
-                                                           valueType={item?.valueType}
-                                                           type={item?.type}
-                                                           selectedDayRange={selectedDayRange}
-                                                           setSelectedDayRange={setSelectedDayRange}/>
-                                })
-                            }
-                        </div>
-                        <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                            <button className={'button bg-red-600'} onClick={(e) => {
-                                e.preventDefault()
-                                setQuery(initialValue)
-                                setSelectedDayRange({from: null, to: null})
-                                onSubmit(e, initialValue)
-                            }}>
-                                لغو فیلتر ها
-                            </button>
-                            <button className={'button bg-lime-600'} type={'submit'}>
-                                جستجو
-                            </button>
-                        </div>
-                    </form>
+                    <SearchComponent query={query}
+                                     setQuery={setQuery}
+                                     listOfFilters={page?.listOfFilters}
+                                     initialValue={initialValue}
+                                     onSubmit={onSubmit}
+                    />
                 </AccordionComponent>
                 <Toolbar/>
                 <TableComponent data={data}
@@ -110,9 +76,8 @@ export default function HoldingsSubPages() {
                                 setSelectedRows={setSelectedRows}
                                 selectedRows={selectedRows}
                 />
-                <TablePagination setData={setData}
+                <TablePagination onSubmit={onSubmit}
                                  query={query}
-                                 api={`${MARKET_RULES_MANAGEMENT}/request/${page?.api}/Search?`}
                                  setQuery={setQuery}
                                  totalCount={totalCount}
                 />

@@ -4,12 +4,10 @@ import {toast} from "react-toastify";
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
 import TablePagination from "../../components/common/table/TablePagination";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import AccordionComponent from "../../components/common/components/AccordionComponent";
-import InputComponent from "../../components/common/components/InputComponent";
-import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import TableComponent from "../../components/common/table/table-component";
 import CancelOrdersToolbar from "../../components/online-orders/cancel-orders/CancelOrdersToolbar";
+import SearchComponent from "../../components/common/components/Search.component";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -110,10 +108,6 @@ export default function CancelOrders() {
     const [data, setData] = useState<any>([]);
     const [query, setQuery] = useState<initialType>(initialValue)
     const [totalCount, setTotalCount] = useState<any>(null)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -163,14 +157,8 @@ export default function CancelOrders() {
         };
     }, []);
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
-
     const onSubmit = async (e: any, query: initialType) => {
-        e.preventDefault()
+        e?.preventDefault()
         await getCanceledOrders(query)
             .then((res) => {
                 setData(res.result?.pagedData)
@@ -183,36 +171,12 @@ export default function CancelOrders() {
     return (
             <div className="flex flex-col h-full flex-1">
                 <AccordionComponent>
-                    <form onSubmit={(e) => onSubmit(e, query)}>
-                        <div className="grid grid-cols-5 gap-4">
-                            {
-                                listOfFilters?.map((item: any) => {
-                                    return <InputComponent key={item.title}
-                                                           query={query}
-                                                           title={item?.title}
-                                                           name={item?.name}
-                                                           queryUpdate={queryUpdate}
-                                                           valueType={item?.valueType}
-                                                           type={item?.type}
-                                                           selectedDayRange={selectedDayRange}
-                                                           setSelectedDayRange={setSelectedDayRange}/>
-                                })
-                            }
-                        </div>
-                        <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                            <button className={'button bg-red-600'} onClick={(e) => {
-                                e.preventDefault()
-                                setQuery(initialValue)
-                                setSelectedDayRange({from: null, to: null})
-                                onSubmit(e, initialValue)
-                            }}>
-                                لغو فیلتر ها
-                            </button>
-                            <button className={'button bg-lime-600'} type={'submit'}>
-                                جستجو
-                            </button>
-                        </div>
-                    </form>
+                    <SearchComponent query={query}
+                                     setQuery={setQuery}
+                                     listOfFilters={listOfFilters}
+                                     initialValue={initialValue}
+                                     onSubmit={onSubmit}
+                    />
                 </AccordionComponent>
                 <CancelOrdersToolbar/>
                 <TableComponent data={data}
@@ -221,9 +185,8 @@ export default function CancelOrders() {
                                 masterDetail={true}
                                 detailCellRendererParams={detailCellRendererParams}
                 />
-                <TablePagination setData={setData}
+                <TablePagination onSubmit={onSubmit}
                                  query={query}
-                                 api={`${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder?`}
                                  setQuery={setQuery}
                                  totalCount={totalCount}
                 />

@@ -152,11 +152,11 @@ export default function Edit() {
                 expressionTranslate(selectedRows[0]?.expression)
             }
         }
-    }, [modal,selectedRows[0]])
+    }, [modal,selectedRows?.[0]])
 
     return (
         <>
-            <button className="button bg-orange-500" onClick={openUpdate}>وایرایش</button>
+            <button className="button bg-orange-500" onClick={openUpdate}>ویرایش</button>
             <Modal title={'ویرایش قانون'} setOpen={setModal} open={modal} ModalWidth={'max-w-5xl'}>
                 <form onSubmit={submitForm}>
                     <div className={'grid grid-cols-4 gap-4'}>
@@ -166,7 +166,7 @@ export default function Edit() {
                                                        query={query}
                                                        title={item?.title}
                                                        name={item?.name}
-                                                       queryUpdate={queryUpdate}
+                                                       setQuery={setQuery}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                 />
@@ -178,7 +178,7 @@ export default function Edit() {
                                                        query={expressionQuery}
                                                        title={item?.title}
                                                        name={item?.name}
-                                                       queryUpdate={expressionQueryUpdate}
+                                                       setQuery={setExpressionQuery}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                                        dynamicsOption={dynamicOptions}

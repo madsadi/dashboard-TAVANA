@@ -5,7 +5,6 @@ import {addBookBuilding} from "../../api/book-building.api";
 import moment from "jalali-moment";
 import {toast} from "react-toastify";
 import InputComponent from "../common/components/InputComponent";
-import {initial} from "lodash";
 import {BookBuildingContext} from "./tableSection";
 
 const bookBuildingInputs = [
@@ -15,23 +14,19 @@ const bookBuildingInputs = [
     {title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number'},
     {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
 ]
+
+const bookBuildingInitialValue = {instrumentId:'',maxQuantity:null,minPrice:null,maxPrice:null,StartDate:'',EndDate:''}
 export default function AddModal() {
     const {onSubmit, query: bookBuildingQuery} = useContext<any>(BookBuildingContext)
     const [modal, setModal] = useState(false)
-    const [query, setQuery] = useState<any>(null)
+    const [query, setQuery] = useState<any>(bookBuildingInitialValue)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
     });
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
-
     const addNewHandler = async (e:any) => {
-        if (query.instrumentId && query.maxQuantity) {
+        if (query?.instrumentId && query?.maxQuantity) {
             await addBookBuilding({
                 instrumentId: query.instrumentId,
                 maxQuantity: query.maxQuantity,
@@ -46,14 +41,14 @@ export default function AddModal() {
                 setSelectedDayRange({from: null, to: null})
                 onSubmit(e,bookBuildingQuery)
             })
-                .catch(() => {
-                    toast.error('ناموفق')
+                .catch((err) => {
+                    toast.error(err?.response?.data?.error?.message)
                 })
         } else {
             if (!query.maxQuantity) {
-                toast.error('بیشینه حجم سفارش را لطفا وارد کنید')
+                toast.warning('بیشینه حجم سفارش را لطفا وارد کنید')
             } else if (!query.instrumentId) {
-                toast.error('کد نماد را لطفا وارد کنید')
+                toast.warning('کد نماد را لطفا وارد کنید')
             }
         }
     }
@@ -71,7 +66,7 @@ export default function AddModal() {
                                                        query={query}
                                                        title={item?.title}
                                                        name={item?.name}
-                                                       queryUpdate={queryUpdate}
+                                                       setQuery={setQuery}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                                        selectedDayRange={selectedDayRange}

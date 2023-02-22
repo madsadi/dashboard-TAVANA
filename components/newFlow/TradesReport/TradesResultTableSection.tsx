@@ -2,13 +2,11 @@ import React, {useState, useMemo} from 'react';
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
 import TablePagination from "../../common/table/TablePagination";
-import {NETFLOW_BASE_URL} from "../../../api/constants";
 import AccordionComponent from "../../common/components/AccordionComponent";
 import TableComponent from "../../common/table/table-component";
-import InputComponent from "../../common/components/InputComponent";
 import {toast} from "react-toastify";
-import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {netflowTradesSearch} from "../../../api/netflow.api";
+import SearchComponent from "../../common/components/Search.component";
 
 type initialType = {
     StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, StationCode: string, BourseCode: string, NationalCode: string, LastName: string,
@@ -142,18 +140,9 @@ export default function TradesResultTableSection() {
     const [data, setData] = useState<any>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [query, setQuery] = useState<initialType>(initialValue)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
 
     const onSubmit = async (e: any, query: any) => {
-        e.preventDefault()
+        e?.preventDefault()
         await netflowTradesSearch(query)
             .then(res => {
                 setData(res?.result)
@@ -204,37 +193,12 @@ export default function TradesResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <form onSubmit={(e) => onSubmit(e, query)}>
-                    <div className="grid grid-cols-5 gap-4">
-                        {
-                            listOfFilters?.map((item: any) => {
-                                return <InputComponent key={item.title}
-                                                       query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       queryUpdate={queryUpdate}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
-                                                       selectedDayRange={selectedDayRange}
-                                                       setSelectedDayRange={setSelectedDayRange}
-                                />
-                            })
-                        }
-                    </div>
-                    <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                        <button className={'button bg-red-600'} onClick={(e) => {
-                            e.preventDefault()
-                            setQuery(initialValue)
-                            setSelectedDayRange({from:null,to:null})
-                            onSubmit(e, initialValue)
-                        }}>
-                            لغو فیلتر ها
-                        </button>
-                        <button className={'button bg-lime-600'} type={'submit'}>
-                            جستجو
-                        </button>
-                    </div>
-                </form>
+                <SearchComponent query={query}
+                                 setQuery={setQuery}
+                                 listOfFilters={listOfFilters}
+                                 initialValue={initialValue}
+                                 onSubmit={onSubmit}
+                />
             </AccordionComponent>
             <TableComponent data={data}
                             columnDefStructure={columnDefStructure}
@@ -242,9 +206,8 @@ export default function TradesResultTableSection() {
                             masterDetail={true}
                             detailCellRendererParams={detailCellRendererParams}
             />
-            <TablePagination setData={setData}
+            <TablePagination onSubmit={onSubmit}
                              query={query}
-                             api={`${NETFLOW_BASE_URL}/Report/trades?`}
                              setQuery={setQuery}
                              totalCount={totalCount}/>
         </div>

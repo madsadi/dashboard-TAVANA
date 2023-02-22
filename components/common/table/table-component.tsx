@@ -1,17 +1,17 @@
 import {AgGridReact} from "ag-grid-react";
-import React, {useCallback, useContext, useEffect, useMemo, useRef} from "react";
+import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import {formatNumber} from "../functions/common-funcions";
 import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
 
 const TableComponent: React.FC<any> = (props) =>{
-    let {data=[],columnDefStructure,rowSelection,onGridReady=null,rowId,isRowSelectable=null,masterDetail=false,detailComponent=null,detailCellRendererParams=null,setSelectedRows=null,selectedRows=[],onRowClicked=null} = props
+    let {data=[],columnDefStructure,rowSelection,onGridReady=()=>{gridRef?.current?.api?.setRowData([])},rowId,isRowSelectable=null,masterDetail=false,detailComponent=null,detailCellRendererParams=null,setSelectedRows=null,selectedRows=[],onRowClicked=null,suppressRowClickSelection=false} = props
 
     const gridRef: any = useRef();
 
     useEffect(() => {
         gridRef?.current?.api?.setRowData(data)
     }, [data])
-    //Grid
+
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
     const defaultColDef = useMemo(() => {
         return {
@@ -51,7 +51,6 @@ const TableComponent: React.FC<any> = (props) =>{
             gridRef.current?.api?.deselectAll()
         }
     },[selectedRows.length])
-    //Grid
 
     return(
         <>
@@ -80,6 +79,7 @@ const TableComponent: React.FC<any> = (props) =>{
                         rowSelection={rowSelection}
                         onSelectionChanged={onSelectionChanged}
                         onRowClicked={onRowClicked}
+                        suppressRowClickSelection={suppressRowClickSelection}
                     />
                 </div>
             </div>

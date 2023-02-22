@@ -36,19 +36,15 @@ export default function OrdersCancel(){
         }
     }
 
-    console.log(selectedRows)
     return(
         <>
-            <Modal title={'حذف شرکت'} setOpen={setModal} open={modal}>
+            <Modal title={'لغو سفارش'} setOpen={setModal} open={modal}>
                 <div className="field mt-4">
-                    {/*<div>{*/}
-                    {/*    "آیا از حذف"*/}
-                    {/*    + " " +*/}
-                    {/*    page?.searchFilter + " " +*/}
-                    {/*    targetToEdit?.title + " " +*/}
-                    {/*    "اطمینان دارید؟"*/}
-                    {/*}*/}
-                    {/*</div>*/}
+                    <div className={'flex text-center justify-center'}>
+                        آیا از حذف
+                        <span className={'mx-1 font-extrabold'}>{selectedRows.length}</span>
+                        سفارش انتخابی اطمینان دارید؟
+                    </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <button className="button bg-red-500"
                                 onClick={() => setModal(false)}>لغو
@@ -58,7 +54,7 @@ export default function OrdersCancel(){
                 </div>
             </Modal>
             <button className="button bg-red-600" onClick={() => openModalHandler()}>
-                حذف گروهی
+                لغو سفارش
             </button>
         </>
     )

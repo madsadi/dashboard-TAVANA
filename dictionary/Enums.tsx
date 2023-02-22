@@ -51,11 +51,11 @@ export const sides = [
 
 export const Options:any[] = [
     {
-        "id": 'true',
+        "id": true,
         "title": "حذف شده"
     },
     {
-        "id": 'false',
+        "id": false,
         "title": "حذف نشده"
     },
     {
@@ -76,6 +76,20 @@ export const activeStatus:any[] = [
     {
         "id": null,
         "title": "همه"
+    }
+];
+export const category:any[] = [
+    {title: 'فعال', id: 'GetAllActive'},
+    {title: 'همه', id: 'GetAll'},
+];
+export const isRequired:any[] = [
+    {
+        "id": true,
+        "title": "بله"
+    },
+    {
+        "id": false,
+        "title": "خیر"
     }
 ];
 

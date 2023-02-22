@@ -3,11 +3,9 @@ import moment from "jalali-moment";
 import {jalali} from "../../components/common/functions/common-funcions";
 import {tradingSession} from "../../api/oms";
 import TablePagination from "../../components/common/table/TablePagination";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import AccordionComponent from "../../components/common/components/AccordionComponent";
-import InputComponent from "../../components/common/components/InputComponent";
-import {DayRange} from "react-modern-calendar-datepicker";
 import TableComponent from "../../components/common/table/table-component";
+import SearchComponent from "../../components/common/components/Search.component";
 
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number }
@@ -74,19 +72,9 @@ export default function TradingSession() {
     const [query, setQuery] = useState<initialType>(initialValue)
     const [data, setData] = useState<any>([])
     const [totalCount, setTotal] = useState<any>(null);
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
-
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
 
     const onSubmit = async (e:any,query: initialType) => {
-        e.preventDefault()
+        e?.preventDefault()
         await tradingSession(query)
             .then((res: any) => {
                 setData(res?.result?.pagedData);
@@ -97,44 +85,19 @@ export default function TradingSession() {
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <form onSubmit={(e) => onSubmit(e, query)}>
-                    <div className="grid grid-cols-5 gap-4">
-                        {
-                            listOfFilters?.map((item: any) => {
-                                return <InputComponent key={item.title}
-                                                       query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       queryUpdate={queryUpdate}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
-                                                       selectedDayRange={selectedDayRange}
-                                                       setSelectedDayRange={setSelectedDayRange}/>
-                            })
-                        }
-                    </div>
-                    <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                        <button className={'button bg-red-600'} onClick={(e) => {
-                            e.preventDefault()
-                            setQuery(initialValue)
-                            setSelectedDayRange({from: null, to: null})
-                            onSubmit(e, initialValue)
-                        }}>
-                            لغو فیلتر ها
-                        </button>
-                        <button className={'button bg-lime-600'} type={'submit'}>
-                            جستجو
-                        </button>
-                    </div>
-                </form>
+                <SearchComponent query={query}
+                                 setQuery={setQuery}
+                                 listOfFilters={listOfFilters}
+                                 initialValue={initialValue}
+                                 onSubmit={onSubmit}
+                />
             </AccordionComponent>
             <TableComponent data={data}
                             columnDefStructure={columnDefStructure}
                             rowId={['id']}
             />
-            <TablePagination setData={setData}
+            <TablePagination onSubmit={onSubmit}
                              query={query}
-                             api={`${MARKET_RULES_MANAGEMENT}/request/GetTradingSessionStatus?`}
                              setQuery={setQuery}
                              totalCount={totalCount}/>
         </div>

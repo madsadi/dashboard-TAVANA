@@ -15,12 +15,11 @@ function classNames(...classes: any) {
 }
 
 export default function TablePagination({
-                                            setData,
                                             query,
                                             setQuery,
-                                            api,
-                                            totalCount,
-                                        }: { setData:Dispatch<any>,query: any, setQuery: Dispatch<any>, api: string, totalCount: number}) {
+                                            onSubmit,
+                                            totalCount
+                                        }: { query: any, setQuery: Dispatch<any>,onSubmit: Function,totalCount:number}) {
 
     const sizes=[10,20,50]
     const queryUpdate = (key: string, value: any) => {
@@ -29,30 +28,14 @@ export default function TablePagination({
         setQuery(_query)
     }
 
-    const onGridReady = async (query: any) => {
-        await apiCallToGetData(api, query)
-            .then((res: any) => {
-                if (res?.result?.pagedData){
-                    // gridRef.current?.api?.setRowData(res?.result?.pagedData);
-                    setData(res?.result?.pagedData);
-                }else{
-                    // gridRef.current?.api?.setRowData(res?.result);
-                    setData(res?.result);
-                }
-            })
-            .catch((err)=> {
-                setData([]);
-                toast.error(`${err?.response?.data?.error?.message}`)
-            })
-    };
-
     return (
         <div className={'flex items-center mx-auto py-3 space-x-2 space-x-reverse'}>
             <div className="relative rounded">
                 <Listbox name={'PageSize'} value={query?.PageSize}
-                         onChange={(e) => {
+                         onChange={(e:any) => {
+                             console.log(e)
                              queryUpdate('PageSize', e);
-                             onGridReady({...query, PageSize: e})
+                             onSubmit(undefined,{...query, PageSize: e})
                          }}>
                     {({open}) => (
                         <div className="relative">
@@ -117,17 +100,17 @@ export default function TablePagination({
                 </Listbox>
             </div>
 
-            <button onClick={() => {
+            <button onClick={(e) => {
                 queryUpdate('PageNumber', 1)
-                onGridReady({...query, PageNumber: 1})
+                onSubmit(e,{...query, PageNumber: 1})
             }}
                     className={`${query?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                     disabled={query?.PageNumber <= 1}>
                 <ChevronDoubleRightIcon className={'h-4 w-4'}/>
             </button>
-            <button onClick={() => {
+            <button onClick={(e) => {
                 queryUpdate('PageNumber', query?.PageNumber - 1)
-                onGridReady({...query, PageNumber: query?.PageNumber - 1})
+                onSubmit(e,{...query, PageNumber: query?.PageNumber - 1})
             }}
                     className={`${query?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                     disabled={query?.PageNumber <= 1}>
@@ -135,17 +118,17 @@ export default function TablePagination({
             </button>
             <div className={'h-fit'}>صفحه {query?.PageNumber>Math.ceil(totalCount / query?.PageSize) ? 0:query?.PageNumber}<span
                 className={'mx-4'}>از</span>{Math.ceil(totalCount / query?.PageSize)} </div>
-            <button onClick={() => {
+            <button onClick={(e) => {
                 queryUpdate('PageNumber', query?.PageNumber + 1)
-                onGridReady({...query, PageNumber: query?.PageNumber + 1})
+                onSubmit(e,{...query, PageNumber: query?.PageNumber + 1})
             }}
                     className={`${query?.PageNumber >= Math.ceil(totalCount / query?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                     disabled={query?.PageNumber >= Math.ceil(totalCount / query?.PageSize)}>
                 <ChevronLeftIcon className={'h-4 w-4'}/>
             </button>
-            <button onClick={() => {
+            <button onClick={(e) => {
                 queryUpdate('PageNumber', Math.ceil(totalCount / query?.PageSize))
-                onGridReady({...query, PageNumber: Math.ceil(totalCount / query?.PageSize)})
+                onSubmit(e,{...query, PageNumber: Math.ceil(totalCount / query?.PageSize)})
             }}
                     className={`${query?.PageNumber >= Math.ceil(totalCount / query?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                     disabled={query?.PageNumber >= Math.ceil(totalCount / query?.PageSize)}>

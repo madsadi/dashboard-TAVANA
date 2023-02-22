@@ -1,5 +1,6 @@
 import {jalali} from "../../common/functions/common-funcions";
 import React from "react";
+import {TypeOfBranches} from "../../../dictionary/Enums";
 
 export const branchesColumnDefStructure = [
     {
@@ -41,14 +42,36 @@ export const branchesColumnDefStructure = [
     {
         field: 'type',
         headerName: 'نوع شعبه',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                    <span>{TypeOfBranches.find((item:any)=>item.id === rowData.data.type).title}</span>
+                )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
     },
     {
         field: 'title',
         headerName: 'عنوان شعبه',
     },
     {
-        field: 'subsidiaryTypeCode',
-        headerName: 'کد نوع شرکت',
+        field: 'isDeleted',
+        headerName: 'وضعیت',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                        <span>{rowData.data.isDeleted ? 'حذف شده' : 'حذف نشده'}</span>
+                    )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
     },
     {
         field: 'createDateTime',

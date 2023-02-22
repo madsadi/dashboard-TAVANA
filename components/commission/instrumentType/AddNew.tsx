@@ -29,14 +29,8 @@ export default function AddNew() {
     const {onSubmit, query: insQuery} = useContext<any>(InstrumentTypeContext)
     const [query, setQuery] = useState<initialType>(initialValue);
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
-
     const addNewHandler = async (e: any) => {
-        e.preventDefault()
+        e?.preventDefault()
         await addNewCommission(query).then(res => {
             setModal(false);
             onSubmit(e, insQuery)
@@ -62,27 +56,15 @@ export default function AddNew() {
                                                            query={query}
                                                            title={item?.title}
                                                            name={item?.name}
-                                                           queryUpdate={queryUpdate}
+                                                           setQuery={setQuery}
                                                            valueType={item?.valueType}
                                                            type={item?.type}
                                     />
                                 })
                             }
                         </div>
-                        <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                            <button className={'button bg-red-600'} onClick={(e) => {
-                                e.preventDefault()
-                                setQuery(initialValue)
-                                onSubmit(e, initialValue)
-                            }}>
-                                لغو فیلتر ها
-                            </button>
-                            <button className={'button bg-lime-600'} type={'submit'}>
-                                جستجو
-                            </button>
-                        </div>
                     </form>
-                    <div className={'flex justify-end space-x-reverse space-x-2'}>
+                    <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <button className="button bg-red-500"
                                 onClick={() => setModal(false)}>لغو
                         </button>

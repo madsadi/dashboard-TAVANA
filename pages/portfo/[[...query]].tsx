@@ -1,4 +1,3 @@
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 import React, { useEffect, useState} from "react";
 import TablePagination from "../../components/common/table/TablePagination";
 import { jalali} from "../../components/common/functions/common-funcions";
@@ -15,7 +14,6 @@ const initialValue = {
 }
 
 export default function PortfolioBook(){
-
     const columnDefStructure = [
         {
             field: 'transactionId',
@@ -158,9 +156,8 @@ export default function PortfolioBook(){
                             columnDefStructure={columnDefStructure}
                             rowId={['receivedDateTime','transactionId']}
                             />
-            <TablePagination setData={setData}
+            <TablePagination onSubmit={getPortfolioData}
                              query={query}
-                             api={`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolioBook?`}
                              setQuery={setQuery}
                              totalCount={totalCount}/>
         </div>

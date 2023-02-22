@@ -1,11 +1,11 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Dispatch, Fragment} from "react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import {dateRangeHandler} from "../functions/common-funcions";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {
-    activeStatus, operators,
+    activeStatus, category, isRequired, operators,
     Options,
     orderOrigin, orderStatus,
     orderTechnicalOrigin,
@@ -15,27 +15,38 @@ import {
     validityType
 } from "../../../dictionary/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
-import {filedList, remoteUrl} from "../../../api/market-rules-management.api";
-import {toast} from "react-toastify";
+import {DayValue} from "react-modern-calendar-datepicker";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
+type PropsType = {
+    query: any,
+    setQuery: Dispatch<any>,
+    title: string,
+    name: string,
+    type: string,
+    selectedDayRange: DayRange,
+    setSelectedDayRange: Dispatch<DayRange>,
+    valueType: string,
+    dynamicsOption: any,
+    selectedDay:DayValue,
+    setSelectedDay:Dispatch<DayValue>,
+}
 export default function InputComponent({
                                            query,
-                                           queryUpdate,
+                                           setQuery,
                                            title,
                                            name,
                                            type,
                                            selectedDayRange,
                                            setSelectedDayRange,
+                                           selectedDay,
+                                           setSelectedDay,
                                            valueType,
                                            dynamicsOption
-                                       }: {
-    query: any, queryUpdate: any, title: string, name: string, type: string, selectedDayRange: DayRange,
-    setSelectedDayRange: any, valueType: string, dynamicsOption: any
-}) {
+                                       }: PropsType) {
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
@@ -44,11 +55,39 @@ export default function InputComponent({
         </div>
     )
 
+    const singleDateHandler = (selectedDay:DayValue)=>{
+        if (selectedDay){
+            return Object.values(selectedDay).map((item:any)=>item).reverse().join('-')
+        }
+    }
+    const renderSingleDateCustomInput = ({ref}: { ref: any }) => (
+        <div>
+            <label className={'block'} htmlFor="rangeDate">تاریخ </label>
+            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(selectedDay)}/>
+        </div>
+    )
+
+    const queryUpdate = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
+
+    const clear = ()=>{
+        let _query: any = {...query};
+        _query['StartDate'] = ''
+        _query['EndDate'] = ''
+        setQuery(_query)
+
+    }
     const FindEnum = () => {
         switch (title) {
             case 'variable':
                 return dynamicsOption
+            case 'api':
+                return category
             case 'isActive':
+            case 'IsActive':
                 return activeStatus
             case 'operator':
                 return operators
@@ -66,7 +105,6 @@ export default function InputComponent({
                 return sides
             case 'Deleted':
             case 'IsDeleted':
-            case 'IsActive':
                 return Options
             case 'orderTechnicalOrigin':
                 return orderTechnicalOrigin
@@ -74,12 +112,33 @@ export default function InputComponent({
                 return orderOrigin
             case 'type':
                 return TypeOfBranches
+            case 'isBourseCodeRequired':
+            case 'isRequired':
+                return isRequired
             default:
                 return []
         }
     }
     const componentRender = () => {
         switch (type) {
+            case "singleDate":
+                return (
+                    <div>
+                        <DatePicker
+                            value={selectedDay}
+                            locale={'fa'}
+                            calendarPopperPosition={'auto'}
+                            onChange={(e)=> {
+                                setSelectedDay(e);
+                                queryUpdate(
+                                    'date', `${moment.from(`${e?.year}/${e?.month}/${e?.day}`, 'en', 'YYYY/MM/DD').format('YYYY-MM-DDTHH:MM:SS')}`
+                                )
+                            }}
+                            renderInput={renderSingleDateCustomInput}
+                            shouldHighlightWeekends
+                        />
+                    </div>
+                )
             case "date":
                 return (
                     <div>
@@ -102,6 +161,21 @@ export default function InputComponent({
                             renderInput={renderCustomInput}
                             locale={'fa'}
                             calendarPopperPosition={'auto'}
+                            renderFooter={() => (
+                                <div className={'flex justify-center'} style={{padding:'5px 3px'}}>
+                                    <button
+                                        type="button"
+                                        style={{padding:'1px 3px'}}
+                                        className={'button bg-orange-300 p-2'}
+                                        onClick={() => {
+                                            setSelectedDayRange({from:null,to:null})
+                                            clear()
+                                        }}
+                                    >
+                                        پاک کن
+                                    </button>
+                                </div>
+                            )}
                         />
                     </div>
                 )
@@ -290,5 +364,7 @@ export default function InputComponent({
 InputComponent.defaultProps = {
     setSelectedDayRange: null,
     selectedDayRange: '',
-    dynamicsOption:[]
+    dynamicsOption:[],
+    setSelectedDay:null,
+    selectedDay: null
 }

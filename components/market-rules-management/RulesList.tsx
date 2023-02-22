@@ -1,14 +1,13 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {filedList, rulesList} from "../../api/market-rules-management.api";
-import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {validate as uuidValidate} from 'uuid';
 import {toast} from "react-toastify";
 import RulesExpressionDetail from ".//RulesExpressionDetail";
 import {jalali} from "../common/functions/common-funcions";
 import TableComponent from "../common/table/table-component";
 import RulesToolbar from "./RulesToolbar";
-import InputComponent from "../common/components/InputComponent";
 import AccordionComponent from "../common/components/AccordionComponent";
+import SearchComponent from "../common/components/Search.component";
 
 type initialType = { StartDate: string, EndDate: string, name: string, isActive: any }
 const initialValue = {
@@ -139,16 +138,7 @@ export default function RulesList() {
     const [data, setData] = useState<any>([])
     const [query, setQuery] = useState<initialType>(initialValue);
     const [dynamicOptions, setDynamics] = useState<any>([])
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
 
     const onSubmit = async (e: any, query: any) => {
         e.preventDefault()
@@ -161,46 +151,22 @@ export default function RulesList() {
         const getFieldItems = async () => {
             await filedList()
                 .then((res) => setDynamics(res.result))
-
         }
 
         getFieldItems()
     }, [])
 
     return (
-        <MarketRulesContext.Provider value={{selectedRows,setData,dynamicOptions,onSubmit,query}}>
+        <MarketRulesContext.Provider value={{selectedRows, setData, dynamicOptions, onSubmit, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <form onSubmit={(e) => onSubmit(e, query)}>
-                        <div className="grid grid-cols-5 gap-4">
-                            {
-                                listOfFilters?.map((item: any) => {
-                                    return <InputComponent key={item.title}
-                                                           query={query}
-                                                           title={item?.title}
-                                                           name={item?.name}
-                                                           queryUpdate={queryUpdate}
-                                                           valueType={item?.valueType}
-                                                           type={item?.type}
-                                                           selectedDayRange={selectedDayRange}
-                                                           setSelectedDayRange={setSelectedDayRange}/>
-                                })
-                            }
-                        </div>
-                        <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                            <button className={'button bg-red-600'} onClick={(e) => {
-                                e.preventDefault()
-                                setQuery(initialValue)
-                                setSelectedDayRange({from: null, to: null})
-                                onSubmit(e, initialValue)
-                            }}>
-                                لغو فیلتر ها
-                            </button>
-                            <button className={'button bg-lime-600'} type={'submit'}>
-                                جستجو
-                            </button>
-                        </div>
-                    </form>
+                    <SearchComponent query={query}
+                                     setQuery={setQuery}
+                                     listOfFilters={listOfFilters}
+                                     initialValue={initialValue}
+                                     onSubmit={onSubmit}
+                                     dynamicOptions={dynamicOptions}
+                    />
                 </AccordionComponent>
                 <RulesToolbar/>
                 <TableComponent data={data}

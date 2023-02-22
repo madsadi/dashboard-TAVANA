@@ -3,18 +3,15 @@ import {jalali} from "../common/functions/common-funcions";
 import ToolBar from "./ToolBar";
 import TableComponent from "../common/table/table-component";
 import AccordionComponent from "../common/components/AccordionComponent";
-import InputComponent from "../common/components/InputComponent";
 import {getBookBuilding} from "../../api/book-building.api";
 import {toast} from "react-toastify";
+import SearchComponent from "../common/components/Search.component";
 
 const listOfFilters = [
-    {title: 'api', name: 'دسته بندی', type: 'dynamicSelectInput'},
+    {title: 'api', name: 'دسته بندی', type: 'selectInput'},
 ]
-const options = [
-    {displayName: 'فعال', id: 'GetAllActive'},
-    {displayName: 'همه', id: 'GetAll'},
-];
 
+const initialValue = {api:'GetAll'}
 export const BookBuildingContext = createContext({})
 export default function ResultTable() {
     const columnDefStructure = [
@@ -158,46 +155,26 @@ export default function ResultTable() {
 
     const [data, setData] = useState([])
     const [selectedRows, setSelectedRows] = useState([])
-    const [query, setQuery] = useState<{ api: any }>({api: {displayName: 'همه', id: 'GetAll'}})
+    const [query, setQuery] = useState<{ api: any }>(initialValue)
     const onSubmit = async (event: any, query: { api: any }) => {
-        event.preventDefault()
-        await getBookBuilding(query.api.id).then(res => {
+        event?.preventDefault()
+        await getBookBuilding(query.api).then(res => {
             setData(res?.result);
             toast.success('با موفقیت انجام شد')
         })
             .catch(() => toast.success('نا موفق'))
     }
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
-
     return (
         <BookBuildingContext.Provider value={{selectedRows,query,onSubmit}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <form className={'flex items-center'} onSubmit={(e) => onSubmit(e, query)}>
-                        <div className="grid grid-cols-5 gap-4">
-                            {
-                                listOfFilters?.map((item: any) => {
-                                    return <InputComponent key={item.title}
-                                                           query={query}
-                                                           title={item?.title}
-                                                           name={item?.name}
-                                                           queryUpdate={queryUpdate}
-                                                           valueType={item?.valueType}
-                                                           type={item?.type}
-                                                           dynamicsOption={options}
-                                    />
-                                })
-                            }
-                        </div>
-                        <button className={'button bg-lime-600 mr-auto'} type={'submit'}>
-                            جستجو
-                        </button>
-                    </form>
+                    <SearchComponent query={query}
+                                     setQuery={setQuery}
+                                     listOfFilters={listOfFilters}
+                                     initialValue={initialValue}
+                                     onSubmit={onSubmit}
+                    />
                 </AccordionComponent>
                 <ToolBar/>
                 <TableComponent data={data}

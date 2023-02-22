@@ -1,17 +1,13 @@
-import React, {useState, useRef, useMemo, useCallback} from 'react';
-import {AgGridReact} from "ag-grid-react";
+import React, {useState, useMemo} from 'react';
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import moment from "jalali-moment";
 import TablePagination from "../../common/table/TablePagination";
-import {NETFLOW_BASE_URL} from "../../../api/constants";
 import {enTierNameEnum} from '../../../dictionary/Enums'
 import AccordionComponent from "../../common/components/AccordionComponent";
-import InputComponent from "../../common/components/InputComponent";
 import TableComponent from "../../common/table/table-component";
-import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {toast} from "react-toastify";
 import {netflowClearingDateRangeSearch} from "../../../api/netflow.api";
+import SearchComponent from "../../common/components/Search.component";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, EnTierName: string, SettlementDelay: string }
 const initialValue = {
@@ -116,54 +112,17 @@ export default function ClearingDateRangeTTradeResultTableSection() {
     const [totalCount, setTotalCount] = useState<number>(0);
     const [query, setQuery] = useState<initialType>(initialValue)
     const [data, setData] = useState<any>([])
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
+
     const onSubmit = async (e: any, query: any) => {
-        e.preventDefault()
+        e?.preventDefault()
         await netflowClearingDateRangeSearch(query)
             .then(res => {
                 setData(res?.result)
                 setTotalCount(res?.totalRecord)
             })
-            .catch(() => toast.error('نا موفق'))
+            .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
     };
-    //GRID CUSTOMISATION
-    const gridRef: any = useRef();
-    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
-    const getRowId = useCallback((params: any) => {
-        return params.data.georgianTradeDate + params.data.enTierName + params.data.settlementDelay + params.data.sell
-    }, []);
-    const defaultColDef = useMemo(() => {
-        return {
-            resizable: true,
-            sortable: true,
-            flex: 1,
-            valueFormatter: formatNumber
-        };
-    }, []);
-    const loadingOverlayComponent = useMemo(() => {
-        return LoadingOverlay;
-    }, []);
-    const loadingOverlayComponentParams = useMemo(() => {
-        return {
-            loadingMessage: 'در حال بارگزاری...',
-        };
-    }, []);
-    const noRowsOverlayComponent = useMemo(() => {
-        return NoRowOverlay;
-    }, []);
-    const noRowsOverlayComponentParams = useMemo(() => {
-        return {
-            noRowsMessageFunc: () => 'اطلاعاتی با این فیلتر یافت نشد.',
-        };
-    }, []);
+
     const getRowStyle = (params: any) => {
         if (params?.node?.rowIndex === 0) {
             return {borderRight: '2px solid rgba(5,122,85,1)'};
@@ -222,42 +181,16 @@ export default function ClearingDateRangeTTradeResultTableSection() {
             },
         };
     }, []);
-    //GRID CUSTOMISATION
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent >
-                <form onSubmit={(e) => onSubmit(e, query)}>
-                    <div className="grid grid-cols-5 gap-4">
-                        {
-                            listOfFilters?.map((item: any) => {
-                                return <InputComponent key={item.title}
-                                                       query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       queryUpdate={queryUpdate}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
-                                                       selectedDayRange={selectedDayRange}
-                                                       setSelectedDayRange={setSelectedDayRange}
-                                />
-                            })
-                        }
-                    </div>
-                    <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                        <button className={'button bg-red-600'} onClick={(e) => {
-                            e.preventDefault()
-                            setQuery(initialValue)
-                            setSelectedDayRange({from:null,to:null})
-                            onSubmit(e, initialValue)
-                        }}>
-                            لغو فیلتر ها
-                        </button>
-                        <button className={'button bg-lime-600'} type={'submit'}>
-                            جستجو
-                        </button>
-                    </div>
-                </form>
+                <SearchComponent query={query}
+                                 setQuery={setQuery}
+                                 listOfFilters={listOfFilters}
+                                 initialValue={initialValue}
+                                 onSubmit={onSubmit}
+                />
             </AccordionComponent>
             <TableComponent data={data}
                             columnDefStructure={columnDefStructure}
@@ -265,9 +198,8 @@ export default function ClearingDateRangeTTradeResultTableSection() {
                             masterDetail={true}
                             detailCellRendererParams={detailCellRendererParams}
             />
-            <TablePagination setData={setData}
+            <TablePagination onSubmit={onSubmit}
                              query={query}
-                             api={`${NETFLOW_BASE_URL}/Report/clearing-date-range-T?`}
                              setQuery={setQuery}
                              totalCount={totalCount}
             />

@@ -40,7 +40,7 @@ export default function Remove() {
 
     return (
         <>
-            <Modal title={'حذف شرکت'} setOpen={setModal} open={modal}>
+            <Modal title={` حذف ${page?.searchFilter} `} setOpen={setModal} open={modal}>
                 <div className="field mt-4">
                     <div>{
                         "آیا از حذف"

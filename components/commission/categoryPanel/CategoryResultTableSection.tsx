@@ -121,14 +121,8 @@ export default function CategoryResultTableSection() {
     const [query, setQuery] = useState<initialType>(initialValue)
     const [data, setData] = useState<any>([])
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
-
     const onSubmit = async (e: any, query: any) => {
-        e.preventDefault()
+        e?.preventDefault()
         await commissionCategorySearch(query)
             .then(res => setData(res?.result))
             .catch(() => toast.error('نا موفق'))
@@ -145,7 +139,7 @@ export default function CategoryResultTableSection() {
                                                        query={query}
                                                        title={item?.title}
                                                        name={item?.name}
-                                                       queryUpdate={queryUpdate}
+                                                       setQuery={setQuery}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                 />

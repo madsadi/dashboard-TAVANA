@@ -67,7 +67,7 @@ export default function usePageStructure() {
                         {
                             api: 'businessUnit',
                             columnsDefStructure: businessUnitColumnDefStructure,
-                            searchFilter: 'واحده کاری',
+                            searchFilter: 'واحد کاری',
                             form: businessUnitListOfForm,
                             listOfFilters: businessUnitListOfFilters
                         }
