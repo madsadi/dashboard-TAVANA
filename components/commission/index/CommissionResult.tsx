@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useMemo, useCallback} from 'react';
 import {useSelector} from "react-redux";
-import {formatNumber, jalali} from "../../commonFn/commonFn";
-import {LoadingOverlay, NoRowOverlay} from "../../common/customOverlay";
+import {formatNumber, jalali} from "../../common/functions/common-funcions";
+import {LoadingOverlay, NoRowOverlay} from "../../common/table/customOverlay";
 import {AgGridReact} from "ag-grid-react";
-import RulesExpressionDetail from "../../marketRulesManagement/RulesExpressionDetail";
+import RulesExpressionDetail from "../../market-rules-management/RulesExpressionDetail";
 
 export default function CommissionResult() {
     const columnDefStructure = [

@@ -1,6 +1,6 @@
 import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 import React, {useState} from "react";
-import {activation} from "../../../api/getInformation";
+import {activation} from "../../../api/get-information.api";
 import {toast} from "react-toastify";
 
 
@@ -33,7 +33,7 @@ export default function Box({api, title}: { api: string, title: string }) {
                 locale={'fa'}
                 shouldHighlightWeekends
             />
-            <button onClick={submitHandler} className="rounded-full border border-lime-600 p-1 px-2">بروزرسانی</button>
+            <button onClick={submitHandler} className="button bg-lime-600 mt-10">بروزرسانی</button>
         </div>
     )
 }
