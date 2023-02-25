@@ -31,6 +31,12 @@ export const OrderType: any = [
     }
 ]
 
+export const Hours:any[] = [
+    "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
+export const Minutes:any[] = [
+    "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"];
+
+
 export const sides = [
     {
         "id": 1,
@@ -51,11 +57,11 @@ export const sides = [
 
 export const Options:any[] = [
     {
-        "id": 'true',
+        "id": true,
         "title": "حذف شده"
     },
     {
-        "id": 'false',
+        "id": false,
         "title": "حذف نشده"
     },
     {
@@ -101,10 +107,35 @@ export const ActivityStatus:any[] = [
         "title": "همه"
     }
 ];
-export const Hours:any[] = [
-    "01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
-export const Minutes:any[] = [
-    "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"];
+
+export const activeStatus:any[] = [
+    {
+        "id": true,
+        "title": "فعال"
+    },
+    {
+        "id": false,
+        "title": "غیر فعال"
+    },
+    {
+        "id": null,
+        "title": "همه"
+    }
+];
+export const category:any[] = [
+    {title: 'فعال', id: 'GetAllActive'},
+    {title: 'همه', id: 'GetAll'},
+];
+export const isRequired:any[] = [
+    {
+        "id": true,
+        "title": "بله"
+    },
+    {
+        "id": false,
+        "title": "خیر"
+    }
+];
 
 export const orderTechnicalOrigin:any[] = [
     // {
@@ -217,7 +248,7 @@ export const validityType =  [
     // }
 ]
 
-export const EnumsStatus: any = [
+export const orderStatus: any = [
     {
         "id": 1,
         "title": "در حال ارسال درخواست",
@@ -280,6 +311,25 @@ export const EnumsStatus: any = [
     }
 ]
 
+export const operators = [
+    {title: ')', id: ')'},
+    {title: '(', id: '('},
+    {title: 'و', id: '&&'},
+    {title: 'یا', id: '||'},
+    {title: 'جمع', id: '+'},
+    {title: 'تفریق', id: '-'},
+    {title: 'ضرب', id: '*'},
+    {title: 'تقسیم', id: '/'},
+    {title: 'مساوی', id: '='},
+    {title: 'مخالف', id: '!='},
+    {title: 'بزرگتر', id: '>'},
+    {title: 'کوچکتر', id: '<'},
+    {title: 'بزرگتر یا مساوی', id: '>='},
+    {title: 'کوچکتر یا مساوی', id: '<='},
+    {title: 'شامل', id: 'contain'},
+    {title: 'دقیقا شامل', id: 'exact'},
+];
+
 export const originEnum: any = [
     {
         "id": 1,
@@ -290,6 +340,7 @@ export const originEnum: any = [
         "title": "موبایل"
     }
 ]
+
 export const TypeOfBranches: any = [
     {
         "id": 1,

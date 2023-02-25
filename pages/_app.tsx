@@ -8,7 +8,7 @@ import React, {useRef} from 'react';
 import {AuthProvider} from "react-oidc-context"
 import Router from "next/router";
 import '../api/axios_interceptor';
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';

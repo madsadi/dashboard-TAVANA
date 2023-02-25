@@ -1,6 +1,6 @@
 import {countFetch, lastTradeDate} from "../../api/dashboard";
 import {lazy, useEffect, useState} from "react";
-import {jalali} from "../commonFn/commonFn";
+import {jalali} from "../common/functions/common-funcions";
 const AnimatedNumbers = lazy(()=>import('react-animated-numbers'))
 
 export default function LastTradeDate(){

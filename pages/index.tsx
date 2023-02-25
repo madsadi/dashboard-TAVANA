@@ -11,7 +11,7 @@ const Home: NextPage = () => {
                 <div className="text-center mb-10">
                     <Image width={150} height={150} src={"/logo-2.png"} alt="hyper"/>
                 </div>
-                <button className="w-full bg-active text-white p-1 rounded-full" onClick={() => void auth.signinRedirect()}>ورود</button>
+                <button className="w-full bg-active text-white p-1 rounded-full focus:bg-active/60 hover:bg-active/60 transition-all" onClick={() => void auth.signinRedirect()}>ورود</button>
             </div>
         </div>
 
