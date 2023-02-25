@@ -38,7 +38,7 @@ export default function Edit() {
     useEffect(() => {
         if (modal && selectedRows.length) {
             let _initialValue: any = {};
-            _initialValue.name === selectedRows[0].name
+            _initialValue.name = selectedRows[0].name
             setQuery(_initialValue)
         }
     }, [modal])

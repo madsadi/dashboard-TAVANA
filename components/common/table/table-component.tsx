@@ -1,5 +1,5 @@
 import {AgGridReact} from "ag-grid-react";
-import React, {useCallback, useEffect, useMemo, useRef} from "react";
+import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
 import {formatNumber} from "../functions/common-funcions";
 import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
 
@@ -87,4 +87,4 @@ const TableComponent: React.FC<any> = (props) =>{
     )
 }
 
-export default TableComponent;
+export default React.memo(TableComponent);
