@@ -33,6 +33,7 @@ type PropsType = {
     dynamicsOption: any,
     selectedDay:DayValue,
     setSelectedDay:Dispatch<DayValue>,
+    queryUpdateAlternative:Function
 }
 export default function InputComponent({
                                            query,
@@ -45,7 +46,8 @@ export default function InputComponent({
                                            selectedDay,
                                            setSelectedDay,
                                            valueType,
-                                           dynamicsOption
+                                           dynamicsOption,
+                                           queryUpdateAlternative
                                        }: PropsType) {
 
     const renderCustomInput = ({ref}: { ref: any }) => (
@@ -68,9 +70,13 @@ export default function InputComponent({
     )
 
     const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
+        if (queryUpdateAlternative){
+            queryUpdateAlternative(key,value)
+        }else{
+            let _query: any = {...query};
+            _query[key] = value
+            setQuery(_query)
+        }
     }
 
     const clear = ()=>{
@@ -514,5 +520,6 @@ InputComponent.defaultProps = {
     selectedDayRange: '',
     dynamicsOption:[],
     setSelectedDay:null,
-    selectedDay: null
+    selectedDay: null,
+    queryUpdateAlternative:null
 }

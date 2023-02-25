@@ -27,6 +27,12 @@ export default function SideBarContent() {
                 },
                 {
                     id: 2.2,
+                    label: 'نقش و دسترسی',
+                    url: '/users-management/roles',
+                    className: router.pathname === '/users-management/roles' ? 'sideBarActive' : '',
+                },
+                {
+                    id: 2.3,
                     label: 'ورود/خروج کاربران',
                     url: '/users-management/logs',
                     className: router.pathname === '/users-management/logs' ? 'sideBarActive' : '',

@@ -51,11 +51,6 @@ export default function Edit() {
     const [expression, setExpression] = useState<string[]>([])
     const [faExpression, setFaExpression] = useState<string[]>([])
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = {...query};
-        _query[key] = value
-        setQuery(_query)
-    }
     const expressionQueryUpdate = (key: string, value: any) => {
         let _query: any = {...expressionQuery};
         _query[key] = value
@@ -64,13 +59,11 @@ export default function Edit() {
         if (key === 'InstrumentId') {
             _query.value = value
             setExpressionQuery(_query)
-        }
-
-        if (key !== 'value' && key !== 'InstrumentId') {
+        }else{
             if (key === 'variable') {
                 setExpression([...expression, value.name])
                 setFaExpression([...faExpression, value.displayName])
-            } else {
+            } else if (key === 'operator') {
                 setExpression([...expression, value])
                 setFaExpression([...faExpression, value])
             }
@@ -179,6 +172,7 @@ export default function Edit() {
                                                        title={item?.title}
                                                        name={item?.name}
                                                        setQuery={setExpressionQuery}
+                                                       queryUpdateAlternative={expressionQueryUpdate}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                                        dynamicsOption={dynamicOptions}

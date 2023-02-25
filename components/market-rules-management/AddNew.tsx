@@ -58,13 +58,11 @@ export default function AddNew() {
         if (key === 'InstrumentId') {
             _query.value = value
             setExpressionQuery(_query)
-        }
-
-        if (key !== 'value' && key !== 'InstrumentId') {
+        }else{
             if (key === 'variable') {
                 setExpression([...expression, value.name])
                 setFaExpression([...faExpression, value.displayName])
-            } else {
+            } else if (key === 'operator') {
                 setExpression([...expression, value])
                 setFaExpression([...faExpression, value])
             }
@@ -117,7 +115,7 @@ export default function AddNew() {
     }, [modal])
     return (
         <>
-            <button className="button bg-orange-500" onClick={() => setModal(true)}>قانون جدید</button>
+            <button className="button bg-lime-600" onClick={() => setModal(true)}>قانون جدید</button>
             <Modal title={'قانون جدید'} setOpen={setModal} open={modal} ModalWidth={'max-w-5xl'}>
                 <form onSubmit={submitForm}>
                     <div className={'grid grid-cols-4 gap-4'}>
@@ -140,6 +138,7 @@ export default function AddNew() {
                                                        title={item?.title}
                                                        name={item?.name}
                                                        setQuery={setExpressionQuery}
+                                                       queryUpdateAlternative={expressionQueryUpdate}
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                                        dynamicsOption={dynamicOptions}
