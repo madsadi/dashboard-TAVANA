@@ -48,6 +48,7 @@ export default function BreadCrumbComponent() {
         "marketer":'بازاریاب ها',
         "agreement":'توافقنامه ها',
         "customerAgreement":'توافقنامه های بین طرفین',
+        "roles":'نقش و دسترسی',
     }
 
     useEffect(() => {
