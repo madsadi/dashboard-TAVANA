@@ -60,7 +60,7 @@ export default function Permissions() {
     const roleInsert = async (mode: string, permission: any) => {
         await addOrRemovePermissionToRole(mode, {
             service: permission.service,
-            roleId: permission.id,
+            roleId: selectedRows[0].id,
             module: permission.module,
             action: permission.action
         })
@@ -80,14 +80,22 @@ export default function Permissions() {
                         <div>
                             <h1 className={'text-center'}>دسترسی های نقش</h1>
                             <div
-                                className={'grid grid-cols-2 md:grid-cols-3 gap-4 border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto'}>
+                                className={'border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto space-y-2 custom-scrollbar'}>
+                                <div
+                                    className={`sticky z-10 flex w-full text-center px-3 py-1 bg-gray-500 text-white text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
+                                    <div className={'basis-1/2'}>سرویس</div>
+                                    <div className={'basis-1/4'}>ماژول</div>
+                                    <div className={'basis-1/4'}>فعالیت</div>
+                                </div>
                                 {
                                     userPermissions.map((permission: any) => {
                                         return (
                                             <button key={permission?.id}
                                                     onClick={() => roleInsert('remove', permission)}
-                                                    className={'text-center px-3 py-1 text-white text-sm cursor-pointer rounded-full h-fit bg-active'}>
-                                                {permission?.serviceTitle}
+                                                    className={`flex w-full text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
+                                                <div className={'basis-1/2'}>{permission?.serviceTitle}</div>
+                                                <div className={'basis-1/4'}>{permission.moduleTitle}</div>
+                                                <div className={'basis-1/4'}>{permission.actionTitle}</div>
                                             </button>
                                         )
                                     })
@@ -97,10 +105,10 @@ export default function Permissions() {
                         <div>
                             <h1 className={'text-center'}>کل دسترسی ها</h1>
                             <div
-                                className={'border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto space-y-2 custom-scrollbar'}>
+                                className={'relative border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto space-y-2 custom-scrollbar'}>
                                 <input className={'w-full'} type="text" placeholder={'جستجو دسترسی'} onChange={(e) => search(e.target.value)} value={keyword}/>
                                 <div
-                                    className={`flex w-full text-center px-3 py-1 bg-gray-500 text-white text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
+                                    className={`sticky z-10 top-0 flex w-full text-center px-3 py-1 bg-gray-500 text-white text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
                                     <div className={'basis-1/2'}>سرویس</div>
                                     <div className={'basis-1/4'}>ماژول</div>
                                     <div className={'basis-1/4'}>فعالیت</div>

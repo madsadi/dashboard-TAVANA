@@ -86,7 +86,15 @@ export const servicePermissions = async () => {
     return users;
 }
 export const addOrRemovePermissionToRole = async (mode:string,body:any) => {
-    const users = await axios.post(`${USERS}/roles/${mode}-permission-to-role`,body,
+    let bodyToQuery:any={};
+    Object.keys(body).map((item:any)=>{
+        if (body[`${item}`]!==null && body[`${item}`]!==undefined){
+            bodyToQuery[item]=body[item]
+        }else{
+            bodyToQuery[item]=''
+        }
+    })
+    const users = await axios.post(`${USERS}/roles/${mode}-permission-${mode==='remove' ? 'from':'to'}-role`,bodyToQuery,
         {
             headers: {
                 'Accept':'*/*'

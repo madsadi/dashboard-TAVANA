@@ -5,7 +5,7 @@ import {
     ChevronDoubleLeftIcon,
     ChevronUpIcon, CheckIcon
 } from "@heroicons/react/20/solid";
-import React, {Dispatch, Fragment, useContext} from "react";
+import React, {Dispatch, Fragment, useContext, useEffect} from "react";
 import {apiCallToGetData} from "../../../api/online-trades-orders.api";
 import {Listbox, Transition} from "@headlessui/react";
 import {toast} from "react-toastify";
@@ -28,14 +28,17 @@ export default function TablePagination({
         setQuery(_query)
     }
 
+    useEffect(()=>{
+        queryUpdate('PageNumber',1)
+    },[query?.PageSize])
+
     return (
         <div className={'flex items-center mx-auto py-3 space-x-2 space-x-reverse'}>
             <div className="relative rounded">
                 <Listbox name={'PageSize'} value={query?.PageSize}
                          onChange={(e:any) => {
-                             console.log(e)
                              queryUpdate('PageSize', e);
-                             onSubmit(undefined,{...query, PageSize: e})
+                             onSubmit(undefined,{...query, PageNumber: 1, PageSize: e})
                          }}>
                     {({open}) => (
                         <div className="relative">
