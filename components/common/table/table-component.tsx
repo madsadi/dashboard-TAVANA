@@ -8,9 +8,9 @@ const TableComponent: React.FC<any> = (props) =>{
 
     const gridRef: any = useRef();
 
-    useEffect(() => {
-        gridRef?.current?.api?.setRowData(data)
-    }, [data])
+    // useEffect(() => {
+    //     gridRef?.current?.api?.setRowData(data)
+    // }, [data])
 
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
     const defaultColDef = useMemo(() => {
@@ -58,7 +58,7 @@ const TableComponent: React.FC<any> = (props) =>{
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
-                        rowData={[]}
+                        rowData={data}
                         enableRtl={true}
                         columnDefs={columnDefStructure}
                         onGridReady={onGridReady}

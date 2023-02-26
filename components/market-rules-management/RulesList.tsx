@@ -158,7 +158,7 @@ export default function RulesList() {
     }, [])
 
     return (
-        <MarketRulesContext.Provider value={{selectedRows, setData, dynamicOptions, onSubmit, query}}>
+        <MarketRulesContext.Provider value={{selectedRows,setSelectedRows, setData, dynamicOptions, onSubmit, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <SearchComponent query={query}
@@ -175,6 +175,7 @@ export default function RulesList() {
                                 rowId={['id']}
                                 rowSelection={'single'}
                                 masterDetail={true}
+                                selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 detailComponent={RulesExpressionDetail}
                 />
