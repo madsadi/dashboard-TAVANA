@@ -350,6 +350,20 @@ export const originEnum: any = [
         "title": "موبایل"
     }
 ]
+export const marketerTypeEnum: any =  [
+    {
+        "id": 1,
+        "title": "بازاریاب"
+    },
+    {
+        "id": 2,
+        "title": "معرف"
+    },
+    {
+        "id": 3,
+        "title": "هردو"
+    }
+]
 
 export const TypeOfBranches: any = [
     {

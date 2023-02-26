@@ -169,7 +169,7 @@ export default function InputComponent({
                                             className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption).find((item: any) => item.id === query?.[title])?.title}</span>
+                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption,name).find((item: any) => item.id === query?.[title])?.title}</span>
                                             </span>
                                             <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -186,7 +186,7 @@ export default function InputComponent({
                                         >
                                             <Listbox.Options
                                                 className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                {FindEnum(title,dynamicsOption).map((item: any) => (
+                                                {FindEnum(title,dynamicsOption,name).map((item: any) => (
                                                     <Listbox.Option
                                                         key={item.id}
                                                         className={({active}) =>

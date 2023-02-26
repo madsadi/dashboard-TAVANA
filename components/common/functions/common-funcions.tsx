@@ -3,7 +3,7 @@ import {
     activeStatus,
     category,
     Hours,
-    isActiveWithNoNull, isRequired,
+    isActiveWithNoNull, isRequired, marketerTypeEnum,
     Minutes,
     operators, Options, orderOrigin, orderStatus, orderTechnicalOrigin,
     OrderType, originEnum, sides, TypeOfBranches, validityType
@@ -36,7 +36,7 @@ export const dateRangeHandler = (selectedDayRange: any) => {
     }
 }
 
-export const FindEnum = (title:string,dynamicsOption:any) => {
+export const FindEnum = (title:string,dynamicsOption:any,label='') => {
     switch (title) {
         case 'variable':
             return dynamicsOption
@@ -58,6 +58,8 @@ export const FindEnum = (title:string,dynamicsOption:any) => {
             return orderStatus
         case 'ApplicationSource':
             return originEnum
+        case 'Type':
+            return marketerTypeEnum
         case 'ValidityType':
             return validityType
         case 'Side':
@@ -72,7 +74,11 @@ export const FindEnum = (title:string,dynamicsOption:any) => {
         case 'orderOrigin':
             return orderOrigin
         case 'type':
-            return TypeOfBranches
+            if (label === 'نوع بازاریاب'){
+                return marketerTypeEnum
+            }else{
+                return TypeOfBranches
+            }
         case 'isBourseCodeRequired':
         case 'isRequired':
             return isRequired

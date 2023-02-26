@@ -49,7 +49,7 @@ export const traderListOfForm = [
     { title: 'isActiveWithNoNull', name: 'فعال/غیرفعال', type: 'selectInput',initialValue:false },
 ]
 export const marketerListOfForm = [
-    { title: 'type', name: 'نوع بازاریاب', type: 'input',initialValue:'' },
+    { title: 'type', name: 'نوع بازاریاب', type: 'selectInput',initialValue:'' },
     { title: 'customerId', name: 'شناسه مشتری', type: 'input',initialValue:'' },
     { title: 'branchId', name: 'شناسه شعبه', type: 'input' ,initialValue:''},
 ]
