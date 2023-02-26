@@ -1,13 +1,14 @@
 import React, {useState, useMemo} from 'react';
+import dynamic from "next/dynamic";
+const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
+const TablePagination = dynamic(() => import('../../common/table/TablePagination'))
+const TableComponent = dynamic(() => import('../../common/table/table-component'))
+const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
-import TablePagination from "../../common/table/TablePagination";
 import {enTierNameEnum} from '../../../dictionary/Enums'
-import AccordionComponent from "../../common/components/AccordionComponent";
-import TableComponent from "../../common/table/table-component";
 import {toast} from "react-toastify";
 import {netflowClearingDateRangeSearch} from "../../../api/netflow.api";
-import SearchComponent from "../../common/components/Search.component";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, EnTierName: string, SettlementDelay: string }
 const initialValue = {

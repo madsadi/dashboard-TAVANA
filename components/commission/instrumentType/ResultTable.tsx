@@ -1,10 +1,11 @@
 import React, {createContext, useState} from 'react';
+import dynamic from "next/dynamic";
+const InstrumentTypeToolbar = dynamic(() => import('./InstrumentTypeToolbar'))
+const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
+const TableComponent = dynamic(() => import('../../common/table/table-component'))
+const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 import {commissionSearch} from "../../../api/commission.api";
 import {toast} from "react-toastify";
-import AccordionComponent from "../../common/components/AccordionComponent";
-import TableComponent from "../../common/table/table-component";
-import InstrumentTypeToolbar from "./InstrumentTypeToolbar";
-import SearchComponent from "../../common/components/Search.component";
 
 type initialType = { CommissionInstrumentTypeId: string, BourseTitle: string, InstrumentTypeTitle: string, InstrumentTypeDescription: string, SectorTitle: string, SubSectorTitle: string, Deleted: string }
 const initialValue = {

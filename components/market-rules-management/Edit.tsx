@@ -89,6 +89,8 @@ export default function Edit() {
             if (expressionQuery.variable?.displayName !== 'نماد') {
                 getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
             }
+        }else{
+            setValueOptions([])
         }
     }, [expressionQuery?.variable])
 
@@ -187,7 +189,7 @@ export default function Edit() {
                                         <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
                                         <div className="relative rounded">
                                             <Listbox name={'value'} value={expressionQuery?.value}
-                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e.id)?.title)}>
+                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e)?.title)}>
                                                 {({open}) => (
                                                     <div className="relative">
                                                         <Listbox.Button

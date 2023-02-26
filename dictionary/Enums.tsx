@@ -122,6 +122,16 @@ export const activeStatus:any[] = [
         "title": "همه"
     }
 ];
+export const isActiveWithNoNull:any[] = [
+    {
+        "id": true,
+        "title": "فعال"
+    },
+    {
+        "id": false,
+        "title": "غیر فعال"
+    }
+];
 export const category:any[] = [
     {title: 'فعال', id: 'GetAllActive'},
     {title: 'همه', id: 'GetAll'},

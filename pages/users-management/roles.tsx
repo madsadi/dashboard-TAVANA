@@ -1,12 +1,13 @@
 import React, {createContext, useMemo, useState} from "react";
-import AccordionComponent from "../../components/common/components/AccordionComponent";
-import TableComponent from "../../components/common/table/table-component";
-import SearchComponent from "../../components/common/components/Search.component";
-import TablePagination from "../../components/common/table/TablePagination";
+import dynamic from "next/dynamic";
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const RolesToolbar = dynamic(() => import('../../components/users-management/roles/RolesToolbar'))
+const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
+const RoleToggleButton = dynamic(() => import('../../components/users-management/roles/RoleToggleButton'))
 import {getRolePermission, getRoles} from "../../api/roles.api";
-import RolesToolbar from "../../components/users-management/roles/RolesToolbar";
 import {formatNumber} from "../../components/common/functions/common-funcions";
-import RoleToggleButton from "../../components/users-management/roles/RoleToggleButton";
 
 
 type initialType = { PageNumber: number, PageSize: number, Name: string, IsActive: any }
@@ -94,7 +95,7 @@ export default function Roles() {
     }, []);
 
     return (
-        <RolesContext.Provider value={{onSubmit,query,selectedRows}}>
+        <RolesContext.Provider value={{onSubmit,query,selectedRows,setSelectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
                     <SearchComponent query={query}
@@ -111,6 +112,7 @@ export default function Roles() {
                                 rowSelection={'single'}
                                 masterDetail={true}
                                 detailCellRendererParams={detailCellRendererParams}
+                                selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 suppressRowClickSelection={true}
                 />

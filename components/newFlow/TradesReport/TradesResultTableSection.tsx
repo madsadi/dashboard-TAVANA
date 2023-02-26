@@ -1,12 +1,13 @@
 import React, {useState, useMemo} from 'react';
+import dynamic from "next/dynamic";
+const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
+const TablePagination = dynamic(() => import('../../common/table/TablePagination'))
+const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
+const TableComponent = dynamic(() => import('../../common/table/table-component'))
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
-import TablePagination from "../../common/table/TablePagination";
-import AccordionComponent from "../../common/components/AccordionComponent";
-import TableComponent from "../../common/table/table-component";
 import {toast} from "react-toastify";
 import {netflowTradesSearch} from "../../../api/netflow.api";
-import SearchComponent from "../../common/components/Search.component";
 
 type initialType = {
     StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, StationCode: string, BourseCode: string, NationalCode: string, LastName: string,

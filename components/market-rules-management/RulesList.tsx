@@ -1,13 +1,14 @@
 import React, {createContext, useEffect, useState} from 'react';
+import dynamic from "next/dynamic";
+const RulesExpressionDetail = dynamic(() => import('./RulesExpressionDetail'))
+const TableComponent = dynamic(() => import('../common/table/table-component'))
+const RulesToolbar = dynamic(() => import('./RulesToolbar'))
+const AccordionComponent = dynamic(() => import('../common/components/AccordionComponent'))
+const SearchComponent = dynamic(() => import('../common/components/Search.component'))
+import {jalali} from "../common/functions/common-funcions";
 import {filedList, rulesList} from "../../api/market-rules-management.api";
 import {validate as uuidValidate} from 'uuid';
 import {toast} from "react-toastify";
-import RulesExpressionDetail from ".//RulesExpressionDetail";
-import {jalali} from "../common/functions/common-funcions";
-import TableComponent from "../common/table/table-component";
-import RulesToolbar from "./RulesToolbar";
-import AccordionComponent from "../common/components/AccordionComponent";
-import SearchComponent from "../common/components/Search.component";
 
 type initialType = { StartDate: string, EndDate: string, name: string, isActive: any }
 const initialValue = {

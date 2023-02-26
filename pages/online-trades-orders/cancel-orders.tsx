@@ -1,13 +1,14 @@
 import React, {useMemo, useState} from "react";
+import dynamic from "next/dynamic";
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
+const CancelOrdersToolbar = dynamic(() => import('../../components/online-orders/cancel-orders/CancelOrdersToolbar'))
 import {getCanceledOrders} from "../../api/online-trades-orders.api";
 import {toast} from "react-toastify";
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
-import TablePagination from "../../components/common/table/TablePagination";
-import AccordionComponent from "../../components/common/components/AccordionComponent";
-import TableComponent from "../../components/common/table/table-component";
-import CancelOrdersToolbar from "../../components/online-orders/cancel-orders/CancelOrdersToolbar";
-import SearchComponent from "../../components/common/components/Search.component";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -104,7 +105,6 @@ export default function CancelOrders() {
             headerName: 'خطا',
         }
     ]
-
     const [data, setData] = useState<any>([]);
     const [query, setQuery] = useState<initialType>(initialValue)
     const [totalCount, setTotalCount] = useState<any>(null)

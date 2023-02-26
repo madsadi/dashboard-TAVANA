@@ -1,7 +1,8 @@
 import InputComponent from "./InputComponent";
-import React, {useState} from "react";
+import React, {Dispatch, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
+type PropsType = {query:any,setQuery:Dispatch<any>,onSubmit:Function,listOfFilters:any,initialValue:any,dynamicOptions:any}
 const SearchComponent: React.FC<any> = (props) =>{
     const {query,setQuery,onSubmit,listOfFilters,initialValue,dynamicOptions=[]}=props
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({

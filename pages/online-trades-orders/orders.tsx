@@ -1,15 +1,16 @@
 import React, {createContext, useMemo, useState} from "react";
+import dynamic from "next/dynamic";
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
+const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'))
+const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'))
 import {getOrders} from "../../api/online-trades-orders.api";
 import {jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
-import CustomDetailComponent from "../../components/online-orders/orders/customDetailComponent";
 import {errors, OrderType} from "../../dictionary/Enums";
 import {toast} from "react-toastify";
-import TablePagination from "../../components/common/table/TablePagination";
-import AccordionComponent from "../../components/common/components/AccordionComponent";
-import TableComponent from "../../components/common/table/table-component";
-import OrdersToolbar from "../../components/online-orders/orders/OrdersToolbar";
-import SearchComponent from "../../components/common/components/Search.component";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, OrderType: number | undefined, ValidityType: number | undefined, OrderSide: number | undefined, OrderStatus: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
 const initialValue = {

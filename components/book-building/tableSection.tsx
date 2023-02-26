@@ -1,7 +1,8 @@
 import React, {createContext, useState} from 'react';
+import dynamic from 'next/dynamic'
 import {jalali} from "../common/functions/common-funcions";
-import ToolBar from "./ToolBar";
-import TableComponent from "../common/table/table-component";
+const ToolBar = dynamic(() => import('./ToolBar'))
+const TableComponent = dynamic(() => import('../common/table/table-component'))
 import AccordionComponent from "../common/components/AccordionComponent";
 import {getBookBuilding} from "../../api/book-building.api";
 import {toast} from "react-toastify";

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import AccordionComponent from "../../common/components/AccordionComponent";
-import TableComponent from "../../common/table/table-component";
-import InputComponent from "../../common/components/InputComponent";
+import dynamic from "next/dynamic";
+const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
+const TableComponent = dynamic(() => import('../../common/table/table-component'))
+const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import {commissionCategorySearch} from "../../../api/commission.api";
 import {toast} from "react-toastify";
 
@@ -131,34 +132,12 @@ export default function CategoryResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <form onSubmit={(e) => onSubmit(e, query)}>
-                    <div className="grid grid-cols-5 gap-4">
-                        {
-                            listOfFilters?.map((item: any) => {
-                                return <InputComponent key={item.title}
-                                                       query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       setQuery={setQuery}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
-                                />
-                            })
-                        }
-                    </div>
-                    <div className={'flex space-x-3 space-x-reverse float-left my-4'}>
-                        <button className={'button bg-red-600'} onClick={(e) => {
-                            e.preventDefault()
-                            setQuery(initialValue)
-                            onSubmit(e, initialValue)
-                        }}>
-                            لغو فیلتر ها
-                        </button>
-                        <button className={'button bg-lime-600'} type={'submit'}>
-                            جستجو
-                        </button>
-                    </div>
-                </form>
+                <SearchComponent query={query}
+                                 setQuery={setQuery}
+                                 listOfFilters={listOfFilters}
+                                 initialValue={initialValue}
+                                 onSubmit={onSubmit}
+                />
             </AccordionComponent>
             <TableComponent data={data}
                             columnDefStructure={columnDefStructure}

@@ -58,6 +58,7 @@ const TableComponent: React.FC<any> = (props) =>{
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
+                        rowData={[]}
                         enableRtl={true}
                         columnDefs={columnDefStructure}
                         onGridReady={onGridReady}
@@ -87,4 +88,4 @@ const TableComponent: React.FC<any> = (props) =>{
     )
 }
 
-export default React.memo(TableComponent);
+export default memo(TableComponent);

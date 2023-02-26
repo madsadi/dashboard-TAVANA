@@ -1,11 +1,12 @@
-import AccordionComponent from "../../components/common/components/AccordionComponent";
 import React, {useState} from "react";
-import TablePagination from "../../components/common/table/TablePagination";
+import dynamic from "next/dynamic";
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 import {useRouter} from "next/router";
 import {toast} from "react-toastify";
-import TableComponent from "../../components/common/table/table-component";
 import {getPortfolio} from "../../api/portfo.api";
-import SearchComponent from "../../components/common/components/Search.component";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
