@@ -1,12 +1,13 @@
 import React, {useState, useMemo} from 'react';
-import {formatNumber} from "../../common/functions/common-funcions";
-import TablePagination from "../../common/table/TablePagination";
-import AccordionComponent from "../../common/components/AccordionComponent";
+import dynamic from "next/dynamic";
+const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
+const TablePagination = dynamic(() => import('../../common/table/TablePagination'))
+const TableComponent = dynamic(() => import('../../common/table/table-component'))
+const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import moment from "jalali-moment";
-import TableComponent from "../../common/table/table-component";
+import {formatNumber} from "../../common/functions/common-funcions";
 import {toast} from "react-toastify";
 import {netflowRulesSearch} from "../../../api/netflow.api";
-import SearchComponent from "../../common/components/Search.component";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
 const initialValue = {

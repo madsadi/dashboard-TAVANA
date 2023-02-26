@@ -122,6 +122,16 @@ export const activeStatus:any[] = [
         "title": "همه"
     }
 ];
+export const isActiveWithNoNull:any[] = [
+    {
+        "id": true,
+        "title": "فعال"
+    },
+    {
+        "id": false,
+        "title": "غیر فعال"
+    }
+];
 export const category:any[] = [
     {title: 'فعال', id: 'GetAllActive'},
     {title: 'همه', id: 'GetAll'},
@@ -338,6 +348,20 @@ export const originEnum: any = [
     {
         "id": 2,
         "title": "موبایل"
+    }
+]
+export const marketerTypeEnum: any =  [
+    {
+        "id": 1,
+        "title": "بازاریاب"
+    },
+    {
+        "id": 2,
+        "title": "معرف"
+    },
+    {
+        "id": 3,
+        "title": "هردو"
     }
 ]
 

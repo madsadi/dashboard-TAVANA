@@ -1,12 +1,13 @@
 import React, {useEffect, useState, createContext} from "react";
-import AccordionComponent from "../../components/common/components/AccordionComponent";
-import TablePagination from "../../components/common/table/TablePagination";
-import Toolbar from "../../components/customer-management/Toolbar";
+import dynamic from 'next/dynamic'
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const Toolbar = dynamic(() => import('../../components/customer-management/Toolbar'))
+const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 import usePageStructure from "../../hooks/usePageStructure";
-import TableComponent from "../../components/common/table/table-component";
 import {customerManagement} from "../../api/customer-management.api";
 import {toast} from "react-toastify";
-import SearchComponent from "../../components/common/components/Search.component";
 
 export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
@@ -14,7 +15,6 @@ export default function HoldingsSubPages() {
     const [initialValue, setInitialValue] = useState<any>({})
     const [totalCount, setTotal] = useState<any>(0);
     const [selectedRows, setSelectedRows] = useState<any>([]);
-
     const [data, setData] = useState<any>([]);
     const {page} = usePageStructure()
 

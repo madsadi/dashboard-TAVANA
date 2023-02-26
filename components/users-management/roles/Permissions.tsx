@@ -10,7 +10,7 @@ import {RolesContext} from "../../../pages/users-management/roles";
 import {useFuzzy} from 'react-use-fuzzy';
 
 export default function Permissions() {
-    const {selectedRows} = useContext<any>(RolesContext)
+    const {selectedRows,setSelectedRows} = useContext<any>(RolesContext)
     const [modal, setModal] = useState(false)
     const [permissions, setPermissions] = useState<any>([])
     const [userPermissions, setUserPermissions] = useState<any>([])
@@ -64,7 +64,10 @@ export default function Permissions() {
             module: permission.module,
             action: permission.action
         })
-            .then(() => actionOfTransfer(permission.id))
+            .then(() => {
+                setSelectedRows([])
+                actionOfTransfer(permission.id)
+            })
             .catch((err) => {
                 toast.error(`${err?.response?.data?.error?.message}`)
             })

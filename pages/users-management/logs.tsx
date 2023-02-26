@@ -1,11 +1,12 @@
 import React, { useState} from "react";
+import dynamic from "next/dynamic";
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
+const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'))
 import {getUsersLogs} from "../../api/users.api";
-import CustomDetailComponent from "../../components/online-orders/orders/customDetailComponent";
 import { jalali} from "../../components/common/functions/common-funcions";
-import TablePagination from "../../components/common/table/TablePagination";
-import AccordionComponent from "../../components/common/components/AccordionComponent";
-import TableComponent from "../../components/common/table/table-component";
-import SearchComponent from "../../components/common/components/Search.component";
 
 type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string}
 const initialValue = {

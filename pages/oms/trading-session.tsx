@@ -1,11 +1,12 @@
 import React, {useState} from "react";
+import dynamic from "next/dynamic";
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
+const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 import moment from "jalali-moment";
 import {jalali} from "../../components/common/functions/common-funcions";
 import {tradingSession} from "../../api/oms";
-import TablePagination from "../../components/common/table/TablePagination";
-import AccordionComponent from "../../components/common/components/AccordionComponent";
-import TableComponent from "../../components/common/table/table-component";
-import SearchComponent from "../../components/common/components/Search.component";
 
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number }

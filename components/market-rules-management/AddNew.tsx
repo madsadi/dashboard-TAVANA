@@ -37,7 +37,7 @@ const extraListOfFilters = [
     {title: 'operator', name: 'عملگر', type: 'selectInput'},
 ]
 export default function AddNew() {
-    const {dynamicOptions,onSubmit,query:rulesQuery} = useContext<any>(MarketRulesContext)
+    const {dynamicOptions, onSubmit, query: rulesQuery} = useContext<any>(MarketRulesContext)
     const [modal, setModal] = useState<boolean>(false)
     const [query, setQuery] = useState<queryType>(initialQuery)
     const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
@@ -58,7 +58,7 @@ export default function AddNew() {
         if (key === 'InstrumentId') {
             _query.value = value
             setExpressionQuery(_query)
-        }else{
+        } else {
             if (key === 'variable') {
                 setExpression([...expression, value.name])
                 setFaExpression([...faExpression, value.displayName])
@@ -70,7 +70,7 @@ export default function AddNew() {
     }
 
     useEffect(() => {
-        expressionQueryUpdate('value','')
+        expressionQueryUpdate('value', '')
         if (expressionQuery.variable?.remoteUrl) {
             const getValueFromRemoteUrl = async (api: string) => {
                 await remoteUrl(api)
@@ -80,6 +80,8 @@ export default function AddNew() {
             if (expressionQuery.variable?.displayName !== 'نماد') {
                 getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
             }
+        }else{
+            setValueOptions([])
         }
     }, [expressionQuery?.variable])
 
@@ -91,7 +93,7 @@ export default function AddNew() {
         }
         await addRule(_query)
             .then(() => {
-                onSubmit(e,rulesQuery)
+                onSubmit(e, rulesQuery)
                 toast.success('با موفقیت انجام شد');
                 setModal(false)
             })
@@ -113,6 +115,8 @@ export default function AddNew() {
             setQuery(initialQuery)
         }
     }, [modal])
+
+    console.log(expressionQuery)
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>قانون جدید</button>
@@ -153,21 +157,21 @@ export default function AddNew() {
                                         <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
                                         <div className="relative rounded">
                                             <Listbox name={'value'} value={expressionQuery?.value}
-                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e.id)?.title)}>
+                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e)?.title)}>
                                                 {({open}) => (
                                                     <div className="relative">
                                                         <Listbox.Button
                                                             className="relative flex min-w-full cursor-pointer rounded-r-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
-                                                <span className="flex items-center">
-                                                    <span className="ml-2 block truncate text-sm">
-                                                        {expressionQuery?.value}
-                                                    </span>
-                                                </span>
+                                                                <span className="flex items-center">
+                                                                    <span className="ml-2 block truncate text-sm">
+                                                                        {expressionQuery?.value}
+                                                                    </span>
+                                                                </span>
                                                             <span
                                                                 className="pointer-events-none flex items-center mr-auto">
-                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
-                                                                 aria-hidden="false"/>
-                                            </span>
+                                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                                 aria-hidden="false"/>
+                                                            </span>
                                                         </Listbox.Button>
 
                                                         <Transition
@@ -198,9 +202,9 @@ export default function AddNew() {
                                                                         {({selected, active}) => (
                                                                             <>
                                                                                 <div className="flex items-center">
-                                                                    <span>
-                                                                        {item.title}
-                                                                    </span>
+                                                                                    <span>
+                                                                                        {item.title}
+                                                                                    </span>
                                                                                     {selected ? (
                                                                                         <span
                                                                                             className={classNames(

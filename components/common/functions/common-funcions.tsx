@@ -1,4 +1,13 @@
 import moment from "jalali-moment";
+import {
+    activeStatus,
+    category,
+    Hours,
+    isActiveWithNoNull, isRequired, marketerTypeEnum,
+    Minutes,
+    operators, Options, orderOrigin, orderStatus, orderTechnicalOrigin,
+    OrderType, originEnum, sides, TypeOfBranches, validityType
+} from "../../../dictionary/Enums";
 
 export const formatNumber = (params: any) => {
     if (typeof params.value ==='number'){
@@ -24,5 +33,56 @@ export const dateRangeHandler = (selectedDayRange: any) => {
         return ''
     } else if (!selectedDayRange.to) {
         return `از ${selectedDayRange.from.year}/${selectedDayRange.from.month}/${selectedDayRange.from.day} تا اطلاع ثانویه`
+    }
+}
+
+export const FindEnum = (title:string,dynamicsOption:any,label='') => {
+    switch (title) {
+        case 'variable':
+            return dynamicsOption
+        case 'api':
+            return category
+        case 'startHour':
+        case 'endHour':
+            return {hours: Hours, minutes: Minutes}
+        case 'isActiveWithNoNull':
+            return isActiveWithNoNull
+        case 'isActive':
+        case 'IsActive':
+            return activeStatus
+        case 'operator':
+            return operators
+        case 'OrderType':
+            return OrderType
+        case 'OrderStatus':
+            return orderStatus
+        case 'ApplicationSource':
+            return originEnum
+        case 'Type':
+            return marketerTypeEnum
+        case 'ValidityType':
+            return validityType
+        case 'Side':
+        case 'orderSide':
+        case 'OrderSide':
+            return sides
+        case 'Deleted':
+        case 'IsDeleted':
+            return Options
+        case 'orderTechnicalOrigin':
+            return orderTechnicalOrigin
+        case 'orderOrigin':
+            return orderOrigin
+        case 'type':
+            if (label === 'نوع بازاریاب'){
+                return marketerTypeEnum
+            }else{
+                return TypeOfBranches
+            }
+        case 'isBourseCodeRequired':
+        case 'isRequired':
+            return isRequired
+        default:
+            return []
     }
 }

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { jalali } from "../components/common/functions/common-funcions";
 import {
     agreementColumnDefStructure,
     branchesColumnDefStructure,
-    businessUnitColumnDefStructure, customerAgreementColumnDefStructure,
+    businessUnitColumnDefStructure,
+    customerAgreementColumnDefStructure,
     employeeColumnDefStructure,
     marketerColumnDefStructure,
     stationColumnDefStructure,
@@ -13,12 +13,20 @@ import {
 } from "../components/customer-management/filters-and-structures/table-structures";
 import {
     agreementListOfForm,
-    branchesListOfForm, businessUnitListOfForm, customerAgreementListOfForm, employeeListOfForm, marketerListOfForm,
+    branchesListOfForm,
+    businessUnitListOfForm,
+    customerAgreementListOfForm,
+    employeeListOfForm,
+    marketerListOfForm,
     stationListOfForm,
-    subsidiaryListOfForm, traderListOfForm
+    subsidiaryListOfForm,
+    traderListOfForm
 } from "../components/customer-management/filters-and-structures/modal-forms";
 import {
-    branchListOfFilters, businessUnitListOfFilters, customerAgreementListOfFilters, marketerListOfFilters,
+    branchListOfFilters,
+    businessUnitListOfFilters,
+    customerAgreementListOfFilters,
+    marketerListOfFilters,
     stationListOfFilters,
     subsidiaryListOfFilters
 } from "../components/customer-management/filters-and-structures/search-filters";

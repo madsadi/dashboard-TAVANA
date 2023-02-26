@@ -2,7 +2,6 @@ import Image from "next/image";
 import {jalali} from "../../common/functions/common-funcions";
 
 export default function UserDetailComponent({data}:{data:any}){
-    console.log(data)
 
     return(
         <div className={'m-5'}>

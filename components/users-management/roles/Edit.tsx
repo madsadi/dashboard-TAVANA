@@ -9,7 +9,7 @@ const roleInputs = [
     {title: 'name', name: 'عنوان', type: 'input'},
 ]
 export default function Edit() {
-    const {onSubmit, query: searchQuery, selectedRows} = useContext<any>(RolesContext)
+    const {onSubmit, query: searchQuery, selectedRows,setSelectedRows} = useContext<any>(RolesContext)
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
@@ -18,6 +18,7 @@ export default function Edit() {
         await updateRole({id: selectedRows[0].id, ...query})
             .then(() => {
                 setModal(false)
+                setSelectedRows([])
                 toast.success('با موفقیت انجام شد')
                 setQuery({})
                 onSubmit(e, searchQuery)
@@ -48,7 +49,7 @@ export default function Edit() {
             <Modal title={'ویرایش نقش'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
-                    <form className={'grid grid-cols-2 gap-4'}>
+                    <form className={'grid grid-cols-2 gap-4'} onSubmit={addNewHandler}>
                         {
                             roleInputs.map((item: any) => {
                                 return <InputComponent key={item.title}

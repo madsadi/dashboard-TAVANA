@@ -46,10 +46,10 @@ export const traderListOfForm = [
     { title: 'stationId', name: 'شناسه ایستگاه معاملاتی', type: 'input',initialValue:'' },
     { title: 'employeeId', name: 'شناسه کارمند', type: 'input',initialValue:'' },
     { title: 'title', name: 'عنوان معامله گر', type: 'input',initialValue:'' },
-    { title: 'isActive', name: 'فعال/غیرفعال', type: 'selectInput',initialValue:false },
+    { title: 'isActiveWithNoNull', name: 'فعال/غیرفعال', type: 'selectInput',initialValue:false },
 ]
 export const marketerListOfForm = [
-    { title: 'type', name: 'نوع بازاریاب', type: 'input',initialValue:'' },
+    { title: 'type', name: 'نوع بازاریاب', type: 'selectInput',initialValue:'' },
     { title: 'customerId', name: 'شناسه مشتری', type: 'input',initialValue:'' },
     { title: 'branchId', name: 'شناسه شعبه', type: 'input' ,initialValue:''},
 ]

@@ -1,19 +1,9 @@
 import React, {Dispatch, Fragment} from "react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
-import {dateRangeHandler} from "../functions/common-funcions";
+import {dateRangeHandler, FindEnum} from "../functions/common-funcions";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import {
-    activeStatus, category, Hours, isRequired, Minutes, operators,
-    Options,
-    orderOrigin, orderStatus,
-    orderTechnicalOrigin,
-    OrderType, originEnum,
-    sides,
-    TypeOfBranches,
-    validityType
-} from "../../../dictionary/Enums";
 import SymbolSearchSection from "./SymbolSearchSecion";
 import {DayValue} from "react-modern-calendar-datepicker";
 
@@ -84,50 +74,8 @@ export default function InputComponent({
         _query['StartDate'] = ''
         _query['EndDate'] = ''
         setQuery(_query)
+    }
 
-    }
-    const FindEnum = () => {
-        switch (title) {
-            case 'variable':
-                return dynamicsOption
-            case 'api':
-                return category
-            case 'startHour':
-            case 'endHour':
-                return {hours: Hours, minutes: Minutes}
-            case 'isActive':
-            case 'IsActive':
-                return activeStatus
-            case 'operator':
-                return operators
-            case 'OrderType':
-                return OrderType
-            case 'OrderStatus':
-                return orderStatus
-            case 'ApplicationSource':
-                return originEnum
-            case 'ValidityType':
-                return validityType
-            case 'Side':
-            case 'orderSide':
-            case 'OrderSide':
-                return sides
-            case 'Deleted':
-            case 'IsDeleted':
-                return Options
-            case 'orderTechnicalOrigin':
-                return orderTechnicalOrigin
-            case 'orderOrigin':
-                return orderOrigin
-            case 'type':
-                return TypeOfBranches
-            case 'isBourseCodeRequired':
-            case 'isRequired':
-                return isRequired
-            default:
-                return []
-        }
-    }
     const componentRender = () => {
         switch (type) {
             case "singleDate":
@@ -221,7 +169,7 @@ export default function InputComponent({
                                             className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{FindEnum().find((item: any) => item.id === query?.[title])?.title}</span>
+                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption,name).find((item: any) => item.id === query?.[title])?.title}</span>
                                             </span>
                                             <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -238,7 +186,7 @@ export default function InputComponent({
                                         >
                                             <Listbox.Options
                                                 className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                {FindEnum().map((item: any) => (
+                                                {FindEnum(title,dynamicsOption,name).map((item: any) => (
                                                     <Listbox.Option
                                                         key={item.id}
                                                         className={({active}) =>
@@ -294,7 +242,7 @@ export default function InputComponent({
                                                 className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{FindEnum().minutes.find((item: any) => item === query?.[title === 'startHour' ? 'startMinute':'endMinute'])}</span>
+                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption).minutes.find((item: any) => item === query?.[title === 'startHour' ? 'startMinute':'endMinute'])}</span>
                                             </span>
                                                 <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -311,7 +259,7 @@ export default function InputComponent({
                                             >
                                                 <Listbox.Options
                                                     className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                    {FindEnum().minutes.map((item: any) => (
+                                                    {FindEnum(title,dynamicsOption).minutes.map((item: any) => (
                                                         <Listbox.Option
                                                             key={item}
                                                             className={({active}) =>
@@ -364,7 +312,7 @@ export default function InputComponent({
                                                 className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{FindEnum().hours.find((item: any) => item === query?.[title])}</span>
+                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption).hours.find((item: any) => item === query?.[title])}</span>
                                             </span>
                                                 <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -381,7 +329,7 @@ export default function InputComponent({
                                             >
                                                 <Listbox.Options
                                                     className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                    {FindEnum().hours.map((item: any) => (
+                                                    {FindEnum(title,dynamicsOption).hours.map((item: any) => (
                                                         <Listbox.Option
                                                             key={item}
                                                             className={({active}) =>
@@ -424,7 +372,6 @@ export default function InputComponent({
                     </div>
 
                 )
-
             case "dynamicSelectInput":
                 return (
                     <div>
