@@ -1,6 +1,6 @@
 import {jalali} from "../../common/functions/common-funcions";
 import React from "react";
-import {TypeOfBranches} from "../../../dictionary/Enums";
+import {marketerTypeEnum, TypeOfBranches} from "../../../dictionary/Enums";
 
 export const branchesColumnDefStructure = [
     {
@@ -496,6 +496,17 @@ export const marketerColumnDefStructure = [
     {
         field: 'type',
         headerName: 'نوع بازاریاب',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                        <span>{marketerTypeEnum.find((item:any)=>item.id===rowData.data.type).title}</span>
+                    )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
     },
     {
         field: 'customerId',

@@ -39,7 +39,7 @@ const extraListOfFilters = [
 ]
 export default function Edit() {
     const [modal, setModal] = useState<boolean>(false)
-    const {selectedRows,dynamicOptions,onSubmit,query:rulesQuery} = useContext<any>(MarketRulesContext)
+    const {selectedRows,dynamicOptions,onSubmit,query:rulesQuery,setSelectedRows} = useContext<any>(MarketRulesContext)
     const [query, setQuery] = useState<queryType>(initialQuery)
     const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
         variable: null,
@@ -105,6 +105,7 @@ export default function Edit() {
             await updateRule(_query)
                 .then(() => {
                     onSubmit(e,rulesQuery)
+                    setSelectedRows([])
                     toast.success('با موفقیت انجام شد');
                     setModal(false)
                 })
