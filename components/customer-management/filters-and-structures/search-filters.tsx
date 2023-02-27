@@ -49,7 +49,7 @@ export const marketerListOfFilters = [
     { title: 'PageNumber', name: 'شماره صفحه', type: null },
     { title: 'PageSize', name: 'تعداد', type: null },
     { title: 'UniqueId', name: `شناسه`, type: 'input' },
-    { title: 'FirstName', name: `نام`, type: 'input', valueType: 'number' },
+    { title: 'FirstName', name: `نام`, type: 'input' },
     { title: 'LastName', name: `نام خانوادگی`, type: 'input' },
     { title: 'Mobile', name: `شماره موبایل`, type: 'input' },
     { title: 'Type', name: `نوع`, type: 'selectInput' },
