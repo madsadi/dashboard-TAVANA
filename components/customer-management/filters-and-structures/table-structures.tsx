@@ -1,6 +1,6 @@
 import {jalali} from "../../common/functions/common-funcions";
 import React from "react";
-import {marketerTypeEnum, TypeOfBranches} from "../../../dictionary/Enums";
+import {marketerTypeEnum, stationTypeEnum, TypeOfBranches} from "../../../dictionary/Enums";
 
 export const branchesColumnDefStructure = [
     {
@@ -360,14 +360,51 @@ export const stationColumnDefStructure = [
     {
         field: 'brokerCode',
         headerName: 'کد کارگزاری',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                        <span>{rowData.data.brokerCode}</span>
+                    )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
     },
     {
         field: 'code',
         headerName: 'کد ایستگاه معاملاتی',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                    <span>{rowData.data.code}</span>
+                )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
     },
     {
         field: 'title',
+        headerName: 'عنوان ایستگاه معاملاتی',
+    },
+    {
+        field: 'type',
         headerName: 'نوع ایستگاه معاملاتی',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                    <span>{stationTypeEnum.find((item:any)=>item.id===rowData.data.type).title}</span>
+                )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
     },
     {
         field: 'branchId',

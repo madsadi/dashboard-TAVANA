@@ -122,6 +122,44 @@ export const activeStatus:any[] = [
         "title": "همه"
     }
 ];
+export const statesEnums:any[] = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "WaitingToApproveByCustomer",
+        "title": "در انتظار تایید مشتری"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "ApprovedByCustomer",
+        "title": "تایید مشتری"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "WaitingForValidation",
+        "title": "در حال بررسی"
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "ApprovedByAdmin",
+        "title": "تایید ادمین"
+    },
+    {
+        "id": 5,
+        "code": 5,
+        "enTitle": "RejectedByAdmin",
+        "title": "لغو ادمین"
+    },
+    {
+        "id": 6,
+        "code": 6,
+        "enTitle": "Deactive",
+        "title": "غیرفعال"
+    }
+];
 export const isActiveWithNoNull:any[] = [
     {
         "id": true,
@@ -362,6 +400,26 @@ export const marketerTypeEnum: any =  [
     {
         "id": 3,
         "title": "هردو"
+    }
+]
+export const stationTypeEnum: any =  [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "PamStation",
+        "title": "ایستگاه معاملاتی فیزیکی"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "OnlineStation",
+        "title": "ایستگاه معاملاتی آنلاین"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "OMS",
+        "title": "OMS"
     }
 ]
 

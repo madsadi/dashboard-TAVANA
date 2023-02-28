@@ -1,10 +1,51 @@
 import Image from "next/image";
 import {jalali} from "../../common/functions/common-funcions";
+import React, {useEffect, useState} from "react";
+import TableComponent from "../../common/table/table-component";
+import {getUserRoles} from "../../../api/users.api";
 
 export default function UserDetailComponent({data}:{data:any}){
+    const [rowData,setRowData] = useState([])
+
+    const columnDefStructure: any = [
+        {
+            field: 'id',
+            headerName: 'شناسه نقش',
+        },
+        {
+            field: 'name',
+            headerName: 'عنوان نقش',
+        },
+        {
+            field: 'isActive',
+            headerName: 'وضعیت',
+            cellRendererSelector: (rowData: any) => {
+                const constValueGetter = () => {
+                    return (
+                        <span>{rowData.data.isActive ? 'فعال':'غیر فعال'}</span>
+                    )
+                };
+                const moodDetails = {
+                    component: constValueGetter,
+                };
+                return moodDetails;
+            },
+        }
+    ]
+
+
+    useEffect(()=>{
+        const fetchUserRoles = async () => {
+            await getUserRoles(data.userId)
+                .then((res) => {
+                    setRowData(res?.result?.roles)
+                })
+        }
+        fetchUserRoles()
+    },[])
 
     return(
-        <div className={'m-5'}>
+        <div className={'m-5 flex flex-col h-full pb-16'}>
             <div className={'mb-3 p-2 flex align-items-center bg-black-alpha-10 border-round-sm'}>
                 <div className={'h-6 w-6'}>
                     <Image width={48} height={48} src="/icons/avatar.svg" alt="avatar"/>
@@ -23,6 +64,10 @@ export default function UserDetailComponent({data}:{data:any}){
                     </div>
                 </div>
             </div>
+            <TableComponent data={rowData}
+                            columnDefStructure={columnDefStructure}
+                            rowId={['id']}
+            />
         </div>
     )
 }
