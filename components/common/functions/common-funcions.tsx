@@ -6,7 +6,7 @@ import {
     isActiveWithNoNull, isRequired, marketerTypeEnum,
     Minutes,
     operators, Options, orderOrigin, orderStatus, orderTechnicalOrigin,
-    OrderType, originEnum, sides, TypeOfBranches, validityType
+    OrderType, originEnum, sides, statesEnums, stationTypeEnum, TypeOfBranches, validityType
 } from "../../../dictionary/Enums";
 
 export const formatNumber = (params: any) => {
@@ -42,6 +42,10 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return dynamicsOption
         case 'api':
             return category
+        case 'adminApprovalDateTime':
+        case 'customerApprovalDateTime':
+        case 'endDateTime':
+        case 'startDateTime':
         case 'startHour':
         case 'endHour':
             return {hours: Hours, minutes: Minutes}
@@ -52,14 +56,15 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return activeStatus
         case 'operator':
             return operators
+        case 'State':
+        case 'state':
+            return statesEnums
         case 'OrderType':
             return OrderType
         case 'OrderStatus':
             return orderStatus
         case 'ApplicationSource':
             return originEnum
-        case 'Type':
-            return marketerTypeEnum
         case 'ValidityType':
             return validityType
         case 'Side':
@@ -74,13 +79,17 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
         case 'orderOrigin':
             return orderOrigin
         case 'type':
+        case 'Type':
             if (label === 'نوع بازاریاب'){
                 return marketerTypeEnum
+            }else if (label === 'نوع ایستگاه معاملاتی'){
+                return stationTypeEnum
             }else{
                 return TypeOfBranches
             }
         case 'isBourseCodeRequired':
         case 'isRequired':
+        case 'IsRequired':
             return isRequired
         default:
             return []

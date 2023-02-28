@@ -32,7 +32,7 @@ export const stationListOfFilters = [
     { title: 'Code', name: `کد ایستگاه`, type: 'input', valueType: 'number' },
     { title: 'BrokerTitle', name: `عنوان کارگزاری`, type: 'input' },
     { title: 'BranchTitle', name: `عنوان شعبه`, type: 'input' },
-    { title: 'Type', name: `نوع`, type: 'input', valueType: 'number' },
+    { title: 'Type', name: 'نوع ایستگاه معاملاتی', type: 'selectInput' },
     { title: 'date', name: ` تاریخ شروع و پایان `, type: 'date' },
 ]
 export const traderListOfFilters = [
@@ -49,7 +49,7 @@ export const marketerListOfFilters = [
     { title: 'PageNumber', name: 'شماره صفحه', type: null },
     { title: 'PageSize', name: 'تعداد', type: null },
     { title: 'UniqueId', name: `شناسه`, type: 'input' },
-    { title: 'FirstName', name: `نام`, type: 'input', valueType: 'number' },
+    { title: 'FirstName', name: `نام`, type: 'input' },
     { title: 'LastName', name: `نام خانوادگی`, type: 'input' },
     { title: 'Mobile', name: `شماره موبایل`, type: 'input' },
     { title: 'Type', name: `نوع`, type: 'selectInput' },
@@ -66,7 +66,7 @@ export const customerAgreementListOfFilters = [
     { title: 'SubsidiaryTitle', name: `عنوان شرکت`, type: 'input' },
     { title: 'BranchTitle', name: `عنوان شعبه`, type: 'input' },
     { title: 'RelatedBourseCodeTitle', name: `عنوان کد بورسی مرتبط`, type: 'input' },
-    { title: 'State', name: `وضعیت`, type: 'selectInput' },
+    { title: 'State', name: `وضعیت قرارداد`, type: 'selectInput' },
     { title: 'IsRequired', name: `ضروری`, type: 'selectInput' },
     { title: 'IsActive', name: `فعال / غیرفعال`, type: 'selectInput' },
     { title: 'IsDeleted', name: `وضعیت`, type: 'selectInput' },

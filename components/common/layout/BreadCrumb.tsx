@@ -49,6 +49,7 @@ export default function BreadCrumbComponent() {
         "agreement":'توافقنامه ها',
         "customerAgreement":'توافقنامه های بین طرفین',
         "roles":'نقش و دسترسی',
+        "registration":'گزارش ثبت نام',
     }
 
     useEffect(() => {

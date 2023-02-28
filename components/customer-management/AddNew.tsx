@@ -4,8 +4,9 @@ import usePageStructure from "../../hooks/usePageStructure";
 import { addNew } from "../../api/holdings";
 import InputComponent from "../common/components/InputComponent";
 import { toast } from "react-toastify";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
+import ExtraDateAndTimeInput from "./ExtraDateAndTimeInput";
 
 export default function AddNew() {
     const [modal, setModal] = useState(false)
@@ -18,10 +19,6 @@ export default function AddNew() {
     });
     let initialValue: any = {};
 
-    // useEffect(()=>{
-    //     setQuery(null)
-    // },[modal])
-
     useEffect(() => {
         if (page?.form) {
             (page?.form)?.map((item: any) => {
@@ -31,16 +28,28 @@ export default function AddNew() {
         }
     }, [page?.form])
 
-    const queryUpdate = (key: string, value: any) => {
-        let _query: any = { ...query };
-        _query[key] = value
-        setQuery(_query)
-    }
-
     const addNewHandler = async (e:any,query:any) => {
         e.preventDefault()
+        let _body :any={}
+        Object.keys(query).map((item:any)=>{
+            console.log(query[`${item}`])
+            if (typeof query[`${item}`] === 'object' && query[`${item}`]){
+                console.log(query[`${item}`])
+                let value = '';
+                Object.keys(query[`${item}`]).sort().map((child:any)=>{
+                    if (query[`${item}`][`${child}`]!==undefined && query[`${item}`][`${child}`]!==null && query[`${item}`][`${child}`]!==''){
+                        value = value + query[`${item}`][`${child}`]
+                    }
+                })
+                _body[`${item}`]= value
+            }else{
+                if (query[`${item}`]!==undefined && query[`${item}`]!==null && query[`${item}`]!==''){
+                    _body[`${item}`]=query[`${item}`]
+                }
+            }
+        })
         if (Object.values(query)?.every((item: any) => item!==undefined && item!==null && item!=='' )) {
-            await addNew(page.api, query)
+            await addNew(page.api, _body)
                 .then((res) => {
                     onSubmit(e,searchQuery)
                     setModal(false);
@@ -53,6 +62,7 @@ export default function AddNew() {
             toast.warning('تمام ورودی ها اجباری می باشد.')
         }
     }
+
 
     return (
         <>
@@ -72,10 +82,12 @@ export default function AddNew() {
                                                        valueType={item?.valueType}
                                                        type={item?.type}
                                                        selectedDayRange={selectedDayRange}
-                                                       setSelectedDayRange={setSelectedDayRange} />
+                                                       setSelectedDayRange={setSelectedDayRange}
+                                                       />
                             })
                         }
                     </form>
+                    {page?.api === 'customerAgreement' && <ExtraDateAndTimeInput setQuery={setQuery} query={query}/>}
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <button className="button bg-red-500"
                                 onClick={() => setModal(false)}>لغو

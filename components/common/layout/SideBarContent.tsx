@@ -36,6 +36,12 @@ export default function SideBarContent() {
                     label: 'ورود/خروج کاربران',
                     url: '/users-management/logs',
                     className: router.pathname === '/users-management/logs' ? 'sideBarActive' : '',
+                },
+                {
+                    id: 2.3,
+                    label: 'گزارش ثبت نام',
+                    url: '/users-management/registration',
+                    className: router.pathname === '/users-management/registration' ? 'sideBarActive' : '',
                 }
             ]
         },

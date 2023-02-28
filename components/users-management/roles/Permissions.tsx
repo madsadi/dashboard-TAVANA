@@ -65,7 +65,6 @@ export default function Permissions() {
             action: permission.action
         })
             .then(() => {
-                setSelectedRows([])
                 actionOfTransfer(permission.id)
             })
             .catch((err) => {
@@ -73,6 +72,11 @@ export default function Permissions() {
             })
     }
 
+    useEffect(()=>{
+        if (!modal){
+            setSelectedRows([])
+        }
+    },[modal])
     return (
         <>
             <button className="button bg-orange-500" onClick={openHandler}>ویرایش دسترسی های نقش</button>

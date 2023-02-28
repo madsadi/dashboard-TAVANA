@@ -116,7 +116,6 @@ export default function AddNew() {
         }
     }, [modal])
 
-    console.log(expressionQuery)
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>قانون جدید</button>
@@ -237,7 +236,7 @@ export default function AddNew() {
                                         setExpression([...expression, `\"${expressionQuery?.value}\"`])
                                         setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
                                     } else {
-                                        setExpression([...expression, expressionQuery?.value])
+                                        setExpression([...expression, valueOptions.length ? valueOptions.find((item:any)=>item.title === expressionQuery?.value).id:expressionQuery?.value])
                                         setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
                                     }
                                 }

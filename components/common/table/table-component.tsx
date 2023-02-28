@@ -53,7 +53,6 @@ const TableComponent: React.FC<any> = (props) =>{
     },[selectedRows.length])
 
     return(
-        <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
@@ -84,7 +83,6 @@ const TableComponent: React.FC<any> = (props) =>{
                     />
                 </div>
             </div>
-        </>
     )
 }
 

@@ -167,6 +167,7 @@ export default function Users() {
                                 rowSelection={'single'}
                                 masterDetail={true}
                                 detailComponent={UserDetailComponent}
+                                selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 suppressRowClickSelection={true}
                 />

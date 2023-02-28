@@ -42,7 +42,7 @@ export default function InputComponent({
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block'} htmlFor="rangeDate">تاریخ شروع و پایان</label>
+            <label className={'block'} htmlFor="rangeDate">{name}</label>
             <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
         </div>
     )

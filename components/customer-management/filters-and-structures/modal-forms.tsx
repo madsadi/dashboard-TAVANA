@@ -39,7 +39,7 @@ export const stationListOfForm = [
     { title: 'brokerCode', name: 'کد کارگزاری', type: 'input', valueType: 'number',initialValue:null },
     { title: 'code', name: 'کد ایستگاه معاملاتی', type: 'input', valueType: 'number',initialValue:null },
     { title: 'title', name: 'عنوان ایستگاه معاملاتی', type: 'input',initialValue:'' },
-    { title: 'type', name: 'نوع ایستگاه معاملاتی', type: 'input', valueType: 'number',initialValue:'' },
+    { title: 'type', name: 'نوع ایستگاه معاملاتی', type: 'selectInput',initialValue:null },
     { title: 'branchId', name: 'شناسه شعبه کارگزاری', type: 'input',initialValue:'' },
 ]
 export const traderListOfForm = [
@@ -68,10 +68,10 @@ export const customerAgreementListOfForm = [
     { title: 'agreementId', name: 'شناسه توافقنامه', type: 'input',initialValue:'' },
     { title: 'bourseCode', name: 'کدبورسی مشتری', type: 'input', valueType: 'number',initialValue:null },
     { title: 'tradeCode', name: 'کدمعاملاتی', type: 'input', valueType: 'number',initialValue:null },
-    { title: 'state', name: 'وضعیت', type: 'input',initialValue:'' },
+    { title: 'state', name: 'وضعیت قرارداد', type: 'selectInput',initialValue:null },
     { title: 'description', name: 'توضیحات', type: 'input',initialValue:'' },
-    { title: 'customerApprovalDateTime', name: 'زمان تائید مشتری', type: 'date',initialValue: ''},
-    { title: 'adminApprovalDateTime', name: 'زمان تائید امین', type: 'date',initialValue:'' },
-    { title: 'startDateTime', name: 'تاریخ شروع', type: 'date',initialValue:'' },
-    { title: 'endDateTime', name: 'تاریخ پایان', type: 'date',initialValue:'' },
+    { title: 'customerApprovalDateTime', name: 'زمان تائید مشتری', type: 'dateTimeInput',initialValue: null},
+    { title: 'adminApprovalDateTime', name: 'زمان تائید امین', type: 'dateTimeInput',initialValue:null },
+    { title: 'startDateTime', name: 'تاریخ شروع', type: 'dateTimeInput',initialValue:null },
+    { title: 'endDateTime', name: 'تاریخ پایان', type: 'dateTimeInput',initialValue:null },
 ]
