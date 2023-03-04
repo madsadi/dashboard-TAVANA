@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import commissionConfig from './commissionConfig'
+import userManagementConfig from './user-management.config'
 import _ from 'lodash';
 
 export const saveState = (state:object) => {
@@ -29,6 +30,7 @@ const store= configureStore({
     preloadedState: persistedState,
     reducer: {
         commissionConfig,
+        userManagementConfig,
     },
     devTools: process.env.NODE_ENV==='development'
 })

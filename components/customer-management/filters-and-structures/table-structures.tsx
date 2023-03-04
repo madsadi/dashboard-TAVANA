@@ -1,6 +1,6 @@
-import {jalali} from "../../common/functions/common-funcions";
 import React from "react";
 import {marketerTypeEnum, stationTypeEnum, TypeOfBranches} from "../../../dictionary/Enums";
+import DateCell from "../../common/table/DateCell";
 
 export const branchesColumnDefStructure = [
     {
@@ -17,8 +17,10 @@ export const branchesColumnDefStructure = [
         field: 'id',
         headerName: 'شناسه شعبه',
         cellRenderer: 'agGroupCellRenderer',
-        width: 500,
-        flex: 0
+    },
+    {
+        field: 'subsidiaryTitle',
+        headerName: 'عنوان شرکت',
     },
     {
         field: 'subsidiaryId',
@@ -77,36 +79,18 @@ export const branchesColumnDefStructure = [
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -159,36 +143,18 @@ export const employeeColumnDefStructure = [
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -208,7 +174,7 @@ export const subsidiaryColumnDefStructure = [
         headerName: 'شناسه شرکت',
     },
     {
-        field: 'sejamProfileId',
+        field: 'onlineRegistrationProfileId',
         headerName: 'شناسه ثبت نام شرکت',
     },
     {
@@ -216,43 +182,25 @@ export const subsidiaryColumnDefStructure = [
         headerName: 'عنوان شرکت',
     },
     {
-        field: 'subsidiaryTypeCode',
-        headerName: 'کد نوع شرکت',
+        field: 'subsidiaryTypeTitle',
+        headerName: 'عنوان نوع شرکت',
     },
     {
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -309,36 +257,18 @@ export const businessUnitColumnDefStructure = [
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -414,36 +344,18 @@ export const stationColumnDefStructure = [
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -482,36 +394,18 @@ export const traderColumnDefStructure = [
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -562,18 +456,12 @@ export const marketerColumnDefStructure = [
     }, {
         field: 'isActive',
         headerName: 'فعال/غیرفعال',
-    },
-    {
-        field: 'createDateTime',
-        headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             const ColourCellRenderer = (rowData: any) => {
                 return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+                    <div>
+                        {rowData.data.isActive ? 'فعال':'غیر فعال'}
+                    </div>)
             };
             const moodDetails = {
                 component: ColourCellRenderer,
@@ -582,21 +470,21 @@ export const marketerColumnDefStructure = [
         },
     },
     {
+        field: 'createDateTime',
+        headerName: 'تاریخ ایجاد',
+        cellRendererSelector: () => {
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
+            };
+        },
+    },
+    {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -653,36 +541,18 @@ export const agreementColumnDefStructure = [
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]
@@ -725,78 +595,52 @@ export const customerAgreementColumnDefStructure = [
     }, {
         field: 'customerApprovalDateTime',
         headerName: 'زمان تائید مشتری',
+        cellRendererSelector: () => {
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.customerApprovalDateTime}/>,
+            };
+        },
     }, {
         field: 'adminApprovalDateTime',
         headerName: 'زمان تائید امین',
+        cellRendererSelector: () => {
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.adminApprovalDateTime}/>,
+            };
+        },
     }, {
         field: 'startDateTime',
         headerName: 'تاریخ شروع',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.startDateTime ? jalali(rowData.data.startDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.startDateTime ? jalali(rowData.data.startDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.startDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }, {
         field: 'endDateTime',
         headerName: ' تاریخ پایان',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.endDateTime ? jalali(rowData.data.endDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.endDateTime ? jalali(rowData.data.endDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.endDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.createDateTime ? jalali(rowData.data.createDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     },
     {
         field: 'updateDateTime',
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <>
-                        <span>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).date : '-'}</span>
-                        <span
-                            className={'ml-4'}>{rowData.data.updateDateTime ? jalali(rowData.data.updateDateTime).time : '-'}</span>
-                    </>)
+            return {
+                component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
             };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
         },
     }
 ]

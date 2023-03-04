@@ -8,8 +8,11 @@ import {
 } from "../../../api/roles.api";
 import {RolesContext} from "../../../pages/users-management/roles";
 import {useFuzzy} from 'react-use-fuzzy';
+import {useDispatch, useSelector} from "react-redux";
+import {userDetail} from "../../../store/user-management.config";
 
 export default function Permissions() {
+    const {userDetail:userDetailValue} = useSelector((state:any)=>state.userManagementConfig)
     const {selectedRows,setSelectedRows} = useContext<any>(RolesContext)
     const [modal, setModal] = useState(false)
     const [permissions, setPermissions] = useState<any>([])
@@ -18,6 +21,7 @@ export default function Permissions() {
         keys: ['id', 'service', 'serviceTitle', 'module', 'moduleTitle', 'action', 'actionTitle'],
     });
 
+    const dispatch = useDispatch()
     useEffect(() => {
         const fetchAllRoles = async () => {
             await servicePermissions()
@@ -75,8 +79,10 @@ export default function Permissions() {
     useEffect(()=>{
         if (!modal){
             setSelectedRows([])
+            dispatch(userDetail(!userDetailValue))
         }
     },[modal])
+
     return (
         <>
             <button className="button bg-orange-500" onClick={openHandler}>ویرایش دسترسی های نقش</button>
@@ -134,18 +140,6 @@ export default function Permissions() {
                                 })}
                             </div>
                         </div>
-                    </div>
-                    <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    setModal(false)
-                                }}>
-                            لغو
-                        </button>
-                        <button type={"submit"} className="button bg-lime-600" onClick={() => setModal(false)}>
-                            تایید
-                        </button>
                     </div>
                 </div>
             </Modal>
