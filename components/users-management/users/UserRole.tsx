@@ -3,13 +3,17 @@ import React, {useContext, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {UsersContext} from "../../../pages/users-management/users";
 import {addUserRole, getActiveRoles, getUserRoles, removeUserRole} from "../../../api/users.api";
+import {useDispatch, useSelector} from "react-redux";
+import {userDetail} from "../../../store/user-management.config";
 
 export default function UserRole() {
+    const {userDetail:userDetailValue} = useSelector((state:any)=>state.userManagementConfig)
     const {selectedRows} = useContext<any>(UsersContext)
     const [modal, setModal] = useState(false)
     const [roles, setRoles] = useState<any>([])
     const [userRoles, setUserRoles] = useState<any>([])
 
+    const dispatch = useDispatch()
     useEffect(() => {
         const fetchAllRoles = async ()=>{
             await getActiveRoles()
@@ -64,6 +68,12 @@ export default function UserRole() {
                 toast.error(`${err?.response?.data?.error?.message}`)
             })
     }
+
+    useEffect(()=>{
+        if (!modal){
+            dispatch(userDetail(!userDetailValue))
+        }
+    },[modal])
     return (
         <>
             <button className="button bg-orange-500" onClick={openHandler}>مدریت نقش کاربر</button>
@@ -74,12 +84,12 @@ export default function UserRole() {
                         <div>
                             <h1 className={'text-center'}>نقش های کاربر</h1>
                             <div
-                                className={'grid grid-cols-2 md:grid-cols-3 gap-4 border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto'}>
+                                className={'border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto space-y-2 custom-scrollbar'}>
                                 {
                                     userRoles.map((role: any) => {
                                         return (
                                             <button key={role?.name} onClick={()=>removeRole(role?.id)}
-                                                 className={'text-center px-3 py-1 text-white text-sm cursor-pointer rounded-full h-fit bg-active'}>
+                                                    className={`flex w-full text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
                                                 {role?.name}
                                             </button>
                                         )
@@ -90,12 +100,12 @@ export default function UserRole() {
                         <div>
                             <h1 className={'text-center'}>کل نقش ها</h1>
                             <div
-                                className={'grid grid-cols-2 md:grid-cols-3 gap-4 border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto'}>
+                                className={'border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto space-y-2 custom-scrollbar'}>
                                 {
                                     roles.map((role: any) => {
                                         return (
                                             <button key={role.name} onClick={()=>addRole(role.id)} disabled={userRoles.find((item:any)=>item.id===role.id)}
-                                                 className={`text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 rounded-full h-fit`}>
+                                                    className={`flex w-full text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
                                                 {role?.name}
                                             </button>
                                         )
@@ -103,18 +113,6 @@ export default function UserRole() {
                                 }
                             </div>
                         </div>
-                    </div>
-                    <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    setModal(false)
-                                }}>
-                            لغو
-                        </button>
-                        <button type={"submit"} className="button bg-lime-600" onClick={() => setModal(false)}>
-                            تایید
-                        </button>
                     </div>
                 </div>
             </Modal>

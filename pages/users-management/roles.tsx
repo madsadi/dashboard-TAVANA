@@ -1,4 +1,4 @@
-import React, {createContext, useMemo, useState} from "react";
+import React, {createContext, useState} from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
@@ -6,8 +6,8 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 const RolesToolbar = dynamic(() => import('../../components/users-management/roles/RolesToolbar'))
 const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const RoleToggleButton = dynamic(() => import('../../components/users-management/roles/RoleToggleButton'))
-import {getRolePermission, getRoles} from "../../api/roles.api";
-import {formatNumber} from "../../components/common/functions/common-funcions";
+import { getRoles} from "../../api/roles.api";
+import RoleDetailComponent from "../../components/users-management/roles/RoleDetailComponent";
 
 
 type initialType = { PageNumber: number, PageSize: number, Name: string, IsActive: any }
@@ -68,32 +68,6 @@ export default function Roles() {
             .catch(() => setData([]))
     };
 
-    const detailCellRendererParams = useMemo(() => {
-        return {
-            detailGridOptions: {
-                enableRtl: true,
-                suppressRowTransform: true,
-                columnDefs: [
-                    { field: 'id', headerName: 'شناسه' },
-                    { field: 'serviceTitle', headerName: 'عنوان سرویس'},
-                    { field: 'moduleTitle', headerName: 'عنوان ماژول'},
-                    {field: 'actionTitle', headerName: 'عنوان عملیات'},
-                ],
-                defaultColDef: {
-                    resizable: true,
-                    sortable: true,
-                    flex: 1,
-                    valueFormatter: formatNumber
-                },
-            },
-            getDetailRowData: async (params: any) => {
-                await getRolePermission(params.data.id)
-                    .then((res)=>params.successCallback(res?.result))
-                    .catch(()=>params.successCallback([]))
-            },
-        };
-    }, []);
-
     return (
         <RolesContext.Provider value={{onSubmit,query,selectedRows,setSelectedRows}}>
             <div className={'flex flex-col h-full grow'}>
@@ -111,7 +85,7 @@ export default function Roles() {
                                 rowId={['id']}
                                 rowSelection={'single'}
                                 masterDetail={true}
-                                detailCellRendererParams={detailCellRendererParams}
+                                detailComponent={RoleDetailComponent}
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 suppressRowClickSelection={true}
