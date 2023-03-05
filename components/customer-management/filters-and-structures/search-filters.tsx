@@ -72,7 +72,7 @@ export const customerAgreementListOfFilters = [
     { title: 'IsDeleted', name: `وضعیت`, type: 'selectInput' },
     { title: 'date', name: ` تاریخ شروع و پایان `, type: 'date' },
 ]
-export const marketerContractListOfFilters = [
+export const contractListOfFilters = [
     { title: 'PageNumber', name: 'شماره صفحه', type: null },
     { title: 'PageSize', name: 'تعداد', type: null },
     { title: 'Title', name: `عنوان قرارداد بازاریابی`, type: 'input' },
@@ -81,5 +81,20 @@ export const marketerContractListOfFilters = [
     { title: 'CommissionCoefficientType', name: `نوع ضریب کارمزد`, type: 'input' },
     { title: 'IsActive', name: `وضعیت فعالیت`, type: 'selectInput' },
     { title: 'IsDeleted', name: `حذف شده؟`, type: 'selectInput' },
+    { title: 'date', name: ` تاریخ شروع و پایان `, type: 'date' },
+]
+export const marketerContractListOfFilters = [
+    { title: 'PageNumber', name: 'شماره صفحه', type: null },
+    { title: 'PageSize', name: 'تعداد', type: null },
+    { title: 'MarketerTypeTitle', name: `عنوان نوع بازاریاب `, type: 'input' },
+    { title: 'ContractTitle', name: `عنوان قرارداد`, type: 'input' },
+    { title: 'ContractNumber', name: `شماره قرارداد`, type: 'input' },
+    { title: 'MarketerUniqueId', name: `شناسه بازاریاب`, type: 'input' },
+    { title: 'MarketerUniqueId', name: `شناسه بازاریاب`, type: 'input' },
+    { title: 'SubsidiaryTitle', name: `عنوان شرکت`, type: 'input' },
+    { title: 'BranchTitle', name: `عنوان شعبه`, type: 'input' },
+    { title: 'IsActive', name: `وضعیت فعالیت`, type: 'selectInput' },
+    { title: 'IsDeleted', name: `حذف شده؟`, type: 'selectInput' },
+    { title: 'IsValid', name: `اعتبار دارد؟`, type: 'selectInput' },
     { title: 'date', name: ` تاریخ شروع و پایان `, type: 'date' },
 ]

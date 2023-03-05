@@ -38,7 +38,7 @@ export default function BreadCrumbComponent() {
         "portfo":'پرتفو',
         "live-portfo":'پرتفو لحضه ای',
         '[[...query]]':'تاریخچه',
-        "customer-management":'هلدینگ مالی',
+        "customer-management":'مدیریت مشتریان',
         "subsidiary":'زیر مجموعه ها',
         "branch":'شعب',
         "employee":'کارمندان',
@@ -51,6 +51,7 @@ export default function BreadCrumbComponent() {
         "roles":'نقش و دسترسی',
         "registration":'گزارش ثبت نام',
         "contract":'قرارداد بازاریابی',
+        "marketerContract":'قرارداد با بازاریاب',
     }
 
     useEffect(() => {

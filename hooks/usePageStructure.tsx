@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import {
     agreementColumnDefStructure,
     branchesColumnDefStructure,
-    businessUnitColumnDefStructure,
+    businessUnitColumnDefStructure, contractColumnDefStructure,
     customerAgreementColumnDefStructure,
     employeeColumnDefStructure,
     marketerColumnDefStructure, marketerContractColumnDefStructure,
@@ -14,7 +14,7 @@ import {
 import {
     agreementListOfForm,
     branchesListOfForm,
-    businessUnitListOfForm,
+    businessUnitListOfForm, contractListOfForm,
     customerAgreementListOfForm,
     employeeListOfForm, marketerContractListOfForm,
     marketerListOfForm,
@@ -24,7 +24,7 @@ import {
 } from "../components/customer-management/filters-and-structures/modal-forms";
 import {
     branchListOfFilters,
-    businessUnitListOfFilters,
+    businessUnitListOfFilters, contractListOfFilters,
     customerAgreementListOfFilters, marketerContractListOfFilters,
     marketerListOfFilters,
     stationListOfFilters,
@@ -139,8 +139,19 @@ export default function usePageStructure() {
                     setPage(
                         {
                             api: 'contract',
-                            columnsDefStructure: marketerContractColumnDefStructure,
+                            columnsDefStructure: contractColumnDefStructure,
                             searchFilter: 'قرارداد بازاریابی',
+                            form: contractListOfForm,
+                            listOfFilters: contractListOfFilters
+                        }
+                    )
+                    break;
+                case 'marketerContract':
+                    setPage(
+                        {
+                            api: 'marketerContract',
+                            columnsDefStructure: marketerContractColumnDefStructure,
+                            searchFilter: 'قرارداد با بازاریاب',
                             form: marketerContractListOfForm,
                             listOfFilters: marketerContractListOfFilters
                         }

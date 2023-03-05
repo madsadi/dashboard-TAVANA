@@ -3,7 +3,7 @@ import {
     activeStatus, CalculationBaseType,
     category,
     Hours,
-    isActiveWithNoNull, isRequired, marketerTypeEnum,
+    isActiveWithNoNull, isRequired, IsValidEnums, marketerTypeEnum,
     Minutes,
     operators, Options, orderOrigin, orderStatus, orderTechnicalOrigin,
     OrderType, originEnum, sides, statesEnums, stationTypeEnum, TypeOfBranches, validityType
@@ -61,6 +61,8 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return statesEnums
         case 'OrderType':
             return OrderType
+        case 'IsValid':
+            return IsValidEnums
         case 'OrderStatus':
             return orderStatus
         case 'ApplicationSource':

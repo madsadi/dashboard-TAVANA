@@ -489,7 +489,7 @@ export const marketerColumnDefStructure = [
         },
     }
 ]
-export const marketerContractColumnDefStructure = [
+export const contractColumnDefStructure = [
     {
         headerCheckboxSelection: true,
         checkboxSelection: true,
@@ -551,6 +551,127 @@ export const marketerContractColumnDefStructure = [
     {
         field: 'createDateTime',
         headerName: 'تاریخ تغییر رمز عبور',
+        cellRendererSelector: () => {
+            return {
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+            };
+        },
+    },
+    {
+        field: 'updateDateTime',
+        headerName: 'تاریخ ویرایش',
+        cellRendererSelector: () => {
+            return {
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+            };
+        },
+    }
+]
+export const marketerContractColumnDefStructure = [
+    {
+        headerCheckboxSelection: true,
+        checkboxSelection: true,
+        showDisabledCheckboxes: true,
+        headerCheckboxSelectionFilteredOnly: true,
+        resizable: false,
+        minWidth: 40,
+        maxWidth: 40,
+        flex: 0
+    },
+    {
+        field: 'contractNumber',
+        headerName: 'شماره قرارداد',
+    },
+    {
+        field: 'contractTitle',
+        headerName: 'عنوان قرارداد',
+    },
+    {
+        field: 'marketerTitle',
+        headerName: 'عنوان بازاریاب',
+    },
+    {
+        field: 'description',
+        headerName: 'توضیحات قرارداد',
+    },{
+        field: 'mobile',
+        headerName: 'تلفن بازاریاب',
+    },{
+        field: 'marketerTypeTitle',
+        headerName: 'نوع بازاریاب',
+    },{
+        field: 'subsidiaryTitle',
+        headerName: 'عنوان شرکت',
+    },{
+        field: 'branchTitle',
+        headerName: 'عنوان شعبه',
+    },
+    {
+        field: 'isDeleted',
+        headerName: 'وضعیت',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                    <span>{rowData.data.isDeleted ? 'حذف شده' : 'حذف نشده'}</span>
+                )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
+    },
+    {
+        field: 'isActive',
+        headerName: 'وضعیت فعالیت',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                    <span>{rowData.data.isActive ? 'فعال' : 'غیر فعال'}</span>
+                )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
+    },
+    {
+        field: 'isValid',
+        headerName: 'اعتبار دارد؟',
+        cellRendererSelector: () => {
+            const ColourCellRenderer = (rowData: any) => {
+                return (
+                    <span>{rowData.data['isValid'] ? 'معتبر' : 'نامعتبر'}</span>
+                )
+            };
+            const moodDetails = {
+                component: ColourCellRenderer,
+            }
+            return moodDetails;
+        },
+    },
+    {
+        field: 'contractStartDateTime',
+        headerName: 'زمان شروع قرارداد',
+        cellRendererSelector: () => {
+            return {
+                component: (rowData: any) => <DateCell date={rowData.data.contractStartDateTime}/>,
+            };
+        },
+    },
+    {
+        field: 'contractEndDateTime',
+        headerName: 'زمان پایان قرارداد',
+        cellRendererSelector: () => {
+            return {
+                component: (rowData: any) => <DateCell date={rowData.data.contractEndDateTime}/>,
+            };
+        },
+    },
+    {
+        field: 'createDateTime',
+        headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
                 component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
