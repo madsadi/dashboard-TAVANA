@@ -427,6 +427,20 @@ export const marketerTypeEnum: any =  [
         "title": "هردو"
     }
 ]
+export const CalculationBaseType: any =  [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "Turnover",
+        "title": "گردش"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "Commission",
+        "title": "کارمزد"
+    }
+]
 export const stationTypeEnum: any =  [
     {
         "id": 1,

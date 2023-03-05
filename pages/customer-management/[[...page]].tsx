@@ -8,6 +8,7 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 import usePageStructure from "../../hooks/usePageStructure";
 import {customerManagement} from "../../api/customer-management.api";
 import {toast} from "react-toastify";
+import ContractDetail from "../../components/customer-management/ContractDetail";
 
 export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
@@ -36,13 +37,6 @@ export default function HoldingsSubPages() {
 
     const onSubmit = async (event: any, query: any) => {
         event?.preventDefault()
-        const bodyConstructor = (query: any) => {
-            let body: any = {}
-            Object.keys(query).map((item: any) => {
-                body[item] = query[item]
-            })
-            return body
-        }
 
         await customerManagement(page?.api, query)
             .then((res) => {
@@ -70,7 +64,7 @@ export default function HoldingsSubPages() {
                 <TableComponent data={data}
                                 columnDefStructure={page?.columnsDefStructure}
                                 rowId={['id']}
-                                detailComponent={HoldingsBranchesDetail}
+                                detailComponent={page?.api === 'contract' ? ContractDetail:HoldingsBranchesDetail}
                                 rowSelection={'single'}
                                 masterDetail={true}
                                 setSelectedRows={setSelectedRows}

@@ -75,3 +75,9 @@ export const customerAgreementListOfForm = [
     { title: 'startDateTime', name: 'تاریخ شروع', type: 'dateTimeInput',initialValue:null },
     { title: 'endDateTime', name: 'تاریخ پایان', type: 'dateTimeInput',initialValue:null },
 ]
+export const marketerContractListOfForm = [
+    { title: 'title', name: 'عنوان', type: 'input',initialValue:'' },
+    { title: 'type', name: 'نوع قرارداد بازاریابی', type: 'selectInput',initialValue:null },
+    { title: 'calculationBase', name: 'روش محاسبه کارمزد', type: 'selectInput',initialValue:null },
+    { title: 'commissionCoefficientType', name: 'نوع ضریب کارمزد', type: 'input',initialValue:'' },
+]

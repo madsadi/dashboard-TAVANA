@@ -94,12 +94,18 @@ export default function SideBarContent() {
                 },
                 {
                     id: 3.8,
+                    label: 'قرارداد بازاریابی',
+                    url: '/customer-management/contract',
+                    className: router.pathname === '/customer-management/contract' ? 'sideBarActive' : '',
+                },
+                {
+                    id: 3.9,
                     label: 'توافقنامه ها',
                     url: '/customer-management/agreement',
                     className: router.pathname === '/customer-management/agreement' ? 'sideBarActive' : '',
                 },
                 {
-                    id: 3.9,
+                    id: 3.91,
                     label: 'توافقنامه های بین طرفین',
                     url: '/customer-management/customerAgreement',
                     className: router.pathname === '/customer-management/customerAgreement' ? 'sideBarActive' : '',

@@ -72,3 +72,14 @@ export const customerAgreementListOfFilters = [
     { title: 'IsDeleted', name: `وضعیت`, type: 'selectInput' },
     { title: 'date', name: ` تاریخ شروع و پایان `, type: 'date' },
 ]
+export const marketerContractListOfFilters = [
+    { title: 'PageNumber', name: 'شماره صفحه', type: null },
+    { title: 'PageSize', name: 'تعداد', type: null },
+    { title: 'Title', name: `عنوان قرارداد بازاریابی`, type: 'input' },
+    { title: 'Type', name: `نوع قرارداد بازاریابی`, type: 'selectInput' },
+    { title: 'CalculationBase', name: `روش محاسبه کارمزد`, type: 'selectInput' },
+    { title: 'CommissionCoefficientType', name: `نوع ضریب کارمزد`, type: 'input' },
+    { title: 'IsActive', name: `وضعیت فعالیت`, type: 'selectInput' },
+    { title: 'IsDeleted', name: `حذف شده؟`, type: 'selectInput' },
+    { title: 'date', name: ` تاریخ شروع و پایان `, type: 'date' },
+]
