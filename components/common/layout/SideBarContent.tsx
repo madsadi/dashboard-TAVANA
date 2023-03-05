@@ -99,6 +99,12 @@ export default function SideBarContent() {
                     className: router.pathname === '/customer-management/contract' ? 'sideBarActive' : '',
                 },
                 {
+                    id: 3.81,
+                    label: 'قرارداد با بازاریاب',
+                    url: '/customer-management/marketerContract',
+                    className: router.pathname === '/customer-management/marketerContract' ? 'sideBarActive' : '',
+                },
+                {
                     id: 3.9,
                     label: 'توافقنامه ها',
                     url: '/customer-management/agreement',

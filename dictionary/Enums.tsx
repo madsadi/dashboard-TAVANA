@@ -31,6 +31,21 @@ export const OrderType: any = [
     }
 ]
 
+export const IsValidEnums: any =[
+    {
+        "id": true,
+        "title": "معتبر"
+    },
+    {
+        "id": false,
+        "title": "نامعتبر"
+    },
+    {
+        "id": null,
+        "title": ""
+    }
+];
+
 export const Hours:any[] = [
     "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
 export const Minutes:any[] = [
@@ -91,44 +106,6 @@ export const Options:any[] = [
     },
     {
         "id": null,
-        "title": "همه"
-    }
-];
-export const Booleans:any[] = [
-    {
-        "id": true,
-        "title": "حذف شده"
-    },
-    {
-        "id": false,
-        "title": "حذف نشده"
-    },
-    {
-        "id": null,
-        "title": "همه"
-    }
-];
-export const Required:any[] = [
-    {
-        "id": true,
-        "title": "اجباری است"
-    },
-    {
-        "id": false,
-        "title": "اجباری نیست"
-    }
-];
-export const ActivityStatus:any[] = [
-    {
-        "id": 1,
-        "title": "فعال"
-    },
-    {
-        "id": 2,
-        "title": "غیر فعال"
-    },
-    {
-        "id": 3,
         "title": "همه"
     }
 ];
