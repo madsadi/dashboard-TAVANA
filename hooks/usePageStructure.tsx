@@ -6,7 +6,7 @@ import {
     businessUnitColumnDefStructure,
     customerAgreementColumnDefStructure,
     employeeColumnDefStructure,
-    marketerColumnDefStructure,
+    marketerColumnDefStructure, marketerContractColumnDefStructure,
     stationColumnDefStructure,
     subsidiaryColumnDefStructure,
     traderColumnDefStructure
@@ -16,7 +16,7 @@ import {
     branchesListOfForm,
     businessUnitListOfForm,
     customerAgreementListOfForm,
-    employeeListOfForm,
+    employeeListOfForm, marketerContractListOfForm,
     marketerListOfForm,
     stationListOfForm,
     subsidiaryListOfForm,
@@ -25,14 +25,14 @@ import {
 import {
     branchListOfFilters,
     businessUnitListOfFilters,
-    customerAgreementListOfFilters,
+    customerAgreementListOfFilters, marketerContractListOfFilters,
     marketerListOfFilters,
     stationListOfFilters,
     subsidiaryListOfFilters
 } from "../components/customer-management/filters-and-structures/search-filters";
 
 export default function usePageStructure() {
-    const [page, setPage] = useState<any>(null);
+    const [page, setPage] = useState<any>({api:'',columnDefStructure: [],searchFilter:'',form:[],listOfFilters:[]});
     const router = useRouter()
 
     useEffect(() => {
@@ -132,6 +132,17 @@ export default function usePageStructure() {
                             searchFilter: 'توافقنامه های بین طرفین',
                             form: customerAgreementListOfForm,
                             listOfFilters: customerAgreementListOfFilters
+                        }
+                    )
+                    break;
+                case 'contract':
+                    setPage(
+                        {
+                            api: 'contract',
+                            columnsDefStructure: marketerContractColumnDefStructure,
+                            searchFilter: 'قرارداد بازاریابی',
+                            form: marketerContractListOfForm,
+                            listOfFilters: marketerContractListOfFilters
                         }
                     )
                     break;

@@ -32,7 +32,7 @@ function MyApp({Component, pageProps}: AppProps) {
         userStore: typeof window !== 'undefined' ? new WebStorageStateStore({ store: window.localStorage}): undefined,
         authority: `${authorityPath}`,
         client_id: `${clientId}`,
-        scope: 'openid IdentityServerApi',
+        scope: 'openid IdentityServerApi customerinfo',
         response_type: 'code',
         redirect_uri: `${clientURL}/authentication/callback`,
         post_logout_redirect_uri: `${clientURL}`, // Auth0 uses returnTo

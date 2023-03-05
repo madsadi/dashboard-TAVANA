@@ -22,3 +22,17 @@ export const customerManagement = async (api: string, body: any) => {
     return list
 }
 
+export const contractUpdateStatus = async (body: any) => {
+    const list = await axios.put(`${MARKET_RULES_MANAGEMENT}/request/contract/UpdateActivationStatus`,body,
+        {
+            headers: {
+                'Accept': '*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return list
+}
+

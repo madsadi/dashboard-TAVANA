@@ -1,6 +1,6 @@
 import moment from "jalali-moment";
 import {
-    activeStatus,
+    activeStatus, CalculationBaseType,
     category,
     Hours,
     isActiveWithNoNull, isRequired, marketerTypeEnum,
@@ -78,9 +78,12 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return orderTechnicalOrigin
         case 'orderOrigin':
             return orderOrigin
+        case 'CalculationBase':
+        case 'calculationBase':
+            return CalculationBaseType
         case 'type':
         case 'Type':
-            if (label === 'نوع بازاریاب'){
+            if (label === 'نوع بازاریاب' || label === 'نوع قرارداد بازاریابی'){
                 return marketerTypeEnum
             }else if (label === 'نوع ایستگاه معاملاتی'){
                 return stationTypeEnum
