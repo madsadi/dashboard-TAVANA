@@ -2,14 +2,14 @@ import {useState} from "react";
 import {toast} from "react-toastify";
 import {contractUpdateStatus} from "../../api/customer-management.api";
 
-export default function ToggleButton(props: { data: { isActive: boolean,id:string } }) {
+export default function ToggleButton(props: { api:string,data: { isActive: boolean,id:string } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
 
     const changeStatus = async ()=>{
-        await contractUpdateStatus({id:props.data.id,isActive:!isChecked})
-            .then(()=> {
+        await contractUpdateStatus(props.api,{id:props.data.id,isActive:!isChecked})
+            .then((res)=> {
                 setIsChecked(!isChecked);
-                toast.success('وضعیت کاربر عوض شد')
+                toast.success(`${res?.result?.message}`)
             })
             .catch((err)=>toast.error(`${err?.response?.data?.error?.message}`))
     }

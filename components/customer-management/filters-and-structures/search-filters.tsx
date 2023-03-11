@@ -48,11 +48,11 @@ export const traderListOfFilters = [
 export const marketerListOfFilters = [
     { title: 'PageNumber', name: 'شماره صفحه', type: null },
     { title: 'PageSize', name: 'تعداد', type: null },
-    { title: 'UniqueId', name: `شناسه`, type: 'input' },
+    { title: 'UniqueId', name: `شناسه بازاریاب`, type: 'input' },
     { title: 'FirstName', name: `نام`, type: 'input' },
     { title: 'LastName', name: `نام خانوادگی`, type: 'input' },
     { title: 'Mobile', name: `شماره موبایل`, type: 'input' },
-    { title: 'Type', name: `نوع`, type: 'selectInput' },
+    { title: 'Type', name: `نوع بازاریاب`, type: 'selectInput' },
     { title: 'SubsidiaryId', name: `شناسه شرکت`, type: 'input' },
     { title: 'BranchId', name: `شناسه شعبه`, type: 'input' },
     { title: 'IsActive', name: `وضعیت`, type: 'selectInput' },

@@ -342,6 +342,10 @@ export const stationColumnDefStructure = [
         headerName: 'شناسه شعبه کارگزاری',
     },
     {
+        field: 'branchTitle',
+        headerName: 'عنوان شعبه کارگزاری',
+    },
+    {
         field: 'createDateTime',
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
@@ -458,16 +462,7 @@ export const marketerColumnDefStructure = [
         field: 'isActive',
         headerName: 'فعال/غیرفعال',
         cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <div>
-                        {rowData.data.isActive ? 'فعال' : 'غیر فعال'}
-                    </div>)
-            };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
+            return {component: (rowData:any)=><ToggleButton data={{isActive:rowData.data.isActive,id:rowData.data.id}} api={'marketer'}/>};
         },
     },
     {
@@ -536,7 +531,7 @@ export const contractColumnDefStructure = [
         field: 'isActive',
         headerName: 'وضعیت فعالیت',
         cellRendererSelector: () => {
-            return {component: ToggleButton};
+            return {component: (rowData:any)=><ToggleButton data={{isActive:rowData.data.isActive,id:rowData.data.id}} api={'contract'}/>};
         },
     },
     {

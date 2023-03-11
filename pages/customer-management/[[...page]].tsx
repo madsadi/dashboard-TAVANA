@@ -1,4 +1,4 @@
-import React, {useEffect, useState, createContext} from "react";
+import React, {useEffect, useState, createContext, useMemo} from "react";
 import dynamic from 'next/dynamic'
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const Toolbar = dynamic(() => import('../../components/customer-management/Toolbar'))
@@ -8,7 +8,7 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 import usePageStructure from "../../hooks/usePageStructure";
 import {customerManagement} from "../../api/customer-management.api";
 import {toast} from "react-toastify";
-import ContractDetail from "../../components/customer-management/ContractDetail";
+import DetailComponent from "../../components/customer-management/Detail.component";
 
 export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
@@ -64,7 +64,7 @@ export default function HoldingsSubPages() {
                 <TableComponent data={data}
                                 columnDefStructure={page?.columnsDefStructure}
                                 rowId={['id']}
-                                detailComponent={page?.api === 'contract' ? ContractDetail:HoldingsBranchesDetail}
+                                detailComponent={DetailComponent}
                                 rowSelection={'single'}
                                 masterDetail={true}
                                 setSelectedRows={setSelectedRows}
@@ -78,13 +78,4 @@ export default function HoldingsSubPages() {
             </div>
         </CustomerManagement.Provider>
     )
-}
-
-export const HoldingsBranchesDetail = ({data}: { data: any }) => {
-    return (<div className={'p-5'}>
-        شناسه آدرس:
-        <span className={'mx-2'}>
-            {data?.address?.id}
-        </span>
-    </div>)
 }

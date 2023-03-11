@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState} from "react";
 import TableComponent from "../common/table/table-component";
 import DateCell from "../common/table/DateCell";
+import usePageStructure from "../../hooks/usePageStructure";
 
-export default function ContractDetail({data}:{data:any}){
+export default function DetailComponent({data}: { data: any }) {
+    const [rowData, setRowData] = useState<any>([])
     const columnDefStructure: any = [
         {
             field: 'id',
@@ -47,12 +49,25 @@ export default function ContractDetail({data}:{data:any}){
             },
         }
     ]
+    const {page} = usePageStructure()
 
-    console.log(data)
-    return(
-        <TableComponent data={data}
-                        columnDefStructure={columnDefStructure}
-                        rowId={['id']}
+    const component: any = {
+        'branch': <div className={'p-5'}>
+            شناسه آدرس:
+            <span className={'mx-2'}>
+                            {data?.address?.id}
+                        </span>
+        </div>,
+        'contract': <TableComponent data={[data]}
+                                    columnDefStructure={columnDefStructure}
+                                    rowId={['id']}
         />
+
+    }
+
+    return (
+        <div className="flex flex-col h-full grow m-5 bg-white pb-20">
+            {component?.[page?.api]}
+        </div>
     )
 }
