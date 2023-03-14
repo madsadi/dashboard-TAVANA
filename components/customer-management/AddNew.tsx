@@ -32,9 +32,7 @@ export default function AddNew() {
         e.preventDefault()
         let _body :any={}
         Object.keys(query).map((item:any)=>{
-            console.log(query[`${item}`])
             if (typeof query[`${item}`] === 'object' && query[`${item}`]){
-                console.log(query[`${item}`])
                 let value = '';
                 Object.keys(query[`${item}`]).sort().map((child:any)=>{
                     if (query[`${item}`][`${child}`]!==undefined && query[`${item}`][`${child}`]!==null && query[`${item}`][`${child}`]!==''){
@@ -52,12 +50,12 @@ export default function AddNew() {
             await addNew(page.api, _body)
                 .then((res) => {
                     onSubmit(e,searchQuery)
+                    setQuery(initialValue)
                     setModal(false);
                 })
                 .catch((err) => {
                     toast.error(`${err?.response?.data?.error?.message}`)
                 })
-            setQuery(initialValue)
         } else {
             toast.warning('تمام ورودی ها اجباری می باشد.')
         }
