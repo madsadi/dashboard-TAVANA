@@ -16,7 +16,7 @@ export const branchesListOfForm = [
     { title: 'type', name: 'نوع شعبه', type: 'selectInput',initialValue:null },
 ]
 export const subsidiaryListOfForm = [
-    { title: 'sejamProfileId', name: 'شناسه ثبت نام شرکت', type: 'input' ,initialValue:''},
+    { title: 'onlineRegistrationProfileId', name: 'شناسه ثبت نام شرکت', type: 'input' ,initialValue:''},
     { title: 'title', name: 'عنوان شرکت', type: 'input' ,initialValue:''},
     { title: 'subsidiaryTypeCode', name: 'کد نوع شرکت', type: 'input', valueType: 'number',initialValue:null },
 ]
