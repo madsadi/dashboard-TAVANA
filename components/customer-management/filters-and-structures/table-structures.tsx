@@ -304,6 +304,10 @@ export const stationColumnDefStructure = [
         },
     },
     {
+        field: 'brokerTitle',
+        headerName: 'نام کارگزاری',
+    },
+    {
         field: 'code',
         headerName: 'کد ایستگاه معاملاتی',
         cellRendererSelector: () => {
