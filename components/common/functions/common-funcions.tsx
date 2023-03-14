@@ -6,7 +6,7 @@ import {
     isActiveWithNoNull, isRequired, IsValidEnums, marketerTypeEnum,
     Minutes,
     operators, Options, orderOrigin, orderStatus, orderTechnicalOrigin,
-    OrderType, originEnum, sides, statesEnums, stationTypeEnum, TypeOfBranches, validityType
+    OrderType, originEnum, sides, statesEnums, stationTypeEnum, subsidiaryType, TypeOfBranches, validityType
 } from "../../../dictionary/Enums";
 
 export const formatNumber = (params: any) => {
@@ -80,6 +80,8 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return orderTechnicalOrigin
         case 'orderOrigin':
             return orderOrigin
+        case 'subsidiaryTypeCode':
+            return subsidiaryType
         case 'CalculationBase':
         case 'calculationBase':
             return CalculationBaseType

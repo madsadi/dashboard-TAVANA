@@ -39,7 +39,7 @@ export default function BreadCrumbComponent() {
         "live-portfo":'پرتفو لحضه ای',
         '[[...query]]':'تاریخچه',
         "customer-management":'مدیریت مشتریان',
-        "subsidiary":'زیر مجموعه ها',
+        "subsidiary":'شرکت ها',
         "branch":'شعب',
         "employee":'کارمندان',
         "businessUnit":'واحده کاری',
