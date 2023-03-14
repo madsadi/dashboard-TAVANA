@@ -55,7 +55,6 @@ export default function Edit() {
             })
             .catch((err: any) => {
                 toast.error(`${err?.response?.data?.error?.message}`)
-                setModal(false);
             })
     }
 

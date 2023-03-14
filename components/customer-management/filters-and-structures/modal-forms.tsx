@@ -18,7 +18,7 @@ export const branchesListOfForm = [
 export const subsidiaryListOfForm = [
     { title: 'onlineRegistrationProfileId', name: 'شناسه ثبت نام شرکت', type: 'input' ,initialValue:''},
     { title: 'title', name: 'عنوان شرکت', type: 'input' ,initialValue:''},
-    { title: 'subsidiaryTypeCode', name: 'کد نوع شرکت', type: 'input', valueType: 'number',initialValue:null },
+    { title: 'subsidiaryTypeCode', name: 'کد نوع شرکت', type: 'selectInput',initialValue:null },
 ]
 export const employeeListOfForm = [
     { title: 'firstName', name: 'نام', type: 'input',initialValue:'' },
