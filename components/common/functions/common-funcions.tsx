@@ -1,12 +1,28 @@
 import moment from "jalali-moment";
 import {
-    activeStatus, CalculationBaseType,
+    activeStatus,
+    CalculationBaseType,
     category,
     Hours,
-    isActiveWithNoNull, isRequired, IsValidEnums, marketerTypeEnum,
-    Minutes,
-    operators, Options, orderOrigin, orderStatus, orderTechnicalOrigin,
-    OrderType, originEnum, sides, statesEnums, stationTypeEnum, subsidiaryType, TypeOfBranches, validityType
+    isActiveWithNoNull,
+    isRequired,
+    IsValidEnums,
+    marketerTypeEnum,
+    Minutes, onlineRegistrationStatusEnums,
+    operators,
+    Options,
+    orderOrigin,
+    orderStatus,
+    orderTechnicalOrigin,
+    OrderType,
+    originEnum, personOriginEnums,
+    personTypeEnums, sejamStatusEnums,
+    sides,
+    statesEnums,
+    stationTypeEnum,
+    subsidiaryType,
+    TypeOfBranches,
+    validityType
 } from "../../../dictionary/Enums";
 
 export const formatNumber = (params: any) => {
@@ -80,11 +96,19 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return orderTechnicalOrigin
         case 'orderOrigin':
             return orderOrigin
+        case 'personType':
+            return personTypeEnums
+        case 'personOrigin':
+            return personOriginEnums
         case 'subsidiaryTypeCode':
             return subsidiaryType
         case 'CalculationBase':
         case 'calculationBase':
             return CalculationBaseType
+        case 'sejamStatus':
+            return sejamStatusEnums
+        case 'registrationState':
+            return onlineRegistrationStatusEnums
         case 'type':
         case 'Type':
             if (label === 'نوع بازاریاب' || label === 'نوع قرارداد بازاریابی'){
@@ -97,6 +121,7 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
         case 'isBourseCodeRequired':
         case 'isRequired':
         case 'IsRequired':
+        case 'isSejami':
             return isRequired
         default:
             return []

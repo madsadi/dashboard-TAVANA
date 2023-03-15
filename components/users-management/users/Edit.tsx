@@ -2,8 +2,8 @@ import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useEffect, useState} from "react";
 import {UsersContext} from "../../../pages/users-management/users";
-import {updateUsers} from "../../../api/users.api";
 import {toast} from "react-toastify";
+import {updateUsers} from "../../../api/users-management.api";
 
 const userInputs = [
     {title: 'phoneNumber', name: 'موبایل', type: 'input'},

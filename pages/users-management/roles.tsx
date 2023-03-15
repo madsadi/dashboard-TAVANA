@@ -6,8 +6,8 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 const RolesToolbar = dynamic(() => import('../../components/users-management/roles/RolesToolbar'))
 const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const RoleToggleButton = dynamic(() => import('../../components/users-management/roles/RoleToggleButton'))
-import { getRoles} from "../../api/roles.api";
 import RoleDetailComponent from "../../components/users-management/roles/RoleDetailComponent";
+import {getRoles} from "../../api/users-management.api";
 
 
 type initialType = { PageNumber: number, PageSize: number, Name: string, IsActive: any }

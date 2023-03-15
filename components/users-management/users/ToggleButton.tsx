@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {changeUserActiveStatus} from "../../../api/users.api";
 import {toast} from "react-toastify";
+import {changeUserActiveStatus} from "../../../api/users-management.api";
 
 export default function ToggleButton(props: { data: { isActive: boolean,userId:string } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)

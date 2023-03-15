@@ -1,13 +1,13 @@
 import {Accordion} from "flowbite-react";
 import React, { ReactNode } from "react";
 
-export default function AccordionComponent({children}: { children: ReactNode}) {
+export default function AccordionComponent({children,title}: { children: ReactNode,title:string}) {
 
     return (
             <Accordion alwaysOpen={true} style={{borderBottomRightRadius: 0, borderBottomLeftRadius: 0}}>
                 <Accordion.Panel>
                     <Accordion.Title style={{padding: '0.5rem'}}>
-                        جستجو
+                        {title}
                     </Accordion.Title>
                     <Accordion.Content style={{transition: 'all'}}>
                         {children}
@@ -15,4 +15,8 @@ export default function AccordionComponent({children}: { children: ReactNode}) {
                 </Accordion.Panel>
             </Accordion>
     )
+}
+
+AccordionComponent.defaultProps = {
+    title:'جستجو'
 }

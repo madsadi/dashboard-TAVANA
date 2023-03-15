@@ -361,6 +361,289 @@ export const orderStatus: any = [
     }
 ]
 
+export const accountTypeEnums =  [
+    {
+        id: 1,
+        faTitle:'بلند مدت',
+        enTitle: "LongTermAccount"
+    },
+    {
+        id: 2,
+        faTitle:'کوناه مدت',
+        enTitle: "ShortTermAccount"
+    },
+    {
+        id: 3,
+        faTitle:'حساب جاری',
+        enTitle: "CurrentAccount"
+    },
+    {
+        id: 4,
+        faTitle:'قرض الحسنه',
+        enTitle: "SavingAccount"
+    }
+]
+export const personTypeEnums = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "PrivatePerson",
+        "title": "حقیقی"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "LegalPerson",
+        "title": "حقوقی"
+    },
+    // {
+    //     "id": 3,
+    //     "code": 3,
+    //     "enTitle": "PrivatePortfolio",
+    //     "title": "سبد اختصاصی"
+    // }
+]
+export const personOriginEnums = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "Client",
+        "title": "کاربر عادی"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "House",
+        "title": "کارگزاری"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "PrivatePortfolio",
+        "title": "سبد اختصاصی"
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "Group",
+        "title": "آنلاین استیشن"
+    },
+    {
+        "id": 5,
+        "code": 5,
+        "enTitle": "Others",
+        "title": "سایر"
+    },
+    {
+        "id": 6,
+        "code": 6,
+        "enTitle": "MarketMaker",
+        "title": "بازارگردان"
+    }
+]
+export const sejamStatusEnums = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "Init",
+        "title": "وضعیت اولیه"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "SuccessPayment",
+        "title": "پرداخت موفق"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "PolicyAccepted",
+        "title": "تعهدات"
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "PendingValidation",
+        "title": "استعلام اطلاعات"
+    },
+    {
+        "id": 5,
+        "code": 5,
+        "enTitle": "InvalidInformation",
+        "title": "اطلاعات نامعتبر"
+    },
+    {
+        "id": 6,
+        "code": 6,
+        "enTitle": "TraceCode",
+        "title": "کد پیگیری"
+    },
+    {
+        "id": 7,
+        "code": 7,
+        "enTitle": "Sejami",
+        "title": "سجامی"
+    },
+    {
+        "id": 8,
+        "code": 8,
+        "enTitle": "Suspend",
+        "title": "سجامی ناقص-منقضی شده"
+    },
+    {
+        "id": 9,
+        "code": 9,
+        "enTitle": "Dead",
+        "title": "فوت شده"
+    },
+    {
+        "id": 10,
+        "code": 10,
+        "enTitle": "SemiSejami",
+        "title": "سجامی ناقص-نقص مدرک/عدم احرازهویت"
+    }
+]
+export const onlineRegistrationStatusEnums = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "AccountCreated",
+        "title": "ایجاد کاربر"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "NotSejami",
+        "title": "سجامی نیست"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "IncompleteSejam",
+        "title": "نقص سجام"
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "PassedAway",
+        "title": "فوت شده"
+    },
+    {
+        "id": 5,
+        "code": 5,
+        "enTitle": "Sejami",
+        "title": "سجامی"
+    },
+    {
+        "id": 6,
+        "code": 6,
+        "enTitle": "SejamProfileReceived",
+        "title": "دریافت اطلاعات سجام"
+    },
+    {
+        "id": 7,
+        "code": 7,
+        "enTitle": "IdentificationInfoCompleted",
+        "title": "تکمیل اطلاعات هویتی"
+    },
+    {
+        "id": 8,
+        "code": 8,
+        "enTitle": "AgentInfoCompleted",
+        "title": "تکمیل اطلاعات نماینده"
+    },
+    {
+        "id": 9,
+        "code": 9,
+        "enTitle": "ShareholderInfoCompleted",
+        "title": "تکمیل اطلاعات صاحبان سهام"
+    },
+    {
+        "id": 10,
+        "code": 10,
+        "enTitle": "StakeholderInfoCompleted",
+        "title": "تکمیل اطلاعات ذینفعان"
+    },
+    {
+        "id": 11,
+        "code": 11,
+        "enTitle": "JobInfoCompleted",
+        "title": "تکمیل اطلاعات شغلی"
+    },
+    {
+        "id": 12,
+        "code": 12,
+        "enTitle": "AddressInfoCompleted",
+        "title": "تکمیل آدرس"
+    },
+    {
+        "id": 13,
+        "code": 13,
+        "enTitle": "BankAccountInfoCompleted",
+        "title": "تکمیل شماره حساب بانکی"
+    },
+    {
+        "id": 14,
+        "code": 14,
+        "enTitle": "FinancialInfoCompleted",
+        "title": "تکمیل اطلاعات مالی"
+    },
+    {
+        "id": 15,
+        "code": 15,
+        "enTitle": "IdentitficationScanUploaded",
+        "title": "بارگذاری مدارک"
+    },
+    {
+        "id": 16,
+        "code": 16,
+        "enTitle": "ExamPassed",
+        "title": "تمکیل آزمون"
+    },
+    {
+        "id": 17,
+        "code": 17,
+        "enTitle": "AgreementsConfirmed",
+        "title": "تکمیل تعهدنامه ها"
+    },
+    {
+        "id": 18,
+        "code": 18,
+        "enTitle": "CustomerConfirmed",
+        "title": "تائید مشتری"
+    },
+    {
+        "id": 19,
+        "code": 19,
+        "enTitle": "WaittingForAdminApproval",
+        "title": "در حال بررسی"
+    },
+    {
+        "id": 20,
+        "code": 20,
+        "enTitle": "RejectedByAdmin",
+        "title": "رد شده"
+    },
+    {
+        "id": 21,
+        "code": 21,
+        "enTitle": "AcceptedByAdmin",
+        "title": "تائید شده"
+    },
+    {
+        "id": 22,
+        "code": 22,
+        "enTitle": "SentToSejam",
+        "title": "ارسال شده به سجام"
+    },
+    {
+        "id": 23,
+        "code": 23,
+        "enTitle": "CustomerRegistered",
+        "title": "ثبت شده"
+    }
+]
+
 export const operators = [
     {title: ')', id: ')'},
     {title: '(', id: '('},

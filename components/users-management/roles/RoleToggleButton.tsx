@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {toast} from "react-toastify";
-import {changeRoleStatus} from "../../../api/roles.api";
+import {changeRoleStatus} from "../../../api/users-management.api";
 
 export default function RoleToggleButton(props: { data: { id: string,isActive:boolean } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)

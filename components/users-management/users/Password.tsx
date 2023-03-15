@@ -2,8 +2,8 @@ import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useState} from "react";
 import {UsersContext} from "../../../pages/users-management/users";
-import {changeUserPassword, createUsers} from "../../../api/users.api";
 import {toast} from "react-toastify";
+import {changeUserPassword} from "../../../api/users-management.api";
 
 const userInputs = [
     {title: 'newPassword', name: 'رمز عبور جدید', type: 'input'},

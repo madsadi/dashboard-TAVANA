@@ -1,11 +1,9 @@
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useState} from "react";
-import {addBookBuilding} from "../../../api/book-building.api";
-import moment from "jalali-moment";
 import {toast} from "react-toastify";
 import {UsersContext} from "../../../pages/users-management/users";
-import {createUsers} from "../../../api/users.api";
+import {createUsers} from "../../../api/users-management.api";
 
 const userInputs = [
     {title: 'phoneNumber', name: 'موبایل', type: 'input'},

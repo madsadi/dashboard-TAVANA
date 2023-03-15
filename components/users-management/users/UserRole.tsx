@@ -2,9 +2,9 @@ import Modal from "../../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {UsersContext} from "../../../pages/users-management/users";
-import {addUserRole, getActiveRoles, getUserRoles, removeUserRole} from "../../../api/users.api";
 import {useDispatch, useSelector} from "react-redux";
 import {userDetail} from "../../../store/user-management.config";
+import {addUserRole, getActiveRoles, getUserRoles, removeUserRole} from "../../../api/users-management.api";
 
 export default function UserRole() {
     const {userDetail:userDetailValue} = useSelector((state:any)=>state.userManagementConfig)

@@ -3,7 +3,7 @@ import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {RolesContext} from "../../../pages/users-management/roles";
-import {updateRole} from "../../../api/roles.api";
+import {updateRole} from "../../../api/users-management.api";
 
 const roleInputs = [
     {title: 'name', name: 'عنوان', type: 'input'},

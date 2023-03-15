@@ -3,8 +3,8 @@ import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {UsersContext} from "../../../pages/users-management/users";
-import {changeLockOut} from "../../../api/users.api";
 import {DayValue} from "react-modern-calendar-datepicker";
+import {changeLockOut} from "../../../api/users-management.api";
 
 const userInputs = [
     {title: 'lockoutEndDateTime', name: 'تاریخ', type: 'singleDate'},

@@ -1,15 +1,11 @@
 import Modal from "../../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
 import {toast} from "react-toastify";
-import {
-    addOrRemovePermissionToRole,
-    getRolePermission,
-    servicePermissions
-} from "../../../api/roles.api";
 import {RolesContext} from "../../../pages/users-management/roles";
 import {useFuzzy} from 'react-use-fuzzy';
 import {useDispatch, useSelector} from "react-redux";
 import {userDetail} from "../../../store/user-management.config";
+import {addOrRemovePermissionToRole, getRolePermission, servicePermissions} from "../../../api/users-management.api";
 
 export default function Permissions() {
     const {userDetail:userDetailValue} = useSelector((state:any)=>state.userManagementConfig)
