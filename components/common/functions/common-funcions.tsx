@@ -24,15 +24,21 @@ import {
     TypeOfBranches,
     validityType
 } from "../../../dictionary/Enums";
+import {banks} from "../../users-management/online-registration/enums";
 
 export const formatNumber = (params: any) => {
-    if (typeof params.value ==='number'){
+    if (typeof params?.value ==='number'){
         return Math.floor(params.value)
             .toString()
             .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     }else{
         return params.value
     }
+};
+export const formatDecimals = (params: any) => {
+    return Math.floor(params)
+        .toString()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 };
 
 export const jalali = (date: string) => {
@@ -125,5 +131,15 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return isRequired
         default:
             return []
+    }
+}
+
+export function findBank(account:string) {
+    if (account){
+        // const bankSelected : any = banks.find((item:any)=>String(item.number).startsWith(account?.slice(0,6)))
+        const bankSelected : any = banks.find((item:any)=>item.name===account)
+        return bankSelected;
+    }else{
+        return ''
     }
 }

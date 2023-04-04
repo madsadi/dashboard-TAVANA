@@ -38,6 +38,7 @@ export default function BreadCrumbComponent() {
         "portfo":'پرتفو',
         "live-portfo":'پرتفو لحضه ای',
         '[[...query]]':'تاریخچه',
+        '[...detail]':'جزییات اطلاعات کاربر',
         "customer-management":'مدیریت مشتریان',
         "subsidiary":'شرکت ها',
         "branch":'شعب',

@@ -1,14 +1,20 @@
+import React, {createContext, useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
 import {searchUser} from "../../../api/users-management.api";
-import AccordionComponent from "../../../components/common/components/AccordionComponent";
-import LabelValue from "../../../components/common/components/LabelValue";
-import {jalali} from "../../../components/common/functions/common-funcions";
-import {accountTypeEnums} from "../../../dictionary/Enums";
-import Image from 'next/image';
+import IdentityComponent from "../../../components/users-management/online-registration/Identity.component";
+import JobInfoComponent from "../../../components/users-management/online-registration/JobInfo.component";
+import BankComponent from "../../../components/users-management/online-registration/Bank.component";
+import LegalPersonShareholdersComponent
+    from "../../../components/users-management/online-registration/LegalPersonShareholders.component";
+import LegalPersonStakeholdersComponent from "../../../components/users-management/online-registration/LegalPersonStakeholders.component";
+import BourseCodeComponent from "../../../components/users-management/online-registration/BourseCode.component";
+import AgentComponent from "../../../components/users-management/online-registration/Agent.component";
+import AddressesComponent from "../../../components/users-management/online-registration/Addresses.component";
+import EconomicComponent from "../../../components/users-management/online-registration/Economic.component";
+import AgreementComponent from "../../../components/users-management/online-registration/AgreementComponent";
 
+export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
-    const [metaData, setMetaData] = useState<any>([])
     const [data, setData] = useState<any>(null)
     const router = useRouter()
     let dep = router.query?.detail?.[0]
@@ -16,15 +22,10 @@ export default function Detail() {
         e?.preventDefault()
         await searchUser(query)
             .then((res: any) => {
-                setMetaData(JSON.parse(res?.result?.pagedData[0]?.metaData));
-                setData(JSON.parse(res?.result?.pagedData[0].sejamProfile));
-            })
-            .catch(() => {
-                setMetaData([])
+                setData(res?.result?.pagedData[0]);
             })
     };
 
-    console.log(metaData)
     useEffect(() => {
         if (dep) {
             const queryData = dep.split('&')
@@ -37,39 +38,19 @@ export default function Detail() {
         }
     }, [dep])
     return (
-        <div className={'w-full'}>
-            {data ? <AccordionComponent title={'اطلاعات هویتی'}>
-                <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
-                    <LabelValue title={'نام'} value={data?.privatePerson?.firstName}/>
-                    <LabelValue title={'نام خانوادگی'} value={data?.privatePerson?.lastName}/>
-                    <LabelValue title={'تاریخ تولد'} value={jalali(data?.privatePerson?.birthDate).date}/>
-                    <LabelValue title={'نام پدر'} value={data?.privatePerson?.fatherName}/>
-                    <LabelValue title={'محل تولد'} value={data?.privatePerson?.placeOfBirth}/>
-                    <LabelValue title={'صادره از'} value={data?.privatePerson?.placeOfIssue}/>
-                    <LabelValue title={'سریال شناسنامه'}
-                                value={`${data?.privatePerson?.serial + `/` + data?.privatePerson?.seriShChar + data?.privatePerson?.seriSh}`}/>
-                    <LabelValue title={'شماره شناسنامه'} value={data?.privatePerson?.shNumber}/>
-                </div>
-            </AccordionComponent> : null}
-            <AccordionComponent title={'اطلاعات بانکی'}>
-                {metaData?.Account?.map((item: any) => {
-                    return (
-                        <div className="grid md:grid-cols-4 grid-cols-2 gap-3" key={item?.AccountNumber}>
-                            <div>
-                                <Image src={`/bankIcons/${item?.branchName}.svg`} height={24}
-                                       width={24} alt={item?.branchName}/>
-                            </div>
-                            <LabelValue title={'شماره حساب'} value={item?.AccountNumber}/>
-                            <LabelValue title={'نام بانک'} value={item?.bank?.Name}/>
-                            <LabelValue title={'نام شعبه'} value={item?.BranchName}/>
-                            <LabelValue title={'نام شعبه'} value={item?.branchCity?.Name}/>
-                            <LabelValue title={'شماره شعبه'} value={item?.Sheba}/>
-                            <LabelValue title={'نوع حساب'}
-                                        value={accountTypeEnums.find((i: any) => i.enTitle === item?.Type)?.faTitle}/>
-                        </div>
-                    )
-                })}
-            </AccordionComponent>
-        </div>
+        <OnlineRegDetailContext.Provider value={{data}}>
+            {data ? <div className={'w-full space-y-3'}>
+                <IdentityComponent/>
+                <JobInfoComponent/>
+                <BankComponent/>
+                <LegalPersonShareholdersComponent/>
+                <LegalPersonStakeholdersComponent/>
+                <BourseCodeComponent/>
+                <AgentComponent/>
+                <AddressesComponent/>
+                <EconomicComponent />
+                <AgreementComponent />
+            </div>:null}
+        </OnlineRegDetailContext.Provider>
     )
 }

@@ -1,14 +1,15 @@
-import React, {useState} from "react";
+import React, {createContext, useState} from "react";
 import AccordionComponent from "../../../components/common/components/AccordionComponent";
 import SearchComponent from "../../../components/common/components/Search.component";
 import TableComponent from "../../../components/common/table/table-component";
 import TablePagination from "../../../components/common/table/TablePagination";
-import { searchUser} from "../../../api/users-management.api";
+import {searchUser} from "../../../api/users-management.api";
 import {toast} from "react-toastify";
 import DateCell from "../../../components/common/table/DateCell";
 import {useRouter} from "next/router";
+import UserRegToolbarComponent from "../../../components/users-management/online-registration/UserRegToolbar.component";
 
-type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string}
+type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
@@ -20,23 +21,33 @@ const initialValue = {
     phoneNumber: '',
 }
 const usersListOfFilters = [
-    { title: 'PageNumber', name: 'شماره صفحه', type: null },
-    { title: 'PageSize', name: 'تعداد', type: null },
-    { title: 'userId', name: "شناسه کاربر", type: 'input' },
-    { title: 'uniqueId', name: "کد ملی کاربر", type: 'input'},
-    { title: 'mobileNumber', name: "تلفن همراه", type: 'input' },
-    { title: 'personType', name: "نوع کاربر",type: 'selectInput'},
-    { title: 'marketerId', name: "نوع کاربر",type: 'input'},
-    { title: 'reagentId', name: "نوع کاربر",type: 'input'},
-    { title: 'personOrigin', name: "نوع کاربر",type: 'selectInput'},
-    { title: 'isSejami', name: "سجامی هست؟",type: 'selectInput'},
-    { title: 'sejamStatus', name: "وضعیت سجامی",type: 'selectInput'},
-    { title: 'registrationState', name: "وضعیت سجامی",type: 'selectInput'},
-    { title: 'date', name: "تاریخ شروع و پایان",type: 'date'},
+    {title: 'PageNumber', name: 'شماره صفحه', type: null},
+    {title: 'PageSize', name: 'تعداد', type: null},
+    {title: 'userId', name: "شناسه کاربر", type: 'input'},
+    {title: 'uniqueId', name: "کد ملی کاربر", type: 'input'},
+    {title: 'mobileNumber', name: "تلفن همراه", type: 'input'},
+    {title: 'personType', name: "نوع کاربر", type: 'selectInput'},
+    {title: 'marketerId', name: "نوع کاربر", type: 'input'},
+    {title: 'reagentId', name: "نوع کاربر", type: 'input'},
+    {title: 'personOrigin', name: "نوع کاربر", type: 'selectInput'},
+    {title: 'isSejami', name: "سجامی هست؟", type: 'selectInput'},
+    {title: 'sejamStatus', name: "وضعیت سجامی", type: 'selectInput'},
+    {title: 'registrationState', name: "وضعیت سجامی", type: 'selectInput'},
+    {title: 'date', name: "تاریخ شروع و پایان", type: 'date'},
 ]
 
-export default function OnlineRegistration(){
+export const OnlineRegContext = createContext({})
+export default function OnlineRegistration() {
     const columnDefStructure: any = [
+        {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            showDisabledCheckboxes: true,
+            headerCheckboxSelectionFilteredOnly: true,
+            resizable: false,
+            minWidth: 40,
+            maxWidth: 40,
+        },
         {
             field: 'uniqueId',
             headerName: 'کد ملی',
@@ -114,7 +125,7 @@ export default function OnlineRegistration(){
                 const ColourCellRenderer = (rowData: any) => {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
-                            <span>{rowData.data.IsSejami ? 'سجامی':'غیر سجامی'}</span>
+                            <span>{rowData.data.IsSejami ? 'سجامی' : 'غیر سجامی'}</span>
                             <DateCell date={rowData.data.isSejamiDateTime}/>
                         </div>
                     )
@@ -188,7 +199,7 @@ export default function OnlineRegistration(){
             headerName: 'زمان ایجاد',
             cellRendererSelector: () => {
                 const moodDetails = {
-                    component: (rowData:any)=><DateCell date={rowData.data.createDateTime}/>,
+                    component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
                 }
                 return moodDetails;
             },
@@ -198,7 +209,7 @@ export default function OnlineRegistration(){
             headerName: 'زمان بروزرسانی',
             cellRendererSelector: () => {
                 const moodDetails = {
-                    component: (rowData:any)=><DateCell date={rowData.data.updateDateTime}/>,
+                    component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
                 }
                 return moodDetails;
             },
@@ -208,45 +219,53 @@ export default function OnlineRegistration(){
     const [query, setQuery] = useState<initialType>(initialValue)
     const [data, setData] = useState<any>([]);
     const [totalCount, setTotal] = useState<any>(null);
+    const [selectedRows, setSelectedRows] = useState<any>([])
+
     const router = useRouter()
 
-    const onSubmit = async (e:any,query: any) => {
+    const onSubmit = async (e: any, query: any) => {
         e?.preventDefault()
-        if (query?.StartDate && query?.EndDate){
+        if (query?.StartDate && query?.EndDate) {
             await searchUser(query)
                 .then((res: any) => {
                     setData(res?.result?.pagedData);
                     setTotal(res?.result?.totalCount)
                 })
-                .catch(() =>
-                    setData([]))
-        }else{
+                .catch((err) => {
+                    toast.error(`${err?.response?.data?.error?.message}`)
+                })
+        } else {
             toast.warning('ورودی تاریخ الزامی می باشد.')
         }
     };
 
-    return(
-        <div className={'flex flex-col h-full flex-1'}>
-            <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={usersListOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={onSubmit}
+    return (
+        <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,onSubmit}}>
+            <div className={'flex flex-col h-full flex-1'}>
+                <AccordionComponent>
+                    <SearchComponent query={query}
+                                     setQuery={setQuery}
+                                     listOfFilters={usersListOfFilters}
+                                     initialValue={initialValue}
+                                     onSubmit={onSubmit}
+                    />
+                </AccordionComponent>
+                <UserRegToolbarComponent/>
+                <TableComponent data={data}
+                                columnDefStructure={columnDefStructure}
+                                rowId={['userId']}
+                                selectedRows={selectedRows}
+                                setSelectedRows={setSelectedRows}
+                                onRowClicked={(e: any) => {
+                                    router.push(`/users-management/online-registration/userId=${e.data.userId}&StartDate=${query.StartDate}&EndDate=${query.EndDate}`)
+                                }}
                 />
-            </AccordionComponent>
-            <TableComponent data={data}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['userId']}
-                            onRowClicked={(e: any) => {
-                                router.push(`/users-management/online-registration/userId=${e.data.userId}&StartDate=${query.StartDate}&EndDate=${query.EndDate}`)
-                            }}
-            />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}
-            />
-        </div>
+                <TablePagination onSubmit={onSubmit}
+                                 query={query}
+                                 setQuery={setQuery}
+                                 totalCount={totalCount}
+                />
+            </div>
+        </OnlineRegContext.Provider>
     )
 }

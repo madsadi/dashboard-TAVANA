@@ -361,28 +361,6 @@ export const orderStatus: any = [
     }
 ]
 
-export const accountTypeEnums =  [
-    {
-        id: 1,
-        faTitle:'بلند مدت',
-        enTitle: "LongTermAccount"
-    },
-    {
-        id: 2,
-        faTitle:'کوناه مدت',
-        enTitle: "ShortTermAccount"
-    },
-    {
-        id: 3,
-        faTitle:'حساب جاری',
-        enTitle: "CurrentAccount"
-    },
-    {
-        id: 4,
-        faTitle:'قرض الحسنه',
-        enTitle: "SavingAccount"
-    }
-]
 export const personTypeEnums = [
     {
         "id": 1,
