@@ -1,7 +1,7 @@
 import TableComponent from "../../common/table/table-component";
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {getRolePermission} from "../../../api/roles.api";
+import {getRolePermission} from "../../../api/users-management.api";
 
 export default function RoleDetailComponent({data}: { data: any }) {
     const [rowData, setRowData] = useState([])
