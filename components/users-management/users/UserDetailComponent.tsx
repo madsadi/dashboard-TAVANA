@@ -2,8 +2,8 @@ import Image from "next/image";
 import {jalali} from "../../common/functions/common-funcions";
 import React, {useEffect, useState} from "react";
 import TableComponent from "../../common/table/table-component";
-import {getUserRoles} from "../../../api/users.api";
 import {useSelector} from "react-redux";
+import {getUserRoles} from "../../../api/users-management.api";
 
 export default function UserDetailComponent({data}:{data:any}){
     const [rowData,setRowData] = useState([])

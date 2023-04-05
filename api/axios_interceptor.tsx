@@ -25,7 +25,7 @@ axios.interceptors.response.use(
     async (error) => {
         if (error.response) {
             if (error.response.status === 401) {
-                localStorage.clear();
+                localStorage.removeItem('oidc.user:https://cluster.tech1a.co:admin-gateway');
                 Router.push('/');
             }
         }

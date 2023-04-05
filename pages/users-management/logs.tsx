@@ -5,8 +5,8 @@ const TableComponent = dynamic(() => import('../../components/common/table/table
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'))
-import {getUsersLogs} from "../../api/users.api";
 import { jalali} from "../../components/common/functions/common-funcions";
+import {getUsersLogs} from "../../api/users-management.api";
 
 type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string}
 const initialValue = {

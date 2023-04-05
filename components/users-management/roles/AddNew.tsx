@@ -2,8 +2,8 @@ import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useState} from "react";
 import {toast} from "react-toastify";
-import {createNewRole} from "../../../api/roles.api";
 import {RolesContext} from "../../../pages/users-management/roles";
+import {createNewRole} from "../../../api/users-management.api";
 
 const rolesInput = [
     {title: 'name', name: 'عنوان', type: 'input'},

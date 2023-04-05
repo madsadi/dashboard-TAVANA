@@ -1,5 +1,6 @@
 import React, {createContext, useState} from "react";
 import dynamic from "next/dynamic";
+import {getUsers} from "../../api/users-management.api";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
@@ -7,7 +8,6 @@ const TablePagination = dynamic(() => import('../../components/common/table/Tabl
 const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'))
 const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'))
 const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'))
-import {getUsers} from "../../api/users.api";
 
 
 type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, Mobile: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }

@@ -40,8 +40,8 @@ export default function SideBarContent() {
                 {
                     id: 2.3,
                     label: 'گزارش ثبت نام',
-                    url: '/users-management/registration',
-                    className: router.pathname === '/users-management/registration' ? 'sideBarActive' : '',
+                    url: '/users-management/online-registration',
+                    className: router.pathname === '/users-management/online-registration' ? 'sideBarActive' : '',
                 }
             ]
         },

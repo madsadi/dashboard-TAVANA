@@ -46,6 +46,7 @@ module.exports = {
     },
     plugins: [
         require("flowbite/plugin"),
+        require("daisyui"),
         function ({ addComponents }) {
             addComponents({
                 '.container': {
@@ -65,5 +66,8 @@ module.exports = {
                 }
             })
         }
-    ]
+    ],
+    daisyui: {
+        rtl: true,
+    }
 }
