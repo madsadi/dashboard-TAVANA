@@ -27,10 +27,10 @@ const initialValue = {
 const usersListOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
     {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'UserId', name: "شناسه کاربری", type: 'input'},
+    // {title: 'UserId', name: "شناسه کاربری", type: 'input'},
     {title: 'UserName', name: "نام کاربری", type: 'input'},
-    {title: 'Mobile', name: "تلفن همراه", type: 'input'},
-    {title: 'Email', name: "تلفن همراه", type: 'input'},
+    // {title: 'Mobile', name: "تلفن همراه", type: 'input'},
+    {title: 'Email', name: "ایمیل", type: 'input'},
     {title: 'FirstName', name: "نام", type: 'input'},
     {title: 'FamilyName', name: "نام خانوادگی", type: 'input'},
     {title: 'RoleId', name: "آیدی نقش کاربر", type: 'input'},
@@ -62,10 +62,10 @@ export default function Users() {
             field: 'email',
             headerName: 'ایمیل',
         },
-        {
-            field: 'mobile',
-            headerName: 'موبایل',
-        },
+        // {
+        //     field: 'mobile',
+        //     headerName: 'موبایل',
+        // },
         {
             field: 'firstName',
             headerName: 'نام',

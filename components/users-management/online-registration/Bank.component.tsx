@@ -16,7 +16,7 @@ export default function BankComponent() {
         <>
             {
                 data?.metaData ? <AccordionComponent title={'اطلاعات بانکی'}>
-                    {profile.map((item: any) => {
+                    {profile?.map((item: any) => {
                         return (
                             <div className="grid md:grid-cols-4 grid-cols-2 gap-3 border border-dashed border-gray-200 p-5 mb-3"
                                  key={item?.AccountNumber}>

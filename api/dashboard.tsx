@@ -1,5 +1,5 @@
 import axios from "axios";
-import {NETFLOW_BASE_URL} from "./constants";
+import {NETFLOW_BASE_URL, USERS} from "./constants";
 
 export const lastTradeDate = async (side:number) => {
     const last = await axios.get(`${NETFLOW_BASE_URL}/Report/last-trade-date?Side=${side}`,
@@ -25,6 +25,13 @@ export const countFetch = async (date:string,api:string) => {
             }
         }
     )
+        .then(({data}) => {
+            return data
+        })
+    return buy
+}
+export const currentUserInfo = async () => {
+    const buy = await axios.get(`${USERS}/users/GetCurrentUserInfo`)
         .then(({data}) => {
             return data
         })

@@ -6,6 +6,7 @@ import {UsersContext} from "../../../pages/users-management/users";
 import {createUsers} from "../../../api/users-management.api";
 
 const userInputs = [
+    {title: 'userName', name: 'نام کاریری', type: 'input'},
     {title: 'phoneNumber', name: 'موبایل', type: 'input'},
     {title: 'firstName', name: 'نام', type: 'input'},
     {title: 'lastName', name: 'نام خانوادگی', type: 'input'},

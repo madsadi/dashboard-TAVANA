@@ -119,13 +119,13 @@ export default function OnlineRegistration() {
             },
         },
         {
-            field: 'IsSejami',
+            field: 'isSejami',
             headerName: 'سجامی است؟',
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
-                            <span>{rowData.data.IsSejami ? 'سجامی' : 'غیر سجامی'}</span>
+                            <span>{rowData.data.isSejami ? 'سجامی' : 'غیر سجامی'}</span>
                             <DateCell date={rowData.data.isSejamiDateTime}/>
                         </div>
                     )
