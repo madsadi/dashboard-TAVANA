@@ -38,7 +38,6 @@ export default function EditRegStateComponent() {
     const submitHandler = async ()=>{
         await editRegState({...query,userId:selectedRows[0].userId})
             .then(()=> {
-                onSubmit()
                 setModal(false)
             })
             .catch((err) => {

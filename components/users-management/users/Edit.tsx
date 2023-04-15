@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import {updateUsers} from "../../../api/users-management.api";
 
 const userInputs = [
+    {title: 'userName', name: 'نام کاربری', type: 'input'},
     {title: 'phoneNumber', name: 'موبایل', type: 'input'},
     {title: 'firstName', name: 'نام', type: 'input'},
     {title: 'lastName', name: 'نام خانوادگی', type: 'input'},

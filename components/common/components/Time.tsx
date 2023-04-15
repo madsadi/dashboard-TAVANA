@@ -17,7 +17,7 @@ export default function Time(){
     }, []);
 
     return(
-        <div className={'px-3'} suppressHydrationWarning={true}>
+        <div className={'px-3 w-[80px] text-center'} suppressHydrationWarning={true}>
             {value}
         </div>
     )

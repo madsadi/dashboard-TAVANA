@@ -292,7 +292,7 @@ export const searchUser = async (body:any) => {
 }
 
 export const editRegState = async (body:any) => {
-    const users = await axios.post(`${BOOKBUILDING_BASE_URL}/EditRegistrationState}`,body,
+    const users = await axios.post(`${BOOKBUILDING_BASE_URL}/EditRegistrationState`,body,
         {
             headers: {
                 'Accept':'*/*'
