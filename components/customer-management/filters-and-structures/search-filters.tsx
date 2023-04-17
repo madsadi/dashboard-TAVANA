@@ -48,7 +48,7 @@ export const traderListOfFilters = [
 export const marketerListOfFilters = [
     { title: 'PageNumber', name: 'شماره صفحه', type: null },
     { title: 'PageSize', name: 'تعداد', type: null },
-    { title: 'UniqueId', name: `شناسه بازاریاب`, type: 'input' },
+    // { title: 'UniqueId', name: `شناسه بازاریاب`, type: 'input' },
     { title: 'FirstName', name: `نام`, type: 'input' },
     { title: 'LastName', name: `نام خانوادگی`, type: 'input' },
     { title: 'Mobile', name: `شماره موبایل`, type: 'input' },

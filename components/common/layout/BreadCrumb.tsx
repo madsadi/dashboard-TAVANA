@@ -50,7 +50,8 @@ export default function BreadCrumbComponent() {
         "agreement":'توافقنامه ها',
         "customerAgreement":'توافقنامه های بین طرفین',
         "roles":'نقش و دسترسی',
-        "online-registration":'گزارش ثبت نام',
+        "online-registration":'ثبت نام غیر حضوری',
+        "registration-report":'گزارش ثبت نام',
         "contract":'قرارداد بازاریابی',
         "marketerContract":'قرارداد با بازاریاب',
     }

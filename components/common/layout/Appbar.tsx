@@ -42,20 +42,20 @@ export default function Example() {
                             onClick={() => setOpen(true)}>
                             <Bars3Icon className={'h-6 w-6'}/>
                         </div>
-                        {(router.pathname.startsWith('/portfo/[[...query]]') || router.pathname.startsWith('/users-management/online-registration/[...detail]')) && <button
+                        {(router.pathname.startsWith('/portfo/[[...query]]') || router.pathname.startsWith('/online-registration/registration-report/[...detail]')) && <button
                             className={'p-1 border border-border rounded-md cursor-pointer hover:bg-border transition-all'}
                             onClick={() => router.back()}><ArrowRightIcon className={'h-6 w-6'}/></button>}
                         <BreadCrumbComponent/>
                     </div>
                     <div
                         className="sm:flex hidden mr-auto light:text-black space-x-1 space-x-reverse divide-x-2 divide-x-reverse divide-slate-400/25">
+                        <Time/>
                         <div>
                             <a className={'flex items-center px-3 cursor-pointer'}>
                                 {info?.firstName + " " + info?.lastName}
                                 <UserCircleIcon className={'h-5 w-5 mr-2'}/>
                             </a>
                         </div>
-                        <Time/>
                         <button className={'flex pr-2'} onClick={() => {
                             void auth.signoutRedirect({id_token_hint: auth.user?.id_token})
                             Router.push('/')

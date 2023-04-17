@@ -29,7 +29,7 @@ const usersListOfFilters = [
     {title: 'PageSize', name: 'تعداد', type: null},
     // {title: 'UserId', name: "شناسه کاربری", type: 'input'},
     {title: 'UserName', name: "نام کاربری", type: 'input'},
-    // {title: 'Mobile', name: "تلفن همراه", type: 'input'},
+    {title: 'PhoneNumber', name: "تلفن همراه", type: 'input'},
     {title: 'Email', name: "ایمیل", type: 'input'},
     {title: 'FirstName', name: "نام", type: 'input'},
     {title: 'FamilyName', name: "نام خانوادگی", type: 'input'},

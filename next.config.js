@@ -8,6 +8,7 @@ const nextConfig = {
     NETFLOW_BASE_URL:'http://172.24.65.20:8091',
     MARKET_RULES_MANAGEMENT:'http://172.24.65.20:9020/api',
     BOOKBUILDING_BASE_URL:'http://172.24.65.20:9020/api/request',
+    fileServerApi: 'http://cluster.tech1a.co:9073/api/admin-file-manager/',
     USERS:'https://cluster.tech1a.co/api',
     BASE_URL:'http://cluster.tech1a.co/api'
   },

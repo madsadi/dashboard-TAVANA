@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
-import LabelValue from "../../common/components/LabelValue";
-import AccordionComponent from "../../common/components/AccordionComponent";
-import {tradingCodeTypeEnums} from "./enums";
+import LabelValue from "../../../common/components/LabelValue";
+import {tradingCodeTypeEnums} from "../enums";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function BourseCodeComponent(){
     const {data} = useContext<any>(OnlineRegDetailContext)
@@ -12,7 +12,7 @@ export default function BourseCodeComponent(){
 
     return(
         <>
-            {profile?.length ? <AccordionComponent title={'کد های بورسی'}>
+            {profile?.length ? <DaisyAccordionComponent title={'کد های بورسی'}>
                 <div className="grid md:grid-cols-4 grid-cols-2  gap-3">
                     {
                         profile?.map((item: any) => {
@@ -26,7 +26,7 @@ export default function BourseCodeComponent(){
                         })
                     }
                 </div>
-            </AccordionComponent>:null}
+            </DaisyAccordionComponent>:null}
         </>
 
     )

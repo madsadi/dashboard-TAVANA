@@ -1,12 +1,13 @@
-import AccordionComponent from "../../common/components/AccordionComponent";
+import React from 'react';
 import Image from "next/image";
-import {findBank} from "../../common/functions/common-funcions";
-import LabelValue from "../../common/components/LabelValue";
-import {accountTypeEnums} from "./enums";
+import {findBank} from "../../../common/functions/common-funcions";
+import LabelValue from "../../../common/components/LabelValue";
+import {accountTypeEnums} from "../enums";
 import {useContext} from "react";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function BankComponent() {
     const {data} = useContext<any>(OnlineRegDetailContext)
@@ -15,7 +16,7 @@ export default function BankComponent() {
     return (
         <>
             {
-                data?.metaData ? <AccordionComponent title={'اطلاعات بانکی'}>
+                data?.metaData ? <DaisyAccordionComponent title={'اطلاعات بانکی'}>
                     {profile?.map((item: any) => {
                         return (
                             <div className="grid md:grid-cols-4 grid-cols-2 gap-3 border border-dashed border-gray-200 p-5 mb-3"
@@ -34,7 +35,7 @@ export default function BankComponent() {
                             </div>
                         )
                     })}
-                </AccordionComponent>:null
+                </DaisyAccordionComponent>:null
             }
         </>
     )
