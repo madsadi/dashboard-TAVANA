@@ -1,22 +1,22 @@
 import React,{useContext} from "react";
-import LabelValue from "../../common/components/LabelValue";
-import {formatDecimals} from "../../common/functions/common-funcions";
-import AccordionComponent from "../../common/components/AccordionComponent";
+import LabelValue from "../../../common/components/LabelValue";
+import {formatDecimals} from "../../../common/functions/common-funcions";
 import {
     tradingKnowledgeLevelEnums,
     transactionLevelLegalPersonEnums,
     transactionLevelPrivatePersonEnums
-} from "./enums";
+} from "../enums";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function EconomicComponent(){
     const {data} = useContext<any>(OnlineRegDetailContext)
     const profile = JSON.parse(data?.sejamProfile)?.financialInfo
 
     return(
-        <AccordionComponent title={'اطلاعات مالی'}>
+        <DaisyAccordionComponent title={'اطلاعات مالی'}>
             <div className="grid md:grid-cols-4 grid-cols-2  gap-3">
                 <LabelValue title={'ارزش دارایی'} value={profile?.assetsValue ? formatDecimals(profile?.assetsValue):''}/>
                 <LabelValue title={'متوسط درآمد ماهیانه'}
@@ -46,6 +46,6 @@ export default function EconomicComponent(){
                     }
                 </div>
             </div>
-        </AccordionComponent>
+        </DaisyAccordionComponent>
     )
 }

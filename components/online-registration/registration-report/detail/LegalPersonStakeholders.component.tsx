@@ -1,10 +1,10 @@
-import LabelValue from "../../common/components/LabelValue";
-import AccordionComponent from "../../common/components/AccordionComponent";
-import {LegalPersonShareholderViewModelEnums, LegalPersonStakeholderTypeEnums} from "./enums";
+import LabelValue from "../../../common/components/LabelValue";
+import {LegalPersonShareholderViewModelEnums, LegalPersonStakeholderTypeEnums} from "../enums";
 import {useContext} from "react";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function LegalPersonStakeholdersComponent(){
     const {data} = useContext<any>(OnlineRegDetailContext)
@@ -12,7 +12,7 @@ export default function LegalPersonStakeholdersComponent(){
 
     return(
         <>
-            {profile?.length ? <AccordionComponent title={'اطلاعات ذی نفعان'}>
+            {profile?.length ? <DaisyAccordionComponent title={'اطلاعات ذی نفعان'}>
                 {
                     profile?.map((item: any) => {
                         return (
@@ -32,7 +32,7 @@ export default function LegalPersonStakeholdersComponent(){
                         )
                     })
                 }
-            </AccordionComponent>:null}
+            </DaisyAccordionComponent>:null}
         </>
 
     )

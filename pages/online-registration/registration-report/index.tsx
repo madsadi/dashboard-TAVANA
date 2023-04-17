@@ -1,4 +1,4 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useMemo, useState} from "react";
 import AccordionComponent from "../../../components/common/components/AccordionComponent";
 import SearchComponent from "../../../components/common/components/Search.component";
 import TableComponent from "../../../components/common/table/table-component";
@@ -7,7 +7,9 @@ import {searchUser} from "../../../api/users-management.api";
 import {toast} from "react-toastify";
 import DateCell from "../../../components/common/table/DateCell";
 import {useRouter} from "next/router";
-import UserRegToolbarComponent from "../../../components/users-management/online-registration/UserRegToolbar.component";
+import UserRegToolbarComponent from "../../../components/online-registration/registration-report/UserRegToolbar.component";
+import {formatNumber} from "../../../components/common/functions/common-funcions";
+import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
 
 type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string }
 const initialValue = {
@@ -23,16 +25,16 @@ const initialValue = {
 const usersListOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
     {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'userId', name: "شناسه کاربر", type: 'input'},
+    // {title: 'userId', name: "شناسه کاربر", type: 'input'},
     {title: 'uniqueId', name: "کد ملی کاربر", type: 'input'},
     {title: 'mobileNumber', name: "تلفن همراه", type: 'input'},
-    {title: 'personType', name: "نوع کاربر", type: 'selectInput'},
-    {title: 'marketerId', name: "نوع کاربر", type: 'input'},
-    {title: 'reagentId', name: "نوع کاربر", type: 'input'},
+    {title: 'personType', name: "حقیقی / حقوقی", type: 'selectInput'},
+    {title: 'marketerId', name: "شناسه بازاریاب", type: 'input'},
+    {title: 'reagentId', name: "شناسه معرف", type: 'input'},
     {title: 'personOrigin', name: "نوع کاربر", type: 'selectInput'},
     {title: 'isSejami', name: "سجامی هست؟", type: 'selectInput'},
     {title: 'sejamStatus', name: "وضعیت سجامی", type: 'selectInput'},
-    {title: 'registrationState', name: "وضعیت سجامی", type: 'selectInput'},
+    {title: 'registrationState', name: "وضعیت ثبت نام", type: 'selectInput'},
     {title: 'date', name: "تاریخ شروع و پایان", type: 'date'},
 ]
 
@@ -51,18 +53,15 @@ export default function OnlineRegistration() {
         {
             field: 'uniqueId',
             headerName: 'کد ملی',
+            cellRenderer: 'agGroupCellRenderer'
         },
         {
             field: 'mobileNumber',
             headerName: 'شماره تلفن',
         },
         {
-            field: 'email',
-            headerName: 'ایمیل',
-        },
-        {
             field: 'personTypeTitle',
-            headerName: 'نوع کاربر'
+            headerName: 'حقیقی / حقوقی'
         },
         {
             field: 'marketerRefCode',
@@ -77,46 +76,8 @@ export default function OnlineRegistration() {
             headerName: 'معرف'
         },
         {
-            field: 'branchTitle',
-            headerName: 'شعبه'
-        },
-        {
-            field: 'countryName',
-            headerName: 'کشور'
-        },
-        {
-            field: 'foreignCSDCode',
-            headerName: 'کد فراگیر اتباع'
-        },
-        {
-            field: 'personOriginTitle',
-            headerName: 'گروه کاربر'
-        },
-        {
-            field: 'riskLevelTitle',
-            headerName: 'ریسک پذیری'
-        },
-        {
             field: 'agentTitle',
             headerName: 'نماینده'
-        },
-        {
-            field: 'sejamToken',
-            headerName: 'توکن سجام',
-            cellRendererSelector: () => {
-                const ColourCellRenderer = (rowData: any) => {
-                    return (
-                        <div className={'flex items-center space-x-2 space-x-reverse'}>
-                            <span>{rowData.data?.sejamToken}</span>
-                            <DateCell date={rowData.data.sejamTokenDateTime}/>
-                        </div>
-                    )
-                };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
-            },
         },
         {
             field: 'isSejami',
@@ -173,10 +134,6 @@ export default function OnlineRegistration() {
             },
         },
         {
-            field: 'changeReasonDescription',
-            headerName: 'توضیحات',
-        },
-        {
             field: 'isTbsInserted',
             headerName: 'ثبت در TBS',
             cellRendererSelector: () => {
@@ -195,23 +152,19 @@ export default function OnlineRegistration() {
             },
         },
         {
-            field: 'createDateTime',
-            headerName: 'زمان ایجاد',
-            cellRendererSelector: () => {
-                const moodDetails = {
-                    component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
-                }
-                return moodDetails;
+            field:'detail',
+            headerName: 'جزییات',
+            flex:0,
+            maxWidth: 100,
+            cellStyle:{
+                cursor:'pointer',
+                display:'flex'
             },
-        },
-        {
-            field: 'updateDateTime',
-            headerName: 'زمان بروزرسانی',
+            onCellClicked:(rowData:any)=>router.push(`/online-registration/registration-report/userId=${rowData.data.userId}&StartDate=${query.StartDate}&EndDate=${query.EndDate}`),
             cellRendererSelector: () => {
-                const moodDetails = {
-                    component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
-                }
-                return moodDetails;
+                return {
+                    component: ()=><EllipsisHorizontalCircleIcon className={'h-5 w-5 my-auto'}/>,
+                };
             },
         }
     ]
@@ -221,7 +174,7 @@ export default function OnlineRegistration() {
     const [totalCount, setTotal] = useState<any>(null);
     const [selectedRows, setSelectedRows] = useState<any>([])
 
-    const router = useRouter()
+    const router = useRouter();
 
     const onSubmit = async (e: any, query: any) => {
         e?.preventDefault()
@@ -238,6 +191,92 @@ export default function OnlineRegistration() {
             toast.warning('ورودی تاریخ الزامی می باشد.')
         }
     };
+
+    const detailCellRendererParams = useMemo(() => {
+        return {
+            detailGridOptions: {
+                enableRtl: true,
+                // getRowId:(params:any)=>params.data.orderId,
+                columnDefs: [
+                    {
+                        field: 'email',
+                        headerName: 'ایمیل',
+                    },
+                    {
+                        field: 'branchTitle',
+                        headerName: 'شعبه'
+                    },
+                    {
+                        field: 'countryName',
+                        headerName: 'کشور'
+                    },
+                    {
+                        field: 'foreignCSDCode',
+                        headerName: 'کد فراگیر اتباع'
+                    },
+                    {
+                        field: 'personOriginTitle',
+                        headerName: 'گروه کاربر'
+                    },
+                    {
+                        field: 'riskLevelTitle',
+                        headerName: 'ریسک پذیری'
+                    },
+                    {
+                        field: 'sejamToken',
+                        headerName: 'توکن سجام',
+                        cellRendererSelector: () => {
+                            const ColourCellRenderer = (rowData: any) => {
+                                return (
+                                    <div className={'flex items-center space-x-2 space-x-reverse'}>
+                                        <span>{rowData.data?.sejamToken}</span>
+                                        <DateCell date={rowData.data.sejamTokenDateTime}/>
+                                    </div>
+                                )
+                            };
+                            const moodDetails = {
+                                component: ColourCellRenderer,
+                            }
+                            return moodDetails;
+                        },
+                    },
+                    {
+                        field: 'changeReasonDescription',
+                        headerName: 'توضیحات',
+                    },
+                    {
+                        field: 'createDateTime',
+                        headerName: 'زمان ایجاد',
+                        cellRendererSelector: () => {
+                            const moodDetails = {
+                                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                            }
+                            return moodDetails;
+                        },
+                    },
+                    {
+                        field: 'updateDateTime',
+                        headerName: 'زمان بروزرسانی',
+                        cellRendererSelector: () => {
+                            const moodDetails = {
+                                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                            }
+                            return moodDetails;
+                        },
+                    }
+                ],
+                defaultColDef: {
+                    resizable: true,
+                    sortable: true,
+                    flex: 1,
+                    valueFormatter: formatNumber
+                },
+            },
+            getDetailRowData: async (params: any) => {
+                params.successCallback([params.data]);
+            },
+        };
+    }, []);
 
     return (
         <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,onSubmit}}>
@@ -256,9 +295,9 @@ export default function OnlineRegistration() {
                                 rowId={['userId']}
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
-                                onRowClicked={(e: any) => {
-                                    router.push(`/users-management/online-registration/userId=${e.data.userId}&StartDate=${query.StartDate}&EndDate=${query.EndDate}`)
-                                }}
+                                detailCellRendererParams={detailCellRendererParams}
+                                masterDetail={true}
+                                rowSelection={'multiple'}
                 />
                 <TablePagination onSubmit={onSubmit}
                                  query={query}

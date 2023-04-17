@@ -24,7 +24,7 @@ import {
     TypeOfBranches,
     validityType
 } from "../../../dictionary/Enums";
-import {banks} from "../../users-management/online-registration/enums";
+import {banks} from "../../online-registration/registration-report/enums";
 
 export const formatNumber = (params: any) => {
     if (typeof params?.value ==='number'){

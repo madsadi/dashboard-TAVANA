@@ -1,5 +1,5 @@
 import axios from "axios";
-import {BOOKBUILDING_BASE_URL, USERS} from "./constants";
+import {BOOKBUILDING_BASE_URL, fileServerApi, USERS} from "./constants";
 
 export const getRoles = async (body:any) => {
     let bodyToQuery:any=[];
@@ -271,6 +271,50 @@ export const getUsersLogs = async (body:any) => {
     return users;
 }
 
+export const getContent = async (userId:string) => {
+    const log = await axios.get(`${fileServerApi}get-content?fileOwnerSoftware=1&userId=${userId}`)
+        .then(({data}) => {
+            return data
+        })
+    return log
+}
+export const uploadPhoto = async (body: any) => {
+    const log = await axios.post(`${fileServerApi}upload`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then(({data}) => {
+            return data
+        })
+    return log
+}
+export const lockFile = async (body: any) => {
+    const log = await axios.post(`${fileServerApi}lock-file`, body)
+        .then(({data}) => {
+            return data
+        })
+    return log
+}
+export const unlockFile = async (body: any) => {
+    const log = await axios.post(`${fileServerApi}unlock-file`, body)
+        .then(({data}) => {
+            return data
+        })
+    return log
+}
+
+export const downloadContent = async (id: string) => {
+    const log = await axios.get(`${fileServerApi}download?id=${id}`, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then(({data}) => {
+            return data
+        })
+    return log
+}
 export const searchUser = async (body:any) => {
     let bodyToQuery:any=[];
     Object.keys(body).map((item:any)=>{
@@ -293,6 +337,47 @@ export const searchUser = async (body:any) => {
 
 export const editRegState = async (body:any) => {
     const users = await axios.post(`${BOOKBUILDING_BASE_URL}/EditRegistrationState`,body,
+        {
+            headers: {
+                'Accept':'*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return users;
+}
+
+export const pushToTbs = async (body:any) => {
+    const users = await axios.post(`${BOOKBUILDING_BASE_URL}/PushToTbs`,body,
+        {
+            headers: {
+                'Accept':'*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return users;
+}
+export const sendMessageToUncompletedUsers = async (registrationDateTime:any) => {
+    const users = await axios.get(`${BOOKBUILDING_BASE_URL}/SendMessageToUncompletedUsers?registrationDateTime=${registrationDateTime}`,
+        {
+            headers: {
+                'Accept':'*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return users;
+}
+
+export const checkUserSejamState = async (userId:string) => {
+    const users = await axios.get(`${BOOKBUILDING_BASE_URL}/checkUserSejamState?userId=${userId}`,
         {
             headers: {
                 'Accept':'*/*'

@@ -1,11 +1,11 @@
-import LabelValue from "../../common/components/LabelValue";
-import {jalali} from "../../common/functions/common-funcions";
-import AccordionComponent from "../../common/components/AccordionComponent";
-import {agentTypeEnums} from "./enums";
+import LabelValue from "../../../common/components/LabelValue";
+import {jalali} from "../../../common/functions/common-funcions";
+import {agentTypeEnums} from "../enums";
 import {useContext} from "react";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function AgentComponent(){
     const {data} = useContext<any>(OnlineRegDetailContext)
@@ -13,7 +13,7 @@ export default function AgentComponent(){
 
     return(
         <>
-            {profile ? <AccordionComponent title={'وکیل / نماینده'}>
+            {profile ? <DaisyAccordionComponent title={'وکیل / نماینده'}>
                 <div className="grid md:grid-cols-4 grid-cols-2  gap-3">
                     <LabelValue title={'مشخص کننده نوع نماینده'}
                                 value={agentTypeEnums.find((item: any) => item.id === profile?.type)?.title}/>
@@ -25,7 +25,7 @@ export default function AgentComponent(){
                     <LabelValue title={'مشخص کننده تایید نماینده'}
                                 value={profile?.isConfirmed ? 'تایید شده' : 'تایید نشده'}/>
                 </div>
-            </AccordionComponent>:null}
+            </DaisyAccordionComponent>:null}
         </>
     )
 }

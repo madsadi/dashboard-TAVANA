@@ -1,10 +1,10 @@
 import React, {useContext} from "react";
-import LabelValue from "../../common/components/LabelValue";
-import { jalali} from "../../common/functions/common-funcions";
-import AccordionComponent from "../../common/components/AccordionComponent";
+import LabelValue from "../../../common/components/LabelValue";
+import { jalali} from "../../../common/functions/common-funcions";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function AgreementComponent() {
     const {data} = useContext<any>(OnlineRegDetailContext)
@@ -13,7 +13,7 @@ export default function AgreementComponent() {
     return (
         <>
             {
-                data?.metaData ? <AccordionComponent title={'قرار داد ها'}>
+                data?.metaData ? <DaisyAccordionComponent title={'قرار داد ها'}>
                     {agreement?.map((item: any) => {
                         return (
                             <div
@@ -21,11 +21,11 @@ export default function AgreementComponent() {
                                 key={item?.AccountNumber}>
                                 <LabelValue title={'نام قرارداد'} value={item?.Name || 'ثبت نشده'}/>
                                 <LabelValue title={'اجباری'} value={item?.IsRequired ? 'بله':'خیر'}/>
-                                <LabelValue title={'تاریخ ثبت'} value={jalali(item?.ApprovalDateTime)?.date}/>
+                                <LabelValue title={'تاریخ تایید'} value={item?.ApprovalDateTime ? jalali(item?.ApprovalDateTime)?.date:''}/>
                             </div>
                         )
                     })}
-                </AccordionComponent> : null
+                </DaisyAccordionComponent> : null
             }
         </>)
 }

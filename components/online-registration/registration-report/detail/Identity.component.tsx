@@ -1,11 +1,11 @@
-import AccordionComponent from "../../common/components/AccordionComponent";
-import LabelValue from "../../common/components/LabelValue";
-import {jalali} from "../../common/functions/common-funcions";
-import {legalPersonTypeCategoryEnums, legalPersonTypeSubCategory} from "./enums";
+import LabelValue from "../../../common/components/LabelValue";
+import {jalali} from "../../../common/functions/common-funcions";
+import {legalPersonTypeCategoryEnums, legalPersonTypeSubCategory} from "../enums";
 import {useContext} from "react";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function IdentityComponent(){
     const {data} = useContext<any>(OnlineRegDetailContext)
@@ -14,7 +14,7 @@ export default function IdentityComponent(){
     return(
         <>
             {profile?.legalPerson ?
-                <AccordionComponent title={'اطلاعات هویتی حقوقی'}>
+                <DaisyAccordionComponent title={'اطلاعات هویتی حقوقی'}>
                     <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
                         <LabelValue title={'نام شخص حقوقی'} value={profile?.legalPerson?.companyName}/>
                         <LabelValue title={'شماره ثبت شخص حقوقی'} value={profile?.legalPerson?.registerNumber}/>
@@ -31,8 +31,8 @@ export default function IdentityComponent(){
                         <LabelValue title={'زیر مجموعه نوع شرکت'}
                                     value={legalPersonTypeSubCategory.find((item: any) => item.id === profile?.legalPerson?.legalPersonTypeSubCategory)?.title}/>
                     </div>
-                </AccordionComponent>
-                : <AccordionComponent title={'اطلاعات هویتی'}>
+                </DaisyAccordionComponent>
+                : <DaisyAccordionComponent title={'اطلاعات هویتی'}>
                     <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
                         <LabelValue title={'نام'} value={profile?.privatePerson?.firstName}/>
                         <LabelValue title={'نام خانوادگی'} value={profile?.privatePerson?.lastName}/>
@@ -44,7 +44,7 @@ export default function IdentityComponent(){
                                     value={`${profile?.privatePerson?.serial + `/` + profile?.privatePerson?.seriShChar + profile?.privatePerson?.seriSh}`}/>
                         <LabelValue title={'شماره شناسنامه'} value={profile?.privatePerson?.shNumber}/>
                     </div>
-                </AccordionComponent>}
+                </DaisyAccordionComponent>}
         </>
     )
 }

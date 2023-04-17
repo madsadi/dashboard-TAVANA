@@ -1,9 +1,9 @@
-import LabelValue from "../../common/components/LabelValue";
-import AccordionComponent from "../../common/components/AccordionComponent";
+import LabelValue from "../../../common/components/LabelValue";
 import {useContext} from "react";
 import {
     OnlineRegDetailContext
-} from "../../../pages/users-management/online-registration/[...detail]";
+} from "../../../../pages/online-registration/registration-report/[...detail]";
+import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 
 export default function AddressesComponent(){
     const {data} = useContext<any>(OnlineRegDetailContext)
@@ -11,7 +11,7 @@ export default function AddressesComponent(){
 
     return(
         <>
-            {profile?.length ? <AccordionComponent title={'اطلاعات ارتباطی'}>
+            {profile?.length ? <DaisyAccordionComponent title={'اطلاعات ارتباطی'}>
                 <div className="grid md:grid-cols-4 grid-cols-2  gap-3">
                     {
                         profile?.map((item: any, index: number) => {
@@ -30,7 +30,7 @@ export default function AddressesComponent(){
                         })
                     }
                 </div>
-            </AccordionComponent>:null}
+            </DaisyAccordionComponent>:null}
         </>
 
     )
