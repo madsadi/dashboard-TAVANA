@@ -20,7 +20,7 @@ export default function Edit() {
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
-        await updateUsers({userId: selectedRows[0].userId, ...query})
+        await updateUsers({userId: selectedRows[0].id, ...query})
             .then(() => {
                 setModal(false)
                 toast.success('با موفقیت انجام شد')

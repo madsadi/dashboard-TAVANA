@@ -54,6 +54,7 @@ export default function BreadCrumbComponent() {
         "registration-report":'گزارش ثبت نام',
         "contract":'قرارداد بازاریابی',
         "marketerContract":'قرارداد با بازاریاب',
+        "profile":'حساب کاربری',
     }
 
     useEffect(() => {

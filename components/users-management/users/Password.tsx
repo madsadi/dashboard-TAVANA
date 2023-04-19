@@ -16,7 +16,7 @@ export default function Password(){
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
-        await changeUserPassword({userId:selectedRows[0].userId,...query})
+        await changeUserPassword({userId:selectedRows[0].id,...query})
             .then(() => {
                 setModal(false)
                 toast.success('با موفقیت انجام شد')
@@ -37,7 +37,7 @@ export default function Password(){
     return(
         <>
             <button className="button bg-yellow-500" onClick={openHandler}>رمز عبور جدید</button>
-            <Modal title={'رمز عبور جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
+            <Modal title={'رمز عبور جدید'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>

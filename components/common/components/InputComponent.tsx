@@ -140,7 +140,7 @@ export default function InputComponent({
                 return (
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
-                        <input className={'w-full'} type={valueType || 'text'} id={title} value={query?.[title]}
+                        <input className={'w-full'} type={valueType || 'text'} dir={valueType==='number' ? 'ltr':'rtl'} id={title} value={query?.[title]}
                                onChange={(e) => {
                                    if (valueType === 'number') {
                                        queryUpdate(title, Number(e.target.value))

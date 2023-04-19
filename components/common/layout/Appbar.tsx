@@ -11,6 +11,9 @@ import BreadCrumbComponent from "./BreadCrumb";
 import SideBar from './SideBar';
 import Time from "../components/Time";
 import {currentUserInfo} from "../../../api/dashboard";
+import Link from "next/link";
+import {userInfo} from "../../../store/user-management.config";
+import {useDispatch} from "react-redux";
 
 export default function Example() {
     const [open, setOpen] = useState(false)
@@ -19,6 +22,7 @@ export default function Example() {
     const auth = useAuth();
     const router = useRouter();
     let query = router.query?.page?.[0]
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setOpen(false)
@@ -27,7 +31,10 @@ export default function Example() {
     useEffect(() => {
         const getUserInfo = async () => {
             await currentUserInfo()
-                .then((res) => setInfo(res?.result))
+                .then((res) => {
+                    setInfo(res?.result);
+                    dispatch(userInfo(res?.result))
+                })
         }
         getUserInfo()
     }, [])
@@ -51,10 +58,10 @@ export default function Example() {
                         className="sm:flex hidden mr-auto light:text-black space-x-1 space-x-reverse divide-x-2 divide-x-reverse divide-slate-400/25">
                         <Time/>
                         <div>
-                            <a className={'flex items-center px-3 cursor-pointer'}>
+                            <Link className={'flex items-center px-3 cursor-pointer'} href={'/profile'}>
                                 {info?.firstName + " " + info?.lastName}
                                 <UserCircleIcon className={'h-5 w-5 mr-2'}/>
-                            </a>
+                            </Link>
                         </div>
                         <button className={'flex pr-2'} onClick={() => {
                             void auth.signoutRedirect({id_token_hint: auth.user?.id_token})

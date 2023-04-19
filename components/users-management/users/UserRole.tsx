@@ -22,7 +22,7 @@ export default function UserRole() {
                 })
         }
         const fetchUserRoles = async () => {
-            await getUserRoles(selectedRows[0].userId)
+            await getUserRoles(selectedRows[0].id)
                 .then((res) => {
                     setUserRoles(res?.result?.roles)
                     fetchAllRoles()
@@ -54,7 +54,7 @@ export default function UserRole() {
     }
 
     const addRole = async (roleId: string) => {
-        await addUserRole({userId: selectedRows[0].userId, roleId: roleId})
+        await addUserRole({userId: selectedRows[0].id, roleId: roleId})
             .then(() => actionOfTransfer(roleId))
             .catch((err) => {
                 toast.error(`${err?.response?.data?.error?.message}`)
@@ -62,7 +62,7 @@ export default function UserRole() {
     }
 
     const removeRole = async (roleId:string)=>{
-        await removeUserRole({userId: selectedRows[0].userId, roleId: roleId})
+        await removeUserRole({userId: selectedRows[0].id, roleId: roleId})
             .then(() => actionOfTransfer(roleId))
             .catch((err) => {
                 toast.error(`${err?.response?.data?.error?.message}`)
