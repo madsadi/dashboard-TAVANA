@@ -38,7 +38,7 @@ export default function UserDetailComponent({data}:{data:any}){
 
     useEffect(()=>{
         const fetchUserRoles = async () => {
-            await getUserRoles(data.userId)
+            await getUserRoles(data.id)
                 .then((res) => {
                     setRowData(res?.result?.roles)
                 })
@@ -55,13 +55,25 @@ export default function UserDetailComponent({data}:{data:any}){
                 <div className={'mr-4'}>
                     <div className={'flex space-x-5 space-x-reverse'}>
                         <div>
-                            تاریخ تغییر رمز عبور: <span className={'font-semibold'}>{jalali(data?.passwordSetDate).date}</span>
+                            ایمیل: <span className={'font-semibold'}>{data?.email}</span>
                         </div>
                         <div>
-                            تاریخ ایجاد:<span className={'font-semibold'}>{jalali(data?.insertDateTime).date}</span>
+                            دفعات ورود ناموفق: <span className={'font-semibold'}>{data?.accessFailedCount}</span>
                         </div>
                         <div>
-                            تاریخ ویرایش: <span className={'font-semibold'}>{jalali(data?.updateDateTime).date}</span>
+                            پایان قفل حساب: <span className={'font-semibold'}>{data?.lockOutEnd}</span>
+                        </div>
+                        <div>
+                            تاریخ تولد: <span className={'font-semibold'}>{data?.birthdate ? jalali(data?.birthdate).date:''}</span>
+                        </div>
+                        <div>
+                            تاریخ تغییر رمز عبور: <span className={'font-semibold'}>{data?.passwordSetDate ? jalali(data?.passwordSetDate).date:''}</span>
+                        </div>
+                        <div>
+                            تاریخ ایجاد:<span className={'font-semibold'}>{data?.insertDateTime ? jalali(data?.insertDateTime).date:''}</span>
+                        </div>
+                        <div>
+                            تاریخ ویرایش: <span className={'font-semibold'}>{data?.updateDateTime ? jalali(data?.updateDateTime).date:''}</span>
                         </div>
                     </div>
                 </div>

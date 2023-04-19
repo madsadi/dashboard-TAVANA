@@ -17,7 +17,7 @@ export default function LockOut(){
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
-        await changeLockOut({userId:selectedRows[0].userId,lockoutEndDateTime:query.date})
+        await changeLockOut({userId:selectedRows[0].id,lockoutEndDateTime:query.date})
             .then(() => {
                 setModal(false)
                 toast.success('با موفقیت انجام شد')
@@ -46,7 +46,7 @@ export default function LockOut(){
     return(
         <>
             <button className="button bg-yellow-500" onClick={openHandler}>قفل/باز کردن حساب کاربری</button>
-            <Modal title={'قفل/باز کردن حساب کاربری'} ModalWidth={'max-w-3xl'} setOpen={setModal}
+            <Modal title={'قفل/باز کردن حساب کاربری'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>

@@ -272,14 +272,14 @@ export const getUsersLogs = async (body:any) => {
 }
 
 export const getContent = async (userId:string) => {
-    const log = await axios.get(`${fileServerApi}get-content?fileOwnerSoftware=1&userId=${userId}`)
+    const log = await axios.get(`${fileServerApi}admin-file-manager/get-content?fileOwnerSoftware=1&userId=${userId}`)
         .then(({data}) => {
             return data
         })
     return log
 }
 export const uploadPhoto = async (body: any) => {
-    const log = await axios.post(`${fileServerApi}upload`, body, {
+    const log = await axios.post(`${fileServerApi}admin-file-manager/upload`, body, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -290,14 +290,14 @@ export const uploadPhoto = async (body: any) => {
     return log
 }
 export const lockFile = async (body: any) => {
-    const log = await axios.post(`${fileServerApi}lock-file`, body)
+    const log = await axios.post(`${fileServerApi}admin-file-manager/lock-file`, body)
         .then(({data}) => {
             return data
         })
     return log
 }
 export const unlockFile = async (body: any) => {
-    const log = await axios.post(`${fileServerApi}unlock-file`, body)
+    const log = await axios.post(`${fileServerApi}admin-file-manager/unlock-file`, body)
         .then(({data}) => {
             return data
         })
@@ -305,9 +305,10 @@ export const unlockFile = async (body: any) => {
 }
 
 export const downloadContent = async (id: string) => {
-    const log = await axios.get(`${fileServerApi}download?id=${id}`, {
+    const log = await axios.get(`${fileServerApi}file-manager/download?id=${id}`, {
         headers: {
-            'Content-Type': 'multipart/form-data'
+            'content-disposition': 'attachment',
+            'content-type': 'image/png'
         }
     })
         .then(({data}) => {
@@ -384,6 +385,27 @@ export const checkUserSejamState = async (userId:string) => {
             }
         }
     )
+        .then(({data}) => {
+            return data
+        })
+    return users;
+}
+
+export const updateAccount = async (body:any) => {
+    const users = await axios.put(`${USERS}/account`,body,
+        {
+            headers: {
+                'Accept':'*/*'
+            }
+        }
+    )
+        .then(({data}) => {
+            return data
+        })
+    return users;
+}
+export const twoFactor = async (enable:any) => {
+    const users = await axios.put(`${USERS}/account/2fa?enabled=${enable}`)
         .then(({data}) => {
             return data
         })

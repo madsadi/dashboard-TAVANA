@@ -50,33 +50,25 @@ export default function Users() {
             maxWidth: 40,
         },
         {
-            field: 'userId',
-            headerName: 'شناسه حساب کاربری',
+            field: 'username',
+            headerName: 'نام کاربری',
             cellRenderer: 'agGroupCellRenderer'
         },
         {
-            field: 'username',
-            headerName: 'نام کاربری',
+            field: 'phoneNumber',
+            headerName: 'موبایل',
         },
-        {
-            field: 'email',
-            headerName: 'ایمیل',
-        },
-        // {
-        //     field: 'mobile',
-        //     headerName: 'موبایل',
-        // },
         {
             field: 'firstName',
             headerName: 'نام',
         },
         {
-            field: 'familyName',
+            field: 'lastName',
             headerName: 'نام خانوادگی',
         },
         {
-            field: 'uniqueId',
-            headerName: 'شناسه یکتا',
+            field: 'nationalId',
+            headerName: 'کد ملی',
         },
         {
             field: 'isActive',
@@ -87,51 +79,47 @@ export default function Users() {
             },
         },
         {
-            field: 'mobileConfirmed',
-            headerName: 'موبایل تائید شده؟',
-        },
-        {
             field: 'twoFactorEnabled',
-            headerName: 'ورود دوعاملی فعال؟',
+            headerName: 'ورود دوعاملی',
         },
         {
             field: 'lockOutEnabled',
             headerName: 'قفل شده؟',
         },
-        {
-            field: 'accessFailedCount',
-            headerName: 'تعداد ورود ناموفق',
-        },
-        {
-            field: 'lockOutEnd',
-            headerName: 'قفل تا تاریخ',
-            // cellRendererSelector: () => {
-            //     const ColourCellRenderer = (rowData: any) => {
-            //         return (
-            //             <span>{jalali(rowData.data.LockOutEnd).date}</span>
-            //         )
-            //         const moodDetails = {
-            //             component: ColourCellRenderer,
-            //         }
-            //         return moodDetails;
-            //     }
-            // }
-        },
-        {
-            field: 'birthDate',
-            headerName: 'تاریخ تولد',
-            // cellRendererSelector: () => {
-            //     const ColourCellRenderer = (rowData: any) => {
-            //         return (
-            //             <span>{jalali(rowData.data.BirthDate).date}</span>
-            //         )
-            //         const moodDetails = {
-            //             component: ColourCellRenderer,
-            //         }
-            //         return moodDetails;
-            //     }
-            // }
-        }
+        // {
+        //     field: 'accessFailedCount',
+        //     headerName: 'تعداد ورود ناموفق',
+        // },
+        // {
+        //     field: 'lockOutEnd',
+        //     headerName: 'قفل تا تاریخ',
+        //     // cellRendererSelector: () => {
+        //     //     const ColourCellRenderer = (rowData: any) => {
+        //     //         return (
+        //     //             <span>{jalali(rowData.data.LockOutEnd).date}</span>
+        //     //         )
+        //     //         const moodDetails = {
+        //     //             component: ColourCellRenderer,
+        //     //         }
+        //     //         return moodDetails;
+        //     //     }
+        //     // }
+        // },
+        // {
+        //     field: 'birthDate',
+        //     headerName: 'تاریخ تولد',
+        //     // cellRendererSelector: () => {
+        //     //     const ColourCellRenderer = (rowData: any) => {
+        //     //         return (
+        //     //             <span>{jalali(rowData.data.BirthDate).date}</span>
+        //     //         )
+        //     //         const moodDetails = {
+        //     //             component: ColourCellRenderer,
+        //     //         }
+        //     //         return moodDetails;
+        //     //     }
+        //     // }
+        // }
     ]
 
     const [query, setQuery] = useState<initialType>(initialValue)
@@ -163,7 +151,7 @@ export default function Users() {
                 <UsersToolbar/>
                 <TableComponent data={data}
                                 columnDefStructure={columnDefStructure}
-                                rowId={['userId']}
+                                rowId={['id']}
                                 rowSelection={'single'}
                                 masterDetail={true}
                                 detailComponent={UserDetailComponent}
