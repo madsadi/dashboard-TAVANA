@@ -127,6 +127,7 @@ export default function Users() {
     const [totalCount, setTotalCount] = useState<number>(0)
     const [selectedRows, setSelectedRows] = useState<any>([])
 
+    console.log(query,'query')
     const onSubmit = async (e: any, query: any) => {
         e?.preventDefault()
         await getUsers(query)

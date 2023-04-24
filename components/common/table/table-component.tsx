@@ -5,6 +5,7 @@ import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
 
 const TableComponent: React.FC<any> = (props) =>{
     let {data=[],columnDefStructure,rowSelection,onGridReady=()=>{gridRef?.current?.api?.setRowData([])},rowId,isRowSelectable=null,masterDetail=false,detailComponent=null,detailCellRendererParams=null,setSelectedRows=null,selectedRows=[],onRowClicked=null,suppressRowClickSelection=false} = props
+    console.log('table')
 
     const gridRef: any = useRef();
 

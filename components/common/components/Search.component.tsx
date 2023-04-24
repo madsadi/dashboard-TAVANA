@@ -10,18 +10,16 @@ const SearchComponent: React.FC<any> = (props) =>{
         to: null
     });
 
+    console.log(query)
     return(
         <form onSubmit={(e) => onSubmit(e, query)}>
             <div className="grid grid-cols-5 gap-4">
                 {
                     listOfFilters?.map((item: any) => {
                         return <InputComponent key={item.title}
+                                               item={item}
                                                query={query}
-                                               title={item?.title}
-                                               name={item?.name}
                                                setQuery={setQuery}
-                                               valueType={item?.valueType}
-                                               type={item?.type}
                                                selectedDayRange={selectedDayRange}
                                                setSelectedDayRange={setSelectedDayRange}
                                                dynamicsOption={dynamicOptions}

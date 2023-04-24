@@ -14,12 +14,9 @@ function classNames(...classes: any) {
 type PropsType = {
     query: any,
     setQuery: Dispatch<any>,
-    title: string,
-    name: string,
-    type: string,
+    item: any,
     selectedDayRange: DayRange,
     setSelectedDayRange: Dispatch<DayRange>,
-    valueType: string,
     dynamicsOption: any,
     selectedDay:DayValue,
     setSelectedDay:Dispatch<DayValue>,
@@ -28,18 +25,16 @@ type PropsType = {
 export default function InputComponent({
                                            query,
                                            setQuery,
-                                           title,
-                                           name,
-                                           type,
+                                           item,
                                            selectedDayRange,
                                            setSelectedDayRange,
                                            selectedDay,
                                            setSelectedDay,
-                                           valueType,
                                            dynamicsOption,
                                            queryUpdateAlternative
                                        }: PropsType) {
 
+    const {title,name,type,valueType} = item
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
             <label className={'block'} htmlFor="rangeDate">{name}</label>
