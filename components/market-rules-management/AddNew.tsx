@@ -126,11 +126,8 @@ export default function AddNew() {
                             listOfFilters?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
+                                                       item={item}
                                                        setQuery={setQuery}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
                                 />
                             })
                         }
@@ -138,12 +135,9 @@ export default function AddNew() {
                             extraListOfFilters?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={expressionQuery}
-                                                       title={item?.title}
-                                                       name={item?.name}
+                                                       item={item}
                                                        setQuery={setExpressionQuery}
                                                        queryUpdateAlternative={expressionQueryUpdate}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
                                                        dynamicsOption={dynamicOptions}
                                 />
                             })

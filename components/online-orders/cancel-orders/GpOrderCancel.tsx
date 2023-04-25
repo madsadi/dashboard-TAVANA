@@ -58,12 +58,9 @@ export default function GpOrderCancel(){
                 <div className="grid grid-cols-2 gap-4 pt-5">
                     {InstrumentGroupFilters.map((filter: any) => {
                         return <InputComponent key={filter.title}
-                                               type={filter.type}
-                                               name={filter.name}
+                                               item={filter}
                                                setQuery={setQuery}
-                                               valueType={filter?.valueType}
                                                query={query}
-                                               title={filter.title}
                         />
 
                     })}

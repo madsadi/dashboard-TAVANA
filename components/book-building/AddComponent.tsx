@@ -75,11 +75,8 @@ export default function AddModal() {
                             bookBuildingInputs.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
+                                                       item={item}
                                                        setQuery={setQuery}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
                                                        selectedDayRange={selectedDayRange}
                                                        setSelectedDayRange={setSelectedDayRange}/>
 
