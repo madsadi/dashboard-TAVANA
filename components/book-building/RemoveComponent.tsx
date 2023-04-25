@@ -1,11 +1,7 @@
 import React, {useContext, useState} from "react";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/Modal";
-import { deleteBookBuilding, updateBookBuilding } from "../../api/book-building.api";
-import moment from "jalali-moment";
+import { deleteBookBuilding } from "../../api/book-building.api";
 import { toast } from "react-toastify";
-import InputComponent from "../common/components/InputComponent";
-import { jalali } from "../common/functions/common-funcions";
 import {BookBuildingContext} from "./tableSection";
 
 export default function RemoveModal() {

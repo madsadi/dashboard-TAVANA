@@ -8,7 +8,8 @@ const TablePagination = dynamic(() => import('../../components/common/table/Tabl
 const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'))
 const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'))
 const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'))
-
+import useQuery from '../../hooks/useAxios';
+import {USERS} from "../../api/constants";
 
 type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, Mobile: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }
 const initialValue = {
@@ -122,35 +123,24 @@ export default function Users() {
         // }
     ]
 
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-    const [totalCount, setTotalCount] = useState<number>(0)
+    console.log('table')
+    const [query, setQuery] = useState<any>(initialValue)
     const [selectedRows, setSelectedRows] = useState<any>([])
-
-    console.log(query,'query')
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await getUsers(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData);
-                setTotalCount(res?.result?.totalCount)
-            })
-            .catch(() => setData([]))
-    };
+    const {data,fetchData}:any = useQuery({url:`${USERS}/users/SearchUserAccount`, params:query})
 
     return (
-        <UsersContext.Provider value={{onSubmit,query,selectedRows}}>
+        <UsersContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
                     <SearchComponent query={query}
                                      setQuery={setQuery}
                                      listOfFilters={usersListOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <UsersToolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result?.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['id']}
                                 rowSelection={'single'}
@@ -160,10 +150,10 @@ export default function Users() {
                                 setSelectedRows={setSelectedRows}
                                 suppressRowClickSelection={true}
                 />
-                <TablePagination onSubmit={onSubmit}
+                <TablePagination onSubmit={fetchData}
                                  query={query}
                                  setQuery={setQuery}
-                                 totalCount={totalCount}
+                                 totalCount={data?.result?.totalCount || 0}
                 />
             </div>
         </UsersContext.Provider>

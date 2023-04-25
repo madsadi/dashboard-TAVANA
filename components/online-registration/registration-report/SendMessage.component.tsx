@@ -29,12 +29,9 @@ export const SendMessageComponent = () => {
                 <div className="field mt-4">
                     <form onSubmit={sendMessage}>
                         <div className={'w-full md:w-3/5'}>
-                            <InputComponent title={''}
-                                            type={'singleDate'}
-                                            name={'date'}
+                            <InputComponent item={{title:'',type:'singleDate',name:'date',valueType:'string'}}
                                             query={query}
                                             setQuery={setQuery}
-                                            valueType={'string'}
                                             setSelectedDay={setSelectedDay}
                                             selectedDay={selectedDay}
                             />
