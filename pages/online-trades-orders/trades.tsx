@@ -1,21 +1,23 @@
-import React, {useMemo, useState} from "react";
+import React, {useMemo} from "react";
 import dynamic from "next/dynamic";
+
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
-import {getTrade} from "../../api/online-trades-orders.api";
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
-import {errors} from "../../dictionary/Enums";
-import {toast} from "react-toastify";
+import useQuery from "../../hooks/useQuery";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {throwToast} from "../../components/common/functions/notification";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, TradeId: string, TradeCancelationFlag: number | undefined, OrderSide: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    StartDate: '',
+    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: '',
     OrderId: '',
     InstrumentId: '',
     OrderSide: undefined,
@@ -151,22 +153,7 @@ export default function Trades() {
             headerName: 'نام نرم افزار',
         }
     ]
-
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-    const [totalCount, setTotal] = useState<any>(null);
-
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await getTrade(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData);
-                setTotal(res?.result?.totalCount)
-            })
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code).errorText}`)
-            })
-    };
+    const {data, loading, query, fetchData} = useQuery({url: `${MARKET_RULES_MANAGEMENT}/request/SearchTrades`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -205,26 +192,32 @@ export default function Trades() {
         };
     }, []);
 
+    const fetchHandler =(query:any)=>{
+        if (query?.StartDate && query?.EndDate){
+            fetchData(query)
+        }else{
+            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        }
+    }
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={tradesListOfFilters}
+                <SearchComponent listOfFilters={tradesListOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchHandler}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result?.pagedData}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['tradeTime', 'tradeDate', 'orderId', 'tradeId']}
                             detailCellRendererParams={detailCellRendererParams}
                             masterDetail={true}
+                            pagination={true}
+                            totalCount={data?.result?.totalCount}
+                            fetcher={fetchHandler}
+                            query={query}
             />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}/>
         </div>
     )
 }

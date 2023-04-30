@@ -1,12 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 import {useRouter} from "next/router";
-import {toast} from "react-toastify";
-import {getPortfolio} from "../../api/portfo.api";
+import useQuery from "../../hooks/useQuery";
+import { MARKET_RULES_MANAGEMENT } from "../../api/constants";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -65,50 +64,28 @@ export default function LivePortfo() {
             headerName: 'حجم قابل فروش',
         }
     ]
-
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-    const [totalCount, setTotalCount] = useState<any>(null)
-
-    const onSubmit = async (e: any, query: initialType) => {
-        e?.preventDefault()
-        let body: any = {}
-        Object.keys(query).map((item: any) => {
-            // @ts-ignore
-            if (query[item]) {
-                // @ts-ignore
-                body[item] = query[item]
-            }
-        })
-        await getPortfolio(body)
-            .then((res) => {
-                setData(res.result?.pagedData)
-                setTotalCount(res?.result?.totalCount)
-            })
-            .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
-    }
+    const {data,loading,query,fetchData}=useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={listOfFilters}
+                <SearchComponent listOfFilters={listOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchData}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result?.pagedData}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['customerId', 'instrumentId']}
                             onRowClicked={(e: any) => {
                                 router.push(`/portfo/${e.data.customerId}&${e.data.instrumentId}`)
                             }}
+                            pagination={true}
+                            totalCount={data?.result?.totalCount}
+                            fetcher={fetchData}
+                            query={query}
             />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}/>
         </div>
     )
 }

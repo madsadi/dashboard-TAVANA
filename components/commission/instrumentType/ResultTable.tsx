@@ -4,8 +4,8 @@ const InstrumentTypeToolbar = dynamic(() => import('./InstrumentTypeToolbar'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
-import {commissionSearch} from "../../../api/commission.api";
-import {toast} from "react-toastify";
+import useQuery from "../../../hooks/useQuery";
+import {COMMISSION_BASE_URL} from "../../../api/constants";
 
 type initialType = { CommissionInstrumentTypeId: string, BourseTitle: string, InstrumentTypeTitle: string, InstrumentTypeDescription: string, SectorTitle: string, SubSectorTitle: string, Deleted: string }
 const initialValue = {
@@ -118,30 +118,21 @@ export default function ResultTable() {
             minWidth: 120,
         }
     ]
-    const [data, setData] = useState<any>([]);
+    const {fetchData,query,loading,data} = useQuery({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Search`})
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const [query, setQuery] = useState<initialType>(initialValue);
-
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await commissionSearch(query)
-            .then(res => setData(res?.result))
-            .catch(() => toast.error('نا موفق'))
-    };
 
     return (
-        <InstrumentTypeContext.Provider value={{onSubmit,query,selectedRows}}>
+        <InstrumentTypeContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'relative flex flex-col grow overflow-hidden'}>
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
-                                     listOfFilters={listOfFilters}
+                    <SearchComponent listOfFilters={listOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <InstrumentTypeToolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result}
+                                loading={loading}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['id']}
                                 rowSelection={'single'}

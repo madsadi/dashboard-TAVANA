@@ -1,6 +1,6 @@
 import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import React, {useEffect, useRef, useState} from "react";
-import {useSearchSymbol} from "../../../api/useSearchSymbol";
+import {useSearchSymbol} from "../../../hooks/useSearchSymbol";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
 
@@ -98,7 +98,7 @@ export default function SymbolSearchSection({query,queryUpdate}: {query:any,quer
                 >
                     {findings.length > 0 ? (findings.map((symbol: any) => {
                         return (
-                            <li className={'dark:odd:bg-slate-700 odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={symbol.id} onClick={()=>select(symbol)}>
+                            <li className={'dark:odd:bg-slate-700 odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={symbol.instrumentId} onClick={()=>select(symbol)}>
                                 <div>{symbol.faInsCode} - {symbol.faInsName}</div>
                             </li>)
                     })) : <div>نتیجه ای یافت نشد</div>}

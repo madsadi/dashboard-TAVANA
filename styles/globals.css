@@ -21,6 +21,7 @@ a {
 
 * {
     box-sizing: border-box;
+    font-variant-numeric:tabular-nums;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

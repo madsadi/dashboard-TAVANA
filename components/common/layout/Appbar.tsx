@@ -10,15 +10,16 @@ import Router, {useRouter} from "next/router";
 import BreadCrumbComponent from "./BreadCrumb";
 import SideBar from './SideBar';
 import Time from "../components/Time";
-import {currentUserInfo} from "../../../api/dashboard";
 import Link from "next/link";
 import {userInfo} from "../../../store/user-management.config";
 import {useDispatch} from "react-redux";
+import useQuery from "../../../hooks/useQuery";
+import {USERS} from "../../../api/constants";
 
 export default function Example() {
     const [open, setOpen] = useState(false)
     const [info, setInfo] = useState<{lastName:string,firstName:string}>({lastName:'',firstName:''})
-
+    const {fetchAsyncData} = useQuery({url:`${USERS}/users/GetCurrentUserInfo`})
     const auth = useAuth();
     const router = useRouter();
     let query = router.query?.page?.[0]
@@ -29,14 +30,11 @@ export default function Example() {
     }, [router.pathname, query])
 
     useEffect(() => {
-        const getUserInfo = async () => {
-            await currentUserInfo()
-                .then((res) => {
-                    setInfo(res?.result);
-                    dispatch(userInfo(res?.result))
-                })
-        }
-        getUserInfo()
+        fetchAsyncData()
+            .then((res) => {
+                setInfo(res?.data?.result);
+                dispatch(userInfo(res?.data?.result))
+            })
     }, [])
 
     return (

@@ -1,30 +1,31 @@
 import React, {useContext, useState} from "react";
 import Modal from "../common/layout/Modal";
-import { deleteBookBuilding } from "../../api/book-building.api";
-import { toast } from "react-toastify";
-import {BookBuildingContext} from "./tableSection";
+import {BookBuildingContext} from "./BookBuilding";
+import {throwToast} from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import {BOOKBUILDING_BASE_URL} from "../../api/constants";
 
 export default function RemoveModal() {
     const {onSubmit, query: bookBuildingQuery,selectedRows} = useContext<any>(BookBuildingContext)
+    const {mutate} = useMutation({url:`${BOOKBUILDING_BASE_URL}/DeleteBookBuilding`,method:"DELETE"})
     const [modal, setModal] = useState(false);
 
     const confirmDeleteSelected = () => {
         if (selectedRows.length === 1) {
             setModal(true);
         } else {
-            toast.warning('لطفا یک گزینه را انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه را انتخاب کنید'})
         }
     }
 
-    const deleteHandler = async (e:any) => {
-        await deleteBookBuilding(selectedRows[0]?.instrumentId)
+    const deleteHandler = async () => {
+        await mutate({},{InstrumentId:selectedRows[0]?.instrumentId})
             .then(() => {
-                onSubmit(e,bookBuildingQuery)
                 setModal(false);
-                toast.success('با موفقیت انجام شد')
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
             })
             .catch(err => {
-                toast.error('ناموفق')
+                throwToast({type:'error',value:err})
             })
     }
 

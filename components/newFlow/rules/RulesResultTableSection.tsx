@@ -1,13 +1,12 @@
-import React, {useState, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../common/table/TablePagination'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import moment from "jalali-moment";
 import {formatNumber} from "../../common/functions/common-funcions";
-import {toast} from "react-toastify";
-import {netflowRulesSearch} from "../../../api/netflow.api";
+import useQuery from "../../../hooks/useQuery";
+import {NETFLOW_BASE_URL} from "../../../api/constants";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
 const initialValue = {
@@ -96,10 +95,7 @@ export default function RulesResultTableSection() {
             headerName: 'تاخیر',
         }
     ]
-
-    const [data, setData] = useState<any>([]);
-    const [totalCount, setTotalCount] = useState<number>(0);
-    const [query, setQuery] = useState<initialType>(initialValue)
+    const {fetchData,loading,data,query} = useQuery({url:`${NETFLOW_BASE_URL}/Report/rules`})
 
     const getRowStyle = (params: any) => {
         if (params?.node?.data?.side === 1) {
@@ -175,37 +171,26 @@ export default function RulesResultTableSection() {
         };
     }, []);
 
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await netflowRulesSearch(query)
-            .then(res => {
-                setData(res?.result);
-                setTotalCount(res?.totalRecord)
-            })
-            .catch(() => toast.error('نا موفق'))
-    };
-
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={listOfFilters}
+                <SearchComponent listOfFilters={listOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchData}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['endDate', 'startDate', 'name', 'tierName']}
                             rowSelection={'single'}
                             masterDetail={true}
                             detailCellRendererParams={detailCellRendererParams}
+                            pagination={true}
+                            totalCount={data?.totalRecord}
+                            fetcher={fetchData}
+                            query={query}
             />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}/>
         </div>
     );
 }

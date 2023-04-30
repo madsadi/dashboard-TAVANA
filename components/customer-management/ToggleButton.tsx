@@ -1,17 +1,19 @@
 import {useState} from "react";
 import {toast} from "react-toastify";
-import {contractUpdateStatus} from "../../api/customer-management.api";
+import useMutation from "../../hooks/useMutation";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {throwToast} from "../common/functions/notification";
 
 export default function ToggleButton(props: { api:string,data: { isActive: boolean,id:string } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
-
+    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/${props.api}/UpdateActivationStatus`,method:"PUT"})
     const changeStatus = async ()=>{
-        await contractUpdateStatus(props.api,{id:props.data.id,isActive:!isChecked})
+        await mutate({id:props.data.id,isActive:!isChecked})
             .then((res)=> {
                 setIsChecked(!isChecked);
-                toast.success(`${res?.result?.message}`)
+                toast.success(`${res?.data?.result?.message}`)
             })
-            .catch((err)=>toast.error(`${err?.response?.data?.error?.message}`))
+            .catch((err)=>throwToast({type:'error',value:err}))
     }
 
     return (

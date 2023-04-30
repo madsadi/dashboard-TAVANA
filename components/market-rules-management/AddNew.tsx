@@ -1,6 +1,4 @@
 import React, {Fragment, useContext, useEffect, useState} from "react";
-import {addRule, filedList, remoteUrl} from "../../api/market-rules-management.api";
-import {toast} from "react-toastify";
 import Modal from "../common/layout/Modal";
 import {Badge} from "flowbite-react";
 import {XCircleIcon} from "@heroicons/react/24/outline";
@@ -9,6 +7,10 @@ import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../common/components/SymbolSearchSecion";
 import {MarketRulesContext} from "./RulesList";
+import {throwToast} from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import useQuery from "../../hooks/useQuery";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -37,7 +39,9 @@ const extraListOfFilters = [
     {title: 'operator', name: 'عملگر', type: 'selectInput'},
 ]
 export default function AddNew() {
-    const {dynamicOptions, onSubmit, query: rulesQuery} = useContext<any>(MarketRulesContext)
+    const {dynamicOptions, fetchData, query: rulesQuery} = useContext<any>(MarketRulesContext)
+    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/AddRule`})
+    const {fetchAsyncData:remoteUrl} = useQuery({})
     const [modal, setModal] = useState<boolean>(false)
     const [query, setQuery] = useState<queryType>(initialQuery)
     const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
@@ -73,9 +77,9 @@ export default function AddNew() {
         expressionQueryUpdate('value', '')
         if (expressionQuery.variable?.remoteUrl) {
             const getValueFromRemoteUrl = async (api: string) => {
-                await remoteUrl(api)
-                    .then(res => setValueOptions(res?.result))
-                    .catch(() => toast.error('نا موفق'))
+                await remoteUrl({},api)
+                    .then(res => setValueOptions(res?.data?.result))
+                    .catch(() => throwToast({type:'customError',value:'نا موفق'}))
             }
             if (expressionQuery.variable?.displayName !== 'نماد') {
                 getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
@@ -91,13 +95,13 @@ export default function AddNew() {
             expression: expression.join(' '),
             ...query
         }
-        await addRule(_query)
+        await mutate(_query)
             .then(() => {
-                onSubmit(e, rulesQuery)
-                toast.success('با موفقیت انجام شد');
+                fetchData(rulesQuery)
+                throwToast({type:'success',value:'با موفقیت انجام شد'});
                 setModal(false)
             })
-            .catch(() => toast.error('نا موفق'))
+            .catch(() => throwToast({type:'customError',value:'نا موفق'}))
     }
 
     const remove = (index: number) => {
@@ -116,6 +120,11 @@ export default function AddNew() {
         }
     }, [modal])
 
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>قانون جدید</button>
@@ -126,11 +135,8 @@ export default function AddNew() {
                             listOfFilters?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       setQuery={setQuery}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
+                                                       item={item}
+                                                       onChange={onChange}
                                 />
                             })
                         }
@@ -138,12 +144,8 @@ export default function AddNew() {
                             extraListOfFilters?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={expressionQuery}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       setQuery={setExpressionQuery}
-                                                       queryUpdateAlternative={expressionQueryUpdate}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
+                                                       item={item}
+                                                       onChange={expressionQueryUpdate}
                                                        dynamicsOption={dynamicOptions}
                                 />
                             })

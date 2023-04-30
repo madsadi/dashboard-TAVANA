@@ -1,7 +1,4 @@
-import React, {Fragment, useCallback, useContext, useEffect, useState} from "react";
-import {addRule, filedList, remoteUrl, updateRule} from "../../api/market-rules-management.api";
-import {toast} from "react-toastify";
-import {operators} from '../../dictionary/Enums'
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import Modal from "../common/layout/Modal";
 import {Badge} from "flowbite-react";
 import {XCircleIcon} from "@heroicons/react/24/outline";
@@ -10,6 +7,10 @@ import InputComponent from "../common/components/InputComponent";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../common/components/SymbolSearchSecion";
+import {throwToast} from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import useQuery from "../../hooks/useQuery";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -39,7 +40,9 @@ const extraListOfFilters = [
 ]
 export default function Edit() {
     const [modal, setModal] = useState<boolean>(false)
-    const {selectedRows,dynamicOptions,onSubmit,query:rulesQuery,setSelectedRows} = useContext<any>(MarketRulesContext)
+    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/UpdateRule`,method:'PUT'})
+    const {fetchAsyncData:remoteUrl} = useQuery({})
+    const {selectedRows,dynamicOptions,fetchData,query:rulesQuery,setSelectedRows} = useContext<any>(MarketRulesContext)
     const [query, setQuery] = useState<queryType>(initialQuery)
     const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
         variable: null,
@@ -74,7 +77,7 @@ export default function Edit() {
         if (selectedRows.length) {
             setModal(true)
         } else {
-            toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
         }
     }
 
@@ -82,9 +85,9 @@ export default function Edit() {
         expressionQueryUpdate('value','')
         if (expressionQuery.variable?.remoteUrl) {
             const getValueFromRemoteUrl = async (api: string) => {
-                await remoteUrl(api)
-                    .then(res => setValueOptions(res?.result))
-                    .catch(() => toast.error('نا موفق'))
+                await remoteUrl({},api)
+                    .then(res => setValueOptions(res?.data?.result))
+                    .catch(() => throwToast({type:'customError',value:'نا موفق'}))
             }
             if (expressionQuery.variable?.displayName !== 'نماد') {
                 getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
@@ -102,14 +105,14 @@ export default function Edit() {
                 expression: expression.join(' '),
                 ...query
             }
-            await updateRule(_query)
+            await mutate(_query)
                 .then(() => {
-                    onSubmit(e,rulesQuery)
+                    fetchData(rulesQuery)
                     setSelectedRows([])
-                    toast.success('با موفقیت انجام شد');
+                    throwToast({type:'success',value:'با موفقیت انجام شد'});
                     setModal(false)
                 })
-                .catch(() => toast.error('نا موفق'))
+                .catch(() => throwToast({type:'customError',value:'نا موفق'}))
         }
     }
 
@@ -150,6 +153,11 @@ export default function Edit() {
         }
     }, [modal,selectedRows?.[0]])
 
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-orange-500" onClick={openUpdate}>ویرایش</button>
@@ -161,7 +169,7 @@ export default function Edit() {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
-                                                       setQuery={setQuery}
+                                                       onChange={onChange}
                                 />
                             })
                         }
@@ -170,8 +178,7 @@ export default function Edit() {
                                 return <InputComponent key={item.title}
                                                        query={expressionQuery}
                                                        item={item}
-                                                       setQuery={setExpressionQuery}
-                                                       queryUpdateAlternative={expressionQueryUpdate}
+                                                       onChange={expressionQueryUpdate}
                                                        dynamicsOption={dynamicOptions}
                                 />
                             })

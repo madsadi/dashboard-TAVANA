@@ -1,12 +1,13 @@
+import React, {useContext, useEffect, useState} from "react";
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
-import React, {useContext, useEffect, useState} from "react";
 import {UsersContext} from "../../../pages/users-management/users";
-import {toast} from "react-toastify";
-import {updateUsers} from "../../../api/users-management.api";
+import useMutation from "../../../hooks/useMutation";
+import {USERS} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 const userInputs = [
-    {title: 'userName', name: 'نام کاربری', type: 'input'},
+    {title: 'username', name: 'نام کاربری', type: 'input'},
     {title: 'phoneNumber', name: 'موبایل', type: 'input'},
     {title: 'firstName', name: 'نام', type: 'input'},
     {title: 'lastName', name: 'نام خانوادگی', type: 'input'},
@@ -14,47 +15,43 @@ const userInputs = [
     {title: 'nationalId', name: 'کدملی', type: 'input'},
 ]
 export default function Edit() {
-    const {onSubmit, query: searchQuery, selectedRows} = useContext<any>(UsersContext)
+    const {fetchData, query: searchQuery, selectedRows} = useContext<any>(UsersContext)
+    const {mutate} = useMutation({url:`${USERS}/users/update`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
-    const addNewHandler = async (e: any) => {
+    const editHandler = async (e: any) => {
         e.preventDefault()
-        await updateUsers({userId: selectedRows[0].id, ...query})
+        await mutate({userId: selectedRows[0].id, ...query})
             .then(() => {
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setModal(false)
-                toast.success('با موفقیت انجام شد')
                 setQuery({})
-                onSubmit(e, searchQuery)
+                fetchData(searchQuery)
             })
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message}`)
-            })
+            .catch((err) => throwToast({type:'error',value:err}))
     }
 
     const openHandler = () => {
         if (selectedRows.length) {
             setModal(true)
         } else {
-            toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
         }
     }
 
     useEffect(() => {
         if (modal && selectedRows.length) {
-            let _initialValue: any = {};
-            Object.keys(selectedRows[0]).map((item: string) => {
-                if (item === 'familyName'){
-                    _initialValue['lastName'] = selectedRows[0][`${item}`]
-                }else if (item === 'mobile'){
-                    _initialValue['phoneNumber'] = selectedRows[0][`${item}`]
-                }else if (item==='firstName' || item==='email' || item==='nationalId'){
-                    _initialValue[`${item}`] = selectedRows[0][`${item}`]
-                }
-            })
-            setQuery(_initialValue)
+            let {firstName,email,nationalId,phoneNumber,lastName,username} = selectedRows[0]
+            setQuery({firstName,email,nationalId,phoneNumber,lastName,username})
         }
     }, [modal])
+
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-orange-500" onClick={openHandler}>ویرایش</button>
@@ -67,7 +64,7 @@ export default function Edit() {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
-                                                       setQuery={setQuery}
+                                                       onChange={onChange}
                                 />
 
                             })
@@ -80,7 +77,7 @@ export default function Edit() {
                                     setModal(false)
                                 }}>لغو
                         </button>
-                        <button type={"submit"} className="button bg-lime-600" onClick={addNewHandler}>تایید</button>
+                        <button type={"submit"} className="button bg-lime-600" onClick={editHandler}>تایید</button>
                     </div>
                 </div>
             </Modal>

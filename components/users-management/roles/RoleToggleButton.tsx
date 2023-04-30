@@ -1,17 +1,19 @@
-import {useState} from "react";
-import {toast} from "react-toastify";
-import {changeRoleStatus} from "../../../api/users-management.api";
+import React,{useState} from "react";
+import useMutation from "../../../hooks/useMutation";
+import {USERS} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 export default function RoleToggleButton(props: { data: { id: string,isActive:boolean } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
+    const {mutate} = useMutation({url:`${USERS}/roles/${isChecked ? 'deactive':'active'}`})
 
     const changeStatus = async ()=>{
-        await changeRoleStatus(isChecked ? 'deactive':'active',props.data.id)
+        await mutate({},{id:props.data.id})
             .then(()=> {
                 setIsChecked(!isChecked);
-                toast.success(`وضعیت نقش عوض شد`)
+                throwToast({type:'success',value:`وضعیت نقش عوض شد`})
             })
-            .catch((err)=>toast.error(`${err?.response?.data?.error?.message}`))
+            .catch((err)=>throwToast({type:'error',value:err}))
     }
 
     return (

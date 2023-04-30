@@ -1,12 +1,11 @@
 import InputComponent from "./InputComponent";
 import React, {Dispatch, useCallback, useState} from "react";
-import {DayRange, DayValue} from "@amir04lm26/react-modern-calendar-date-picker";
-import {Simulate} from "react-dom/test-utils";
-import submit = Simulate.submit;
+import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 
 type PropsType = { query: any, setQuery: Dispatch<any>, onSubmit: Function, listOfFilters: any, initialValue: any, dynamicOptions: any }
 const SearchComponent: React.FC<any> = (props) => {
-    const {query, setQuery, onSubmit, listOfFilters, initialValue, dynamicOptions = []} = props
+    const {onSubmit, listOfFilters, initialValue, dynamicOptions = []} = props
+    const [query, setQuery] = useState<any>(initialValue)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -18,9 +17,11 @@ const SearchComponent: React.FC<any> = (props) => {
         setQuery(_query)
     }
 
-    console.log(query)
     return (
-        <form onSubmit={(e) => onSubmit()}>
+        <form onSubmit={(e) => {
+            e.preventDefault()
+            onSubmit(query)
+        }}>
             <div className="grid grid-cols-5 gap-4">
                 {
                     listOfFilters?.map((item: any) => {
@@ -40,11 +41,11 @@ const SearchComponent: React.FC<any> = (props) => {
                     e.preventDefault()
                     setQuery(initialValue)
                     setSelectedDayRange({from: null, to: null})
-                    onSubmit()
+                    // onSubmit({})
                 }}>
                     لغو فیلتر ها
                 </button>
-                <button className={'button bg-lime-600'} type={'button'} onClick={onSubmit}>
+                <button className={'button bg-lime-600'} type={'submit'}>
                     جستجو
                 </button>
             </div>

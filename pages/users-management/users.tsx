@@ -1,23 +1,21 @@
 import React, {createContext, useState} from "react";
 import dynamic from "next/dynamic";
-import {getUsers} from "../../api/users-management.api";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'))
 const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'))
 const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'))
-import useQuery from '../../hooks/useAxios';
+import useQuery from '../../hooks/useQuery';
 import {USERS} from "../../api/constants";
 
-type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, Mobile: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }
+type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, PhoneNumber: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
     UserId: '',
     UserName: '',
-    Mobile: '',
+    PhoneNumber: '',
     Email: '',
     FirstName: '',
     FamilyName: '',
@@ -123,17 +121,14 @@ export default function Users() {
         // }
     ]
 
-    console.log('table')
-    const [query, setQuery] = useState<any>(initialValue)
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,fetchData}:any = useQuery({url:`${USERS}/users/SearchUserAccount`, params:query})
+    const {data,query,fetchData}:any = useQuery({url:`${USERS}/users/SearchUserAccount`})
 
     return (
         <UsersContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
+                    <SearchComponent
                                      listOfFilters={usersListOfFilters}
                                      initialValue={initialValue}
                                      onSubmit={fetchData}
@@ -149,11 +144,10 @@ export default function Users() {
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 suppressRowClickSelection={true}
-                />
-                <TablePagination onSubmit={fetchData}
-                                 query={query}
-                                 setQuery={setQuery}
-                                 totalCount={data?.result?.totalCount || 0}
+                                pagination={true}
+                                totalCount={data?.result?.totalCount}
+                                fetcher={fetchData}
+                                query={query}
                 />
             </div>
         </UsersContext.Provider>

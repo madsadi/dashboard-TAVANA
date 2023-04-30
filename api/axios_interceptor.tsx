@@ -9,9 +9,8 @@ axios.interceptors.request.use((value) => {
         const oidcStorage:any = localStorage.getItem(`oidc.user:${authorityPath}:${clientId}`)
         let token = JSON.parse(oidcStorage)?.access_token
         value.headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
+            'accept': '*/*',
+            'Authorization': 'Bearer '+`${token}`
         }
 
         return value

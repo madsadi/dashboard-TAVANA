@@ -1,15 +1,22 @@
-import Modal from "../../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
-import {toast} from "react-toastify";
+import Modal from "../../common/layout/Modal";
 import {RolesContext} from "../../../pages/users-management/roles";
 import {useFuzzy} from 'react-use-fuzzy';
 import {useDispatch, useSelector} from "react-redux";
 import {userDetail} from "../../../store/user-management.config";
-import {addOrRemovePermissionToRole, getRolePermission, servicePermissions} from "../../../api/users-management.api";
+import {throwToast} from "../../common/functions/notification";
+import useQuery from "../../../hooks/useQuery";
+import {USERS} from "../../../api/constants";
+import useMutation from "../../../hooks/useMutation";
 
 export default function Permissions() {
-    const {userDetail:userDetailValue} = useSelector((state:any)=>state.userManagementConfig)
-    const {selectedRows,setSelectedRows} = useContext<any>(RolesContext)
+    const {userDetail: userDetailValue} = useSelector((state: any) => state.userManagementConfig)
+    const {selectedRows, setSelectedRows} = useContext<any>(RolesContext)
+    const {fetchAsyncData: getRolePermission} = useQuery({url: `${USERS}/roles/get-role-permission`})
+    const {fetchAsyncData: servicePermissions} = useQuery({url: `${USERS}/service-permossion/get-all-service-permission`})
+    const {mutate: addPermissionToRole} = useMutation({url: `${USERS}/roles/add-permission-to-role`})
+    const {mutate:removePermissionFromRole} = useMutation({url:`${USERS}/roles/remove-permission-from-role`})
+
     const [modal, setModal] = useState(false)
     const [permissions, setPermissions] = useState<any>([])
     const [userPermissions, setUserPermissions] = useState<any>([])
@@ -22,13 +29,13 @@ export default function Permissions() {
         const fetchAllRoles = async () => {
             await servicePermissions()
                 .then((res) => {
-                    setPermissions(res?.result)
+                    setPermissions(res?.data?.result)
                 })
         }
         const fetchUserRoles = async () => {
-            await getRolePermission(selectedRows[0].id)
+            await getRolePermission({id:selectedRows[0].id})
                 .then((res) => {
-                    setUserPermissions(res?.result)
+                    setUserPermissions(res?.data?.result)
                     fetchAllRoles()
                 })
         }
@@ -41,7 +48,7 @@ export default function Permissions() {
         if (selectedRows.length) {
             setModal(true)
         } else {
-            toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
+            throwToast({type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید'})
         }
     }
 
@@ -58,26 +65,37 @@ export default function Permissions() {
     }
 
     const roleInsert = async (mode: string, permission: any) => {
-        await addOrRemovePermissionToRole(mode, {
-            service: permission.service,
-            roleId: selectedRows[0].id,
-            module: permission.module,
-            action: permission.action
-        })
-            .then(() => {
-                actionOfTransfer(permission.id)
+        if (mode === 'add') {
+            await addPermissionToRole({
+                service: permission.service,
+                roleId: selectedRows[0].id,
+                module: permission.module,
+                action: permission.action
             })
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message}`)
+                .then(() => {
+                    actionOfTransfer(permission.id)
+                })
+                .catch((err) => throwToast({type: 'error', value: err}))
+        }else{
+            await removePermissionFromRole({
+                service: permission.service,
+                roleId: selectedRows[0].id,
+                module: permission.module,
+                action: permission.action
             })
+                .then(() => {
+                    actionOfTransfer(permission.id)
+                })
+                .catch((err) => throwToast({type: 'error', value: err}))
+        }
     }
 
-    useEffect(()=>{
-        if (!modal){
+    useEffect(() => {
+        if (!modal) {
             setSelectedRows([])
             dispatch(userDetail(!userDetailValue))
         }
-    },[modal])
+    }, [modal])
 
     return (
         <>
@@ -115,7 +133,8 @@ export default function Permissions() {
                             <h1 className={'text-center'}>کل دسترسی ها</h1>
                             <div
                                 className={'relative border border-gray-400 rounded-md p-3 h-[300px] overflow-y-auto space-y-2 custom-scrollbar'}>
-                                <input className={'w-full'} type="text" placeholder={'جستجو دسترسی'} onChange={(e) => search(e.target.value)} value={keyword}/>
+                                <input className={'w-full'} type="text" placeholder={'جستجو دسترسی'}
+                                       onChange={(e) => search(e.target.value)} value={keyword}/>
                                 <div
                                     className={`sticky z-10 top-0 flex w-full text-center px-3 py-1 bg-gray-500 text-white text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
                                     <div className={'basis-1/2'}>سرویس</div>

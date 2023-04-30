@@ -7,16 +7,24 @@ import {
 } from '@heroicons/react/24/solid'
 import Image from 'next/image';
 import {toast} from "react-toastify";
-import {downloadContent, lockFile, unlockFile, uploadPhoto} from "../../../../api/users-management.api";
+import {uploadPhoto} from "../../../../api/users-management.api";
 import {useRouter} from "next/router";
+import {throwToast} from "../../../common/functions/notification";
+import useMutation from "../../../../hooks/useMutation";
+import {fileServerApi} from "../../../../api/constants";
 
 export default function UploadComponent({
                                             item,
                                             documents,
                                             setDocs
                                         }: { item: any, documents: any, setDocs: Dispatch<any> }) {
+    const {mutate: upload} = useMutation({url: `${fileServerApi}admin-file-manager/upload`})
+    const {mutate: unlockFile} = useMutation({url: `${fileServerApi}admin-file-manager/unlock-file`})
+    const {mutate: lockFile} = useMutation({url: `${fileServerApi}admin-file-manager/lock-file`})
     const [lock, setLock] = useState<boolean>(false);
     const [images, setImages] = useState<ImageType[]>([]);
+
+
     let _documents = [...documents];
     const target = _documents.findIndex((i: any) => i.fileType === item.fileType)
     const router = useRouter()
@@ -26,7 +34,7 @@ export default function UploadComponent({
 
     const onChange = async (imageList: any, addUpdateIndex: any) => {
         if (item.fileType === 1) {
-            toast.warning('تصویر امضا قابل بارگزاری نمی باشد.')
+            throwToast({type: 'warning', value: 'تصویر امضا قابل بارگزاری نمی باشد.'})
         } else {
             let formData: any = new FormData()
             formData.append('userId', userId)
@@ -35,13 +43,13 @@ export default function UploadComponent({
             formData.append('fileType', item.fileType)
             await uploadPhoto(formData)
                 .then(() => {
-                    toast.success('با موفقیت مدرک جدید بارگذاری شد')
+                    throwToast({type: 'success', value: 'با موفقیت مدرک جدید بارگذاری شد'})
                     setImages(imageList);
                     let index = _documents.findIndex((i: any) => i.fileType === item.fileType)
                     _documents.splice(index, 1, {...item, image: imageList[0].data_url})
                     setDocs(_documents)
                 })
-                .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
+                .catch((err) => throwToast({type: 'error', value: err}))
         }
     };
 
@@ -58,17 +66,17 @@ export default function UploadComponent({
         if (lock) {
             await unlockFile({userId: userId, fileType: item.fileType})
                 .then(() => {
-                    toast.success('با موفقیت قفل برداشته شد');
+                    throwToast({type: 'success', value: 'با موفقیت قفل برداشته شد'});
                     setLock(false)
                 })
                 .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
         } else {
             await lockFile({userId: userId, fileType: item.fileType})
                 .then(() => {
-                    toast.success('با موفقیت قفل شد');
+                    throwToast({type: 'success', value: 'با موفقیت قفل شد'});
                     setLock(true)
                 })
-                .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
+                .catch((err) => throwToast({type: 'error', value: err}))
         }
     }
 

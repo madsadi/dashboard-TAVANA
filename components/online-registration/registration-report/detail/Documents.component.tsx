@@ -1,8 +1,9 @@
+import React,{useEffect, useState} from "react";
 import UploadComponent from './Upload.compnent';
-import {useEffect, useState} from "react";
-import {getContent} from "../../../../api/users-management.api";
 import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 import {useRouter} from "next/router";
+import useQuery from "../../../../hooks/useQuery";
+import {fileServerApi} from "../../../../api/constants";
 
 export default function DocumentsComponent() {
 
@@ -26,14 +27,10 @@ export default function DocumentsComponent() {
             title: 'تصویر روی کارت ملی',
             fileType:6,
             image: null
-        },
-        {
-            title: 'تصویر پشت کارت ملی',
-            fileType:7,
-            image: null
         }
     ]
     const [document,setDocuments] = useState<any>([])
+    const {fetchAsyncData} = useQuery({url:`${fileServerApi}admin-file-manager/get-content`})
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')
@@ -41,10 +38,10 @@ export default function DocumentsComponent() {
 
     useEffect(()=>{
         const getDocument = async ()=>{
-            await getContent(userId)
+            await fetchAsyncData({userId:userId,fileOwnerSoftware:1})
                 .then((res)=> {
                     let _D = initialDocuments;
-                    res?.result?.map((item:any)=>{
+                    res?.data?.result?.map((item:any)=>{
                         let _documentIndex = _D.findIndex((i:any)=>i.fileType===item.fileType)
                         if (_documentIndex>=0 && item?.content){
                             _D.splice(_documentIndex,1,{..._D[_documentIndex],...item,id:item.id,image:`data:image/${(item.extension).split('.')[1]};base64,`+item.content})
@@ -58,7 +55,7 @@ export default function DocumentsComponent() {
 
     return (
         <DaisyAccordionComponent title={'مدارک'}>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-white/50 backdrop-blur-md p-3 rounded-md">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white/50 backdrop-blur-md p-3 rounded-md">
                 {
                     document.map((item: any) => {
                         return (

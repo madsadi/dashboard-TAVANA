@@ -1,15 +1,17 @@
 import React from "react";
-import {activationWithOUtBody} from "../../../api/get-information.api";
-import {toast} from "react-toastify";
+import useMutation from "../../../hooks/useMutation";
+import {NETFLOW_BASE_URL} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 export default function NoDateBox({api, title}: { api: string, title: string }) {
+    const {mutate} = useMutation({url: `${NETFLOW_BASE_URL}${api}`})
 
     const submitHandler = async () => {
-        await activationWithOUtBody(api)
+        await mutate()
             .then(() => {
-                toast.success('با موفقیت انجام شد')
+                throwToast({type: 'success', value: 'با موفقیت انجام شد'})
             })
-            .catch(err => toast.error(err?.response?.data?.title))
+            .catch((err) => throwToast({type: 'error', value: err}))
     }
 
     return (

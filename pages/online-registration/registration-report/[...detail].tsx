@@ -1,6 +1,5 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useEffect} from "react";
 import {useRouter} from "next/router";
-import {searchUser} from "../../../api/users-management.api";
 import IdentityComponent from "../../../components/online-registration/registration-report/detail/Identity.component";
 import JobInfoComponent from "../../../components/online-registration/registration-report/detail/JobInfo.component";
 import BankComponent from "../../../components/online-registration/registration-report/detail/Bank.component";
@@ -18,32 +17,28 @@ import EditRegStateComponent from "../../../components/online-registration/regis
 import {
     InquirySejamStateComponent
 } from "../../../components/online-registration/registration-report/InquirySejamState.component";
-import {SendMessageComponent} from "../../../components/online-registration/registration-report/SendMessage.component";
+
 import {TBSComponent} from "../../../components/online-registration/registration-report/TBS.component";
 import DocumentsComponent from "../../../components/online-registration/registration-report/detail/Documents.component";
+import useQuery from "../../../hooks/useQuery";
+import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
-    const [data, setData] = useState<any>(null)
+    const {data:info,fetchData}:any = useQuery({url:`${BOOKBUILDING_BASE_URL}/SearchUser`})
+    let data = info?.result?.pagedData[0]
     const router = useRouter()
     let dep = router.query?.detail?.[0]
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await searchUser(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData[0]);
-            })
-    };
 
     useEffect(() => {
         if (dep) {
             const queryData = dep.split('&')
             let _query: any = {};
 
-            _query['userId'] = queryData[0].split('=')[1];
+            _query['UserId'] = queryData[0].split('=')[1];
             _query['StartDate'] = queryData[1].split('=')[1];
             _query['EndDate'] = queryData[2].split('=')[1];
-            onSubmit(null, _query)
+            fetchData(_query)
         }
     }, [dep])
 

@@ -1,11 +1,13 @@
 import Modal from "../../common/layout/Modal";
 import React, {useContext, useState} from "react";
-import {updateCommission} from "../../../api/commission.api";
-import {toast} from "react-toastify";
 import {InstrumentTypeContext} from "./ResultTable";
+import {throwToast} from "../../common/functions/notification";
+import useMutation from "../../../hooks/useMutation";
+import { COMMISSION_BASE_URL } from "../../../api/constants";
 
 export default function Edit(){
     const  [modal,setModal] = useState(false)
+    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Update`,method:"PUT"})
     const {selectedRows} = useContext<any>(InstrumentTypeContext)
     const [query, setQuery] = useState<{sectorCode:string,subSectorCode:string}>({sectorCode:'',subSectorCode:''});
 
@@ -19,22 +21,23 @@ export default function Edit(){
         if (selectedRows.length ===1) {
             setModal(true);
         } else {
-            toast.warning('لطفا یک گزینه را انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه را انتخاب کنید'})
         }
     }
     const updateHandler = async () => {
-        await updateCommission({
+        await mutate({
             id: selectedRows[0]?.id,
             sectorCode: query.sectorCode,
             subSectorCode: query.subSectorCode
         })
             .then(res => {
-                toast.success('با موفقیت انجام شد')
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setModal(false)
                 setQuery({sectorCode:'',subSectorCode:''})
             })
-            .catch(err => toast.error(`${err?.response?.data?.title}`))
-    }
+            .catch((err) => {
+                throwToast({type:'error',value:err})
+            })    }
     return(
         <>
             <button className="button bg-orange-400" onClick={openUpdate}>ویرایش</button>

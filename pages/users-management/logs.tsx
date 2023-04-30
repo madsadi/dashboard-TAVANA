@@ -1,30 +1,29 @@
-import React, { useState} from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
-const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'))
 import { jalali} from "../../components/common/functions/common-funcions";
-import {getUsersLogs} from "../../api/users-management.api";
+import useQuery from "../../hooks/useQuery";
+import {USERS} from "../../api/constants";
 
-type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string}
+type initialType = { PageNumber: number, PageSize: number, UserId: string, NationalId: string, Name: string, StartDate: string, EndDate: string}
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
     // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
     StartDate: ``,
     EndDate: ``,
-    userId: '',
-    nationalId: '',
-    phoneNumber: '',
+    UserId: '',
+    NationalId: '',
+    Name: '',
 }
 const usersListOfFilters = [
     { title: 'PageNumber', name: 'شماره صفحه', type: null },
     { title: 'PageSize', name: 'تعداد', type: null },
-    { title: 'firstName', name: "شناسه کاربر", type: 'input' },
-    { title: 'lastName', name: "کد ملی کاربر", type: 'input'},
-    { title: 'phoneNumber', name: "تلفن همراه", type: 'input' },
+    { title: 'UserId', name: "شناسه کاربر", type: 'input' },
+    { title: 'NationalId', name: "کد ملی کاربر", type: 'input'},
+    { title: 'Name', name: "نام کاربر", type: 'input' },
     { title: 'date', name: "تاریخ شروع و پایان",type: 'date'},
 ]
 
@@ -103,43 +102,24 @@ export default function Users() {
         }
     ]
 
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([]);
-    const [totalCount, setTotal] = useState<any>(null);
-
-    const onSubmit = async (e:any,query: any) => {
-        e?.preventDefault()
-        await getUsersLogs(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData);
-                setTotal(res?.result?.totalCount)
-            })
-            .catch(() =>
-                setData([]))
-    };
+    const {data,query,fetchData}:any = useQuery({url:`${USERS}/users/SearchUserActivityLogs`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={usersListOfFilters}
+                <SearchComponent listOfFilters={usersListOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchData}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result?.pagedData}
                             columnDefStructure={columnDefStructure}
                             rowId={['id']}
-                            detailCellRenderer={'myDetailCellRenderer'}
-                            detailComponentParams={CustomDetailComponent}
-                            masterDetail={true}
+                            pagination={true}
+                            totalCount={data?.result?.totalCount}
+                            fetcher={fetchData}
+                            query={query}
             />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}
-                             />
         </div>
     )
 }

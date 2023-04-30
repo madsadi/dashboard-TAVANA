@@ -2,14 +2,14 @@ import React, {createContext, useMemo, useState} from "react";
 import AccordionComponent from "../../../components/common/components/AccordionComponent";
 import SearchComponent from "../../../components/common/components/Search.component";
 import TableComponent from "../../../components/common/table/table-component";
-import TablePagination from "../../../components/common/table/TablePagination";
-import {searchUser} from "../../../api/users-management.api";
-import {toast} from "react-toastify";
 import DateCell from "../../../components/common/table/DateCell";
 import {useRouter} from "next/router";
 import UserRegToolbarComponent from "../../../components/online-registration/registration-report/UserRegToolbar.component";
 import {formatNumber} from "../../../components/common/functions/common-funcions";
 import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
+import useQuery from "../../../hooks/useQuery";
+import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
+import {throwToast} from "../../../components/common/functions/notification";
 
 type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string }
 const initialValue = {
@@ -169,26 +169,16 @@ export default function OnlineRegistration() {
         }
     ]
 
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([]);
-    const [totalCount, setTotal] = useState<any>(null);
     const [selectedRows, setSelectedRows] = useState<any>([])
+    const {data,query,loading,fetchData}:any = useQuery({url:`${BOOKBUILDING_BASE_URL}/SearchUser`})
 
     const router = useRouter();
 
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
+    const onSubmit = async (query: any) => {
         if (query?.StartDate && query?.EndDate) {
-            await searchUser(query)
-                .then((res: any) => {
-                    setData(res?.result?.pagedData);
-                    setTotal(res?.result?.totalCount)
-                })
-                .catch((err) => {
-                    toast.error(`${err?.response?.data?.error?.message}`)
-                })
+            fetchData(query)
         } else {
-            toast.warning('ورودی تاریخ الزامی می باشد.')
+            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد.'})
         }
     };
 
@@ -279,18 +269,17 @@ export default function OnlineRegistration() {
     }, []);
 
     return (
-        <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,onSubmit}}>
+        <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,fetchData,query}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
-                                     listOfFilters={usersListOfFilters}
+                    <SearchComponent listOfFilters={usersListOfFilters}
                                      initialValue={initialValue}
                                      onSubmit={onSubmit}
                     />
                 </AccordionComponent>
                 <UserRegToolbarComponent/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result?.pagedData}
+                                loading={loading}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['userId']}
                                 selectedRows={selectedRows}
@@ -298,11 +287,10 @@ export default function OnlineRegistration() {
                                 detailCellRendererParams={detailCellRendererParams}
                                 masterDetail={true}
                                 rowSelection={'multiple'}
-                />
-                <TablePagination onSubmit={onSubmit}
-                                 query={query}
-                                 setQuery={setQuery}
-                                 totalCount={totalCount}
+                                pagination={true}
+                                totalCount={data?.result?.totalCount}
+                                fetcher={onSubmit}
+                                query={query}
                 />
             </div>
         </OnlineRegContext.Provider>

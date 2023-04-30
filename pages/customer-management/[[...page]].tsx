@@ -1,67 +1,49 @@
-import React, {useEffect, useState, createContext, useMemo} from "react";
+import React, {useState, createContext, useEffect} from "react";
 import dynamic from 'next/dynamic'
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const Toolbar = dynamic(() => import('../../components/customer-management/Toolbar'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 import usePageStructure from "../../hooks/usePageStructure";
-import {customerManagement} from "../../api/customer-management.api";
-import {toast} from "react-toastify";
 import DetailComponent from "../../components/customer-management/Detail.component";
+import useQuery from "../../hooks/useQuery";
+import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
 
 export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
-    const [query, setQuery] = useState<any>(null)
-    const [initialValue, setInitialValue] = useState<any>({})
-    const [totalCount, setTotal] = useState<any>(0);
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const [data, setData] = useState<any>([]);
+    const [initialValue, setInitialValue] = useState<any>({PageNumber: 1, PageSize: 20});
     const {page} = usePageStructure()
+    const {data,loading,fetchData,query} = useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/${page?.api}/Search`})
+
 
     useEffect(() => {
         if (page?.listOfFilters) {
-            let initialValue: any = {PageNumber: 1, PageSize: 20};
+            let _initialValue: any = initialValue;
             (page?.listOfFilters)?.map((item: any) => {
                 if (item.title === 'date') {
-                    initialValue['StartDate'] = '';
-                    initialValue['EndDate'] = '';
+                    _initialValue['StartDate'] = '';
+                    _initialValue['EndDate'] = '';
                 } else if (item.title !== 'PageNumber' && item.title !== 'PageSize') {
-                    initialValue[item.title] = '';
+                    _initialValue[item.title] = '';
                 }
             })
-            setQuery(initialValue)
-            setInitialValue(initialValue)
+            setInitialValue(_initialValue)
         }
     }, [page?.listOfFilters])
 
-    const onSubmit = async (event: any, query: any) => {
-        event?.preventDefault()
-
-        await customerManagement(page?.api, query)
-            .then((res) => {
-                setData(res.result?.pagedData)
-                setTotal(res?.result?.totalCount)
-                toast.success('با موفقیت انجام شد')
-            })
-            .catch((err) => {
-                toast.error(`${err?.response?.data.error?.message}`)
-            })
-    }
-
     return (
-        <CustomerManagement.Provider value={{onSubmit, selectedRows, setSelectedRows, query}}>
+        <CustomerManagement.Provider value={{fetchData, selectedRows, setSelectedRows, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
-                                     listOfFilters={page?.listOfFilters}
+                    <SearchComponent listOfFilters={page?.listOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <Toolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result?.pagedData}
+                                loading={loading}
                                 columnDefStructure={page?.columnsDefStructure}
                                 rowId={['id']}
                                 detailComponent={DetailComponent}
@@ -69,11 +51,10 @@ export default function HoldingsSubPages() {
                                 masterDetail={true}
                                 setSelectedRows={setSelectedRows}
                                 selectedRows={selectedRows}
-                />
-                <TablePagination onSubmit={onSubmit}
-                                 query={query}
-                                 setQuery={setQuery}
-                                 totalCount={totalCount}
+                                pagination={true}
+                                totalCount={data?.result?.totalCount}
+                                fetcher={fetchData}
+                                query={query}
                 />
             </div>
         </CustomerManagement.Provider>

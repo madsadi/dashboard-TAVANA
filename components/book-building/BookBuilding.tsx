@@ -4,9 +4,11 @@ import {jalali} from "../common/functions/common-funcions";
 const ToolBar = dynamic(() => import('./ToolBar'))
 const TableComponent = dynamic(() => import('../common/table/table-component'))
 import AccordionComponent from "../common/components/AccordionComponent";
-import {getBookBuilding} from "../../api/book-building.api";
-import {toast} from "react-toastify";
 import SearchComponent from "../common/components/Search.component";
+import useQuery from "../../hooks/useQuery";
+import {BOOKBUILDING_BASE_URL} from "../../api/constants";
+import {throwToast} from "../common/functions/notification";
+import DateCell from "../common/table/DateCell";
 
 const listOfFilters = [
     {title: 'api', name: 'دسته بندی', type: 'selectInput'},
@@ -14,7 +16,7 @@ const listOfFilters = [
 
 const initialValue = {api:'GetAll'}
 export const BookBuildingContext = createContext({})
-export default function ResultTable() {
+export default function BookBuilding() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -58,42 +60,24 @@ export default function ResultTable() {
             field: 'fromActiveDateTime',
             headerName: 'زمان شروع',
             flex: 0,
-            width: 150,
-            minWidth: 150,
+            width: 200,
+            minWidth: 200,
             cellRendererSelector: () => {
-                const ColourCellRenderer = (props: any) => {
-                    return (
-                        <>
-                            <span>{jalali(props.data.fromActiveDateTime).date}</span>
-                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
-                        </>
-                    )
+                return {
+                    component: (props:any)=><DateCell date={props?.data?.fromActiveDateTime}/>,
                 };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
             }
         },
         {
             field: 'toActiveDateTime',
             headerName: 'زمان پایان',
             flex: 0,
-            width: 150,
-            minWidth: 150,
+            width: 200,
+            minWidth: 200,
             cellRendererSelector: () => {
-                const ColourCellRenderer = (props: any) => {
-                    return (
-                        <>
-                            <span>{jalali(props.data.toActiveDateTime).date}</span>
-                            {/*<span>{jalali(props.data.fromActiveDateTime).time}</span>*/}
-                        </>
-                    )
+                return {
+                    component: (props:any)=><DateCell date={props?.data?.toActiveDateTime}/>,
                 };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
             }
         },
         {
@@ -135,52 +119,39 @@ export default function ResultTable() {
             field: 'updatedDateTime',
             headerName: 'زمان تغییر',
             flex: 0,
-            width: 120,
-            minWidth: 120,
-            // cellRendererSelector: () => {
-            //     const ColourCellRenderer = (props: any) => {
-            //         return (
-            //             <>
-            //                 <span>{jalali(props.data.updatedDateTime).date}</span>
-            //                 <span>{jalali(props.data.updatedDateTime).time}</span>
-            //             </>
-            //         )
-            //     };
-            //     const moodDetails = {
-            //         component: ColourCellRenderer,
-            //     }
-            //     return moodDetails;
-            // }
+            width: 200,
+            minWidth: 200,
+            cellRendererSelector: () => {
+                return {
+                    component: (props:any)=><DateCell date={props?.data?.updatedDateTime}/>,
+                };
+            }
         }
     ]
-
-    const [data, setData] = useState([])
+    const {fetchAsyncData,query,loading} = useQuery({})
     const [selectedRows, setSelectedRows] = useState([])
-    const [query, setQuery] = useState<{ api: any }>(initialValue)
-    const onSubmit = async (event: any, query: { api: any }) => {
-        event?.preventDefault()
-        await getBookBuilding(query.api).then(res => {
-            setData(res?.result);
-            toast.success('با موفقیت انجام شد')
-        })
-            .catch(() => toast.success('نا موفق'))
+    const [data, setData] = useState([])
+
+    const submitHandler = (query:any)=>{
+        fetchAsyncData({},`${BOOKBUILDING_BASE_URL}/`+query?.api)
+            .then((res)=>setData(res?.data?.result))
+            .catch(() => throwToast({type:'customError',value:'نا موفق'}))
     }
 
     return (
-        <BookBuildingContext.Provider value={{selectedRows,query,onSubmit}}>
+        <BookBuildingContext.Provider value={{selectedRows,query,submitHandler}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
-                                     listOfFilters={listOfFilters}
+                    <SearchComponent listOfFilters={listOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={submitHandler}
                     />
                 </AccordionComponent>
                 <ToolBar/>
                 <TableComponent data={data}
+                                loading={loading}
                                 columnDefStructure={columnDefStructure}
-                                rowId={['instrumentId']}
+                                rowId={['instrumentId','createdBy']}
                                 rowSelection={'single'}
                                 setSelectedRows={setSelectedRows}
                 />

@@ -1,9 +1,10 @@
 import React, {useState} from "react";
-import {insCancel} from "../../../api/online-trades-orders.api";
-import {toast} from "react-toastify";
 import {errors} from "../../../dictionary/Enums";
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
+import useMutation from "../../../hooks/useMutation";
+import {MARKET_RULES_MANAGEMENT} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 const InstrumentFilters = [
     {title: 'InstrumentId', name: 'نماد', type: 'search'},
@@ -28,19 +29,25 @@ const InitialValue = {
 export default function InsOrderCancel(){
     const [modal,setModal] = useState(false)
     const [query,setQuery] = useState<InitialType>(InitialValue)
+    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/GlobalCancel/CancelAllOrderForInstrument`})
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
 
     const confirmInsRemoving = async () => {
-        await insCancel({
+        await mutate({
             isin: query.InstrumentId,
             orderSide: query.orderSide,
             orderOrigin: query.orderOrigin,
             orderTechnicalOrigin: query.orderTechnicalOrigin,
         }).then(() => {
-            toast.success('با موفقیت انجام شد')
+            throwToast({type:'success',value:'با موفقیت انجام شد'})
             setModal(false)
         })
             .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code)?.errorText}`)
+                throwToast({type:'customError',value:`${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code)?.errorText}`})
             })
     }
     return(
@@ -53,7 +60,7 @@ export default function InsOrderCancel(){
                     {InstrumentFilters.map((filter: any) => {
                         return <InputComponent key={filter.title}
                                                item={filter}
-                                               setQuery={setQuery}
+                                               onChange={onChange}
                                                query={query}
                         />
 

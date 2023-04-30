@@ -1,13 +1,14 @@
+import React, {useEffect} from "react";
 import Image from "next/image";
 import {jalali} from "../../common/functions/common-funcions";
-import React, {useEffect, useState} from "react";
 import TableComponent from "../../common/table/table-component";
 import {useSelector} from "react-redux";
-import {getUserRoles} from "../../../api/users-management.api";
+import useQuery from "../../../hooks/useQuery";
+import {USERS} from "../../../api/constants";
 
 export default function UserDetailComponent({data}:{data:any}){
-    const [rowData,setRowData] = useState([])
     const {userDetail} = useSelector((state:any)=>state.userManagementConfig)
+    const {data:userRoles,fetchData}:any = useQuery({url:`${USERS}/users/get-user-roles`})
 
     const columnDefStructure: any = [
         {
@@ -35,15 +36,8 @@ export default function UserDetailComponent({data}:{data:any}){
         }
     ]
 
-
     useEffect(()=>{
-        const fetchUserRoles = async () => {
-            await getUserRoles(data.id)
-                .then((res) => {
-                    setRowData(res?.result?.roles)
-                })
-        }
-        fetchUserRoles()
+        fetchData({id:data.id})
     },[userDetail])
 
     return(
@@ -78,7 +72,7 @@ export default function UserDetailComponent({data}:{data:any}){
                     </div>
                 </div>
             </div>
-            <TableComponent data={rowData}
+            <TableComponent data={userRoles?.result}
                             columnDefStructure={columnDefStructure}
                             rowId={['id']}
             />

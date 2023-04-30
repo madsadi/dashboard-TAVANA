@@ -1,37 +1,41 @@
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useState} from "react";
-import {toast} from "react-toastify";
 import {RolesContext} from "../../../pages/users-management/roles";
-import {createNewRole} from "../../../api/users-management.api";
+import useMutation from "../../../hooks/useMutation";
+import {USERS} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 const rolesInput = [
     {title: 'name', name: 'عنوان', type: 'input'},
 ]
 export default function AddNew() {
-    const {onSubmit, query: searchQuery} = useContext<any>(RolesContext)
+    const {fetchData, query: searchQuery} = useContext<any>(RolesContext)
+    const {mutate} = useMutation({url:`${USERS}/roles/create`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
-        await createNewRole(query)
+        await mutate(query)
             .then(() => {
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setModal(false)
-                toast.success('با موفقیت انجام شد')
                 setQuery({name:''})
-                onSubmit(e, searchQuery)
+                fetchData(searchQuery)
             })
-            .catch((err) => {
-                toast.error(err?.response?.data?.error?.message)
-            })
+            .catch((err) => throwToast({type:'error',value:err}))
     }
 
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>نقش جدید</button>
             <Modal title={'نقش جدید'}
-                   ModalWidth={'max-w-3xl'}
                    setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
@@ -41,7 +45,7 @@ export default function AddNew() {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
-                                                       setQuery={setQuery}
+                                                       onChange={onChange}
                                 />
 
                             })
