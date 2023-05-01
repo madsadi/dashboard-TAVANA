@@ -5,7 +5,7 @@ const TableComponent = dynamic(() => import('../../components/common/table/table
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 import {useRouter} from "next/router";
 import useQuery from "../../hooks/useQuery";
-import { MARKET_RULES_MANAGEMENT } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -64,7 +64,7 @@ export default function LivePortfo() {
             headerName: 'حجم قابل فروش',
         }
     ]
-    const {data,loading,query,fetchData}=useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolio`})
+    const {data,loading,query,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/request/SearchIntradayPortfolio`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>

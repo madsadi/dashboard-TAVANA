@@ -7,7 +7,7 @@ const RolesToolbar = dynamic(() => import('../../components/users-management/rol
 const RoleToggleButton = dynamic(() => import('../../components/users-management/roles/RoleToggleButton'))
 import RoleDetailComponent from "../../components/users-management/roles/RoleDetailComponent";
 import useQuery from "../../hooks/useQuery";
-import {USERS} from "../../api/constants";
+import {IDP} from "../../api/constants";
 
 
 type initialType = { PageNumber: number, PageSize: number, Name: string, IsActive: any }
@@ -53,7 +53,7 @@ export default function Roles() {
         }
     ]
 
-    const {data,query,fetchData}:any = useQuery({url:`${USERS}/roles/search`})
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/roles/search`})
     const [selectedRows, setSelectedRows] = useState<any>([])
 
     return (

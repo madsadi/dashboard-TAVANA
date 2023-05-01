@@ -4,16 +4,16 @@ import {UsersContext} from "../../../pages/users-management/users";
 import {useDispatch, useSelector} from "react-redux";
 import {userDetail} from "../../../store/user-management.config";
 import useMutation from "../../../hooks/useMutation";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import useQuery from "../../../hooks/useQuery";
 import {throwToast} from "../../common/functions/notification";
 
 export default function UserRole() {
     const {userDetail:userDetailValue} = useSelector((state:any)=>state.userManagementConfig)
-    const {mutate:addUserToRole} = useMutation({url:`${USERS}/users/add-user-to-role`})
-    const {mutate:removeUserFromRole} = useMutation({url:`${USERS}/users/remove-user-from-role`})
-    const {fetchAsyncData:getUserRoles} = useQuery({url:`${USERS}/users/get-user-roles`})
-    const {fetchAsyncData:searchRoles} = useQuery({url:`${USERS}/roles/search`})
+    const {mutate:addUserToRole} = useMutation({url:`${IDP}/users/add-user-to-role`})
+    const {mutate:removeUserFromRole} = useMutation({url:`${IDP}/users/remove-user-from-role`})
+    const {fetchAsyncData:getUserRoles} = useQuery({url:`${IDP}/users/get-user-roles`})
+    const {fetchAsyncData:searchRoles} = useQuery({url:`${IDP}/roles/search`})
     const {selectedRows} = useContext<any>(UsersContext)
     const [modal, setModal] = useState(false)
     const [roles, setRoles] = useState<any>([])

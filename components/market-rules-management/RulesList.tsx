@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useMemo, useState} from 'react';
 import dynamic from "next/dynamic";
 const RulesExpressionDetail = dynamic(() => import('./RulesExpressionDetail'))
 const TableComponent = dynamic(() => import('../common/table/table-component'))
@@ -8,7 +8,7 @@ const SearchComponent = dynamic(() => import('../common/components/Search.compon
 import {jalali} from "../common/functions/common-funcions";
 import {validate as uuidValidate} from 'uuid';
 import useQuery from "../../hooks/useQuery";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 import DateCell from "../common/table/DateCell";
 
 type initialType = { StartDate: string, EndDate: string, name: string, isActive: any }
@@ -134,18 +134,21 @@ export default function RulesList() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,fetchData} = useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/GetRules`})
-    const {data:dynamics,fetchData:fetchFields} = useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/GetFieldsList`,revalidateOnMount:true})
+    const {data,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/request/GetRules`})
+    const {data:dynamics,fetchData:fetchFields} = useQuery({url:`${ADMIN_GATEWAY}/request/GetFieldsList`})
     let dynamicOptions = dynamics?.result
 
+    useMemo(()=>{
+        fetchFields()
+    },[])
+
     return (
-        <MarketRulesContext.Provider value={{selectedRows,setSelectedRows, dynamicOptions, fetchData, query}}>
+        <MarketRulesContext.Provider value={{selectedRows,setSelectedRows,dynamicOptions, fetchData, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <SearchComponent listOfFilters={listOfFilters}
                                      initialValue={initialValue}
                                      onSubmit={fetchData}
-                                     dynamicOptions={dynamicOptions}
                     />
                 </AccordionComponent>
                 <RulesToolbar/>

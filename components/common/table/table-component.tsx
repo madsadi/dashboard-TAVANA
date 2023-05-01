@@ -52,7 +52,7 @@ const TableComponent: React.FC<any> = (props) =>{
         return {
             loadingMessage: 'در حال بارگزاری...',
         };
-    }, []);
+    }, [loading]);
     const noRowsOverlayComponent = useMemo(() => {
         return NoRowOverlay;
     }, []);

@@ -3,7 +3,7 @@ import Modal from "../common/layout/Modal";
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import useMutation from "../../hooks/useMutation";
-import {USERS} from "../../api/constants";
+import {IDP} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 
 const userInputs = [
@@ -16,7 +16,7 @@ const userInputs = [
 
 export const EditInfoModal=({open,setOpen}:{open:boolean,setOpen:any})=>{
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
-    const {mutate} = useMutation({url:`${USERS}/account`,method:'PUT'})
+    const {mutate} = useMutation({url:`${IDP}/account`,method:'PUT'})
     const [query,setQuery] = useState({})
     const editHandler = async (e:any)=>{
         e.preventDefault()

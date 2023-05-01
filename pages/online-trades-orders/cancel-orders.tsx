@@ -6,7 +6,7 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 const CancelOrdersToolbar = dynamic(() => import('../../components/online-orders/cancel-orders/CancelOrdersToolbar'))
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
-import { MARKET_RULES_MANAGEMENT } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -105,7 +105,7 @@ export default function CancelOrders() {
             headerName: 'خطا',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${MARKET_RULES_MANAGEMENT}/GlobalCancel/SearchGlobalCancelOrder`})
+    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/GlobalCancel/SearchGlobalCancelOrder`})
 
     const detailCellRendererParams = useMemo(() => {
         return {

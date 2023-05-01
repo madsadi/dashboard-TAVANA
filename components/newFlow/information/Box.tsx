@@ -1,12 +1,12 @@
 import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 import React, {useState} from "react";
 import useMutation from "../../../hooks/useMutation";
-import { NETFLOW_BASE_URL } from "../../../api/constants";
+import {NETFLOW} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 export default function Box({api, title}: { api: string, title: string }) {
     const [selectedDay, setSelectedDay] = useState<DayValue>(null);
-    const {mutate} = useMutation({url:`${NETFLOW_BASE_URL}${api}`})
+    const {mutate} = useMutation({url:`${NETFLOW}${api}`})
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <input readOnly ref={ref}

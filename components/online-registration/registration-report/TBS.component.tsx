@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {OnlineRegContext} from "../../../pages/online-registration/registration-report";
 import {useRouter} from "next/router";
-import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 import useMutation from "../../../hooks/useMutation";
 import {throwToast} from "../../common/functions/notification";
 
@@ -11,7 +11,7 @@ export const TBSComponent=()=>{
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')
     let userId = queryData?.[0]?.split('=')[1]
-    const {mutate} = useMutation({url:`${BOOKBUILDING_BASE_URL}/PushToTbs`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/PushToTbs`})
 
     const TbsHandler = ()=>{
         const Tbs =async (row:any,index:number)=>{

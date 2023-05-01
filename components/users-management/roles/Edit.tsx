@@ -3,7 +3,7 @@ import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useEffect, useState} from "react";
 import {RolesContext} from "../../../pages/users-management/roles";
 import useMutation from "../../../hooks/useMutation";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 const roleInputs = [
@@ -11,7 +11,7 @@ const roleInputs = [
 ]
 export default function Edit() {
     const {fetchData, query: searchQuery, selectedRows,setSelectedRows} = useContext<any>(RolesContext)
-    const {mutate} = useMutation({url:`${USERS}/roles/update`})
+    const {mutate} = useMutation({url:`${IDP}/roles/update`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

@@ -21,11 +21,11 @@ import {
 import {TBSComponent} from "../../../components/online-registration/registration-report/TBS.component";
 import DocumentsComponent from "../../../components/online-registration/registration-report/detail/Documents.component";
 import useQuery from "../../../hooks/useQuery";
-import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
-    const {data:info,fetchData}:any = useQuery({url:`${BOOKBUILDING_BASE_URL}/SearchUser`})
+    const {data:info,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/request/SearchUser`})
     let data = info?.result?.pagedData[0]
     const router = useRouter()
     let dep = router.query?.detail?.[0]

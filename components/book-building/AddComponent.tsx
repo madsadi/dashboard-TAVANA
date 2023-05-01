@@ -4,7 +4,7 @@ import Modal from "../common/layout/Modal";
 import moment from "jalali-moment";
 import InputComponent from "../common/components/InputComponent";
 import useMutation from "../../hooks/useMutation";
-import {BOOKBUILDING_BASE_URL} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 
 const bookBuildingInputs = [
@@ -21,7 +21,7 @@ const bookBuildingInputs = [
 
 const bookBuildingInitialValue = {instrumentId:'',maxQuantity:null,minPrice:null,maxPrice:null,StartDate:'',EndDate:'',startHour:null,startMinute:null,endHour:null,endMinute:null}
 export default function AddModal() {
-    const {mutate} = useMutation({url:`${BOOKBUILDING_BASE_URL}/addBookBuilding`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/addBookBuilding`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(bookBuildingInitialValue)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({

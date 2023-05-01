@@ -3,11 +3,11 @@ import Modal from "../common/layout/Modal";
 import {BookBuildingContext} from "./BookBuilding";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {BOOKBUILDING_BASE_URL} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 export default function RemoveModal() {
     const {onSubmit, query: bookBuildingQuery,selectedRows} = useContext<any>(BookBuildingContext)
-    const {mutate} = useMutation({url:`${BOOKBUILDING_BASE_URL}/DeleteBookBuilding`,method:"DELETE"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/DeleteBookBuilding`,method:"DELETE"})
     const [modal, setModal] = useState(false);
 
     const confirmDeleteSelected = () => {

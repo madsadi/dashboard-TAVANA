@@ -7,7 +7,7 @@ const UsersToolbar = dynamic(() => import('../../components/users-management/use
 const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'))
 const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'))
 import useQuery from '../../hooks/useQuery';
-import {USERS} from "../../api/constants";
+import {IDP} from "../../api/constants";
 
 type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, PhoneNumber: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }
 const initialValue = {
@@ -122,7 +122,7 @@ export default function Users() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,fetchData}:any = useQuery({url:`${USERS}/users/SearchUserAccount`})
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserAccount`})
 
     return (
         <UsersContext.Provider value={{fetchData,query,selectedRows}}>

@@ -6,16 +6,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {userDetail} from "../../../store/user-management.config";
 import {throwToast} from "../../common/functions/notification";
 import useQuery from "../../../hooks/useQuery";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import useMutation from "../../../hooks/useMutation";
 
 export default function Permissions() {
     const {userDetail: userDetailValue} = useSelector((state: any) => state.userManagementConfig)
     const {selectedRows, setSelectedRows} = useContext<any>(RolesContext)
-    const {fetchAsyncData: getRolePermission} = useQuery({url: `${USERS}/roles/get-role-permission`})
-    const {fetchAsyncData: servicePermissions} = useQuery({url: `${USERS}/service-permossion/get-all-service-permission`})
-    const {mutate: addPermissionToRole} = useMutation({url: `${USERS}/roles/add-permission-to-role`})
-    const {mutate:removePermissionFromRole} = useMutation({url:`${USERS}/roles/remove-permission-from-role`})
+    const {fetchAsyncData: getRolePermission} = useQuery({url: `${IDP}/roles/get-role-permission`})
+    const {fetchAsyncData: servicePermissions} = useQuery({url: `${IDP}/service-permossion/get-all-service-permission`})
+    const {mutate: addPermissionToRole} = useMutation({url: `${IDP}/roles/add-permission-to-role`})
+    const {mutate:removePermissionFromRole} = useMutation({url:`${IDP}/roles/remove-permission-from-role`})
 
     const [modal, setModal] = useState(false)
     const [permissions, setPermissions] = useState<any>([])

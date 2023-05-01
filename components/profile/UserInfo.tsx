@@ -12,7 +12,7 @@ import {jalali} from "../common/functions/common-funcions";
 import {EditInfoModal} from "./EditInfoModal";
 import {useSelector} from "react-redux";
 import useMutation from "../../hooks/useMutation";
-import {USERS} from "../../api/constants";
+import {IDP} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 
 export default function UserInfo() {
@@ -95,7 +95,7 @@ export default function UserInfo() {
 
 const ToggleButton = ()=>{
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
-    const {mutate} = useMutation({url:`${USERS}/account/2fa`,method:"PUT"})
+    const {mutate} = useMutation({url:`${IDP}/account/2fa`,method:"PUT"})
     const [enable,isEnable] = useState(data?.twoFactorEnabled)
 
     const twoFactorHandler = async ()=>{

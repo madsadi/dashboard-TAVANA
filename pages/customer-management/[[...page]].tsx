@@ -7,14 +7,14 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 import usePageStructure from "../../hooks/usePageStructure";
 import DetailComponent from "../../components/customer-management/Detail.component";
 import useQuery from "../../hooks/useQuery";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
     const [selectedRows, setSelectedRows] = useState<any>([]);
     const [initialValue, setInitialValue] = useState<any>({PageNumber: 1, PageSize: 20});
     const {page} = usePageStructure()
-    const {data,loading,fetchData,query} = useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/${page?.api}/Search`})
+    const {data,loading,fetchData,query} = useQuery({url:`${ADMIN_GATEWAY}/request/${page?.api}/Search`})
 
 
     useEffect(() => {

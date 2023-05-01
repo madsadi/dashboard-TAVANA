@@ -11,16 +11,16 @@ import {uploadPhoto} from "../../../../api/users-management.api";
 import {useRouter} from "next/router";
 import {throwToast} from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
-import {fileServerApi} from "../../../../api/constants";
+import {FILE_SERVER} from "../../../../api/constants";
 
 export default function UploadComponent({
                                             item,
                                             documents,
                                             setDocs
                                         }: { item: any, documents: any, setDocs: Dispatch<any> }) {
-    const {mutate: upload} = useMutation({url: `${fileServerApi}admin-file-manager/upload`})
-    const {mutate: unlockFile} = useMutation({url: `${fileServerApi}admin-file-manager/unlock-file`})
-    const {mutate: lockFile} = useMutation({url: `${fileServerApi}admin-file-manager/lock-file`})
+    const {mutate: upload} = useMutation({url: `${FILE_SERVER}admin-file-manager/upload`})
+    const {mutate: unlockFile} = useMutation({url: `${FILE_SERVER}admin-file-manager/unlock-file`})
+    const {mutate: lockFile} = useMutation({url: `${FILE_SERVER}admin-file-manager/lock-file`})
     const [lock, setLock] = useState<boolean>(false);
     const [images, setImages] = useState<ImageType[]>([]);
 

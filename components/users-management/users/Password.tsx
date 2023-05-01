@@ -3,7 +3,7 @@ import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import {UsersContext} from "../../../pages/users-management/users";
 import useMutation from "../../../hooks/useMutation";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 const userInputs = [
@@ -12,7 +12,7 @@ const userInputs = [
 
 export default function Password(){
     const {selectedRows} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${USERS}/users/change-user-password`})
+    const {mutate} = useMutation({url:`${IDP}/users/change-user-password`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

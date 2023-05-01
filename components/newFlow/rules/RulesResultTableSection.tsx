@@ -6,7 +6,7 @@ const SearchComponent = dynamic(() => import('../../common/components/Search.com
 import moment from "jalali-moment";
 import {formatNumber} from "../../common/functions/common-funcions";
 import useQuery from "../../../hooks/useQuery";
-import {NETFLOW_BASE_URL} from "../../../api/constants";
+import {NETFLOW} from "../../../api/constants";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
 const initialValue = {
@@ -95,7 +95,7 @@ export default function RulesResultTableSection() {
             headerName: 'تاخیر',
         }
     ]
-    const {fetchData,loading,data,query} = useQuery({url:`${NETFLOW_BASE_URL}/Report/rules`})
+    const {fetchData,loading,data,query} = useQuery({url:`${NETFLOW}/Report/rules`})
 
     const getRowStyle = (params: any) => {
         if (params?.node?.data?.side === 1) {

@@ -14,12 +14,12 @@ import Link from "next/link";
 import {userInfo} from "../../../store/user-management.config";
 import {useDispatch} from "react-redux";
 import useQuery from "../../../hooks/useQuery";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 
 export default function Example() {
     const [open, setOpen] = useState(false)
     const [info, setInfo] = useState<{lastName:string,firstName:string}>({lastName:'',firstName:''})
-    const {fetchAsyncData} = useQuery({url:`${USERS}/users/GetCurrentUserInfo`})
+    const {fetchAsyncData} = useQuery({url:`${IDP}/users/GetCurrentUserInfo`})
     const auth = useAuth();
     const router = useRouter();
     let query = router.query?.page?.[0]

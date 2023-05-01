@@ -3,7 +3,7 @@ import UploadComponent from './Upload.compnent';
 import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 import {useRouter} from "next/router";
 import useQuery from "../../../../hooks/useQuery";
-import {fileServerApi} from "../../../../api/constants";
+import {FILE_SERVER} from "../../../../api/constants";
 
 export default function DocumentsComponent() {
 
@@ -30,7 +30,7 @@ export default function DocumentsComponent() {
         }
     ]
     const [document,setDocuments] = useState<any>([])
-    const {fetchAsyncData} = useQuery({url:`${fileServerApi}admin-file-manager/get-content`})
+    const {fetchAsyncData} = useQuery({url:`${FILE_SERVER}admin-file-manager/get-content`})
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')

@@ -1,11 +1,11 @@
 import React,{useState} from "react";
 import useMutation from "../../../hooks/useMutation";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 export default function RoleToggleButton(props: { data: { id: string,isActive:boolean } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
-    const {mutate} = useMutation({url:`${USERS}/roles/${isChecked ? 'deactive':'active'}`})
+    const {mutate} = useMutation({url:`${IDP}/roles/${isChecked ? 'deactive':'active'}`})
 
     const changeStatus = async ()=>{
         await mutate({},{id:props.data.id})

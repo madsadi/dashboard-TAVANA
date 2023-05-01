@@ -7,7 +7,7 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 import { jalali} from "../../components/common/functions/common-funcions";
 import DateCell from "../../components/common/table/DateCell";
 import useQuery from "../../hooks/useQuery";
-import { MARKET_RULES_MANAGEMENT } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 import {throwToast} from "../../components/common/functions/notification";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, InstrumentGroupId: string }
@@ -108,7 +108,7 @@ export default function TradingDayTimetable() {
             },
         }
     ]
-    const {data,loading,query,fetchData} = useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/GetTradingDayTimetable`})
+    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/request/GetTradingDayTimetable`})
 
     const fetchHandler = (query:any)=>{
         if (query.StartDate && query?.EndDate){

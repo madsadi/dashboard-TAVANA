@@ -4,13 +4,13 @@ import usePageStructure from "../../hooks/usePageStructure";
 import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 export default function Remove() {
     const [modal, setModal] = useState(false)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
     const { page } = usePageStructure()
-    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/${page.api}/Delete`,method:"DELETE"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Delete`,method:"DELETE"})
     const { fetchData,query,selectedRows,setSelectedRows } = useContext<any>(CustomerManagement)
 
     useEffect(()=>{

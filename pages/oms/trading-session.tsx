@@ -6,7 +6,7 @@ const TableComponent = dynamic(() => import('../../components/common/table/table
 import moment from "jalali-moment";
 import {jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
-import { MARKET_RULES_MANAGEMENT } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 import {throwToast} from "../../components/common/functions/notification";
 
 
@@ -72,7 +72,7 @@ export default function TradingSession() {
             },
         }
     ]
-    const {data,loading,query,fetchData} = useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/GetTradingSessionStatus`})
+    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/request/GetTradingSessionStatus`})
 
     const fetchHandler = (query:any)=>{
         if (query.StartDate && query?.EndDate){

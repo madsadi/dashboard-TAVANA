@@ -4,7 +4,7 @@ const TableComponent = dynamic(() => import('../../components/common/table/table
 import { jalali} from "../../components/common/functions/common-funcions";
 import {useRouter} from "next/router";
 import useQuery from "../../hooks/useQuery";
-import { MARKET_RULES_MANAGEMENT } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 
 type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, PageSize: number }
 const initialValue = {
@@ -103,7 +103,7 @@ export default function PortfolioBook(){
 
     const router = useRouter()
     const [query, setQuery] = useState<initialType>(initialValue)
-    const {data,loading,fetchData}=useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/SearchIntradayPortfolioBook`})
+    const {data,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/request/SearchIntradayPortfolioBook`})
 
     let userInfo = data?.result?.pagedData?.[0]
     let dep = router.query?.query?.[0]

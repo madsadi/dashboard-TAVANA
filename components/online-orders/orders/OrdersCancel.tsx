@@ -4,12 +4,12 @@ import {errors} from "../../../dictionary/Enums";
 import {OrdersContext} from "../../../pages/online-trades-orders/orders";
 import {throwToast} from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 
 export default function OrdersCancel() {
     const [modal, setModal] = useState(false)
     const {query, fetchData, selectedRows, setSelectedRows} = useContext<any>(OrdersContext)
-    const {mutate} = useMutation({url: `${MARKET_RULES_MANAGEMENT}/request/Cancel`})
+    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/request/Cancel`})
     const cancelMultipleOrders = (e: any) => {
         const cancel = async (order: any) => {
             await mutate({

@@ -1,11 +1,11 @@
 import React,{useState} from "react";
 import useMutation from "../../../hooks/useMutation";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 export default function ToggleButton(props: { data: { isActive: boolean,id:string } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
-    const {mutate} = useMutation({url:`${USERS}/users/change-user-active-status`})
+    const {mutate} = useMutation({url:`${IDP}/users/change-user-active-status`})
 
     const changeStatus = async ()=>{
         await mutate({userId:props.data.id,isActive:!isChecked})

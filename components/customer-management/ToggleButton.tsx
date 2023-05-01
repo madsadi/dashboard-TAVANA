@@ -1,12 +1,12 @@
 import {useState} from "react";
 import {toast} from "react-toastify";
 import useMutation from "../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 
 export default function ToggleButton(props: { api:string,data: { isActive: boolean,id:string } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
-    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/${props.api}/UpdateActivationStatus`,method:"PUT"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${props.api}/UpdateActivationStatus`,method:"PUT"})
     const changeStatus = async ()=>{
         await mutate({id:props.data.id,isActive:!isChecked})
             .then((res)=> {

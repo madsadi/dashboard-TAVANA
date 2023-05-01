@@ -1,10 +1,10 @@
 import React from "react";
 import useMutation from "../../../hooks/useMutation";
-import {NETFLOW_BASE_URL} from "../../../api/constants";
+import {NETFLOW} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 export default function NoDateBox({api, title}: { api: string, title: string }) {
-    const {mutate} = useMutation({url: `${NETFLOW_BASE_URL}${api}`})
+    const {mutate} = useMutation({url: `${NETFLOW}${api}`})
 
     const submitHandler = async () => {
         await mutate()

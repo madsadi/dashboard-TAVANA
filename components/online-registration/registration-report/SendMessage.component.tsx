@@ -3,14 +3,14 @@ import InputComponent from "../../common/components/InputComponent";
 import Modal from "../../common/layout/Modal";
 import {DayValue} from "react-modern-calendar-datepicker";
 import useQuery from "../../../hooks/useQuery";
-import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 export const SendMessageComponent = () => {
     const [modal, setModal] = useState(false)
     const [selectedDay, setSelectedDay] = useState<DayValue>(null)
     const [query, setQuery] = useState({date:''})
-    const {fetchAsyncData} = useQuery({url:`${BOOKBUILDING_BASE_URL}/SendMessageToUncompletedUsers`})
+    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/request/SendMessageToUncompletedUsers`})
 
     const sendMessage=async (e:any)=>{
         e.preventDefault()

@@ -4,7 +4,7 @@ import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import {throwToast} from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 
 const InstrumentGroupFilters = [
     {title: 'instrumentGroupIdentification', name: 'کد گروه نمادها', type: 'input'},
@@ -28,7 +28,7 @@ const InitialValue = {
 export default function GpOrderCancel(){
     const [modal,setModal] = useState(false)
     const [query,setQuery] = useState<InitialType>(InitialValue)
-    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/GlobalCancel/CancelAllOrderForInstrumentGroup`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/GlobalCancel/CancelAllOrderForInstrumentGroup`})
 
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};

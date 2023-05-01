@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useEffect, useState} from "react";
+import React, {Fragment, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import Modal from "../common/layout/Modal";
 import {Badge} from "flowbite-react";
 import {XCircleIcon} from "@heroicons/react/24/outline";
@@ -9,7 +9,7 @@ import SymbolSearchSection from "../common/components/SymbolSearchSecion";
 import {MarketRulesContext} from "./RulesList";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 import useQuery from "../../hooks/useQuery";
 
 function classNames(...classes: any) {
@@ -39,8 +39,8 @@ const extraListOfFilters = [
     {title: 'operator', name: 'عملگر', type: 'selectInput'},
 ]
 export default function AddNew() {
-    const {dynamicOptions, fetchData, query: rulesQuery} = useContext<any>(MarketRulesContext)
-    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/AddRule`})
+    const {fetchData,dynamicOptions, query: rulesQuery} = useContext<any>(MarketRulesContext)
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/AddRule`})
     const {fetchAsyncData:remoteUrl} = useQuery({})
     const [modal, setModal] = useState<boolean>(false)
     const [query, setQuery] = useState<queryType>(initialQuery)
@@ -158,7 +158,7 @@ export default function AddNew() {
                                         <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
                                         <div className="relative rounded">
                                             <Listbox name={'value'} value={expressionQuery?.value}
-                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e)?.title)}>
+                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.code === e)?.title)}>
                                                 {({open}) => (
                                                     <div className="relative">
                                                         <Listbox.Button
@@ -191,14 +191,14 @@ export default function AddNew() {
                                                                     onChange={(e) => expressionQueryUpdate('value', e.target.value)}/>}
                                                                 {valueOptions.map((item: any) => (
                                                                     <Listbox.Option
-                                                                        key={item.id}
+                                                                        key={item.code}
                                                                         className={({active}) =>
                                                                             classNames(
                                                                                 active ? 'bg-border' : '',
                                                                                 'relative cursor-pointer select-none py-1 pl-3 pr-3'
                                                                             )
                                                                         }
-                                                                        value={item.id}
+                                                                        value={item.code}
                                                                     >
                                                                         {({selected, active}) => (
                                                                             <>

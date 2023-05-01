@@ -7,7 +7,7 @@ import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
 import {enTierNameEnum} from '../../../dictionary/Enums'
 import useQuery from "../../../hooks/useQuery";
-import { NETFLOW_BASE_URL } from '../../../api/constants';
+import {NETFLOW} from '../../../api/constants';
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, EnTierName: string, SettlementDelay: string }
 const initialValue = {
@@ -108,7 +108,7 @@ export default function ClearingDateRangeTTradeResultTableSection() {
             headerName: 'مانده خریدار',
         },
     ]
-    const {data,query,loading,fetchData}:any = useQuery({url:`${NETFLOW_BASE_URL}/Report/clearing-date-range-T`})
+    const {data,query,loading,fetchData}:any = useQuery({url:`${NETFLOW}/Report/clearing-date-range-T`})
 
     const getRowStyle = (params: any) => {
         if (params?.node?.rowIndex === 0) {

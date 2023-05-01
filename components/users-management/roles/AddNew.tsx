@@ -3,7 +3,7 @@ import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useState} from "react";
 import {RolesContext} from "../../../pages/users-management/roles";
 import useMutation from "../../../hooks/useMutation";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 const rolesInput = [
@@ -11,7 +11,7 @@ const rolesInput = [
 ]
 export default function AddNew() {
     const {fetchData, query: searchQuery} = useContext<any>(RolesContext)
-    const {mutate} = useMutation({url:`${USERS}/roles/create`})
+    const {mutate} = useMutation({url:`${IDP}/roles/create`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

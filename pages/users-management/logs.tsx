@@ -5,7 +5,7 @@ const TableComponent = dynamic(() => import('../../components/common/table/table
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 import { jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
-import {USERS} from "../../api/constants";
+import {IDP} from "../../api/constants";
 
 type initialType = { PageNumber: number, PageSize: number, UserId: string, NationalId: string, Name: string, StartDate: string, EndDate: string}
 const initialValue = {
@@ -102,7 +102,7 @@ export default function Users() {
         }
     ]
 
-    const {data,query,fetchData}:any = useQuery({url:`${USERS}/users/SearchUserActivityLogs`})
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserActivityLogs`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>

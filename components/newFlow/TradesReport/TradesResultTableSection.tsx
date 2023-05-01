@@ -6,7 +6,7 @@ const TableComponent = dynamic(() => import('../../common/table/table-component'
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
 import useQuery from "../../../hooks/useQuery";
-import { NETFLOW_BASE_URL } from '../../../api/constants';
+import {NETFLOW} from '../../../api/constants';
 import DateCell from "../../common/table/DateCell";
 
 type initialType = {
@@ -148,7 +148,7 @@ export default function TradesResultTableSection() {
             headerName: 'متن پیام',
         },
     ]
-    const {fetchData,data,loading,query} = useQuery({url:`${NETFLOW_BASE_URL}/Report/trades`})
+    const {fetchData,data,loading,query} = useQuery({url:`${NETFLOW}/Report/trades`})
 
     const detailCellRendererParams = useMemo(() => {
         return {

@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useEffect, useState} from "react";
+import React, {Fragment, useContext, useEffect, useMemo, useState} from "react";
 import Modal from "../common/layout/Modal";
 import {Badge} from "flowbite-react";
 import {XCircleIcon} from "@heroicons/react/24/outline";
@@ -9,7 +9,7 @@ import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "../common/components/SymbolSearchSecion";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 import useQuery from "../../hooks/useQuery";
 
 function classNames(...classes: any) {
@@ -39,10 +39,10 @@ const extraListOfFilters = [
     {title: 'operator', name: 'عملگر', type: 'selectInput'},
 ]
 export default function Edit() {
-    const [modal, setModal] = useState<boolean>(false)
-    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/UpdateRule`,method:'PUT'})
+    const {selectedRows,fetchData,dynamicOptions,query:rulesQuery,setSelectedRows} = useContext<any>(MarketRulesContext)
     const {fetchAsyncData:remoteUrl} = useQuery({})
-    const {selectedRows,dynamicOptions,fetchData,query:rulesQuery,setSelectedRows} = useContext<any>(MarketRulesContext)
+    const [modal, setModal] = useState<boolean>(false)
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/UpdateRule`,method:'PUT'})
     const [query, setQuery] = useState<queryType>(initialQuery)
     const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
         variable: null,
@@ -138,6 +138,7 @@ export default function Edit() {
             }
         })
     }
+
     useEffect(() => {
         if (!modal) {
             setExpressionQuery({variable: null, operator: '', value: '', InstrumentId: ''})
@@ -191,7 +192,7 @@ export default function Edit() {
                                         <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
                                         <div className="relative rounded">
                                             <Listbox name={'value'} value={expressionQuery?.value}
-                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.id === e)?.title)}>
+                                                     onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.code === e)?.title)}>
                                                 {({open}) => (
                                                     <div className="relative">
                                                         <Listbox.Button
@@ -231,7 +232,7 @@ export default function Edit() {
                                                                                 'relative cursor-pointer select-none py-1 pl-3 pr-3'
                                                                             )
                                                                         }
-                                                                        value={item.id}
+                                                                        value={item.code}
                                                                     >
                                                                         {({selected, active}) => (
                                                                             <>

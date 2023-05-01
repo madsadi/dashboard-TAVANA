@@ -6,7 +6,7 @@ const SearchComponent = dynamic(() => import('../../common/components/Search.com
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
 import useQuery from "../../../hooks/useQuery";
-import { NETFLOW_BASE_URL } from '../../../api/constants';
+import {NETFLOW} from '../../../api/constants';
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, Symbol: string }
 const initialValue = {
@@ -80,7 +80,7 @@ export default function ClearedTradeResultTableSection() {
             headerName: 'ارزش ناخالص',
         },
     ]
-    const {data,query,loading,fetchData}:any = useQuery({url:`${NETFLOW_BASE_URL}/Report/cleared-trade`})
+    const {data,query,loading,fetchData}:any = useQuery({url:`${NETFLOW}/Report/cleared-trade`})
 
     const detailCellRendererParams = useMemo(() => {
         return {

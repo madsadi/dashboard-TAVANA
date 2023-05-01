@@ -7,7 +7,7 @@ import {jalali} from "../common/functions/common-funcions";
 import {BookBuildingContext} from "./BookBuilding";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {BOOKBUILDING_BASE_URL} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 const bookBuildingInputs = [
     {title: 'instrumentId', name: 'شناسه نماد', type: 'search'},
@@ -37,7 +37,7 @@ const bookBuildingInputsInitialValue = {
 }
 
 export default function EditModal() {
-    const {mutate} = useMutation({url:`${BOOKBUILDING_BASE_URL}/EditBookBuilding`,method:"PUT"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditBookBuilding`,method:"PUT"})
     const {selectedRows} = useContext<any>(BookBuildingContext)
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)

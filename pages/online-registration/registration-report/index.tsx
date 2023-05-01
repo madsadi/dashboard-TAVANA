@@ -8,7 +8,7 @@ import UserRegToolbarComponent from "../../../components/online-registration/reg
 import {formatNumber} from "../../../components/common/functions/common-funcions";
 import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
-import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 import {throwToast} from "../../../components/common/functions/notification";
 
 type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string }
@@ -170,7 +170,7 @@ export default function OnlineRegistration() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,loading,fetchData}:any = useQuery({url:`${BOOKBUILDING_BASE_URL}/SearchUser`})
+    const {data,query,loading,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/request/SearchUser`})
 
     const router = useRouter();
 

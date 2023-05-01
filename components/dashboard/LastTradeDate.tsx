@@ -1,14 +1,14 @@
 import {lazy, useEffect, useState} from "react";
 import {jalali} from "../common/functions/common-funcions";
 import useMutation from "../../hooks/useMutation";
-import {NETFLOW_BASE_URL} from "../../api/constants";
+import {NETFLOW} from "../../api/constants";
 import useQuery from "../../hooks/useQuery";
 const AnimatedNumbers = lazy(()=>import('react-animated-numbers'))
 
 export default function LastTradeDate(){
-    const {mutate:sellCount} = useMutation({url:`${NETFLOW_BASE_URL}/Trade/sell-declaration-count`})
-    const {mutate:buyCount} = useMutation({url:`${NETFLOW_BASE_URL}/Trade/buy-declaration-count`})
-    const {fetchAsyncData} = useQuery({url:`${NETFLOW_BASE_URL}/Report/last-trade-date`})
+    const {mutate:sellCount} = useMutation({url:`${NETFLOW}/Trade/sell-declaration-count`})
+    const {mutate:buyCount} = useMutation({url:`${NETFLOW}/Trade/buy-declaration-count`})
+    const {fetchAsyncData} = useQuery({url:`${NETFLOW}/Report/last-trade-date`})
     const [date,setDate]=useState<any>({0:'',1:''})
     const [counts,setCounts]=useState<any>({buyCount:'',sellCount:''})
 

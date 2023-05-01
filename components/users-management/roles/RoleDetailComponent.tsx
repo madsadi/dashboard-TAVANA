@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import TableComponent from "../../common/table/table-component";
 import {useSelector} from "react-redux";
 import useQuery from "../../../hooks/useQuery";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 
 export default function RoleDetailComponent({data}: { data: any }) {
     const [rowData, setRowData] = useState([])
     const {userDetail} = useSelector((state: any) => state.userManagementConfig)
-    const {fetchAsyncData: getRolePermission} = useQuery({url: `${USERS}/roles/get-role-permission`})
+    const {fetchAsyncData: getRolePermission} = useQuery({url: `${IDP}/roles/get-role-permission`})
 
     const columnDefStructure: any = [
         {field: 'id', headerName: 'شناسه'},

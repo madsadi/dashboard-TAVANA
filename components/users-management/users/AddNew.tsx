@@ -3,7 +3,7 @@ import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useState} from "react";
 import {UsersContext} from "../../../pages/users-management/users";
 import useMutation from "../../../hooks/useMutation";
-import {USERS} from "../../../api/constants";
+import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 const userInputs = [
@@ -17,7 +17,7 @@ const userInputs = [
 ]
 export default function AddNew() {
     const {fetchData, query: searchQuery} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${USERS}/users/create`})
+    const {mutate} = useMutation({url:`${IDP}/users/create`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

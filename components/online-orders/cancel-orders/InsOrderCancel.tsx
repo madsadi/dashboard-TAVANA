@@ -3,7 +3,7 @@ import {errors} from "../../../dictionary/Enums";
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import useMutation from "../../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 const InstrumentFilters = [
@@ -29,7 +29,7 @@ const InitialValue = {
 export default function InsOrderCancel(){
     const [modal,setModal] = useState(false)
     const [query,setQuery] = useState<InitialType>(InitialValue)
-    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/GlobalCancel/CancelAllOrderForInstrument`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/GlobalCancel/CancelAllOrderForInstrument`})
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};
         _query[key] = value

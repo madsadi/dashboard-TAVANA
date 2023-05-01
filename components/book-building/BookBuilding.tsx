@@ -6,7 +6,7 @@ const TableComponent = dynamic(() => import('../common/table/table-component'))
 import AccordionComponent from "../common/components/AccordionComponent";
 import SearchComponent from "../common/components/Search.component";
 import useQuery from "../../hooks/useQuery";
-import {BOOKBUILDING_BASE_URL} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 import DateCell from "../common/table/DateCell";
 
@@ -133,7 +133,7 @@ export default function BookBuilding() {
     const [data, setData] = useState([])
 
     const submitHandler = (query:any)=>{
-        fetchAsyncData({},`${BOOKBUILDING_BASE_URL}/`+query?.api)
+        fetchAsyncData({},`${ADMIN_GATEWAY}/request/`+query?.api)
             .then((res)=>setData(res?.data?.result))
             .catch(() => throwToast({type:'customError',value:'نا موفق'}))
     }

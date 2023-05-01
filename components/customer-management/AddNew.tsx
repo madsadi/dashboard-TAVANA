@@ -7,13 +7,13 @@ import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
 import ExtraDateAndTimeInput from "./ExtraDateAndTimeInput";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 export default function AddNew() {
     const [modal, setModal] = useState(false)
     const { page } = usePageStructure()
     const { fetchData,query:searchQuery } = useContext<any>(CustomerManagement)
-    const {mutate} = useMutation({url:`${MARKET_RULES_MANAGEMENT}/request/${page.api}/Add`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Add`})
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,

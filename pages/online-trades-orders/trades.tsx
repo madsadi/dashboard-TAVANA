@@ -7,7 +7,7 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
 import useQuery from "../../hooks/useQuery";
-import {MARKET_RULES_MANAGEMENT} from "../../api/constants";
+import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../../components/common/functions/notification";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, TradeId: string, TradeCancelationFlag: number | undefined, OrderSide: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
@@ -153,7 +153,7 @@ export default function Trades() {
             headerName: 'نام نرم افزار',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${MARKET_RULES_MANAGEMENT}/request/SearchTrades`})
+    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/request/SearchTrades`})
 
     const detailCellRendererParams = useMemo(() => {
         return {

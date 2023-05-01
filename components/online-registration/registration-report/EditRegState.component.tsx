@@ -5,11 +5,11 @@ import {OnlineRegContext} from "../../../pages/online-registration/registration-
 import {useRouter} from "next/router";
 import {throwToast} from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
-import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 
 export default function EditRegStateComponent() {
     const {selectedRows,fetchData,query:searchQuery} = useContext<any>(OnlineRegContext)
-    const {mutate} = useMutation({url:`${BOOKBUILDING_BASE_URL}/EditRegistrationState`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditRegistrationState`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const router = useRouter()

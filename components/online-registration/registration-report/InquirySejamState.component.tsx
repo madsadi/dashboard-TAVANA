@@ -3,12 +3,12 @@ import {OnlineRegContext} from "../../../pages/online-registration/registration-
 import {onlineRegistrationState} from "./enums";
 import {useRouter} from "next/router";
 import useQuery from "../../../hooks/useQuery";
-import {BOOKBUILDING_BASE_URL} from "../../../api/constants";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 
 export const InquirySejamStateComponent = () => {
     const {selectedRows} = useContext<any>(OnlineRegContext)
-    const {fetchAsyncData} = useQuery({url:`${BOOKBUILDING_BASE_URL}/checkUserSejamState`})
+    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/request/checkUserSejamState`})
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')

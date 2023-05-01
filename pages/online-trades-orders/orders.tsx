@@ -9,7 +9,7 @@ import {jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
 import { OrderType} from "../../dictionary/Enums";
 import useQuery from "../../hooks/useQuery";
-import { MARKET_RULES_MANAGEMENT } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, OrderType: number | undefined, ValidityType: number | undefined, OrderSide: number | undefined, OrderStatus: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
 const initialValue = {
@@ -149,7 +149,7 @@ export default function Orders() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const {data,query,loading,fetchData}=useQuery({url:`${MARKET_RULES_MANAGEMENT}/request/SearchOrders`})
+    const {data,query,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/request/SearchOrders`})
 
     const isRowSelectable = useMemo(() => {
         return (rowNode: any) => {
