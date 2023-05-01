@@ -1,11 +1,12 @@
 import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 import React, {useState} from "react";
-import {activation} from "../../../api/get-information.api";
-import {toast} from "react-toastify";
-
+import useMutation from "../../../hooks/useMutation";
+import {NETFLOW} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 export default function Box({api, title}: { api: string, title: string }) {
     const [selectedDay, setSelectedDay] = useState<DayValue>(null);
+    const {mutate} = useMutation({url:`${NETFLOW}${api}`})
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <input readOnly ref={ref}
@@ -15,11 +16,11 @@ export default function Box({api, title}: { api: string, title: string }) {
     )
 
     const submitHandler = async () => {
-        await activation(api, {date: `${selectedDay?.year}${selectedDay && selectedDay?.month < 10 ? `0${selectedDay?.month}` : selectedDay?.month}${selectedDay && selectedDay?.day < 10 ? `0${selectedDay?.day}` : selectedDay?.day}`})
+        await mutate({date: `${selectedDay?.year}${selectedDay && selectedDay?.month < 10 ? `0${selectedDay?.month}` : selectedDay?.month}${selectedDay && selectedDay?.day < 10 ? `0${selectedDay?.day}` : selectedDay?.day}`})
             .then(() => {
-                toast.success('با موفقیت انجام شد')
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
             })
-            .catch(err =>toast.error(`${err?.response?.data?.message}`))
+            .catch((err)=> throwToast({type:'error',value:err}))
     }
 
     return (

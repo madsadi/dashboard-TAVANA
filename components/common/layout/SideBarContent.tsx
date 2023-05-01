@@ -1,11 +1,10 @@
 import React from 'react';
 import {useRouter} from "next/router";
-import {Sidebar} from 'flowbite-react';
 import Link from "next/link";
+import SidebarCollapsibleComponent from "../components/Sidebar-collapsible.component";
 
 export default function SideBarContent() {
     const router = useRouter()
-
     const items = [
         {
             label: 'داشبورد',
@@ -52,57 +51,57 @@ export default function SideBarContent() {
                 {
                     label: 'شرکت ها',
                     url: '/customer-management/subsidiary',
-                    className: router.pathname === '/customer-management/subsidiary' ? 'sideBarActive' : '',
+                    className: router.asPath === `/customer-management/subsidiary` ? 'sideBarActive' : '',
                 },
                 {
                     label: 'شعب',
                     url: '/customer-management/branch',
-                    className: router.pathname === '/customer-management/branch' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/branch' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'کارمندان',
                     url: '/customer-management/employee',
-                    className: router.pathname === '/customer-management/employee' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/employee' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'واحد کاری',
                     url: '/customer-management/businessUnit',
-                    className: router.pathname === '/customer-management/businessUnit' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/businessUnit' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'ایستگاه معاملاتی',
                     url: '/customer-management/station',
-                    className: router.pathname === '/customer-management/station' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/station' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'معامله گران',
                     url: '/customer-management/trader',
-                    className: router.pathname === '/customer-management/trader' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/trader' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'بازاریاب ها',
                     url: '/customer-management/marketer',
-                    className: router.pathname === '/customer-management/marketer' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/marketer' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'قرارداد بازاریابی',
                     url: '/customer-management/contract',
-                    className: router.pathname === '/customer-management/contract' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/contract' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'قرارداد با بازاریاب',
                     url: '/customer-management/marketerContract',
-                    className: router.pathname === '/customer-management/marketerContract' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/marketerContract' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'توافقنامه ها',
                     url: '/customer-management/agreement',
-                    className: router.pathname === '/customer-management/agreement' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/agreement' ? 'sideBarActive' : '',
                 },
                 {
                     label: 'توافقنامه های بین طرفین',
                     url: '/customer-management/customerAgreement',
-                    className: router.pathname === '/customer-management/customerAgreement' ? 'sideBarActive' : '',
+                    className: router.asPath === '/customer-management/customerAgreement' ? 'sideBarActive' : '',
                 }
             ]
         },
@@ -222,45 +221,78 @@ export default function SideBarContent() {
 
     return (
         <div className={'w-full'}>
-            <Sidebar aria-label="Sidebar with multi-level dropdown example" style={{width: '100%'}}>
-                <Sidebar.Items>
-                    <Sidebar.ItemGroup id={'menuGroup'}>
-                        {
-                            items.map((item: any) => {
-                                if (item.children) {
-                                    return (
-                                        <Sidebar.Collapse
-                                            id={'collapse'}
-                                            label={item.label}
-                                            key={item.label}
-                                        >
-                                            {item.children.map((child: any) => {
-                                                return (
-                                                    <Sidebar.Item key={child.label} active={router.pathname === child.url}
-                                                                  href={child.url}>
+            <div className={'h-full space-y-3 overflow-y-auto p-3'}>
+                {
+                    items.map((item: any) => {
+                        if (item.children) {
+                            return (
+                                <SidebarCollapsibleComponent title={item.label}
+                                                             condition={item.expanded}
+                                                             key={item.label}>
+                                    <ul className={'text-right list-disc pt-2 pr-3'}>
+                                        {item.children.map((child: any) => {
+                                            return (
+                                                <li key={child.label} className={`hover:bg-gray-200 p-2 rounded-md ${child.className}`}>
+                                                    <Link href={child.url}>
                                                         {child.label}
-                                                    </Sidebar.Item>
-                                                )
-                                            })}
-                                        </Sidebar.Collapse>
-                                    )
-                                } else {
-                                    return (
-                                        <Sidebar.Item
-                                            active={router.pathname === item.url}
-                                            href={item.url}
-                                            key={item.label}
-                                        >
-                                            {item.label}
-                                        </Sidebar.Item>
-
-                                    )
-                                }
-                            })
+                                                    </Link>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </SidebarCollapsibleComponent>
+                            )
+                        } else {
+                            return (
+                            <div key={item.label} className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}>
+                                <Link href={item.url}>
+                                    {item.label}
+                                </Link>
+                            </div>
+                            )
                         }
-                    </Sidebar.ItemGroup>
-                </Sidebar.Items>
-            </Sidebar>
+                    })
+                }
+            </div>
+            {/*<Sidebar aria-label="Sidebar with multi-level dropdown example" style={{width: '100%'}}>*/}
+            {/*    <Sidebar.Items>*/}
+            {/*        <Sidebar.ItemGroup id={'menuGroup'}>*/}
+            {/*            {*/}
+            {/*                items.map((item: any) => {*/}
+            {/*                    if (item.children) {*/}
+            {/*                        return (*/}
+            {/*                            <Sidebar.Collapse*/}
+            {/*                                id={'collapse'}*/}
+            {/*                                label={item.label}*/}
+            {/*                                key={item.label}*/}
+            {/*                            >*/}
+            {/*                                {item.children.map((child: any) => {*/}
+            {/*                                    return (*/}
+            {/*                                        <Sidebar.Item key={child.label} active={router.pathname === child.url}*/}
+            {/*                                                      href={child.url}>*/}
+            {/*                                            {child.label}*/}
+            {/*                                        </Sidebar.Item>*/}
+            {/*                                    )*/}
+            {/*                                })}*/}
+            {/*                            </Sidebar.Collapse>*/}
+            {/*                        )*/}
+            {/*                    } else {*/}
+            {/*                        return (*/}
+            {/*                            <Sidebar.Item*/}
+            {/*                                active={router.pathname === item.url}*/}
+            {/*                                href={item.url}*/}
+            {/*                                key={item.label}*/}
+            {/*                            >*/}
+            {/*                                {item.label}*/}
+            {/*                            </Sidebar.Item>*/}
+
+            {/*                        )*/}
+            {/*                    }*/}
+            {/*                })*/}
+            {/*            }*/}
+            {/*        </Sidebar.ItemGroup>*/}
+            {/*    </Sidebar.Items>*/}
+            {/*</Sidebar>*/}
         </div>
     );
 }

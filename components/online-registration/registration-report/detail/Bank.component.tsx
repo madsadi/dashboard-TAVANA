@@ -1,35 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Image from "next/image";
 import {findBank} from "../../../common/functions/common-funcions";
 import LabelValue from "../../../common/components/LabelValue";
 import {accountTypeEnums} from "../enums";
-import {useContext} from "react";
-import {
-    OnlineRegDetailContext
-} from "../../../../pages/online-registration/registration-report/[...detail]";
 import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
+import {useRouter} from "next/router";
+import useQuery from "../../../../hooks/useQuery";
+import {ADMIN_GATEWAY} from "../../../../api/constants";
 
 export default function BankComponent() {
-    const {data} = useContext<any>(OnlineRegDetailContext)
-    const profile = JSON.parse(data?.metaData)?.Account
+    const {data,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/request/GetUserBankAccounts`})
+    const router = useRouter()
+    let dep = router.query?.detail?.[0]
+
+    useEffect(() => {
+        if (dep) {
+            const queryData = dep.split('&')
+            let _query: any = {};
+
+            _query['userId'] = queryData[0].split('=')[1];
+            fetchData(_query)
+        }
+    }, [dep])
 
     return (
         <>
             {
-                data?.metaData ? <DaisyAccordionComponent title={'اطلاعات بانکی'}>
-                    {profile?.map((item: any) => {
+                data?.result?.bankAccounts.length ? <DaisyAccordionComponent title={'اطلاعات بانکی'}>
+                    {data?.result?.bankAccounts?.map((item: any) => {
                         return (
                             <div className="grid md:grid-cols-4 grid-cols-2 gap-3 border border-dashed border-gray-200 p-5 mb-3"
                                  key={item?.AccountNumber}>
                                 <div>
-                                    <Image src={`/bankIcons/${findBank(item?.Bank?.Name).logo}.svg`} height={24}
+                                    <Image src={`/bankIcons/${findBank(item?.bank?.name).logo}.svg`} height={24}
                                            width={24} alt={item?.branchName}/>
                                 </div>
-                                <LabelValue title={'شماره حساب'} value={item?.AccountNumber || 'ثبت نشده'}/>
-                                <LabelValue title={'نام بانک'} value={item?.Bank?.Name || 'ثبت نشده'}/>
-                                <LabelValue title={'نام شعبه'} value={item?.BranchName || 'ثبت نشده'}/>
-                                <LabelValue title={'شهر شعبه'} value={item?.branchCity?.Name || 'ثبت نشده'}/>
-                                <LabelValue title={'شماره شعبه'} value={item?.Sheba || 'ثبت نشده'}/>
+                                <LabelValue title={'شماره حساب'} value={item?.accountNumber || 'ثبت نشده'}/>
+                                <LabelValue title={'نام بانک'} value={item?.bank?.name || 'ثبت نشده'}/>
+                                <LabelValue title={'نام شعبه'} value={item?.branchName || 'ثبت نشده'}/>
+                                <LabelValue title={'شهر شعبه'} value={item?.branchCity?.name || 'ثبت نشده'}/>
+                                <LabelValue title={'شماره شعبه'} value={item?.sheba || 'ثبت نشده'}/>
                                 <LabelValue title={'نوع حساب'}
                                             value={accountTypeEnums.find((i: any) => i.enTitle === item?.Type)?.faTitle}/>
                             </div>

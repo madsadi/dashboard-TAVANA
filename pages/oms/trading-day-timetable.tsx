@@ -1,20 +1,24 @@
-import React, {useState} from "react";
+import React from "react";
 import moment from "jalali-moment";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 import { jalali} from "../../components/common/functions/common-funcions";
-import {tradingDayTimeTable} from "../../api/oms";
+import DateCell from "../../components/common/table/DateCell";
+import useQuery from "../../hooks/useQuery";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import {throwToast} from "../../components/common/functions/notification";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, InstrumentGroupId: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
     InstrumentGroupId: '',
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    StartDate: '',
+    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: '',
+    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
 }
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -35,9 +39,8 @@ export default function TradingDayTimetable() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <>
-                            <span>{rowData.data.tradingSessionDate ? jalali(rowData.data.tradingSessionDate).date : '-'}</span>
-                        </>)
+                        <DateCell date={rowData.data.tradingSessionDate}/>
+                        )
                 };
                 const moodDetails = {
                     component: ColourCellRenderer,
@@ -105,38 +108,32 @@ export default function TradingDayTimetable() {
             },
         }
     ]
+    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/request/GetTradingDayTimetable`})
 
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-    const [totalCount, setTotal] = useState<any>(null);
-
-    const onSubmit = async (e:any,query: any) => {
-        e?.preventDefault()
-        await tradingDayTimeTable(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData);
-                setTotal(res?.result?.totalCount)
-            })
-    };
-
+    const fetchHandler = (query:any)=>{
+        if (query.StartDate && query?.EndDate){
+            fetchData(query)
+        }else{
+            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        }
+    }
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={listOfFilters}
+                <SearchComponent listOfFilters={listOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchHandler}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result?.pagedData}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['id']}
+                            pagination={true}
+                            totalCount={data?.result?.totalCount}
+                            fetcher={fetchHandler}
+                            query={query}
             />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}/>
         </div>
     )
 }

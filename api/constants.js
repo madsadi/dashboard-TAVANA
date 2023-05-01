@@ -1,9 +1,6 @@
 export const COMMISSION_BASE_URL= process.env.COMMISSION_BASE_URL;
-export const NETFLOW_BASE_URL= process.env.NETFLOW_BASE_URL;
-export const MARKET_RULES_MANAGEMENT= process.env.MARKET_RULES_MANAGEMENT;
-export const BOOKBUILDING_BASE_URL= process.env.BOOKBUILDING_BASE_URL;
-export const USERS= process.env.USERS;
+export const NETFLOW= process.env.NETFLOW;
+export const ADMIN_GATEWAY= process.env.ADMIN_GATEWAY;
+export const IDP= process.env.IDP;
 export const BASE_URL= process.env.BASE_URL;
-export const fileServerApi= process.env.fileServerApi;
-
-
+export const FILE_SERVER= process.env.FILE_SERVER;

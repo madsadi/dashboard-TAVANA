@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/Modal";
-import {addBookBuilding} from "../../api/book-building.api";
 import moment from "jalali-moment";
-import {toast} from "react-toastify";
 import InputComponent from "../common/components/InputComponent";
-import {BookBuildingContext} from "./tableSection";
+import useMutation from "../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../api/constants";
+import {throwToast} from "../common/functions/notification";
 
 const bookBuildingInputs = [
-    {title: 'instrumentId', name: 'شناسه نماد', type: 'input'},
+    {title: 'instrumentId', name: 'شناسه نماد', type: 'search'},
     {title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number'},
     {title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number'},
     {title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number'},
@@ -21,7 +21,7 @@ const bookBuildingInputs = [
 
 const bookBuildingInitialValue = {instrumentId:'',maxQuantity:null,minPrice:null,maxPrice:null,StartDate:'',EndDate:'',startHour:null,startMinute:null,endHour:null,endMinute:null}
 export default function AddModal() {
-    const {onSubmit, query: bookBuildingQuery} = useContext<any>(BookBuildingContext)
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/addBookBuilding`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(bookBuildingInitialValue)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
@@ -31,7 +31,7 @@ export default function AddModal() {
 
     const addNewHandler = async (e:any) => {
         if (query?.instrumentId && query?.maxQuantity) {
-            await addBookBuilding({
+            await mutate({
                 instrumentId: query.instrumentId,
                 maxQuantity: query.maxQuantity,
                 minPrice: query.minPrice,
@@ -40,19 +40,17 @@ export default function AddModal() {
                 toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD')+`${query?.endHour ? 'T'+query?.endHour+':':''}`+`${query?.endMinute ? query?.endMinute+':00':''}`,
             }).then(() => {
                 setModal(false)
-                toast.success('با موفقیت انجام شد')
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setQuery(null)
                 setSelectedDayRange({from: null, to: null})
-                onSubmit(e,bookBuildingQuery)
             })
-                .catch((err) => {
-                    toast.error(err?.response?.data?.error?.message)
-                })
+                .catch((err) => throwToast({type:'error',value:err}))
+
         } else {
             if (!query.maxQuantity) {
-                toast.warning('بیشینه حجم سفارش را لطفا وارد کنید')
+                throwToast({type:'warning',value:'بیشینه حجم سفارش را لطفا وارد کنید'})
             } else if (!query.instrumentId) {
-                toast.warning('کد نماد را لطفا وارد کنید')
+                throwToast({type:'warning',value:'کد نماد را لطفا وارد کنید'})
             }
         }
     }
@@ -64,6 +62,11 @@ export default function AddModal() {
         }
     },[modal])
 
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>جدید</button>
@@ -76,7 +79,7 @@ export default function AddModal() {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
-                                                       setQuery={setQuery}
+                                                       onChange={onChange}
                                                        selectedDayRange={selectedDayRange}
                                                        setSelectedDayRange={setSelectedDayRange}/>
 

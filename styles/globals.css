@@ -21,6 +21,7 @@ a {
 
 * {
     box-sizing: border-box;
+    font-variant-numeric:tabular-nums;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -36,6 +37,9 @@ a {
     border-radius: 4px;
 }
 
+.sideBarActive{
+    @apply bg-gray-200 p-2 rounded-md;
+}
 #collapse > span {
     text-align: right;
     margin-right: 0.75rem;

@@ -1,28 +1,31 @@
 import React, {useContext, useState} from "react";
-import {toast} from "react-toastify";
-import {deleteCommission} from "../../../api/commission.api";
 import Modal from "../../common/layout/Modal";
 import {InstrumentTypeContext} from "./ResultTable";
+import {throwToast} from "../../common/functions/notification";
+import useMutation from "../../../hooks/useMutation";
+import { COMMISSION_BASE_URL } from "../../../api/constants";
 
 export default function Remove(){
     const  [modal,setModal] = useState(false)
     const {onSubmit, query: insQuery,selectedRows} = useContext<any>(InstrumentTypeContext)
-
+    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Delete`,method:"PUT"})
     const confirmDeleteSelected = () => {
         if (selectedRows.length ===1) {
             setModal(true);
         } else {
-            toast.error('لطفا یک گزینه را انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه را انتخاب کنید'})
         }
     }
     const deleteHandler = async () => {
-        await deleteCommission({id: selectedRows?.[0]?.id})
+        await mutate({id: selectedRows?.[0]?.id})
             .then(() => {
-                toast.success('با موفقیت انجام شد');
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setModal(false)
+                onSubmit(insQuery)
             })
-            .catch(() => toast.error('ناموفق'))
-    }
+            .catch((err) => {
+                throwToast({type:'error',value:err})
+            })    }
     return(
         <>
             <button className="button bg-red-600" onClick={confirmDeleteSelected}>حذف</button>

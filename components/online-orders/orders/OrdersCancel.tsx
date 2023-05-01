@@ -1,25 +1,29 @@
-import Modal from "../../common/layout/Modal";
 import React, {useContext, useState} from "react";
-import {cancelOrder} from "../../../api/online-trades-orders.api";
-import {toast} from "react-toastify";
+import Modal from "../../common/layout/Modal";
 import {errors} from "../../../dictionary/Enums";
 import {OrdersContext} from "../../../pages/online-trades-orders/orders";
+import {throwToast} from "../../common/functions/notification";
+import useMutation from "../../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 
-export default function OrdersCancel(){
-    const [modal,setModal]=useState(false)
-    const {query,onSubmit,selectedRows,setSelectedRows} = useContext<any>(OrdersContext)
-
-    const cancelMultipleOrders = (e:any) => {
+export default function OrdersCancel() {
+    const [modal, setModal] = useState(false)
+    const {query, fetchData, selectedRows, setSelectedRows} = useContext<any>(OrdersContext)
+    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/request/Cancel`})
+    const cancelMultipleOrders = (e: any) => {
         const cancel = async (order: any) => {
-            await cancelOrder({
+            await mutate({
                 orderId: order.orderId,
                 customerId: order.customerId,
                 sourceOfRequests: 3
-            }).then(() =>{
-                onSubmit(e,query)
+            }).then(() => {
+                fetchData(query)
             })
                 .catch((err: any) => {
-                    toast.error(`${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code)?.errorText}`)
+                    throwToast({
+                        type: 'customError',
+                        value: `${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code)?.errorText}`
+                    })
                 })
         }
         selectedRows.map((order: any) => {
@@ -28,15 +32,15 @@ export default function OrdersCancel(){
         setSelectedRows([])
     }
 
-    const openModalHandler = ()=>{
-        if (selectedRows.length === 0){
-            toast.warning('انتخابی برای حذف گروهی نشده است')
-        }else{
+    const openModalHandler = () => {
+        if (selectedRows.length === 0) {
+            throwToast({type: 'warning', value: 'انتخابی برای حذف گروهی نشده است'})
+        } else {
             setModal(true)
         }
     }
 
-    return(
+    return (
         <>
             <Modal title={'لغو سفارش'} setOpen={setModal} open={modal}>
                 <div className="field mt-4">

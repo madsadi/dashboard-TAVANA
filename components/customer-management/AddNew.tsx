@@ -1,17 +1,19 @@
-import Modal from "../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
+import Modal from "../common/layout/Modal";
 import usePageStructure from "../../hooks/usePageStructure";
-import { addNew } from "../../api/holdings";
 import InputComponent from "../common/components/InputComponent";
-import { toast } from "react-toastify";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
 import ExtraDateAndTimeInput from "./ExtraDateAndTimeInput";
+import {throwToast} from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 export default function AddNew() {
     const [modal, setModal] = useState(false)
     const { page } = usePageStructure()
-    const { onSubmit,query:searchQuery } = useContext<any>(CustomerManagement)
+    const { fetchData,query:searchQuery } = useContext<any>(CustomerManagement)
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Add`})
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
@@ -47,21 +49,25 @@ export default function AddNew() {
             }
         })
         if (Object.values(query)?.every((item: any) => item!==undefined && item!==null && item!=='' )) {
-            await addNew(page.api, _body)
+            await mutate(_body)
                 .then((res) => {
-                    onSubmit(e,searchQuery)
+                    fetchData(searchQuery)
                     setQuery(initialValue)
                     setModal(false);
                 })
                 .catch((err) => {
-                    toast.error(`${err?.response?.data?.error?.message}`)
+                    throwToast({type:'error',value:err})
                 })
         } else {
-            toast.warning('تمام ورودی ها اجباری می باشد.')
+            throwToast({type:'warning',value:'تمام ورودی ها اجباری می باشد.'})
         }
     }
 
-
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>
@@ -75,7 +81,7 @@ export default function AddNew() {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
-                                                       setQuery={setQuery}
+                                                       onChange={onChange}
                                                        selectedDayRange={selectedDayRange}
                                                        setSelectedDayRange={setSelectedDayRange}
                                                        />

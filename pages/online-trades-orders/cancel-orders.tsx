@@ -1,14 +1,12 @@
-import React, {useMemo, useState} from "react";
+import React, {useMemo} from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const CancelOrdersToolbar = dynamic(() => import('../../components/online-orders/cancel-orders/CancelOrdersToolbar'))
-import {getCanceledOrders} from "../../api/online-trades-orders.api";
-import {toast} from "react-toastify";
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
-import moment from "jalali-moment";
+import useQuery from "../../hooks/useQuery";
+import { ADMIN_GATEWAY } from "../../api/constants";
 
 const listOfFilters = [
     {title: 'PageNumber', name: 'شماره صفحه', type: null},
@@ -19,8 +17,10 @@ type initialType = { StartDate: string, EndDate: string, PageNumber: number, Pag
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    StartDate: '',
+    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: '',
 }
 
 export default function CancelOrders() {
@@ -105,9 +105,7 @@ export default function CancelOrders() {
             headerName: 'خطا',
         }
     ]
-    const [data, setData] = useState<any>([]);
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [totalCount, setTotalCount] = useState<any>(null)
+    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/GlobalCancel/SearchGlobalCancelOrder`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -157,38 +155,25 @@ export default function CancelOrders() {
         };
     }, []);
 
-    const onSubmit = async (e: any, query: initialType) => {
-        e?.preventDefault()
-        await getCanceledOrders(query)
-            .then((res) => {
-                setData(res.result?.pagedData)
-                setTotalCount(res?.result?.totalCount)
-                toast.success('با موفقیت انجام شد')
-            })
-            .catch(() => toast.error('ناموفق'))
-    }
-
     return (
             <div className="flex flex-col h-full flex-1">
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
-                                     listOfFilters={listOfFilters}
+                    <SearchComponent listOfFilters={listOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <CancelOrdersToolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result?.pagedData}
+                                loading={loading}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['id', 'userRequestDateTime']}
                                 masterDetail={true}
                                 detailCellRendererParams={detailCellRendererParams}
-                />
-                <TablePagination onSubmit={onSubmit}
-                                 query={query}
-                                 setQuery={setQuery}
-                                 totalCount={totalCount}
+                                pagination={true}
+                                totalCount={data?.result?.totalCount}
+                                fetcher={fetchData}
+                                query={query}
                 />
             </div>
     )

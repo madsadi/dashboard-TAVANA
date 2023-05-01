@@ -1,13 +1,13 @@
-import React, {useState, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
-const TablePagination = dynamic(() => import('../../common/table/TablePagination'))
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
-import {toast} from "react-toastify";
-import {netflowTradesSearch} from "../../../api/netflow.api";
+import useQuery from "../../../hooks/useQuery";
+import {NETFLOW} from '../../../api/constants';
+import DateCell from "../../common/table/DateCell";
 
 type initialType = {
     StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, StationCode: string, BourseCode: string, NationalCode: string, LastName: string,
@@ -17,8 +17,10 @@ type initialType = {
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    StartDate: ``,
+    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: ``,
+    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
     Side: '',
     InstrumentId: '',
     Ticket: '',
@@ -55,6 +57,8 @@ export default function TradesResultTableSection() {
         {
             field: 'georgianTradeDate',
             headerName: 'تاریخ',
+            width:150,
+            minWidth:150,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -67,7 +71,6 @@ export default function TradesResultTableSection() {
                 return moodDetails;
             },
             flex: 0,
-            width: 180,
         },
         {
             field: 'symbol',
@@ -106,6 +109,13 @@ export default function TradesResultTableSection() {
         {
             field: 'tradeDate',
             headerName: 'تاریخ معامله',
+            width:200,
+            minWidth: 200,
+            cellRendererSelector: () => {
+                return {
+                    component: (props:any)=><DateCell date={props.data.georgianTradeDate}/>,
+                };
+            },
         },
         {
             field: 'instrumentId',
@@ -138,19 +148,7 @@ export default function TradesResultTableSection() {
             headerName: 'متن پیام',
         },
     ]
-    const [data, setData] = useState<any>([]);
-    const [totalCount, setTotalCount] = useState<number>(0);
-    const [query, setQuery] = useState<initialType>(initialValue)
-
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await netflowTradesSearch(query)
-            .then(res => {
-                setData(res?.result)
-                setTotalCount(res?.totalRecord)
-            })
-            .catch(() => toast.error('نا موفق'))
-    };
+    const {fetchData,data,loading,query} = useQuery({url:`${NETFLOW}/Report/trades`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -194,23 +192,22 @@ export default function TradesResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={listOfFilters}
+                <SearchComponent listOfFilters={listOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchData}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['ticket']}
                             masterDetail={true}
                             detailCellRendererParams={detailCellRendererParams}
+                            pagination={true}
+                            totalCount={data?.totalRecord}
+                            fetcher={fetchData}
+                            query={query}
             />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}/>
         </div>
     );
 }

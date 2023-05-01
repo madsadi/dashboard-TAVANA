@@ -1,37 +1,38 @@
+import React, {useContext, useEffect, useState} from "react";
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
-import React, {useContext, useEffect, useState} from "react";
-import {toast} from "react-toastify";
 import {UsersContext} from "../../../pages/users-management/users";
 import {DayValue} from "react-modern-calendar-datepicker";
-import {changeLockOut} from "../../../api/users-management.api";
+import useMutation from "../../../hooks/useMutation";
+import {IDP} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 const userInputs = [
     {title: 'lockoutEndDateTime', name: 'تاریخ', type: 'singleDate'},
 ]
 export default function LockOut(){
     const {selectedRows} = useContext<any>(UsersContext)
+    const {mutate} = useMutation({url:`${IDP}/users/set-lockout-end-date`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDay, setSelectedDay] = useState<DayValue>(null);
 
-    const addNewHandler = async (e: any) => {
+    const lockHandler = async (e: any) => {
         e.preventDefault()
-        await changeLockOut({userId:selectedRows[0].id,lockoutEndDateTime:query.date})
+        await mutate({userId:selectedRows[0].id,lockoutEndDateTime:query.date})
             .then(() => {
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setModal(false)
-                toast.success('با موفقیت انجام شد')
                 setQuery({})
             })
-            .catch((err) => {
-                toast.error(err?.response?.data?.error?.message)
-            })
+            .catch((err) => throwToast({type:'error',value:err}))
+
     }
     const openHandler = () => {
         if (selectedRows.length) {
             setModal(true)
         } else {
-            toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
         }
     }
 
@@ -43,6 +44,12 @@ export default function LockOut(){
             setQuery(_initialValue)
         }
     },[modal])
+
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return(
         <>
             <button className="button bg-yellow-500" onClick={openHandler}>قفل/باز کردن حساب کاربری</button>
@@ -55,7 +62,7 @@ export default function LockOut(){
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
-                                                       setQuery={setQuery}
+                                                       onChange={onChange}
                                                        setSelectedDay={setSelectedDay}
                                                        selectedDay={selectedDay}
                                 />
@@ -70,7 +77,7 @@ export default function LockOut(){
                                     setModal(false)
                                 }}>لغو
                         </button>
-                        <button type={"submit"} className="button bg-lime-600" onClick={addNewHandler}>تایید</button>
+                        <button type={"submit"} className="button bg-lime-600" onClick={lockHandler}>تایید</button>
                     </div>
                 </div>
             </Modal>

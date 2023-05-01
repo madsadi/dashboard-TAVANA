@@ -11,8 +11,9 @@ import {
 import {jalali} from "../common/functions/common-funcions";
 import {EditInfoModal} from "./EditInfoModal";
 import {useSelector} from "react-redux";
-import {twoFactor} from "../../api/users-management.api";
-import {toast} from "react-toastify";
+import useMutation from "../../hooks/useMutation";
+import {IDP} from "../../api/constants";
+import {throwToast} from "../common/functions/notification";
 
 export default function UserInfo() {
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
@@ -94,12 +95,13 @@ export default function UserInfo() {
 
 const ToggleButton = ()=>{
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
+    const {mutate} = useMutation({url:`${IDP}/account/2fa`,method:"PUT"})
     const [enable,isEnable] = useState(data?.twoFactorEnabled)
 
     const twoFactorHandler = async ()=>{
-        await twoFactor(!enable)
+        await mutate({}, {enabled:!enable})
             .then(()=>isEnable(!enable))
-            .catch((err)=>toast.error(err?.response?.data?.error?.message))
+            .catch((err)=>throwToast({type:'error',value:err}))
     }
 
     return(

@@ -4,10 +4,10 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const RolesToolbar = dynamic(() => import('../../components/users-management/roles/RolesToolbar'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const RoleToggleButton = dynamic(() => import('../../components/users-management/roles/RoleToggleButton'))
 import RoleDetailComponent from "../../components/users-management/roles/RoleDetailComponent";
-import {getRoles} from "../../api/users-management.api";
+import useQuery from "../../hooks/useQuery";
+import {IDP} from "../../api/constants";
 
 
 type initialType = { PageNumber: number, PageSize: number, Name: string, IsActive: any }
@@ -53,34 +53,21 @@ export default function Roles() {
         }
     ]
 
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-    const [totalCount, setTotalCount] = useState<number>(0)
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/roles/search`})
     const [selectedRows, setSelectedRows] = useState<any>([])
 
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await getRoles(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData);
-                setTotalCount(res?.result?.totalCount)
-            })
-            .catch(() => setData([]))
-    };
-
     return (
-        <RolesContext.Provider value={{onSubmit,query,selectedRows,setSelectedRows}}>
+        <RolesContext.Provider value={{fetchData,query,selectedRows,setSelectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
+                    <SearchComponent
                                      listOfFilters={rolesListOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <RolesToolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result?.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['id']}
                                 rowSelection={'single'}
@@ -89,11 +76,10 @@ export default function Roles() {
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 suppressRowClickSelection={true}
-                />
-                <TablePagination onSubmit={onSubmit}
-                                 query={query}
-                                 setQuery={setQuery}
-                                 totalCount={totalCount}
+                                pagination={true}
+                                totalCount={data?.result?.totalCount}
+                                fetcher={fetchData}
+                                query={query}
                 />
             </div>
         </RolesContext.Provider>

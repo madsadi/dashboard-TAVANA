@@ -2,16 +2,35 @@ import {AgGridReact} from "ag-grid-react";
 import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
 import {formatNumber} from "../functions/common-funcions";
 import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
+import dynamic from "next/dynamic";
+const TablePagination = dynamic(() => import('./TablePagination'))
 
 const TableComponent: React.FC<any> = (props) =>{
-    let {data=[],columnDefStructure,rowSelection,onGridReady=()=>{gridRef?.current?.api?.setRowData([])},rowId,isRowSelectable=null,masterDetail=false,detailComponent=null,detailCellRendererParams=null,setSelectedRows=null,selectedRows=[],onRowClicked=null,suppressRowClickSelection=false} = props
-    console.log('table')
+    let {data=[],
+        columnDefStructure,
+        rowSelection,
+        onGridReady=()=>{gridRef?.current?.api?.setRowData([])},
+        rowId,
+        isRowSelectable=null,
+        masterDetail=false,
+        detailComponent=null,
+        detailCellRendererParams=null,
+        setSelectedRows=null,
+        selectedRows=[],
+        onRowClicked=null,
+        suppressRowClickSelection=false,
+        pagination=false,
+        totalCount=0,
+        fetcher=()=>null,
+        query=null,
+        loading=false
+    } = props
 
     const gridRef: any = useRef();
 
     // useEffect(() => {
     //     gridRef?.current?.api?.setRowData(data)
-    // }, [data])
+    // },[data])
 
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
     const defaultColDef = useMemo(() => {
@@ -27,13 +46,13 @@ const TableComponent: React.FC<any> = (props) =>{
         return id.join("-")
     }, [rowId]);
     const loadingOverlayComponent = useMemo(() => {
-        return LoadingOverlay;
-    }, []);
+        return loading && LoadingOverlay;
+    }, [loading]);
     const loadingOverlayComponentParams = useMemo(() => {
         return {
             loadingMessage: 'در حال بارگزاری...',
         };
-    }, []);
+    }, [loading]);
     const noRowsOverlayComponent = useMemo(() => {
         return NoRowOverlay;
     }, []);
@@ -54,6 +73,7 @@ const TableComponent: React.FC<any> = (props) =>{
     },[selectedRows.length])
 
     return(
+        <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
@@ -84,6 +104,11 @@ const TableComponent: React.FC<any> = (props) =>{
                     />
                 </div>
             </div>
+            {pagination ? <TablePagination onSubmit={fetcher}
+                              query={query}
+                              totalCount={totalCount || 0}
+            />:null}
+        </>
     )
 }
 

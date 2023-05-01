@@ -1,12 +1,14 @@
 import React, {useContext} from "react";
 import {OnlineRegContext} from "../../../pages/online-registration/registration-report";
-import {toast} from "react-toastify";
-import {checkUserSejamState} from "../../../api/users-management.api";
 import {onlineRegistrationState} from "./enums";
 import {useRouter} from "next/router";
+import useQuery from "../../../hooks/useQuery";
+import {ADMIN_GATEWAY} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 export const InquirySejamStateComponent = () => {
     const {selectedRows} = useContext<any>(OnlineRegContext)
+    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/request/checkUserSejamState`})
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')
@@ -15,12 +17,12 @@ export const InquirySejamStateComponent = () => {
     const inquiryHandler = () => {
         if (selectedRows?.length || userId) {
             const checkState = async (user: any, index: number) => {
-                await checkUserSejamState(user.userId || userId)
+                await fetchAsyncData({userId:user.userId || userId})
                     .then((res) => {
                         if (userId){
-                            toast.success(` وضعیت این کاربر ${onlineRegistrationState.find((item: any) => item.id === res?.result.sejamStatus)?.title}  می باشد `)
+                            throwToast({type:'success',value:` وضعیت این کاربر ${onlineRegistrationState.find((item: any) => item.id === res?.data?.result.sejamStatus)?.title}  می باشد `})
                         }else{
-                            toast.success(` وضعیت کاربر با کد ملی ${user.uniqueId} ${onlineRegistrationState.find((item: any) => item.id === res?.result.sejamStatus)?.title}  می باشد `)
+                            throwToast({type:'success',value:` وضعیت کاربر با کد ملی ${user.uniqueId} ${onlineRegistrationState.find((item: any) => item.id === res?.data?.result.sejamStatus)?.title}  می باشد `})
                         }
                         if (index + 1 < selectedRows?.length) {
                             checkState(selectedRows[index + 1], index + 1)
@@ -28,9 +30,9 @@ export const InquirySejamStateComponent = () => {
                     })
                     .catch((err) => {
                         if (err?.response?.data?.error?.message==='کاربر سجامی نیست' && !userId){
-                            toast.error(` کاربر با کد ملی ${user.uniqueId} سجامی نمی باشد `)
+                            throwToast({type:'customError',value:` کاربر با کد ملی ${user.uniqueId} سجامی نمی باشد `})
                         }else{
-                            toast.error(`${err?.response?.data?.error?.message}`)
+                            throwToast({type:'error',value:err})
                         }
                         if (index + 1 < selectedRows?.length) {
                             checkState(selectedRows[index + 1], index + 1)
@@ -39,7 +41,7 @@ export const InquirySejamStateComponent = () => {
             }
             checkState(selectedRows?.[0] || userId, 0)
         } else {
-            toast.warning('لطفا یک ردیف را انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک ردیف را انتخاب کنید'})
         }
     }
 

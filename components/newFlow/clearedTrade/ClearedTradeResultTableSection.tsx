@@ -1,20 +1,21 @@
 import React, {useState, useMemo} from 'react';
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../common/table/TablePagination'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
-import {netflowClearedTradeSearch} from "../../../api/netflow.api";
-import {toast} from "react-toastify";
+import useQuery from "../../../hooks/useQuery";
+import {NETFLOW} from '../../../api/constants';
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, Symbol: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    StartDate: ``,
+    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
+    EndDate: ``,
+    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
     Side: '',
     InstrumentId: '',
     Ticket: '',
@@ -79,10 +80,7 @@ export default function ClearedTradeResultTableSection() {
             headerName: 'ارزش ناخالص',
         },
     ]
-
-    const [totalCount, setTotalCount] = useState<number>(0);
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
+    const {data,query,loading,fetchData}:any = useQuery({url:`${NETFLOW}/Report/cleared-trade`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -122,35 +120,25 @@ export default function ClearedTradeResultTableSection() {
         };
     }, []);
 
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await netflowClearedTradeSearch(query)
-            .then(res => {
-                setData(res?.result)
-                setTotalCount(res?.totalRecord)
-            })
-            .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
-    };
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={listOfFilters}
+                <SearchComponent listOfFilters={listOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchData}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['ticket']}
                             masterDetail={true}
                             detailCellRendererParams={detailCellRendererParams}
+                            pagination={true}
+                            totalCount={data?.totalRecord}
+                            fetcher={fetchData}
+                            query={query}
             />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}/>
         </div>
     );
 }

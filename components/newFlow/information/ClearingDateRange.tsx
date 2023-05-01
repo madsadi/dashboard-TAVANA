@@ -1,10 +1,12 @@
 import DatePicker, {DayValue, utils} from "@amir04lm26/react-modern-calendar-date-picker";
 import React, {useState} from "react";
-import {activation} from "../../../api/get-information.api";
-import {toast} from "react-toastify";
+import useMutation from "../../../hooks/useMutation";
+import {NETFLOW} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 
 export default function ClearingDateRange() {
+    const {mutate} = useMutation({url:`${NETFLOW}/Trade/clearing-date-range`})
     const [toDate, setToDate] = useState<DayValue>(null);
     const [fromDate, setFromDate] = useState<DayValue>(null);
     const [settlementDelay, setSettlementDelay] = useState<string>('');
@@ -21,11 +23,11 @@ export default function ClearingDateRange() {
     )
 
     const submitHandler = async () => {
-        await activation('/Trade/clearing-date-range', {fromDate:`${fromDate?.year}${fromDate && fromDate?.month<10 ? `0${fromDate?.month}`:fromDate?.month}${fromDate && fromDate?.day<10 ? `0${fromDate?.day}`:fromDate?.day}`,
+        await mutate({fromDate:`${fromDate?.year}${fromDate && fromDate?.month<10 ? `0${fromDate?.month}`:fromDate?.month}${fromDate && fromDate?.day<10 ? `0${fromDate?.day}`:fromDate?.day}`,
             toDate:`${toDate?.year}${toDate && toDate?.month<10 ? `0${toDate?.month}`:toDate?.month}${toDate && toDate?.day<10 ? `0${toDate?.day}`:toDate?.day}`,
             settlementDelay: `${settlementDelay}`})
-            .then(()=> toast.success('با موفقیت انجام شد'))
-            .catch((err)=> toast.error(`${err?.response?.data?.message}`))
+            .then(()=> throwToast({type:'success',value:'با موفقیت انجام شد'}))
+            .catch((err)=> throwToast({type:'error',value:err}))
     }
 
     return (
