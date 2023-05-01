@@ -37,7 +37,7 @@ export default function UserDetailComponent({data}:{data:any}){
     ]
 
     useEffect(()=>{
-        fetchData({id:data.id})
+        fetchData({userId:data.id})
     },[userDetail])
 
     return(
@@ -72,7 +72,7 @@ export default function UserDetailComponent({data}:{data:any}){
                     </div>
                 </div>
             </div>
-            <TableComponent data={userRoles?.result}
+            <TableComponent data={userRoles?.result?.roles}
                             columnDefStructure={columnDefStructure}
                             rowId={['id']}
             />

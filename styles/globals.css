@@ -7,7 +7,20 @@ body {
     font-family: "Yekan Bakh", sans-serif;
     color: #495057;
 }
-
+:root {
+    color-scheme: light !important;
+}
+@media (prefers-color-scheme: dark) {
+    html {
+        color-scheme: light;
+    }
+    :root{
+        color-scheme:light !important;
+        --b3:180 1.9608% 90% !important;
+        --b1:0 0% 100% !important;
+        --b2:0 0% 94.902% !important;
+    }
+}
 #__next {
     display: flex;
     flex-direction: column;
