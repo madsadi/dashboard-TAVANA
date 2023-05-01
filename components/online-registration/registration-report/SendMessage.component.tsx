@@ -1,24 +1,29 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import InputComponent from "../../common/components/InputComponent";
 import Modal from "../../common/layout/Modal";
 import {DayValue} from "react-modern-calendar-datepicker";
-import {sendMessageToUncompletedUsers} from "../../../api/users-management.api";
-import {toast} from "react-toastify";
+import useQuery from "../../../hooks/useQuery";
+import {ADMIN_GATEWAY} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 export const SendMessageComponent = () => {
     const [modal, setModal] = useState(false)
     const [selectedDay, setSelectedDay] = useState<DayValue>(null)
     const [query, setQuery] = useState({date:''})
+    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/request/SendMessageToUncompletedUsers`})
 
     const sendMessage=async (e:any)=>{
         e.preventDefault()
-        await sendMessageToUncompletedUsers(query.date.split('T')[0]+'T23:59:00')
-            .then((res)=>toast.success(` برای ${res?.result?.totalCount} نفر پیامک با موفقیت ارسال شد `))
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message}`)
-            })
+        await fetchAsyncData({registrationDateTime:query.date.split('T')[0] + 'T23:59:00'})
+            .then((res)=>throwToast({type:'success',value:` برای ${res?.data?.result?.totalCount} نفر پیامک با موفقیت ارسال شد `}))
+            .catch((err) => throwToast({type:'error',value:err}))
     }
 
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className={'button bg-lime-500'} onClick={()=>setModal(true)}>
@@ -29,12 +34,9 @@ export const SendMessageComponent = () => {
                 <div className="field mt-4">
                     <form onSubmit={sendMessage}>
                         <div className={'w-full md:w-3/5'}>
-                            <InputComponent title={''}
-                                            type={'singleDate'}
-                                            name={'date'}
+                            <InputComponent item={{title:'',type:'singleDate',name:'date',valueType:'string'}}
                                             query={query}
-                                            setQuery={setQuery}
-                                            valueType={'string'}
+                                            onChange={onChange}
                                             setSelectedDay={setSelectedDay}
                                             selectedDay={selectedDay}
                             />

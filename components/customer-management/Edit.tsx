@@ -1,22 +1,25 @@
-import Modal from "../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
-import {toast} from "react-toastify";
-import {edit} from "../../api/holdings";
+import Modal from "../common/layout/Modal";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/components/InputComponent";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
+import {throwToast} from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 export default function Edit() {
+    const {page} = usePageStructure()
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Update`,method:"PUT"})
+
     const [modal, setModal] = useState(false)
-    const [queryEdit, setQueryEdit] = useState<any>(null)
+    const [query, setQuery] = useState<any>(null)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
     });
 
-    const {page} = usePageStructure()
-    const {onSubmit, selectedRows,setSelectedRows,query} = useContext<any>(CustomerManagement)
+    const {fetchData, selectedRows,setSelectedRows,query:searchQuery} = useContext<any>(CustomerManagement)
 
     useEffect(()=>{
         if (!modal){
@@ -42,30 +45,32 @@ export default function Edit() {
                     initialValue[item.title] = ToEdit.address["remnantAddress"];
                 }
             })
-            setQueryEdit(initialValue)
+            setQuery(initialValue)
         }
     }, [page?.form, selectedRows[0]])
 
     const editHandler = async (e: any) => {
-        await edit(page.api, {...queryEdit, id: selectedRows[0]?.id, addressId: selectedRows[0]?.address?.id})
+        await mutate( {...query, id: selectedRows[0]?.id, addressId: selectedRows[0]?.address?.id})
             .then((res) => {
-                onSubmit(e, query)
+                fetchData(searchQuery)
                 setModal(false);
-                setQueryEdit(null)
+                setQuery(null)
             })
-            .catch((err: any) => {
-                toast.error(`${err?.response?.data?.error?.message}`)
-            })
+            .catch((err: any) => throwToast({type:'error',value:err}))
     }
 
     const openModalHandler = () => {
         if (selectedRows.length === 1) {
             setModal(true)
         } else {
-            toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
         }
     }
-
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <Modal title={` ویرایش ${page?.searchFilter} `} ModalWidth={'max-w-3xl'} setOpen={setModal} open={modal}>
@@ -74,12 +79,9 @@ export default function Edit() {
                         {
                             (page?.form)?.map((item: any) => {
                                 return <InputComponent key={item.title}
-                                                       query={queryEdit}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       setQuery={setQueryEdit}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
+                                                       query={query}
+                                                       item={item}
+                                                       onChange={onChange}
                                                        selectedDayRange={selectedDayRange}
                                                        setSelectedDayRange={setSelectedDayRange}/>
                             })

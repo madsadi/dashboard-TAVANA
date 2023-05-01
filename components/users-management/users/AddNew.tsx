@@ -1,9 +1,10 @@
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
 import React, {useContext, useState} from "react";
-import {toast} from "react-toastify";
 import {UsersContext} from "../../../pages/users-management/users";
-import {createUsers} from "../../../api/users-management.api";
+import useMutation from "../../../hooks/useMutation";
+import {IDP} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
 const userInputs = [
     {title: 'userName', name: 'نام کاریری', type: 'input'},
@@ -15,22 +16,27 @@ const userInputs = [
     {title: 'password', name: 'رمز عبور', type: 'input'},
 ]
 export default function AddNew() {
-    const {onSubmit, query: searchQuery} = useContext<any>(UsersContext)
+    const {fetchData, query: searchQuery} = useContext<any>(UsersContext)
+    const {mutate} = useMutation({url:`${IDP}/users/create`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
-        await createUsers(query)
+        await mutate(query)
             .then(() => {
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setModal(false)
-                toast.success('با موفقیت انجام شد')
                 setQuery(null)
-                onSubmit(e, searchQuery)
+                fetchData(searchQuery)
             })
-            .catch((err) => {
-                toast.error(err?.response?.data?.error?.message)
-            })
+            .catch((err) => throwToast({type:'error',value:err}))
+    }
+
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
     }
 
     return (
@@ -44,11 +50,8 @@ export default function AddNew() {
                             userInputs.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
-                                                       title={item?.title}
-                                                       name={item?.name}
-                                                       setQuery={setQuery}
-                                                       valueType={item?.valueType}
-                                                       type={item?.type}
+                                                       item={item}
+                                                       onChange={onChange}
                                 />
 
                             })

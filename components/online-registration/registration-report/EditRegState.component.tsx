@@ -2,12 +2,14 @@ import InputComponent from "../../common/components/InputComponent";
 import Modal from "../../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
 import {OnlineRegContext} from "../../../pages/online-registration/registration-report";
-import {toast} from "react-toastify";
-import {editRegState} from "../../../api/users-management.api";
 import {useRouter} from "next/router";
+import {throwToast} from "../../common/functions/notification";
+import useMutation from "../../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../../api/constants";
 
 export default function EditRegStateComponent() {
-    const {selectedRows} = useContext<any>(OnlineRegContext)
+    const {selectedRows,fetchData,query:searchQuery} = useContext<any>(OnlineRegContext)
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditRegistrationState`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const router = useRouter()
@@ -36,23 +38,26 @@ export default function EditRegStateComponent() {
         if (selectedRows?.length===1 || userId){
             setModal(true)
         }else{
-            toast.warning('لطفا یک گزینه برای تغییر انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
         }
 
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await editRegState({...query,userId:selectedRows?.[0].userId || userId})
+        await mutate({...query,userId:selectedRows?.[0].userId || userId})
             .then((res)=> {
+                throwToast({type:'success',value:`${res?.data?.result?.message}`})
                 setModal(false)
                 setQuery(null)
-                toast.success(`${res?.result?.message}`)
+                fetchData(searchQuery)
             })
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message}`)
-            })
+            .catch((err) => throwToast({type:'error',value:err}))
     }
-
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className={'button bg-orange-500'} onClick={openHandler}>
@@ -67,11 +72,8 @@ export default function EditRegStateComponent() {
                                 forums.map((item: any) => {
                                     return <InputComponent key={item.title}
                                                            query={query}
-                                                           title={item?.title}
-                                                           name={item?.name}
-                                                           setQuery={setQuery}
-                                                           valueType={item?.valueType}
-                                                           type={item?.type}
+                                                           item={item}
+                                                           onChange={onChange}
                                     />
 
                                 })

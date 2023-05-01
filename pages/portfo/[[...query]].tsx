@@ -1,10 +1,10 @@
 import React, { useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 import { jalali} from "../../components/common/functions/common-funcions";
 import {useRouter} from "next/router";
-import {getPortfolioBook} from "../../api/portfo.api";
+import useQuery from "../../hooks/useQuery";
+import { ADMIN_GATEWAY } from "../../api/constants";
 
 type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, PageSize: number }
 const initialValue = {
@@ -102,20 +102,10 @@ export default function PortfolioBook(){
     ]
 
     const router = useRouter()
-
     const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-    const [totalCount, setTotalCount] = useState<any>(null)
-    const [userInfo, setUserInfo] = useState<any>([])
+    const {data,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/request/SearchIntradayPortfolioBook`})
 
-    const getPortfolioData = async (query:initialType)=>{
-        await getPortfolioBook(query)
-            .then((res)=> {
-                setData(res?.result?.pagedData);
-                setUserInfo(res?.result?.pagedData[0])
-                setTotalCount(res?.result?.totalCount)
-            })
-    }
+    let userInfo = data?.result?.pagedData?.[0]
     let dep = router.query?.query?.[0]
     useEffect(()=>{
             if (dep){
@@ -124,7 +114,7 @@ export default function PortfolioBook(){
                 _query['InstrumentId'] = queryData[1];
                 _query['CustomerId'] = queryData[0];
                 setQuery(_query)
-                getPortfolioData({...query,InstrumentId:queryData[1],CustomerId:queryData[0]})
+                fetchData({...query,InstrumentId:queryData[1],CustomerId:queryData[0]})
 
             }
     },[dep]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -153,14 +143,15 @@ export default function PortfolioBook(){
                     <span className={'mr-2 font-bold'}>{userInfo?.faInsCode }</span>
                 </div>
             </div>
-            <TableComponent data={data}
+            <TableComponent data={data?.result?.pagedData}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['receivedDateTime','transactionId']}
+                            pagination={true}
+                            totalCount={data?.result?.totalCount}
+                            fetcher={fetchData}
+                            query={query}
                             />
-            <TablePagination onSubmit={getPortfolioData}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}/>
         </div>
     )
 }

@@ -7,7 +7,20 @@ body {
     font-family: "Yekan Bakh", sans-serif;
     color: #495057;
 }
-
+:root {
+    color-scheme: light !important;
+}
+@media (prefers-color-scheme: dark) {
+    html {
+        color-scheme: light;
+    }
+    :root{
+        color-scheme:light !important;
+        --b3:180 1.9608% 90% !important;
+        --b1:0 0% 100% !important;
+        --b2:0 0% 94.902% !important;
+    }
+}
 #__next {
     display: flex;
     flex-direction: column;
@@ -21,6 +34,7 @@ a {
 
 * {
     box-sizing: border-box;
+    font-variant-numeric:tabular-nums;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -36,6 +50,9 @@ a {
     border-radius: 4px;
 }
 
+.sideBarActive{
+    @apply bg-gray-200 p-2 rounded-md;
+}
 #collapse > span {
     text-align: right;
     margin-right: 0.75rem;

@@ -1,22 +1,21 @@
 import React, {createContext, useState} from "react";
 import dynamic from "next/dynamic";
-import {getUsers} from "../../api/users-management.api";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'))
 const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'))
 const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'))
+import useQuery from '../../hooks/useQuery';
+import {IDP} from "../../api/constants";
 
-
-type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, Mobile: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }
+type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, PhoneNumber: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }
 const initialValue = {
     PageNumber: 1,
     PageSize: 20,
     UserId: '',
     UserName: '',
-    Mobile: '',
+    PhoneNumber: '',
     Email: '',
     FirstName: '',
     FamilyName: '',
@@ -122,34 +121,21 @@ export default function Users() {
         // }
     ]
 
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-    const [totalCount, setTotalCount] = useState<number>(0)
     const [selectedRows, setSelectedRows] = useState<any>([])
-
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await getUsers(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData);
-                setTotalCount(res?.result?.totalCount)
-            })
-            .catch(() => setData([]))
-    };
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserAccount`})
 
     return (
-        <UsersContext.Provider value={{onSubmit,query,selectedRows}}>
+        <UsersContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
+                    <SearchComponent
                                      listOfFilters={usersListOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <UsersToolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result?.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['id']}
                                 rowSelection={'single'}
@@ -158,11 +144,10 @@ export default function Users() {
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 suppressRowClickSelection={true}
-                />
-                <TablePagination onSubmit={onSubmit}
-                                 query={query}
-                                 setQuery={setQuery}
-                                 totalCount={totalCount}
+                                pagination={true}
+                                totalCount={data?.result?.totalCount}
+                                fetcher={fetchData}
+                                query={query}
                 />
             </div>
         </UsersContext.Provider>

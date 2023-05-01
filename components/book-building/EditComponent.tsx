@@ -1,15 +1,16 @@
 import React, {useContext, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/Modal";
-import {updateBookBuilding} from "../../api/book-building.api";
 import moment from "jalali-moment";
-import {toast} from "react-toastify";
 import InputComponent from "../common/components/InputComponent";
 import {jalali} from "../common/functions/common-funcions";
-import {BookBuildingContext} from "./tableSection";
+import {BookBuildingContext} from "./BookBuilding";
+import {throwToast} from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 const bookBuildingInputs = [
-    {title: 'instrumentId', name: 'شناسه نماد', type: 'input'},
+    {title: 'instrumentId', name: 'شناسه نماد', type: 'search'},
     // { title: 'faInsCode', name: 'نماد', type: 'input' },
     {title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number'},
     {title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number'},
@@ -36,7 +37,8 @@ const bookBuildingInputsInitialValue = {
 }
 
 export default function EditModal() {
-    const {onSubmit, query: bookBuildingQuery, selectedRows} = useContext<any>(BookBuildingContext)
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditBookBuilding`,method:"PUT"})
+    const {selectedRows} = useContext<any>(BookBuildingContext)
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
@@ -69,12 +71,12 @@ export default function EditModal() {
             })
             setModal(true);
         } else {
-            toast.warning('لطفا یک گزینه را انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه را انتخاب کنید'})
         }
     }
 
     const updateHandler = async (e: any) => {
-        await updateBookBuilding({
+        await mutate({
             instrumentId: query?.instrumentId,
             maxQuantity: query?.maxQuantity,
             minPrice: query?.minPrice,
@@ -83,13 +85,16 @@ export default function EditModal() {
             toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD')+`${query?.endHour ? 'T'+query?.endHour+':':''}`+`${query?.endMinute ? query?.endMinute+':00':''}`,
         })
             .then(() => {
-                toast.success('با موفقیت انجام شد')
+                throwToast({type:'success',value:'با موفقیت انجام شد'})
                 setModal(false)
-                onSubmit(e, bookBuildingQuery)
             })
-            .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
+            .catch((err) => throwToast({type:'error',value:err}))
     }
-
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-orange-400" onClick={openUpdate}>ویرایش</button>
@@ -99,11 +104,8 @@ export default function EditModal() {
                         bookBuildingInputs.map((item: any) => {
                             return <InputComponent key={item.title}
                                                    query={query}
-                                                   title={item?.title}
-                                                   name={item?.name}
-                                                   setQuery={setQuery}
-                                                   valueType={item?.valueType}
-                                                   type={item?.type}
+                                                   item={item}
+                                                   onChange={onChange}
                                                    selectedDayRange={selectedDayRange}
                                                    setSelectedDayRange={setSelectedDayRange}/>
 

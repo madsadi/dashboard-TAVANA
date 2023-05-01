@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useMemo, useState} from 'react';
 import dynamic from "next/dynamic";
 const RulesExpressionDetail = dynamic(() => import('./RulesExpressionDetail'))
 const TableComponent = dynamic(() => import('../common/table/table-component'))
@@ -6,9 +6,10 @@ const RulesToolbar = dynamic(() => import('./RulesToolbar'))
 const AccordionComponent = dynamic(() => import('../common/components/AccordionComponent'))
 const SearchComponent = dynamic(() => import('../common/components/Search.component'))
 import {jalali} from "../common/functions/common-funcions";
-import {filedList, rulesList} from "../../api/market-rules-management.api";
 import {validate as uuidValidate} from 'uuid';
-import {toast} from "react-toastify";
+import useQuery from "../../hooks/useQuery";
+import {ADMIN_GATEWAY} from "../../api/constants";
+import DateCell from "../common/table/DateCell";
 
 type initialType = { StartDate: string, EndDate: string, name: string, isActive: any }
 const initialValue = {
@@ -62,8 +63,8 @@ export default function RulesList() {
             field: 'createDateTime',
             headerName: 'زمان ایجاد',
             flex: 0,
-            width: 170,
-            minWidth: 170,
+            width: 200,
+            minWidth: 200,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -89,15 +90,12 @@ export default function RulesList() {
             field: 'updatedDateTime',
             headerName: 'زمان تغییر',
             flex: 0,
-            width: 170,
-            minWidth: 170,
+            width: 200,
+            minWidth: 200,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <>
-                            <span>{jalali(props.data.updatedDateTime).date}</span>
-                            <span className={'ml-2'}>{jalali(props.data.updatedDateTime).time}</span>
-                        </>
+                        <DateCell date={props?.data?.updatedDateTime}/>
                     )
                 };
                 const moodDetails = {
@@ -136,41 +134,25 @@ export default function RulesList() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const [data, setData] = useState<any>([])
-    const [query, setQuery] = useState<initialType>(initialValue);
-    const [dynamicOptions, setDynamics] = useState<any>([])
+    const {data,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/request/GetRules`})
+    const {data:dynamics,fetchData:fetchFields} = useQuery({url:`${ADMIN_GATEWAY}/request/GetFieldsList`})
+    let dynamicOptions = dynamics?.result
 
-
-    const onSubmit = async (e: any, query: any) => {
-        e.preventDefault()
-        await rulesList(query)
-            .then(res => setData(res?.result))
-            .catch(() => toast.error('نا موفق'))
-    };
-
-    useEffect(() => {
-        const getFieldItems = async () => {
-            await filedList()
-                .then((res) => setDynamics(res.result))
-        }
-
-        getFieldItems()
-    }, [])
+    useMemo(()=>{
+        fetchFields()
+    },[])
 
     return (
-        <MarketRulesContext.Provider value={{selectedRows,setSelectedRows, setData, dynamicOptions, onSubmit, query}}>
+        <MarketRulesContext.Provider value={{selectedRows,setSelectedRows,dynamicOptions, fetchData, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
-                                     listOfFilters={listOfFilters}
+                    <SearchComponent listOfFilters={listOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
-                                     dynamicOptions={dynamicOptions}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <RulesToolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['id']}
                                 rowSelection={'single'}

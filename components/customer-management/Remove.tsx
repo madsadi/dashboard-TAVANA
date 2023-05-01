@@ -1,15 +1,17 @@
-import Modal from "../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
-import { toast } from "react-toastify";
-import { remove } from "../../api/holdings";
+import Modal from "../common/layout/Modal";
 import usePageStructure from "../../hooks/usePageStructure";
 import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
+import {throwToast} from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../api/constants";
 
 export default function Remove() {
     const [modal, setModal] = useState(false)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
     const { page } = usePageStructure()
-    const { onSubmit,query,selectedRows,setSelectedRows } = useContext<any>(CustomerManagement)
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Delete`,method:"DELETE"})
+    const { fetchData,query,selectedRows,setSelectedRows } = useContext<any>(CustomerManagement)
 
     useEffect(()=>{
         if (!modal){
@@ -17,11 +19,11 @@ export default function Remove() {
         }
     },[modal])
 
-    const removeHandler = async (e:any) => {
-        await remove(page.api, targetToEdit.id)
+    const removeHandler = async () => {
+        await mutate({},{Id:targetToEdit.id})
             .then(() => {
                 setModal(false);
-                onSubmit(e,query)
+                fetchData(query)
             })
             .catch(() => {
                 setModal(false);
@@ -33,7 +35,7 @@ export default function Remove() {
             setTargetToEdit(selectedRows[0])
             setModal(true)
         } else {
-            toast.warning('لطفا یک گزینه برای حذف انتخاب کنید')
+            throwToast({type:'warning',value:'لطفا یک گزینه برای حذف انتخاب کنید'})
         }
     }
 

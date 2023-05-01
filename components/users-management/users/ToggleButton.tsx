@@ -1,17 +1,19 @@
-import {useState} from "react";
-import {toast} from "react-toastify";
-import {changeUserActiveStatus} from "../../../api/users-management.api";
+import React,{useState} from "react";
+import useMutation from "../../../hooks/useMutation";
+import {IDP} from "../../../api/constants";
+import {throwToast} from "../../common/functions/notification";
 
-export default function ToggleButton(props: { data: { isActive: boolean,userId:string } }) {
+export default function ToggleButton(props: { data: { isActive: boolean,id:string } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
+    const {mutate} = useMutation({url:`${IDP}/users/change-user-active-status`})
 
     const changeStatus = async ()=>{
-        await changeUserActiveStatus({userId:props.data.userId,isActive:!isChecked})
+        await mutate({userId:props.data.id,isActive:!isChecked})
             .then(()=> {
                 setIsChecked(!isChecked);
-                toast.success('وضعیت کاربر عوض شد')
+                throwToast({type:'success',value:'وضعیت کاربر عوض شد'})
             })
-            .catch((err)=>toast.error(`${err?.response?.data?.error?.message}`))
+            .catch((err) => throwToast({type:'error',value:err}))
     }
 
     return (

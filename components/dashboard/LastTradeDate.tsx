@@ -1,29 +1,42 @@
-import {countFetch, lastTradeDate} from "../../api/dashboard";
 import {lazy, useEffect, useState} from "react";
 import {jalali} from "../common/functions/common-funcions";
+import useMutation from "../../hooks/useMutation";
+import {NETFLOW} from "../../api/constants";
+import useQuery from "../../hooks/useQuery";
 const AnimatedNumbers = lazy(()=>import('react-animated-numbers'))
 
 export default function LastTradeDate(){
+    const {mutate:sellCount} = useMutation({url:`${NETFLOW}/Trade/sell-declaration-count`})
+    const {mutate:buyCount} = useMutation({url:`${NETFLOW}/Trade/buy-declaration-count`})
+    const {fetchAsyncData} = useQuery({url:`${NETFLOW}/Report/last-trade-date`})
     const [date,setDate]=useState<any>({0:'',1:''})
     const [counts,setCounts]=useState<any>({buyCount:'',sellCount:''})
 
     const count = async (date:string,index:number)=>{
         let _counts = counts
-        await countFetch(date,index>1 ? 'sell-declaration-count':'buy-declaration-count')
-            .then(res=>{
-                _counts[index>1 ? 'sellCount':'buyCount'] = res
-                setCounts({...counts,..._counts})
-            })
+        if (index>1){
+            sellCount({date:date})
+                .then(res=>{
+                    _counts['sellCount'] = res?.data
+                    setCounts({...counts,..._counts})
+                })
+        }else{
+            buyCount({date:date})
+                .then(res=>{
+                    _counts['buyCount'] = res?.data
+                    setCounts({...counts,..._counts})
+                })
+        }
     }
 
     useEffect(()=>{
         const fetchLastTradeDate=async (index:number)=>{
             let _date:any = date
-            await lastTradeDate(index)
+            await fetchAsyncData({Side:index})
                 .then(res=> {
-                    _date[index] = res
+                    _date[index] = res?.data
                     setDate({...date,..._date})
-                    count((jalali(res).date).replaceAll('/',''),index)
+                    count((jalali(res?.data).date).replaceAll('/',''),index)
                     if (index===1){
                         fetchLastTradeDate(index+1)
                     }

@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
-import {commissionCategorySearch} from "../../../api/commission.api";
-import {toast} from "react-toastify";
+import useQuery from "../../../hooks/useQuery";
+import {COMMISSION_BASE_URL} from "../../../api/constants";
 
 type initialType = { CommissionCategoryId: string, MarketTitle: string, OfferTypeTitle: string, SideTitle: string, SettlementDelayTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string }
 const initialValue = {
@@ -118,28 +118,18 @@ export default function CategoryResultTableSection() {
             minWidth: 120
         }
     ]
-
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await commissionCategorySearch(query)
-            .then(res => setData(res?.result))
-            .catch(() => toast.error('نا موفق'))
-    };
+    const {data,loading,fetchData} = useQuery({url:`${COMMISSION_BASE_URL}/CommissionCategory/Search`})
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={listOfFilters}
+                <SearchComponent listOfFilters={listOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchData}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['instrumentId']}
             />

@@ -1,9 +1,10 @@
 import React, {useContext, useState} from "react";
 import Modal from "../../common/layout/Modal";
-import {addNewCommission} from "../../../api/commission.api";
-import {toast} from "react-toastify";
 import {InstrumentTypeContext} from "./ResultTable";
 import InputComponent from "../../common/components/InputComponent";
+import {throwToast} from "../../common/functions/notification";
+import useMutation from "../../../hooks/useMutation";
+import {COMMISSION_BASE_URL} from "../../../api/constants";
 
 const listOfFilters = [
     {title: 'bourseCode', name: 'کد بورس', type: 'input'},
@@ -26,21 +27,27 @@ const initialValue = {
 }
 export default function AddNew() {
     const [modal, setModal] = useState(false)
-    const {onSubmit, query: insQuery} = useContext<any>(InstrumentTypeContext)
+    const {fetchData, query: insQuery} = useContext<any>(InstrumentTypeContext)
     const [query, setQuery] = useState<initialType>(initialValue);
+    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Add`})
 
     const addNewHandler = async (e: any) => {
         e?.preventDefault()
-        await addNewCommission(query).then(res => {
+        await mutate(query).then(res => {
             setModal(false);
-            onSubmit(e, insQuery)
-            toast.success('با موفقیت انجام شد')
+            fetchData(insQuery)
+            throwToast({type:'success',value:'با موفقیت انجام شد'})
         })
             .catch((err) => {
-                toast.error(`${err?.response?.data?.error}`)
+                throwToast({type:'error',value:err})
             })
     }
 
+    const onChange = (key: string, value: any) => {
+        let _query: any = {...query};
+        _query[key] = value
+        setQuery(_query)
+    }
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>جدید
@@ -48,17 +55,14 @@ export default function AddNew() {
             <Modal title={'جزییات کارمزد جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
-                    <form onSubmit={(e) => onSubmit(e, query)}>
+                    <form >
                         <div className="grid grid-cols-2 gap-4">
                             {
                                 listOfFilters?.map((item: any) => {
                                     return <InputComponent key={item.title}
                                                            query={query}
-                                                           title={item?.title}
-                                                           name={item?.name}
-                                                           setQuery={setQuery}
-                                                           valueType={item?.valueType}
-                                                           type={item?.type}
+                                                           item={item}
+                                                           onChange={onChange}
                                     />
                                 })
                             }

@@ -3,14 +3,13 @@ import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../components/common/table/TablePagination'))
 const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'))
 const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'))
-import {getOrders} from "../../api/online-trades-orders.api";
 import {jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
-import {errors, OrderType} from "../../dictionary/Enums";
-import {toast} from "react-toastify";
+import { OrderType} from "../../dictionary/Enums";
+import useQuery from "../../hooks/useQuery";
+import { ADMIN_GATEWAY } from "../../api/constants";
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, OrderType: number | undefined, ValidityType: number | undefined, OrderSide: number | undefined, OrderStatus: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
 const initialValue = {
@@ -149,22 +148,8 @@ export default function Orders() {
         }
     ]
 
-    const [query, setQuery] = useState<initialType>(initialValue)
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const [totalCount, setTotal] = useState<any>(null);
-    const [data, setData] = useState<any>([]);
-
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await getOrders(query)
-            .then((res: any) => {
-                setData(res?.result?.pagedData);
-                setTotal(res?.result?.totalCount)
-            })
-            .catch((err) => {
-                toast.error(`${err?.response?.data?.error?.message || errors.find((item: any) => item.errorCode === err?.response?.data?.error?.code)?.errorText}`)
-            })
-    };
+    const {data,query,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/request/SearchOrders`})
 
     const isRowSelectable = useMemo(() => {
         return (rowNode: any) => {
@@ -173,18 +158,17 @@ export default function Orders() {
     }, []);
 
     return (
-        <OrdersContext.Provider value={{selectedRows,setSelectedRows,onSubmit,query}}>
+        <OrdersContext.Provider value={{selectedRows,setSelectedRows,fetchData,query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent query={query}
-                                     setQuery={setQuery}
-                                     listOfFilters={ordersListOfFilters}
+                    <SearchComponent listOfFilters={ordersListOfFilters}
                                      initialValue={initialValue}
-                                     onSubmit={onSubmit}
+                                     onSubmit={fetchData}
                     />
                 </AccordionComponent>
                 <OrdersToolbar/>
-                <TableComponent data={data}
+                <TableComponent data={data?.result?.pagedData}
+                                loading={loading}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['orderId']}
                                 detailComponent={CustomDetailComponent}
@@ -192,11 +176,11 @@ export default function Orders() {
                                 rowSelection={'multiple'}
                                 isRowSelectable={isRowSelectable}
                                 setSelectedRows={setSelectedRows}
+                                pagination={true}
+                                totalCount={data?.result?.totalCount}
+                                fetcher={fetchData}
+                                query={query}
                 />
-                <TablePagination onSubmit={onSubmit}
-                                 query={query}
-                                 setQuery={setQuery}
-                                 totalCount={totalCount}/>
             </div>
         </OrdersContext.Provider>
     )

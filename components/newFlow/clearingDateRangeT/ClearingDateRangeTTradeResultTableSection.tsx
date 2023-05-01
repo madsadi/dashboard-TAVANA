@@ -1,14 +1,13 @@
 import React, {useState, useMemo} from 'react';
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
-const TablePagination = dynamic(() => import('../../common/table/TablePagination'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
 import {enTierNameEnum} from '../../../dictionary/Enums'
-import {toast} from "react-toastify";
-import {netflowClearingDateRangeSearch} from "../../../api/netflow.api";
+import useQuery from "../../../hooks/useQuery";
+import {NETFLOW} from '../../../api/constants';
 
 type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, EnTierName: string, SettlementDelay: string }
 const initialValue = {
@@ -109,20 +108,7 @@ export default function ClearingDateRangeTTradeResultTableSection() {
             headerName: 'مانده خریدار',
         },
     ]
-
-    const [totalCount, setTotalCount] = useState<number>(0);
-    const [query, setQuery] = useState<initialType>(initialValue)
-    const [data, setData] = useState<any>([])
-
-    const onSubmit = async (e: any, query: any) => {
-        e?.preventDefault()
-        await netflowClearingDateRangeSearch(query)
-            .then(res => {
-                setData(res?.result)
-                setTotalCount(res?.totalRecord)
-            })
-            .catch((err) => toast.error(`${err?.response?.data?.error?.message}`))
-    };
+    const {data,query,loading,fetchData}:any = useQuery({url:`${NETFLOW}/Report/clearing-date-range-T`})
 
     const getRowStyle = (params: any) => {
         if (params?.node?.rowIndex === 0) {
@@ -186,23 +172,21 @@ export default function ClearingDateRangeTTradeResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent >
-                <SearchComponent query={query}
-                                 setQuery={setQuery}
-                                 listOfFilters={listOfFilters}
+                <SearchComponent listOfFilters={listOfFilters}
                                  initialValue={initialValue}
-                                 onSubmit={onSubmit}
+                                 onSubmit={fetchData}
                 />
             </AccordionComponent>
-            <TableComponent data={data}
+            <TableComponent data={data?.result}
+                            loading={loading}
                             columnDefStructure={columnDefStructure}
                             rowId={['sell','settlementDelay','enTierName','georgianTradeDate']}
                             masterDetail={true}
                             detailCellRendererParams={detailCellRendererParams}
-            />
-            <TablePagination onSubmit={onSubmit}
-                             query={query}
-                             setQuery={setQuery}
-                             totalCount={totalCount}
+                            pagination={true}
+                            totalCount={data?.totalRecord}
+                            fetcher={fetchData}
+                            query={query}
             />
         </div>
     );

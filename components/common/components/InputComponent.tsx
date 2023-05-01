@@ -1,4 +1,4 @@
-import React, {Dispatch, Fragment} from "react";
+import React, {Dispatch, Fragment, memo} from "react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import {dateRangeHandler, FindEnum} from "../functions/common-funcions";
@@ -13,33 +13,26 @@ function classNames(...classes: any) {
 
 type PropsType = {
     query: any,
-    setQuery: Dispatch<any>,
-    title: string,
-    name: string,
-    type: string,
+    onChange: any,
+    item: any,
     selectedDayRange: DayRange,
     setSelectedDayRange: Dispatch<DayRange>,
-    valueType: string,
     dynamicsOption: any,
-    selectedDay:DayValue,
-    setSelectedDay:Dispatch<DayValue>,
-    queryUpdateAlternative:Function
+    selectedDay: DayValue,
+    setSelectedDay: Dispatch<DayValue>,
 }
-export default function InputComponent({
-                                           query,
-                                           setQuery,
-                                           title,
-                                           name,
-                                           type,
-                                           selectedDayRange,
-                                           setSelectedDayRange,
-                                           selectedDay,
-                                           setSelectedDay,
-                                           valueType,
-                                           dynamicsOption,
-                                           queryUpdateAlternative
-                                       }: PropsType) {
+const InputComponent = ({
+                            onChange,
+                            query,
+                            item,
+                            selectedDayRange,
+                            setSelectedDayRange,
+                            selectedDay,
+                            setSelectedDay,
+                            dynamicsOption
+                        }: PropsType) => {
 
+    const {title, name, type, valueType} = item
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
             <label className={'block'} htmlFor="rangeDate">{name}</label>
@@ -47,9 +40,9 @@ export default function InputComponent({
         </div>
     )
 
-    const singleDateHandler = (selectedDay:DayValue)=>{
-        if (selectedDay){
-            return Object.values(selectedDay).map((item:any)=>item).reverse().join('-')
+    const singleDateHandler = (selectedDay: DayValue) => {
+        if (selectedDay) {
+            return Object.values(selectedDay).map((item: any) => item).reverse().join('-')
         }
     }
     const renderSingleDateCustomInput = ({ref}: { ref: any }) => (
@@ -59,21 +52,8 @@ export default function InputComponent({
         </div>
     )
 
-    const queryUpdate = (key: string, value: any) => {
-        if (queryUpdateAlternative){
-            queryUpdateAlternative(key,value)
-        }else{
-            let _query: any = {...query};
-            _query[key] = value
-            setQuery(_query)
-        }
-    }
-
-    const clear = ()=>{
-        let _query: any = {...query};
-        _query['StartDate'] = ''
-        _query['EndDate'] = ''
-        setQuery(_query)
+    const clear = () => {
+        ['StartDate', 'EndDate'].map((item: string) => onChange(item, ''))
     }
 
     const componentRender = () => {
@@ -85,9 +65,9 @@ export default function InputComponent({
                             value={selectedDay}
                             locale={'fa'}
                             calendarPopperPosition={'auto'}
-                            onChange={(e)=> {
+                            onChange={(e) => {
                                 setSelectedDay(e);
-                                queryUpdate(
+                                onChange(
                                     'date', `${moment.from(`${e?.year}/${e?.month}/${e?.day}`, 'en', 'YYYY/MM/DD').format('YYYY-MM-DDTHH:MM:SS')}`
                                 )
                             }}
@@ -104,12 +84,12 @@ export default function InputComponent({
                             onChange={(e) => {
                                 setSelectedDayRange(e)
                                 if (e.from) {
-                                    queryUpdate(
+                                    onChange(
                                         'StartDate', `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
                                     )
                                 }
                                 if (e.to) {
-                                    queryUpdate(
+                                    onChange(
                                         'EndDate', `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
                                     )
                                 }
@@ -119,13 +99,13 @@ export default function InputComponent({
                             locale={'fa'}
                             calendarPopperPosition={'auto'}
                             renderFooter={() => (
-                                <div className={'flex justify-center'} style={{padding:'5px 3px'}}>
+                                <div className={'flex justify-center'} style={{padding: '5px 3px'}}>
                                     <button
                                         type="button"
-                                        style={{padding:'1px 3px'}}
+                                        style={{padding: '1px 3px'}}
                                         className={'button bg-orange-300 p-2'}
                                         onClick={() => {
-                                            setSelectedDayRange({from:null,to:null})
+                                            setSelectedDayRange({from: null, to: null})
                                             clear()
                                         }}
                                     >
@@ -140,12 +120,13 @@ export default function InputComponent({
                 return (
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
-                        <input className={'w-full'} type={valueType || 'text'} dir={valueType==='number' ? 'ltr':'rtl'} id={title} value={query?.[title]}
+                        <input className={'w-full'} type={valueType || 'text'}
+                               dir={valueType === 'number' ? 'ltr' : 'rtl'} id={title} value={query?.[title]}
                                onChange={(e) => {
                                    if (valueType === 'number') {
-                                       queryUpdate(title, Number(e.target.value))
+                                       onChange(title, Number(e.target.value))
                                    } else {
-                                       queryUpdate(title, e.target.value)
+                                       onChange(title, e.target.value)
                                    }
                                }}/>
                     </div>
@@ -158,9 +139,9 @@ export default function InputComponent({
                             <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => {
                                          if (valueType === 'number') {
-                                             queryUpdate(title, Number(e))
+                                             onChange(title, Number(e))
                                          } else {
-                                             queryUpdate(title, e)
+                                             onChange(title, e)
                                          }
                                      }}>
                                 {({open}) => (
@@ -169,7 +150,7 @@ export default function InputComponent({
                                             className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption,name).find((item: any) => item.id === query?.[title])?.title}</span>
+                                                    className="ml-2 block truncate text-sm">{FindEnum(title, dynamicsOption, name).find((item: any) => item.id === query?.[title])?.title}</span>
                                             </span>
                                             <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -186,7 +167,7 @@ export default function InputComponent({
                                         >
                                             <Listbox.Options
                                                 className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                {FindEnum(title,dynamicsOption,name).map((item: any) => (
+                                                {FindEnum(title, dynamicsOption, name).map((item: any) => (
                                                     <Listbox.Option
                                                         key={item.id}
                                                         className={({active}) =>
@@ -234,15 +215,16 @@ export default function InputComponent({
                         <label className={'mt-auto'} htmlFor={title}>{name}</label>
                         <div className={'grow'}>
                             <div className="relative rounded">
-                                <Listbox name={title === 'startHour' ? 'startMinute':'endMinute'} value={query?.[title === 'startHour' ? 'startMinute':'endMinute']}
-                                         onChange={(e) => queryUpdate(title === 'startHour' ? 'startMinute':'endMinute', e)}>
+                                <Listbox name={title === 'startHour' ? 'startMinute' : 'endMinute'}
+                                         value={query?.[title === 'startHour' ? 'startMinute' : 'endMinute']}
+                                         onChange={(e) => onChange(title === 'startHour' ? 'startMinute' : 'endMinute', e)}>
                                     {({open}) => (
                                         <div className="relative">
                                             <Listbox.Button
                                                 className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption).minutes.find((item: any) => item === query?.[title === 'startHour' ? 'startMinute':'endMinute'])}</span>
+                                                    className="ml-2 block truncate text-sm">{FindEnum(title, dynamicsOption).minutes.find((item: any) => item === query?.[title === 'startHour' ? 'startMinute' : 'endMinute'])}</span>
                                             </span>
                                                 <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -259,7 +241,7 @@ export default function InputComponent({
                                             >
                                                 <Listbox.Options
                                                     className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                    {FindEnum(title,dynamicsOption).minutes.map((item: any) => (
+                                                    {FindEnum(title, dynamicsOption).minutes.map((item: any) => (
                                                         <Listbox.Option
                                                             key={item}
                                                             className={({active}) =>
@@ -305,14 +287,14 @@ export default function InputComponent({
                         <div className={'grow'}>
                             <div className="relative rounded">
                                 <Listbox name={title} value={query?.[title]}
-                                         onChange={(e) => queryUpdate(title, e)}>
+                                         onChange={(e) => onChange(title, e)}>
                                     {({open}) => (
                                         <div className="relative">
                                             <Listbox.Button
                                                 className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{FindEnum(title,dynamicsOption).hours.find((item: any) => item === query?.[title])}</span>
+                                                    className="ml-2 block truncate text-sm">{FindEnum(title, dynamicsOption).hours.find((item: any) => item === query?.[title])}</span>
                                             </span>
                                                 <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"
@@ -329,7 +311,7 @@ export default function InputComponent({
                                             >
                                                 <Listbox.Options
                                                     className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                                                    {FindEnum(title,dynamicsOption).hours.map((item: any) => (
+                                                    {FindEnum(title, dynamicsOption).hours.map((item: any) => (
                                                         <Listbox.Option
                                                             key={item}
                                                             className={({active}) =>
@@ -379,7 +361,7 @@ export default function InputComponent({
                         <div className="relative rounded">
                             <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => {
-                                         queryUpdate(title, e);
+                                         onChange(title, e);
                                      }}>
                                 {({open}) => (
                                     <div className="relative">
@@ -449,7 +431,7 @@ export default function InputComponent({
             case "search":
                 return (
                     <div>
-                        <SymbolSearchSection query={query} queryUpdate={queryUpdate}/>
+                        <SymbolSearchSection query={query} queryUpdate={onChange}/>
                     </div>
                 )
             default:
@@ -462,11 +444,13 @@ export default function InputComponent({
     )
 }
 
+export default InputComponent;
+
 InputComponent.defaultProps = {
     setSelectedDayRange: null,
     selectedDayRange: '',
-    dynamicsOption:[],
-    setSelectedDay:null,
+    dynamicsOption: [],
+    setSelectedDay: null,
     selectedDay: null,
-    queryUpdateAlternative:null
+    queryUpdateAlternative: null
 }
