@@ -70,7 +70,7 @@ export default function AddModal() {
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>جدید</button>
-            <Modal title={'جزییات کارمزد جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
+            <Modal title={'عرضه اولیه جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>

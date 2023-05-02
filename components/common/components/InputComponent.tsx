@@ -1,4 +1,4 @@
-import React, {Dispatch, Fragment, memo} from "react";
+import React, {Dispatch, Fragment, memo, useState} from "react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import {dateRangeHandler, FindEnum} from "../functions/common-funcions";
@@ -6,6 +6,7 @@ import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "./SymbolSearchSecion";
 import {DayValue} from "react-modern-calendar-datepicker";
+import {EyeIcon, EyeSlashIcon} from "@heroicons/react/20/solid";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -33,6 +34,8 @@ const InputComponent = ({
                         }: PropsType) => {
 
     const {title, name, type, valueType} = item
+    const [showPass, setShowPass] = useState<boolean>(false)
+
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
             <label className={'block'} htmlFor="rangeDate">{name}</label>
@@ -129,6 +132,24 @@ const InputComponent = ({
                                        onChange(title, e.target.value)
                                    }
                                }}/>
+                    </div>
+                )
+            case "password":
+                return (
+                    <div>
+                        <label className={'block'} htmlFor={title}>{name}</label>
+                        <div className={'relative'}>
+                            <input className={'w-full'} type={showPass ? 'text' : 'password'}
+                                   dir={'ltr'} id={title} value={query?.[title]}
+                                   onChange={(e) => {
+                                       onChange(title, e.target.value)
+                                   }}/>
+                            {showPass ?
+                                <EyeSlashIcon className={'absolute h-5 w-5 right-3 top-1/2 -translate-y-1/2 text-black'}
+                                              role={'button'} onClick={() => setShowPass(false)}/> :
+                                <EyeIcon className={'absolute h-5 w-5 right-3 top-1/2 -translate-y-1/2 text-black'}
+                                         role={'button'} onClick={() => setShowPass(true)}/>}
+                        </div>
                     </div>
                 )
             case "selectInput":

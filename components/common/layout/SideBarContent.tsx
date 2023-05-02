@@ -232,11 +232,13 @@ export default function SideBarContent() {
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
                                             return (
-                                                <li key={child.label} className={`hover:bg-gray-200 p-2 rounded-md ${child.className}`}>
-                                                    <Link href={child.url}>
+                                                <Link href={child.url} key={child.label}>
+                                                    <li
+                                                        className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}>
                                                         {child.label}
-                                                    </Link>
-                                                </li>
+                                                    </li>
+                                                </Link>
+
                                             )
                                         })}
                                     </ul>
@@ -244,55 +246,17 @@ export default function SideBarContent() {
                             )
                         } else {
                             return (
-                            <div key={item.label} className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}>
-                                <Link href={item.url}>
-                                    {item.label}
+                                <Link key={item.label} href={item.url}>
+                                    <div
+                                        className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}>
+                                        {item.label}
+                                    </div>
                                 </Link>
-                            </div>
                             )
                         }
                     })
                 }
             </div>
-            {/*<Sidebar aria-label="Sidebar with multi-level dropdown example" style={{width: '100%'}}>*/}
-            {/*    <Sidebar.Items>*/}
-            {/*        <Sidebar.ItemGroup id={'menuGroup'}>*/}
-            {/*            {*/}
-            {/*                items.map((item: any) => {*/}
-            {/*                    if (item.children) {*/}
-            {/*                        return (*/}
-            {/*                            <Sidebar.Collapse*/}
-            {/*                                id={'collapse'}*/}
-            {/*                                label={item.label}*/}
-            {/*                                key={item.label}*/}
-            {/*                            >*/}
-            {/*                                {item.children.map((child: any) => {*/}
-            {/*                                    return (*/}
-            {/*                                        <Sidebar.Item key={child.label} active={router.pathname === child.url}*/}
-            {/*                                                      href={child.url}>*/}
-            {/*                                            {child.label}*/}
-            {/*                                        </Sidebar.Item>*/}
-            {/*                                    )*/}
-            {/*                                })}*/}
-            {/*                            </Sidebar.Collapse>*/}
-            {/*                        )*/}
-            {/*                    } else {*/}
-            {/*                        return (*/}
-            {/*                            <Sidebar.Item*/}
-            {/*                                active={router.pathname === item.url}*/}
-            {/*                                href={item.url}*/}
-            {/*                                key={item.label}*/}
-            {/*                            >*/}
-            {/*                                {item.label}*/}
-            {/*                            </Sidebar.Item>*/}
-
-            {/*                        )*/}
-            {/*                    }*/}
-            {/*                })*/}
-            {/*            }*/}
-            {/*        </Sidebar.ItemGroup>*/}
-            {/*    </Sidebar.Items>*/}
-            {/*</Sidebar>*/}
         </div>
     );
 }

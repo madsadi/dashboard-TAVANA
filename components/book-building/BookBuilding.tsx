@@ -151,7 +151,7 @@ export default function BookBuilding() {
                 <TableComponent data={data}
                                 loading={loading}
                                 columnDefStructure={columnDefStructure}
-                                rowId={['instrumentId','createdBy']}
+                                rowId={['instrumentId','createDateTime']}
                                 rowSelection={'single'}
                                 setSelectedRows={setSelectedRows}
                 />
