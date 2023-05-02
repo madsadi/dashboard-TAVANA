@@ -14,10 +14,12 @@ import {useSelector} from "react-redux";
 import useMutation from "../../hooks/useMutation";
 import {IDP} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
+import {PasswordModal} from "./Password.modal";
 
 export default function UserInfo() {
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
     const [open,setOpen]=useState(false)
+    const [passwordModal,setPasswordModal]=useState(false)
     const fields: any = [
         {
             id: 0,
@@ -85,9 +87,10 @@ export default function UserInfo() {
             <button className={'button bg-orange-500 m-2 mx-4'} onClick={()=>setOpen(true)}>
                 ویرایش حساب کاربری
             </button>
-            <button className={'button bg-green-500'}>
+            <button className={'button bg-green-500'} onClick={()=>setPasswordModal(true)}>
                تغییر رمز عبور
             </button>
+            <PasswordModal setOpen={setPasswordModal} open={passwordModal}/>
             <EditInfoModal setOpen={setOpen} open={open}/>
         </div>
     )
