@@ -8,7 +8,7 @@ import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 
 const bookBuildingInputs = [
-    {title: 'instrumentId', name: 'شناسه نماد', type: 'search'},
+    {title: 'InstrumentId', name: 'شناسه نماد', type: 'search'},
     {title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number'},
     {title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number'},
     {title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number'},
@@ -19,7 +19,7 @@ const bookBuildingInputs = [
     {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
 ]
 
-const bookBuildingInitialValue = {instrumentId:'',maxQuantity:null,minPrice:null,maxPrice:null,StartDate:'',EndDate:'',startHour:null,startMinute:null,endHour:null,endMinute:null}
+const bookBuildingInitialValue = {InstrumentId:'',maxQuantity:null,minPrice:null,maxPrice:null,StartDate:'',EndDate:'',startHour:null,startMinute:null,endHour:null,endMinute:null}
 export default function AddModal() {
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/addBookBuilding`})
     const [modal, setModal] = useState(false)
@@ -30,9 +30,9 @@ export default function AddModal() {
     });
 
     const addNewHandler = async (e:any) => {
-        if (query?.instrumentId && query?.maxQuantity) {
+        if (query?.InstrumentId && query?.maxQuantity) {
             await mutate({
-                instrumentId: query.instrumentId,
+                instrumentId: query.InstrumentId,
                 maxQuantity: query.maxQuantity,
                 minPrice: query.minPrice,
                 maxPrice: query.maxPrice,
