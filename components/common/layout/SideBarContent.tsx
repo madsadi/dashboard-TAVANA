@@ -246,12 +246,14 @@ export default function SideBarContent() {
                             )
                         } else {
                             return (
-                                <Link key={item.label} href={item.url}>
-                                    <div
-                                        className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}>
-                                        {item.label}
-                                    </div>
-                                </Link>
+                                <div className={'w-full'} key={item.label}>
+                                    <Link href={item.url}>
+                                        <div
+                                            className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}>
+                                            {item.label}
+                                        </div>
+                                    </Link>
+                                </div>
                             )
                         }
                     })

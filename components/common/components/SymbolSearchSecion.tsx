@@ -69,19 +69,19 @@ export default function SymbolSearchSection({query,queryUpdate}: {query:any,quer
         <div className={`relative`} ref={wrapperRef}>
             <div className={'relative'}>
                 <label className={'block'} htmlFor="InstrumentId">شناسه نماد</label>
-                <input id="InstrumentId" className={'w-full'} value={query.InstrumentId}
+                <input id="InstrumentId" className={'w-full'} value={query?.InstrumentId}
                        onFocus={() => setOpen(true)}
                        onChange={(e) => {
                            searchHandler(e.target.value,1);
                            setOpen(true)
                        }}/>
                 <div className={'absolute left-1 bottom-0 -translate-y-1/3 flex'}>
-                    {isLoading && query.InstrumentId &&
+                    {isLoading && query?.InstrumentId &&
                         <div className={'animate-spin h-5 w-5'}><Image alt={'search'} height={32} width={32} src={'/icons/spinner.svg'}/></div>}
                         <MagnifyingGlassIcon className={'h-5 w-5'}/>
                 </div>
             </div>
-            {query.InstrumentId && open && <div
+            {query?.InstrumentId && open && <div
                 className={'absolute w-full p-2 opacity-95 backdrop-blur-lg dark:bg-appbar/50 bg-white shadow-md rounded-lg top-full mt-3 z-10'}>
                 <InfiniteScroll
                     dataLength={findings.length}
