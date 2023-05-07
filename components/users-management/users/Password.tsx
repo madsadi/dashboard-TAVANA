@@ -5,12 +5,11 @@ import {UsersContext} from "../../../pages/users-management/users";
 import useMutation from "../../../hooks/useMutation";
 import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
-
-const userInputs = [
-    {title: 'newPassword', name: 'رمز عبور جدید', type: 'input'},
-]
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function Password(){
+    const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'password')
     const {selectedRows} = useContext<any>(UsersContext)
     const {mutate} = useMutation({url:`${IDP}/users/change-user-password`})
     const [modal, setModal] = useState(false)
@@ -47,7 +46,7 @@ export default function Password(){
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            userInputs.map((item: any) => {
+                            toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

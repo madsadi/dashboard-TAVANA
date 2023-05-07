@@ -5,11 +5,11 @@ import {RolesContext} from "../../../pages/users-management/roles";
 import useMutation from "../../../hooks/useMutation";
 import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
-const roleInputs = [
-    {title: 'name', name: 'عنوان', type: 'input'},
-]
 export default function Edit() {
+    const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles,'edit')
     const {fetchData, query: searchQuery, selectedRows,setSelectedRows} = useContext<any>(RolesContext)
     const {mutate} = useMutation({url:`${IDP}/roles/update`})
     const [modal, setModal] = useState(false)
@@ -58,7 +58,7 @@ export default function Edit() {
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'} onSubmit={editHandler}>
                         {
-                            roleInputs.map((item: any) => {
+                            toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

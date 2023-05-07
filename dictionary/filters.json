@@ -1,0 +1,80 @@
+{
+  "user-management_users": {
+      "search": {
+        "filters": [
+          {"title": "PageNumber", "name": "شماره صفحه", "type": null},
+          {"title": "PageSize", "name": "تعداد", "type": null},
+          {"title": "UserName", "name": "نام کاربری", "type": "input"},
+          {"title": "PhoneNumber", "name": "تلفن همراه", "type": "input"},
+          {"title": "Email", "name": "ایمیل", "type": "input"},
+          {"title": "FirstName", "name": "نام", "type": "input"},
+          {"title": "FamilyName", "name": "نام خانوادگی", "type": "input"},
+          {"title": "RoleId", "name": "آیدی نقش کاربر", "type": "input"},
+          {"title": "IsActive", "name": "وضعیت", "type": "selectInput"},
+          {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+        ],
+        "initialValue": {
+          "PageNumber": 1,
+          "PageSize": 20,
+          "UserId": "",
+          "UserName": "",
+          "PhoneNumber": "",
+          "Email": "",
+          "FirstName": "",
+          "FamilyName": "",
+          "RoleId": "",
+          "IsActive": null,
+          "date": ""
+        }
+      },
+      "toolbar": {
+        "add": [
+          {"title": "userName", "name": "نام کاریری", "type": "input"},
+          {"title": "phoneNumber", "name": "موبایل", "type": "input"},
+          {"title": "firstName", "name": "نام", "type": "input"},
+          {"title": "lastName", "name": "نام خانوادگی", "type": "input"},
+          {"title": "email", "name": "ایمیل", "type": "input"},
+          {"title": "nationalId", "name": "کدملی", "type": "input"},
+          {"title": "password", "name": "رمز عبور", "type": "input"}
+        ],
+        "edit": [
+          {"title": "username", "name": "نام کاربری", "type": "input"},
+          {"title": "phoneNumber", "name": "موبایل", "type": "input"},
+          {"title": "firstName", "name": "نام", "type": "input"},
+          {"title": "lastName", "name": "نام خانوادگی", "type": "input"},
+          {"title": "email", "name": "ایمیل", "type": "input"},
+          {"title": "nationalId", "name": "کدملی", "type": "input"}
+        ],
+        "password": [
+          {"title": "newPassword", "name": "رمز عبور جدید", "type": "input"}
+        ],
+        "lock-out": [
+          {"title": "lockoutEndDateTime", "name": "تاریخ", "type": "singleDate"}
+        ]
+      }
+  },
+  "user-management_roles": {
+      "search": {
+        "filters": [
+          {"title": "PageNumber", "name": "شماره صفحه", "type": null},
+          {"title": "PageSize", "name": "تعداد", "type": null},
+          {"title": "Name", "name": "عنوان", "type": "input"},
+          {"title": "IsActive", "name": "وضعیت", "type": "selectInput"}
+        ],
+        "initialValue": {
+          "PageNumber": 1,
+          "PageSize": 20,
+          "IsActive": null,
+          "Name": ""
+        }
+      },
+      "toolbar": {
+        "add": [
+          {"title":"name", "name": "عنوان", "type": "input"}
+        ],
+        "edit": [
+          {"title": "name", "name": "عنوان", "type": "input"}
+        ]
+      }
+  }
+}
