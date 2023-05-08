@@ -7,10 +7,13 @@ import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../api/constants";
+import {useSearchFilters} from "../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 export default function Edit() {
     const {page} = usePageStructure()
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Update`,method:"PUT"})
+    const {toolbar} = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],'modal')
 
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
@@ -28,10 +31,10 @@ export default function Edit() {
     },[modal])
 
     useEffect(() => {
-        if (page?.form && selectedRows[0]) {
+        if (toolbar && selectedRows[0]) {
             let ToEdit = selectedRows[0]
             let initialValue: any = {};
-            (page?.form)?.map((item: any) => {
+            toolbar?.map((item: any) => {
                 if (typeof ToEdit[item.title] == "string" || typeof ToEdit[item.title] == "number") {
                     initialValue[item.title] = ToEdit[item.title];
                 }
@@ -47,7 +50,7 @@ export default function Edit() {
             })
             setQuery(initialValue)
         }
-    }, [page?.form, selectedRows[0]])
+    }, [toolbar, selectedRows[0]])
 
     const editHandler = async (e: any) => {
         await mutate( {...query, id: selectedRows[0]?.id, addressId: selectedRows[0]?.address?.id})
@@ -77,7 +80,7 @@ export default function Edit() {
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            (page?.form)?.map((item: any) => {
+                            toolbar?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

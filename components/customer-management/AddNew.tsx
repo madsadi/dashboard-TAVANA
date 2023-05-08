@@ -8,12 +8,16 @@ import ExtraDateAndTimeInput from "./ExtraDateAndTimeInput";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../api/constants";
+import {useSearchFilters} from "../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 export default function AddNew() {
+
     const [modal, setModal] = useState(false)
     const { page } = usePageStructure()
     const { fetchData,query:searchQuery } = useContext<any>(CustomerManagement)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Add`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page?.api}/Add`})
+    const {toolbar} = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],'modal')
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
@@ -22,13 +26,13 @@ export default function AddNew() {
     let initialValue: any = {};
 
     useEffect(() => {
-        if (page?.form) {
-            (page?.form)?.map((item: any) => {
+        if (toolbar) {
+            toolbar?.map((item: any) => {
                 initialValue[item.title] = item.initialValue;
             })
             setQuery(initialValue)
         }
-    }, [page?.form])
+    }, [toolbar])
 
     const addNewHandler = async (e:any,query:any) => {
         e.preventDefault()
@@ -68,6 +72,7 @@ export default function AddNew() {
         _query[key] = value
         setQuery(_query)
     }
+
     return (
         <>
             <button className="button bg-lime-600" onClick={() => setModal(true)}>
@@ -77,7 +82,7 @@ export default function AddNew() {
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            (page?.form)?.map((item: any) => {
+                            toolbar?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

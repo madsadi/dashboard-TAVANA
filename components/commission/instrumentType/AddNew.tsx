@@ -5,30 +5,14 @@ import InputComponent from "../../common/components/InputComponent";
 import {throwToast} from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
 import {COMMISSION_BASE_URL} from "../../../api/constants";
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
-const listOfFilters = [
-    {title: 'bourseCode', name: 'کد بورس', type: 'input'},
-    {title: 'instrumentTypeCode', name: 'کد نوع ابزار مالی', type: 'input'},
-    {title: 'sectorCode', name: 'کد گروه صنعت', type: 'input'},
-    {title: 'subSectorCode', name: 'کد زیرگروه صنعت', type: 'input'},
-]
-
-type initialType = {
-    bourseCode: string,
-    instrumentTypeCode: string,
-    sectorCode: string,
-    subSectorCode: string
-}
-const initialValue = {
-    bourseCode: '',
-    instrumentTypeCode: '',
-    sectorCode: '',
-    subSectorCode: ''
-}
 export default function AddNew() {
+    const {toolbar} = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_instrument,'add')
     const [modal, setModal] = useState(false)
     const {fetchData, query: insQuery} = useContext<any>(InstrumentTypeContext)
-    const [query, setQuery] = useState<initialType>(initialValue);
+    const [query, setQuery] = useState<any>(null);
     const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Add`})
 
     const addNewHandler = async (e: any) => {
@@ -58,7 +42,7 @@ export default function AddNew() {
                     <form >
                         <div className="grid grid-cols-2 gap-4">
                             {
-                                listOfFilters?.map((item: any) => {
+                                toolbar?.map((item: any) => {
                                     return <InputComponent key={item.title}
                                                            query={query}
                                                            item={item}

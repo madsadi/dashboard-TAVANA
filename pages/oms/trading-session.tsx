@@ -3,27 +3,11 @@ import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-import moment from "jalali-moment";
 import {jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import {throwToast} from "../../components/common/functions/notification";
-
-
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    StartDate: '',
-    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: ''
-}
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'date', name: 'تاریخ', type: 'date'},
-]
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export default function TradingSession() {
     const columnDefStructure = [
@@ -81,13 +65,11 @@ export default function TradingSession() {
             throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
         }
     }
+
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchHandler}
-                />
+                <SearchComponent onSubmit={fetchHandler} module={ModuleIdentifier.OMS_session}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

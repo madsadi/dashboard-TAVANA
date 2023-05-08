@@ -5,30 +5,13 @@ import InputComponent from "../../common/components/InputComponent";
 import useMutation from "../../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
-
-const InstrumentFilters = [
-    {title: 'InstrumentId', name: 'نماد', type: 'search'},
-    {title: 'orderSide', name: 'سمت سفارش', type: 'selectInput',valueType:"number"},
-    {title: 'orderOrigin', name: 'نوع کاربر', type: 'selectInput',valueType:"number"},
-    {title: 'orderTechnicalOrigin', name: 'مرجع تکنیکال سفارش', type: 'selectInput',valueType:"number"},
-]
-
-type InitialType = {
-    InstrumentId:string,
-    orderSide:number,
-    orderOrigin:number,
-    orderTechnicalOrigin:number,
-}
-const InitialValue = {
-    InstrumentId:'',
-    orderSide:0,
-    orderOrigin:0,
-    orderTechnicalOrigin:0,
-}
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function InsOrderCancel(){
     const [modal,setModal] = useState(false)
-    const [query,setQuery] = useState<InitialType>(InitialValue)
+    const [query,setQuery] = useState<any>(null)
+    const {toolbar} =useSearchFilters(ModuleIdentifier.ONLINE_CANCEL,'instrumentOrder')
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/GlobalCancel/CancelAllOrderForInstrument`})
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};
@@ -57,7 +40,7 @@ export default function InsOrderCancel(){
             </button>
             <Modal title={"حذف سفارش نماد"} open={modal} setOpen={setModal}>
                 <div className="grid grid-cols-2 gap-4 pt-5">
-                    {InstrumentFilters.map((filter: any) => {
+                    {toolbar.map((filter: any) => {
                         return <InputComponent key={filter.title}
                                                item={filter}
                                                onChange={onChange}

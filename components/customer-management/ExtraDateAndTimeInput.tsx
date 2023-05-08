@@ -53,10 +53,9 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
         setQuery(_query)
     }
 
-    console.log(query)
     return(
         <div className={'grid grid-cols-2 gap-4'}>
-            <div className={'z-[1]'}>
+            <div className={'z-[2]'}>
                 <label className={'mt-auto'}>زمان تائید مشتری</label>
                 <DatePicker
                     value={customerApprovalDate}
@@ -65,7 +64,6 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                         queryUpdateDateAndTime(
                         'customerApprovalDateTime', 'date',`${moment.from(`${e?.year}/${e?.month}/${e?.day}`, 'en', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
                         )
-                        console.log(e)
                     }}
                     shouldHighlightWeekends
                     renderInput={customerApprovalDateInput}
@@ -100,7 +98,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('customerApprovalDateTime',[]).minutes.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}
@@ -171,7 +169,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('customerApprovalDateTime',[]).hours.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}
@@ -214,7 +212,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                     </div>
                 </div>
             </div>
-            <div className={'z-[1]'}>
+            <div className={'z-[2]'}>
                 <label className={'mt-auto'}>زمان تائید امین</label>
                 <DatePicker
                     value={adminApprovalDate}
@@ -257,7 +255,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('adminApprovalDateTime',[]).minutes.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}
@@ -328,7 +326,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('adminApprovalDateTime',[]).hours.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}
@@ -371,7 +369,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                     </div>
                 </div>
             </div>
-            <div className={'z-[2]'}>
+            <div className={'z-[1]'}>
                 <label className={'mt-auto'}>تاریخ شروع</label>
                 <DatePicker
                     value={startDate}
@@ -414,7 +412,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('startDateTime',[]).minutes.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}
@@ -485,7 +483,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('startDateTime',[]).hours.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}
@@ -528,7 +526,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                     </div>
                 </div>
             </div>
-            <div className={'z-[2]'}>
+            <div className={'z-[1]'}>
                 <label className={'mt-auto'}>تاریخ پایان</label>
                 <DatePicker
                     value={endDate}
@@ -571,7 +569,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('endDateTime',[]).minutes.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}
@@ -642,7 +640,7 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options
-                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                className="absolute z-10 mt-1 min-w-full max-h-40 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
                                                 {FindEnum('endDateTime',[]).hours.map((item: any) => (
                                                     <Listbox.Option
                                                         key={item}

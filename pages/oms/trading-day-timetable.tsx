@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "jalali-moment";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
@@ -9,23 +8,7 @@ import DateCell from "../../components/common/table/DateCell";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import {throwToast} from "../../components/common/functions/notification";
-
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, InstrumentGroupId: string }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    InstrumentGroupId: '',
-    StartDate: '',
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: '',
-    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-}
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'InstrumentGroupId', name: 'کد گروه نماد', type: 'input'},
-    {title: 'date', name: 'تاریخ', type: 'date'},
-]
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export default function TradingDayTimetable() {
     const columnDefStructure = [
@@ -120,10 +103,7 @@ export default function TradingDayTimetable() {
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchHandler}
-                />
+                <SearchComponent onSubmit={fetchHandler} module={ModuleIdentifier.OMS_timetable}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

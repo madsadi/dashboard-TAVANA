@@ -8,42 +8,7 @@ import moment from "jalali-moment";
 import useQuery from "../../../hooks/useQuery";
 import {NETFLOW} from '../../../api/constants';
 import DateCell from "../../common/table/DateCell";
-
-type initialType = {
-    StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, StationCode: string, BourseCode: string, NationalCode: string, LastName: string,
-    FirstName: string,
-    Symbol: string
-}
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    StartDate: ``,
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: ``,
-    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    Side: '',
-    InstrumentId: '',
-    Ticket: '',
-    StationCode: '',
-    BourseCode: '',
-    NationalCode: '',
-    LastName: '',
-    FirstName: '',
-    Symbol: ''
-}
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'date', name: 'تاریخ', type: 'date'},
-    {title: 'Ticket', name: 'شماره تیکت', type: 'input'},
-    {title: 'Symbol', name: 'نماد', type: 'input'},
-    {title: 'InstrumentId', name: 'شناسه نماد', type: 'input'},
-    {title: 'FirstName', name: 'نام', type: 'input'},
-    {title: 'LastName', name: 'نام خانوادگی', type: 'input'},
-    {title: 'NationalCode', name: 'کد ملی', type: 'input'},
-    {title: 'StationCode', name: 'کد ایستگاه معاملاتی', type: 'input'},
-    {title: 'Side', name: 'سمت', type: 'selectInput'},
-]
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function TradesResultTableSection() {
     const columnDefStructure = [
@@ -192,8 +157,7 @@ export default function TradesResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
+                <SearchComponent module={ModuleIdentifier.NETFLOW_trades_report}
                                  onSubmit={fetchData}
                 />
             </AccordionComponent>

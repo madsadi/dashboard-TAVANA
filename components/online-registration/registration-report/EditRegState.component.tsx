@@ -6,9 +6,12 @@ import {useRouter} from "next/router";
 import {throwToast} from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../../api/constants";
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function EditRegStateComponent() {
     const {selectedRows,fetchData,query:searchQuery} = useContext<any>(OnlineRegContext)
+    const {toolbar} = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION,'edit')
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditRegistrationState`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
@@ -16,11 +19,6 @@ export default function EditRegStateComponent() {
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')
     let userId = queryData?.[0]?.split('=')[1]
-
-    const forums = [
-        {title:'registrationState',name:'وضعیت ثبت نام',type:'selectInput'},
-        {title:'changeReasonDescription',name:'توضیحات',type:'input'},
-    ]
 
     useEffect(() => {
         if (modal && selectedRows?.length && !userId) {
@@ -69,7 +67,7 @@ export default function EditRegStateComponent() {
                     <form onSubmit={submitHandler}>
                         <div className={'grid grid-cols-2 gap-4'} >
                             {
-                                forums.map((item: any) => {
+                                toolbar.map((item: any) => {
                                     return <InputComponent key={item.title}
                                                            query={query}
                                                            item={item}

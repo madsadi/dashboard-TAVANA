@@ -1,5 +1,6 @@
 import React, {useState, createContext, useEffect} from "react";
 import dynamic from 'next/dynamic'
+
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const Toolbar = dynamic(() => import('../../components/customer-management/Toolbar'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
@@ -8,38 +9,19 @@ import usePageStructure from "../../hooks/usePageStructure";
 import DetailComponent from "../../components/customer-management/Detail.component";
 import useQuery from "../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../api/constants";
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const [initialValue, setInitialValue] = useState<any>({PageNumber: 1, PageSize: 20});
     const {page} = usePageStructure()
-    const {data,loading,fetchData,query} = useQuery({url:`${ADMIN_GATEWAY}/request/${page?.api}/Search`})
-
-
-    useEffect(() => {
-        if (page?.listOfFilters) {
-            let _initialValue: any = initialValue;
-            (page?.listOfFilters)?.map((item: any) => {
-                if (item.title === 'date') {
-                    _initialValue['StartDate'] = '';
-                    _initialValue['EndDate'] = '';
-                } else if (item.title !== 'PageNumber' && item.title !== 'PageSize') {
-                    _initialValue[item.title] = '';
-                }
-            })
-            setInitialValue(_initialValue)
-        }
-    }, [page?.listOfFilters])
+    const {data, loading, fetchData, query} = useQuery({url: `${ADMIN_GATEWAY}/request/${page?.api}/Search`})
 
     return (
         <CustomerManagement.Provider value={{fetchData, selectedRows, setSelectedRows, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent listOfFilters={page?.listOfFilters}
-                                     initialValue={initialValue}
-                                     onSubmit={fetchData}
-                    />
+                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]}/>
                 </AccordionComponent>
                 <Toolbar/>
                 <TableComponent data={data?.result?.pagedData}

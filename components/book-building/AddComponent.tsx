@@ -6,36 +6,15 @@ import InputComponent from "../common/components/InputComponent";
 import useMutation from "../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
+import {useSearchFilters} from "../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
-const bookBuildingInputs = [
-    {title: 'InstrumentId', name: 'شناسه نماد', type: 'search'},
-    {title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number'},
-    {title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number'},
-    {title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number'},
-    {title: 'startHour', name: 'زمان شروع', type: 'selectInputTime'},
-    {title: 'startMinute', name: 'زمان شروع'},
-    {title: 'endHour', name: 'زمان پایان', type: 'selectInputTime'},
-    {title: 'endMinute', name: 'زمان پایان'},
-    {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
-]
-
-const bookBuildingInitialValue = {
-    InstrumentId: '',
-    maxQuantity: null,
-    minPrice: null,
-    maxPrice: null,
-    StartDate: '',
-    EndDate: '',
-    startHour: null,
-    startMinute: null,
-    endHour: null,
-    endMinute: null
-}
 
 export default function AddModal() {
+    const {toolbar} = useSearchFilters(ModuleIdentifier.BOOK_BUILDING,'add')
     const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/request/addBookBuilding`})
     const [modal, setModal] = useState(false)
-    const [query, setQuery] = useState<any>(bookBuildingInitialValue)
+    const [query, setQuery] = useState<any>(null)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -69,7 +48,7 @@ export default function AddModal() {
 
     useEffect(() => {
         if (!modal) {
-            setQuery(bookBuildingInitialValue)
+            setQuery(null)
             setSelectedDayRange({from: null, to: null})
         }
     }, [modal])
@@ -88,7 +67,7 @@ export default function AddModal() {
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            bookBuildingInputs.map((item: any) => {
+                            toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

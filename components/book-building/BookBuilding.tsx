@@ -9,12 +9,8 @@ import useQuery from "../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 import DateCell from "../common/table/DateCell";
+import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
-const listOfFilters = [
-    {title: 'api', name: 'دسته بندی', type: 'selectInput'},
-]
-
-const initialValue = {api:'GetAll'}
 export const BookBuildingContext = createContext({})
 export default function BookBuilding() {
     const columnDefStructure = [
@@ -142,10 +138,7 @@ export default function BookBuilding() {
         <BookBuildingContext.Provider value={{selectedRows,query,submitHandler}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent listOfFilters={listOfFilters}
-                                     initialValue={initialValue}
-                                     onSubmit={submitHandler}
-                    />
+                    <SearchComponent onSubmit={submitHandler} module={ModuleIdentifier.BOOK_BUILDING}/>
                 </AccordionComponent>
                 <ToolBar/>
                 <TableComponent data={data}

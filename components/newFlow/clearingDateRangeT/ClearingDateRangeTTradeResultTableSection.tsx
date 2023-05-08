@@ -8,23 +8,8 @@ import moment from "jalali-moment";
 import {enTierNameEnum} from '../../../dictionary/Enums'
 import useQuery from "../../../hooks/useQuery";
 import {NETFLOW} from '../../../api/constants';
-
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, EnTierName: string, SettlementDelay: string }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EnTierName: '',
-    SettlementDelay: '',
-}
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'date', name: 'تاریخ', type: 'date'},
-    {title: 'EnTierName', name: 'نام انگلیسی گروه', type: 'input'},
-    {title: 'SettlementDelay', name: 'تاخیر', type: 'input'},
-]
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import {throwToast} from "../../common/functions/notification";
 
 export default function ClearingDateRangeTTradeResultTableSection() {
     const columnDefStructure = [
@@ -168,13 +153,18 @@ export default function ClearingDateRangeTTradeResultTableSection() {
             },
         };
     }, []);
-
+    const submitHandler = (query:any)=>{
+        if (query?.StartDate && query?.EndDate){
+            fetchData(query)
+        }else{
+            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        }
+    }
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent >
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchData}
+                <SearchComponent module={ModuleIdentifier.NETFLOW_clearing_Range}
+                                 onSubmit={submitHandler}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}

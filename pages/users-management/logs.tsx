@@ -6,26 +6,7 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 import { jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {IDP} from "../../api/constants";
-
-type initialType = { PageNumber: number, PageSize: number, UserId: string, NationalId: string, Name: string, StartDate: string, EndDate: string}
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    StartDate: ``,
-    EndDate: ``,
-    UserId: '',
-    NationalId: '',
-    Name: '',
-}
-const usersListOfFilters = [
-    { title: 'PageNumber', name: 'شماره صفحه', type: null },
-    { title: 'PageSize', name: 'تعداد', type: null },
-    { title: 'UserId', name: "شناسه کاربر", type: 'input' },
-    { title: 'NationalId', name: "کد ملی کاربر", type: 'input'},
-    { title: 'Name', name: "نام کاربر", type: 'input' },
-    { title: 'date', name: "تاریخ شروع و پایان",type: 'date'},
-]
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export default function Users() {
     const columnDefStructure: any = [
@@ -101,16 +82,12 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-
     const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserActivityLogs`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent listOfFilters={usersListOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchData}
-                />
+                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.USER_MANAGEMENT_logs}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             columnDefStructure={columnDefStructure}

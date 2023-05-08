@@ -7,29 +7,7 @@ import {formatNumber, jalali} from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
 import useQuery from "../../../hooks/useQuery";
 import {NETFLOW} from '../../../api/constants';
-
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Side: string, InstrumentId: string, Ticket: string, Symbol: string }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    StartDate: ``,
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: ``,
-    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    Side: '',
-    InstrumentId: '',
-    Ticket: '',
-    Symbol: ''
-}
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'date', name: 'تاریخ', type: 'date'},
-    {title: 'Ticket', name: 'شماره تیکت', type: 'input'},
-    {title: 'Symbol', name: 'نماد', type: 'input'},
-    {title: 'InstrumentId', name: 'شناسه نماد', type: 'input'},
-    {title: 'Side', name: 'سمت', type: 'selectInput'},
-]
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function ClearedTradeResultTableSection() {
     const columnDefStructure = [
@@ -123,8 +101,7 @@ export default function ClearedTradeResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
+                <SearchComponent module={ModuleIdentifier.NETFLOW_cleared_trade}
                                  onSubmit={fetchData}
                 />
             </AccordionComponent>
