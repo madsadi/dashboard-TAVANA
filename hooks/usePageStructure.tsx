@@ -11,28 +11,9 @@ import {
     subsidiaryColumnDefStructure,
     traderColumnDefStructure
 } from "../components/customer-management/filters-and-structures/table-structures";
-import {
-    agreementListOfForm,
-    branchesListOfForm,
-    businessUnitListOfForm, contractListOfForm,
-    customerAgreementListOfForm,
-    employeeListOfForm, marketerContractListOfForm,
-    marketerListOfForm,
-    stationListOfForm,
-    subsidiaryListOfForm,
-    traderListOfForm
-} from "../components/customer-management/filters-and-structures/modal-forms";
-import {
-    branchListOfFilters,
-    businessUnitListOfFilters, contractListOfFilters,
-    customerAgreementListOfFilters, marketerContractListOfFilters,
-    marketerListOfFilters,
-    stationListOfFilters,
-    subsidiaryListOfFilters
-} from "../components/customer-management/filters-and-structures/search-filters";
 
 export default function usePageStructure() {
-    const [page, setPage] = useState<any>({api:'',columnDefStructure: [],searchFilter:'',form:[],listOfFilters:[]});
+    const [page, setPage] = useState<any>({api:'',columnDefStructure: [],searchFilter:''});
     const router = useRouter()
 
     useEffect(() => {
@@ -44,8 +25,6 @@ export default function usePageStructure() {
                             api: 'subsidiary',
                             columnsDefStructure: subsidiaryColumnDefStructure,
                             searchFilter: 'شرکت',
-                            form: subsidiaryListOfForm,
-                            listOfFilters: subsidiaryListOfFilters
                         }
                     )
                     break;
@@ -55,8 +34,7 @@ export default function usePageStructure() {
                             api: 'branch',
                             columnsDefStructure: branchesColumnDefStructure,
                             searchFilter: 'شعبه',
-                            form: branchesListOfForm,
-                            listOfFilters: branchListOfFilters
+
                         }
                     )
                     break;
@@ -66,7 +44,6 @@ export default function usePageStructure() {
                             api: 'employee',
                             columnsDefStructure: employeeColumnDefStructure,
                             searchFilter: 'کارمند',
-                            form: employeeListOfForm,
                         }
                     )
                     break;
@@ -75,9 +52,7 @@ export default function usePageStructure() {
                         {
                             api: 'businessUnit',
                             columnsDefStructure: businessUnitColumnDefStructure,
-                            searchFilter: 'واحد کاری',
-                            form: businessUnitListOfForm,
-                            listOfFilters: businessUnitListOfFilters
+                            searchFilter: 'واحد کاری'
                         }
                     )
                     break;
@@ -87,8 +62,6 @@ export default function usePageStructure() {
                             api: 'station',
                             columnsDefStructure: stationColumnDefStructure,
                             searchFilter: 'ایستگاه معاملاتی',
-                            form: stationListOfForm,
-                            listOfFilters: stationListOfFilters
                         }
                     )
                     break;
@@ -98,7 +71,6 @@ export default function usePageStructure() {
                             api: 'trader',
                             columnsDefStructure: traderColumnDefStructure,
                             searchFilter: 'معامله گران',
-                            form: traderListOfForm,
                         }
                     )
                     break;
@@ -108,8 +80,6 @@ export default function usePageStructure() {
                             api: 'marketer',
                             columnsDefStructure: marketerColumnDefStructure,
                             searchFilter: 'بازاریاب ها',
-                            form: marketerListOfForm,
-                            listOfFilters: marketerListOfFilters
                         }
                     )
                     break;
@@ -119,8 +89,6 @@ export default function usePageStructure() {
                             api: 'agreement',
                             columnsDefStructure: agreementColumnDefStructure,
                             searchFilter: 'توافقنامه ها',
-                            form: agreementListOfForm,
-                            // listOfFilters: marketerListOfFilters
                         }
                     )
                     break;
@@ -130,8 +98,6 @@ export default function usePageStructure() {
                             api: 'customerAgreement',
                             columnsDefStructure: customerAgreementColumnDefStructure,
                             searchFilter: 'توافقنامه های بین طرفین',
-                            form: customerAgreementListOfForm,
-                            listOfFilters: customerAgreementListOfFilters
                         }
                     )
                     break;
@@ -141,8 +107,6 @@ export default function usePageStructure() {
                             api: 'contract',
                             columnsDefStructure: contractColumnDefStructure,
                             searchFilter: 'قرارداد بازاریابی',
-                            form: contractListOfForm,
-                            listOfFilters: contractListOfFilters
                         }
                     )
                     break;
@@ -152,8 +116,6 @@ export default function usePageStructure() {
                             api: 'marketerContract',
                             columnsDefStructure: marketerContractColumnDefStructure,
                             searchFilter: 'قرارداد با بازاریاب',
-                            form: marketerContractListOfForm,
-                            listOfFilters: marketerContractListOfFilters
                         }
                     )
                     break;

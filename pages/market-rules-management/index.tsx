@@ -1,3 +1,4 @@
+import React from 'react';
 import RulesList from "../../components/market-rules-management/RulesList";
 
 export default function Index(){

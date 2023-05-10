@@ -1,47 +1,14 @@
 import React, {useMemo} from "react";
 import dynamic from "next/dynamic";
-
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
 import useQuery from "../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../../components/common/functions/notification";
-
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, TradeId: string, TradeCancelationFlag: number | undefined, OrderSide: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    StartDate: '',
-    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: '',
-    OrderId: '',
-    InstrumentId: '',
-    OrderSide: undefined,
-    TradeId: '',
-    TradeCancelationFlag: undefined,
-    UserId: '',
-    CustomerId: '',
-    TraderId: '',
-    ApplicationSource: undefined
-}
-const tradesListOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'OrderId', name: "شناسه سفارش", type: 'input'},
-    {title: 'InstrumentId', name: "شناسه نماد", type: 'search'},
-    {title: 'OrderSide', name: "سمت", type: 'selectInput', valueType: 'number'},
-    {title: 'TradeId', name: "شناسه معامله", type: 'input'},
-    {title: 'TradeCancelationFlag', name: "وضعیت لغو معامله", type: 'input'},
-    {title: 'UserId', name: "شناسه کاربر", type: 'input'},
-    {title: 'CustomerId', name: "شناسه مشتری", type: 'input'},
-    {title: 'TraderId', name: "شناسه معامله گر", type: 'input'},
-    {title: 'ApplicationSource', name: "مبدا سفارش", type: 'selectInput', valueType: 'number'},
-    {title: 'date', name: "تاریخ شروع و پایان", type: 'date'},
-]
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export default function Trades() {
     function chunk(str: string, n: number) {
@@ -202,10 +169,7 @@ export default function Trades() {
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent listOfFilters={tradesListOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchHandler}
-                />
+                <SearchComponent onSubmit={fetchHandler} module={ModuleIdentifier.ONLINE_TRADES}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

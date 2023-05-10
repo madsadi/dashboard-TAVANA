@@ -48,7 +48,7 @@ export const branchesColumnDefStructure = [
         cellRendererSelector: () => {
             const ColourCellRenderer = (rowData: any) => {
                 return (
-                    <span>{TypeOfBranches.find((item: any) => item.id === rowData.data.type).title}</span>
+                    <span>{TypeOfBranches.find((item: any) => item.id === rowData.data.type)?.title}</span>
                 )
             };
             const moodDetails = {
@@ -332,7 +332,7 @@ export const stationColumnDefStructure = [
         cellRendererSelector: () => {
             const ColourCellRenderer = (rowData: any) => {
                 return (
-                    <span>{stationTypeEnum.find((item: any) => item.id === rowData.data.type).title}</span>
+                    <span>{stationTypeEnum.find((item: any) => item.id === rowData.data.type)?.title}</span>
                 )
             };
             const moodDetails = {

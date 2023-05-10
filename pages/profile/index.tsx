@@ -1,4 +1,4 @@
-import ProfileNavigation from "../../components/profile/ProfileNavigation";
+import React from 'react';
 import UserInfo from "../../components/profile/UserInfo";
 
 export default function Profile(){

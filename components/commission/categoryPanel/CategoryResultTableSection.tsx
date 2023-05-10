@@ -5,26 +5,7 @@ const TableComponent = dynamic(() => import('../../common/table/table-component'
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import useQuery from "../../../hooks/useQuery";
 import {COMMISSION_BASE_URL} from "../../../api/constants";
-
-type initialType = { CommissionCategoryId: string, MarketTitle: string, OfferTypeTitle: string, SideTitle: string, SettlementDelayTitle: string, CustomerTypeTitle: string, CustomerCounterSideTitle: string }
-const initialValue = {
-    CommissionCategoryId: '',
-    MarketTitle: '',
-    OfferTypeTitle: '',
-    SideTitle: '',
-    SettlementDelayTitle: '',
-    CustomerTypeTitle: '',
-    CustomerCounterSideTitle: '',
-}
-const listOfFilters = [
-    {title: 'CommissionCategoryId', name: 'شناسه', type: 'input'},
-    {title: 'MarketTitle', name: 'بازار', type: 'input'},
-    {title: 'OfferTypeTitle', name: 'نوع عرضه', type: 'input'},
-    {title: 'SideTitle', name: 'سمت سفارش', type: 'input'},
-    {title: 'SettlementDelayTitle', name: 'تاخیر در تسویه', type: 'input'},
-    {title: 'CustomerTypeTitle', name: 'نوع مشتری', type: 'input'},
-    {title: 'CustomerCounterSideTitle', name: 'نوع طرف مقابل', type: 'input'},
-]
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function CategoryResultTableSection() {
     const columnDefStructure = [
@@ -123,10 +104,7 @@ export default function CategoryResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchData}
-                />
+                <SearchComponent module={ModuleIdentifier.COMMISSION_MANAGEMENT_category} onSubmit={fetchData}/>
             </AccordionComponent>
             <TableComponent data={data?.result}
                             loading={loading}

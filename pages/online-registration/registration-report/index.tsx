@@ -10,33 +10,7 @@ import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../../api/constants";
 import {throwToast} from "../../../components/common/functions/notification";
-
-type initialType = { PageNumber: number, PageSize: number, userId: string, nationalId: string, phoneNumber: string, StartDate: string, EndDate: string }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    StartDate: ``,
-    EndDate: ``,
-    userId: '',
-    nationalId: '',
-    phoneNumber: '',
-}
-const usersListOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    // {title: 'userId', name: "شناسه کاربر", type: 'input'},
-    {title: 'uniqueId', name: "کد ملی کاربر", type: 'input'},
-    {title: 'mobileNumber', name: "تلفن همراه", type: 'input'},
-    {title: 'personType', name: "حقیقی / حقوقی", type: 'selectInput'},
-    {title: 'marketerId', name: "شناسه بازاریاب", type: 'input'},
-    {title: 'reagentId', name: "شناسه معرف", type: 'input'},
-    {title: 'personOrigin', name: "نوع کاربر", type: 'selectInput'},
-    {title: 'isSejami', name: "سجامی هست؟", type: 'selectInput'},
-    {title: 'sejamStatus', name: "وضعیت سجامی", type: 'selectInput'},
-    {title: 'registrationState', name: "وضعیت ثبت نام", type: 'selectInput'},
-    {title: 'date', name: "تاریخ شروع و پایان", type: 'date'},
-]
+import {ModuleIdentifier} from "../../../components/common/functions/Module-Identifier";
 
 export const OnlineRegContext = createContext({})
 export default function OnlineRegistration() {
@@ -272,16 +246,13 @@ export default function OnlineRegistration() {
         <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,fetchData,query}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent listOfFilters={usersListOfFilters}
-                                     initialValue={initialValue}
-                                     onSubmit={onSubmit}
-                    />
+                    <SearchComponent onSubmit={onSubmit} module={ModuleIdentifier.ONLINE_REGISTRATION}/>
                 </AccordionComponent>
                 <UserRegToolbarComponent/>
                 <TableComponent data={data?.result?.pagedData}
                                 loading={loading}
                                 columnDefStructure={columnDefStructure}
-                                rowId={['userId']}
+                                rowId={['userId','id']}
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 detailCellRendererParams={detailCellRendererParams}

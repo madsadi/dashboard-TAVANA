@@ -5,7 +5,7 @@ const TableComponent = dynamic(() => import('../../components/common/table/table
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import { jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
-import {IDP} from "../../api/constants";
+import {MARKETER_ADMIN} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export default function Users() {
@@ -82,12 +82,12 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-    const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserActivityLogs`});
+    const {data,query,fetchData}:any = useQuery({url:`${MARKETER_ADMIN}/users/SearchUserActivityLogs`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.USER_MANAGEMENT_logs}/>
+                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             columnDefStructure={columnDefStructure}

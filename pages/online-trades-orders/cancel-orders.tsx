@@ -7,21 +7,7 @@ const CancelOrdersToolbar = dynamic(() => import('../../components/online-orders
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'date', name: 'تاریخ', type: 'date'},
-]
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    // StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    StartDate: '',
-    // EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: '',
-}
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export default function CancelOrders() {
     const columnDefStructure = [
@@ -158,10 +144,7 @@ export default function CancelOrders() {
     return (
             <div className="flex flex-col h-full flex-1">
                 <AccordionComponent>
-                    <SearchComponent listOfFilters={listOfFilters}
-                                     initialValue={initialValue}
-                                     onSubmit={fetchData}
-                    />
+                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.ONLINE_CANCEL}/>
                 </AccordionComponent>
                 <CancelOrdersToolbar/>
                 <TableComponent data={data?.result?.pagedData}

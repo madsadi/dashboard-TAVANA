@@ -6,11 +6,11 @@ import {DayValue} from "react-modern-calendar-datepicker";
 import useMutation from "../../../hooks/useMutation";
 import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
-const userInputs = [
-    {title: 'lockoutEndDateTime', name: 'تاریخ', type: 'singleDate'},
-]
 export default function LockOut(){
+    const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'lock-out')
     const {selectedRows} = useContext<any>(UsersContext)
     const {mutate} = useMutation({url:`${IDP}/users/set-lockout-end-date`})
     const [modal, setModal] = useState(false)
@@ -58,7 +58,7 @@ export default function LockOut(){
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            userInputs.map((item: any) => {
+                            toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

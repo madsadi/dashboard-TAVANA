@@ -8,35 +8,11 @@ import {BookBuildingContext} from "./BookBuilding";
 import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../api/constants";
-
-const bookBuildingInputs = [
-    {title: 'instrumentId', name: 'شناسه نماد', type: 'search'},
-    // { title: 'faInsCode', name: 'نماد', type: 'input' },
-    {title: 'maxQuantity', name: 'بیشینه حجم سفارش', type: 'input', valueType: 'number'},
-    {title: 'minPrice', name: 'حداقل قیمت سفارش', type: 'input', valueType: 'number'},
-    {title: 'maxPrice', name: 'حداکثر قیمت سفارش', type: 'input', valueType: 'number'},
-    { title: 'startHour', name: 'زمان شروع', type: 'selectInputTime'},
-    { title: 'startMinute', name: 'زمان شروع'},
-    { title: 'endHour', name: 'زمان پایان', type: 'selectInputTime'},
-    { title: 'endMinute', name: 'زمان پایان'},
-    {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
-]
-
-const bookBuildingInputsInitialValue = {
-    instrumentId: '',
-    // faInsCode: '',
-    maxQuantity: null,
-    minPrice: null,
-    maxPrice: null,
-    StartDate: null,
-    EndDate: null,
-    startHour:null,
-    startMinute:null,
-    endHour:null,
-    endMinute:null
-}
+import {useSearchFilters} from "../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 export default function EditModal() {
+    const {toolbar} = useSearchFilters(ModuleIdentifier.BOOK_BUILDING,'edit')
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditBookBuilding`,method:"PUT"})
     const {selectedRows} = useContext<any>(BookBuildingContext)
     const [modal, setModal] = useState(false)
@@ -101,7 +77,7 @@ export default function EditModal() {
             <Modal title={'ایجاد تغییرات'} ModalWidth={'max-w-3xl'} open={modal} setOpen={setModal}>
                 <form className={'grid grid-cols-2 gap-4'}>
                     {
-                        bookBuildingInputs.map((item: any) => {
+                        toolbar.map((item: any) => {
                             return <InputComponent key={item.title}
                                                    query={query}
                                                    item={item}

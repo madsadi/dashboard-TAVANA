@@ -1,3 +1,4 @@
+import React from 'react';
 import BookBuilding from "../../components/book-building/BookBuilding";
 
 export default function bookBuilding(){

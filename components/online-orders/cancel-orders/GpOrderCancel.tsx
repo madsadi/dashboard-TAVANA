@@ -5,31 +5,14 @@ import InputComponent from "../../common/components/InputComponent";
 import {throwToast} from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../../api/constants";
-
-const InstrumentGroupFilters = [
-    {title: 'instrumentGroupIdentification', name: 'کد گروه نمادها', type: 'input'},
-    {title: 'orderSide', name: 'سمت سفارش', type: 'selectInput',valueType:"number"},
-    {title: 'orderOrigin', name: 'نوع کاربر', type: 'selectInput',valueType:"number"},
-    {title: 'orderTechnicalOrigin', name: 'مرجع تکنیکال سفارش', type: 'selectInput',valueType:"number"},
-]
-type InitialType = {
-    instrumentGroupIdentification:string,
-    orderSide:number,
-    orderOrigin:number,
-    orderTechnicalOrigin:number,
-}
-const InitialValue = {
-    instrumentGroupIdentification:'',
-    orderSide:0,
-    orderOrigin:0,
-    orderTechnicalOrigin:0,
-}
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function GpOrderCancel(){
     const [modal,setModal] = useState(false)
-    const [query,setQuery] = useState<InitialType>(InitialValue)
+    const [query,setQuery] = useState<any>(null)
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/GlobalCancel/CancelAllOrderForInstrumentGroup`})
-
+    const {toolbar} =useSearchFilters(ModuleIdentifier.ONLINE_CANCEL,'gpOrder')
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};
         _query[key] = value
@@ -57,7 +40,7 @@ export default function GpOrderCancel(){
             </button>
             <Modal title="حذف سفارش گروه" open={modal} setOpen={setModal}>
                 <div className="grid grid-cols-2 gap-4 pt-5">
-                    {InstrumentGroupFilters.map((filter: any) => {
+                    {toolbar.map((filter: any) => {
                         return <InputComponent key={filter.title}
                                                item={filter}
                                                onChange={onChange}

@@ -1,4 +1,5 @@
 import TradesResultTableSection from "../../components/newFlow/TradesReport/TradesResultTableSection";
+import React from 'react';
 
 export default function TradesReport(){
     return(

@@ -1,8 +1,8 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const ClearingDateRange = dynamic(() => import('../../components/newFlow/information/ClearingDateRange'))
-const Box = dynamic(() => import('../../components/newFlow/information/Box'))
-const NoDateBox = dynamic(() => import('../../components/newFlow/information/NoDateBox'))
+const ClearingDateRange = dynamic(() => import('../../components/newFlow/information/ClearingDateRange'));
+const Box = dynamic(() => import('../../components/newFlow/information/Box'));
+const NoDateBox = dynamic(() => import('../../components/newFlow/information/NoDateBox'));
 
 export default function GetInformation() {
 

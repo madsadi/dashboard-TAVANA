@@ -5,16 +5,12 @@ import {UsersContext} from "../../../pages/users-management/users";
 import useMutation from "../../../hooks/useMutation";
 import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
-const userInputs = [
-    {title: 'username', name: 'نام کاربری', type: 'input'},
-    {title: 'phoneNumber', name: 'موبایل', type: 'input'},
-    {title: 'firstName', name: 'نام', type: 'input'},
-    {title: 'lastName', name: 'نام خانوادگی', type: 'input'},
-    {title: 'email', name: 'ایمیل', type: 'input'},
-    {title: 'nationalId', name: 'کدملی', type: 'input'},
-]
 export default function Edit() {
+    const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'edit')
+
     const {fetchData, query: searchQuery, selectedRows} = useContext<any>(UsersContext)
     const {mutate} = useMutation({url:`${IDP}/users/update`})
     const [modal, setModal] = useState(false)
@@ -60,7 +56,7 @@ export default function Edit() {
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            userInputs.map((item: any) => {
+                            toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

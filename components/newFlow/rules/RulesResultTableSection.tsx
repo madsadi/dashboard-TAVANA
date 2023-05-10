@@ -3,33 +3,11 @@ import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
-import moment from "jalali-moment";
 import {formatNumber} from "../../common/functions/common-funcions";
 import useQuery from "../../../hooks/useQuery";
 import {NETFLOW} from "../../../api/constants";
-
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, Name: string, BuyerCode: string, SellerCode: string, Symbol: string, SettlementDelay: string }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    Name: '',
-    BuyerCode: '',
-    SellerCode: '',
-    Symbol: '',
-    SettlementDelay: ''
-}
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'date', name: 'تاریخ', type: 'date'},
-    {title: 'Name', name: 'نام', type: 'input'},
-    {title: 'BuyerCode', name: 'شناسه خریدار', type: 'input'},
-    {title: 'SellerCode', name: 'شناسه فروشنده', type: 'input'},
-    {title: 'Symbol', name: 'نماد', type: 'input'},
-    {title: 'SettlementDelay', name: 'تاخیر', type: 'input'},
-]
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import {throwToast} from "../../common/functions/notification";
 
 export default function RulesResultTableSection() {
     const columnDefStructure = [
@@ -171,12 +149,18 @@ export default function RulesResultTableSection() {
         };
     }, []);
 
+    const submitHandler = (query:any)=>{
+        if (query?.StartDate && query?.EndDate){
+            fetchData(query)
+        }else{
+            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        }
+    }
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchData}
+                <SearchComponent module={ModuleIdentifier.NETFLOW_rules}
+                                 onSubmit={submitHandler}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}

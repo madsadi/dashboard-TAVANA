@@ -1,41 +1,15 @@
 import React, {createContext, useState} from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'))
-const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'))
-const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'));
+const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'));
+const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'));
 import useQuery from '../../hooks/useQuery';
 import {IDP} from "../../api/constants";
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
-type initialType = { PageNumber: number, PageSize: number, UserId: string, UserName: string, PhoneNumber: string, Email: string, FirstName: string, FamilyName: string, RoleId: string, IsActive: any, date: string }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    UserId: '',
-    UserName: '',
-    PhoneNumber: '',
-    Email: '',
-    FirstName: '',
-    FamilyName: '',
-    RoleId: '',
-    IsActive: null,
-    date: '',
-}
-const usersListOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    // {title: 'UserId', name: "شناسه کاربری", type: 'input'},
-    {title: 'UserName', name: "نام کاربری", type: 'input'},
-    {title: 'PhoneNumber', name: "تلفن همراه", type: 'input'},
-    {title: 'Email', name: "ایمیل", type: 'input'},
-    {title: 'FirstName', name: "نام", type: 'input'},
-    {title: 'FamilyName', name: "نام خانوادگی", type: 'input'},
-    {title: 'RoleId', name: "آیدی نقش کاربر", type: 'input'},
-    {title: 'IsActive', name: "وضعیت", type: 'selectInput'},
-    {title: 'date', name: "تاریخ شروع و پایان", type: 'date'},
-]
 export const UsersContext = createContext({})
 export default function Users() {
     const columnDefStructure: any = [
@@ -128,11 +102,7 @@ export default function Users() {
         <UsersContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
-                    <SearchComponent
-                                     listOfFilters={usersListOfFilters}
-                                     initialValue={initialValue}
-                                     onSubmit={fetchData}
-                    />
+                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.USER_MANAGEMENT_users}/>
                 </AccordionComponent>
                 <UsersToolbar/>
                 <TableComponent data={data?.result?.pagedData}

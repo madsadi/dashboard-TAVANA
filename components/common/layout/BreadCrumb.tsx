@@ -55,6 +55,7 @@ export default function BreadCrumbComponent() {
         "contract":'قرارداد بازاریابی',
         "marketerContract":'قرارداد با بازاریاب',
         "profile":'حساب کاربری',
+        "marketer-app":'اپلیکیشن مارکتر',
     }
 
     useEffect(() => {

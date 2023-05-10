@@ -1,3 +1,4 @@
+import React from 'react';
 import CommissionSearch from "../../components/commission/index/CommissionSearch";
 import CommissionResult from "../../components/commission/index/CommissionResult";
 

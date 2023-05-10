@@ -1,49 +1,17 @@
 import React, {createContext, useMemo, useState} from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'))
-const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'));
+const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'));
 import {jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
 import { OrderType} from "../../dictionary/Enums";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-
-type initialType = { StartDate: string, EndDate: string, PageNumber: number, PageSize: number, OrderId: string, InstrumentId: string, OrderType: number | undefined, ValidityType: number | undefined, OrderSide: number | undefined, OrderStatus: number | undefined, UserId: string, CustomerId: string, TraderId: string, ApplicationSource: number | undefined }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    StartDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    EndDate: `${moment().locale('en').format('YYYY-MM-DD')}`,
-    OrderId: '',
-    InstrumentId: '',
-    OrderType: undefined,
-    OrderSide: undefined,
-    ValidityType: undefined,
-    OrderStatus: undefined,
-    UserId: '',
-    CustomerId: '',
-    TraderId: '',
-    ApplicationSource: undefined
-}
-
-const ordersListOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'OrderId', name: "شناسه سفارش", type: 'input'},
-    {title: 'InstrumentId', name: "شناسه نماد", type: 'search'},
-    {title: 'OrderType', name: "نوع سفارش", type: 'selectInput', valueType: 'number'},
-    {title: 'OrderSide', name: "سمت", type: 'selectInput', valueType: 'number'},
-    {title: 'ValidityType', name: "اعتبار", type: 'selectInput', valueType: 'number'},
-    {title: 'OrderStatus', name: "وضعیت سفارش", type: 'selectInput', valueType: 'number'},
-    {title: 'UserId', name: "شناسه کاربر", type: 'input'},
-    {title: 'CustomerId', name: "شناسه مشتری", type: 'input'},
-    {title: 'TraderId', name: "شناسه معامله گر", type: 'input'},
-    {title: 'ApplicationSource', name: "مبدا سفارش", type: 'selectInput', valueType: 'number'},
-    {title: 'date', name: "تاریخ شروع و پایان", type: 'date'},
-]
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import {throwToast} from "../../components/common/functions/notification";
 
 export const OrdersContext = createContext({})
 export default function Orders() {
@@ -157,13 +125,19 @@ export default function Orders() {
         };
     }, []);
 
+    const submitHandler = (query:any)=>{
+        if (query?.StartDate && query?.EndDate){
+            fetchData(query)
+        }else{
+            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        }
+    }
     return (
         <OrdersContext.Provider value={{selectedRows,setSelectedRows,fetchData,query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent listOfFilters={ordersListOfFilters}
-                                     initialValue={initialValue}
-                                     onSubmit={fetchData}
+                    <SearchComponent module={ModuleIdentifier.ONLINE_ORDERS}
+                                     onSubmit={submitHandler}
                     />
                 </AccordionComponent>
                 <OrdersToolbar/>

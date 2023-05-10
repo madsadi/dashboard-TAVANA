@@ -6,28 +6,7 @@ const TableComponent = dynamic(() => import('../../common/table/table-component'
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 import useQuery from "../../../hooks/useQuery";
 import {COMMISSION_BASE_URL} from "../../../api/constants";
-
-type initialType = { CommissionInstrumentTypeId: string, BourseTitle: string, InstrumentTypeTitle: string, InstrumentTypeDescription: string, SectorTitle: string, SubSectorTitle: string, Deleted: string }
-const initialValue = {
-    CommissionInstrumentTypeId: '',
-    BourseTitle: '',
-    InstrumentTypeTitle: '',
-    InstrumentTypeDescription: '',
-    SectorTitle: '',
-    SubSectorTitle: '',
-    Deleted: '',
-}
-const listOfFilters = [
-    // {title:'PageNumber',name:'شماره صفحه',type:null},
-    // {title:'PageSize',name:'تعداد',type:null},
-    // {title:'CommissionInstrumentTypeId',name:'تاریخ',type:'date'},
-    {title: 'BourseTitle', name: 'عنوان بورس', type: 'input'},
-    {title: 'InstrumentTypeTitle', name: 'عنوان نوع ابزار مالی', type: 'input'},
-    {title: 'InstrumentTypeDescription', name: 'توضیحات نوع ابزار', type: 'input'},
-    {title: 'SectorTitle', name: 'گروه صنعت', type: 'input'},
-    {title: 'SubSectorTitle', name: 'زیرگروه صنعت', type: 'input'},
-    {title: 'Deleted', name: 'دسته بندی', type: 'selectInput'},
-]
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export const InstrumentTypeContext = createContext({})
 export default function ResultTable() {
@@ -125,10 +104,7 @@ export default function ResultTable() {
         <InstrumentTypeContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'relative flex flex-col grow overflow-hidden'}>
                 <AccordionComponent>
-                    <SearchComponent listOfFilters={listOfFilters}
-                                     initialValue={initialValue}
-                                     onSubmit={fetchData}
-                    />
+                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
                 </AccordionComponent>
                 <InstrumentTypeToolbar/>
                 <TableComponent data={data?.result}

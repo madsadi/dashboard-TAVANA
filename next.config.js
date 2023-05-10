@@ -9,6 +9,7 @@ const nextConfig = {
     ADMIN_GATEWAY:'http://172.24.65.20:9020/api',
     FILE_SERVER: 'http://cluster.tech1a.co:9073/api/',
     IDP:'https://cluster.tech1a.co/api',
+    MARKETER_ADMIN:'http://stgmarketer-admin.tech1a.co',
     BASE_URL:'http://cluster.tech1a.co/api'
   },
 }

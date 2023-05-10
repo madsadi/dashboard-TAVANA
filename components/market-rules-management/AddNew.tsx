@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback, useContext, useEffect, useMemo, useState} from "react";
+import React, {Fragment, useContext, useEffect, useMemo, useState} from "react";
 import Modal from "../common/layout/Modal";
 import {Badge} from "flowbite-react";
 import {XCircleIcon} from "@heroicons/react/24/outline";
@@ -11,6 +11,8 @@ import {throwToast} from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../api/constants";
 import useQuery from "../../hooks/useQuery";
+import {useSearchFilters} from "../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -28,17 +30,9 @@ const initialQuery = {
     sequenceNumber: 1,
     errorMessage: ''
 }
-const listOfFilters = [
-    {title: 'name', name: 'عنوان قانون', type: 'input'},
-    {title: 'sequenceNumber', name: 'مرتبه/اولویت', type: 'input', valueType: 'number'},
-    {title: 'isActive', name: 'وضیعت', type: 'selectInput'},
-    {title: 'errorMessage', name: 'پیام خطا', type: 'input'},
-]
-const extraListOfFilters = [
-    {title: 'variable', name: 'متغیر', type: 'dynamicSelectInput'},
-    {title: 'operator', name: 'عملگر', type: 'selectInput'},
-]
 export default function AddNew() {
+    const {toolbar} = useSearchFilters(ModuleIdentifier.MARKET_RULES_MANAGEMENT,'add')
+    const {toolbar:extra} = useSearchFilters(ModuleIdentifier.MARKET_RULES_MANAGEMENT,'extraAdd')
     const {fetchData,dynamicOptions, query: rulesQuery} = useContext<any>(MarketRulesContext)
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/AddRule`})
     const {fetchAsyncData:remoteUrl} = useQuery({})
@@ -132,7 +126,7 @@ export default function AddNew() {
                 <form onSubmit={submitForm}>
                     <div className={'grid grid-cols-4 gap-4'}>
                         {
-                            listOfFilters?.map((item: any) => {
+                            toolbar?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
@@ -141,7 +135,7 @@ export default function AddNew() {
                             })
                         }
                         {
-                            extraListOfFilters?.map((item: any) => {
+                            extra?.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={expressionQuery}
                                                        item={item}
@@ -247,7 +241,7 @@ export default function AddNew() {
                         </div>
                     </div>
                     <div>
-                        <div className={'flex space-x-reverse space-x-2 my-5'}>
+                        <div className={'flex flex-wrap gap-2 my-5'}>
                             {faExpression.map((item: string, index) => {
                                 let appearance: any = <div className={'flex items-center cursor-pointer text-sm'}>{item}<XCircleIcon
                                     className={'h-3 w-3 text-black'}/></div>
@@ -266,7 +260,7 @@ export default function AddNew() {
                                   readOnly rows={5} cols={30}/>
                         <div className={'text-left ltr my-2'}>
                             <div>{expression.join(' ')}</div>
-                            <div className={'flex space-x-2 my-2'}>
+                            <div className={'flex flex-wrap gap-2 my-2'}>
                                 {expression.map((item: string, index) => {
                                     let appearance: any = <div
                                         className={'flex items-center cursor-pointer text-sm'}>{item} <XCircleIcon

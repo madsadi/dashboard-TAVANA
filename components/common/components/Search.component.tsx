@@ -1,10 +1,12 @@
 import InputComponent from "./InputComponent";
 import React, {Dispatch, useCallback, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
 
 type PropsType = { query: any, setQuery: Dispatch<any>, onSubmit: Function, listOfFilters: any, initialValue: any, dynamicOptions: any }
 const SearchComponent: React.FC<any> = (props) => {
-    const {onSubmit, listOfFilters, initialValue, dynamicOptions = []} = props
+    const {onSubmit,module, dynamicOptions = []} = props
+    const {filters,initialValue} = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
@@ -24,7 +26,7 @@ const SearchComponent: React.FC<any> = (props) => {
         }}>
             <div className="grid grid-cols-5 gap-4">
                 {
-                    listOfFilters?.map((item: any) => {
+                    filters?.map((item: any) => {
                         return <InputComponent key={item.title}
                                                item={item}
                                                query={query}

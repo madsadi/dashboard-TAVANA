@@ -1,25 +1,12 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import {useRouter} from "next/router";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-
-const listOfFilters = [
-    {title: 'PageNumber', name: 'شماره صفحه', type: null},
-    {title: 'PageSize', name: 'تعداد', type: null},
-    {title: 'customerId', name: 'شناسه مشتری', type: 'input'},
-    {title: 'InstrumentId', name: 'شناسه نماد', type: 'search'},
-]
-type initialType = { customerId: string, InstrumentId: string, PageNumber: number, PageSize: number }
-const initialValue = {
-    PageNumber: 1,
-    PageSize: 20,
-    InstrumentId: '',
-    customerId: '',
-}
+import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 
 export default function LivePortfo() {
     const router = useRouter()
@@ -69,10 +56,7 @@ export default function LivePortfo() {
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent listOfFilters={listOfFilters}
-                                 initialValue={initialValue}
-                                 onSubmit={fetchData}
-                />
+                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.LIVE_PORTFO}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

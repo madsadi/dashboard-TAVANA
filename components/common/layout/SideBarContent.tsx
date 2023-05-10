@@ -127,6 +127,12 @@ export default function SideBarContent() {
             ],
         },
         {
+            label: 'اپلیکیشن مارکتر',
+            expanded: false,
+            url: '/marketer-app',
+            className: router.pathname === '/marketer-app' ? 'sideBarActive' : '',
+        },
+        {
             label: 'پرتفو',
             expanded: router.pathname.startsWith('/portfo'),
             children: [

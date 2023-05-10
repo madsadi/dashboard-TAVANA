@@ -5,11 +5,11 @@ import {RolesContext} from "../../../pages/users-management/roles";
 import useMutation from "../../../hooks/useMutation";
 import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
+import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
-const rolesInput = [
-    {title: 'name', name: 'عنوان', type: 'input'},
-]
 export default function AddNew() {
+    const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles,'add')
     const {fetchData, query: searchQuery} = useContext<any>(RolesContext)
     const {mutate} = useMutation({url:`${IDP}/roles/create`})
     const [modal, setModal] = useState(false)
@@ -41,7 +41,7 @@ export default function AddNew() {
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            rolesInput.map((item: any) => {
+                            toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}

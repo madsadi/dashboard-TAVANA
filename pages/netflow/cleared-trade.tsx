@@ -1,3 +1,4 @@
+import React from 'react';
 import ClearedTradeResultTableSection from "../../components/newFlow/clearedTrade/ClearedTradeResultTableSection";
 
 export default function ClearedTrade(){

@@ -1,3 +1,4 @@
+import React from 'react';
 import ClearingDateRangeTTradeResultTableSection
     from "../../components/newFlow/clearingDateRangeT/ClearingDateRangeTTradeResultTableSection";
 

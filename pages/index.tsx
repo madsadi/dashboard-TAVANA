@@ -1,3 +1,4 @@
+import React from 'react';
 import type {NextPage} from 'next'
 import {useAuth} from 'react-oidc-context';
 import Image from "next/image";

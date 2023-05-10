@@ -21,7 +21,7 @@ export default function JobInfoComponent(){
                     <LabelValue title={'کد پستی شرکت'} value={profile?.companyPostalCode}/>
                     <LabelValue title={'سایت شرکت'} value={profile?.companyWebSite}/>
                     <LabelValue title={'تاریخ استخدام'} value={profile?.employmentDate ? jalali(profile?.employmentDate)?.date:'-'}/>
-                    <LabelValue title={'عنوان شغل'} value={profile?.job?.title}/>
+                    <LabelValue title={'عنوان شغل'} value={profile?.job?.name}/>
                     <LabelValue title={'سمت کاری'} value={profile?.position}/>
                     <LabelValue title={'آدرس شرکت'} value={profile?.companyAddress}/>
                 </div>

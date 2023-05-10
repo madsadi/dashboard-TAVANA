@@ -1,3 +1,4 @@
+import React from 'react';
 import ResultTable from "../../components/commission/instrumentType/ResultTable";
 
 export default function InstrumentType() {

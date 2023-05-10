@@ -10,19 +10,7 @@ import {validate as uuidValidate} from 'uuid';
 import useQuery from "../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../api/constants";
 import DateCell from "../common/table/DateCell";
-
-type initialType = { StartDate: string, EndDate: string, name: string, isActive: any }
-const initialValue = {
-    name: '',
-    isActive: null,
-    StartDate: ``,
-    EndDate: ``,
-}
-const listOfFilters = [
-    {title: 'isActive', name: 'وضعیت', type: 'selectInput'},
-    {title: 'name', name: 'عنوان قانون', type: 'input'},
-    {title: 'date', name: 'تاریخ شروع و پایان', type: 'date'},
-]
+import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 export const MarketRulesContext = createContext({})
 export default function RulesList() {
@@ -146,8 +134,7 @@ export default function RulesList() {
         <MarketRulesContext.Provider value={{selectedRows,setSelectedRows,dynamicOptions, fetchData, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent listOfFilters={listOfFilters}
-                                     initialValue={initialValue}
+                    <SearchComponent module={ModuleIdentifier.MARKET_RULES_MANAGEMENT}
                                      onSubmit={fetchData}
                     />
                 </AccordionComponent>
