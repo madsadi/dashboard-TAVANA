@@ -1,6 +1,5 @@
 import React, {useState, createContext, useEffect} from "react";
 import dynamic from 'next/dynamic'
-
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const Toolbar = dynamic(() => import('../../components/customer-management/Toolbar'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))

@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from "react";
 import dynamic from "next/dynamic";
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 import { jalali} from "../../components/common/functions/common-funcions";
 import {useRouter} from "next/router";
 import useQuery from "../../hooks/useQuery";

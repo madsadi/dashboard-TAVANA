@@ -1,10 +1,10 @@
 import React, {createContext, useMemo, useState} from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'))
-const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'));
+const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'));
 import {jalali} from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
 import { OrderType} from "../../dictionary/Enums";

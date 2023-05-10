@@ -1,5 +1,5 @@
-import '../styles/globals.css'
-import type {AppProps} from 'next/app'
+import '../styles/globals.css';
+import type {AppProps} from 'next/app';
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import {Provider} from "react-redux";
 import store from "../store";

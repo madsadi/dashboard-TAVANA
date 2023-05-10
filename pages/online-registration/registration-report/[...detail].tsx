@@ -25,7 +25,7 @@ import {ADMIN_GATEWAY} from "../../../api/constants";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
-    const {data:info,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/request/SearchUser`})
+    const {data:info,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/request/SearchUser`});
     let data = info?.result?.pagedData[0]
     const router = useRouter()
     let dep = router.query?.detail?.[0]

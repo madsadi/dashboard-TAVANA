@@ -1,8 +1,8 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import { jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {IDP} from "../../api/constants";
@@ -82,7 +82,7 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-    const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserActivityLogs`})
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserActivityLogs`});
 
     return (
         <div className={'flex flex-col h-full flex-1'}>

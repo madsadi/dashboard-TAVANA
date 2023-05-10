@@ -1,8 +1,8 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import {useRouter} from "next/router";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";

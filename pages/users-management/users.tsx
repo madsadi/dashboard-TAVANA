@@ -1,11 +1,11 @@
 import React, {createContext, useState} from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'))
-const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'))
-const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'))
+const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'));
+const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'));
+const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'));
 import useQuery from '../../hooks/useQuery';
 import {IDP} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";

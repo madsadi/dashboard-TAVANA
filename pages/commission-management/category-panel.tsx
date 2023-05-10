@@ -1,3 +1,4 @@
+import React from 'react';
 import CategoryResultTableSection from "../../components/commission/categoryPanel/CategoryResultTableSection";
 
 export default function CategoryPanel(){
