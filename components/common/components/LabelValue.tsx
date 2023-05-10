@@ -5,7 +5,7 @@ export default function LabelValue ({title,value}:{title:string,value:any}){
                 {title}:
             </div>}
             <div className={'font-semibold text-base'}>
-                {value}
+                {value ? value:'-'}
             </div>
         </div>
     )

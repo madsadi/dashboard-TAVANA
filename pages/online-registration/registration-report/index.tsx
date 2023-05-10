@@ -252,7 +252,7 @@ export default function OnlineRegistration() {
                 <TableComponent data={data?.result?.pagedData}
                                 loading={loading}
                                 columnDefStructure={columnDefStructure}
-                                rowId={['userId']}
+                                rowId={['userId','id']}
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 detailCellRendererParams={detailCellRendererParams}
