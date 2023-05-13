@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {throwToast} from "../components/common/functions/notification";
 
 
 const useMutation = ({url = '', method = 'post'}) => {

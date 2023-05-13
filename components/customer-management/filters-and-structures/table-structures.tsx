@@ -2,7 +2,12 @@ import React from "react";
 import {marketerTypeEnum, stationTypeEnum, TypeOfBranches} from "../../../dictionary/Enums";
 import DateCell from "../../common/table/DateCell";
 import ToggleButton from "../ToggleButton";
-
+import {CopyButton} from "../../common/components/CopyButton";
+import {LinkIcon} from "@heroicons/react/20/solid";
+import useQuery from "../../../hooks/useQuery";
+import {ADMIN_GATEWAY} from "../../../api/constants";
+import {getLink} from "../../../api/users-management.api";
+import {throwToast} from "../../common/functions/notification";
 export const branchesColumnDefStructure = [
     {
         headerCheckboxSelection: true,
@@ -457,12 +462,50 @@ export const marketerColumnDefStructure = [
         headerName: 'شناسه شعبه',
     },
     {
-        field: 'marketerRefCode',
-        headerName: 'کدبازاریابی',
-    }, {
         field: 'reagentRefCode',
         headerName: 'کد معرفی',
-    }, {
+    },
+    {
+        field: 'reagentUrl',
+        headerName: 'لینک معرف',
+        cellRendererSelector: () => {
+            const getLinkReq = async (id:string)=>{
+                await getLink({marketerId:id})
+                    .then((res)=>{
+                        navigator.clipboard.writeText(res?.result.reagentUrl)
+                        throwToast({type:'success',value:'لینک معرف کپی شد'})
+                    })
+                    .catch(()=>throwToast({type:'error',value:'دوباره امتحان کنید'}))
+            }
+            return {component: (rowData:any)=> <>{rowData?.data.reagentRefCode ?
+                    <button className={'flex mt-1 border border-border rounded-lg p-1 bg-white items-center h-6'}
+                            onClick={() => getLinkReq(rowData?.data?.id)}><LinkIcon className={'h-4 w-4'}/> کپی
+                    </button>:null
+                }</>}
+        },
+    },
+    {
+        field: 'marketerRefCode',
+        headerName: 'کدبازاریابی',
+    },
+    {
+        field: 'marketerUrl',
+        headerName: 'لینک بازاریاب',
+        cellRendererSelector: () => {
+            const getLinkReq = async (id:string)=>{
+                await getLink({marketerId:id})
+                    .then((res)=>{
+                        navigator.clipboard.writeText(res?.result.marketerUrl)
+                        throwToast({type:'success',value:'لینک بازاریاب کپی شد'})
+                    })
+                    .catch(()=>throwToast({type:'error',value:'دوباره امتحان کنید'}))
+            }
+            return {component: (rowData:any)=><>{rowData?.data.marketerRefCode ? <button
+                    className={'flex mt-1 border border-border rounded-lg p-1 bg-white items-center h-6'}
+                    onClick={() => getLinkReq(rowData?.data?.id)}><LinkIcon className={'h-4 w-4'}/> کپی </button>:null}</>}
+        },
+    },
+    {
         field: 'isActive',
         headerName: 'فعال/غیرفعال',
         cellRendererSelector: () => {
