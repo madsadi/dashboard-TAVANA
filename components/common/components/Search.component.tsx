@@ -1,5 +1,5 @@
 import InputComponent from "./InputComponent";
-import React, {Dispatch, useCallback, useState} from "react";
+import React, {Dispatch, useCallback, useEffect, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 
@@ -12,6 +12,12 @@ const SearchComponent: React.FC<any> = (props) => {
         from: null,
         to: null
     });
+
+    useEffect(()=>{
+        if (initialValue && !query){
+            setQuery(initialValue)
+        }
+    },[initialValue])
 
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};

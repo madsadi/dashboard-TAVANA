@@ -8,7 +8,8 @@
           {"title": "PhoneNumber", "name": "تلفن همراه", "type": "input"},
           {"title": "Email", "name": "ایمیل", "type": "input"},
           {"title": "FirstName", "name": "نام", "type": "input"},
-          {"title": "FamilyName", "name": "نام خانوادگی", "type": "input"},
+          {"title": "NationalId", "name": "کد ملی", "type": "input"},
+          {"title": "LastName", "name": "نام خانوادگی", "type": "input"},
           {"title": "RoleId", "name": "آیدی نقش کاربر", "type": "input"},
           {"title": "IsActive", "name": "وضعیت", "type": "selectInput"},
           {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
