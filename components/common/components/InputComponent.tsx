@@ -7,6 +7,7 @@ import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "./SymbolSearchSecion";
 import {DayValue} from "react-modern-calendar-datepicker";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/20/solid";
+import RoleSearchSection from "./RoleSearchSection";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -453,6 +454,12 @@ const InputComponent = ({
                 return (
                     <div>
                         <SymbolSearchSection query={query} queryUpdate={onChange}/>
+                    </div>
+                )
+            case "searchRoles":
+                return (
+                    <div>
+                        <RoleSearchSection query={query} queryUpdate={onChange}/>
                     </div>
                 )
             default:

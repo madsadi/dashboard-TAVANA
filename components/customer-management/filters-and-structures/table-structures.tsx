@@ -469,19 +469,7 @@ export const marketerColumnDefStructure = [
         field: 'reagentUrl',
         headerName: 'لینک معرف',
         cellRendererSelector: () => {
-            const getLinkReq = async (id:string)=>{
-                await getLink({marketerId:id})
-                    .then((res)=>{
-                        navigator.clipboard.writeText(res?.result.reagentUrl)
-                        throwToast({type:'success',value:'لینک معرف کپی شد'})
-                    })
-                    .catch(()=>throwToast({type:'error',value:'دوباره امتحان کنید'}))
-            }
-            return {component: (rowData:any)=> <>{rowData?.data.reagentRefCode ?
-                    <button className={'flex mt-1 border border-border rounded-lg p-1 bg-white items-center h-6'}
-                            onClick={() => getLinkReq(rowData?.data?.id)}><LinkIcon className={'h-4 w-4'}/> کپی
-                    </button>:null
-                }</>}
+            return {component: (rowData:any)=> <CopyButton condition={rowData?.data?.reagentRefCode} id={rowData?.data?.id} entity={'reagentUrl'}/>}
         },
     },
     {
@@ -492,17 +480,7 @@ export const marketerColumnDefStructure = [
         field: 'marketerUrl',
         headerName: 'لینک بازاریاب',
         cellRendererSelector: () => {
-            const getLinkReq = async (id:string)=>{
-                await getLink({marketerId:id})
-                    .then((res)=>{
-                        navigator.clipboard.writeText(res?.result.marketerUrl)
-                        throwToast({type:'success',value:'لینک بازاریاب کپی شد'})
-                    })
-                    .catch(()=>throwToast({type:'error',value:'دوباره امتحان کنید'}))
-            }
-            return {component: (rowData:any)=><>{rowData?.data.marketerRefCode ? <button
-                    className={'flex mt-1 border border-border rounded-lg p-1 bg-white items-center h-6'}
-                    onClick={() => getLinkReq(rowData?.data?.id)}><LinkIcon className={'h-4 w-4'}/> کپی </button>:null}</>}
+            return {component: (rowData:any)=><CopyButton condition={rowData?.data?.marketerRefCode} id={rowData?.data?.id} entity={'marketerUrl'}/>}
         },
     },
     {
