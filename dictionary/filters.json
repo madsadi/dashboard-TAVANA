@@ -10,7 +10,7 @@
           {"title": "FirstName", "name": "نام", "type": "input"},
           {"title": "NationalId", "name": "کد ملی", "type": "input"},
           {"title": "LastName", "name": "نام خانوادگی", "type": "input"},
-          {"title": "RoleId", "name": "آیدی نقش کاربر", "type": "input"},
+          {"title": "RoleId", "name": "عنوان نقش کاربر", "type": "searchRoles"},
           {"title": "IsActive", "name": "وضعیت", "type": "selectInput"},
           {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
         ],
