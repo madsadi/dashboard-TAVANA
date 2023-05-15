@@ -14,9 +14,7 @@ export const uploadPhoto = async (body: any) => {
 }
 
 export const getLink = async (body: any) => {
-    const log = await axios.get(`${ADMIN_GATEWAY}/request/marketer/GetReferalLink`, {
-        params: body
-    })
+    const log = await axios.get(`${ADMIN_GATEWAY}/request/marketer/GetReferalLink?marketerId=${body.marketerId}`)
         .then(({data}) => {
             return data
         })
