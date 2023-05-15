@@ -4,11 +4,12 @@ import {getLink} from "../../../api/users-management.api";
 import {throwToast} from "../functions/notification";
 
 export const CopyButton=({entity,id,condition}:{entity:string,id:string,condition:boolean})=>{
+
     const getLinkReq = async (id:string)=>{
         await getLink({marketerId:id})
             .then((res)=>{
-                navigator.clipboard.writeText(res?.result[entity])
                 throwToast({type:'success',value:'لینک کپی شد'})
+                navigator.clipboard.writeText(res?.result[entity])
             })
             .catch(()=>throwToast({type:'customError',value:'دوباره امتحان کنید'}))
     }
