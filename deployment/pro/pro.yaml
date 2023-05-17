@@ -1,0 +1,79 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: admin-panel-client
+  labels:
+    name: admin-panel-client
+    instance: admin-panel-client
+data:
+  AllowedOrigins : ""
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-panel-client
+spec:
+  selector:
+    matchLabels:
+      app: admin-panel-client
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: admin-panel-client
+    spec:
+      containers:
+      - name: admin-panel-client
+        image: "registry.tech1a.co:81/repository/tech1a-docker-registry/admin-panel-client:latest"
+        envFrom:
+          - configMapRef:
+              name: admin-panel-client
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-panel-client
+  labels:
+    app: admin-panel-client
+spec:
+  type: ClusterIP
+  selector:
+    app: admin-panel-client
+  ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 3000
+ 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.org/server-snippets: |
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-Proto $scheme;
+  name: admin-panel-client
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - admin-panel.tavanabroker.ir
+    secretName: tavana-ir
+  rules:
+    - host: admin-panel.tavanabroker.ir
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: admin-panel-client
+              port:
+                number: 443
+
+

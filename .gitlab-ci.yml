@@ -1,14 +1,26 @@
 variables:
     IMAGE_NAME: admin-panel-client
-    IMAGE_TAG: 1.0.1
-    SMS_Message: "admin-panel-client-->Build-OK"
+    IMAGE_TAG_PID: $CI_PIPELINE_ID 
+    IMAGE_TAG_TAG: $CI_COMMIT_TAG          
+    SMS_MESSAGE_BUILD: $IMAGE_NAME-->Build-OK
+    SMS_MESSAGE_Deploy_Dev: $IMAGE_NAME-->Deployed->Develop
+    SMS_MESSAGE_Deploy_Stg: $IMAGE_NAME-->Deployed->Stage
+    SMS_MESSAGE_Deploy_Pro: $IMAGE_NAME-->Deployed->Production
     REGISTRY_HOST: $DOCKER_PRIVATE_REGISTRY_IP:$DOCKER_PRIVATE_REGISTRY_PORT
+    NAMESPACE_Dev: dev-oms
+    NAMESPACE_Stg: stg-oms
+    NAMESPACE_Pro: pro-oms
 
 stages:
   - Code Quality
   - Build
-  - Deploy
-  - Notifications
+  - Build SMS Notifications
+  - Deploy Dev
+  - Deploy Dev Notifications
+  - Deploy Staging
+  - Deploy Stg Notifications
+  - Deploy Production
+  - Deploy Pro Notifications
 
 sonarqube-analysis:
   stage: Code Quality
@@ -20,11 +32,12 @@ sonarqube-analysis:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
-  script:
+  script: 
       - "apt-get update"
       - "apt-get install --yes openjdk-11-jre nuget gss-ntlmssp"
       - "dotnet tool install --global dotnet-sonarscanner"
       - "export PATH=\"$PATH:$HOME/.dotnet/tools\""
+      #- dotnet nuget add source "http://$DOCKER_PRIVATE_REGISTRY_IP:8081/repository/nuget-hosted/index.json" -u "admin" -p "$DOCKER_PRIVATE_REGISTRY_PASSWORD" --store-password-in-clear-text --valid-authentication-types "basic"
       - "dotnet sonarscanner begin /k:\"$IMAGE_NAME\" /d:sonar.login=\"$SONAR_User\" /d:sonar.password=\"$SONAR_PASSWORD\"  /d:\"sonar.host.url=$SONAR_HOST_URL\" "
       - "dotnet restore "
       - "dotnet build "
@@ -32,6 +45,13 @@ sonarqube-analysis:
   allow_failure: true
   #only:
     #- main
+
+###############################################################################################
+#########                                                                             #########
+#########                                   Build                                       #########
+#########                                                                             #########
+###############################################################################################
+
 
 build:
     stage: Build
@@ -42,21 +62,33 @@ build:
       entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh $DOCKER_DAEMON_OPTIONS" ]
     variables:
       DOCKER_DAEMON_OPTIONS: "--insecure-registry=$REGISTRY_HOST"
-    needs:
-      - job: sonarqube-analysis
     script:
         - docker login -u "$DOCKER_PRIVATE_REGISTRY_USER" -p "$DOCKER_PRIVATE_REGISTRY_PASSWORD" "http://$REGISTRY_HOST"
-        - docker build -t $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG .
-        - docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG
-        - docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest
+        - DOCKER_BUILDKIT=0  docker build  --build-arg  DOCKER_PRIVATE_REGISTRY_PASSWORD=$DOCKER_PRIVATE_REGISTRY_PASSWORD -t $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest .
         - docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest
-    # only:
-    # - main 
+        - docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
+        - docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
+        - (if [ "$CI_COMMIT_TAG" != "" ]; then docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG;docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG; fi);
+        #- docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
+        #- docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
+ 
     after_script:
         -  echo "Build succeeded"
+build-SMS:
+  stage: Build SMS Notifications
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
+  script:
+    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_BUILD&flash=0"
+  needs:
+    - job: build
 
-deploy:
-  stage: Deploy
+###############################################################################################
+#########                                                                             #########
+#########                                   Deploy Develop                            #########
+#########                                                                             #########
+###############################################################################################
+deploy-dev:
+  stage: Deploy Dev
   variables: 
     DOCKER_HOST: "ssh://$DOCKER_SWARM_IP"
   before_script:
@@ -68,20 +100,88 @@ deploy:
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H $DOCKER_SWARM_IP >> ~/.ssh/known_hosts
   script:
-    - docker stack rm $IMAGE_NAME 
+    - docker service rm $IMAGE_NAME"_"$IMAGE_NAME
     - docker stack deploy -c docker-compose.yml $IMAGE_NAME
   needs:
     - job: build
   retry: 2
+  only:
+    - dev
 
-SMS:
-  stage: Notifications
-  image: $DOCKER_PRIVATE_REGISTRY_IP:$DOCKER_PRIVATE_REGISTRY_PORT/repository/tech1a-docker-registry/curlimages/curl
+deploy-dev-SMS:
+  stage: Deploy Dev Notifications
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
   script:
-    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_Message&flash=0"
+    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_Deploy_Dev&flash=0"
   needs:
-    - job: deploy
-  #only:
-    #- main
+    - job: deploy-dev
+  only:
+    - dev
+
+###############################################################################################
+#########                                                                             #########
+#########                                   Deploy Staging                            #########
+#########                                                                             #########
+###############################################################################################
+
+deploy-staging:
+  stage: Deploy Staging
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/dtzar/helm-kubectl:3.0.3
+  script:
+    - mkdir -p ~/.kube
+    - chmod 700 ~/.kube
+    - echo "$K8S_STG" | base64 -d > ~/.kube/config
+    - kubectl -n "$NAMESPACE_Stg" apply -f deployment/stage/stage.yaml
+    - kubectl set image -n "$NAMESPACE_Stg" deployment/$IMAGE_NAME $IMAGE_NAME=$REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
+  needs:
+    - job: build
+  retry: 2
+  only:
+    - stg
 
 
+
+deploy-stg-SMS:
+  stage: Deploy Stg Notifications
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
+  script:
+    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_Deploy_Stg&flash=0"
+  needs:
+    - job: deploy-staging
+  only:
+    - stg
+
+
+###############################################################################################
+#########                                                                             #########
+#########                                 Deploy Production                           #########
+#########                                                                             #########
+###############################################################################################
+
+deploy-pro:
+  stage: Deploy Production
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/dtzar/helm-kubectl:3.0.3
+  script:
+    - mkdir -p ~/.kube
+    - chmod 700 ~/.kube
+    - echo "$K8S_PRO" | base64 -d > ~/.kube/config
+    - kubectl -n "$NAMESPACE_Pro" apply -f deployment/pro/pro.yaml
+    - kubectl set image -n "$NAMESPACE_Pro" deployment/$IMAGE_NAME $IMAGE_NAME=$REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
+  needs:
+    - job: build
+  retry: 2
+  only:
+    - main
+    - tags
+  when: manual
+
+deploy-pro-SMS:
+  stage: Deploy Pro Notifications
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
+  script:
+    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_Deploy_Pro&flash=0"
+  needs:
+    - job: deploy-pro
+  only:
+    - main
+    - tags
