@@ -3,15 +3,17 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  env: {
-    COMMISSION_BASE_URL:'http://172.24.65.20:9007/api',
-    NETFLOW:'http://172.24.65.20:8091',
-    ADMIN_GATEWAY:'http://172.24.65.20:9020/api',
-    FILE_SERVER: 'http://cluster.tech1a.co:9073/api/',
-    IDP:'https://cluster.tech1a.co/api',
-    MARKETER_ADMIN:'http://stgmarketer-admin.tech1a.co',
-    BASE_URL:'http://cluster.tech1a.co/api'
-  },
+  publicRuntimeConfig: {
+    app: {
+      COMMISSION_BASE_URL: process.env.COMMISSION_BASE_URL,
+      NETFLOW: process.env.NETFLOW,
+      ADMIN_GATEWAY: process.env.ADMIN_GATEWAY,
+      FILE_SERVER: process.env.FILE_SERVER,
+      IDP: process.env.IDP,
+      MARKETER_ADMIN: process.env.MARKETER_ADMIN,
+      BASE_URL: process.env.BASE_URL
+    }
+  }
 }
 
 module.exports = nextConfig
