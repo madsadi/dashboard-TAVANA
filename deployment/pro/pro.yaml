@@ -7,6 +7,13 @@ metadata:
     instance: admin-panel-client
 data:
   AllowedOrigins : ""
+  COMMISSION_BASE_URL: http://172.24.65.20:9007/api
+  NETFLOW: http://172.24.65.20:8091
+  ADMIN_GATEWAY: http://172.24.65.20:9020/api
+  IDP: "https://idp.tavanabroker.ir/api"
+  BASE_URL: "https://otg.tavanabroker.ir/api"
+  FILE_SERVER: http://cluster.tech1a.co:9073/api/
+  MARKETER_ADMIN: http://cluster.tech1a.co/api
 ---
 apiVersion: apps/v1
 kind: Deployment
