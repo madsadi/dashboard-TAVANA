@@ -12,7 +12,7 @@ export default function Edit() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'edit')
 
     const {fetchData, query: searchQuery, selectedRows} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${IDP}/users/update`})
+    const {mutate} = useMutation({url:`${IDP}/api/users/update`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

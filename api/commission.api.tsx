@@ -8,7 +8,7 @@ export const commissionSearch = async (body: any) => {
             bodyToQuery.push(`${item}=`+body[`${item}`])
         }
     })
-    const search = await axios.get(`${COMMISSION_BASE_URL}/CommissionInstrumentType/Search?${bodyToQuery.join('&')}`,
+    const search = await axios.get(`${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search?${bodyToQuery.join('&')}`,
         {
             headers: {
                 'Accept': '*/*'

@@ -37,7 +37,7 @@ export default function Edit() {
     const {selectedRows,fetchData,dynamicOptions,query:rulesQuery,setSelectedRows} = useContext<any>(MarketRulesContext)
     const {fetchAsyncData:remoteUrl} = useQuery({})
     const [modal, setModal] = useState<boolean>(false)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/UpdateRule`,method:'PUT'})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/UpdateRule`,method:'PUT'})
     const [query, setQuery] = useState<queryType>(initialQuery)
     const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
         variable: null,

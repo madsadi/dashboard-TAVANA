@@ -18,9 +18,9 @@ export default function UploadComponent({
                                             documents,
                                             setDocs
                                         }: { item: any, documents: any, setDocs: Dispatch<any> }) {
-    const {mutate: upload} = useMutation({url: `${FILE_SERVER}admin-file-manager/upload`})
-    const {mutate: unlockFile} = useMutation({url: `${FILE_SERVER}admin-file-manager/unlock-file`})
-    const {mutate: lockFile} = useMutation({url: `${FILE_SERVER}admin-file-manager/lock-file`})
+    const {mutate: upload} = useMutation({url: `${FILE_SERVER}/api/admin-file-manager/upload`})
+    const {mutate: unlockFile} = useMutation({url: `${FILE_SERVER}/api/admin-file-manager/unlock-file`})
+    const {mutate: lockFile} = useMutation({url: `${FILE_SERVER}/api/admin-file-manager/lock-file`})
     const [lock, setLock] = useState<boolean>(false);
     const [images, setImages] = useState<ImageType[]>([]);
 

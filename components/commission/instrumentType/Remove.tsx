@@ -8,7 +8,7 @@ import { COMMISSION_BASE_URL } from "../../../api/constants";
 export default function Remove(){
     const  [modal,setModal] = useState(false)
     const {onSubmit, query: insQuery,selectedRows} = useContext<any>(InstrumentTypeContext)
-    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Delete`,method:"PUT"})
+    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Delete`,method:"PUT"})
     const confirmDeleteSelected = () => {
         if (selectedRows.length ===1) {
             setModal(true);

@@ -91,7 +91,7 @@ export default function TradingDayTimetable() {
             },
         }
     ]
-    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/request/GetTradingDayTimetable`})
+    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetTradingDayTimetable`})
 
     const fetchHandler = (query:any)=>{
         if (query.StartDate && query?.EndDate){

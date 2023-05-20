@@ -98,7 +98,7 @@ export default function UserInfo() {
 
 const ToggleButton = ()=>{
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
-    const {mutate} = useMutation({url:`${IDP}/account/2fa`,method:"PUT"})
+    const {mutate} = useMutation({url:`${IDP}/api/account/2fa`,method:"PUT"})
     const [enable,isEnable] = useState(data?.twoFactorEnabled)
 
     const twoFactorHandler = async ()=>{

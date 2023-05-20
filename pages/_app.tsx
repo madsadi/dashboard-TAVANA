@@ -17,13 +17,14 @@ import {ToastContainer} from "react-toastify";
 import {SWRConfig} from 'swr';
 import {fetcher} from "../api/fetcher";
 import {WebStorageStateStore} from "oidc-client-ts";
+import {IDP} from "../api/constants";
 
 React.useLayoutEffect = React.useEffect
 
 function MyApp({Component, pageProps}: AppProps) {
     const toast: any = useRef(null);
 
-    const authorityPath = 'https://cluster.tech1a.co';
+    const authorityPath = IDP;
     // const authorityPath = 'http://localhost:3000';
     const clientId = 'admin-gateway';
     const clientURL = typeof window !== 'undefined' && window.location.origin;

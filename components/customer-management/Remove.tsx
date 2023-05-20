@@ -10,7 +10,7 @@ export default function Remove() {
     const [modal, setModal] = useState(false)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
     const { page } = usePageStructure()
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Delete`,method:"DELETE"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/${page.api}/Delete`,method:"DELETE"})
     const { fetchData,query,selectedRows,setSelectedRows } = useContext<any>(CustomerManagement)
 
     useEffect(()=>{

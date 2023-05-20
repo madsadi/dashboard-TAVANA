@@ -144,7 +144,7 @@ export default function OnlineRegistration() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,loading,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/request/SearchUser`})
+    const {data,query,loading,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchUser`})
 
     const router = useRouter();
 

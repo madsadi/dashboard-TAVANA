@@ -12,7 +12,7 @@ import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 export default function EditRegStateComponent() {
     const {selectedRows,fetchData,query:searchQuery} = useContext<any>(OnlineRegContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION,'edit')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditRegistrationState`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/EditRegistrationState`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const router = useRouter()

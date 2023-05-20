@@ -6,7 +6,7 @@ import {throwToast} from "../common/functions/notification";
 
 export default function ToggleButton(props: { api:string,data: { isActive: boolean,id:string } }) {
     const [isChecked,setIsChecked] = useState(props.data.isActive)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${props.api}/UpdateActivationStatus`,method:"PUT"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/${props.api}/UpdateActivationStatus`,method:"PUT"})
     const changeStatus = async ()=>{
         await mutate({id:props.data.id,isActive:!isChecked})
             .then((res)=> {

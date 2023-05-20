@@ -9,7 +9,7 @@ import {ADMIN_GATEWAY} from "../../../api/constants";
 export default function OrdersCancel() {
     const [modal, setModal] = useState(false)
     const {query, fetchData, selectedRows, setSelectedRows} = useContext<any>(OrdersContext)
-    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/request/Cancel`})
+    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/api/request/Cancel`})
     const cancelMultipleOrders = (e: any) => {
         const cancel = async (order: any) => {
             await mutate({

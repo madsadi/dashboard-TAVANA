@@ -12,7 +12,7 @@ import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 export default function Edit() {
     const {page} = usePageStructure()
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page.api}/Update`,method:"PUT"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/${page.api}/Update`,method:"PUT"})
     const {toolbar} = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],'modal')
 
     const [modal, setModal] = useState(false)

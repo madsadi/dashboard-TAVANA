@@ -82,7 +82,7 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-    const {data,query,fetchData}:any = useQuery({url:`${IDP}/users/SearchUserActivityLogs`});
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/api/users/SearchUserActivityLogs`});
 
     return (
         <div className={'flex flex-col h-full flex-1'}>

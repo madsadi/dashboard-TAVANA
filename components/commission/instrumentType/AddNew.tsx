@@ -13,7 +13,7 @@ export default function AddNew() {
     const [modal, setModal] = useState(false)
     const {fetchData, query: insQuery} = useContext<any>(InstrumentTypeContext)
     const [query, setQuery] = useState<any>(null);
-    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Add`})
+    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Add`})
 
     const addNewHandler = async (e: any) => {
         e?.preventDefault()

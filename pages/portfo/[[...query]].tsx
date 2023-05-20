@@ -103,7 +103,7 @@ export default function PortfolioBook(){
 
     const router = useRouter()
     const [query, setQuery] = useState<initialType>(initialValue)
-    const {data,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/request/SearchIntradayPortfolioBook`})
+    const {data,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolioBook`})
 
     let userInfo = data?.result?.pagedData?.[0]
     let dep = router.query?.query?.[0]

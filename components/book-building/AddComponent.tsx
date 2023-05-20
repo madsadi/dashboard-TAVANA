@@ -12,7 +12,7 @@ import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 export default function AddModal() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.BOOK_BUILDING,'add')
-    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/request/addBookBuilding`})
+    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/api/request/addBookBuilding`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({

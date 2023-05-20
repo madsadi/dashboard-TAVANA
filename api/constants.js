@@ -1,12 +1,12 @@
 import getConfig from "next/config";
 const { publicRuntimeConfig: config } = getConfig();
 
-export const BASE_URL =
+export const ONLINE_TRADING =
     typeof window !== "undefined"
-        ? window._env_.BASE_URL
-            ? window._env_.BASE_URL
-            : config.app.BASE_URL
-        : config.app.BASE_URL;
+        ? window._env_.ONLINE_TRADING
+            ? window._env_.ONLINE_TRADING
+            : config.app.ONLINE_TRADING
+        : config.app.ONLINE_TRADING;
 
 export const IDP =
     typeof window !== "undefined"

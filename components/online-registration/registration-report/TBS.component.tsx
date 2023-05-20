@@ -11,7 +11,7 @@ export const TBSComponent=()=>{
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')
     let userId = queryData?.[0]?.split('=')[1]
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/PushToTbs`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/PushToTbs`})
 
     const TbsHandler = ()=>{
         const Tbs =async (row:any,index:number)=>{

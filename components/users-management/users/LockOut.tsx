@@ -12,7 +12,7 @@ import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 export default function LockOut(){
     const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'lock-out')
     const {selectedRows} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${IDP}/users/set-lockout-end-date`})
+    const {mutate} = useMutation({url:`${IDP}/api/users/set-lockout-end-date`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDay, setSelectedDay] = useState<DayValue>(null);

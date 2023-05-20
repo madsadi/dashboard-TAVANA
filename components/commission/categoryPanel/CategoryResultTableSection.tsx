@@ -99,7 +99,7 @@ export default function CategoryResultTableSection() {
             minWidth: 120
         }
     ]
-    const {data,loading,fetchData} = useQuery({url:`${COMMISSION_BASE_URL}/CommissionCategory/Search`})
+    const {data,loading,fetchData} = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>

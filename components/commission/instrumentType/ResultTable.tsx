@@ -97,7 +97,7 @@ export default function ResultTable() {
             minWidth: 120,
         }
     ]
-    const {fetchData,query,loading,data} = useQuery({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Search`})
+    const {fetchData,query,loading,data} = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
     const [selectedRows, setSelectedRows] = useState<any>([]);
 
     return (

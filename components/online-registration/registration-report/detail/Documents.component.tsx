@@ -30,7 +30,7 @@ export default function DocumentsComponent() {
         }
     ]
     const [document,setDocuments] = useState<any>([])
-    const {fetchAsyncData} = useQuery({url:`${FILE_SERVER}admin-file-manager/get-content`})
+    const {fetchAsyncData} = useQuery({url:`${FILE_SERVER}/api/admin-file-manager/get-content`})
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')

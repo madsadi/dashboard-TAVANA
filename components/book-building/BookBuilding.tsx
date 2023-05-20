@@ -129,7 +129,7 @@ export default function BookBuilding() {
     const [data, setData] = useState([])
 
     const submitHandler = (query:any)=>{
-        fetchAsyncData({},`${ADMIN_GATEWAY}/request/`+query?.api)
+        fetchAsyncData({},`${ADMIN_GATEWAY}/api/request/`+query?.api)
             .then((res)=>setData(res?.data?.result))
             .catch(() => throwToast({type:'customError',value:'نا موفق'}))
     }

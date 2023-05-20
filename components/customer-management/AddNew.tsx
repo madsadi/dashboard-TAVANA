@@ -16,7 +16,7 @@ export default function AddNew() {
     const [modal, setModal] = useState(false)
     const { page } = usePageStructure()
     const { fetchData,query:searchQuery } = useContext<any>(CustomerManagement)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/${page?.api}/Add`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/${page?.api}/Add`})
     const {toolbar} = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],'modal')
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
