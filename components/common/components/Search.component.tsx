@@ -45,7 +45,7 @@ const SearchComponent: React.FC<any> = (props) => {
                 }
             </div>
             <div className={'flex space-x-3 space-x-reverse float-left mb-4 mt-10'}>
-                <button className={'button bg-red-600'} onClick={(e) => {
+                <button className={'button bg-red-600'} type={'button'} onClick={(e) => {
                     e.preventDefault()
                     setQuery(initialValue)
                     setSelectedDayRange({from: null, to: null})
