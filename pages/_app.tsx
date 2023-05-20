@@ -29,6 +29,7 @@ function MyApp({Component, pageProps}: AppProps) {
     const clientId = 'admin-gateway';
     const clientURL = typeof window !== 'undefined' && window.location.origin;
 
+    console.log(authorityPath,'ad')
     const oidcConfig = {
         userStore: typeof window !== 'undefined' ? new WebStorageStateStore({ store: window.localStorage}): undefined,
         authority: `${authorityPath}`,
