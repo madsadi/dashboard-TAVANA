@@ -12,7 +12,7 @@ const userInputs = [
 
 export const PasswordModal=({open,setOpen}:{open:boolean,setOpen:any})=>{
     const [query,setQuery] = useState({})
-    const {mutate} = useMutation({url:`${IDP}/account/change-password`})
+    const {mutate} = useMutation({url:`${IDP}/api/account/change-password`})
 
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};

@@ -9,7 +9,7 @@ import useQuery from "../../../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../../../api/constants";
 
 export default function BankComponent() {
-    const {data,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/request/GetUserBankAccounts`})
+    const {data,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetUserBankAccounts`})
     const router = useRouter()
     let dep = router.query?.detail?.[0]
 

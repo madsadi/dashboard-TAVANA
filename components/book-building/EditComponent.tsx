@@ -13,7 +13,7 @@ import {ModuleIdentifier} from "../common/functions/Module-Identifier";
 
 export default function EditModal() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.BOOK_BUILDING,'edit')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/EditBookBuilding`,method:"PUT"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/EditBookBuilding`,method:"PUT"})
     const {selectedRows} = useContext<any>(BookBuildingContext)
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)

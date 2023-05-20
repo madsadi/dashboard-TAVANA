@@ -12,7 +12,7 @@ export default function InsOrderCancel(){
     const [modal,setModal] = useState(false)
     const [query,setQuery] = useState<any>(null)
     const {toolbar} =useSearchFilters(ModuleIdentifier.ONLINE_CANCEL,'instrumentOrder')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/GlobalCancel/CancelAllOrderForInstrument`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/GlobalCancel/CancelAllOrderForInstrument`})
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};
         _query[key] = value

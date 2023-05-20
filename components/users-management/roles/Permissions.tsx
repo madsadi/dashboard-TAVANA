@@ -12,10 +12,10 @@ import useMutation from "../../../hooks/useMutation";
 export default function Permissions() {
     const {userDetail: userDetailValue} = useSelector((state: any) => state.userManagementConfig)
     const {selectedRows, setSelectedRows} = useContext<any>(RolesContext)
-    const {fetchAsyncData: getRolePermission} = useQuery({url: `${IDP}/roles/get-role-permission`})
-    const {fetchAsyncData: servicePermissions} = useQuery({url: `${IDP}/service-permossion/get-all-service-permission`})
-    const {mutate: addPermissionToRole} = useMutation({url: `${IDP}/roles/add-permission-to-role`})
-    const {mutate:removePermissionFromRole} = useMutation({url:`${IDP}/roles/remove-permission-from-role`})
+    const {fetchAsyncData: getRolePermission} = useQuery({url: `${IDP}/api/roles/get-role-permission`})
+    const {fetchAsyncData: servicePermissions} = useQuery({url: `${IDP}/api/service-permossion/get-all-service-permission`})
+    const {mutate: addPermissionToRole} = useMutation({url: `${IDP}/api/roles/add-permission-to-role`})
+    const {mutate:removePermissionFromRole} = useMutation({url:`${IDP}/api/roles/remove-permission-from-role`})
 
     const [modal, setModal] = useState(false)
     const [permissions, setPermissions] = useState<any>([])

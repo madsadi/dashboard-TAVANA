@@ -19,7 +19,7 @@ import {IDP} from "../../../api/constants";
 export default function Example() {
     const [open, setOpen] = useState(false)
     const [info, setInfo] = useState<{lastName:string,firstName:string}>({lastName:'',firstName:''})
-    const {fetchAsyncData} = useQuery({url:`${IDP}/users/GetCurrentUserInfo`})
+    const {fetchAsyncData} = useQuery({url:`${IDP}/api/users/GetCurrentUserInfo`})
     const auth = useAuth();
     const router = useRouter();
     let query = router.query?.page?.[0]

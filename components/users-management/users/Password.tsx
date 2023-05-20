@@ -11,7 +11,7 @@ import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 export default function Password(){
     const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'password')
     const {selectedRows} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${IDP}/users/change-user-password`})
+    const {mutate} = useMutation({url:`${IDP}/api/users/change-user-password`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

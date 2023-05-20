@@ -11,7 +11,7 @@ import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 export default function AddNew() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles,'add')
     const {fetchData, query: searchQuery} = useContext<any>(RolesContext)
-    const {mutate} = useMutation({url:`${IDP}/roles/create`})
+    const {mutate} = useMutation({url:`${IDP}/api/roles/create`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

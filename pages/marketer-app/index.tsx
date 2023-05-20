@@ -82,7 +82,7 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-    const {data,query,fetchData}:any = useQuery({url:`${MARKETER_ADMIN}/users/SearchUserActivityLogs`})
+    const {data,query,fetchData}:any = useQuery({url:`${MARKETER_ADMIN}/api/users/SearchUserActivityLogs`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>

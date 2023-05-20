@@ -8,7 +8,7 @@ import {throwToast} from "../../common/functions/notification";
 
 export const InquirySejamStateComponent = () => {
     const {selectedRows} = useContext<any>(OnlineRegContext)
-    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/request/checkUserSejamState`})
+    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/checkUserSejamState`})
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')

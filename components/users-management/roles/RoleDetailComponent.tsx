@@ -7,7 +7,7 @@ import {IDP} from "../../../api/constants";
 export default function RoleDetailComponent({data}: { data: any }) {
     const [rowData, setRowData] = useState([])
     const {userDetail} = useSelector((state: any) => state.userManagementConfig)
-    const {fetchAsyncData: getRolePermission} = useQuery({url: `${IDP}/roles/get-role-permission`})
+    const {fetchAsyncData: getRolePermission} = useQuery({url: `${IDP}/api/roles/get-role-permission`})
 
     const columnDefStructure: any = [
         {field: 'id', headerName: 'شناسه'},

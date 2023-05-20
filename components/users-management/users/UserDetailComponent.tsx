@@ -8,7 +8,7 @@ import {IDP} from "../../../api/constants";
 
 export default function UserDetailComponent({data}:{data:any}){
     const {userDetail} = useSelector((state:any)=>state.userManagementConfig)
-    const {data:userRoles,fetchData}:any = useQuery({url:`${IDP}/users/get-user-roles`})
+    const {data:userRoles,fetchData}:any = useQuery({url:`${IDP}/api/users/get-user-roles`})
 
     const columnDefStructure: any = [
         {

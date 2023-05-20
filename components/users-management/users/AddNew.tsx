@@ -11,7 +11,7 @@ import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 export default function AddNew() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'add')
     const {fetchData, query: searchQuery} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${IDP}/users/create`})
+    const {mutate} = useMutation({url:`${IDP}/api/users/create`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

@@ -1,8 +1,8 @@
 import useSWR from "swr"
-import {BASE_URL} from "../api/constants";
+import {ONLINE_TRADING} from "../api/constants";
 
 export function useSearchSymbol(endPoint:string){
-    const {data,mutate,error}=useSWR({url:`${BASE_URL}/request${endPoint}`},{revalidateOnMount:false})
+    const {data,mutate,error}=useSWR({url:`${ONLINE_TRADING}/api/api/request${endPoint}`},{revalidateOnMount:false})
 
     return{
         data:data,mutate:mutate,error:error,isLoading:!data && !error

@@ -40,7 +40,7 @@ export default function Roles() {
         }
     ]
 
-    const {data, query, fetchData}: any = useQuery({url: `${IDP}/roles/search`})
+    const {data, query, fetchData}: any = useQuery({url: `${IDP}/api/roles/search`})
     const [selectedRows, setSelectedRows] = useState<any>([])
 
     return (

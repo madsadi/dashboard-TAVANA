@@ -7,7 +7,7 @@ import {ADMIN_GATEWAY} from "../../api/constants";
 
 export default function RemoveModal() {
     const {onSubmit, query: bookBuildingQuery,selectedRows} = useContext<any>(BookBuildingContext)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/DeleteBookBuilding`,method:"DELETE"})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/DeleteBookBuilding`,method:"DELETE"})
     const [modal, setModal] = useState(false);
 
     const confirmDeleteSelected = () => {

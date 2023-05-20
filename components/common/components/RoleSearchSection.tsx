@@ -7,7 +7,7 @@ import useQuery from "../../../hooks/useQuery";
 import {IDP} from "../../../api/constants";
 
 export default function RoleSearchSection({query,queryUpdate}: {query:any,queryUpdate:any}) {
-    const {fetchAsyncData}: any = useQuery({url: `${IDP}/roles/search`})
+    const {fetchAsyncData}: any = useQuery({url: `${IDP}/api/roles/search`})
     const [page, setPage] = useState(1)
     const [findings, setFindings] = useState<any>([])
     const [open, setOpen] = useState(true)

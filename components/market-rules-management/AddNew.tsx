@@ -34,7 +34,7 @@ export default function AddNew() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.MARKET_RULES_MANAGEMENT,'add')
     const {toolbar:extra} = useSearchFilters(ModuleIdentifier.MARKET_RULES_MANAGEMENT,'extraAdd')
     const {fetchData,dynamicOptions, query: rulesQuery} = useContext<any>(MarketRulesContext)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/request/AddRule`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/AddRule`})
     const {fetchAsyncData:remoteUrl} = useQuery({})
     const [modal, setModal] = useState<boolean>(false)
     const [query, setQuery] = useState<queryType>(initialQuery)

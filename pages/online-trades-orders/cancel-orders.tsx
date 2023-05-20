@@ -91,7 +91,7 @@ export default function CancelOrders() {
             headerName: 'خطا',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/GlobalCancel/SearchGlobalCancelOrder`})
+    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/GlobalCancel/SearchGlobalCancelOrder`})
 
     const detailCellRendererParams = useMemo(() => {
         return {

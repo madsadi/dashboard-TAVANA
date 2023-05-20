@@ -7,7 +7,7 @@ import { COMMISSION_BASE_URL } from "../../../api/constants";
 
 export default function Edit(){
     const  [modal,setModal] = useState(false)
-    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/CommissionInstrumentType/Update`,method:"PUT"})
+    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Update`,method:"PUT"})
     const {selectedRows} = useContext<any>(InstrumentTypeContext)
     const [query, setQuery] = useState<{sectorCode:string,subSectorCode:string}>({sectorCode:'',subSectorCode:''});
 

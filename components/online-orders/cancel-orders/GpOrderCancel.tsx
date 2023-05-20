@@ -11,7 +11,7 @@ import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 export default function GpOrderCancel(){
     const [modal,setModal] = useState(false)
     const [query,setQuery] = useState<any>(null)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/GlobalCancel/CancelAllOrderForInstrumentGroup`})
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/GlobalCancel/CancelAllOrderForInstrumentGroup`})
     const {toolbar} =useSearchFilters(ModuleIdentifier.ONLINE_CANCEL,'gpOrder')
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};

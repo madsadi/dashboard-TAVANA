@@ -10,7 +10,7 @@ export const SendMessageComponent = () => {
     const [modal, setModal] = useState(false)
     const [selectedDay, setSelectedDay] = useState<DayValue>(null)
     const [query, setQuery] = useState({date:''})
-    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/request/SendMessageToUncompletedUsers`})
+    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/SendMessageToUncompletedUsers`})
 
     const sendMessage=async (e:any)=>{
         e.preventDefault()

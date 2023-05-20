@@ -11,7 +11,7 @@ import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 export default function Edit() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles,'edit')
     const {fetchData, query: searchQuery, selectedRows,setSelectedRows} = useContext<any>(RolesContext)
-    const {mutate} = useMutation({url:`${IDP}/roles/update`})
+    const {mutate} = useMutation({url:`${IDP}/api/roles/update`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 

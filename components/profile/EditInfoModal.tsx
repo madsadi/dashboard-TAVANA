@@ -16,7 +16,7 @@ const userInputs = [
 
 export const EditInfoModal=({open,setOpen}:{open:boolean,setOpen:any})=>{
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
-    const {mutate} = useMutation({url:`${IDP}/account`,method:'PUT'})
+    const {mutate} = useMutation({url:`${IDP}/api/account`,method:'PUT'})
     const [query,setQuery] = useState({})
     const editHandler = async (e:any)=>{
         e.preventDefault()

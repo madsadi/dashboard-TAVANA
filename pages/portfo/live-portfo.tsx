@@ -51,7 +51,7 @@ export default function LivePortfo() {
             headerName: 'حجم قابل فروش',
         }
     ]
-    const {data,loading,query,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/request/SearchIntradayPortfolio`})
+    const {data,loading,query,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolio`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>

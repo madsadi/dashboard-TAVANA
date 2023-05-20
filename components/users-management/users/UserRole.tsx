@@ -10,10 +10,10 @@ import {throwToast} from "../../common/functions/notification";
 
 export default function UserRole() {
     const {userDetail:userDetailValue} = useSelector((state:any)=>state.userManagementConfig)
-    const {mutate:addUserToRole} = useMutation({url:`${IDP}/users/add-user-to-role`})
-    const {mutate:removeUserFromRole} = useMutation({url:`${IDP}/users/remove-user-from-role`})
-    const {fetchAsyncData:getUserRoles} = useQuery({url:`${IDP}/users/get-user-roles`})
-    const {fetchAsyncData:searchRoles} = useQuery({url:`${IDP}/roles/search`})
+    const {mutate:addUserToRole} = useMutation({url:`${IDP}/api/users/add-user-to-role`})
+    const {mutate:removeUserFromRole} = useMutation({url:`${IDP}/api/users/remove-user-from-role`})
+    const {fetchAsyncData:getUserRoles} = useQuery({url:`${IDP}/api/users/get-user-roles`})
+    const {fetchAsyncData:searchRoles} = useQuery({url:`${IDP}/api/roles/search`})
     const {selectedRows} = useContext<any>(UsersContext)
     const [modal, setModal] = useState(false)
     const [roles, setRoles] = useState<any>([])
