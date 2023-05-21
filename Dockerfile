@@ -12,13 +12,13 @@ ENV TZ=Asia/Tehran
 
 
 #Set BaseUrl
-ENV COMMISSION_BASE_URL=""
-ENV NETFLOW=""
-ENV ADMIN_GATEWAY=""
-ENV IDP=""
-ENV ONLINE_TRADING=""
-ENV FILE_SERVER=""
-ENV MARKETER_ADMIN=""
+ENV COMMISSION_BASE_URL=http://172.24.65.20:9007
+ENV  NETFLOW=http://172.24.65.20:8091
+ENV  ADMIN_GATEWAY=http://172.24.65.20:9020
+ENV  IDP=https://cluster.tech1a.co
+ENV  ONLINE_TRADING=http://cluster.tech1a.co
+ENV FILE_SERVER=http://cluster.tech1a.co:9073
+ENV  MARKETER_ADMIN=http://cluster.tech1a.co
 
 # create & set working directory
 RUN mkdir -p /usr/src
