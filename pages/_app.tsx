@@ -94,11 +94,9 @@ function MyApp({Component, pageProps}: AppProps) {
                         fetcher: fetcher
                     }}
                 >
-                    <ThemeProvider attribute="class">
                         <Layout>
                             <Component {...pageProps} />
                         </Layout>
-                    </ThemeProvider>
                 </SWRConfig>
             </Provider>
         </AuthProvider>
