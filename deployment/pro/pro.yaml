@@ -9,7 +9,7 @@ data:
   AllowedOrigins : ""
   COMMISSION_BASE_URL: http://172.24.65.20:9007
   NETFLOW: http://172.24.65.20:8091
-  ADMIN_GATEWAY: http://172.24.65.20:9020
+  ADMIN_GATEWAY: https://admin-gateway.tavanabroker.ir
   IDP: "https://idp.tavanabroker.ir"
   ONLINE_TRADING: "https://otg.tavanabroker.ir"
   FILE_SERVER: http://cluster.tech1a.co:9073
