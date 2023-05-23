@@ -40,7 +40,7 @@ module.exports = {
             rose: colors.rose,
             box: '#1e1e1e',
             border: '#eee',
-            active: '#977529',
+            active: '#F5BE32',
             selected: '#224865',
         }),
     },
