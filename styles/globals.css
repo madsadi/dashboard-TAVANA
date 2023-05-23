@@ -10,7 +10,14 @@ body {
 :root {
     color-scheme: light !important;
 }
+
+.st0{
+    fill:red;
+}
 @media (prefers-color-scheme: dark) {
+    .st0{
+        fill:blue;
+    }
     html {
         color-scheme: light;
     }

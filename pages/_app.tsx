@@ -4,7 +4,7 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import {Provider} from "react-redux";
 import store from "../store";
 import Head from "next/head";
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {AuthProvider} from "react-oidc-context"
 import Router from "next/router";
 import '../api/axios_interceptor';
@@ -18,11 +18,13 @@ import {SWRConfig} from 'swr';
 import {fetcher} from "../api/fetcher";
 import {WebStorageStateStore} from "oidc-client-ts";
 import {IDP} from "../api/constants";
+import {ThemeProvider, useTheme} from "next-themes";
 
 React.useLayoutEffect = React.useEffect
 
 function MyApp({Component, pageProps}: AppProps) {
     const toast: any = useRef(null);
+    const {theme, systemTheme} = useTheme();
 
     const authorityPath = IDP;
     // const authorityPath = 'http://localhost:3000';
@@ -30,7 +32,7 @@ function MyApp({Component, pageProps}: AppProps) {
     const clientURL = typeof window !== 'undefined' && window.location.origin;
 
     const oidcConfig = {
-        userStore: typeof window !== 'undefined' ? new WebStorageStateStore({ store: window.localStorage}): undefined,
+        userStore: typeof window !== 'undefined' ? new WebStorageStateStore({store: window.localStorage}) : undefined,
         authority: `${authorityPath}`,
         client_id: `${clientId}`,
         scope: 'openid IdentityServerApi customerinfo',
@@ -53,10 +55,25 @@ function MyApp({Component, pageProps}: AppProps) {
         Router.push('/dashboard')
     }
 
+    const getFaviconPath = (isDarkMode = false) => {
+        return `/logo-${isDarkMode ? "dark" : "light"}.svg`;
+    };
+
     return (
         <AuthProvider {...oidcConfig} onSigninCallback={onSignIn}>
             <Provider store={store}>
                 <Head>
+                    <link rel='shortcut icon' href={getFaviconPath(systemTheme==='dark')}/>
+                    {/*<link*/}
+                    {/*    href="/logo-dark.svg"*/}
+                    {/*    rel="icon"*/}
+                    {/*    media="(prefers-color-scheme: light)"*/}
+                    {/*/>*/}
+                    {/*<link*/}
+                    {/*    href="/logo-light.svg"*/}
+                    {/*    rel="icon"*/}
+                    {/*    media="(prefers-color-scheme: dark)"*/}
+                    {/*/>*/}
                     <title>پنل ادمین | tech1a</title>
                 </Head>
                 <ToastContainer
@@ -73,13 +90,15 @@ function MyApp({Component, pageProps}: AppProps) {
                 <SWRConfig
                     value={{
                         revalidateOnFocus: false,
-                        revalidateOnMount:false,
+                        revalidateOnMount: false,
                         fetcher: fetcher
                     }}
                 >
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
+                    <ThemeProvider attribute="class">
+                        <Layout>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </ThemeProvider>
                 </SWRConfig>
             </Provider>
         </AuthProvider>
