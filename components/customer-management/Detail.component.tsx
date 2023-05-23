@@ -52,6 +52,28 @@ export default function DetailComponent({data}: { data: any }) {
     const {page} = usePageStructure()
 
     const component: any = {
+        'marketer': <div className={'flex flex-wrap p-5 gap-4'}>
+            <div>
+
+                شناسه مشتری:
+                <span className={'mx-2'}>
+                            {data?.customerId}
+                        </span>
+            </div>
+            <div>
+                شناسه شرکت:
+                <span className={'mx-2'}>
+                            {data?.subsidiaryId}
+                        </span>
+            </div>
+            <div>
+                شناسه شعبه:
+                <span className={'mx-2'}>
+                            {data?.branchId}
+                        </span>
+            </div>
+
+        </div>,
         'branch': <div className={'p-5'}>
             شناسه آدرس:
             <span className={'mx-2'}>

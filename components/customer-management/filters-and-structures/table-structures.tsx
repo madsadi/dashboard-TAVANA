@@ -437,6 +437,11 @@ export const marketerColumnDefStructure = [
     {
         field: 'id',
         headerName: 'شناسه بازاریاب',
+        cellRenderer: 'agGroupCellRenderer',
+    },
+    {
+        field: 'title',
+        headerName: 'بازاریاب',
     },
     {
         field: 'type',
@@ -454,12 +459,12 @@ export const marketerColumnDefStructure = [
         },
     },
     {
-        field: 'customerId',
-        headerName: 'شناسه مشتری',
+      field:'branchTitle',
+      headerName:'عنوان شعبه'
     },
     {
-        field: 'branchId',
-        headerName: 'شناسه شعبه',
+        field:'subsidiaryTitle',
+        headerName:'عنوان شرکت'
     },
     {
         field: 'reagentRefCode',

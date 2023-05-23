@@ -7,7 +7,6 @@ class MyDocument extends Document {
         return (
             <Html className={'h-full '} dir={"rtl"}>
                 <Head>
-                    <link rel='shortcut icon' href='/logo-black.svg'/>
                     <script src="/static/assets/js/env-config.js"></script>
                 </Head>
                 <body className={'custom-scrollbar'}>
