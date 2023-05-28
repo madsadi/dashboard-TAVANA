@@ -11,7 +11,8 @@ axios.interceptors.request.use((value) => {
         let token = JSON.parse(oidcStorage)?.access_token
         value.headers = {
             'accept': '*/*',
-            'Authorization': 'Bearer '+`${token}`
+            'Authorization': 'Bearer '+`${token}`,
+            "Access-Control-Allow-Origin":"*"
         }
 
         return value

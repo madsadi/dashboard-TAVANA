@@ -18,13 +18,11 @@ import {SWRConfig} from 'swr';
 import {fetcher} from "../api/fetcher";
 import {WebStorageStateStore} from "oidc-client-ts";
 import {IDP} from "../api/constants";
-import {ThemeProvider, useTheme} from "next-themes";
 
 React.useLayoutEffect = React.useEffect
 
 function MyApp({Component, pageProps}: AppProps) {
     const toast: any = useRef(null);
-    const {theme, systemTheme} = useTheme();
 
     const authorityPath = IDP;
     // const authorityPath = 'http://localhost:3000';
@@ -56,19 +54,20 @@ function MyApp({Component, pageProps}: AppProps) {
     }
 
     const getFaviconPath = (isDarkMode = false) => {
-        return `/logo-${isDarkMode ? "dark" : "light"}.svg`;
+        return `/logo-dark.svg`;
     };
 
+    useEffect(() => {
+        if (typeof window !== undefined) {
+            console.log(window.matchMedia("(prefers-color-scheme: dark)"))
+        }
+    }, [])
     return (
         <AuthProvider {...oidcConfig} onSigninCallback={onSignIn}>
             <Provider store={store}>
                 <Head>
-                    <link rel='shortcut icon' href={getFaviconPath(systemTheme==='dark')}/>
-                    {/*<link*/}
-                    {/*    href="/logo-dark.svg"*/}
-                    {/*    rel="icon"*/}
-                    {/*    media="(prefers-color-scheme: light)"*/}
-                    {/*/>*/}
+                    <link rel='icon' href={getFaviconPath(true)} type="image/svg+xml" />
+
                     {/*<link*/}
                     {/*    href="/logo-light.svg"*/}
                     {/*    rel="icon"*/}
@@ -94,9 +93,9 @@ function MyApp({Component, pageProps}: AppProps) {
                         fetcher: fetcher
                     }}
                 >
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
                 </SWRConfig>
             </Provider>
         </AuthProvider>

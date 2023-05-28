@@ -3,8 +3,6 @@ import axios from 'axios';
 
 
 const useMutation = ({url = '', method = 'post'}) => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     const mutate = async (body: any = {},params={},headers={}) => {
         const purifyObject = (input:any)=>{
@@ -25,7 +23,7 @@ const useMutation = ({url = '', method = 'post'}) => {
         });
     };
 
-    return {data, loading, mutate};
+    return {mutate};
 };
 
 export default useMutation;
