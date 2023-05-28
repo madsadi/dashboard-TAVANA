@@ -11,23 +11,14 @@ body {
     color-scheme: light !important;
 }
 
-.st0{
-    fill:red;
-}
 @media (prefers-color-scheme: dark) {
-    .st0{
-        fill:blue;
-    }
-    html {
-        color-scheme: light;
-    }
     :root{
-        color-scheme:light !important;
         --b3:180 1.9608% 90% !important;
         --b1:0 0% 100% !important;
         --b2:0 0% 94.902% !important;
     }
 }
+
 #__next {
     display: flex;
     flex-direction: column;

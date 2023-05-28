@@ -49,6 +49,7 @@ export default function DocumentsComponent() {
                     })
                     setDocuments(_D)
                 })
+                .catch((err)=>console.log(err.message,'err'))
         }
         getDocument()
     },[])

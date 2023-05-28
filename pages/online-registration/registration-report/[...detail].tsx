@@ -22,6 +22,7 @@ import {TBSComponent} from "../../../components/online-registration/registration
 import DocumentsComponent from "../../../components/online-registration/registration-report/detail/Documents.component";
 import useQuery from "../../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../../api/constants";
+import {AgreementToTbs} from "../../../components/online-registration/registration-report/AgreementToTbs";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
@@ -50,6 +51,7 @@ export default function Detail() {
                         <EditRegStateComponent/>
                         <InquirySejamStateComponent/>
                         <TBSComponent/>
+                        <AgreementToTbs/>
                     </div>
                 </div>
                 {data ? <div className={'w-full space-y-3'}>
