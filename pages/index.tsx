@@ -7,7 +7,6 @@ import {useTheme} from "next-themes";
 const Home: NextPage = () => {
     const auth = useAuth();
     const {theme, systemTheme} = useTheme();
-    console.log(theme, systemTheme, 'theme')
 
     return (
         <div className={'flex h-screen w-screen bg-[url(/leaf-tavana.jpg)] bg-no-repeat bg-center bg-cover'}>
