@@ -100,6 +100,7 @@ export default function TradingDayTimetable() {
             throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
         }
     }
+
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>

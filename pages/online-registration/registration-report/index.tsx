@@ -11,6 +11,8 @@ import useQuery from "../../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../../api/constants";
 import {throwToast} from "../../../components/common/functions/notification";
 import {ModuleIdentifier} from "../../../components/common/functions/Module-Identifier";
+import {useDispatch} from "react-redux";
+import {query} from "../../../store/page.config";
 
 export const OnlineRegContext = createContext({})
 export default function OnlineRegistration() {
@@ -129,33 +131,25 @@ export default function OnlineRegistration() {
             field:'detail',
             headerName: 'جزییات',
             flex:0,
-            maxWidth: 100,
+            width: 90,
             cellStyle:{
                 cursor:'pointer',
                 display:'flex'
             },
-            onCellClicked:(rowData:any)=>router.push(`/online-registration/registration-report/userId=${rowData.data.userId}&StartDate=${query.StartDate}&EndDate=${query.EndDate}`),
+            // onCellClicked:(rowData:any)=>,
             cellRendererSelector: () => {
                 return {
-                    component: ()=><EllipsisHorizontalCircleIcon className={'h-5 w-5 my-auto'}/>,
+                    component: (rowData:any)=><div className={'flex h-full w-full'} onClick={()=>router.push(`/online-registration/registration-report/userId=${rowData.data.userId}&StartDate=${searchQuery.StartDate}&EndDate=${searchQuery.EndDate}`)}><EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/></div>,
                 };
             },
         }
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,loading,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchUser`})
+    const {data,query:searchQuery,loading,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchUser`})
 
     const router = useRouter();
-
-    const onSubmit = async (query: any) => {
-        if (query?.StartDate && query?.EndDate) {
-            fetchData(query)
-        } else {
-            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد.'})
-        }
-    };
-
+    const dispatch = useDispatch()
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
@@ -242,11 +236,15 @@ export default function OnlineRegistration() {
         };
     }, []);
 
+    const fetchDataHandler=(newQuery:any)=>{
+        dispatch(query(newQuery))
+        fetchData(newQuery)
+    }
     return (
-        <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,fetchData,query}}>
+        <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,fetchData,searchQuery,data}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={onSubmit} module={ModuleIdentifier.ONLINE_REGISTRATION}/>
+                    <SearchComponent onSubmit={fetchDataHandler} module={ModuleIdentifier.ONLINE_REGISTRATION}/>
                 </AccordionComponent>
                 <UserRegToolbarComponent/>
                 <TableComponent data={data?.result?.pagedData}
@@ -260,8 +258,8 @@ export default function OnlineRegistration() {
                                 rowSelection={'multiple'}
                                 pagination={true}
                                 totalCount={data?.result?.totalCount}
-                                fetcher={onSubmit}
-                                query={query}
+                                fetcher={fetchData}
+                                query={searchQuery}
                 />
             </div>
         </OnlineRegContext.Provider>

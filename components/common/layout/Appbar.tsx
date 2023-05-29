@@ -24,7 +24,6 @@ export default function Example() {
     const router = useRouter();
     let query = router.query?.page?.[0]
     const dispatch = useDispatch()
-
     useEffect(() => {
         setOpen(false)
     }, [router.pathname, query])
@@ -36,6 +35,7 @@ export default function Example() {
                 dispatch(userInfo(res?.data?.result))
             })
     }, [])
+
 
     return (
         <Popover className="fixed top-0 w-full z-10 bg-white border-b border-border">
