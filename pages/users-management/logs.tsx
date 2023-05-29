@@ -7,6 +7,7 @@ import { jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {IDP} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import {throwToast} from "../../components/common/functions/notification";
 
 export default function Users() {
     const columnDefStructure: any = [
@@ -84,10 +85,18 @@ export default function Users() {
     ]
     const {data,query,fetchData}:any = useQuery({url:`${IDP}/api/users/SearchUserActivityLogs`});
 
+    const fetchDataHandler=(searchQuery:any)=>{
+        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(searchQuery.UserId) || !searchQuery.UserId){
+            fetchData(searchQuery)
+        }else{
+            throwToast({type:'warning',value:'فرمت شناسه کاربری باید UUID/GUID باشد.'})
+        }
+    }
+
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.USER_MANAGEMENT_logs}/>
+                <SearchComponent onSubmit={fetchDataHandler} module={ModuleIdentifier.USER_MANAGEMENT_logs}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             columnDefStructure={columnDefStructure}
