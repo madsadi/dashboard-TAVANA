@@ -17,15 +17,17 @@
         "initialValue": {
           "PageNumber": 1,
           "PageSize": 20,
-          "UserId": "",
           "UserName": "",
+          "UserId": "",
+          "FirstName": "",
+          "LastName": "",
+          "NationalId": "",
           "PhoneNumber": "",
           "Email": "",
-          "FirstName": "",
-          "FamilyName": "",
           "RoleId": "",
           "IsActive": null,
-          "date": ""
+          "StartDate": "",
+          "EndDate": ""
         }
       },
       "toolbar": {
@@ -120,9 +122,15 @@
           "PageSize": 20,
           "StartDate": "",
           "EndDate": "",
-          "userId": "",
-          "nationalId": "",
-          "phoneNumber": ""
+          "uniqueId": "",
+          "mobileNumber": "",
+          "personType": null,
+          "marketerId": "",
+          "reagentId": "",
+          "personOrigin": null,
+          "isSejami": null,
+          "sejamStatus": null,
+          "registrationState": null
         }
       },
     "toolbar": {
@@ -254,6 +262,9 @@
           "PageSize": 20,
           "Title": "",
           "Code": "",
+          "BrokerTitle": "",
+          "BranchTitle": "",
+          "Type": null,
           "StartDate": "",
           "EndDate": ""
         }
@@ -297,8 +308,8 @@
         "PageSize": 20,
         "FirstName": "",
         "LastName": "",
-        "Type": "",
         "Mobile": "",
+        "Type": "",
         "SubsidiaryId": "",
         "BranchId": "",
         "IsActive": "",

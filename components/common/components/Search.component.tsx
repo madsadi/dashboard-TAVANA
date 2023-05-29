@@ -1,10 +1,13 @@
 import InputComponent from "./InputComponent";
-import React, {Dispatch, useCallback, useEffect, useState} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
+import {useSelector} from "react-redux";
+import {useRouter} from "next/router";
 
 type PropsType = { query: any, setQuery: Dispatch<any>, onSubmit: Function, listOfFilters: any, initialValue: any, dynamicOptions: any }
 const SearchComponent: React.FC<any> = (props) => {
+    const {query:prevQuery}=useSelector((state:any)=>state.pageConfig)
     const {onSubmit,module, dynamicOptions = []} = props
     const {filters,initialValue} = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
@@ -13,11 +16,18 @@ const SearchComponent: React.FC<any> = (props) => {
         to: null
     });
 
+    const router = useRouter()
+    // useEffect(()=>{
+    //     if (initialValue && !query){
+    //         setQuery(initialValue)
+    //     }
+    // },[initialValue])
+
     useEffect(()=>{
-        if (initialValue && !query){
-            setQuery(initialValue)
+        if (prevQuery && router.pathname.startsWith('/online-registration/registration-report')){
+            setQuery(prevQuery)
         }
-    },[initialValue])
+    },[prevQuery])
 
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};
@@ -49,7 +59,6 @@ const SearchComponent: React.FC<any> = (props) => {
                     e.preventDefault()
                     setQuery(initialValue)
                     setSelectedDayRange({from: null, to: null})
-                    // onSubmit({})
                 }}>
                     لغو فیلتر ها
                 </button>

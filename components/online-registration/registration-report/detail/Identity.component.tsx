@@ -13,7 +13,7 @@ export default function IdentityComponent(){
 
     return(
         <>
-            {profile?.legalPerson ?
+            {profile ? (profile?.legalPerson ?
                 <DaisyAccordionComponent title={'اطلاعات هویتی حقوقی'}>
                     <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
                         <LabelValue title={'نام شخص حقوقی'} value={profile?.legalPerson?.companyName}/>
@@ -44,7 +44,7 @@ export default function IdentityComponent(){
                                     value={`${profile?.privatePerson?.serial + `/` + profile?.privatePerson?.seriShChar + profile?.privatePerson?.seriSh}`}/>
                         <LabelValue title={'شماره شناسنامه'} value={profile?.privatePerson?.shNumber}/>
                     </div>
-                </DaisyAccordionComponent>}
+                </DaisyAccordionComponent>):null}
         </>
     )
 }

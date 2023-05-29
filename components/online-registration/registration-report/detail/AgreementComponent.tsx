@@ -42,7 +42,7 @@ export default function AgreementComponent() {
     return (
         <>
             {
-                lists ? <DaisyAccordionComponent title={'قرار داد ها'}>
+                lists?.filter((item:any)=>item.extension==='.pdf').length ? <DaisyAccordionComponent title={'قرار داد ها'}>
                     <div className={'grid md:grid-cols-4 grid-cols-1 gap-4'}>
                         {lists?.filter((item:any)=>item.extension==='.pdf').map((item: any) => {
                             return (
