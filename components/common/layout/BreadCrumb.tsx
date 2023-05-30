@@ -72,7 +72,7 @@ export default function BreadCrumbComponent() {
     }, [router.pathname,router.query?.page?.[0]])// eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <div className={'flex items-center border border-border rounded-md'}>
+        <div className={'hidden md:flex items-center border border-border rounded-md'}>
             <Link href={'/dashboard'} className={'hover:bg-border transition-all w-full px-3 p-1'}>
                 <HomeIcon className={'h-6.5 w-6'}/>
             </Link>

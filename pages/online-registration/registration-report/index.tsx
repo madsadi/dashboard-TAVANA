@@ -9,7 +9,6 @@ import {formatNumber} from "../../../components/common/functions/common-funcions
 import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../../api/constants";
-import {throwToast} from "../../../components/common/functions/notification";
 import {ModuleIdentifier} from "../../../components/common/functions/Module-Identifier";
 import {useDispatch} from "react-redux";
 import {query} from "../../../store/page.config";
@@ -149,7 +148,7 @@ export default function OnlineRegistration() {
     const {data,query:searchQuery,loading,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchUser`})
 
     const router = useRouter();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
@@ -240,6 +239,7 @@ export default function OnlineRegistration() {
         dispatch(query(newQuery))
         fetchData(newQuery)
     }
+
     return (
         <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,fetchData,searchQuery,data}}>
             <div className={'flex flex-col h-full flex-1'}>

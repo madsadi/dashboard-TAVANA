@@ -305,7 +305,11 @@ input[type=number] {
 @layer components {
     .button {
         @apply
-        text-sm text-white p-1 px-2 rounded px-10 transition-all hover:opacity-70
+        text-sm text-white p-1 px-2 rounded md:px-10 transition-all hover:opacity-70
+    }
+
+    .toolbar{
+        @apply grid grid-cols-3 md:flex gap-2
     }
 
 }

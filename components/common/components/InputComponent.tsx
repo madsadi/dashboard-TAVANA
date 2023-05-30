@@ -3,7 +3,7 @@ import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picke
 import moment from "jalali-moment";
 import {dateRangeHandler, FindEnum} from "../functions/common-funcions";
 import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
+import {CheckIcon, ChevronDownIcon, XCircleIcon} from "@heroicons/react/20/solid";
 import SymbolSearchSection from "./SymbolSearchSecion";
 import {DayValue} from "react-modern-calendar-datepicker";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/20/solid";
@@ -156,7 +156,13 @@ const InputComponent = ({
             case "selectInput":
                 return (
                     <div>
-                        <label className={'mt-auto'} htmlFor={title}>{name}</label>
+                        <label className={'mt-auto flex items-center'} htmlFor={title}>
+                            {name}
+                            {query[title] || query[title] === false ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                                    onChange(title, '')
+                                }}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => {
@@ -174,9 +180,12 @@ const InputComponent = ({
                                                 <span
                                                     className="ml-2 block truncate text-sm">{FindEnum(title, dynamicsOption, name).find((item: any) => item.id === query?.[title])?.title}</span>
                                             </span>
-                                            <span className="pointer-events-none flex items-center mr-auto">
-                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
-                                                                 aria-hidden="false"/>
+                                            <span
+                                                className="pointer-events-none flex items-center mr-auto">
+                                                                                                <ChevronDownIcon
+                                                                                                    className="h-5 w-5 text-gray-400"
+                                                                                                    aria-hidden="false"
+                                                                                                />
                                             </span>
                                         </Listbox.Button>
 
