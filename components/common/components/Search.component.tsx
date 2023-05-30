@@ -40,7 +40,7 @@ const SearchComponent: React.FC<any> = (props) => {
             e.preventDefault()
             onSubmit(query)
         }}>
-            <div className="grid grid-cols-5 gap-4">
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
                 {
                     filters?.map((item: any) => {
                         return <InputComponent key={item.title}

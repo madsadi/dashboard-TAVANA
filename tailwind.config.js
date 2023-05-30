@@ -55,7 +55,7 @@ module.exports = {
                         maxWidth: '640px',
                     },
                     '@screen md': {
-                        maxWidth: '768px',
+                        maxWidth: '100%',
                     },
                     '@screen lg': {
                         maxWidth: '1280px',

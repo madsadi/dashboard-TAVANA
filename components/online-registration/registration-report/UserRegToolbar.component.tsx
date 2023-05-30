@@ -8,7 +8,7 @@ import {AgreementToTbs} from "./AgreementToTbs";
 export default function UserRegToolbarComponent(){
     return(
         <div className={'border-x border-border'}>
-            <div className={'flex p-2 space-x-2 space-x-reverse'}>
+            <div className={'toolbar p-2 '}>
                 <EditRegStateComponent/>
                 <InquirySejamStateComponent/>
                 <SendMessageComponent/>

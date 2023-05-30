@@ -6,7 +6,7 @@ import React from "react";
 export default function InstrumentTypeToolbar(){
     return(
         <div className={'border-x border-border'}>
-            <div className={'flex p-2 space-x-2 space-x-reverse'}>
+            <div className={'toolbar p-2'}>
                 <AddNew/>
                 <Edit/>
                 <Remove/>

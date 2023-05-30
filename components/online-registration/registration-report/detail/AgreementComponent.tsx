@@ -43,7 +43,7 @@ export default function AgreementComponent() {
         <>
             {
                 lists?.filter((item:any)=>item.extension==='.pdf').length ? <DaisyAccordionComponent title={'قرار داد ها'}>
-                    <div className={'grid md:grid-cols-4 grid-cols-1 gap-4'}>
+                    <div className={'grid xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4'}>
                         {lists?.filter((item:any)=>item.extension==='.pdf').map((item: any) => {
                             return (
                                 <div
@@ -63,9 +63,9 @@ export default function AgreementComponent() {
                                     </div>
                                     <div className={'flex flex-col'}>
                                         <div className={'flex space-x-2 space-x-reverse mb-1'}>
-                                            <a className={'button text-center grow bg-lime-400 py-1'} href={`data:application/pdf;base64,${item?.content}`}
+                                            <a className={'text-white rounded text-center grow bg-lime-400 py-1'} href={`data:application/pdf;base64,${item?.content}`}
                                                download={item.Name}>دانلود</a>
-                                            <button className={'button grow bg-red-400 py-1'} onClick={()=>setSelected(item?.id)}>نمایش</button>
+                                            <button className={'text-white rounded grow bg-red-400 py-1'} onClick={()=>setSelected(item?.id)}>نمایش</button>
                                         </div>
                                         <object className={'grow'} data={`data:application/pdf;base64,${item?.content}`} type="application/pdf" width="100%" height="100%">
                                             <p>{item.Name}</p>

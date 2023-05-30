@@ -6,7 +6,7 @@ import RemoveComponent from "./RemoveComponent";
 export default function ToolBar() {
     return (
         <div className={'border-x border-border'}>
-            <div className={'flex p-2 space-x-2 space-x-reverse'}>
+            <div className={'toolbar p-2'}>
                 <AddComponent />
                 <EditComponent />
                 <RemoveComponent />

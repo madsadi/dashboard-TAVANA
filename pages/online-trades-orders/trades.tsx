@@ -4,7 +4,6 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
-import moment from "jalali-moment";
 import useQuery from "../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../api/constants";
 import {throwToast} from "../../components/common/functions/notification";

@@ -7,7 +7,7 @@ export default function Toolbar() {
 
     return (
         <div className={'border-x border-border'}>
-            <div className={'flex p-2 space-x-2 space-x-reverse'}>
+            <div className={'toolbar p-2'}>
                 <AddNew />
                 <Edit />
                 <Remove />
