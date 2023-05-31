@@ -576,7 +576,7 @@ export const onlineRegistrationStatusEnums = [
         "id": 16,
         "code": 16,
         "enTitle": "ExamPassed",
-        "title": "تمکیل آزمون"
+        "title": "تکمیل آزمون"
     },
     {
         "id": 17,
