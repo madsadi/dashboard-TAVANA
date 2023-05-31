@@ -74,7 +74,7 @@ const TableComponent: React.FC<any> = (props) =>{
 
     return(
         <>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl'}>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}
