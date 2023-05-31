@@ -158,7 +158,7 @@ const InputComponent = ({
                     <div>
                         <label className={'mt-auto flex items-center'} htmlFor={title}>
                             {name}
-                            {query[title] || query[title] === false ?
+                            {query?.[title] || query?.[title] === false ?
                                 <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
                                     onChange(title, '')
                                 }}/> : null}

@@ -17,7 +17,7 @@ export default function AgentComponent(){
                 <div className="grid md:grid-cols-4 grid-cols-2  gap-3">
                     <LabelValue title={'مشخص کننده نوع نماینده'}
                                 value={agentTypeEnums.find((item: any) => item.id === profile?.type)?.title}/>
-                    <LabelValue title={'تاریخ انقضای نمایندگی'} value={profile?.expirationDate ? jalali(profile?.expirationDate).date:'-'}/>
+                    <LabelValue title={'تاریخ انقضای نمایندگی'} value={profile?.expirationDate ? jalali(profile?.expirationDate)?.date:'-'}/>
                     <LabelValue title={'توضیحات'} value={profile?.description}/>
                     <LabelValue title={'کد ملی'} value={profile?.uniqueIdentifier}/>
                     <LabelValue title={'نام'} value={profile?.firstName}/>

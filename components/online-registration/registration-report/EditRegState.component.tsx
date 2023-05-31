@@ -10,7 +10,7 @@ import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 export default function EditRegStateComponent() {
-    const {selectedRows,fetchData,query:searchQuery} = useContext<any>(OnlineRegContext)
+    const {selectedRows,fetchData,searchQuery} = useContext<any>(OnlineRegContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION,'edit')
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/EditRegistrationState`})
     const [modal, setModal] = useState(false)
@@ -47,7 +47,9 @@ export default function EditRegStateComponent() {
                 throwToast({type:'success',value:`${res?.data?.result?.message}`})
                 setModal(false)
                 setQuery(null)
-                fetchData(searchQuery)
+                if (router.pathname==='/online-registration/registration-report'){
+                    fetchData(searchQuery)
+                }
             })
             .catch((err) => throwToast({type:'error',value:err}))
     }
