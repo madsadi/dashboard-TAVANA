@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useMemo} from "react";
+import React, {createContext, useCallback, useEffect, useMemo} from "react";
 import {useRouter} from "next/router";
 import IdentityComponent from "../../../components/online-registration/registration-report/detail/Identity.component";
 import JobInfoComponent from "../../../components/online-registration/registration-report/detail/JobInfo.component";
@@ -17,7 +17,6 @@ import EditRegStateComponent from "../../../components/online-registration/regis
 import {
     InquirySejamStateComponent
 } from "../../../components/online-registration/registration-report/InquirySejamState.component";
-
 import {TBSComponent} from "../../../components/online-registration/registration-report/TBS.component";
 import DocumentsComponent from "../../../components/online-registration/registration-report/detail/Documents.component";
 import useQuery from "../../../hooks/useQuery";
@@ -25,7 +24,6 @@ import {ADMIN_GATEWAY} from "../../../api/constants";
 import {AgreementToTbs} from "../../../components/online-registration/registration-report/AgreementToTbs";
 import TableComponent from "../../../components/common/table/table-component";
 import DateCell from "../../../components/common/table/DateCell";
-import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
 import {formatNumber} from "../../../components/common/functions/common-funcions";
 
 export const OnlineRegDetailContext = createContext({})
@@ -230,15 +228,14 @@ export default function Detail() {
             let _query: any = {};
 
             _query['UserId'] = queryData[0].split('=')[1];
-            _query['StartDate'] = queryData[1].split('=')[1];
-            _query['EndDate'] = queryData[2].split('=')[1];
             fetchData(_query)
         }
     }, [dep])
 
+
     return (
         <OnlineRegDetailContext.Provider value={{data}}>
-            <div className={'flex flex-col h-full w-full'}>
+            <div className={'h-full w-full'}>
                 <div className={'border border-border rounded-t-lg'}>
                     <div className={'flex p-2 space-x-2 space-x-reverse'}>
                         <EditRegStateComponent/>
@@ -252,6 +249,7 @@ export default function Detail() {
                                 rowId={['userId','id']}
                                 detailCellRendererParams={detailCellRendererParams}
                                 masterDetail={true}
+                                indexOfOpenedDetail={0}
                 />
                 {data ? <div className={'w-full grow space-y-3 mt-5'}>
                     <DocumentsComponent/>

@@ -15,7 +15,7 @@ const TableComponent: React.FC<any> = (props) =>{
         masterDetail=false,
         detailComponent=null,
         detailCellRendererParams=null,
-        setSelectedRows=null,
+        setSelectedRows=()=>null,
         selectedRows=[],
         onRowClicked=null,
         suppressRowClickSelection=false,
@@ -23,7 +23,8 @@ const TableComponent: React.FC<any> = (props) =>{
         totalCount=0,
         fetcher=()=>null,
         query=null,
-        loading=false
+        loading=false,
+        indexOfOpenedDetail=null,
     } = props
 
     const gridRef: any = useRef();
@@ -72,6 +73,12 @@ const TableComponent: React.FC<any> = (props) =>{
         }
     },[selectedRows.length])
 
+    const onFirstDataRendered = () => {
+        if (indexOfOpenedDetail>=0){
+                gridRef.current.api.getDisplayedRowAtIndex(indexOfOpenedDetail)?.setExpanded(true);
+        }
+    }
+
     return(
         <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
@@ -101,6 +108,7 @@ const TableComponent: React.FC<any> = (props) =>{
                         onSelectionChanged={onSelectionChanged}
                         onRowClicked={onRowClicked}
                         suppressRowClickSelection={suppressRowClickSelection}
+                        onFirstDataRendered={onFirstDataRendered}
                     />
                 </div>
             </div>

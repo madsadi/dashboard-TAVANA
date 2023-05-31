@@ -135,10 +135,9 @@ export default function OnlineRegistration() {
                 cursor:'pointer',
                 display:'flex'
             },
-            // onCellClicked:(rowData:any)=>,
             cellRendererSelector: () => {
                 return {
-                    component: (rowData:any)=><div className={'flex h-full w-full'} onClick={()=>router.push(`/online-registration/registration-report/userId=${rowData.data.userId}&StartDate=${searchQuery.StartDate}&EndDate=${searchQuery.EndDate}`)}><EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/></div>,
+                    component: (rowData:any)=><div className={'flex h-full w-full'} onClick={()=>router.push(`/online-registration/registration-report/userId=${rowData.data.userId}`)}><EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/></div>,
                 };
             },
         }
