@@ -4,6 +4,7 @@ import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {useSelector} from "react-redux";
 import {useRouter} from "next/router";
+import {jalali} from "../functions/common-funcions";
 
 type PropsType = { query: any, setQuery: Dispatch<any>, onSubmit: Function, listOfFilters: any, initialValue: any, dynamicOptions: any }
 const SearchComponent: React.FC<any> = (props) => {
@@ -17,15 +18,30 @@ const SearchComponent: React.FC<any> = (props) => {
     });
 
     const router = useRouter()
-    // useEffect(()=>{
-    //     if (initialValue && !query){
-    //         setQuery(initialValue)
-    //     }
-    // },[initialValue])
 
     useEffect(()=>{
         if (prevQuery && router.pathname.startsWith('/online-registration/registration-report')){
             setQuery(prevQuery)
+            if (prevQuery.StartDate && prevQuery.EndDate){
+                let shamsi_from_date = jalali(prevQuery.StartDate.replace('-','/')).date
+                let from_date = shamsi_from_date.split('/')
+
+                let shamsi_to_date = jalali(prevQuery.EndDate.replace('-','/')).date
+                let to_date = shamsi_to_date.split('/')
+
+                setSelectedDayRange({from:{year:Number(from_date[0]),month:Number(from_date[1]),day:Number(from_date[2])},to:{year:Number(to_date[0]),month:Number(to_date[1]),day:Number(to_date[2])}})
+            }else if (prevQuery.StartDate && !prevQuery.EndDate){
+                let shamsi_from_date = jalali(prevQuery.StartDate.replace('-','/')).date
+                let from_date = shamsi_from_date.split('/')
+
+                setSelectedDayRange({from:{year:Number(from_date[0]),month:Number(from_date[1]),day:Number(from_date[2])},to:selectedDayRange.to})
+            }else if (!prevQuery.StartDate && prevQuery.EndDate){
+                let shamsi_to_date = jalali(prevQuery.EndDate.replace('-','/')).date
+                let to_date = shamsi_to_date.split('/')
+
+                setSelectedDayRange({from:selectedDayRange.from,to:{year:Number(to_date[0]),month:Number(to_date[1]),day:Number(to_date[2])}})
+            }
+
         }
     },[prevQuery])
 

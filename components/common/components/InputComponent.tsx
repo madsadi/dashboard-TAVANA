@@ -1,4 +1,4 @@
-import React, {Dispatch, Fragment, memo, useState} from "react";
+import React, {Dispatch, Fragment, memo, useCallback, useState} from "react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import {dateRangeHandler, FindEnum} from "../functions/common-funcions";
@@ -56,9 +56,9 @@ const InputComponent = ({
         </div>
     )
 
-    const clear = () => {
-        ['StartDate', 'EndDate'].map((item: string) => onChange(item, ''))
-    }
+    const clear = useCallback(() => {
+        ['StartDate', 'EndDate'].map((item: string) => setTimeout(()=>onChange(item, ''),1000))
+    },[])
 
     const componentRender = () => {
         switch (type) {

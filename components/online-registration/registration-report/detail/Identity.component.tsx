@@ -18,7 +18,7 @@ export default function IdentityComponent(){
                     <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
                         <LabelValue title={'نام شخص حقوقی'} value={profile?.legalPerson?.companyName}/>
                         <LabelValue title={'شماره ثبت شخص حقوقی'} value={profile?.legalPerson?.registerNumber}/>
-                        <LabelValue title={' تاریخ ثبت'} value={profile?.legalPerson?.registerDate ? jalali(profile?.legalPerson?.registerDate).date:null}/>
+                        <LabelValue title={' تاریخ ثبت'} value={profile?.legalPerson?.registerDate ? jalali(profile?.legalPerson?.registerDate)?.date:null}/>
                         <LabelValue title={'محل ثبت'} value={profile?.legalPerson?.registerPlace}/>
                         <LabelValue title={'کد اقتصادی'} value={profile?.legalPerson?.economicCode}/>
                         <LabelValue title={'سازمان صادرکننده مجوز'}
@@ -36,7 +36,7 @@ export default function IdentityComponent(){
                     <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
                         <LabelValue title={'نام'} value={profile?.privatePerson?.firstName}/>
                         <LabelValue title={'نام خانوادگی'} value={profile?.privatePerson?.lastName}/>
-                        <LabelValue title={'تاریخ تولد'} value={profile?.privatePerson?.birthDate ? jalali(profile?.privatePerson?.birthDate).date:null}/>
+                        <LabelValue title={'تاریخ تولد'} value={profile?.privatePerson?.birthDate ? jalali(profile?.privatePerson?.birthDate)?.date:null}/>
                         <LabelValue title={'نام پدر'} value={profile?.privatePerson?.fatherName}/>
                         <LabelValue title={'محل تولد'} value={profile?.privatePerson?.placeOfBirth}/>
                         <LabelValue title={'صادره از'} value={profile?.privatePerson?.placeOfIssue}/>
