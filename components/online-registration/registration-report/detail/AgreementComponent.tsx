@@ -22,7 +22,7 @@ export default function AgreementComponent() {
 
     const structureAgreements=(contents:any,metaData:any)=>{
         let a = contents?.map((item:any)=>{
-            let file = metaData.find((x:any)=>x.Code===(item.fileType-24))
+            let file = metaData?.find((x:any)=>x.Code===(item.fileType-24))
             return {...item,Name:file?.Name,IsRequired:file?.IsRequired,ApprovalDateTime:file?.ApprovalDateTime,Status:file?.Status}
         })
         setLists(a)
@@ -64,15 +64,15 @@ export default function AgreementComponent() {
                                     <div className={'flex flex-col'}>
                                         <div className={'flex space-x-2 space-x-reverse mb-1'}>
                                             <a className={'text-white rounded text-center grow bg-lime-400 py-1'} href={`data:application/pdf;base64,${item?.content}`}
-                                               download={item.Name}>دانلود</a>
+                                               download={item?.Name}>دانلود</a>
                                             <button className={'text-white rounded grow bg-red-400 py-1'} onClick={()=>setSelected(item?.id)}>نمایش</button>
                                         </div>
-                                        <object className={'grow'} data={`data:application/pdf;base64,${item?.content}`} type="application/pdf" width="100%" height="100%">
-                                            <p>{item.Name}</p>
-                                        </object>
-                                        <Modal title={item.Name} open={selected===item?.id} setOpen={modalHandler} ModalWidth={'max-w-5xl max-h-[700px]'}>
+                                        {/*<object className={'grow'} data={`data:application/pdf;base64,${item?.content}`} type="application/pdf" width="100%" height="100%">*/}
+                                        {/*    <p>{item?.Name}</p>*/}
+                                        {/*</object>*/}
+                                        <Modal title={item?.Name} open={selected===item?.id} setOpen={modalHandler} ModalWidth={'max-w-5xl max-h-[700px]'}>
                                             <object className={'grow h-[600px]'} data={`data:application/pdf;base64,${item?.content}`} width="100%" height="100%">
-                                                <p>{item.Name}</p>
+                                                <p>{item?.Name}</p>
                                             </object>
                                         </Modal>
                                     </div>

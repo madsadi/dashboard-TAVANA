@@ -22,8 +22,8 @@ export default function LegalPersonStakeholdersComponent(){
                                 <LabelValue title={'کد ملی'} value={item?.uniqueIdentifier}/>
                                 <LabelValue title={'نوع ذینفع شخصیت حقوقی'}
                                             value={LegalPersonStakeholderTypeEnums.find((i: any) => i.id === item?.type)?.title}/>
-                                <LabelValue title={'تاریخ شروع دوره تصدی'} value={item.startAt}/>
-                                <LabelValue title={'تاریخ پایان دوره تصدی'} value={item.endAt}/>
+                                <LabelValue title={'تاریخ شروع دوره تصدی'} value={item?.startAt}/>
+                                <LabelValue title={'تاریخ پایان دوره تصدی'} value={item?.endAt}/>
                                 <LabelValue title={'سمت'}
                                             value={LegalPersonShareholderViewModelEnums.find((item: any) => item.id === item?.positionType)?.title}/>
                                 <LabelValue title={' فیلد مشخص کننده صاحب امضا بودن فرد'}

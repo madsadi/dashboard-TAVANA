@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {OnlineRegContext} from "../../../pages/online-registration/registration-report";
 import {useRouter} from "next/router";
 import {ADMIN_GATEWAY} from "../../../api/constants";
@@ -12,9 +12,10 @@ export const TBSComponent=()=>{
     const queryData:string[]|undefined = dep?.split('&')
     let userId = queryData?.[0]?.split('=')[1]
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/PushToTbs`})
-
+    const [loading,setLoading]=useState(false)
     const TbsHandler = ()=>{
         const Tbs =async (row:any,index:number)=>{
+            setLoading(true)
             await mutate({userId:row.userId || userId})
                 .then(()=> {
                     if (userId){
@@ -32,6 +33,7 @@ export const TBSComponent=()=>{
                     }
                     throwToast({type:'error',value:err})
                 })
+                .finally(()=>setLoading(false))
         }
         if (selectedRows?.length || userId){
                 Tbs(selectedRows?.[0] || userId,0)
@@ -41,8 +43,14 @@ export const TBSComponent=()=>{
     }
 
     return(
-        <button className={'button bg-green-500'} onClick={TbsHandler}>
+        <button className={'button flex items-center bg-green-500'} onClick={TbsHandler}>
             ثبت در تدبیر
+            {loading && <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                        strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>}
         </button>
     )
 }
