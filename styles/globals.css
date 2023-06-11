@@ -284,6 +284,7 @@ input[type=number] {
 .collapse-title, :where(.collapse > input[type="checkbox"]){
     min-height: unset !important;
 }
+
 /*.dark .Calendar{*/
 /*  background: #3d3d3d !important;*/
 /*  --cl-color-black:white !important;*/

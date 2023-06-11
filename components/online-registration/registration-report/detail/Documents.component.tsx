@@ -56,7 +56,7 @@ export default function DocumentsComponent() {
 
     return (
         <DaisyAccordionComponent title={'مدارک'}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white/50 backdrop-blur-md p-3 rounded-md">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white/50 backdrop-blur-md p-3 rounded-md">
                 {
                     document.map((item: any) => {
                         return (

@@ -4,7 +4,7 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import {Provider} from "react-redux";
 import store from "../store";
 import Head from "next/head";
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {AuthProvider} from "react-oidc-context"
 import Router from "next/router";
 import '../api/axios_interceptor';
@@ -18,6 +18,7 @@ import {SWRConfig} from 'swr';
 import {fetcher} from "../api/fetcher";
 import {WebStorageStateStore} from "oidc-client-ts";
 import {IDP} from "../api/constants";
+import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 
 React.useLayoutEffect = React.useEffect
 

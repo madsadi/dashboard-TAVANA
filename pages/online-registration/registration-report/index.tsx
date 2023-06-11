@@ -62,7 +62,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.isSejami ? 'سجامی' : 'غیر سجامی'}</span>
-                            <DateCell date={rowData.data.isSejamiDateTime}/>
+                            <DateCell date={rowData.data.isSejamiDateTime ? rowData.data.isSejamiDateTime:''}/>
                         </div>
                     )
                 };
@@ -80,7 +80,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.sejamStatusCodeTitle}</span>
-                            <DateCell date={rowData.data.sejamStatusDateTime}/>
+                            <DateCell date={rowData.data.sejamStatusDateTime ? rowData.data.sejamStatusDateTime:''}/>
                         </div>
                     )
                 };

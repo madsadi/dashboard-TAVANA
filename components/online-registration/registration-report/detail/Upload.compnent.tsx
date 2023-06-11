@@ -12,6 +12,8 @@ import {useRouter} from "next/router";
 import {throwToast} from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
 import {FILE_SERVER} from "../../../../api/constants";
+import Modal from "../../../common/layout/Modal";
+import InnerImageZoom from 'react-inner-image-zoom'
 
 export default function UploadComponent({
                                             item,
@@ -23,6 +25,7 @@ export default function UploadComponent({
     const {mutate: lockFile} = useMutation({url: `${FILE_SERVER}/api/admin-file-manager/lock-file`})
     const [lock, setLock] = useState<boolean>(false);
     const [images, setImages] = useState<ImageType[]>([]);
+    const [selected,setSelected]=useState('')
 
 
     let _documents = [...documents];
@@ -79,6 +82,11 @@ export default function UploadComponent({
                 .catch((err) => throwToast({type: 'error', value: err}))
         }
     }
+    const modalHandler=(state:boolean)=>{
+        if (!state){
+            setSelected('')
+        }
+    }
 
     return (
         <div className={'pb-5'}>
@@ -113,10 +121,14 @@ export default function UploadComponent({
                                              onClick={() => item.fileType === 1 ? toast.warning('تصویر امضا قابل بارگزاری نمی باشد.') : onImageUpdate(index)}>
                                             <Image src={image['data_url']} alt="" fill/>
                                         </div>
-                                        <div className={'mt-1'}>
-                                            <a className={'button bg-lime-400 py-1 w-full '} href={image['data_url']}
+                                        <div className={'flex space-x-2 space-x-reverse mt-1'}>
+                                            <a className={'button bg-lime-400 py-1'} href={image['data_url']}
                                                download={item.title}>دانلود</a>
+                                            <button className={'text-white rounded grow bg-red-400 py-1'} onClick={()=>setSelected(image['data_url'])}>نمایش</button>
                                         </div>
+                                        <Modal title={item?.Name} open={selected===image['data_url']} setOpen={modalHandler} ModalWidth={'max-w-5xl max-h-[700px] min-h-[400px]'}>
+                                                <img src={image['data_url']} alt="" className={'object-contain max-h-[500px] aspect-auto mx-auto'}/>
+                                        </Modal>
                                     </>
                                 )
                             }) :

@@ -106,8 +106,8 @@
         "filters": [
           {"title": "PageNumber", "name": "شماره صفحه", "type": null},
           {"title": "PageSize", "name": "تعداد", "type": null},
-          {"title": "uniqueId", "name": "کد ملی کاربر", "type": "input"},
-          {"title": "mobileNumber", "name": "تلفن همراه", "type": "input"},
+          {"title": "UniqueId", "name": "کد ملی کاربر", "type": "input"},
+          {"title": "MobileNumber", "name": "تلفن همراه", "type": "input"},
           {"title": "personType", "name": "حقیقی / حقوقی", "type": "selectInput"},
           {"title": "marketerId", "name": "شناسه بازاریاب", "type": "input"},
           {"title": "reagentId", "name": "شناسه معرف", "type": "input"},
