@@ -17,7 +17,7 @@ export default function JobInfoComponent(){
                     <LabelValue title={'نام شرکت'} value={profile?.companyName}/>
                     <LabelValue title={'ایمیل کاری'} value={profile?.companyEmail}/>
                     <LabelValue title={'شماره شرکت'}
-                                value={profile?.companyCityPrefix + profile?.companyPhone}/>
+                                value={(profile?.companyCityPrefix ? (profile?.companyCityPrefix+'-'):'') + (profile?.companyPhone ? profile?.companyPhone:'')}/>
                     <LabelValue title={'کد پستی شرکت'} value={profile?.companyPostalCode}/>
                     <LabelValue title={'سایت شرکت'} value={profile?.companyWebSite}/>
                     <LabelValue title={'تاریخ استخدام'} value={profile?.employmentDate ? jalali(profile?.employmentDate)?.date:'-'}/>

@@ -23,7 +23,7 @@ export default function AddressesComponent(){
                                     <LabelValue key={index} title={'شماره همراه'} value={item?.mobile}/>
                                     <LabelValue key={index} title={'شماره ثابت'} value={item?.tel}/>
                                     <LabelValue key={index} title={'شماره تماس اضطراری'}
-                                                value={item?.emergencyTel ? (item?.emergencyTelCityPrefix + '-' + item?.emergencyTel):null}/>
+                                                value={item?.emergencyTel ? ((item?.emergencyTelCityPrefix ? (item?.emergencyTelCityPrefix+ '-'):'') + item?.emergencyTel):null}/>
                                     <LabelValue key={index} title={'کد پستی'} value={item?.postalCode}/>
                                     <LabelValue key={index} title={'آدرس'}
                                                 value={address.map((item:string)=>item).join(', ')}/>

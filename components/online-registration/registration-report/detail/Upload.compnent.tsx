@@ -13,7 +13,6 @@ import {throwToast} from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
 import {FILE_SERVER} from "../../../../api/constants";
 import Modal from "../../../common/layout/Modal";
-import InnerImageZoom from 'react-inner-image-zoom'
 
 export default function UploadComponent({
                                             item,

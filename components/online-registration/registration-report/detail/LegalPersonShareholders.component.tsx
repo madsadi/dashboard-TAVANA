@@ -25,7 +25,7 @@ export default function LegalPersonShareholdersComponent(){
                                 <LabelValue title={'نشانی کامل'} value={item?.address}/>
                                 <LabelValue title={'سمت'}
                                             value={LegalPersonShareholderViewModelEnums.find((item: any) => item?.id === item?.positionType)?.title}/>
-                                <LabelValue title={'درصد سهامداری'} value={`% ${item?.percentageVotingRight}`}/>
+                                <LabelValue title={'درصد سهامداری'} value={item?.percentageVotingRight ? `% ${item?.percentageVotingRight}`:'-'}/>
                             </div>
                         )
                     })
