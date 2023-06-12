@@ -18,7 +18,6 @@ import {SWRConfig} from 'swr';
 import {fetcher} from "../api/fetcher";
 import {WebStorageStateStore} from "oidc-client-ts";
 import {IDP} from "../api/constants";
-import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 
 React.useLayoutEffect = React.useEffect
 

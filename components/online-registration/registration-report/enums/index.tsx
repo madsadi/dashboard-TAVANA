@@ -157,6 +157,11 @@ export const banks = [
 
 export const accountTypeEnums = [
     {
+        id: 0,
+        faTitle: 'نامشخص',
+        enTitle: "unknown"
+    },
+    {
         id: 1,
         faTitle: 'بلند مدت',
         enTitle: "LongTermAccount"

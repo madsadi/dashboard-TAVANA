@@ -41,7 +41,7 @@ export default function IdentityComponent(){
                         <LabelValue title={'محل تولد'} value={profile?.privatePerson?.placeOfBirth}/>
                         <LabelValue title={'صادره از'} value={profile?.privatePerson?.placeOfIssue}/>
                         <LabelValue title={'سریال شناسنامه'}
-                                    value={`${profile?.privatePerson?.serial + `/` + profile?.privatePerson?.seriShChar + profile?.privatePerson?.seriSh}`}/>
+                                    value={profile?.privatePerson?.serial ? `${profile?.privatePerson?.serial + `/` + profile?.privatePerson?.seriShChar + profile?.privatePerson?.seriSh}`:''}/>
                         <LabelValue title={'شماره شناسنامه'} value={profile?.privatePerson?.shNumber}/>
                     </div>
                 </DaisyAccordionComponent>):null}
