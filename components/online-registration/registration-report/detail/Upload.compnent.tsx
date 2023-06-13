@@ -36,7 +36,7 @@ export default function UploadComponent({
 
     const onChange = async (imageList: any, addUpdateIndex: any) => {
         if (item.fileType === 1) {
-            throwToast({type: 'warning', value: 'تصویر امضا قابل بارگزاری نمی باشد.'})
+            throwToast({type: 'warning', value: 'تصویر امضا قابل بارگذاری نمی باشد.'})
         } else {
             let formData: any = new FormData()
             formData.append('userId', userId)
@@ -117,7 +117,7 @@ export default function UploadComponent({
                                 return (
                                     <>
                                         <div role={'button'} key={index} className="image-item w-full h-full relative"
-                                             onClick={() => item.fileType === 1 ? toast.warning('تصویر امضا قابل بارگزاری نمی باشد.') : onImageUpdate(index)}>
+                                             onClick={()=>onImageUpdate(index)}>
                                             <Image src={image['data_url']} alt="" fill/>
                                         </div>
                                         <div className={'flex space-x-2 space-x-reverse mt-1'}>
