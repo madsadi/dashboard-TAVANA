@@ -35,9 +35,7 @@ export default function UploadComponent({
     let userId = queryData?.[0]?.split('=')[1]
 
     const onChange = async (imageList: any, addUpdateIndex: any) => {
-        if (item.fileType === 1) {
-            throwToast({type: 'warning', value: 'تصویر امضا قابل بارگذاری نمی باشد.'})
-        } else {
+
             let formData: any = new FormData()
             formData.append('userId', userId)
             formData.append('file', imageList[0].file)
@@ -52,7 +50,6 @@ export default function UploadComponent({
                     setDocs(_documents)
                 })
                 .catch((err) => throwToast({type: 'error', value: err}))
-        }
     };
 
     useEffect(() => {
