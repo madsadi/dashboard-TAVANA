@@ -73,7 +73,7 @@ function MyApp({Component, pageProps}: AppProps) {
                     {/*    rel="icon"*/}
                     {/*    media="(prefers-color-scheme: dark)"*/}
                     {/*/>*/}
-                    <title>پنل ادمین | tech1a</title>
+                    <title>پنل ادمین | توانا</title>
                 </Head>
                 <ToastContainer
                     ref={toast}

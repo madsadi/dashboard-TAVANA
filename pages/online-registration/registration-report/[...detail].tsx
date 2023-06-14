@@ -1,4 +1,4 @@
-import React, {createContext, useCallback, useEffect, useMemo} from "react";
+import React, {createContext, useCallback, useContext, useEffect, useMemo} from "react";
 import {useRouter} from "next/router";
 import IdentityComponent from "../../../components/online-registration/registration-report/detail/Identity.component";
 import JobInfoComponent from "../../../components/online-registration/registration-report/detail/JobInfo.component";
@@ -234,7 +234,7 @@ export default function Detail() {
 
 
     return (
-        <OnlineRegDetailContext.Provider value={{data}}>
+        <OnlineRegDetailContext.Provider value={{data,fetchData}}>
             <div className={'h-full w-full'}>
                 <div className={'border border-border rounded-t-lg'}>
                     <div className={'flex p-2 space-x-2 space-x-reverse'}>

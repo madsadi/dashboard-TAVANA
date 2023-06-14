@@ -4,7 +4,8 @@ import SearchComponent from "../../../components/common/components/Search.compon
 import TableComponent from "../../../components/common/table/table-component";
 import DateCell from "../../../components/common/table/DateCell";
 import {useRouter} from "next/router";
-import UserRegToolbarComponent from "../../../components/online-registration/registration-report/UserRegToolbar.component";
+import UserRegToolbarComponent
+    from "../../../components/online-registration/registration-report/UserRegToolbar.component";
 import {formatNumber} from "../../../components/common/functions/common-funcions";
 import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
@@ -62,7 +63,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.isSejami ? 'سجامی' : 'غیر سجامی'}</span>
-                            <DateCell date={rowData.data.isSejamiDateTime ? rowData.data.isSejamiDateTime:''}/>
+                            <DateCell date={rowData.data.isSejamiDateTime ? rowData.data.isSejamiDateTime : ''}/>
                         </div>
                     )
                 };
@@ -80,7 +81,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.sejamStatusCodeTitle}</span>
-                            <DateCell date={rowData.data.sejamStatusDateTime ? rowData.data.sejamStatusDateTime:''}/>
+                            <DateCell date={rowData.data.sejamStatusDateTime ? rowData.data.sejamStatusDateTime : ''}/>
                         </div>
                     )
                 };
@@ -115,7 +116,7 @@ export default function OnlineRegistration() {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
-                            <span>{rowData.data.isTbsInserted}</span>
+                            <span>{rowData.data.isTbsInserted ? 'بله':'خیر'}</span>
                             <DateCell date={rowData.data.tbsInsertDateTime}/>
                         </div>
                     )
@@ -127,24 +128,56 @@ export default function OnlineRegistration() {
             },
         },
         {
-            field:'detail',
+            field: 'isTBSDocsInserted',
+            headerName: 'ثبت فایل قراردادها در TBS؟',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <div>{rowData.data.isTBSDocsInserted ? 'بله' : 'خیر'}</div>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
+        },
+        {
+            field: 'tbsDocsInsertDateTime',
+            headerName: 'زمان ثبت فایل قراردادها در TBS',
+            cellRendererSelector: () => {
+                const moodDetails = {
+                    component: (rowData: any) => <DateCell date={rowData.data.tbsDocsInsertDateTime}/>,
+                }
+                return moodDetails;
+            },
+        },
+        {
+            field: 'detail',
             headerName: 'جزییات',
-            flex:0,
+            flex: 0,
             width: 90,
-            cellStyle:{
-                cursor:'pointer',
-                display:'flex'
+            cellStyle: {
+                cursor: 'pointer',
+                display: 'flex'
             },
             cellRendererSelector: () => {
                 return {
-                    component: (rowData:any)=><div className={'flex h-full w-full'} onClick={()=>router.push(`/online-registration/registration-report/userId=${rowData.data.userId}`)}><EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/></div>,
+                    component: (rowData: any) => <div className={'flex h-full w-full'}
+                                                      onClick={() => router.push(`/online-registration/registration-report/userId=${rowData.data.userId}`)}>
+                        <EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/></div>,
                 };
             },
         }
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query:searchQuery,loading,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchUser`})
+    const {
+        data,
+        query: searchQuery,
+        loading,
+        fetchData
+    }: any = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchUser`})
 
     const router = useRouter();
     const dispatch = useDispatch();
@@ -234,13 +267,13 @@ export default function OnlineRegistration() {
         };
     }, []);
 
-    const fetchDataHandler=(newQuery:any)=>{
+    const fetchDataHandler = (newQuery: any) => {
         dispatch(query(newQuery))
         fetchData(newQuery)
     }
 
     return (
-        <OnlineRegContext.Provider value={{selectedRows,setSelectedRows,fetchData,searchQuery,data}}>
+        <OnlineRegContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
                     <SearchComponent onSubmit={fetchDataHandler} module={ModuleIdentifier.ONLINE_REGISTRATION}/>
@@ -249,7 +282,7 @@ export default function OnlineRegistration() {
                 <TableComponent data={data?.result?.pagedData}
                                 loading={loading}
                                 columnDefStructure={columnDefStructure}
-                                rowId={['userId','id']}
+                                rowId={['userId', 'id']}
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
                                 detailCellRendererParams={detailCellRendererParams}
