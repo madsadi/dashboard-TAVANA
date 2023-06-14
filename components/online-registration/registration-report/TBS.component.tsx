@@ -4,9 +4,11 @@ import {useRouter} from "next/router";
 import {ADMIN_GATEWAY} from "../../../api/constants";
 import useMutation from "../../../hooks/useMutation";
 import {throwToast} from "../../common/functions/notification";
+import {OnlineRegDetailContext} from "../../../pages/online-registration/registration-report/[...detail]";
 
 export const TBSComponent=()=>{
     const {selectedRows} = useContext<any>(OnlineRegContext)
+    const {fetchData:detailFetch} = useContext<any>(OnlineRegDetailContext)
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')

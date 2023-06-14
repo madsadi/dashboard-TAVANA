@@ -3,6 +3,7 @@ import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
 import {formatNumber} from "../functions/common-funcions";
 import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
 import dynamic from "next/dynamic";
+import {useRouter} from "next/router";
 const TablePagination = dynamic(() => import('./TablePagination'))
 
 const TableComponent: React.FC<any> = (props) =>{
@@ -28,10 +29,11 @@ const TableComponent: React.FC<any> = (props) =>{
     } = props
 
     const gridRef: any = useRef();
+    const router = useRouter()
 
-    // useEffect(() => {
-    //     gridRef?.current?.api?.setRowData(data)
-    // },[data])
+    useEffect(() => {
+        gridRef?.current?.api?.setRowData([])
+    },[router.asPath])
 
     const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
     const defaultColDef = useMemo(() => {

@@ -43,7 +43,7 @@ export default function BreadCrumbComponent() {
         "subsidiary":'شرکت ها',
         "branch":'شعب',
         "employee":'کارمندان',
-        "businessUnit":'واحده کاری',
+        "businessUnit":'واحد کاری',
         "station":'ایستگاه معاملاتی',
         "trader":'معامله گران',
         "marketer":'بازاریاب ها',

@@ -8,9 +8,11 @@ import useMutation from "../../../hooks/useMutation";
 import {ADMIN_GATEWAY} from "../../../api/constants";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import {OnlineRegDetailContext} from "../../../pages/online-registration/registration-report/[...detail]";
 
 export default function EditRegStateComponent() {
     const {selectedRows,fetchData,searchQuery} = useContext<any>(OnlineRegContext)
+    const {fetchData:detailFetch} = useContext<any>(OnlineRegDetailContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION,'edit')
     const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/EditRegistrationState`})
     const [modal, setModal] = useState(false)
@@ -49,6 +51,8 @@ export default function EditRegStateComponent() {
                 setQuery(null)
                 if (router.pathname==='/online-registration/registration-report'){
                     fetchData(searchQuery)
+                }else{
+                    detailFetch({UserId:userId})
                 }
             })
             .catch((err) => throwToast({type:'error',value:err}))
