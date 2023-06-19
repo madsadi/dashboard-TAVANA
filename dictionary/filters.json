@@ -137,6 +137,9 @@
       "edit": [
         {"title":"registrationState","name":"وضعیت ثبت نام","type":"selectInput"},
         {"title":"changeReasonDescription","name":"توضیحات","type":"input"}
+      ],
+      "refCode": [
+        {"title":"refCode","name":"کد معرف","type":"input"}
       ]
     }
   },
@@ -817,5 +820,29 @@
               "SettlementDelay": ""
               }
       }
+  },
+  "marketer-app_relations": {
+    "search": {
+      "filters": [
+        {"title": "PageNumber", "name": "شماره صفحه", "type": null},
+        {"title": "PageSize", "name": "تعداد", "type": null},
+        {"title": "date", "name": "تاریخ", "type": "date"},
+        {"title": "LeaderMarketerName", "name": "نام بازاریاب", "type": "input"},
+        {"title": "LeaderMarketerID", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "FollowerMarketerName", "name": "نام زیرمجموعه بازاریاب", "type": "input"},
+        {"title": "FollowerMarketerID", "name": "شناسه زیرمجموعه بازاریاب", "type": "input"}
+      ],
+      "initialValue":   {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": "",
+        "EndDate": "",
+        "FollowerMarketerID": "",
+        "FollowerMarketerName": "",
+        "LeaderMarketerName": "",
+        "LeaderMarketerID": ""
+      }
+    }
+
   }
 }

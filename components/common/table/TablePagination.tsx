@@ -19,7 +19,7 @@ export default function TablePagination({
                                         }: { query: any,onSubmit: Function,totalCount:number}) {
     const [pageQuery,setPageQuery] = useState({PageSize:20,PageNumber:1})
 
-    const sizes=[10,20,50]
+    const sizes=[10,20,50,500]
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...pageQuery};
         _query[key] = value;

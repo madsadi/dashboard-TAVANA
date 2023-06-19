@@ -29,11 +29,13 @@ export default function OnlineRegistration() {
         {
             field: 'uniqueId',
             headerName: 'کد ملی',
-            cellRenderer: 'agGroupCellRenderer'
+            cellRenderer: 'agGroupCellRenderer',
+            cellClass: "textFormat"
         },
         {
             field: 'mobileNumber',
             headerName: 'شماره تلفن',
+            cellClass: "textFormat"
         },
         {
             field: 'personTypeTitle',
