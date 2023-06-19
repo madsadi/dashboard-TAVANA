@@ -40,7 +40,7 @@ const InputComponent = ({
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
             <label className={'block'} htmlFor="rangeDate">{name}</label>
-            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
+            <input className={'w-full h-[36px]'} readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
         </div>
     )
 
@@ -163,7 +163,7 @@ const InputComponent = ({
                                     onChange(title, '')
                                 }}/> : null}
                         </label>
-                        <div className="relative rounded">
+                        <div className="relative rounded ">
                             <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => {
                                          if (valueType === 'number') {
@@ -175,7 +175,7 @@ const InputComponent = ({
                                 {({open}) => (
                                     <div className="relative">
                                         <Listbox.Button
-                                            className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                            className="relative flex min-w-full h-[36px] cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
                                                     className="ml-2 block truncate text-sm">{FindEnum(title, dynamicsOption, name).find((item: any) => item.id === query?.[title])?.title}</span>

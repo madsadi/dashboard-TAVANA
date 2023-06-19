@@ -28,5 +28,5 @@ export const ModuleIdentifier:any={
     NETFLOW_rules:"netflow_rules",
     NETFLOW_cleared_trade:"netflow_cleared_trade",
     NETFLOW_clearing_Range:"netflow_clearing_Range",
-    MARKETER_APP:"marketer-app",
+    MARKETER_APP_RELATIONS:"marketer-app_relations",
 }

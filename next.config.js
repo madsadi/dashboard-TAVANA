@@ -11,7 +11,7 @@ const nextConfig = {
       FILE_SERVER: process.env.FILE_SERVER,
       IDP: process.env.IDP,
       MARKETER_ADMIN: process.env.MARKETER_ADMIN,
-      ONLINE_TRADING: process.env.ONLINE_TRADING
+      ONLINE_TRADING: process.env.ONLINE_TRADING,
     }
   }
 }

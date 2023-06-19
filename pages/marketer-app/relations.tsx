@@ -82,12 +82,12 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-    const {data,query,fetchData}:any = useQuery({url:`${MARKETER_ADMIN}/api/users/SearchUserActivityLogs`})
+    const {data,query,fetchData}:any = useQuery({url:`${MARKETER_ADMIN}/marketer/search-marketers-relations`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP}/>
+                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             columnDefStructure={columnDefStructure}

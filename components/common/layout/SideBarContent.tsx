@@ -128,9 +128,14 @@ export default function SideBarContent() {
         },
         {
             label: 'اپلیکیشن مارکتر',
-            expanded: false,
-            url: '/marketer-app',
-            className: router.pathname === '/marketer-app' ? 'sideBarActive' : '',
+            expanded: router.pathname.startsWith('/marketer-app'),
+            children: [
+                {
+                    label: 'ارتباط بازاریاب ها',
+                    url: '/marketer-app/relations',
+                    className: router.pathname === '/marketer-app/relations' ? 'sideBarActive' : '',
+                }
+            ],
         },
         {
             label: 'پرتفو',

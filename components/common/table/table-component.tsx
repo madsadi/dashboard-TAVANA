@@ -4,6 +4,7 @@ import {formatNumber} from "../functions/common-funcions";
 import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
 import dynamic from "next/dynamic";
 import {useRouter} from "next/router";
+import {ExcelStyle} from "ag-grid-community";
 const TablePagination = dynamic(() => import('./TablePagination'))
 
 const TableComponent: React.FC<any> = (props) =>{
@@ -27,6 +28,13 @@ const TableComponent: React.FC<any> = (props) =>{
         loading=false,
         indexOfOpenedDetail=null,
     } = props
+
+    const excelStyles:ExcelStyle[] = [
+        {
+            id: 'textFormat',
+            dataType: 'String',
+        }
+    ];
 
     const gridRef: any = useRef();
     const router = useRouter()
@@ -111,6 +119,7 @@ const TableComponent: React.FC<any> = (props) =>{
                         onRowClicked={onRowClicked}
                         suppressRowClickSelection={suppressRowClickSelection}
                         onFirstDataRendered={onFirstDataRendered}
+                        excelStyles={excelStyles}
                     />
                 </div>
             </div>

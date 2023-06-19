@@ -10,11 +10,11 @@ import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 import {OnlineRegDetailContext} from "../../../pages/online-registration/registration-report/[...detail]";
 
-export default function EditRegStateComponent() {
+export default function EditRefCode() {
     const {selectedRows,fetchData,searchQuery} = useContext<any>(OnlineRegContext)
     const {fetchData:detailFetch} = useContext<any>(OnlineRegDetailContext)
-    const {toolbar} = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION,'edit')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/EditRegistrationState`})
+    const {toolbar} = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION,'refCode')
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/UpdateMarketerRefCode`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const router = useRouter()
@@ -25,11 +25,8 @@ export default function EditRegStateComponent() {
     useEffect(() => {
         if (modal && selectedRows?.length && !userId) {
             let _initialValue: any = {};
-            Object.keys(selectedRows[0]).map((item: string) => {
-                if (item === 'registrationState' || item === 'changeReasonDescription'){
-                    _initialValue[item] = selectedRows[0][`${item}`]
-                }
-            })
+            _initialValue['refCode'] = selectedRows[0]['marketerRefCode']
+
             setQuery(_initialValue)
         }
     }, [modal])
@@ -59,15 +56,15 @@ export default function EditRegStateComponent() {
     }
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};
-        _query[key] = value
+        _query[key] = value.trim()
         setQuery(_query)
     }
     return (
         <>
             <button className={'button bg-orange-500'} onClick={openHandler}>
-                تغییر وضعیت ثبت نام
+                ویرایش کدبازاریابی
             </button>
-            <Modal title={'ویرایش اطلاعات کاربر'} setOpen={setModal}
+            <Modal title={'ویرایش کدبازاریابی'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
                     <form onSubmit={submitHandler}>
