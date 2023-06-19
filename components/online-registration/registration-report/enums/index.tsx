@@ -147,7 +147,7 @@ export const banks = [
     {"number": 991975, "name": "بانک ملت", "logo": "MELLAT"},
     {"number": 603799, "name": "بانک ملی ایران", "logo": "MELLI"},
     {"number": 639370, "name": "بانک مهر اقتصاد", "logo": "MehrEghtesad"},
-    {"number": 627760, "name": "پست بانک ایران", "logo": ""},
+    {"number": 627760, "name": "بانک پست بانک ایران", "logo": ""},
     {"number": 628157, "name": "موسسه اعتباری توسعه", "logo": ""},
     {"number": 505801, "name": "موسسه اعتباری کوثر", "logo": ""},
     {"number": 606256, "name": "مؤسسه اعتباری ملل (عسکریه سابق)", "logo": ""},

@@ -25,6 +25,7 @@ import {AgreementToTbs} from "../../../components/online-registration/registrati
 import TableComponent from "../../../components/common/table/table-component";
 import DateCell from "../../../components/common/table/DateCell";
 import {formatNumber} from "../../../components/common/functions/common-funcions";
+import EditRefCode from "../../../components/online-registration/registration-report/EditRefCode";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
@@ -242,6 +243,7 @@ export default function Detail() {
                         <InquirySejamStateComponent/>
                         <TBSComponent/>
                         <AgreementToTbs/>
+                        <EditRefCode/>
                     </div>
                 </div>
                 <TableComponent data={info?.result?.pagedData}

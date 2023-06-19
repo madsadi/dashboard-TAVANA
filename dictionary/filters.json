@@ -842,6 +842,20 @@
         "LeaderMarketerName": "",
         "LeaderMarketerID": ""
       }
+    },
+    "toolbar":{
+      "add": [
+        {"title": "LeaderMarketerID ", "name": "شناسه بازارایاب سرگروه", "type": "input"},
+        {"title": "FollowerMarketerID ", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
+        {"title": "CommissionCoefficient ", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+      ],
+      "edit": [
+        {"title": "LeaderMarketerID ", "name": "شناسه بازارایاب سرگروه", "type": "input"},
+        {"title": "FollowerMarketerID ", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
+        {"title": "CommissionCoefficient ", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+      ]
     }
 
   }
