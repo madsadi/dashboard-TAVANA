@@ -32,7 +32,7 @@ export default function BankComponent() {
                             <div className="grid md:grid-cols-4 grid-cols-2 gap-3 border border-dashed border-gray-200 p-5 mb-3"
                                  key={item?.AccountNumber}>
                                 <div>
-                                    <Image src={`/bankIcons/${findBank(item?.bank?.name).logo}.svg`} height={24}
+                                    <Image src={`/bankIcons/${findBank(item?.bank?.name)?.logo}.svg`} height={24}
                                            width={24} alt={item?.branchName}/>
                                 </div>
                                 <LabelValue title={'شماره حساب'} value={item?.accountNumber || 'ثبت نشده'}/>

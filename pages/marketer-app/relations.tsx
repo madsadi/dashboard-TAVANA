@@ -1,102 +1,114 @@
-import React from "react";
+import React, {createContext, useMemo, useState} from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import { jalali} from "../../components/common/functions/common-funcions";
+import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {MARKETER_ADMIN} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import DateCell from "../../components/common/table/DateCell";
+import RelationToolbar from "../../components/marketer-app/toolbar/RelationToolbar";
 
-export default function Users() {
+export const RelationsContext = createContext({})
+export default function Relations() {
+    const [selectedRows, setSelectedRows] = useState<any>([])
+
     const columnDefStructure: any = [
         {
-            field: 'userId',
-            headerName: 'شناسه کاربر',
+            field: 'LeaderMarketerID',
+            headerName: 'شناسه بازاریاب',
+            cellRenderer: 'agGroupCellRenderer',
         },
         {
-            field: 'name',
-            headerName: 'نام کاربر',
+            field: 'FollowerMarketerName',
+            headerName: 'نام و نام خانوادگی کاربر بازاریاب',
         },
         {
-            field: 'typeTitle',
-            headerName: 'نوع',
-        },
-        {
-            field: 'date',
-            headerName: 'تاریخ',
-            cellRendererSelector: () => {
-                const ColourCellRenderer = (rowData: any) => {
-                    return (
-                        <>
-                            <span>{jalali(rowData.data.date).date}</span>
-                            <span className={'ml-2'}>{jalali(rowData.data.date).time}</span>
-                        </>
-                    )
-                };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
-            },
-        },
-        {
-            field: 'clientId',
-            headerName: 'نرم افزار'
-        },
-        {
-            field: 'succeed',
-            headerName: 'وضعیت'
-        },
-        {
-            field: 'ip',
-        },
-        {
-            field: 'userAgent',
-        },
-        {
-            field: 'browser',
-            headerName: 'مرورگر'
-        },
-        {
-            field: 'os',
-            headerName: 'سیستم عامل'
-        },
-        {
-            field: 'isMobile',
-            headerName: 'از طریق موبایل',
-            cellRendererSelector: () => {
-                const ColourCellRenderer = (rowData: any) => {
-                    return (
-                        <span>{rowData.data.isMobile ? 'بله' : 'خیر'}</span>
-                    )
-                };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
-            },
-        },
-        {
-            field: 'errorMessage',
-            headerName: 'خطا'
+            field: 'LeaderMarketerName',
+            headerName: 'نام و نام خانوادگی بازاریاب',
         }
     ]
-    const {data,query,fetchData}:any = useQuery({url:`${MARKETER_ADMIN}/marketer/search-marketers-relations`})
+    const {
+        data, fetchData, query: searchQuery
+    }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`})
+
+    const detailCellRendererParams = useMemo(() => {
+        return {
+            detailGridOptions: {
+                enableRtl: true,
+                // getRowId:(params:any)=>params.data.orderId,
+                columnDefs: [
+                    {
+                        field: 'FollowerMarketerID',
+                        headerName: 'شناسه کاربری بازاریاب',
+                    },
+                    {
+                        field: 'CommissionCoefficient',
+                        headerName: 'ضریب کارمزد',
+                    },
+                    {
+                        field: 'StartDate',
+                        headerName: 'تاریخ شروع ارتباط',
+                    },
+                    {
+                        field: 'GEndDate',
+                        headerName: 'تاریخ پایان ارتباط',
+                        cellRendererSelector: () => {
+                            const moodDetails = {
+                                component: (rowData: any) => <DateCell date={rowData.data.GEndDate}/>,
+                            }
+                            return moodDetails;
+                        },
+                    },
+                    {
+                        field: 'GCreateDate',
+                        headerName: 'زمان ایجاد',
+                        cellRendererSelector: () => {
+                            const moodDetails = {
+                                component: (rowData: any) => <DateCell date={rowData.data.GCreateDate}/>,
+                            }
+                            return moodDetails;
+                        },
+                    },
+                    {
+                        field: 'GUpdateDate',
+                        headerName: 'زمان بروزرسانی',
+                        cellRendererSelector: () => {
+                            const moodDetails = {
+                                component: (rowData: any) => <DateCell date={rowData.data.GUpdateDate}/>,
+                            }
+                            return moodDetails;
+                        },
+                    }
+                ],
+                defaultColDef: {
+                    resizable: true,
+                    sortable: true,
+                    flex: 1,
+                    valueFormatter: formatNumber
+                },
+            },
+            getDetailRowData: async (params: any) => {
+                params.successCallback([params.data]);
+            },
+        };
+    }, []);
 
     return (
-        <div className={'flex flex-col h-full flex-1'}>
-            <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
-            </AccordionComponent>
-            <TableComponent data={data?.result?.pagedData}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['id']}
-                            pagination={true}
-                            totalCount={data?.result?.totalCount}
-                            fetcher={fetchData}
-                            query={query}
-            />
-        </div>
+        <RelationsContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
+            <div className={'flex flex-col h-full flex-1'}>
+                <AccordionComponent>
+                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
+                </AccordionComponent>
+                <RelationToolbar/>
+                <TableComponent data={data?.result.pagedData}
+                                columnDefStructure={columnDefStructure}
+                                rowId={['LeaderMarketerID', 'FollowerMarketerID']}
+                                detailCellRendererParams={detailCellRendererParams}
+                                masterDetail={true}
+                />
+            </div>
+        </RelationsContext.Provider>
     )
 }
