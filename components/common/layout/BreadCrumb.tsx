@@ -57,6 +57,7 @@ export default function BreadCrumbComponent() {
         "profile":'حساب کاربری',
         "marketer-app":'اپلیکیشن مارکتر',
         "relations":'ارتباط بازاریاب ها',
+        "recite":'گزارش صورتحسابهای بازاریاب',
     }
 
     useEffect(() => {

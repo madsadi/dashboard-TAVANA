@@ -674,12 +674,12 @@
   "commission-management_instrument":{
     "search": {
         "filters": [
-          {"title": "BourseTitle", "name": "عنوان بورس", "type": "input"},
-          {"title": "InstrumentTypeTitle", "name": "عنوان نوع ابزار مالی", "type": "input"},
+          {"title": "BourseTitle", "name": "عنوان بورس", "type": "dynamic"},
+          {"title": "InstrumentTypeTitle", "name": "عنوان نوع ابزار مالی", "type": "dynamic"},
           {"title": "InstrumentTypeDescription", "name": "توضیحات نوع ابزار", "type": "input"},
-          {"title": "SectorTitle", "name": "گروه صنعت", "type": "input"},
-          {"title": "SubSectorTitle", "name": "زیرگروه صنعت", "type": "input"},
-          {"title": "Deleted", "name": "دسته بندی", "type": "selectInput"}
+          {"title": "SectorTitle", "name": "گروه صنعت", "type": "dynamic"},
+          {"title": "SubSectorTitle", "name": "زیرگروه صنعت", "type": "dynamic"},
+          {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
         ],
         "initialValue":  {
           "CommissionInstrumentTypeId": "",
@@ -704,12 +704,12 @@
         "search": {
             "filters": [
               {"title": "CommissionCategoryId", "name": "شناسه", "type": "input"},
-              {"title": "MarketTitle", "name": "بازار", "type": "input"},
-              {"title": "OfferTypeTitle", "name": "نوع عرضه", "type": "input"},
-              {"title": "SideTitle", "name": "سمت سفارش", "type": "input"},
-              {"title": "SettlementDelayTitle", "name": "تاخیر در تسویه", "type": "input"},
-              {"title": "CustomerTypeTitle", "name": "نوع مشتری", "type": "input"},
-              {"title": "CustomerCounterSideTitle", "name": "نوع طرف مقابل", "type": "input"}
+              {"title": "MarketTitle", "name": "بازار", "type": "dynamic"},
+              {"title": "OfferTypeTitle", "name": "نوع عرضه", "type": "dynamic"},
+              {"title": "SideTitle", "name": "سمت سفارش", "type": "dynamic"},
+              {"title": "SettlementDelayTitle", "name": "تاخیر در تسویه", "type": "dynamic"},
+              {"title": "CustomerTypeTitle", "name": "نوع مشتری", "type": "dynamic"},
+              {"title": "CustomerCounterSideTitle", "name": "نوع طرف مقابل", "type": "dynamic"}
             ],
             "initialValue":   {
               "CommissionCategoryId": "",
@@ -833,8 +833,6 @@
         {"title": "FollowerMarketerID", "name": "شناسه زیرمجموعه بازاریاب", "type": "input"}
       ],
       "initialValue":   {
-        "PageNumber": 1,
-        "PageSize": 20,
         "StartDate": "",
         "EndDate": "",
         "FollowerMarketerID": "",
@@ -851,9 +849,36 @@
         {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
       ],
       "edit": [
+        {"title": "LeaderMarketerID", "name": "شناسه بازارایاب سرگروه", "type": "input"},
+        {"title": "FollowerMarketerID", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
+        {"title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+      ]
+    }
+
+  },
+  "marketer-app_recite": {
+    "search": {
+      "filters": [
+        {"title": "MarketerID ", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "Period", "name": "دوره زمانی", "type": "selectInput"}
+      ],
+      "initialValue":   {
+        "MarketerID": "",
+        "Period": ""
+      }
+    },
+    "toolbar":{
+      "add": [
         {"title": "LeaderMarketerID ", "name": "شناسه بازارایاب سرگروه", "type": "input"},
         {"title": "FollowerMarketerID ", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
         {"title": "CommissionCoefficient ", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+      ],
+      "edit": [
+        {"title": "LeaderMarketerID", "name": "شناسه بازارایاب سرگروه", "type": "input"},
+        {"title": "FollowerMarketerID", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
+        {"title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
         {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
       ]
     }

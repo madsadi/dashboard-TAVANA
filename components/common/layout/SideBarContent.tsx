@@ -134,6 +134,11 @@ export default function SideBarContent() {
                     label: 'ارتباط بازاریاب ها',
                     url: '/marketer-app/relations',
                     className: router.pathname === '/marketer-app/relations' ? 'sideBarActive' : '',
+                },
+                {
+                    label: 'گزارش صورتحسابهای بازاریاب',
+                    url: '/marketer-app/recite',
+                    className: router.pathname === '/marketer-app/recite' ? 'sideBarActive' : '',
                 }
             ],
         },

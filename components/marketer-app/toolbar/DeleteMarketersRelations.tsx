@@ -36,7 +36,7 @@ export default function DeleteMarketersRelations() {
             <Modal title={'حذف رابطه بین دو بازاریاب'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
-                        <p>آیا از حذف کردن این ارتباط اطمینان دارید؟</p>
+                        <p className={'text-center'}>آیا از حذف کردن این ارتباط اطمینان دارید؟</p>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                             <button className="button bg-red-500"
                                     onClick={(e) => {
