@@ -1,4 +1,4 @@
-import React, {Dispatch, Fragment, memo, useCallback, useState} from "react";
+import React, {Dispatch, Fragment, memo, useCallback, useEffect, useState} from "react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import {dateRangeHandler, FindEnum} from "../functions/common-funcions";
@@ -8,6 +8,8 @@ import SymbolSearchSection from "./SymbolSearchSecion";
 import {DayValue} from "react-modern-calendar-datepicker";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/20/solid";
 import RoleSearchSection from "./RoleSearchSection";
+import useQuery from "../../../hooks/useQuery";
+import {ONLINE_TRADING} from "../../../api/constants";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -36,6 +38,47 @@ const InputComponent = ({
 
     const {title, name, type, valueType} = item
     const [showPass, setShowPass] = useState<boolean>(false)
+    const [dynamicOptions, setDynamicOptions] = useState<any[]>([])
+    const {fetchAsyncData}=useQuery({url:''})
+
+    const getTheOptions = async (endpoint:string)=>{
+        await fetchAsyncData({},endpoint)
+            .then((res)=>setDynamicOptions(res?.data.result))
+    }
+    useEffect(()=>{
+        if (type==='dynamic' && title){
+            switch (title){
+                case "MarketTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetAllMarkets`)
+                    break;
+                case "OfferTypeTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetOfferTypes`)
+                    break;
+                case "SideTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetAllOrderSides`)
+                    break;
+                case "SettlementDelayTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetSettlementDelays`)
+                    break;
+                case "CustomerTypeTitle":
+                case "CustomerCounterSideTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetCustomerTypes`)
+                    break;
+                case "BourseTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetAllBourse`)
+                    break;
+                case "InstrumentTypeTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetAllInstrumentType`)
+                    break;
+                case "SectorTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetAllSectors`)
+                    break;
+                case "SubSectorTitle":
+                    getTheOptions(`${ONLINE_TRADING}/api/request/GetAllSubSectors`)
+                    break;
+            }
+        }
+    },[type])
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
@@ -433,6 +476,80 @@ const InputComponent = ({
                                                                 <div className="flex items-center">
                                                                     <span>
                                                                         {item.displayName}
+                                                                    </span>
+                                                                    {selected ? (
+                                                                        <span
+                                                                            className={classNames(
+                                                                                active ? '' : '',
+                                                                                'flex items-center mr-auto'
+                                                                            )}
+                                                                        >
+                                                                            <CheckIcon className="h-5 w-5"
+                                                                                       aria-hidden="true"/>
+                                                                        </span>
+                                                                    ) : null}
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </Listbox.Option>
+                                                ))}
+                                            </Listbox.Options>
+                                        </Transition>
+                                    </div>
+                                )}
+                            </Listbox>
+                        </div>
+                    </div>
+
+                )
+            case "dynamic":
+                return (
+                    <div>
+                        <label className={'mt-auto'} htmlFor={title}>{name}</label>
+                        <div className="relative rounded">
+                            <Listbox name={title} value={query?.[title]}
+                                     onChange={(e) => {
+                                         onChange(title, e.code);
+                                     }}>
+                                {({open}) => (
+                                    <div className="relative">
+                                        <Listbox.Button
+                                            className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                            <span className="flex items-center">
+                                                <span
+                                                    className="ml-2 block truncate text-sm">{dynamicOptions.find((i:any)=>i.code===query?.[title])?.title}</span>
+                                            </span>
+                                            <span className="pointer-events-none flex items-center mr-auto">
+                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                 aria-hidden="false"/>
+                                            </span>
+                                        </Listbox.Button>
+
+                                        <Transition
+                                            show={open}
+                                            as={Fragment}
+                                            leave="transition ease-in duration-100"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <Listbox.Options
+                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                {dynamicOptions?.map((item: any) => (
+                                                    <Listbox.Option
+                                                        key={item.title}
+                                                        className={({active}) =>
+                                                            classNames(
+                                                                active ? 'bg-border' : '',
+                                                                'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                            )
+                                                        }
+                                                        value={item}
+                                                    >
+                                                        {({selected, active}) => (
+                                                            <>
+                                                                <div className="flex items-center">
+                                                                    <span>
+                                                                        {item.title}
                                                                     </span>
                                                                     {selected ? (
                                                                         <span

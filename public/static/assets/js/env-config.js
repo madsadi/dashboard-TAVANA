@@ -5,5 +5,5 @@ COMMISSION_BASE_URL:'http://172.24.65.20:9007',
 NETFLOW:'http://172.24.65.20:8091',
 ADMIN_GATEWAY:'http://172.24.65.20:9020',
 FILE_SERVER:'http://172.24.65.20:9073',
-MARKETER_ADMIN:'https://devmarketer-admin.tech1a.co',
+MARKETER_ADMIN:'http://stgmarketer-admin.tech1a.co',
  };

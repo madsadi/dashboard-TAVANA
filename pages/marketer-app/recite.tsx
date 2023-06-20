@@ -10,8 +10,8 @@ import {ModuleIdentifier} from "../../components/common/functions/Module-Identif
 import DateCell from "../../components/common/table/DateCell";
 import RelationToolbar from "../../components/marketer-app/toolbar/RelationToolbar";
 
-export const RelationsContext = createContext({})
-export default function Relations() {
+export const ReciteContext = createContext({})
+export default function Recite() {
     const [selectedRows, setSelectedRows] = useState<any>([])
 
     const columnDefStructure: any = [
@@ -25,22 +25,18 @@ export default function Relations() {
             maxWidth: 40,
         },
         {
-            field: 'LeaderMarketerID',
+            field: 'MarketerID',
             headerName: 'شناسه بازاریاب',
+        },
+        {
+            field: 'YearandMonth',
+            headerName: 'سال و ماه میلادی',
             cellRenderer: 'agGroupCellRenderer',
-        },
-        {
-            field: 'FollowerMarketerName',
-            headerName: 'نام و نام خانوادگی کاربر بازاریاب',
-        },
-        {
-            field: 'LeaderMarketerName',
-            headerName: 'نام و نام خانوادگی بازاریاب',
         }
     ]
     const {
         data, fetchData, query: searchQuery
-    }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`})
+    }: any = useQuery({url: `${MARKETER_ADMIN}/factor/search-factor`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -105,12 +101,12 @@ export default function Relations() {
     }, []);
 
     return (
-        <RelationsContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
+        <ReciteContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
+                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_recite}/>
                 </AccordionComponent>
-                <RelationToolbar/>
+                {/*<RelationToolbar/>*/}
                 <TableComponent data={data?.result.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 setSelectedRows={setSelectedRows}
@@ -121,6 +117,6 @@ export default function Relations() {
                                 masterDetail={true}
                 />
             </div>
-        </RelationsContext.Provider>
+        </ReciteContext.Provider>
     )
 }

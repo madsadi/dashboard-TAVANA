@@ -8,7 +8,7 @@ import {
     isRequired,
     IsValidEnums,
     marketerTypeEnum,
-    Minutes, onlineRegistrationStatusEnums,
+    Minutes, Months, onlineRegistrationStatusEnums,
     operators,
     Options,
     orderOrigin,
@@ -42,8 +42,8 @@ export const formatDecimals = (params: any) => {
 };
 
 export const jalali = (date: string) => {
-    const jalali = moment(date).locale('fa');
-    return {date: jalali.format("YYYY/MM/DD"), time: jalali.format("HH:mm:ss")}
+    const jalaliD = moment(date).locale('fa');
+    return {date: jalaliD.format("YYYY/MM/DD"), time: jalaliD.format("HH:mm:ss")}
 }
 
 export const dateRangeHandler = (selectedDayRange: any) => {
@@ -129,6 +129,8 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
         case 'IsRequired':
         case 'isSejami':
             return isRequired
+        case 'Period':
+            return Months
         default:
             return []
     }
