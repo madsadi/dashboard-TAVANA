@@ -860,7 +860,7 @@
   "marketer-app_recite": {
     "search": {
       "filters": [
-        {"title": "MarketerID ", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "MarketerID", "name": "شناسه بازاریاب", "type": "input"},
         {"title": "Period", "name": "دوره زمانی", "type": "selectInput"}
       ],
       "initialValue":   {
@@ -870,16 +870,32 @@
     },
     "toolbar":{
       "add": [
-        {"title": "LeaderMarketerID ", "name": "شناسه بازارایاب سرگروه", "type": "input"},
-        {"title": "FollowerMarketerID ", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
-        {"title": "CommissionCoefficient ", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
-        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+        {"title": "MarketerID", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "TotalPureVolume", "name": "مجموع گردش", "type": "input", "valueType": "number"},
+        {"title": "TotalFee", "name": "مجموع کارمزد", "type": "input", "valueType": "number"},
+        {"title": "PureFee", "name": "خالص کارمزد", "type": "input", "valueType": "number"},
+        {"title": "MarketerFee", "name": "کارمزد بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Plan", "name": "پلن دوره", "type": "input"},
+        {"title": "Tax", "name": "مالیات", "type": "input", "valueType": "number"},
+        {"title": "Collateral", "name": "Collateral", "type": "input", "valueType": "number"},
+        {"title": "FinalFee", "name": "کارمزد نهایی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Payment", "name": "مبلغ قابل پرداخت", "type": "input", "valueType": "number"},
+        {"title": "FactorStatus", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Period", "name": "دوره زمانی", "type": "selectInput"}
       ],
       "edit": [
-        {"title": "LeaderMarketerID", "name": "شناسه بازارایاب سرگروه", "type": "input"},
-        {"title": "FollowerMarketerID", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
-        {"title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
-        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+        {"title": "MarketerID", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "TotalPureVolume", "name": "مجموع گردش", "type": "input", "valueType": "number"},
+        {"title": "TotalFee", "name": "مجموع کارمزد", "type": "input", "valueType": "number"},
+        {"title": "PureFee", "name": "خالص کارمزد", "type": "input", "valueType": "number"},
+        {"title": "MarketerFee", "name": "کارمزد بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Plan", "name": "پلن دوره", "type": "input"},
+        {"title": "Tax", "name": "مالیات", "type": "input", "valueType": "number"},
+        {"title": "Collateral", "name": "Collateral", "type": "input", "valueType": "number"},
+        {"title": "FinalFee", "name": "کارمزد نهایی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Payment", "name": "مبلغ قابل پرداخت", "type": "input", "valueType": "number"},
+        {"title": "FactorStatus", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Period", "name": "دوره زمانی", "type": "selectInput"}
       ]
     }
 

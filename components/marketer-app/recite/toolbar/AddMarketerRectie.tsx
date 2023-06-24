@@ -1,22 +1,22 @@
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
-import React, {useContext, useEffect, useState} from "react";
-import {throwToast} from "../../common/functions/notification";
-import useMutation from "../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {useSearchFilters} from "../../../hooks/useSearchFilters";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
-import {RelationsContext} from "../../../pages/marketer-app/relations";
+import InputComponent from "../../../common/components/InputComponent";
+import Modal from "../../../common/layout/Modal";
+import React, {useContext, useState} from "react";
+import {throwToast} from "../../../common/functions/notification";
+import useMutation from "../../../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../../../api/constants";
+import {useSearchFilters} from "../../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../../common/functions/Module-Identifier";
+import {ReciteContext} from "../../../../pages/marketer-app/recite";
 
-export default function AddMarketersRelations() {
-    const {fetchData,searchQuery} = useContext<any>(RelationsContext)
-    const {toolbar} = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS,'add')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/marketer/add-marketers-relations`,method:"PUT"})
+export default function AddMarketerRectie() {
+    const {fetchData,searchQuery} = useContext<any>(ReciteContext)
+    const {toolbar} = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite,'add')
+    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/factor/add-factor`,method:"PUT"})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
     const openHandler = ()=>{
-            setModal(true)
+        setModal(true)
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
@@ -37,9 +37,9 @@ export default function AddMarketersRelations() {
     return (
         <>
             <button className={'button bg-green-500'} onClick={openHandler}>
-                ایجاد رابطه بین دو بازاریاب
+                اضافه کردن صورت حساب
             </button>
-            <Modal title={'ایجاد رابطه بین دو بازاریاب'} setOpen={setModal}
+            <Modal title={'ااضافه کردن صورت حساب'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
                     <form onSubmit={submitHandler}>

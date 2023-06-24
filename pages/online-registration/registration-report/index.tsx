@@ -101,7 +101,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.registrationStateCodeTitle}</span>
-                            <DateCell date={rowData.data.registrationStateDateTime}/>
+                            <DateCell date={rowData.data.registrationStateDateTime ? rowData.data.registrationStateDateTime:''}/>
                         </div>
                     )
                 };
@@ -119,7 +119,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.isTbsInserted ? 'بله':'خیر'}</span>
-                            <DateCell date={rowData.data.tbsInsertDateTime}/>
+                            <DateCell date={rowData.data.tbsInsertDateTime ? rowData.data.tbsInsertDateTime:''}/>
                         </div>
                     )
                 };
@@ -149,7 +149,7 @@ export default function OnlineRegistration() {
             headerName: 'زمان ثبت فایل قراردادها در TBS',
             cellRendererSelector: () => {
                 const moodDetails = {
-                    component: (rowData: any) => <DateCell date={rowData.data.tbsDocsInsertDateTime}/>,
+                    component: (rowData: any) => <DateCell date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime:''}/>,
                 }
                 return moodDetails;
             },

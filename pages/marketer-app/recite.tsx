@@ -3,12 +3,12 @@ import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
+import {formatNumber} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {MARKETER_ADMIN} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/DateCell";
-import RelationToolbar from "../../components/marketer-app/toolbar/RelationToolbar";
+import ReciteToolbar from "../../components/marketer-app/recite/toolbar/ReciteToolbar";
 
 export const ReciteContext = createContext({})
 export default function Recite() {
@@ -106,7 +106,7 @@ export default function Recite() {
                 <AccordionComponent>
                     <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_recite}/>
                 </AccordionComponent>
-                {/*<RelationToolbar/>*/}
+                <ReciteToolbar/>
                 <TableComponent data={data?.result.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 setSelectedRows={setSelectedRows}

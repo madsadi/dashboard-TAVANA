@@ -1,9 +1,9 @@
 import React, {useContext, useState} from "react";
-import Modal from "../../common/layout/Modal";
-import {throwToast} from "../../common/functions/notification";
-import useMutation from "../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {RelationsContext} from "../../../pages/marketer-app/relations";
+import Modal from "../../../common/layout/Modal";
+import {throwToast} from "../../../common/functions/notification";
+import useMutation from "../../../../hooks/useMutation";
+import {ADMIN_GATEWAY} from "../../../../api/constants";
+import {RelationsContext} from "../../../../pages/marketer-app/relations";
 
 export default function DeleteMarketersRelations() {
     const {selectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
