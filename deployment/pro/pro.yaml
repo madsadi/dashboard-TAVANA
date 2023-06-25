@@ -13,7 +13,7 @@ data:
   IDP: "https://idp.tavanabroker.ir"
   ONLINE_TRADING: "https://otg.tavanabroker.ir"
   FILE_SERVER: https://file-manager.tavanabroker.ir
-  MARKETER_ADMIN: http://cluster.tech1a.co
+  MARKETER_ADMIN: https://marketer-admin.tavanabroker.ir
 ---
 apiVersion: apps/v1
 kind: Deployment
