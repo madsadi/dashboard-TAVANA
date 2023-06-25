@@ -18,7 +18,6 @@ const SearchComponent: React.FC<SearchComponentTypes|any> = forwardRef((props,re
     });
 
     const router = useRouter()
-
     useEffect(()=>{
         if (prevQuery && router.pathname.startsWith('/online-registration/registration-report')){
             setQuery(prevQuery)
@@ -52,10 +51,9 @@ const SearchComponent: React.FC<SearchComponentTypes|any> = forwardRef((props,re
     }
 
     useImperativeHandle(ref, () => ({
-        changeQueries(key:string,value:any) {
+        changeQueries(newQuery: any) {//define the type object
             let _query: any = {...query};
-            _query[key] = value
-            setQuery(_query)
+            setQuery({..._query,...newQuery})
         }
     }));
     return (

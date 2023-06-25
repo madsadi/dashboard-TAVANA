@@ -1,4 +1,4 @@
-import {ForwardedRef} from "react";
+import {Dispatch, ForwardedRef} from "react";
 
 export interface SearchComponentTypes {
     onSubmit:Function,
@@ -7,4 +7,10 @@ export interface SearchComponentTypes {
     className?:string,
     extraClassName?:string,
     ref?:ForwardedRef<unknown>
+}
+
+export interface CategoryResultModalTypes {
+    setOpen:Dispatch<boolean>,
+    open:boolean,
+    queryHandler:Function,
 }

@@ -6,7 +6,13 @@ export const throwToast = ({type='error',value=''}:{type:string,value:any})=>{
             toast.success(`${value}`)
             break;
         case 'error':
-            toast.error(`${value?.response?.data?.error?.message}`)
+            if (value.code===401){
+                toast.error('توکن شما معتبر نمی باشد')
+            }else if (value.code==='ERR_NETWORK'){
+                toast.error('مشکلی در برقراری ارتباط پیش آمده')
+            }else{
+                toast.error(`${value?.response?.data?.error?.message}`)
+            }
             break;
         case 'customError':
             toast.error(`${value}`)

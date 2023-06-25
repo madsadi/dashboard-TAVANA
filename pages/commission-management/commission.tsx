@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createContext, useEffect, useRef, useState} from 'react';
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 import AccordionComponent from "../../components/common/components/AccordionComponent";
 import SearchComponent from "../../components/common/components/Search.component";
@@ -7,7 +7,11 @@ import {jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {COMMISSION_BASE_URL} from "../../api/constants";
 import Modal from "../../components/common/layout/Modal";
+import {CategoryResultModal} from "../../components/commission/index/CategoryResultModal";
+import {throwToast} from "../../components/common/functions/notification";
+import {InstrumentTypeResultModal} from "../../components/commission/index/InstrumentTypeResultModal";
 
+export const CommissionContext = createContext({})
 export default function Commission() {
     const columnDefStructure = [
         {
@@ -135,58 +139,65 @@ export default function Commission() {
             minWidth: 120
         }
     ]
-    const {data:categoryData,fetchData:categorySearch}:any = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
+    const {data:categoryData,query:categoryQuery,fetchData:categorySearch}:any = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
     const {data:instrumentData,fetchData:instrumentSearch}:any = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
-    const {data:detailData,fetchData:detailSearch}:any = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionDetail/Search`})
+    const {fetchAsyncData:detailSearch}:any = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionDetail/Search`})
     const [categoryModal,setCategoryModal]=useState(false)
-    const ref=useRef()
+    const [instrumentType,setInstrumentTypeModal]=useState(false)
+    const [rowData,setRowData]=useState<any>([])
+    const ref:any=useRef()
 
     useEffect(()=>{
-        if (categoryData?.result?.pagedData.length) setCategoryModal(true)
+        if (categoryData?.result?.pagedData?.length) setCategoryModal(true)
     },[categoryData])
+    useEffect(()=>{
+        if (instrumentData?.result?.pagedData?.length) setInstrumentTypeModal(true)
+    },[instrumentData])
+
+    const queryHandler=(newQuery:any)=>{
+        ref?.current?.changeQueries(newQuery)
+    }
+
+    const detailSearchHandler=(query:any)=>{
+        const {CommissionCategoryTitle,CommissionInstrumentTypeTitle,...rest}=query
+        detailSearch(rest)
+            .then((res:any)=>setRowData(res?.data?.result?.pagedData))
+            .catch((err:any)=>throwToast({type:'err',value:err}))
+    }
 
     return (
-        <div className={'flex flex-col h-full grow'}>
-            <Modal setOpen={setCategoryModal} open={categoryModal} title={'نتایج جستجو گروه بندی ضرایب'}>
-                {categoryData?.result?.pagedData?.map((item:any)=>{
-                    return(
-                        <div>
-                            {item.id}
+        <CommissionContext.Provider value={{categoryQuery}}>
+            <div className={'flex flex-col h-full grow'}>
+                <CategoryResultModal open={categoryModal} setOpen={setCategoryModal} queryHandler={queryHandler} />
+                <InstrumentTypeResultModal open={instrumentType} setOpen={setInstrumentTypeModal} queryHandler={queryHandler} />
+                <AccordionComponent>
+                    <div className={'grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2'}>
+                        <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
+                            <div className={'font-bold text-lg mb-5'}>
+                                ابزار مالی گروه بندی ضرایب
+                            </div>
+                            <SearchComponent className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} extraClassName={'sm:mt-auto'} onSubmit={instrumentSearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
                         </div>
-                    )
-                })}
-            </Modal>
-            <AccordionComponent>
-                <div className={'grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2'}>
-                    <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
-                        <div className={'font-bold text-lg mb-5'}>
-                            ابزار مالی گروه بندی ضرایب
+                        <div className={'border border-dashed border-border p-2 rounded'}>
+                            <div className={'font-bold text-lg mb-5'}>
+                                گروه بندی ضرایب
+                            </div>
+                            <SearchComponent className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} onSubmit={categorySearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_category}/>
                         </div>
-                        <SearchComponent className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} extraClassName={'sm:mt-auto'} onSubmit={instrumentSearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
+                        <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
+                            <div className={'font-bold text-lg mb-5'}>
+                                گروه بندی ضرایب
+                            </div>
+                            <SearchComponent ref={ref} className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} extraClassName={'sm:mt-auto'} onSubmit={detailSearchHandler} module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail}/>
+                        </div>
                     </div>
-                    <div className={'border border-dashed border-border p-2 rounded'}>
-                        <div className={'font-bold text-lg mb-5'}>
-                            گروه بندی ضرایب
-                        </div>
-                        <SearchComponent className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} onSubmit={categorySearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_category}/>
-                    </div>
-                    <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
-                        <div className={'font-bold text-lg mb-5'}>
-                            گروه بندی ضرایب
-                        </div>
-                        <SearchComponent ref={ref} className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} extraClassName={'sm:mt-auto'} onSubmit={detailSearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail}/>
-                    </div>
-                </div>
-            </AccordionComponent>
-            <TableComponent data={instrumentData?.result?.pagedData}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['instrumentId']}
-                            rowSelection={'single'}
-            />
-        </div>
-        // <div className="flex flex-col h-full grow">
-        //     <CommissionSearch/>
-        //     <CommissionResult/>
-        // </div>
+                </AccordionComponent>
+                <TableComponent data={rowData}
+                                columnDefStructure={columnDefStructure}
+                                rowId={['instrumentId']}
+                                rowSelection={'single'}
+                />
+            </div>
+        </CommissionContext.Provider>
     )
 }

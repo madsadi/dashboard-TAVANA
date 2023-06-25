@@ -725,9 +725,8 @@
   "commission-management_detail": {
     "search": {
       "filters": [
-        {"title": "CommissionDetailId", "name": "شناسه جزییات کارمزد", "type": "input"},
-        {"title": "CommissionInstrumentTypeId", "name": "شناسه ابزار مالی کارمزد", "type": "input"},
-        {"title": "CommissionCategoryId", "name": "شناسه گروه بندی کارمزد", "type": "input"},
+        {"title": "CommissionInstrumentTypeTitle", "name": "ابزار مالی کارمزد", "type": "input"},
+        {"title": "CommissionCategoryTitle", "name": "گروه بندی کارمزد", "type": "input"},
         {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"},
         {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
       ],
