@@ -7,7 +7,7 @@ import {useRouter} from "next/router";
 import {jalali} from "../functions/common-funcions";
 import {SearchComponentTypes} from "../../../types/types";
 
-const SearchComponent: React.FC<SearchComponentTypes|any> = forwardRef((props,ref) => {
+const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
     const {query:prevQuery}=useSelector((state:any)=>state.pageConfig)
     const {onSubmit,module, dynamicOptions = [],className,extraClassName} = props
     const {filters,initialValue} = useSearchFilters(module)
@@ -90,5 +90,5 @@ const SearchComponent: React.FC<SearchComponentTypes|any> = forwardRef((props,re
         </form>
     )
 })
-
+SearchComponent.displayName = 'SearchComponent';
 export default SearchComponent;
