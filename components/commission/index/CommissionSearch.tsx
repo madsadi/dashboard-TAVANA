@@ -9,6 +9,8 @@ import {Accordion} from "flowbite-react";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import useFormCommission from "../../../hooks/useFormCommission";
+import SearchComponent from "../../common/components/Search.component";
+import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
 
 const commissionDic = require('../../../dictionary/commission.json')
 
@@ -132,6 +134,7 @@ export default function CommissionSearch() {
                                 <div>
                                     ابزار مالی گروه بندی ضرایب
                                 </div>
+                                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.USER_MANAGEMENT_users}/>
                                 <div className={'grid grid-cols-2 gap-4'}>
                                     <div>
                                         <label className={'block'} htmlFor="BourseTitle">عنوان بورس</label>
