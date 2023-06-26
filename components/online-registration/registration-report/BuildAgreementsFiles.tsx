@@ -13,7 +13,7 @@ import {OnlineRegDetailContext} from "../../../pages/online-registration/registr
 export default function BuildAgreementsFiles() {
     const {selectedRows} = useContext<any>(OnlineRegContext)
     const {fetchData: detailFetch} = useContext<any>(OnlineRegDetailContext)
-    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/api/request/UploadUserAgreementDocs'`})
+    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/api/request/UploadUserAgreementDocs`})
     const router = useRouter()
     let dep: string | undefined = router.query?.detail?.[0]
     const queryData: string[] | undefined = dep?.split('&')
