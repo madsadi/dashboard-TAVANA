@@ -1,17 +1,17 @@
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
+import InputComponent from "../../../common/components/InputComponent";
+import Modal from "../../../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
-import {throwToast} from "../../common/functions/notification";
-import useMutation from "../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {useSearchFilters} from "../../../hooks/useSearchFilters";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
-import {RelationsContext} from "../../../pages/marketer-app/relations";
+import {throwToast} from "../../../common/functions/notification";
+import useMutation from "../../../../hooks/useMutation";
+import {ADMIN_GATEWAY, MARKETER_ADMIN} from "../../../../api/constants";
+import {useSearchFilters} from "../../../../hooks/useSearchFilters";
+import {ModuleIdentifier} from "../../../common/functions/Module-Identifier";
+import {RelationsContext} from "../../../../pages/marketer-app/relations";
 
 export default function AddMarketersRelations() {
     const {fetchData,searchQuery} = useContext<any>(RelationsContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS,'add')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/marketer/add-marketers-relations`,method:"PUT"})
+    const {mutate} = useMutation({url:`${MARKETER_ADMIN}/marketer/add-marketers-relations`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
@@ -20,9 +20,9 @@ export default function AddMarketersRelations() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate(query)
+        await mutate({},query)
             .then((res)=> {
-                throwToast({type:'success',value:`${res?.data?.result?.message}`})
+                throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)
                 setQuery(null)
                 fetchData(searchQuery)

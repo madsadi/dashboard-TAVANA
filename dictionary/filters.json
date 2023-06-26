@@ -674,14 +674,17 @@
   "commission-management_instrument":{
     "search": {
         "filters": [
-          {"title": "BourseTitle", "name": "عنوان بورس", "type": "dynamic"},
-          {"title": "InstrumentTypeTitle", "name": "عنوان نوع ابزار مالی", "type": "dynamic"},
+          {"title": "CommissionInstrumentTypeId", "name": "شناسه نوع ابزار مالی کارمزد", "type": "input"},
+          {"title": "BourseCode", "name": "عنوان بورس", "type": "dynamic"},
+          {"title": "InstrumentTypeCode", "name": "عنوان نوع ابزار مالی", "type": "dynamic"},
           {"title": "InstrumentTypeDescription", "name": "توضیحات نوع ابزار", "type": "input"},
-          {"title": "SectorTitle", "name": "گروه صنعت", "type": "dynamic"},
-          {"title": "SubSectorTitle", "name": "زیرگروه صنعت", "type": "dynamic"},
+          {"title": "SectorCode", "name": "گروه صنعت", "type": "dynamic"},
+          {"title": "SubSectorCode", "name": "زیرگروه صنعت", "type": "dynamic"},
           {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
         ],
         "initialValue":  {
+          "PageNumber": 1,
+          "PageSize": 20,
           "CommissionInstrumentTypeId": "",
           "BourseTitle": "",
           "InstrumentTypeTitle": "",
@@ -704,14 +707,16 @@
         "search": {
             "filters": [
               {"title": "CommissionCategoryId", "name": "شناسه", "type": "input"},
-              {"title": "MarketTitle", "name": "بازار", "type": "dynamic"},
-              {"title": "OfferTypeTitle", "name": "نوع عرضه", "type": "dynamic"},
-              {"title": "SideTitle", "name": "سمت سفارش", "type": "dynamic"},
-              {"title": "SettlementDelayTitle", "name": "تاخیر در تسویه", "type": "dynamic"},
-              {"title": "CustomerTypeTitle", "name": "نوع مشتری", "type": "dynamic"},
-              {"title": "CustomerCounterSideTitle", "name": "نوع طرف مقابل", "type": "dynamic"}
+              {"title": "MarketCode", "name": "بازار", "type": "dynamic"},
+              {"title": "OfferTypeCode", "name": "نوع عرضه", "type": "dynamic"},
+              {"title": "SideCode", "name": "سمت سفارش", "type": "dynamic"},
+              {"title": "SettlementDelayCode", "name": "تاخیر در تسویه", "type": "dynamic"},
+              {"title": "CustomerTypeCode", "name": "نوع مشتری", "type": "dynamic"},
+              {"title": "CustomerCounterSideCode", "name": "نوع طرف مقابل", "type": "dynamic"}
             ],
             "initialValue":   {
+              "PageNumber": 1,
+              "PageSize": 20,
               "CommissionCategoryId": "",
               "MarketTitle": "",
               "OfferTypeTitle": "",
@@ -721,6 +726,24 @@
               "CustomerCounterSideTitle": ""
             }
       }
+  },
+  "commission-management_detail": {
+    "search": {
+      "filters": [
+        {"title": "CommissionInstrumentTypeTitle", "name": "ابزار مالی کارمزد", "type": "input"},
+        {"title": "CommissionCategoryTitle", "name": "گروه بندی کارمزد", "type": "input"},
+        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"},
+        {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
+      ],
+      "initialValue":   {
+        "CommissionDetailId": "",
+        "CommissionInstrumentTypeId": "",
+        "CommissionCategoryId": "",
+        "StartDate": "",
+        "EndDate": "",
+        "Deleted": null
+      }
+    }
   },
   "netflow_trades_report":{
         "search": {
@@ -860,7 +883,7 @@
   "marketer-app_recite": {
     "search": {
       "filters": [
-        {"title": "MarketerID ", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "MarketerID", "name": "شناسه بازاریاب", "type": "input"},
         {"title": "Period", "name": "دوره زمانی", "type": "selectInput"}
       ],
       "initialValue":   {
@@ -870,16 +893,32 @@
     },
     "toolbar":{
       "add": [
-        {"title": "LeaderMarketerID ", "name": "شناسه بازارایاب سرگروه", "type": "input"},
-        {"title": "FollowerMarketerID ", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
-        {"title": "CommissionCoefficient ", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
-        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+        {"title": "MarketerID", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "TotalPureVolume", "name": "مجموع گردش", "type": "input", "valueType": "number"},
+        {"title": "TotalFee", "name": "مجموع کارمزد", "type": "input", "valueType": "number"},
+        {"title": "PureFee", "name": "خالص کارمزد", "type": "input", "valueType": "number"},
+        {"title": "MarketerFee", "name": "کارمزد بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Plan", "name": "پلن دوره", "type": "input"},
+        {"title": "Tax", "name": "مالیات", "type": "input", "valueType": "number"},
+        {"title": "Collateral", "name": "Collateral", "type": "input", "valueType": "number"},
+        {"title": "FinalFee", "name": "کارمزد نهایی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Payment", "name": "مبلغ قابل پرداخت", "type": "input", "valueType": "number"},
+        {"title": "FactorStatus", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Period", "name": "دوره زمانی", "type": "selectInput"}
       ],
       "edit": [
-        {"title": "LeaderMarketerID", "name": "شناسه بازارایاب سرگروه", "type": "input"},
-        {"title": "FollowerMarketerID", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
-        {"title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
-        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+        {"title": "MarketerID", "name": "شناسه بازاریاب", "type": "input"},
+        {"title": "TotalPureVolume", "name": "مجموع گردش", "type": "input", "valueType": "number"},
+        {"title": "TotalFee", "name": "مجموع کارمزد", "type": "input", "valueType": "number"},
+        {"title": "PureFee", "name": "خالص کارمزد", "type": "input", "valueType": "number"},
+        {"title": "MarketerFee", "name": "کارمزد بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Plan", "name": "پلن دوره", "type": "input"},
+        {"title": "Tax", "name": "مالیات", "type": "input", "valueType": "number"},
+        {"title": "Collateral", "name": "Collateral", "type": "input", "valueType": "number"},
+        {"title": "FinalFee", "name": "کارمزد نهایی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Payment", "name": "مبلغ قابل پرداخت", "type": "input", "valueType": "number"},
+        {"title": "FactorStatus", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "Period", "name": "دوره زمانی", "type": "selectInput"}
       ]
     }
 

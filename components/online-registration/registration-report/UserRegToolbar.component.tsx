@@ -5,6 +5,7 @@ import {InquirySejamStateComponent} from "./InquirySejamState.component";
 import {SendMessageComponent} from "./SendMessage.component";
 import {AgreementToTbs} from "./AgreementToTbs";
 import EditRefCode from "./EditRefCode";
+import BuildAgreementsFiles from "./BuildAgreementsFiles";
 
 export default function UserRegToolbarComponent(){
     return(
@@ -15,6 +16,7 @@ export default function UserRegToolbarComponent(){
                 <SendMessageComponent/>
                 <TBSComponent/>
                 <AgreementToTbs/>
+                <BuildAgreementsFiles/>
                 <EditRefCode/>
             </div>
         </div>

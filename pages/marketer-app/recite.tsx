@@ -1,5 +1,6 @@
 import React, {createContext, useMemo, useState} from "react";
 import dynamic from "next/dynamic";
+
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
@@ -8,7 +9,7 @@ import useQuery from "../../hooks/useQuery";
 import {MARKETER_ADMIN} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/DateCell";
-import RelationToolbar from "../../components/marketer-app/toolbar/RelationToolbar";
+import ReciteToolbar from "../../components/marketer-app/recite/toolbar/ReciteToolbar";
 
 export const ReciteContext = createContext({})
 export default function Recite() {
@@ -25,13 +26,27 @@ export default function Recite() {
             maxWidth: 40,
         },
         {
-            field: 'MarketerID',
-            headerName: 'شناسه بازاریاب',
+            field: 'MarketerName',
+            headerName: 'نام بازاریاب',
+            cellRenderer: 'agGroupCellRenderer',
         },
         {
-            field: 'YearandMonth',
-            headerName: 'سال و ماه میلادی',
-            cellRenderer: 'agGroupCellRenderer',
+            field: 'Doreh',
+            headerName: 'دوره زمانه',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+                    return (
+                        <div>
+                            {months[Number(rowData.data.Doreh.split('1402')[1])]}
+                        </div>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
         }
     ]
     const {
@@ -45,46 +60,31 @@ export default function Recite() {
                 // getRowId:(params:any)=>params.data.orderId,
                 columnDefs: [
                     {
-                        field: 'FollowerMarketerID',
-                        headerName: 'شناسه کاربری بازاریاب',
+                        field: 'TotalPureVolume',
+                        headerName: 'حجم خالص',
                     },
                     {
-                        field: 'CommissionCoefficient',
-                        headerName: 'ضریب کارمزد',
+                        field: 'TotalFee',
+                        headerName: 'کارمزد کل',
                     },
                     {
-                        field: 'StartDate',
-                        headerName: 'تاریخ شروع ارتباط',
-                    },
-                    {
-                        field: 'GEndDate',
-                        headerName: 'تاریخ پایان ارتباط',
-                        cellRendererSelector: () => {
-                            const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GEndDate}/>,
-                            }
-                            return moodDetails;
-                        },
-                    },
-                    {
-                        field: 'GCreateDate',
-                        headerName: 'زمان ایجاد',
-                        cellRendererSelector: () => {
-                            const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GCreateDate}/>,
-                            }
-                            return moodDetails;
-                        },
-                    },
-                    {
-                        field: 'GUpdateDate',
-                        headerName: 'زمان بروزرسانی',
-                        cellRendererSelector: () => {
-                            const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GUpdateDate}/>,
-                            }
-                            return moodDetails;
-                        },
+                        field: 'PureFee',
+                        headerName: 'کارمزد خالص',
+                    },{
+                        field: 'MarketerFee',
+                        headerName: 'کارمزد مارکتر',
+                    },{
+                        field: 'Plan',
+                        headerName: 'پلکان',
+                    },{
+                        field: 'Tax',
+                        headerName: 'مالیات',
+                    },{
+                        field: 'FinalFee',
+                        headerName: 'کارمزد نهایی',
+                    },{
+                        field: 'Payment',
+                        headerName: 'پرداختی',
                     }
                 ],
                 defaultColDef: {
@@ -106,13 +106,13 @@ export default function Recite() {
                 <AccordionComponent>
                     <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_recite}/>
                 </AccordionComponent>
-                {/*<RelationToolbar/>*/}
+                <ReciteToolbar/>
                 <TableComponent data={data?.result.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 setSelectedRows={setSelectedRows}
                                 selectedRows={selectedRows}
-                                rowSelection={'multiple'}
-                                rowId={['LeaderMarketerID', 'FollowerMarketerID']}
+                                rowSelection={'single'}
+                                rowId={['IdpID']}
                                 detailCellRendererParams={detailCellRendererParams}
                                 masterDetail={true}
                 />

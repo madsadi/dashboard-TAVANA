@@ -8,7 +8,7 @@ import useQuery from "../../hooks/useQuery";
 import {MARKETER_ADMIN} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/DateCell";
-import RelationToolbar from "../../components/marketer-app/toolbar/RelationToolbar";
+import RelationToolbar from "../../components/marketer-app/relations/toolbar/RelationToolbar";
 
 export const RelationsContext = createContext({})
 export default function Relations() {

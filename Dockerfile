@@ -18,7 +18,7 @@ ENV  ADMIN_GATEWAY=http://172.24.65.20:9020
 ENV  IDP=https://cluster.tech1a.co
 ENV  ONLINE_TRADING=http://cluster.tech1a.co
 ENV FILE_SERVER=http://cluster.tech1a.co:9073
-ENV  MARKETER_ADMIN=http://cluster.tech1a.co
+ENV  MARKETER_ADMIN=http://stgmarketer-admin.tech1a.co
 
 # create & set working directory
 RUN mkdir -p /usr/src

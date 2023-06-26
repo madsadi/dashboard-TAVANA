@@ -1,15 +1,15 @@
 import InputComponent from "./InputComponent";
-import React, {Dispatch, useEffect, useState} from "react";
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {useSelector} from "react-redux";
 import {useRouter} from "next/router";
 import {jalali} from "../functions/common-funcions";
+import {SearchComponentTypes} from "../../../types/types";
 
-type PropsType = { query: any, setQuery: Dispatch<any>, onSubmit: Function, listOfFilters: any, initialValue: any, dynamicOptions: any }
-const SearchComponent: React.FC<any> = (props) => {
+const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
     const {query:prevQuery}=useSelector((state:any)=>state.pageConfig)
-    const {onSubmit,module, dynamicOptions = []} = props
+    const {onSubmit,module, dynamicOptions = [],className,extraClassName} = props
     const {filters,initialValue} = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
@@ -18,7 +18,6 @@ const SearchComponent: React.FC<any> = (props) => {
     });
 
     const router = useRouter()
-
     useEffect(()=>{
         if (prevQuery && router.pathname.startsWith('/online-registration/registration-report')){
             setQuery(prevQuery)
@@ -51,12 +50,19 @@ const SearchComponent: React.FC<any> = (props) => {
         setQuery(_query)
     }
 
+    useImperativeHandle(ref, () => ({
+        changeQueries(newQuery: any) {//define the type object
+            let _query: any = {...query};
+            setQuery({..._query,...newQuery})
+        }
+    }));
+
     return (
-        <form onSubmit={(e) => {
+        <form className={'flex flex-col grow'} onSubmit={(e) => {
             e.preventDefault()
             onSubmit(query)
         }}>
-            <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
+            <div className={"grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4 "+className}>
                 {
                     filters?.map((item: any) => {
                         return <InputComponent key={item.title}
@@ -70,20 +76,20 @@ const SearchComponent: React.FC<any> = (props) => {
                     })
                 }
             </div>
-            <div className={'flex space-x-3 space-x-reverse float-left mb-4 mt-10'}>
-                <button className={'button bg-red-600'} type={'button'} onClick={(e) => {
+            <div className={'flex space-x-3 space-x-reverse mr-auto mb-4 mt-10 h-fit '+extraClassName}>
+                <button className={'button bg-red-600 h-fit'} type={'button'} onClick={(e) => {
                     e.preventDefault()
                     setQuery(initialValue)
                     setSelectedDayRange({from: null, to: null})
                 }}>
                     لغو فیلتر ها
                 </button>
-                <button className={'button bg-lime-600'} type={'submit'}>
+                <button className={'button bg-lime-600 h-fit'} type={'submit'}>
                     جستجو
                 </button>
             </div>
         </form>
     )
-}
-
+})
+SearchComponent.displayName = 'SearchComponent';
 export default SearchComponent;

@@ -505,7 +505,13 @@ const InputComponent = ({
             case "dynamic":
                 return (
                     <div>
-                        <label className={'mt-auto'} htmlFor={title}>{name}</label>
+                        <label className={'mt-auto flex items-center'} htmlFor={title}>
+                            {name}
+                            {query?.[title] || query?.[title] === false ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                                    onChange(title, '')
+                                }}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => {

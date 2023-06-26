@@ -109,7 +109,7 @@ export default function CategoryResultTableSection() {
             <TableComponent data={data?.result}
                             loading={loading}
                             columnDefStructure={columnDefStructure}
-                            rowId={['instrumentId']}
+                            rowId={['id']}
             />
         </div>
     );

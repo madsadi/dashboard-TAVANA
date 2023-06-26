@@ -1,13 +1,13 @@
 import React, {useContext, useState} from "react";
-import Modal from "../../common/layout/Modal";
-import {throwToast} from "../../common/functions/notification";
-import useMutation from "../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {RelationsContext} from "../../../pages/marketer-app/relations";
+import Modal from "../../../common/layout/Modal";
+import {throwToast} from "../../../common/functions/notification";
+import useMutation from "../../../../hooks/useMutation";
+import {MARKETER_ADMIN} from "../../../../api/constants";
+import {RelationsContext} from "../../../../pages/marketer-app/relations";
 
 export default function DeleteMarketersRelations() {
     const {selectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/marketer/delete-marketers-relations`,method:"DELETE"})
+    const {mutate} = useMutation({url:`${MARKETER_ADMIN}/marketer/delete-marketers-relations`,method:"DELETE"})
     const [modal, setModal] = useState(false)
 
     const openHandler = ()=>{
@@ -19,9 +19,9 @@ export default function DeleteMarketersRelations() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate({LeaderMarketerID:selectedRows[0].LeaderMarketerID,FollowerMarketerID :selectedRows[0].FollowerMarketerID})
+        await mutate({},{LeaderMarketerID:selectedRows[0].LeaderMarketerID,FollowerMarketerID :selectedRows[0].FollowerMarketerID})
             .then((res)=> {
-                throwToast({type:'success',value:`${res?.data?.result?.message}`})
+                throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)
                 fetchData(searchQuery)
             })
