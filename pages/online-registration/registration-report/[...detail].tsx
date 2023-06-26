@@ -1,4 +1,4 @@
-import React, {createContext, useCallback, useContext, useEffect, useMemo} from "react";
+import React, {createContext, useEffect, useMemo} from "react";
 import {useRouter} from "next/router";
 import IdentityComponent from "../../../components/online-registration/registration-report/detail/Identity.component";
 import JobInfoComponent from "../../../components/online-registration/registration-report/detail/JobInfo.component";
@@ -26,6 +26,7 @@ import TableComponent from "../../../components/common/table/table-component";
 import DateCell from "../../../components/common/table/DateCell";
 import {formatNumber} from "../../../components/common/functions/common-funcions";
 import EditRefCode from "../../../components/online-registration/registration-report/EditRefCode";
+import BuildAgreementsFiles from "../../../components/online-registration/registration-report/BuildAgreementsFiles";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
@@ -244,6 +245,7 @@ export default function Detail() {
                         <TBSComponent/>
                         <AgreementToTbs/>
                         <EditRefCode/>
+                        <BuildAgreementsFiles/>
                     </div>
                 </div>
                 <TableComponent data={info?.result?.pagedData}

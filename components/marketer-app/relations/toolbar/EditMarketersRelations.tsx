@@ -3,7 +3,7 @@ import Modal from "../../../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
 import {throwToast} from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../../api/constants";
+import {ADMIN_GATEWAY, MARKETER_ADMIN} from "../../../../api/constants";
 import {useSearchFilters} from "../../../../hooks/useSearchFilters";
 import {ModuleIdentifier} from "../../../common/functions/Module-Identifier";
 import {RelationsContext} from "../../../../pages/marketer-app/relations";
@@ -13,7 +13,7 @@ import {jalali} from "../../../common/functions/common-funcions";
 export default function EditMarketersRelations() {
     const {selectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS,'edit')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/marketer/modify-marketers-relations`,method:"PUT"})
+    const {mutate} = useMutation({url:`${MARKETER_ADMIN}/marketer/modify-marketers-relations`,method:"PUT"})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
@@ -61,9 +61,9 @@ export default function EditMarketersRelations() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate(query)
+        await mutate({},query)
             .then((res)=> {
-                throwToast({type:'success',value:`${res?.data?.result?.message}`})
+                throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)
                 setQuery(null)
                 fetchData(searchQuery)

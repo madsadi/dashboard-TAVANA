@@ -13,4 +13,5 @@ export interface CategoryResultModalTypes {
     setOpen:Dispatch<boolean>,
     open:boolean,
     queryHandler:Function,
+    data:any
 }

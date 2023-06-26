@@ -6,7 +6,6 @@ import TableComponent from "../../components/common/table/table-component";
 import {jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {COMMISSION_BASE_URL} from "../../api/constants";
-import Modal from "../../components/common/layout/Modal";
 import {CategoryResultModal} from "../../components/commission/index/CategoryResultModal";
 import {throwToast} from "../../components/common/functions/notification";
 import {InstrumentTypeResultModal} from "../../components/commission/index/InstrumentTypeResultModal";
@@ -145,13 +144,23 @@ export default function Commission() {
     const [categoryModal,setCategoryModal]=useState(false)
     const [instrumentType,setInstrumentTypeModal]=useState(false)
     const [rowData,setRowData]=useState<any>([])
+    const [instrumentMessage,setInstrumentMessage]=useState<string>('')
+    const [categoryMessage,setCategoryMessage]=useState<string>('')
     const ref:any=useRef()
+    useEffect(()=>{
+        if (categoryData?.result?.pagedData?.length) {
+            setCategoryModal(true)
+        }else if (categoryData!==null){
+            setCategoryMessage('نتیجه ای پیدا نشد')
+        }
+    },[categoryData])
 
     useEffect(()=>{
-        if (categoryData?.result?.pagedData?.length) setCategoryModal(true)
-    },[categoryData])
-    useEffect(()=>{
-        if (instrumentData?.result?.pagedData?.length) setInstrumentTypeModal(true)
+        if (instrumentData?.result?.pagedData?.length) {
+            setInstrumentTypeModal(true)
+        }else if (instrumentData!==null){
+            setInstrumentMessage('نتیجه ای پیدا نشد')
+        }
     },[instrumentData])
 
     const queryHandler=(newQuery:any)=>{
@@ -168,19 +177,21 @@ export default function Commission() {
     return (
         <CommissionContext.Provider value={{categoryQuery}}>
             <div className={'flex flex-col h-full grow'}>
-                <CategoryResultModal open={categoryModal} setOpen={setCategoryModal} queryHandler={queryHandler} />
-                <InstrumentTypeResultModal open={instrumentType} setOpen={setInstrumentTypeModal} queryHandler={queryHandler} />
+                <CategoryResultModal open={categoryModal} setOpen={setCategoryModal} queryHandler={queryHandler} data={categoryData?.result}/>
+                <InstrumentTypeResultModal open={instrumentType} setOpen={setInstrumentTypeModal} queryHandler={queryHandler} data={instrumentData?.result}/>
                 <AccordionComponent>
                     <div className={'grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2'}>
                         <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
-                            <div className={'font-bold text-lg mb-5'}>
+                            <div className={'font-bold text-lg mb-5 flex'}>
                                 ابزار مالی گروه بندی ضرایب
+                                <p className={'text-red-500 text-base mr-2'}>{instrumentMessage}</p>
                             </div>
                             <SearchComponent className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} extraClassName={'sm:mt-auto'} onSubmit={instrumentSearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
                         </div>
                         <div className={'border border-dashed border-border p-2 rounded'}>
-                            <div className={'font-bold text-lg mb-5'}>
+                            <div className={'font-bold text-lg mb-5 flex'}>
                                 گروه بندی ضرایب
+                                <p className={'text-red-500 text-base mr-2'}>{categoryMessage}</p>
                             </div>
                             <SearchComponent className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} onSubmit={categorySearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_category}/>
                         </div>

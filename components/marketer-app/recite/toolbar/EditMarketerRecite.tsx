@@ -3,17 +3,18 @@ import Modal from "../../../common/layout/Modal";
 import React, {useContext, useEffect, useState} from "react";
 import {throwToast} from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../../api/constants";
+import {ADMIN_GATEWAY, MARKETER_ADMIN} from "../../../../api/constants";
 import {useSearchFilters} from "../../../../hooks/useSearchFilters";
 import {ModuleIdentifier} from "../../../common/functions/Module-Identifier";
 import {RelationsContext} from "../../../../pages/marketer-app/relations";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {jalali} from "../../../common/functions/common-funcions";
+import {ReciteContext} from "../../../../pages/marketer-app/recite";
 
 export default function EditMarketerRecite() {
-    const {selectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
+    const {selectedRows,fetchData,searchQuery} = useContext<any>(ReciteContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite,'edit')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/factor/modify-factor`,method:"PUT"})
+    const {mutate} = useMutation({url:`${MARKETER_ADMIN}/factor/modify-factor`,method:"PUT"})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
@@ -49,9 +50,9 @@ export default function EditMarketerRecite() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate(query)
+        await mutate({},query)
             .then((res)=> {
-                throwToast({type:'success',value:`${res?.data?.result?.message}`})
+                throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)
                 setQuery(null)
                 fetchData(searchQuery)

@@ -2,12 +2,12 @@ import React, {useContext, useState} from "react";
 import Modal from "../../../common/layout/Modal";
 import {throwToast} from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../../api/constants";
-import {RelationsContext} from "../../../../pages/marketer-app/relations";
+import {MARKETER_ADMIN} from "../../../../api/constants";
+import {ReciteContext} from "../../../../pages/marketer-app/recite";
 
 export default function DeleteMarketerRecite() {
-    const {selectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/factor/delete-factor`,method:"DELETE"})
+    const {selectedRows,fetchData,searchQuery} = useContext<any>(ReciteContext)
+    const {mutate} = useMutation({url:`${MARKETER_ADMIN}/factor/delete-factor`,method:"DELETE"})
     const [modal, setModal] = useState(false)
 
     const openHandler = ()=>{
@@ -19,7 +19,7 @@ export default function DeleteMarketerRecite() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate({MarketerID :selectedRows[0].MarketerID ,Period :selectedRows[0].Period})
+        await mutate({},{MarketerID :selectedRows[0].MarketerID ,Period :selectedRows[0].Period})
             .then((res)=> {
                 throwToast({type:'success',value:`${res?.data?.result?.message}`})
                 setModal(false)

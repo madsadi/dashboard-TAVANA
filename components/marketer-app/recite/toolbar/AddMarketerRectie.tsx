@@ -3,7 +3,7 @@ import Modal from "../../../common/layout/Modal";
 import React, {useContext, useState} from "react";
 import {throwToast} from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../../api/constants";
+import {ADMIN_GATEWAY, MARKETER_ADMIN} from "../../../../api/constants";
 import {useSearchFilters} from "../../../../hooks/useSearchFilters";
 import {ModuleIdentifier} from "../../../common/functions/Module-Identifier";
 import {ReciteContext} from "../../../../pages/marketer-app/recite";
@@ -11,7 +11,7 @@ import {ReciteContext} from "../../../../pages/marketer-app/recite";
 export default function AddMarketerRectie() {
     const {fetchData,searchQuery} = useContext<any>(ReciteContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite,'add')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/factor/add-factor`,method:"PUT"})
+    const {mutate} = useMutation({url:`${MARKETER_ADMIN}/factor/add-factor`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
@@ -20,9 +20,9 @@ export default function AddMarketerRectie() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate(query)
+        await mutate({},query)
             .then((res)=> {
-                throwToast({type:'success',value:`${res?.data?.result?.message}`})
+                throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)
                 setQuery(null)
                 fetchData(searchQuery)

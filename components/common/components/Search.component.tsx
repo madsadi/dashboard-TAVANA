@@ -56,6 +56,7 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
             setQuery({..._query,...newQuery})
         }
     }));
+
     return (
         <form className={'flex flex-col grow'} onSubmit={(e) => {
             e.preventDefault()

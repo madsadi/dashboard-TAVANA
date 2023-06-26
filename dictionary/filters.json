@@ -674,14 +674,17 @@
   "commission-management_instrument":{
     "search": {
         "filters": [
-          {"title": "BourseTitle", "name": "عنوان بورس", "type": "dynamic"},
-          {"title": "InstrumentTypeTitle", "name": "عنوان نوع ابزار مالی", "type": "dynamic"},
+          {"title": "CommissionInstrumentTypeId", "name": "شناسه نوع ابزار مالی کارمزد", "type": "input"},
+          {"title": "BourseCode", "name": "عنوان بورس", "type": "dynamic"},
+          {"title": "InstrumentTypeCode", "name": "عنوان نوع ابزار مالی", "type": "dynamic"},
           {"title": "InstrumentTypeDescription", "name": "توضیحات نوع ابزار", "type": "input"},
-          {"title": "SectorTitle", "name": "گروه صنعت", "type": "dynamic"},
-          {"title": "SubSectorTitle", "name": "زیرگروه صنعت", "type": "dynamic"},
+          {"title": "SectorCode", "name": "گروه صنعت", "type": "dynamic"},
+          {"title": "SubSectorCode", "name": "زیرگروه صنعت", "type": "dynamic"},
           {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
         ],
         "initialValue":  {
+          "PageNumber": 1,
+          "PageSize": 20,
           "CommissionInstrumentTypeId": "",
           "BourseTitle": "",
           "InstrumentTypeTitle": "",
@@ -704,14 +707,16 @@
         "search": {
             "filters": [
               {"title": "CommissionCategoryId", "name": "شناسه", "type": "input"},
-              {"title": "MarketTitle", "name": "بازار", "type": "dynamic"},
-              {"title": "OfferTypeTitle", "name": "نوع عرضه", "type": "dynamic"},
-              {"title": "SideTitle", "name": "سمت سفارش", "type": "dynamic"},
-              {"title": "SettlementDelayTitle", "name": "تاخیر در تسویه", "type": "dynamic"},
-              {"title": "CustomerTypeTitle", "name": "نوع مشتری", "type": "dynamic"},
-              {"title": "CustomerCounterSideTitle", "name": "نوع طرف مقابل", "type": "dynamic"}
+              {"title": "MarketCode", "name": "بازار", "type": "dynamic"},
+              {"title": "OfferTypeCode", "name": "نوع عرضه", "type": "dynamic"},
+              {"title": "SideCode", "name": "سمت سفارش", "type": "dynamic"},
+              {"title": "SettlementDelayCode", "name": "تاخیر در تسویه", "type": "dynamic"},
+              {"title": "CustomerTypeCode", "name": "نوع مشتری", "type": "dynamic"},
+              {"title": "CustomerCounterSideCode", "name": "نوع طرف مقابل", "type": "dynamic"}
             ],
             "initialValue":   {
+              "PageNumber": 1,
+              "PageSize": 20,
               "CommissionCategoryId": "",
               "MarketTitle": "",
               "OfferTypeTitle": "",

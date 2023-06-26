@@ -7,12 +7,11 @@ import {COMMISSION_BASE_URL} from "../../../api/constants";
 import {AgGridReact} from "ag-grid-react";
 
 export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
-    const {setOpen, open, queryHandler} = props
+    const {setOpen, open, queryHandler,data} = props
     const {categoryQuery} = useContext<any>(CommissionContext)
     const {
         fetchAsyncData
     }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
-    const [pageNumber, setPageNumber] = useState<number>(1)
     const [rowData, setRowData] = useState<any>([])
     const columnDefStructure = [
         {
@@ -95,29 +94,24 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
 
     const gridRef: any = useRef()
     const onGridReady = (params: any) => {
-        fetchAsyncData(categoryQuery)
-            .then((res: any) => {
-                setPageNumber(pageNumber + 1)
-                setRowData(res?.data?.result.pagedData)
-                const dataSource = {
-                    rowCount: undefined,
-                    getRows: (params: any) => {
-                        console.log(
-                            'asking for ' + params.startRow + ' to ' + params.endRow
-                        );
-                        let lastRow = -1;
-                        if (params.endRow <= res?.data?.result.totalCount) {
-                            lastRow = res?.data?.result.totalCount;
-                        }
-                        fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
-                            setPageNumber(pageNumber + 1)
-                            setRowData([...rowData, ...res?.data?.result.pagedData])
-                            params.successCallback([...rowData, ...res?.data?.result.pagedData], lastRow);
-                        })
-                    },
-                };
-                params.api.setDatasource(dataSource);
-            });
+        setRowData(data?.pagedData)
+        const dataSource = {
+            rowCount: undefined,
+            getRows: (params: any) => {
+                console.log(
+                    'asking for ' + params.startRow + ' to ' + params.endRow
+                );
+                let lastRow = -1;
+                if (params.endRow <= data.totalCount) {
+                    lastRow = data.totalCount;
+                }
+                fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
+                    setRowData([...rowData, ...res?.data?.result.pagedData])
+                    params.successCallback([...rowData, ...res?.data?.result.pagedData], lastRow);
+                })
+            },
+        };
+        params.api.setDatasource(dataSource);
     }
     const gridStyle = useMemo(() => ({height: '100%', width: '100%'}), []);
     const defaultColDef = useMemo(() => {
@@ -130,7 +124,7 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
 
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
-        queryHandler({CommissionInstrumentTypeId:selectedRows[0].id,CommissionInstrumentTypeTitle:selectedRows[0].marketTitle + selectedRows[0].marketCode})
+        queryHandler({CommissionInstrumentTypeId:selectedRows[0].id,CommissionInstrumentTypeTitle:selectedRows[0].bourseTitle + selectedRows[0].instrumentTypeTitle + selectedRows[0].sectorTitle + selectedRows[0].subSectorTitle})
         setOpen(false)
     }
     return (

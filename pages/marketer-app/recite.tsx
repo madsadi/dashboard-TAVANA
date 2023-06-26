@@ -111,8 +111,8 @@ export default function Recite() {
                                 columnDefStructure={columnDefStructure}
                                 setSelectedRows={setSelectedRows}
                                 selectedRows={selectedRows}
-                                rowSelection={'multiple'}
-                                rowId={['LeaderMarketerID', 'FollowerMarketerID']}
+                                rowSelection={'single'}
+                                rowId={['IdpID']}
                                 detailCellRendererParams={detailCellRendererParams}
                                 masterDetail={true}
                 />

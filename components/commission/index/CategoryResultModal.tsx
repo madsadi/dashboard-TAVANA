@@ -7,12 +7,11 @@ import {COMMISSION_BASE_URL} from "../../../api/constants";
 import {AgGridReact} from "ag-grid-react";
 
 export const CategoryResultModal = (props: CategoryResultModalTypes) => {
-    const {setOpen, open, queryHandler} = props
+    const {setOpen, open, queryHandler,data} = props
     const {categoryQuery} = useContext<any>(CommissionContext)
     const {
         fetchAsyncData
     }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
-    const [pageNumber, setPageNumber] = useState<number>(1)
     const [rowData, setRowData] = useState<any>([])
     const columnDefStructure = [
 
@@ -100,29 +99,24 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
 
     const gridRef: any = useRef()
     const onGridReady = (params: any) => {
-        fetchAsyncData(categoryQuery)
-            .then((res: any) => {
-                setPageNumber(pageNumber + 1)
-                setRowData(res?.data?.result.pagedData)
-                const dataSource = {
-                    rowCount: undefined,
-                    getRows: (params: any) => {
-                        console.log(
-                            'asking for ' + params.startRow + ' to ' + params.endRow
-                        );
-                        let lastRow = -1;
-                        if (params.endRow <= res?.data?.result.totalCount) {
-                            lastRow = res?.data?.result.totalCount;
-                        }
-                        fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
-                            setPageNumber(pageNumber + 1)
-                            setRowData([...rowData, ...res?.data?.result.pagedData])
-                            params.successCallback([...rowData, ...res?.data?.result.pagedData], lastRow);
-                        })
-                    },
-                };
-                params.api.setDatasource(dataSource);
-            });
+        setRowData(data?.pagedData)
+        const dataSource = {
+            rowCount: undefined,
+            getRows: (params: any) => {
+                console.log(
+                    'asking for ' + params.startRow + ' to ' + params.endRow
+                );
+                let lastRow = -1;
+                if (params.endRow <= data.totalCount) {
+                    lastRow = data.totalCount;
+                }
+                fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
+                    setRowData([...rowData, ...res?.data?.result.pagedData])
+                    params.successCallback([...rowData, ...res?.data?.result.pagedData], lastRow);
+                })
+            },
+        };
+        params.api.setDatasource(dataSource);
     }
     const gridStyle = useMemo(() => ({height: '100%', width: '100%'}), []);
     const defaultColDef = useMemo(() => {
@@ -135,7 +129,7 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
 
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
-        queryHandler({'CommissionCategoryId':selectedRows[0].id,CommissionCategoryTitle:selectedRows[0].marketTitle + selectedRows[0].marketCode})
+        queryHandler({CommissionCategoryId:selectedRows[0].id,CommissionCategoryTitle:selectedRows[0].marketTitle + selectedRows[0].marketCode+ selectedRows[0].offerTypeTitle + selectedRows[0].sideTitle + selectedRows[0].settlementDelayTitle + selectedRows[0].customerTypeTitle + selectedRows[0].customerCounterSideTitle})
         setOpen(false)
     }
     return (
