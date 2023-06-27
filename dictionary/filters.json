@@ -683,8 +683,6 @@
           {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
         ],
         "initialValue":  {
-          "PageNumber": 1,
-          "PageSize": 20,
           "CommissionInstrumentTypeId": "",
           "BourseTitle": "",
           "InstrumentTypeTitle": "",
@@ -716,7 +714,7 @@
             ],
             "initialValue":   {
               "PageNumber": 1,
-              "PageSize": 20,
+              "PageSize": 10,
               "CommissionCategoryId": "",
               "MarketTitle": "",
               "OfferTypeTitle": "",
@@ -866,9 +864,9 @@
     },
     "toolbar":{
       "add": [
-        {"title": "LeaderMarketerID ", "name": "شناسه بازارایاب سرگروه", "type": "input"},
-        {"title": "FollowerMarketerID ", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
-        {"title": "CommissionCoefficient ", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
+        {"title": "LeaderMarketerID", "name": "شناسه بازارایاب سرگروه", "type": "input"},
+        {"title": "FollowerMarketerID", "name": "شناسه بازاریاب زیرگروه", "type": "input"},
+        {"title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "valueType": "number"},
         {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
       ],
       "edit": [

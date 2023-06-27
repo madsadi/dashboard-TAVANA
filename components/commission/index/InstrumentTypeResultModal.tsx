@@ -75,7 +75,7 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <div
-                            className={`${props.data.deleted ? 'bg-red-400' : 'bg-green-400'} text-white text-xs`}>{`${props.data.deleted ? 'حذف شده' : 'حذف نشده'}`}</div>
+                            className={`${props.data.deleted ? 'bg-red-400' : 'bg-green-400'} text-white text-center mt-3 text-xs`}>{props.data.deleted ? 'حذف شده' : 'حذف نشده'}</div>
                     )
                 };
                 const moodDetails = {
@@ -93,26 +93,6 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
     ]
 
     const gridRef: any = useRef()
-    const onGridReady = (params: any) => {
-        setRowData(data?.pagedData)
-        const dataSource = {
-            rowCount: undefined,
-            getRows: (params: any) => {
-                console.log(
-                    'asking for ' + params.startRow + ' to ' + params.endRow
-                );
-                let lastRow = -1;
-                if (params.endRow <= data.totalCount) {
-                    lastRow = data.totalCount;
-                }
-                fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
-                    setRowData([...rowData, ...res?.data?.result.pagedData])
-                    params.successCallback([...rowData, ...res?.data?.result.pagedData], lastRow);
-                })
-            },
-        };
-        params.api.setDatasource(dataSource);
-    }
     const gridStyle = useMemo(() => ({height: '100%', width: '100%'}), []);
     const defaultColDef = useMemo(() => {
         return {
@@ -124,7 +104,8 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
 
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
-        queryHandler({CommissionInstrumentTypeId:selectedRows[0].id,CommissionInstrumentTypeTitle:selectedRows[0].bourseTitle + selectedRows[0].instrumentTypeTitle + selectedRows[0].sectorTitle + selectedRows[0].subSectorTitle})
+        let fields = ['bourseTitle','instrumentTypeTitle','sectorTitle','sectorTitle','subSectorTitle']
+        queryHandler({CommissionInstrumentTypeId:selectedRows[0].id,CommissionInstrumentTypeTitle:fields.map((item:string)=>{if (selectedRows[0][`${item}`]){return selectedRows[0][`${item}`]}}).join('-')})
         setOpen(false)
     }
     return (
@@ -133,20 +114,20 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
+                        rowData={data}
                         ref={gridRef}
                         enableRtl={true}
                         columnDefs={columnDefStructure}
                         defaultColDef={defaultColDef}
-                        rowBuffer={0}
+                        // rowBuffer={0}
                         rowSelection={'single'}
-                        rowModelType={'infinite'}
-                        cacheBlockSize={10}
-                        cacheOverflowSize={2}
+                        // rowModelType={'infinite'}
+                        // cacheBlockSize={10}
+                        // cacheOverflowSize={2}
                         onSelectionChanged={onSelectionChanged}
                         // maxConcurrentDatasourceRequests={1}
-                        infiniteInitialRowCount={10}
-                        maxBlocksInCache={10}
-                        onGridReady={onGridReady}
+                        // infiniteInitialRowCount={10}
+                        // maxBlocksInCache={10}
                     ></AgGridReact>
                 </div>
             </div>

@@ -7,12 +7,11 @@ import {COMMISSION_BASE_URL} from "../../../api/constants";
 import {AgGridReact} from "ag-grid-react";
 
 export const CategoryResultModal = (props: CategoryResultModalTypes) => {
-    const {setOpen, open, queryHandler,data} = props
+    const {setOpen, open, queryHandler, data} = props
     const {categoryQuery} = useContext<any>(CommissionContext)
     const {
         fetchAsyncData
     }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
-    const [rowData, setRowData] = useState<any>([])
     const columnDefStructure = [
 
         {
@@ -99,21 +98,17 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
 
     const gridRef: any = useRef()
     const onGridReady = (params: any) => {
-        setRowData(data?.pagedData)
         const dataSource = {
             rowCount: undefined,
             getRows: (params: any) => {
                 console.log(
                     'asking for ' + params.startRow + ' to ' + params.endRow
                 );
-                let lastRow = -1;
-                if (params.endRow <= data.totalCount) {
-                    lastRow = data.totalCount;
+                if (params.startRow < data.totalCount) {
+                    fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
+                        params.successCallback([...res?.data?.result.pagedData],-1);
+                    })
                 }
-                fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
-                    setRowData([...rowData, ...res?.data?.result.pagedData])
-                    params.successCallback([...rowData, ...res?.data?.result.pagedData], lastRow);
-                })
             },
         };
         params.api.setDatasource(dataSource);
@@ -129,7 +124,11 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
 
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
-        queryHandler({CommissionCategoryId:selectedRows[0].id,CommissionCategoryTitle:selectedRows[0].marketTitle + selectedRows[0].marketCode+ selectedRows[0].offerTypeTitle + selectedRows[0].sideTitle + selectedRows[0].settlementDelayTitle + selectedRows[0].customerTypeTitle + selectedRows[0].customerCounterSideTitle})
+        let fields = ['marketTitle','marketCode','offerTypeTitle','sideTitle','settlementDelayTitle','customerTypeTitle','customerCounterSideTitle',]
+        queryHandler({
+            CommissionCategoryId: selectedRows[0].id,
+            CommissionCategoryTitle: fields.map((item:string)=>{if (selectedRows[0][`${item}`]){return selectedRows[0][`${item}`]}}).join('-')
+        })
         setOpen(false)
     }
     return (
@@ -150,7 +149,7 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
                         onSelectionChanged={onSelectionChanged}
                         // maxConcurrentDatasourceRequests={1}
                         infiniteInitialRowCount={10}
-                        maxBlocksInCache={10}
+                        maxBlocksInCache={100}
                         onGridReady={onGridReady}
                     ></AgGridReact>
                 </div>
