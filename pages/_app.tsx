@@ -19,8 +19,6 @@ import {fetcher} from "../api/fetcher";
 import {WebStorageStateStore} from "oidc-client-ts";
 import {IDP} from "../api/constants";
 
-React.useLayoutEffect = React.useEffect
-
 function MyApp({Component, pageProps}: AppProps) {
     const toast: any = useRef(null);
 
@@ -67,12 +65,6 @@ function MyApp({Component, pageProps}: AppProps) {
             <Provider store={store}>
                 <Head>
                     <link rel='icon' href={getFaviconPath(true)} type="image/svg+xml" />
-
-                    {/*<link*/}
-                    {/*    href="/logo-light.svg"*/}
-                    {/*    rel="icon"*/}
-                    {/*    media="(prefers-color-scheme: dark)"*/}
-                    {/*/>*/}
                     <title>پنل ادمین | توانا</title>
                 </Head>
                 <ToastContainer

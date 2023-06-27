@@ -150,14 +150,16 @@ export default function Commission() {
     useEffect(()=>{
         if (categoryData?.result?.pagedData?.length) {
             setCategoryModal(true)
+            setCategoryMessage('')
         }else if (categoryData!==null){
             setCategoryMessage('نتیجه ای پیدا نشد')
         }
     },[categoryData])
 
     useEffect(()=>{
-        if (instrumentData?.result?.pagedData?.length) {
+        if (instrumentData?.result?.length) {
             setInstrumentTypeModal(true)
+            setInstrumentMessage('')
         }else if (instrumentData!==null){
             setInstrumentMessage('نتیجه ای پیدا نشد')
         }
