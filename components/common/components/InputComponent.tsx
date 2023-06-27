@@ -48,32 +48,32 @@ const InputComponent = ({
     useEffect(()=>{
         if (type==='dynamic' && title){
             switch (title){
-                case "MarketTitle":
+                case "MarketCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllMarkets`)
                     break;
-                case "OfferTypeTitle":
+                case "OfferTypeCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetOfferTypes`)
                     break;
-                case "SideTitle":
+                case "SideCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllOrderSides`)
                     break;
-                case "SettlementDelayTitle":
+                case "SettlementDelayCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetSettlementDelays`)
                     break;
-                case "CustomerTypeTitle":
-                case "CustomerCounterSideTitle":
+                case "CustomerTypeCode":
+                case "CustomerCounterSideCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetCustomerTypes`)
                     break;
-                case "BourseTitle":
+                case "BourseCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllBourse`)
                     break;
-                case "InstrumentTypeTitle":
+                case "InstrumentTypeCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllInstrumentType`)
                     break;
-                case "SectorTitle":
+                case "SectorCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllSectors`)
                     break;
-                case "SubSectorTitle":
+                case "SubSectorCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllSubSectors`)
                     break;
             }
