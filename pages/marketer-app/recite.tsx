@@ -38,7 +38,7 @@ export default function Recite() {
                     const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
                     return (
                         <div>
-                            {months[Number(rowData.data.Doreh.split('1402')[1])]}
+                            {months[Number(rowData.data.Doreh.split('1402')[1])-1]}
                         </div>
                     )
                 };
