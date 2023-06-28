@@ -239,13 +239,13 @@ export default function Detail() {
         <OnlineRegDetailContext.Provider value={{data,fetchData}}>
             <div className={'h-full w-full'}>
                 <div className={'border border-border rounded-t-lg'}>
-                    <div className={'flex p-2 space-x-2 space-x-reverse'}>
+                    <div className={'toolbar p-2'}>
                         <EditRegStateComponent/>
                         <InquirySejamStateComponent/>
-                        <TBSComponent/>
-                        <AgreementToTbs/>
                         <EditRefCode/>
                         <BuildAgreementsFiles/>
+                        <TBSComponent/>
+                        <AgreementToTbs/>
                     </div>
                 </div>
                 <TableComponent data={info?.result?.pagedData}

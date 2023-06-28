@@ -17,8 +17,9 @@ import Modal from "../../../common/layout/Modal";
 export default function UploadComponent({
                                             item,
                                             documents,
-                                            setDocs
-                                        }: { item: any, documents: any, setDocs: Dispatch<any> }) {
+                                            setDocs,
+                                            loading
+                                        }: { item: any, documents: any, setDocs: Dispatch<any>,loading:boolean }) {
     const {mutate: upload} = useMutation({url: `${FILE_SERVER}/api/admin-file-manager/upload`})
     const {mutate: unlockFile} = useMutation({url: `${FILE_SERVER}/api/admin-file-manager/unlock-file`})
     const {mutate: lockFile} = useMutation({url: `${FILE_SERVER}/api/admin-file-manager/lock-file`})
@@ -35,7 +36,6 @@ export default function UploadComponent({
     let userId = queryData?.[0]?.split('=')[1]
 
     const onChange = async (imageList: any, addUpdateIndex: any) => {
-
             let formData: any = new FormData()
             formData.append('userId', userId)
             formData.append('file', imageList[0].file)
@@ -85,7 +85,7 @@ export default function UploadComponent({
     }
 
     return (
-        <div className={'pb-5'}>
+        <div className={'pb-5 mt-4'}>
             <div className='flex items-center text-xs mb-2'>
                 {item.title}
                 <span className={'mr-2 cursor-pointer tooltip'} data-tip={lock ? 'قفل را باز کن' : 'قفل کن'}
@@ -134,7 +134,11 @@ export default function UploadComponent({
                                 onClick={onImageUpload}
                                 {...dragProps}
                             >
-                                <CloudArrowUpIcon className='h-8 w-8 text-gray-300 m-auto'/>
+                                {loading ? <div className='m-auto flex flex-col'>
+                                    <div className={`h-8 w-8 relative m-auto animate-spin`}>
+                                        <Image src={'/icons/spinner.svg'} fill alt="" />
+                                    </div>
+                                </div>:<CloudArrowUpIcon className='h-8 w-8 text-gray-300 m-auto'/>}
                             </button>}
                     </div>
                 )}

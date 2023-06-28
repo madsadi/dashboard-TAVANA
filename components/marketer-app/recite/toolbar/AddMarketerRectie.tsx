@@ -20,7 +20,7 @@ export default function AddMarketerRectie() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate({},query)
+        await mutate(query)
             .then((res)=> {
                 throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)

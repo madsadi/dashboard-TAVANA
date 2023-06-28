@@ -61,7 +61,7 @@ export default function EditMarketersRelations() {
     }
     const submitHandler = async (e:any)=>{
         e.preventDefault()
-        await mutate({},query)
+        await mutate(query)
             .then((res)=> {
                 throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)

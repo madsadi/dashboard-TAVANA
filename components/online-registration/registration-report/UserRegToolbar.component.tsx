@@ -14,10 +14,10 @@ export default function UserRegToolbarComponent(){
                 <EditRegStateComponent/>
                 <InquirySejamStateComponent/>
                 <SendMessageComponent/>
-                <TBSComponent/>
-                <AgreementToTbs/>
                 <BuildAgreementsFiles/>
                 <EditRefCode/>
+                <TBSComponent/>
+                <AgreementToTbs/>
             </div>
         </div>
     )

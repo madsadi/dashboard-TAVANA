@@ -101,7 +101,8 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.registrationStateCodeTitle}</span>
-                            <DateCell date={rowData.data.registrationStateDateTime ? rowData.data.registrationStateDateTime:''}/>
+                            <DateCell
+                                date={rowData.data.registrationStateDateTime ? rowData.data.registrationStateDateTime : ''}/>
                         </div>
                     )
                 };
@@ -118,8 +119,8 @@ export default function OnlineRegistration() {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
-                            <span>{rowData.data.isTbsInserted ? 'بله':'خیر'}</span>
-                            <DateCell date={rowData.data.tbsInsertDateTime ? rowData.data.tbsInsertDateTime:''}/>
+                            <span>{rowData.data.isTbsInserted ? 'بله' : 'خیر'}</span>
+                            <DateCell date={rowData.data.tbsInsertDateTime ? rowData.data.tbsInsertDateTime : ''}/>
                         </div>
                     )
                 };
@@ -149,7 +150,8 @@ export default function OnlineRegistration() {
             headerName: 'زمان ثبت فایل قراردادها در TBS',
             cellRendererSelector: () => {
                 const moodDetails = {
-                    component: (rowData: any) => <DateCell date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime:''}/>,
+                    component: (rowData: any) => <DateCell
+                        date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime : ''}/>,
                 }
                 return moodDetails;
             },
@@ -165,9 +167,12 @@ export default function OnlineRegistration() {
             },
             cellRendererSelector: () => {
                 return {
-                    component: (rowData: any) => <div className={'flex h-full w-full'}
-                                                      onClick={() => router.push(`/online-registration/registration-report/userId=${rowData.data.userId}`)}>
-                        <EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/></div>,
+                    component: (rowData: any) => {
+                        return (<a className={'flex h-full w-full'} target="_blank"
+                                   href={`/online-registration/registration-report/userId=${rowData.data.userId}`}>
+                            <EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/>
+                        </a>)
+                    },
                 };
             },
         }
@@ -181,7 +186,6 @@ export default function OnlineRegistration() {
         fetchData
     }: any = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchUser`})
 
-    const router = useRouter();
     const dispatch = useDispatch();
     const detailCellRendererParams = useMemo(() => {
         return {

@@ -8,7 +8,6 @@ import {OnlineRegDetailContext} from "../../../pages/online-registration/registr
 
 export const TBSComponent=()=>{
     const {selectedRows} = useContext<any>(OnlineRegContext)
-    const {fetchData:detailFetch} = useContext<any>(OnlineRegDetailContext)
     const router = useRouter()
     let dep:string|undefined = router.query?.detail?.[0]
     const queryData:string[]|undefined = dep?.split('&')
@@ -45,7 +44,7 @@ export const TBSComponent=()=>{
     }
 
     return(
-        <button className={'button flex items-center bg-green-500'} onClick={TbsHandler}>
+        <button className={'button flex items-center bg-green-500 mr-auto'} onClick={TbsHandler}>
             ثبت در تدبیر
             {loading && <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
