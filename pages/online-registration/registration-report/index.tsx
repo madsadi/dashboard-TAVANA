@@ -168,7 +168,7 @@ export default function OnlineRegistration() {
             cellRendererSelector: () => {
                 return {
                     component: (rowData: any) => {
-                        return (<a className={'flex h-full w-full'} target="_blank"
+                        return (<a className={'flex h-full w-full'} target="_blank"  rel="noreferrer"
                                    href={`/online-registration/registration-report/userId=${rowData.data.userId}`}>
                             <EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/>
                         </a>)
