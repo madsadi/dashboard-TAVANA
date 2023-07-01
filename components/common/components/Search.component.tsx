@@ -6,12 +6,15 @@ import {useSelector} from "react-redux";
 import {useRouter} from "next/router";
 import {jalali} from "../functions/common-funcions";
 import {SearchComponentTypes} from "../../../types/types";
+import {Loader} from "./Loader";
+import {set} from "lodash";
 
 const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
     const {query:prevQuery}=useSelector((state:any)=>state.pageConfig)
     const {onSubmit,module, dynamicOptions = [],className,extraClassName} = props
     const {filters,initialValue} = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
+    const [loading, setLoading] = useState<boolean>(false)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -68,6 +71,7 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
                         return <InputComponent key={item.title}
                                                item={item}
                                                query={query}
+                                               setQuery={setQuery}
                                                onChange={onChange}
                                                selectedDayRange={selectedDayRange}
                                                setSelectedDayRange={setSelectedDayRange}
@@ -84,8 +88,9 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
                 }}>
                     لغو فیلتر ها
                 </button>
-                <button className={'button bg-lime-600 h-fit'} type={'submit'}>
+                <button className={'button bg-lime-600 h-fit relative'} type={'submit'}>
                     جستجو
+                    {loading ? <div className={'absolute left-2 top-1/2 -translate-y-1/2'}><Loader/></div>:null}
                 </button>
             </div>
         </form>

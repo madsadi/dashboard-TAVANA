@@ -734,7 +734,6 @@
         {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
       ],
       "initialValue":   {
-        "CommissionDetailId": "",
         "CommissionInstrumentTypeId": "",
         "CommissionCategoryId": "",
         "StartDate": "",

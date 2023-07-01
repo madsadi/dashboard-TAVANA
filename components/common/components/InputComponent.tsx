@@ -18,6 +18,7 @@ function classNames(...classes: any) {
 type PropsType = {
     query: any,
     onChange: any,
+    setQuery?: Dispatch<any>,
     item: any,
     selectedDayRange: DayRange,
     setSelectedDayRange: Dispatch<DayRange>,
@@ -27,6 +28,7 @@ type PropsType = {
 }
 const InputComponent = ({
                             onChange,
+                            setQuery,
                             query,
                             item,
                             selectedDayRange,
@@ -39,15 +41,15 @@ const InputComponent = ({
     const {title, name, type, valueType} = item
     const [showPass, setShowPass] = useState<boolean>(false)
     const [dynamicOptions, setDynamicOptions] = useState<any[]>([])
-    const {fetchAsyncData}=useQuery({url:''})
+    const {fetchAsyncData} = useQuery({url: ''})
 
-    const getTheOptions = async (endpoint:string)=>{
-        await fetchAsyncData({},endpoint)
-            .then((res)=>setDynamicOptions(res?.data.result))
+    const getTheOptions = async (endpoint: string) => {
+        await fetchAsyncData({}, endpoint)
+            .then((res) => setDynamicOptions(res?.data.result))
     }
-    useEffect(()=>{
-        if (type==='dynamic' && title){
-            switch (title){
+    useEffect(() => {
+        if (type === 'dynamic' && title) {
+            switch (title) {
                 case "MarketCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllMarkets`)
                     break;
@@ -78,12 +80,22 @@ const InputComponent = ({
                     break;
             }
         }
-    },[type])
+    }, [type])
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block'} htmlFor="rangeDate">{name}</label>
-            <input className={'w-full h-[36px]'} readOnly ref={ref} id="rangeDate" value={dateRangeHandler(selectedDayRange)}/>
+            <label className={'block flex items-center'} htmlFor="rangeDate">
+                {name}
+                {query?.['StartDate'] || query?.['EndDate'] ?
+                    <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                        if (setQuery) {
+                            setSelectedDayRange({from: null, to: null})
+                            setQuery({...query, StartDate: null, EndDate: null})
+                        }
+                    }}/> : null}
+            </label>
+            <input className={'w-full h-[36px]'} readOnly ref={ref} id="rangeDate"
+                   value={dateRangeHandler(selectedDayRange)}/>
         </div>
     )
 
@@ -94,14 +106,17 @@ const InputComponent = ({
     }
     const renderSingleDateCustomInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block'} htmlFor="rangeDate">تاریخ </label>
+            <label className={'block flex items-center'} htmlFor="rangeDate">
+                تاریخ
+                {query?.[title] || query?.[title] === false ?
+                    <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                            setSelectedDay(null)
+                            onChange(title, null)
+                    }}/> : null}
+            </label>
             <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(selectedDay)}/>
         </div>
     )
-
-    const clear = useCallback(() => {
-        ['StartDate', 'EndDate'].map((item: string) => setTimeout(()=>onChange(item, ''),1000))
-    },[])
 
     const componentRender = () => {
         switch (type) {
@@ -130,36 +145,13 @@ const InputComponent = ({
                             value={selectedDayRange}
                             onChange={(e) => {
                                 setSelectedDayRange(e)
-                                if (e.from) {
-                                    onChange(
-                                        'StartDate', `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
-                                    )
-                                }
-                                if (e.to) {
-                                    onChange(
-                                        'EndDate', `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`
-                                    )
-                                }
+                                onChange('StartDate', e.from ? `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null)
+                                onChange('EndDate', e.to ? `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null)
                             }}
                             shouldHighlightWeekends
                             renderInput={renderCustomInput}
                             locale={'fa'}
                             calendarPopperPosition={'auto'}
-                            renderFooter={() => (
-                                <div className={'flex justify-center'} style={{padding: '5px 3px'}}>
-                                    <button
-                                        type="button"
-                                        style={{padding: '1px 3px'}}
-                                        className={'button bg-orange-300 p-2'}
-                                        onClick={() => {
-                                            setSelectedDayRange({from: null, to: null})
-                                            clear()
-                                        }}
-                                    >
-                                        پاک کن
-                                    </button>
-                                </div>
-                            )}
                         />
                     </div>
                 )
@@ -523,7 +515,7 @@ const InputComponent = ({
                                             className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
-                                                    className="ml-2 block truncate text-sm">{dynamicOptions.find((i:any)=>i.code===query?.[title])?.title}</span>
+                                                    className="ml-2 block truncate text-sm">{dynamicOptions.find((i: any) => i.code === query?.[title])?.title}</span>
                                             </span>
                                             <span className="pointer-events-none flex items-center mr-auto">
                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400"

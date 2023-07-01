@@ -85,6 +85,7 @@ export default function Edit() {
                                                        query={query}
                                                        item={item}
                                                        onChange={onChange}
+                                                       setQuery={setQuery}
                                                        selectedDayRange={selectedDayRange}
                                                        setSelectedDayRange={setSelectedDayRange}/>
                             })
