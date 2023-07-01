@@ -86,6 +86,7 @@ export default function AddNew() {
                                 return <InputComponent key={item.title}
                                                        query={query}
                                                        item={item}
+                                                       setQuery={setQuery}
                                                        onChange={onChange}
                                                        selectedDayRange={selectedDayRange}
                                                        setSelectedDayRange={setSelectedDayRange}

@@ -15,6 +15,7 @@ import useMutation from "../../hooks/useMutation";
 import {IDP} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 import {PasswordModal} from "./Password.modal";
+import {ChangeMobileNumber} from "./ChangeMobileNumber";
 
 export default function UserInfo() {
     const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
@@ -43,7 +44,8 @@ export default function UserInfo() {
             id: 3,
             title: 'تلفن همراه:',
             icon: <DevicePhoneMobileIcon className={'h-4 min-w-4'}/>,
-            info: data?.phoneNumber
+            info: data?.phoneNumber,
+            utility:<ChangeMobileNumber/>
         },
         {
             id: 4,
@@ -66,7 +68,7 @@ export default function UserInfo() {
     ]
 
     return (
-        <div className={'md:w-1/3 w-full border border-border rounded-lg overflow-hidden'}>
+        <div className={'lg:w-1/3 w-full border border-border rounded-lg overflow-hidden'}>
             <div>
                 {fields.map((field: any) => {
                     return (
@@ -77,8 +79,11 @@ export default function UserInfo() {
                                 </div>
                                 <span className={'min-w-fit'}>{field.title}</span>
                             </div>
-                            <div className={'min-w-fit'}>
-                                {data && field.info}
+                            <div className={'min-w-fit flex items-center'}>
+                                {field?.utility ? field?.utility:null}
+                                <div>
+                                    {data && field.info}
+                                </div>
                             </div>
                         </div>
                     )
@@ -108,7 +113,7 @@ const ToggleButton = ()=>{
     }
 
     return(
-        <button className={'relative w-[50px] flex bg-white p-1 rounded-full h-full border-2 border-white shadow-[0_0_0_1px_#eee] mr-2 overflow-hidden'} onClick={twoFactorHandler}>
+        <button className={'relative w-[50px] h-[24px] flex bg-white p-1 rounded-full h-full border-2 border-white shadow-[0_0_0_1px_#eee] mr-2 overflow-hidden'} onClick={twoFactorHandler}>
             <div className={`rounded-full w-1/2 h-[90%] z-0 absolute right-0 top-1/2 -translate-y-1/2 transition-all ${!enable ? '-translate-x-full bg-red-500':'translate-x-0 bg-green-600 '}`}/>
         </button>
     )

@@ -13,13 +13,19 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
         fetchAsyncData
     }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
     const [rowData, setRowData] = useState<any>([])
-    const columnDefStructure = [
+    const columnDefStructure:any = [
         {
             field: 'id',
             headerName: 'شماره',
             flex: 0,
             width: 90,
             minWidth: 90
+        },
+        {
+            field: 'bourseCode',
+            headerName: 'کد بورس',
+            flex: 0,
+            sort: 'desc'
         },
         {
             field: 'bourseTitle',
@@ -99,6 +105,7 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
             flex: 1,
             resizable: true,
             minWidth: 100,
+            sortable:true
         };
     }, []);
 
@@ -111,7 +118,7 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
     return (
         <Modal setOpen={setOpen} open={open} title={'نتایج جستجو گروه بندی ابزار مالی'}
                ModalWidth={'max-w-5xl'}>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[350px]'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         rowData={data}
@@ -119,15 +126,8 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
                         enableRtl={true}
                         columnDefs={columnDefStructure}
                         defaultColDef={defaultColDef}
-                        // rowBuffer={0}
                         rowSelection={'single'}
-                        // rowModelType={'infinite'}
-                        // cacheBlockSize={10}
-                        // cacheOverflowSize={2}
                         onSelectionChanged={onSelectionChanged}
-                        // maxConcurrentDatasourceRequests={1}
-                        // infiniteInitialRowCount={10}
-                        // maxBlocksInCache={10}
                     ></AgGridReact>
                 </div>
             </div>

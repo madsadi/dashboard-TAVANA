@@ -131,10 +131,11 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
         })
         setOpen(false)
     }
+
     return (
         <Modal setOpen={setOpen} open={open} title={'نتایج جستجو گروه بندی ضرایب'}
                ModalWidth={'max-w-5xl'}>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
+            <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[350px]'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}

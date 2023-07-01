@@ -80,6 +80,7 @@ export default function EditModal() {
                         toolbar.map((item: any) => {
                             return <InputComponent key={item.title}
                                                    query={query}
+                                                   setQuery={setQuery}
                                                    item={item}
                                                    onChange={onChange}
                                                    selectedDayRange={selectedDayRange}

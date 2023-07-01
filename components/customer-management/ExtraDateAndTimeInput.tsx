@@ -3,7 +3,7 @@ import DatePicker ,{DayValue} from "@amir04lm26/react-modern-calendar-date-picke
 import moment from "jalali-moment";
 import { FindEnum} from "../common/functions/common-funcions";
 import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
+import {CheckIcon, ChevronDownIcon, XCircleIcon} from "@heroicons/react/20/solid";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -18,30 +18,69 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
     const singleDateHandler = (selectedDay:DayValue)=>{
         if (selectedDay){
             return Object.values(selectedDay).map((item:any)=>item).reverse().join('-')
+        }else{
+            return ''
         }
     }
+
     const customerApprovalDateInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block'} htmlFor="rangeDate">تاریخ </label>
-            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(customerApprovalDate)}/>
+            <label className={'flex items-center'} >
+                تاریخ
+                {query?.['customerApprovalDateTime']?.date ?
+                    <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                        setCustomerApprovalDate(null)
+                        queryUpdateDateAndTime(
+                            'customerApprovalDateTime', 'date', null
+                        )
+                    }}/> : null}
+            </label>
+            <input className={'w-full'} readOnly ref={ref} value={singleDateHandler(customerApprovalDate)}/>
         </div>
     )
     const adminApprovalDateInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block'} htmlFor="rangeDate">تاریخ </label>
+            <label className={'flex items-center'} >
+                تاریخ
+                {query?.['adminApprovalDateTime']?.date ?
+                    <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                        setAdminApprovalDate(null)
+                        queryUpdateDateAndTime(
+                            'adminApprovalDateTime', 'date', null
+                        )
+                    }}/> : null}
+            </label>
             <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(adminApprovalDate)}/>
-        </div>
-    )
-    const endDateInput = ({ref}: { ref: any }) => (
-        <div>
-            <label className={'block'} htmlFor="rangeDate">تاریخ </label>
-            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(endDate)}/>
         </div>
     )
     const startDateInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block'} htmlFor="rangeDate">تاریخ </label>
+            <label className={'flex items-center'} >
+                تاریخ
+                {query?.['startDateTime']?.date ?
+                    <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                        setStartDate(null)
+                        queryUpdateDateAndTime(
+                            'startDateTime', 'date', null
+                        )
+                    }}/> : null}
+            </label>
             <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(startDate)}/>
+        </div>
+    )
+    const endDateInput = ({ref}: { ref: any }) => (
+        <div>
+            <label className={'flex items-center'} >
+                تاریخ
+                {query?.['endDateTime']?.date ?
+                    <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                        setEndDate(null)
+                        queryUpdateDateAndTime(
+                            'endDateTime', 'date', null
+                        )
+                    }}/> : null}
+            </label>
+            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(endDate)}/>
         </div>
     )
 
@@ -54,9 +93,11 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
     }
 
     return(
-        <div className={'grid grid-cols-2 gap-4'}>
+        <div className={'grid grid-cols-2 gap-4 mt-2'}>
             <div className={'z-[2]'}>
-                <label className={'mt-auto'}>زمان تائید مشتری</label>
+                <label className={'mt-auto flex items-center'}>
+                    زمان تائید مشتری
+                </label>
                 <DatePicker
                     value={customerApprovalDate}
                     onChange={(e) => {
@@ -68,11 +109,17 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                     shouldHighlightWeekends
                     renderInput={customerApprovalDateInput}
                     locale={'fa'}
-                    calendarPopperPosition={'top'}
+                    calendarPopperPosition={'bottom'}
                 />
-                <div className={'flex items-center space-x-reverse space-x-2'}>
+                <div className={'flex items-center space-x-reverse space-x-2 mt-1'}>
                     <div className={'grow'}>
-                        <label className={'text-sm'}>دقیقه</label>
+                        <label className={'text-sm flex items-center'}>
+                            دقیقه
+                            {query?.['customerApprovalDateTime']?.minute ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'customerApprovalDateTime', 'minute',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'minute'} value={query?.customerApprovalDateTime?.minute}
                                      onChange={(e) => queryUpdateDateAndTime('customerApprovalDateTime','minute', `${e}:00`)}>
@@ -143,7 +190,13 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                         :
                     </div>
                     <div className={'grow'}>
-                        <label className={'text-sm'}>ساعت</label>
+                        <label className={'text-sm flex items-center'}>
+                            ساعت
+                            {query?.['customerApprovalDateTime']?.hour ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'customerApprovalDateTime', 'hour',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'hour'} value={query?.customerApprovalDateTime?.hour}
                                      onChange={(e) => queryUpdateDateAndTime('customerApprovalDateTime','hour', `T${e}:`)}>
@@ -225,11 +278,17 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                     shouldHighlightWeekends
                     renderInput={adminApprovalDateInput}
                     locale={'fa'}
-                    calendarPopperPosition={'top'}
+                    calendarPopperPosition={'bottom'}
                 />
-                <div className={'flex items-center space-x-reverse space-x-2'}>
+                <div className={'flex items-center space-x-reverse space-x-2 mt-1'}>
                     <div className={'grow'}>
-                        <label>دقیقه</label>
+                        <label className={'text-sm flex items-center space-x-2 space-x-reverse'}>
+                            دقیقه
+                            {query?.['adminApprovalDateTime']?.minute ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'adminApprovalDateTime', 'minute',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'minute'} value={query?.adminApprovalDateTime?.minute}
                                      onChange={(e) => queryUpdateDateAndTime('adminApprovalDateTime','minute', `${e}:00`)}>
@@ -300,7 +359,13 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                         :
                     </div>
                     <div className={'grow'}>
-                        <label>ساعت</label>
+                        <label className={'text-sm flex items-center space-x-2 space-x-reverse'}>
+                            ساعت
+                            {query?.['adminApprovalDateTime']?.hour ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'adminApprovalDateTime', 'hour',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'hour'} value={query?.adminApprovalDateTime?.hour}
                                      onChange={(e) => queryUpdateDateAndTime('adminApprovalDateTime','hour', `T${e}:`)}>
@@ -382,11 +447,17 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                     shouldHighlightWeekends
                     renderInput={startDateInput}
                     locale={'fa'}
-                    calendarPopperPosition={'top'}
+                    calendarPopperPosition={'bottom'}
                 />
-                <div className={'flex items-center space-x-reverse space-x-2'}>
+                <div className={'flex items-center space-x-reverse space-x-2 mt-1'}>
                     <div className={'grow'}>
-                        <label>دقیقه</label>
+                        <label className={'text-sm flex items-center space-x-2 space-x-reverse'}>
+                            دقیقه
+                            {query?.['startDateTime']?.minute ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'startDateTime', 'minute',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'minute'} value={query?.startDateTime?.minute}
                                      onChange={(e) => queryUpdateDateAndTime('startDateTime','minute', `${e}:00`)}>
@@ -457,7 +528,13 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                         :
                     </div>
                     <div className={'grow'}>
-                        <label>ساعت</label>
+                        <label className={'text-sm flex items-center space-x-2 space-x-reverse'}>
+                            ساعت
+                            {query?.['startDateTime']?.hour ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'startDateTime', 'hour',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'hour'} value={query?.startDateTime?.hour}
                                      onChange={(e) => queryUpdateDateAndTime('startDateTime','hour', `T${e}:`)}>
@@ -539,11 +616,17 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                     shouldHighlightWeekends
                     renderInput={endDateInput}
                     locale={'fa'}
-                    calendarPopperPosition={'top'}
+                    calendarPopperPosition={'bottom'}
                 />
-                <div className={'flex items-center space-x-reverse space-x-2'}>
+                <div className={'flex items-center space-x-reverse space-x-2 mt-1'}>
                     <div className={'grow'}>
-                        <label>دقیقه</label>
+                        <label className={'text-sm flex items-center space-x-2 space-x-reverse'}>
+                            دقیقه
+                            {query?.['endDateTime']?.minute ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'endDateTime', 'minute',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'minute'} value={query?.endDateTime?.minute}
                                      onChange={(e) => queryUpdateDateAndTime('endDateTime','minute', `${e}:00`)}>
@@ -614,7 +697,13 @@ export default function ExtraDateAndTimeInput({query,setQuery}:{query:any,setQue
                         :
                     </div>
                     <div className={'grow'}>
-                        <label>ساعت</label>
+                        <label className={'text-sm flex items-center space-x-2 space-x-reverse'}>
+                            ساعت
+                            {query?.['endDateTime']?.hour ?
+                                <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => queryUpdateDateAndTime(
+                                    'endDateTime', 'hour',null
+                                )}/> : null}
+                        </label>
                         <div className="relative rounded">
                             <Listbox name={'hour'} value={query?.endDateTime?.hour}
                                      onChange={(e) => queryUpdateDateAndTime('endDateTime','hour', `T${e}:`)}>
