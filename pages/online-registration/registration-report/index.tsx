@@ -3,7 +3,6 @@ import AccordionComponent from "../../../components/common/components/AccordionC
 import SearchComponent from "../../../components/common/components/Search.component";
 import TableComponent from "../../../components/common/table/table-component";
 import DateCell from "../../../components/common/table/DateCell";
-import {useRouter} from "next/router";
 import UserRegToolbarComponent
     from "../../../components/online-registration/registration-report/UserRegToolbar.component";
 import {formatNumber} from "../../../components/common/functions/common-funcions";
@@ -11,8 +10,6 @@ import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
 import {ADMIN_GATEWAY} from "../../../api/constants";
 import {ModuleIdentifier} from "../../../components/common/functions/Module-Identifier";
-import {useDispatch} from "react-redux";
-import {query} from "../../../store/page.config";
 
 export const OnlineRegContext = createContext({})
 export default function OnlineRegistration() {
@@ -186,7 +183,6 @@ export default function OnlineRegistration() {
         fetchData
     }: any = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchUser`})
 
-    const dispatch = useDispatch();
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
@@ -274,7 +270,6 @@ export default function OnlineRegistration() {
     }, []);
 
     const fetchDataHandler = (newQuery: any) => {
-        dispatch(query(newQuery))
         fetchData(newQuery)
     }
 

@@ -9,6 +9,7 @@ import {COMMISSION_BASE_URL} from "../../api/constants";
 import {CategoryResultModal} from "../../components/commission/index/CategoryResultModal";
 import {throwToast} from "../../components/common/functions/notification";
 import {InstrumentTypeResultModal} from "../../components/commission/index/InstrumentTypeResultModal";
+import {CommissionToolbar} from "../../components/commission/index/Commission-toolbar";
 
 export const CommissionContext = createContext({})
 export default function Commission() {
@@ -146,6 +147,7 @@ export default function Commission() {
     const [rowData,setRowData]=useState<any>([])
     const [instrumentMessage,setInstrumentMessage]=useState<string>('')
     const [categoryMessage,setCategoryMessage]=useState<string>('')
+    const [selectedRows,setSelectedRows]=useState<any>([])
     const ref:any=useRef()
     useEffect(()=>{
         if (categoryData?.result?.pagedData?.length) {
@@ -177,7 +179,7 @@ export default function Commission() {
     }
 
     return (
-        <CommissionContext.Provider value={{categoryQuery}}>
+        <CommissionContext.Provider value={{categoryQuery,selectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <CategoryResultModal open={categoryModal} setOpen={setCategoryModal} queryHandler={queryHandler} data={categoryData?.result}/>
                 <InstrumentTypeResultModal open={instrumentType} setOpen={setInstrumentTypeModal} queryHandler={queryHandler} data={instrumentData?.result}/>
@@ -205,10 +207,12 @@ export default function Commission() {
                         </div>
                     </div>
                 </AccordionComponent>
+                <CommissionToolbar/>
                 <TableComponent data={rowData}
                                 columnDefStructure={columnDefStructure}
                                 rowId={['instrumentId']}
                                 rowSelection={'single'}
+                                setSelectedRows={setSelectedRows}
                 />
             </div>
         </CommissionContext.Provider>

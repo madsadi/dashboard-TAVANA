@@ -122,8 +122,8 @@
           "PageSize": 20,
           "StartDate": "",
           "EndDate": "",
-          "uniqueId": "",
-          "mobileNumber": "",
+          "UniqueId": "",
+          "MobileNumber": "",
           "personType": null,
           "marketerId": "",
           "reagentId": "",
@@ -740,6 +740,39 @@
         "EndDate": "",
         "Deleted": null
       }
+    },
+    "toolbar": {
+      "add": [
+        {"title": "commissionInstrumentTypeId", "name": "شناسه بورس", "type": "input"},
+        {"title": "commissionCategoryId", "name": "شناسه بازار", "type": "input"},
+        {"title": "brokerCommissionCoeff", "name": "ضریب کارمزد کارگزار", "type": "input"},
+        {"title": "minBrokerCommissionValue", "name": " کمینه ضریب کارمزد کارگزار", "type": "input"},
+        {"title": "maxBrokerCommissionValue", "name": "بیشینه ضریب کارمزد کارگزار", "type": "input"},
+        {"title": "bourseCommissionCoeff", "name": "ضریب کارمزد بورس مربوطه", "type": "input"},
+        {"title": "maxBourseCommissionValue", "name": "بیشینه کارمزد بورس مربوطه", "type": "input"},
+        {"title": "seoControlCommissionCoeff", "name": "ضریب کارمزد حق نظارت سازمان", "type": "input"},
+        {"title": "maxSeoControlCommissionValue", "name": "بیشینه ضریب کارمزد حق نظارت سازمان", "type": "input"},
+        {"title": "csdCommissionCoeff", "name": "ضریب کارمزد سپرده گذاری", "type": "input"},
+        {"title": "maxCsdCommissionValue", "name": "بیشینه ضریب کارمزد سپرده گذاری", "type": "input"},
+        {"title": "tmcCommissionCoeff", "name": "ضریب کارمزد فناوری", "type": "input"},
+        {"title": "maxTmcCommissionValue", "name": "بیشینه ضریب کارمزد فناوری", "type": "input"},
+        {"title": "taxCoeff", "name": "ضریب مالیات", "type": "input"},
+        {"title": "rayanCommissionCoeff", "name": "ضریب کارمزد رایان بورس", "type": "input"},
+        {"title": "maxRayanCommissionValue", "name": "بیشینه ضریب کارمزد رایان بورس", "type": "input"},
+        {"title": "accessCommissionCoeff", "name": "ضریب کارمزد حق دسترسی", "type": "input"},
+        {"title": "addedValueTax", "name": "ضریب مالیات ارزش افزوده", "type": "input"},
+        {"title": "charge", "name": "ضریب کارمزد عوارض", "type": "input"},
+        {"title": "brokerCmdFundCoeff", "name": "ضریب کارمزد صندوق توسعه", "type": "input"},
+        {"title": "maxBrokerCmdFundValue", "name": "بیشینه کارمزد صندوق توسعه", "type": "input"},
+        {"title": "maxAccessCommissionValue", "name": "بیشینه کارمزد حق دسترسی", "type": "input"},
+        {"title": "maxTaxValue", "name": "بیشینه مالیات", "type": "input"},
+        {"title": "maxAddedVlueTax", "name": "بیشینه مالیات ارزش افزوده", "type": "input"},
+        {"title": "inventoryCoeff", "name": "ضریب کارمزد انبارداری", "type": "input"},
+        {"title": "maxInventoryValue", "name": "بیشینه کارمزد انبارداری", "type": "input"},
+        {"title": "inventoryAddedValueTaxCoeff", "name": "ضریب مالیات بر ارزش افزوده انبارداری", "type": "input"},
+        {"title": "maxInventoryAddedValueTax", "name": "بیشینه مالیات بر ارزش افزوده انبارداری", "type": "input"},
+        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+      ]
     }
   },
   "netflow_trades_report":{
