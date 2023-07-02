@@ -6,12 +6,14 @@ import useMutation from "../../hooks/useMutation";
 import {IDP} from "../../api/constants";
 import useQuery from "../../hooks/useQuery";
 import {throwToast} from "../common/functions/notification";
+import {useSWRConfig} from "swr";
 
 const form = [
     {"title": "newPhoneNumber", "name": "شماره همراه جدید", "type": "input"},
     {"title": "token", "name": "کد ارسال شده", "type": "input"}
 ]
 export const ChangeMobileNumber=()=>{
+    const {mutate:swrMutate} = useSWRConfig()
     const {mutate} = useMutation({url:`${IDP}/api/account/change-phone-number`})
     const {fetchAsyncData} = useQuery({url:`${IDP}/api/account/notifications/change-phone-number/sms`})
     const [open,setOpen]=useState(false)
@@ -41,7 +43,11 @@ export const ChangeMobileNumber=()=>{
                         e?.preventDefault()
                         if (query?.newPhoneNumber && query?.token){
                             mutate(query)
-                                .then((res)=>throwToast({type:'success',value:'با موفقیت شماره تلفن همراه شما عوض شد.'}))
+                                .then((res)=> {
+                                    swrMutate(`${IDP}/api/users/GetCurrentUserInfo`)
+                                    setOpen(false)
+                                    throwToast({type: 'success', value: 'با موفقیت شماره تلفن همراه شما عوض شد.'})
+                                })
                                 .catch((err)=>throwToast({type:'error',value:err}))
                         }
                     }}>

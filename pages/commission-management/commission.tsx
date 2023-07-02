@@ -3,13 +3,13 @@ import {ModuleIdentifier} from "../../components/common/functions/Module-Identif
 import AccordionComponent from "../../components/common/components/AccordionComponent";
 import SearchComponent from "../../components/common/components/Search.component";
 import TableComponent from "../../components/common/table/table-component";
-import {jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {COMMISSION_BASE_URL} from "../../api/constants";
 import {CategoryResultModal} from "../../components/commission/index/CategoryResultModal";
 import {throwToast} from "../../components/common/functions/notification";
 import {InstrumentTypeResultModal} from "../../components/commission/index/InstrumentTypeResultModal";
 import {CommissionToolbar} from "../../components/commission/index/Commission-toolbar";
+import DateCell from "../../components/common/table/DateCell";
 
 export const CommissionContext = createContext({})
 export default function Commission() {
@@ -24,49 +24,78 @@ export default function Commission() {
             maxWidth: 40,
         },
         {
-            field: 'instrumentId',
-            headerName: 'شناسه نماد',
-            flex: 0,
-            width: 90,
-            minWidth: 90
+            field: 'brokerCommissionCoeff',
+            headerName: 'ضریب کارمزد کارگزار',
         },
         {
-            field: 'faInsCode',
-            headerName: 'نماد',
+            field: 'minBrokerCommissionValue',
+            headerName: 'کمینه ضریب کارمزد کارگزار',
         },
         {
-            field: 'faInsName',
-            headerName: 'عنوان نماد',
+            field: 'maxBrokerCommissionValue',
+            headerName: 'بیشینه ضریب کارمزد کارگزار',
         },
         {
-            field: 'maxQuantity',
-            headerName: 'بیشینه حجم سفارش',
-            flex: 0,
+            field: 'bourseCommissionCoeff',
+            headerName: 'ضریب کارمزد بورس مربوطه',
         },
         {
-            field: 'minPrice',
-            headerName: 'حداقل قیمت سفارش',
-            flex: 0,
-            width: 150,
-            minWidth: 150,
+            field: 'maxBourseCommissionValue',
+            headerName: 'بیشینه کارمزد بورس مربوطه',
         },
         {
-            field: 'maxPrice',
-            headerName: 'حداکثر قیمت سفارش',
-            flex: 0,
-        }, {
-            field: 'fromActiveDateTime',
-            headerName: 'زمان شروع',
+            field: 'seoControlCommissionCoeff',
+            headerName: 'ضریب کارمزد حق نظارت سازمان',
+        },{
+            field: 'maxSeoControlCommissionValue',
+            headerName: 'بیشینه ضریب کارمزد حق نظارت سازمان',
+        },{
+            field: 'csdCommissionCoeff',
+            headerName: 'ضریب کارمزد سپرده گذاری',
+        },{
+            field: 'maxCsdCommissionValue',
+            headerName: 'بیشینه ضریب کارمزد سپرده گذاری',
+        },{
+            field: 'tmcCommissionCoeff',
+            headerName: 'ضریب کارمزد فناوری',
+        },{
+            field: 'maxTmcCommissionValue',
+            headerName: 'بیشینه ضریب کارمزد فناوری',
+        },{
+            field: 'taxCoeff',
+            headerName: 'ضریب مالیات',
+        },{
+            field: 'rayanCommissionCoeff',
+            headerName: 'ضریب کارمزد رایان بورس',
+        },{
+            field: 'maxRayanCommissionValue',
+            headerName: 'بیشینه ضریب کارمزد رایان بورس',
+        },{
+            field: 'accessCommissionCoeff',
+            headerName: 'ضریب کارمزد حق دسترسی',
+        },{
+            field: 'totalCommissionCoeff',
+            headerName: 'مجموع ضریب کارمزد حق دسترسی',
+        },{
+            field: 'netTradeValueCoeff',
+        },{
+            field: 'addedValueTax',
+            headerName: 'ضریب مالیات ارزش افزوده'
+        },{
+            field: 'charge',
+            headerName: 'ضریب کارمزد عوارض',
+        },
+        {
+            field: 'StartDate',
+            headerName: 'تاریخ شروع فعالیت کارمزد',
             flex: 0,
             width: 150,
             minWidth: 150,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <>
-                            <span>{jalali(props.data.fromActiveDateTime).date}</span>
-                            <span>{jalali(props.data.fromActiveDateTime).time}</span>
-                        </>
+                            <DateCell date={props.data.StartDate}/>
+
                     )
                 };
                 const moodDetails = {
@@ -76,18 +105,15 @@ export default function Commission() {
             }
         },
         {
-            field: 'toActiveDateTime',
-            headerName: 'زمان پایان',
+            field: 'EndDate',
+            headerName: 'تاریخ پایان فعالیت کارمزد',
             flex: 0,
             width: 150,
             minWidth: 150,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <>
-                            <span>{jalali(props.data.toActiveDateTime).date}</span>
-                            <span>{jalali(props.data.toActiveDateTime).time}</span>
-                        </>
+                        <DateCell date={props.data.EndDate}/>
                     )
                 };
                 const moodDetails = {
@@ -97,43 +123,46 @@ export default function Commission() {
             }
         },
         {
-            field: 'createdBy',
-            headerName: 'کاربر ایجاد کننده',
-            flex: 0,
-            width: 120,
-            minWidth: 120
+            field: 'deleted',
+            headerName: 'حذف شده؟',
         },
         {
-            field: 'createDateTime',
-            headerName: 'زمان ایجاد',
-            flex: 0,
-            width: 150,
-            minWidth: 150,
-            cellRendererSelector: () => {
-                const ColourCellRenderer = (props: any) => {
-                    return (
-                        <>
-                            <span>{jalali(props.data.createDateTime).date}</span>
-                            <span>{jalali(props.data.createDateTime).time}</span>
-                        </>
-                    )
-                };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
-            }
+            field: 'brokerCmdFundCoeff',
+            headerName: 'ضریب کارمزد صندوق توسعه',
         },
         {
-            field: 'updatedBy',
+            field: 'maxBrokerCmdFundValue',
+            headerName: 'بیشینه کارمزد صندوق توسعه',
+        },
+        {
+            field: 'maxAccessCommissionValue',
+            headerName: ' بیشینه کارمزد حق دسترسی',
+        },
+        {
+            field: 'maxTaxValue',
+            headerName: 'بیشینه مالیات',
+        },
+        {
+            field: 'lastUpdaterUserId',
             headerName: 'کاربر تغییر دهنده',
             flex: 0,
             width: 120,
             minWidth: 120
         },
         {
-            field: 'updatedDateTime',
+            field: 'lastUpdateDateTime',
             headerName: 'زمان تغییر',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (props: any) => {
+                    return (
+                        <DateCell date={props.data.lastUpdateDateTime}/>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
             flex: 0,
             width: 120,
             minWidth: 120
@@ -174,7 +203,7 @@ export default function Commission() {
     const detailSearchHandler=(query:any)=>{
         const {CommissionCategoryTitle,CommissionInstrumentTypeTitle,...rest}=query
         detailSearch(rest)
-            .then((res:any)=>setRowData(res?.data?.result?.pagedData))
+            .then((res:any)=>setRowData(res?.data?.result))
             .catch((err:any)=>throwToast({type:'err',value:err}))
     }
 
@@ -201,7 +230,7 @@ export default function Commission() {
                         </div>
                         <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
                             <div className={'font-bold text-lg mb-5'}>
-                                گروه بندی ضرایب
+                                 ضرایب کارمزد
                             </div>
                             <SearchComponent ref={ref} className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '} extraClassName={'sm:mt-auto'} onSubmit={detailSearchHandler} module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail}/>
                         </div>
@@ -210,7 +239,7 @@ export default function Commission() {
                 <CommissionToolbar/>
                 <TableComponent data={rowData}
                                 columnDefStructure={columnDefStructure}
-                                rowId={['instrumentId']}
+                                rowId={['id']}
                                 rowSelection={'single'}
                                 setSelectedRows={setSelectedRows}
                 />

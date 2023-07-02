@@ -734,8 +734,8 @@
         {"title": "Deleted", "name": "حذف شده؟", "type": "selectInput"}
       ],
       "initialValue":   {
-        "CommissionInstrumentTypeId": "",
-        "CommissionCategoryId": "",
+        "CommissionInstrumentTypeTitle": "",
+        "CommissionCategoryTitle": "",
         "StartDate": "",
         "EndDate": "",
         "Deleted": null
@@ -743,8 +743,8 @@
     },
     "toolbar": {
       "add": [
-        {"title": "commissionInstrumentTypeId", "name": "شناسه بورس", "type": "input"},
-        {"title": "commissionCategoryId", "name": "شناسه بازار", "type": "input"},
+        {"title": "commissionInstrumentTypeId", "name": "شناسه ابزار مالی کارمزد", "type": "input"},
+        {"title": "commissionCategoryId", "name": "شناسه گروه بندی کارمزد", "type": "input"},
         {"title": "brokerCommissionCoeff", "name": "ضریب کارمزد کارگزار", "type": "input"},
         {"title": "minBrokerCommissionValue", "name": " کمینه ضریب کارمزد کارگزار", "type": "input"},
         {"title": "maxBrokerCommissionValue", "name": "بیشینه ضریب کارمزد کارگزار", "type": "input"},
@@ -772,6 +772,9 @@
         {"title": "inventoryAddedValueTaxCoeff", "name": "ضریب مالیات بر ارزش افزوده انبارداری", "type": "input"},
         {"title": "maxInventoryAddedValueTax", "name": "بیشینه مالیات بر ارزش افزوده انبارداری", "type": "input"},
         {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+      ],
+      "delete": [
+        {"title": "endEffectingDate", "name": "تاریخ  پایان", "type": "singleDate"}
       ]
     }
   },

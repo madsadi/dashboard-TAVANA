@@ -1,13 +1,8 @@
 import axios from "axios";
 
-export const fetcher = async ({url, params}:{url:string,params:any}) => {
-    console.log(url,params)
-    const resp = await axios.get(`${url}`,{
-        params:params,
-        headers:{
-            "access-control-allow-origin": "https://cluster.tech1a.co"
-        }
-    })
+export const fetcher = async (url:string) => {
+    console.log(url)
+    const resp = await axios.get(`${url}`)
         .then((res:any) => res.data);
     return resp;
 };

@@ -1,10 +1,10 @@
 import InputComponent from "../common/components/InputComponent";
 import Modal from "../common/layout/Modal";
 import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
 import useMutation from "../../hooks/useMutation";
 import {IDP} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
+import {useSWRConfig} from "swr";
 
 const userInputs = [
     {title: 'userName', name: 'نام کاربری', type: 'input'},
@@ -15,13 +15,16 @@ const userInputs = [
 ]
 
 export const EditInfoModal=({open,setOpen}:{open:boolean,setOpen:any})=>{
-    const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
+    const {cache,mutate:swrMutate} = useSWRConfig()
+    let data:any = cache.get(`${IDP}/api/users/GetCurrentUserInfo`)?.data?.result
+
     const {mutate} = useMutation({url:`${IDP}/api/account`,method:'PUT'})
     const [query,setQuery] = useState({})
     const editHandler = async (e:any)=>{
         e.preventDefault()
         await mutate(query,{},{'withCredentials': true})
             .then(()=>{
+                swrMutate(`${IDP}/api/users/GetCurrentUserInfo`)
                 throwToast({type:'success',value:'با موفقیت ویرایش شد'})
                 setOpen(false)
             })
