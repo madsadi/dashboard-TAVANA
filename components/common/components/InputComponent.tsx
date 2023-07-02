@@ -1,4 +1,4 @@
-import React, {Dispatch, Fragment, memo, useCallback, useEffect, useState} from "react";
+import React, {Dispatch, Fragment, useEffect, useState} from "react";
 import DatePicker, {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import {dateRangeHandler, FindEnum} from "../functions/common-funcions";
@@ -145,8 +145,9 @@ const InputComponent = ({
                             value={selectedDayRange}
                             onChange={(e) => {
                                 setSelectedDayRange(e)
-                                onChange('StartDate', e.from ? `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null)
-                                onChange('EndDate', e.to ? `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null)
+                                if (setQuery){
+                                    setQuery({...query,StartDate:e.from ? `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null,EndDate:e.to ?  `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null})
+                                }
                             }}
                             shouldHighlightWeekends
                             renderInput={renderCustomInput}
