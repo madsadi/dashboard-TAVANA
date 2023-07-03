@@ -43,7 +43,7 @@ export default function AddCommission() {
                         {
                             toolbar.map((item: any) => {
                                 if (item?.children) {
-                                    return (<div className={'w-full'}>
+                                    return (<div className={'w-full'} key={item.title}>
                                         <label className={'mb-1'}>{item.name}</label>
                                         <div className={'flex'}>
                                             {
