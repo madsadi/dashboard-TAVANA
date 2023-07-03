@@ -38,7 +38,7 @@ const InputComponent = ({
                             dynamicsOption
                         }: PropsType) => {
 
-    const {title, name, type, valueType} = item
+    const {title, name, type, valueType,placeholder} = item
     const [showPass, setShowPass] = useState<boolean>(false)
     const [dynamicOptions, setDynamicOptions] = useState<any[]>([])
     const {fetchAsyncData} = useQuery({url: ''})
@@ -172,7 +172,7 @@ const InputComponent = ({
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
                         <input className={'w-full'} type={valueType || 'text'}
-                               dir={valueType === 'number' ? 'ltr' : 'rtl'} id={title} value={query?.[title]}
+                               dir={valueType === 'number' ? 'ltr' : 'rtl'} id={title} value={query?.[title]} placeholder={placeholder}
                                onChange={(e) => {
                                    if (valueType === 'number') {
                                        onChange(title, Number(e.target.value))

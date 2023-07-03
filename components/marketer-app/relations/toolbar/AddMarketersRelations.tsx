@@ -18,6 +18,8 @@ export default function AddMarketersRelations() {
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({from:null,to:null})
 
     const openHandler = () => {
+        setQuery({})
+        setSelectedDayRange({from:null,to:null})
         setModal(true)
     }
 
@@ -30,13 +32,16 @@ export default function AddMarketersRelations() {
                 setQuery(null)
                 fetchData(searchQuery)
             })
-            .catch((err) => throwToast({type: 'error', value: err}))
+            .catch((err) => {
+                throwToast({type: 'error', value: err})
+            })
     }
     const onChange = (key: string, value: any) => {
         let _query: any = {...query};
         _query[key] = value
         setQuery(_query)
     }
+
     return (
         <>
             <button className={'button bg-green-500'} onClick={openHandler}>

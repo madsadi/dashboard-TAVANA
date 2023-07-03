@@ -39,7 +39,13 @@ export default function EditCommission() {
         if (modal && selectedRows.length) {
             let _query:any = {}
             toolbar.map((item:any)=>{
-                _query[`${item.title}`] = selectedRows[0][`${item.title}`]
+                if (item?.children){
+                    item?.children.map((child:any)=>{
+                        _query[`${child.title}`] = selectedRows[0][`${child.title}`]
+                    })
+                }else{
+                    _query[`${item.title}`] = selectedRows[0][`${item.title}`]
+                }
             })
             setQuery(_query)
         }
@@ -51,20 +57,38 @@ export default function EditCommission() {
             <Modal title={'ویرایش کارمزد'} ModalWidth={'max-w-7xl'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
-                    <form className={'grid lg:grid-cols-5 grid-cols-2 gap-4'}>
+                    <form className={'grid lg:grid-cols-4 grid-cols-2 gap-4'}>
                         {
                             toolbar.map((item: any) => {
-                                return <InputComponent key={item.title}
-                                                       query={query}
-                                                       setQuery={setQuery}
-                                                       setSelectedDayRange={setSelectedDayRange}
-                                                       selectedDayRange={selectedDayRange}
-                                                       item={item}
-                                                       onChange={onChange}
-                                />
-
+                                if (item?.children) {
+                                    return (<div className={'w-full'}>
+                                        <label className={'mb-1'}>{item.name}</label>
+                                        <div className={'flex'}>
+                                            {
+                                                item?.children.map((child: any) => {
+                                                    return (
+                                                        <InputComponent key={child.title}
+                                                                        query={query}
+                                                                        setQuery={setQuery}
+                                                                        item={child}
+                                                                        onChange={onChange}
+                                                        />
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>)
+                                } else {
+                                    return <InputComponent key={item.title}
+                                                           query={query}
+                                                           setQuery={setQuery}
+                                                           item={item}
+                                                           onChange={onChange}
+                                    />
+                                }
                             })
                         }
+
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <button className="button bg-red-500"
