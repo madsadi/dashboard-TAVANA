@@ -17,25 +17,18 @@ import {userInfo} from "../../../store/user-management.config";
 import useQuery from "../../../hooks/useQuery";
 import {IDP} from "../../../api/constants";
 import {useDispatch} from "react-redux";
+import useSWR from "swr";
 
 
 
 export const Accessibility = () => {
-    const [info, setInfo] = useState<{ lastName: string, firstName: string }>({lastName: '', firstName: ''})
-    const {fetchAsyncData} = useQuery({url: `${IDP}/api/users/GetCurrentUserInfo`})
-    const dispatch = useDispatch()
+    const {data: info} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
+
     const auth = useAuth();
     const solutions = [
-        {name: 'پروفایل', description: `${info?.firstName + " " + info?.lastName}`, href: '/profile', icon: ChartPieIcon},
+        {name: 'پروفایل', description: `${info?.result?.firstName + " " + info?.result?.lastName}`, href: '/profile', icon: ChartPieIcon},
     ]
 
-    useEffect(() => {
-        fetchAsyncData()
-            .then((res) => {
-                setInfo(res?.data?.result);
-                dispatch(userInfo(res?.data?.result))
-            })
-    }, [])
     return (
         <>
             <Popover className={'lg:hidden mr-auto h-[34px]'}>
@@ -99,7 +92,7 @@ export const Accessibility = () => {
                 <Time/>
                 <div>
                     <Link className={'flex items-center px-3 cursor-pointer'} href={'/profile'}>
-                        {info?.firstName + " " + info?.lastName}
+                        {info?.result?.firstName + " " + info?.result?.lastName}
                         <UserCircleIcon className={'h-5 w-5 mr-2'}/>
                     </Link>
                 </div>

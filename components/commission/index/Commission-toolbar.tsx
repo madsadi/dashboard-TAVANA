@@ -1,6 +1,7 @@
 import React from "react";
 import InActive from "./toolbar/InActive";
 import AddCommission from "./toolbar/Add";
+import EditCommission from "./toolbar/EditCommission";
 
 export const CommissionToolbar=()=>{
     return(
@@ -8,6 +9,7 @@ export const CommissionToolbar=()=>{
             <div className={'toolbar p-2'}>
                 <InActive/>
                 <AddCommission/>
+                <EditCommission/>
             </div>
         </div>
     )

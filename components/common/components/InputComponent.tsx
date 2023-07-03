@@ -38,7 +38,7 @@ const InputComponent = ({
                             dynamicsOption
                         }: PropsType) => {
 
-    const {title, name, type, valueType} = item
+    const {title, name, type, valueType,placeholder} = item
     const [showPass, setShowPass] = useState<boolean>(false)
     const [dynamicOptions, setDynamicOptions] = useState<any[]>([])
     const {fetchAsyncData} = useQuery({url: ''})
@@ -102,19 +102,26 @@ const InputComponent = ({
     const singleDateHandler = (selectedDay: DayValue) => {
         if (selectedDay) {
             return Object.values(selectedDay).map((item: any) => item).reverse().join('-')
+        }else{
+            return ''
         }
     }
     const renderSingleDateCustomInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block flex items-center'} htmlFor="rangeDate">
+            <label className={'block flex items-center'} >
                 تاریخ
                 {query?.[title] || query?.[title] === false ?
                     <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                        if (setQuery) {
                             setSelectedDay(null)
-                            onChange(title, null)
+                            let _query = {...query}
+                            _query[`${title}`] = null
+
+                            setQuery(_query)
+                        }
                     }}/> : null}
             </label>
-            <input className={'w-full'} readOnly ref={ref} id="rangeDate" value={singleDateHandler(selectedDay)}/>
+            <input className={'w-full'} readOnly ref={ref} value={singleDateHandler(selectedDay)}/>
         </div>
     )
 
@@ -130,7 +137,7 @@ const InputComponent = ({
                             onChange={(e) => {
                                 setSelectedDay(e);
                                 onChange(
-                                    'date', `${moment.from(`${e?.year}/${e?.month}/${e?.day}`, 'en', 'YYYY/MM/DD').format('YYYY-MM-DDTHH:MM:SS')}`
+                                    `${title}`, `${moment.from(`${e?.year}/${e?.month}/${e?.day}`, "fa", 'YYYY/MM/DD').format('YYYY-MM-DDTHH:MM:SS')}`
                                 )
                             }}
                             renderInput={renderSingleDateCustomInput}
@@ -145,8 +152,12 @@ const InputComponent = ({
                             value={selectedDayRange}
                             onChange={(e) => {
                                 setSelectedDayRange(e)
-                                if (setQuery){
-                                    setQuery({...query,StartDate:e.from ? `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null,EndDate:e.to ?  `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}`:null})
+                                if (setQuery) {
+                                    setQuery({
+                                        ...query,
+                                        StartDate: e.from ? `${moment.from(`${e.from?.year}/${e.from?.month}/${e.from?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}` : null,
+                                        EndDate: e.to ? `${moment.from(`${e.to?.year}/${e.to?.month}/${e.to?.day}`, 'fa', 'YYYY/MM/DD').format('YYYY-MM-DD')}` : null
+                                    })
                                 }
                             }}
                             shouldHighlightWeekends
@@ -161,7 +172,7 @@ const InputComponent = ({
                     <div>
                         <label className={'block'} htmlFor={title}>{name}</label>
                         <input className={'w-full'} type={valueType || 'text'}
-                               dir={valueType === 'number' ? 'ltr' : 'rtl'} id={title} value={query?.[title]}
+                               dir={valueType === 'number' ? 'ltr' : 'rtl'} id={title} value={query?.[title]} placeholder={placeholder}
                                onChange={(e) => {
                                    if (valueType === 'number') {
                                        onChange(title, Number(e.target.value))
@@ -433,7 +444,7 @@ const InputComponent = ({
                                 {({open}) => (
                                     <div className="relative">
                                         <Listbox.Button
-                                            className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                            className="relative flex min-w-full h-[36px] cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
                                                     className="ml-2 block truncate text-sm">{query?.[title]?.displayName}</span>
@@ -513,7 +524,7 @@ const InputComponent = ({
                                 {({open}) => (
                                     <div className="relative">
                                         <Listbox.Button
-                                            className="relative flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                            className="relative h-[36px] flex min-w-full cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                             <span className="flex items-center">
                                                 <span
                                                     className="ml-2 block truncate text-sm">{dynamicOptions.find((i: any) => i.code === query?.[title])?.title}</span>

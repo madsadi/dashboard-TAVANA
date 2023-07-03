@@ -16,9 +16,10 @@ import {IDP} from "../../api/constants";
 import {throwToast} from "../common/functions/notification";
 import {PasswordModal} from "./Password.modal";
 import {ChangeMobileNumber} from "./ChangeMobileNumber";
+import useSWR from "swr";
 
 export default function UserInfo() {
-    const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
+    const {data} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
     const [open,setOpen]=useState(false)
     const [passwordModal,setPasswordModal]=useState(false)
     const fields: any = [
@@ -26,38 +27,38 @@ export default function UserInfo() {
             id: 0,
             title: 'نام و نام خانوادگی:',
             icon: <UserIcon className={'h-4 min-w-4'}/>,
-            info: data?.firstName + " " + data?.lastName
+            info: data?.result?.firstName + " " + data?.result?.lastName
         },
         {
             id: 1,
             title: 'نام کاربری:',
             icon: <FingerPrintIcon className={'h-4 min-w-4'}/>,
-            info: data?.userName
+            info: data?.result?.userName
         },
         {
             id: 2,
             title: 'ایمیل:',
             icon: <EnvelopeIcon className={'h-4 min-w-4'}/>,
-            info: data?.email
+            info: data?.result?.email
         },
         {
             id: 3,
             title: 'تلفن همراه:',
             icon: <DevicePhoneMobileIcon className={'h-4 min-w-4'}/>,
-            info: data?.phoneNumber,
+            info: data?.result?.phoneNumber,
             utility:<ChangeMobileNumber/>
         },
         {
             id: 4,
             title: 'کدملی:',
             icon: <IdentificationIcon className={'h-4 min-w-4'}/>,
-            info: data?.nationalId
+            info: data?.result?.nationalId
         },
         {
             id: 5,
             title: 'تاریخ تولد:',
             icon: <CalendarDaysIcon className={'h-4 min-w-4'}/>,
-            info: data?.birthdate ? jalali(data?.birthdate).date : '-'
+            info: data?.result?.birthdate ? jalali(data?.result?.birthdate).date : '-'
         },
         {
             id: 6,
