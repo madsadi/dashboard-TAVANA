@@ -1,18 +1,10 @@
 import Modal from "../../common/layout/Modal";
-import React, { useContext, useMemo, useRef, useState} from "react";
+import React, { useMemo, useRef} from "react";
 import {CategoryResultModalTypes} from "../../../types/types";
-import {CommissionContext} from "../../../pages/commission-management/commission";
-import useQuery from "../../../hooks/useQuery";
-import {COMMISSION_BASE_URL} from "../../../api/constants";
 import {AgGridReact} from "ag-grid-react";
 
 export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
     const {setOpen, open, queryHandler,data} = props
-    const {categoryQuery} = useContext<any>(CommissionContext)
-    const {
-        fetchAsyncData
-    }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
-    const [rowData, setRowData] = useState<any>([])
     const columnDefStructure:any = [
         {
             field: 'id',

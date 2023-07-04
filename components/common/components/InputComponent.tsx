@@ -38,7 +38,7 @@ const InputComponent = ({
                             dynamicsOption
                         }: PropsType) => {
 
-    const {title, name, type, valueType,placeholder} = item
+    const {title, name, type, valueType,placeholder,readOnly} = item
     const [showPass, setShowPass] = useState<boolean>(false)
     const [dynamicOptions, setDynamicOptions] = useState<any[]>([])
     const {fetchAsyncData} = useQuery({url: ''})
@@ -84,7 +84,7 @@ const InputComponent = ({
 
     const renderCustomInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block flex items-center'} htmlFor="rangeDate">
+            <label className={'block flex items-center text-sm'} htmlFor="rangeDate">
                 {name}
                 {query?.['StartDate'] || query?.['EndDate'] ?
                     <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
@@ -108,7 +108,7 @@ const InputComponent = ({
     }
     const renderSingleDateCustomInput = ({ref}: { ref: any }) => (
         <div>
-            <label className={'block flex items-center'} >
+            <label className={'block flex items-center text-sm'} >
                 تاریخ
                 {query?.[title] || query?.[title] === false ?
                     <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
@@ -170,8 +170,8 @@ const InputComponent = ({
             case "input":
                 return (
                     <div>
-                        <label className={'block'} htmlFor={title}>{name}</label>
-                        <input className={'w-full'} type={valueType || 'text'}
+                        <label className={'block text-sm'} htmlFor={title}>{name}</label>
+                        <input className={'w-full'} type={valueType || 'text'} readOnly={readOnly}
                                dir={valueType === 'number' ? 'ltr' : 'rtl'} id={title} value={query?.[title]} placeholder={placeholder}
                                onChange={(e) => {
                                    if (valueType === 'number') {
@@ -185,7 +185,7 @@ const InputComponent = ({
             case "password":
                 return (
                     <div>
-                        <label className={'block'} htmlFor={title}>{name}</label>
+                        <label className={'block text-sm'} htmlFor={title}>{name}</label>
                         <div className={'relative'}>
                             <input className={'w-full'} type={showPass ? 'text' : 'password'}
                                    dir={'ltr'} id={title} value={query?.[title]}
@@ -203,7 +203,7 @@ const InputComponent = ({
             case "selectInput":
                 return (
                     <div>
-                        <label className={'mt-auto flex items-center'} htmlFor={title}>
+                        <label className={'mt-auto flex items-center text-sm'} htmlFor={title}>
                             {name}
                             {query?.[title] || query?.[title] === false ?
                                 <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
@@ -290,7 +290,7 @@ const InputComponent = ({
             case "selectInputTime":
                 return (
                     <div className={'flex items-center space-x-reverse space-x-2'}>
-                        <label className={'mt-auto'} htmlFor={title}>{name}</label>
+                        <label className={'mt-auto text-sm'} htmlFor={title}>{name}</label>
                         <div className={'grow'}>
                             <div className="relative rounded">
                                 <Listbox name={title === 'startHour' ? 'startMinute' : 'endMinute'}
@@ -435,7 +435,7 @@ const InputComponent = ({
             case "dynamicSelectInput":
                 return (
                     <div>
-                        <label className={'mt-auto'} htmlFor={title}>{name}</label>
+                        <label className={'mt-auto text-sm'} htmlFor={title}>{name}</label>
                         <div className="relative rounded">
                             <Listbox name={title} value={query?.[title]}
                                      onChange={(e) => {
@@ -509,7 +509,7 @@ const InputComponent = ({
             case "dynamic":
                 return (
                     <div>
-                        <label className={'mt-auto flex items-center'} htmlFor={title}>
+                        <label className={'mt-auto flex items-center text-sm'} htmlFor={title}>
                             {name}
                             {query?.[title] || query?.[title] === false ?
                                 <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {

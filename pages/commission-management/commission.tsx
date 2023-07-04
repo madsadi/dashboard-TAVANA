@@ -34,138 +34,16 @@ export default function Commission() {
                 },
                 {
                     field: 'minBrokerCommissionValue',
-                    headerName: 'کمینه ضریب',
+                    headerName: 'کمینه مقدار',
                     flex: 0,
                     width: 110,
                 },
                 {
                     field: 'maxBrokerCommissionValue',
-                    headerName: 'بیشینه ضریب',
-                    flex: 0,
-                    width: 110,
-                },
-            ]
-        },
-        {
-            headerName: 'کارمزد بورس مربوطه',
-            children: [
-                {
-                    field: 'bourseCommissionCoeff',
-                    headerName: 'ضریب',
-                    flex: 0,
-                    width: 90
-                },
-                {
-                    field: 'maxBourseCommissionValue',
-                    headerName: 'بیشینه ضریب',
-                    flex: 0,
-                    width: 110
-                }
-            ]
-        },
-        {
-            headerName: 'کارمزد حق نظارت سازمان',
-            children: [
-                {
-                    field: 'seoControlCommissionCoeff',
-                    headerName: 'ضریب',
-                    flex: 0,
-                    width: 90
-                }, {
-                    field: 'maxSeoControlCommissionValue',
-                    headerName: 'بیشینه ضریب',
-                    flex: 0,
-                    width: 110
-                }
-            ]
-        },
-        {
-            headerName: 'کارمزد سپرده گذاری',
-            children: [
-                {
-                    field: 'csdCommissionCoeff',
-                    headerName: 'ضریب',
-                    flex: 0,
-                    width: 90
-                },
-                {
-                    field: 'maxCsdCommissionValue',
-                    headerName: 'بیشینه ضریب',
-                    flex: 0,
-                    width: 110
-                }
-            ]
-        },
-        {
-            headerName: 'کارمزد فناوری',
-            children: [
-                {
-                    field: 'tmcCommissionCoeff',
-                    headerName: 'ضریب',
-                    flex: 0,
-                    width: 90
-                }, {
-                    field: 'maxTmcCommissionValue',
-                    headerName: 'بیشینه ضریب',
-                    flex: 0,
-                    width: 110,
-                }
-            ]
-        },
-        {
-          headerName: 'مالیات'  ,
-            children: [
-                {
-                    field: 'taxCoeff',
-                    headerName: 'ضریب',
-                    flex: 0,
-                    width: 90
-                },
-                {
-                    field: 'addedValueTax',
-                    headerName: 'مقدار ارزش افزوده',
-                    flex: 0,
-                    width: 110
-                },
-                {
-                    field: 'maxTaxValue',
                     headerName: 'بیشینه مقدار',
                     flex: 0,
-                    width: 110
-                }
-            ]
-        },
-        {
-            headerName: 'کارمزد رایان بورس',
-            children: [
-                {
-                    field: 'rayanCommissionCoeff',
-                    headerName: 'ضریب',
-                    flex: 0,
-                    width: 90
-                }, {
-                    field: 'maxRayanCommissionValue',
-                    headerName: 'بیشینه ضریب',
-                    flex: 0,
-                    width: 110
-                }
-            ]
-        },
-        {
-            headerName: ' کارمزد حق دسترسی',
-            children: [
-                {
-                    field: 'accessCommissionCoeff',
-                    headerName: 'ضریب',
-                    flex: 0,
-                    width: 90
+                    width: 110,
                 },
-                {
-                    field: 'totalCommissionCoeff',
-                    headerName: 'مجموع ضریب',
-                    flex: 0,
-                    width: 110
-                }
             ]
         },
         {
@@ -182,21 +60,151 @@ export default function Commission() {
                     headerName: 'بیشینه مقدار',
                     flex: 0,
                     width: 110
-                },
+                }
             ]
         },
         {
-            field: 'netTradeValueCoeff',
+            headerName: 'کارمزد حق نظارت سازمان',
+            children: [
+                {
+                    field: 'seoControlCommissionCoeff',
+                    headerName: 'ضریب',
+                    flex: 0,
+                    width: 90
+                }, {
+                    field: 'maxSeoControlCommissionValue',
+                    headerName: 'بیشینه مقدار',
+                    flex: 0,
+                    width: 110
+                }
+            ]
+        },
+        {
+            headerName: 'کارمزد سپرده گذاری',
+            children: [
+                {
+                    field: 'csdCommissionCoeff',
+                    headerName: 'ضریب',
+                    flex: 0,
+                    width: 90
+                },
+                {
+                    field: 'maxCsdCommissionValue',
+                    headerName: 'بیشینه مقدار',
+                    flex: 0,
+                    width: 110
+                }
+            ]
+        },
+        {
+            headerName: 'کارمزد فناوری',
+            children: [
+                {
+                    field: 'tmcCommissionCoeff',
+                    headerName: 'ضریب',
+                    flex: 0,
+                    width: 90
+                }, {
+                    field: 'maxTmcCommissionValue',
+                    headerName: 'بیشینه مقدار',
+                    flex: 0,
+                    width: 110,
+                }
+            ]
+        },
+        {
+            headerName: 'کارمزد بورس مربوطه',
+            children: [
+                {
+                    field: 'bourseCommissionCoeff',
+                    headerName: 'ضریب',
+                    flex: 0,
+                    width: 90
+                },
+                {
+                    field: 'maxBourseCommissionValue',
+                    headerName: 'بیشینه مقدار',
+                    flex: 0,
+                    width: 110
+                }
+            ]
+        },
+        {
+            headerName: 'کارمزد رایان بورس',
+            children: [
+                {
+                    field: 'rayanCommissionCoeff',
+                    headerName: 'ضریب',
+                    flex: 0,
+                    width: 90
+                }, {
+                    field: 'maxRayanCommissionValue',
+                    headerName: 'بیشینه مقدار',
+                    flex: 0,
+                    width: 110
+                }
+            ]
+        },
+        {
+            headerName: 'کارمزد حق دسترسی',
+            children: [
+                {
+                    field: 'accessCommissionCoeff',
+                    headerName: 'ضریب',
+                    flex: 0,
+                    width: 90
+                },
+                {
+                    field: 'totalCommissionCoeff',
+                    headerName: 'مجموع ضریب',
+                    flex: 0,
+                    width: 110
+                },
+                {
+                    field: 'maxAccessCommissionValue',
+                    headerName: ' بیشینه مقدار',
+                    flex: 0,
+                    width: 110
+                }
+            ]
+        },
+        {
+          headerName: 'مالیات ارزش افزوده'  ,
+            children: [
+                {
+                    field: 'addedValueTax',
+                    headerName: 'مقدار',
+                    flex: 0,
+                    width: 110
+                },
+                {
+                    field: 'maxTaxValue',
+                    headerName: 'بیشینه مقدار',
+                    flex: 0,
+                    width: 110
+                }
+            ]
+        },
+        {
+            headerName: 'ضریب مالیات',
+            field: 'taxCoeff',
             flex: 0,
             width: 90
-        }, {
+        },
+        {
             field: 'charge',
             headerName: 'ضریب کارمزد عوارض',
             flex: 0,
             width: 110
         },
         {
-            field: 'StartDate',
+            field: 'netTradeValueCoeff',
+            headerName: 'ضریب خالص ارزش معامله',
+            flex: 0,
+            width: 90
+        },
+        {
+            field: 'beginningEffectingDate',
             headerName: 'تاریخ شروع فعالیت کارمزد',
             flex: 0,
             width: 150,
@@ -204,7 +212,7 @@ export default function Commission() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <DateCell date={props.data.StartDate}/>
+                        <DateCell date={props.data.beginningEffectingDate} hideTime={true}/>
 
                     )
                 };
@@ -215,7 +223,7 @@ export default function Commission() {
             }
         },
         {
-            field: 'EndDate',
+            field: 'endEffectingDate',
             headerName: 'تاریخ پایان فعالیت کارمزد',
             flex: 0,
             width: 150,
@@ -223,7 +231,7 @@ export default function Commission() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <DateCell date={props.data.EndDate}/>
+                        <DateCell date={props.data.endEffectingDate} hideTime={true}/>
                     )
                 };
                 const moodDetails = {
@@ -235,12 +243,6 @@ export default function Commission() {
         {
             field: 'deleted',
             headerName: 'حذف شده؟',
-            flex: 0,
-            width: 110
-        },
-        {
-            field: 'maxAccessCommissionValue',
-            headerName: ' بیشینه کارمزد حق دسترسی',
             flex: 0,
             width: 110
         },
@@ -286,6 +288,7 @@ export default function Commission() {
     const [instrumentMessage, setInstrumentMessage] = useState<string>('')
     const [categoryMessage, setCategoryMessage] = useState<string>('')
     const [selectedRows, setSelectedRows] = useState<any>([])
+    const [ids, setIds] = useState<any>({})
     const ref: any = useRef()
     useEffect(() => {
         if (categoryData?.result?.pagedData?.length) {
@@ -307,6 +310,7 @@ export default function Commission() {
 
     const queryHandler = (newQuery: any) => {
         ref?.current?.changeQueries(newQuery)
+        setIds({...ids,...newQuery})
     }
 
     const detailSearchHandler = (query: any) => {
@@ -317,7 +321,7 @@ export default function Commission() {
     }
 
     return (
-        <CommissionContext.Provider value={{categoryQuery, selectedRows}}>
+        <CommissionContext.Provider value={{categoryQuery, selectedRows,ids}}>
             <div className={'flex flex-col h-full grow'}>
                 <CategoryResultModal open={categoryModal} setOpen={setCategoryModal} queryHandler={queryHandler}
                                      data={categoryData?.result}/>

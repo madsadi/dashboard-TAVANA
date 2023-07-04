@@ -70,7 +70,7 @@ export default function PortfolioBook(){
             headerName: 'مجموع حجم فروش انجام شده',
         },
         {
-            field: 'currentShareCount',
+            field: 'shareCount',
             headerName: 'تعداد مانده دارایی',
         },
         {

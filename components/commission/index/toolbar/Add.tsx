@@ -7,21 +7,25 @@ import useMutation from "../../../../hooks/useMutation";
 import {throwToast} from "../../../common/functions/notification";
 import Modal from "../../../common/layout/Modal";
 import InputComponent from "../../../common/components/InputComponent";
+import {DayRange} from "react-modern-calendar-datepicker";
 
 export default function AddCommission() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_detail, 'add')
-    const {fetchData, query: searchQuery} = useContext<any>(CommissionContext)
+    const {fetchData, query: searchQuery,ids} = useContext<any>(CommissionContext)
     const {mutate} = useMutation({url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Add`})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({from: null, to: null})
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
-        await mutate(query)
+        let {CommissionInstrumentTypeTitle,CommissionCategoryTitle,...rest} = query
+        await mutate({...rest,commissionInstrumentTypeId:ids?.CommissionInstrumentTypeId,commissionCategoryId:ids?.CommissionCategoryId})
             .then(() => {
                 throwToast({type: 'success', value: 'با موفقیت انجام شد'})
                 setModal(false)
                 setQuery(null)
+                setSelectedDayRange({from:null,to:null})
                 fetchData(searchQuery)
             })
             .catch((err) => throwToast({type: 'error', value: err}))
@@ -33,9 +37,18 @@ export default function AddCommission() {
         setQuery(_query)
     }
 
+    const openHandler=()=>{
+        if (ids?.CommissionInstrumentTypeId && ids?.CommissionCategoryId){
+            setQuery({...query,commissionInstrumentTypeTitle:ids?.CommissionInstrumentTypeTitle,commissionCategoryTitle:ids?.CommissionCategoryTitle})
+            setModal(true)
+        }else{
+            throwToast({type:'warning',value:'برای ایجاد کارمزد جدید لطفا ابتدا، ابزار مالی و گروه بندی ضرایب مورد نظر را از طریق جستجو کردن انتخاب کنید'})
+        }
+    }
+
     return (
         <>
-            <button className="button bg-lime-600" onClick={() => setModal(true)}>ایجاد کارمزد</button>
+            <button className="button bg-lime-600" onClick={openHandler}>ایجاد کارمزد</button>
             <Modal title={'ایجاد کارمزد'} ModalWidth={'max-w-7xl'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
@@ -44,7 +57,7 @@ export default function AddCommission() {
                             toolbar.map((item: any) => {
                                 if (item?.children) {
                                     return (<div className={'w-full'} key={item.title}>
-                                        <label className={'mb-1'}>{item.name}</label>
+                                        <label className={'mb-1 font-bold'}>{item.name}</label>
                                         <div className={'flex'}>
                                             {
                                                 item?.children.map((child: any) => {
@@ -61,12 +74,17 @@ export default function AddCommission() {
                                         </div>
                                     </div>)
                                 } else {
-                                    return <InputComponent key={item.title}
-                                                           query={query}
-                                                           setQuery={setQuery}
-                                                           item={item}
-                                                           onChange={onChange}
-                                    />
+                                    return (<div className={'mt-auto'} key={item.title}>
+                                        <InputComponent
+                                                        query={query}
+                                                        setQuery={setQuery}
+                                                        item={item}
+                                                        onChange={onChange}
+                                                        selectedDayRange={selectedDayRange}
+                                                        setSelectedDayRange={setSelectedDayRange}
+
+                                        />
+                                    </div>)
                                 }
                             })
                         }

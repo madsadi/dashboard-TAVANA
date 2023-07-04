@@ -67,7 +67,7 @@ export default function RoleSearchSection({query,queryUpdate}: {query:any,queryU
     return (
         <div className={`relative`} ref={wrapperRef}>
             <div className={'relative'}>
-                <label className={'block'} htmlFor="InstrumentId">عنوان نقش کاربر</label>
+                <label className={'block text-sm'} htmlFor="InstrumentId">عنوان نقش کاربر</label>
                 <input id="InstrumentId" className={'w-full'} value={role}
                        onFocus={() => setOpen(true)}
                        onChange={(e) => {
