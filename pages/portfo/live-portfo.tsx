@@ -28,7 +28,7 @@ export default function LivePortfo() {
             headerName: 'نماد',
         },
         {
-            field: 'currentShareCount',
+            field: 'shareCount',
             headerName: 'حجم مانده',
         },
         {

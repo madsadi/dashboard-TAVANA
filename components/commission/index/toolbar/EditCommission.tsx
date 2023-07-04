@@ -102,8 +102,8 @@ export default function EditCommission() {
                                         </div>
                                     </div>)
                                 } else {
-                                    return (<div className={'mt-auto'}>
-                                        <InputComponent key={item.title}
+                                    return (<div className={'mt-auto'} key={item.title}>
+                                        <InputComponent
                                                         query={query}
                                                         setQuery={setQuery}
                                                         item={item}
