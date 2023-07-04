@@ -743,78 +743,175 @@
     },
     "toolbar": {
       "add": [
-        {"title": "commissionInstrumentTypeId", "name": "شناسه ابزار مالی کارمزد", "type": "input"},
-        {"title": "commissionCategoryId", "name": "شناسه گروه بندی کارمزد", "type": "input"},
+        {"title": "commissionInstrumentTypeTitle", "name": "عنوان ابزار مالی کارمزد", "type": "input",
+          "readOnly": true
+        },
+        {"title": "commissionCategoryTitle", "name": "عنوان گروه بندی کارمزد", "type": "input",
+          "readOnly": true
+        },
         {"name": "کارمزد کارگزار",
           "children": [
-            {"title": "brokerCommissionCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "minBrokerCommissionValue", "placeholder": " کمینه مقدار", "type": "input"},
-            {"title": "maxBrokerCommissionValue", "placeholder": "بیشینه مقدار", "type": "input"}
-          ]
-        },
-        {"name": "کارمزد بورس مربوطه",
-          "children": [
-            {"title": "bourseCommissionCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxBourseCommissionValue", "placeholder": "بیشینه مقدار", "type": "input"}
-          ]
-        },
-        {"name": "کارمزد حق نظارت سازمان",
-          "children": [
-            {"title": "seoControlCommissionCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxSeoControlCommissionValue", "placeholder": "بیشینه مقدار", "type": "input"}
-          ]
-        },
-        {"name": "کارمزد سپرده گذاری",
-          "children": [
-            {"title": "csdCommissionCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxCsdCommissionValue", "placeholder": "بیشینه مقدار", "type": "input"}
-          ]
-        },
-        {"name": "کارمزد فناوری",
-          "children": [
-            {"title": "tmcCommissionCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxTmcCommissionValue", "placeholder": "بیشینه مقدار", "type": "input"}
-          ]
-        },
-        {"name": "مالیات",
-          "children": [
-            {"title": "taxCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxTaxValue", "placeholder": "بیشینه مقدار", "type": "input"},
-            {"title": "addedValueTax", "placeholder": "مقدار ارزش افزوده", "type": "input"},
-            {"title": "maxAddedVlueTax", "placeholder": "بیشینه مقدار ارزش افزوده", "type": "input"}
-          ]
-        },
-        {"name": "کارمزد رایان بورس",
-          "children": [
-            {"title": "rayanCommissionCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxRayanCommissionValue", "placeholder": "بیشینه", "type": "input"}
+            {"title": "brokerCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "minBrokerCommissionValue","placeholder": " کمینه مقدار", "name": " کمینه مقدار", "type": "input"},
+            {"title": "maxBrokerCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
           ]
         },
         {"name": "کارمزد صندوق توسعه",
           "children": [
-            {"title": "brokerCmdFundCoeff", "placeholder": "ضریب ", "type": "input"},
-            {"title": "maxBrokerCmdFundValue", "placeholder": "بیشینه مقدار", "type": "input"}
+            {"title": "brokerCmdFundCoeff","placeholder": "ضریب ", "name": "ضریب ", "type": "input"},
+            {"title": "maxBrokerCmdFundValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد حق نظارت سازمان",
+          "children": [
+            {"title": "seoControlCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxSeoControlCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد سپرده گذاری",
+          "children": [
+            {"title": "csdCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxCsdCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد فناوری",
+          "children": [
+            {"title": "tmcCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxTmcCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد بورس مربوطه",
+          "children": [
+            {"title": "bourseCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxBourseCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد رایان بورس",
+          "children": [
+            {"title": "rayanCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxRayanCommissionValue","placeholder": "بیشینه", "name": "بیشینه", "type": "input"}
           ]
         },
         {"name": "کارمزد حق دسترسی",
           "children": [
-            {"title": "accessCommissionCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxAccessCommissionValue", "placeholder": "بیشینه مقدار", "type": "input"}
+            {"title": "accessCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxAccessCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
           ]
         },
         {"name": "کارمزد انبارداری",
           "children": [
-            {"title": "inventoryCoeff", "placeholder": "ضریب", "type": "input"},
-            {"title": "maxInventoryValue", "placeholder": "بیشینه مقدار", "type": "input"},
-            {"title": "inventoryAddedValueTaxCoeff", "placeholder": "ضریب مالیات بر ارزش افزوده", "type": "input"},
-            {"title": "maxInventoryAddedValueTax", "placeholder": "بیشینه مالیات بر ارزش افزوده", "type": "input"}
+            {"title": "inventoryCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxInventoryValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": " مالیات بر ارزش افزوده",
+          "children": [
+            {"title": "inventoryAddedValueTaxCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxInventoryAddedValueTax","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+
+        {"name": "مالیات",
+          "children": [
+            {"title": "taxCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxTaxValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "مالیات ارزش افزوده",
+          "children": [
+            {"title": "addedValueTax","placeholder": "مقدار", "name": "مقدار", "type": "input"},
+            {"title": "maxAddedVlueTax","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"title": "charge", "name": "ضریب کارمزد عوارض", "type": "input"},
+        {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
+      ],
+      "edit": [
+        {"title": "commissionInstrumentTypeId", "name": "شناسه ابزار مالی کارمزد", "type": "input",
+          "readOnly": true
+        },
+        {"title": "commissionCategoryId", "name": "شناسه گروه بندی کارمزد", "type": "input",
+          "readOnly": true
+        },
+        {"name": "کارمزد کارگزار",
+          "children": [
+            {"title": "brokerCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "minBrokerCommissionValue","placeholder": " کمینه مقدار", "name": " کمینه مقدار", "type": "input"},
+            {"title": "maxBrokerCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد صندوق توسعه",
+          "children": [
+            {"title": "brokerCmdFundCoeff","placeholder": "ضریب ", "name": "ضریب ", "type": "input"},
+            {"title": "maxBrokerCmdFundValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد حق نظارت سازمان",
+          "children": [
+            {"title": "seoControlCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxSeoControlCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد سپرده گذاری",
+          "children": [
+            {"title": "csdCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxCsdCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد فناوری",
+          "children": [
+            {"title": "tmcCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxTmcCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد بورس مربوطه",
+          "children": [
+            {"title": "bourseCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxBourseCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد رایان بورس",
+          "children": [
+            {"title": "rayanCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxRayanCommissionValue","placeholder": "بیشینه", "name": "بیشینه", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد حق دسترسی",
+          "children": [
+            {"title": "accessCommissionCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxAccessCommissionValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "کارمزد انبارداری",
+          "children": [
+            {"title": "inventoryCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxInventoryValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": " مالیات بر ارزش افزوده",
+          "children": [
+            {"title": "inventoryAddedValueTaxCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxInventoryAddedValueTax","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+
+        {"name": "مالیات",
+          "children": [
+            {"title": "taxCoeff","placeholder": "ضریب", "name": "ضریب", "type": "input"},
+            {"title": "maxTaxValue","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
+          ]
+        },
+        {"name": "مالیات ارزش افزوده",
+          "children": [
+            {"title": "addedValueTax","placeholder": "مقدار", "name": "مقدار", "type": "input"},
+            {"title": "maxAddedVlueTax","placeholder": "بیشینه مقدار", "name": "بیشینه مقدار", "type": "input"}
           ]
         },
         {"title": "charge", "name": "ضریب کارمزد عوارض", "type": "input"},
         {"title": "date", "name": "تاریخ شروع و پایان", "type": "date"}
       ],
       "delete": [
-        {"title": "endEffectingDate", "name": "تاریخ  پایان", "type": "singleDate"}
+        {"title": "endDate", "name": "تاریخ  پایان", "type": "singleDate"}
       ]
     }
   },

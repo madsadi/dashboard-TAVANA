@@ -8,25 +8,27 @@ import {throwToast} from "../../../common/functions/notification";
 import Modal from "../../../common/layout/Modal";
 import InputComponent from "../../../common/components/InputComponent";
 import {DayRange} from "react-modern-calendar-datepicker";
+import moment from "jalali-moment";
+import {jalali} from "../../../common/functions/common-funcions";
 
 export default function EditCommission() {
-    const {toolbar} = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_detail,'add')
-    const {fetchData, query: searchQuery,selectedRows} = useContext<any>(CommissionContext)
-    const {mutate} = useMutation({url:`${COMMISSION_BASE_URL}/api/CommissionDetail/Update`,method:"PUT"})
+    const {toolbar} = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_detail, 'edit')
+    const {fetchData, query: searchQuery, selectedRows} = useContext<any>(CommissionContext)
+    const {mutate} = useMutation({url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Update`, method: "PUT"})
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({from:null,to:null})
+    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({from: null, to: null})
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
-        await mutate({id:selectedRows[0].id,...query})
+        await mutate({id: selectedRows[0].id, ...query})
             .then(() => {
-                throwToast({type:'success',value:'با موفقیت انجام شد'})
+                throwToast({type: 'success', value: 'با موفقیت انجام شد'})
                 setModal(false)
                 setQuery(null)
                 fetchData(searchQuery)
             })
-            .catch((err) => throwToast({type:'error',value:err}))
+            .catch((err) => throwToast({type: 'error', value: err}))
     }
 
     const onChange = (key: string, value: any) => {
@@ -35,25 +37,46 @@ export default function EditCommission() {
         setQuery(_query)
     }
 
+    const convertDate = (date: string) => {
+        let _date = jalali(date).date.split('/')
+        return {year: Number(_date[0]), month: Number(_date[1]), day: Number(_date[2])}
+    }
+
     useEffect(() => {
         if (modal && selectedRows.length) {
-            let _query:any = {}
-            toolbar.map((item:any)=>{
-                if (item?.children){
-                    item?.children.map((child:any)=>{
+            let _query: any = {}
+            toolbar.map((item: any) => {
+                if (item?.children) {
+                    item?.children.map((child: any) => {
                         _query[`${child.title}`] = selectedRows[0][`${child.title}`]
                     })
-                }else{
-                    _query[`${item.title}`] = selectedRows[0][`${item.title}`]
+                } else {
+                    if (item.title === 'date') {
+                        _query[`StartDate`] = selectedRows[0][`beginningEffectingDate`]
+                        _query[`EndDate`] = selectedRows[0][`endEffectingDate`]
+                        setSelectedDayRange({
+                            from: selectedRows[0][`beginningEffectingDate`] ? convertDate(selectedRows[0][`beginningEffectingDate`]) : null,
+                            to: selectedRows[0][`endEffectingDate`] ? convertDate(selectedRows[0][`endEffectingDate`]) : null
+                        })
+                    } else {
+                        _query[`${item.title}`] = selectedRows[0][`${item.title}`]
+                    }
                 }
             })
             setQuery(_query)
         }
     }, [modal])
 
+    const openHandler = ()=>{
+        if (selectedRows.length){
+            setModal(true)
+        }else{
+            throwToast({type:'warning',value:'لطفا برای ویرایش کردن، ردیف مورد نظرتان را انتخاب کنید'})
+        }
+    }
     return (
         <>
-            <button className="button bg-orange-600" onClick={() => setModal(true)}>ویرایش کارمزد</button>
+            <button className="button bg-orange-600" onClick={openHandler}>ویرایش کارمزد</button>
             <Modal title={'ویرایش کارمزد'} ModalWidth={'max-w-7xl'} setOpen={setModal}
                    open={modal}>
                 <div className="field mt-4">
@@ -62,7 +85,7 @@ export default function EditCommission() {
                             toolbar.map((item: any) => {
                                 if (item?.children) {
                                     return (<div className={'w-full'} key={item.title}>
-                                        <label className={'mb-1'}>{item.name}</label>
+                                        <label className={'mb-1 font-bold'}>{item.name}</label>
                                         <div className={'flex'}>
                                             {
                                                 item?.children.map((child: any) => {
@@ -79,16 +102,19 @@ export default function EditCommission() {
                                         </div>
                                     </div>)
                                 } else {
-                                    return <InputComponent key={item.title}
-                                                           query={query}
-                                                           setQuery={setQuery}
-                                                           item={item}
-                                                           onChange={onChange}
-                                    />
+                                    return (<div className={'mt-auto'}>
+                                        <InputComponent key={item.title}
+                                                        query={query}
+                                                        setQuery={setQuery}
+                                                        item={item}
+                                                        onChange={onChange}
+                                                        selectedDayRange={selectedDayRange}
+                                                        setSelectedDayRange={setSelectedDayRange}
+                                        />
+                                    </div>)
                                 }
                             })
                         }
-
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <button className="button bg-red-500"
