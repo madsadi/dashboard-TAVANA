@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {MARKETER_ADMIN} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
@@ -101,7 +100,7 @@ export default function Relations() {
                     resizable: true,
                     sortable: true,
                     flex: 1,
-                    valueFormatter: formatNumber
+                    // valueFormatter: formatNumber
                 },
             },
             getDetailRowData: async (params: any) => {
