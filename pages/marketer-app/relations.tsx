@@ -59,13 +59,19 @@ export default function Relations() {
                     {
                         field: 'StartDate',
                         headerName: 'تاریخ شروع ارتباط',
+                        cellRendererSelector: () => {
+                            const moodDetails = {
+                                component: (rowData: any) => <DateCell date={rowData.data.StartDate} hideTime={true}/>,
+                            }
+                            return moodDetails;
+                        },
                     },
                     {
-                        field: 'GEndDate',
+                        field: 'EndDate',
                         headerName: 'تاریخ پایان ارتباط',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GEndDate}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.EndDate} hideTime={true}/>,
                             }
                             return moodDetails;
                         },

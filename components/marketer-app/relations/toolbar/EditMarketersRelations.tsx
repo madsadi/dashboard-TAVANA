@@ -26,23 +26,23 @@ export default function EditMarketersRelations() {
             _initialValue['LeaderMarketerID'] = selectedRows[0][`LeaderMarketerID`]
             _initialValue['FollowerMarketerID'] = selectedRows[0][`FollowerMarketerID`]
             _initialValue['CommissionCoefficient'] = selectedRows[0][`CommissionCoefficient`]
-            _initialValue['StartDate'] = selectedRows[0]?.GStartDate
-            _initialValue['EndDate'] = selectedRows[0]?.GEndDate
-            if (selectedRows[0]?.GStartDate && selectedRows[0]?.GEndDate){
-                let shamsi_from_date = jalali(selectedRows[0]?.GStartDate).date
+            _initialValue['StartDate'] = selectedRows[0]?.StartDate
+            _initialValue['EndDate'] = selectedRows[0]?.EndDate
+            if (selectedRows[0]?.StartDate && selectedRows[0]?.EndDate){
+                let shamsi_from_date = jalali(selectedRows[0]?.StartDate).date
                 let from_date = shamsi_from_date.split('/')
 
-                let shamsi_to_date = jalali(selectedRows[0]?.GEndDate).date
+                let shamsi_to_date = jalali(selectedRows[0]?.EndDate).date
                 let to_date = shamsi_to_date.split('/')
 
                 setSelectedDayRange({from:{year:Number(from_date[0]),month:Number(from_date[1]),day:Number(from_date[2])},to:{year:Number(to_date[0]),month:Number(to_date[1]),day:Number(to_date[2])}})
-            }else if (selectedRows[0]?.GStartDate && !selectedRows[0]?.GEndDate){
-                let shamsi_from_date = jalali(selectedRows[0]?.GStartDate).date
+            }else if (selectedRows[0]?.StartDate && !selectedRows[0]?.EndDate){
+                let shamsi_from_date = jalali(selectedRows[0]?.StartDate).date
                 let from_date = shamsi_from_date.split('/')
 
                 setSelectedDayRange({from:{year:Number(from_date[0]),month:Number(from_date[1]),day:Number(from_date[2])},to:selectedDayRange.to})
-            }else if (!selectedRows[0]?.GStartDate && selectedRows[0]?.GEndDate){
-                let shamsi_to_date = jalali(selectedRows[0]?.GEndDate).date
+            }else if (!selectedRows[0]?.StartDate && selectedRows[0]?.EndDate){
+                let shamsi_to_date = jalali(selectedRows[0]?.EndDate).date
                 let to_date = shamsi_to_date.split('/')
 
                 setSelectedDayRange({from:selectedDayRange.from,to:{year:Number(to_date[0]),month:Number(to_date[1]),day:Number(to_date[2])}})
@@ -57,8 +57,8 @@ export default function EditMarketersRelations() {
         }else{
             throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
         }
-
     }
+
     const submitHandler = async (e:any)=>{
         e.preventDefault()
         await mutate(query)

@@ -43,6 +43,7 @@ export default function IdentityComponent(){
                         <LabelValue title={'سریال شناسنامه'}
                                     value={profile?.privatePerson?.serial ? `${profile?.privatePerson?.serial + `/` + profile?.privatePerson?.seriShChar + profile?.privatePerson?.seriSh}`:''}/>
                         <LabelValue title={'شماره شناسنامه'} value={profile?.privatePerson?.shNumber}/>
+                        <LabelValue title={'کد ملی'} value={profile?.uniqueIdentifier}/>
                     </div>
                 </DaisyAccordionComponent>):null}
         </>

@@ -18,6 +18,7 @@ const useQuery = ({ url='',params={},revalidateOnMount=false }) => {
                 }
             })
         }
+        setLoading(true)
         await axios.get(url , {params:bodyToQuery})
             .then((res) => {
                 setData(res.data);

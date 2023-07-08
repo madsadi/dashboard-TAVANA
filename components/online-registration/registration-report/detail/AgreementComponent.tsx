@@ -48,7 +48,7 @@ export default function AgreementComponent() {
                             return (
                                 <div
                                     className="border border-dashed border-gray-200 p-2"
-                                    key={item?.AccountNumber}>
+                                    key={item?.id}>
                                     <div className={'flex space-x-2 space-x-reverse'}>
                                         <p>نام قرارداد:</p>
                                         <p className={'font-bold'}>{item?.Name || 'ثبت نشده'}</p>
