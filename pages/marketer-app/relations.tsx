@@ -116,7 +116,7 @@ export default function Relations() {
                     <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
                 </AccordionComponent>
                 <RelationToolbar/>
-                <TableComponent data={data?.result.pagedData}
+                <TableComponent data={data?.result?.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 setSelectedRows={setSelectedRows}
                                 selectedRows={selectedRows}

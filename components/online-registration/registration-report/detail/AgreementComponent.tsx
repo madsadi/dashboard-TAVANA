@@ -21,9 +21,11 @@ export default function AgreementComponent() {
     const {data:agreements} = useQuery({url:`${FILE_SERVER}/api/admin-file-manager/get-content`,params:{UserId:userId,FileOwnerSoftware:1},revalidateOnMount:true})
 
     const structureAgreements=(contents:any,metaData:any)=>{
-        let a = contents?.map((item:any)=>{
-            let file = metaData?.find((x:any)=>x.Code===(item.fileType-24))
-            return {...item,Name:file?.Name,IsRequired:file?.IsRequired,ApprovalDateTime:file?.ApprovalDateTime,Status:file?.Status}
+        let a = contents?.filter((item:any)=>item.extension==='.pdf').map((item:any)=>{
+            let file = metaData?.find((x:any)=>x?.enName===item.fileName)
+            if (file){
+                return {...item,Name:file?.Name,IsRequired:file?.IsRequired,ApprovalDateTime:file?.ApprovalDateTime,Status:file?.Status}
+            }else return
         })
         setLists(a)
     }
@@ -42,9 +44,9 @@ export default function AgreementComponent() {
     return (
         <>
             {
-                lists?.filter((item:any)=>item.extension==='.pdf').length ? <DaisyAccordionComponent title={'قرار داد ها'}>
+                lists?.length ? <DaisyAccordionComponent title={'قرار داد ها'}>
                     <div className={'grid xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4'}>
-                        {lists?.filter((item:any)=>item.extension==='.pdf').map((item: any) => {
+                        {lists?.map((item: any) => {
                             return (
                                 <div
                                     className="border border-dashed border-gray-200 p-2"

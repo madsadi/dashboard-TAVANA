@@ -11,7 +11,7 @@ import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {jalali} from "../../../common/functions/common-funcions";
 
 export default function EditMarketersRelations() {
-    const {selectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
+    const {selectedRows,fetchData,searchQuery,setSelectedRows} = useContext<any>(RelationsContext)
     const {toolbar} = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS,'edit')
     const {mutate} = useMutation({url:`${MARKETER_ADMIN}/marketer/modify-marketers-relations`,method:"PUT"})
     const [modal, setModal] = useState(false)
@@ -102,6 +102,7 @@ export default function EditMarketersRelations() {
                             <button className="button bg-red-500"
                                     onClick={(e) => {
                                         e.preventDefault()
+                                        setSelectedRows([])
                                         setModal(false)
                                     }}>لغو
                             </button>
