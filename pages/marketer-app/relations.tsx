@@ -39,7 +39,7 @@ export default function Relations() {
     ]
     const {
         data, fetchData, query: searchQuery
-    }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`})
+    }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`,notifResults:true})
 
     const detailCellRendererParams = useMemo(() => {
         return {

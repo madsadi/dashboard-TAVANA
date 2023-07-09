@@ -119,7 +119,7 @@ export default function Trades() {
             headerName: 'نام نرم افزار',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchTrades`})
+    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchTrades`,notifResults:true})
 
     const detailCellRendererParams = useMemo(() => {
         return {

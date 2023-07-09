@@ -94,10 +94,8 @@ export default function Users() {
         //     // }
         // }
     ]
-
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,fetchData}:any = useQuery({url:`${IDP}/api/users/SearchUserAccount`})
-
+    const {data,query,fetchData}:any = useQuery({url:`${IDP}/api/users/SearchUserAccount`,notifResults:true})
 
     return (
         <UsersContext.Provider value={{fetchData,query,selectedRows}}>

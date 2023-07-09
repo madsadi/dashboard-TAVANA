@@ -56,7 +56,7 @@ export default function TradingSession() {
             },
         }
     ]
-    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetTradingSessionStatus`})
+    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetTradingSessionStatus`,notifResults:true})
 
     const fetchHandler = (query:any)=>{
         if (query.StartDate && query?.EndDate){

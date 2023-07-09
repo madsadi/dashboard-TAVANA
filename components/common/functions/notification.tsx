@@ -20,5 +20,8 @@ export const throwToast = ({type='error',value=''}:{type:string,value:any})=>{
         case 'warning':
             toast.warning(`${value}`)
             break;
+        case 'info':
+            toast.info(`${value}`)
+            break;
     }
 }

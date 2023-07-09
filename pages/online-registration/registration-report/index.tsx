@@ -181,7 +181,7 @@ export default function OnlineRegistration() {
         query: searchQuery,
         loading,
         fetchData
-    }: any = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchUser`})
+    }: any = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchUser`,notifResults:true})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -269,15 +269,11 @@ export default function OnlineRegistration() {
         };
     }, []);
 
-    const fetchDataHandler = (newQuery: any) => {
-        fetchData(newQuery)
-    }
-
     return (
         <OnlineRegContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchDataHandler} module={ModuleIdentifier.ONLINE_REGISTRATION}/>
+                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.ONLINE_REGISTRATION}/>
                 </AccordionComponent>
                 <UserRegToolbarComponent/>
                 <TableComponent data={data?.result?.pagedData}

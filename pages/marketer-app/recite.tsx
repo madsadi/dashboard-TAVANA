@@ -51,7 +51,7 @@ export default function Recite() {
     ]
     const {
         data, fetchData, query: searchQuery
-    }: any = useQuery({url: `${MARKETER_ADMIN}/factor/search-factor`})
+    }: any = useQuery({url: `${MARKETER_ADMIN}/factor/search-factor`,notifResults:true})
 
     const detailCellRendererParams = useMemo(() => {
         return {

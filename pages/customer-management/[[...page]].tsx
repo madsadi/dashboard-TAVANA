@@ -14,7 +14,7 @@ export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
     const [selectedRows, setSelectedRows] = useState<any>([]);
     const {page} = usePageStructure()
-    const {data, loading, fetchData, query} = useQuery({url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Search`})
+    const {data, loading, fetchData, query} = useQuery({url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Search`,notifResults:true})
 
     return (
         <CustomerManagement.Provider value={{fetchData, selectedRows, setSelectedRows, query}}>

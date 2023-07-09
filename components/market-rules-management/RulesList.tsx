@@ -122,7 +122,7 @@ export default function RulesList() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetRules`})
+    const {data,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetRules`,notifResults:true})
     const {data:dynamics,fetchData:fetchFields} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetFieldsList`})
     let dynamicOptions = dynamics?.result
 

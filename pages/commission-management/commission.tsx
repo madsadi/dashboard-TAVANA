@@ -281,7 +281,7 @@ export default function Commission() {
         data: instrumentData,
         fetchData: instrumentSearch
     }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
-    const {fetchAsyncData: detailSearch}: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Search`})
+    const {fetchAsyncData: detailSearch}: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Search`,notifResults:true})
     const [categoryModal, setCategoryModal] = useState(false)
     const [instrumentType, setInstrumentTypeModal] = useState(false)
     const [rowData, setRowData] = useState<any>([])
