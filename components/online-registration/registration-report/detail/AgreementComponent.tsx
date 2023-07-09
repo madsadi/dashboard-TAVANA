@@ -22,7 +22,7 @@ export default function AgreementComponent() {
 
     const structureAgreements=(contents:any,metaData:any)=>{
         let a = contents?.filter((item:any)=>item.extension==='.pdf').map((item:any)=>{
-            let file = metaData?.find((x:any)=>x?.enName===item.fileName)
+            let file = metaData?.find((x:any)=>x?.EnName===(item.fileName).split('.')[0])
             if (file){
                 return {...item,Name:file?.Name,IsRequired:file?.IsRequired,ApprovalDateTime:file?.ApprovalDateTime,Status:file?.Status}
             }else return
