@@ -119,7 +119,7 @@ export default function Trades() {
             headerName: 'نام نرم افزار',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchTrades`,notifResults:true})
+    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchTrades`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -168,7 +168,7 @@ export default function Trades() {
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchHandler} module={ModuleIdentifier.ONLINE_TRADES}/>
+                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.ONLINE_TRADES}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

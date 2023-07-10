@@ -6,7 +6,7 @@ import {throwToast} from "../components/common/functions/notification";
 const useQuery = ({ url='',params={},revalidateOnMount=false,notifResults=false }) => {
     const [data, setData] = useState<any>(null);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState(null);
 
     const fetchData = async (query:any={}) => {

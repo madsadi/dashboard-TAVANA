@@ -5,10 +5,9 @@ import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {Loader} from "./Loader";
 
 const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
-    const {onSubmit,module, dynamicOptions = [],className,extraClassName} = props
+    const {onSubmit,module,loading, dynamicOptions = [],className,extraClassName} = props
     const {filters,initialValue} = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
-    const [loading, setLoading] = useState<boolean>(false)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -55,7 +54,7 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
                 }}>
                     لغو فیلتر ها
                 </button>
-                <button className={'button bg-lime-600 h-fit relative'} type={'submit'}>
+                <button className={'button bg-lime-600 h-fit relative disabled:bg-gray-500'} type={'submit'} disabled={loading}>
                     جستجو
                     {loading ? <div className={'absolute left-2 top-1/2 -translate-y-1/2'}><Loader/></div>:null}
                 </button>

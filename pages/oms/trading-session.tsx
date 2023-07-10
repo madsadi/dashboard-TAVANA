@@ -56,7 +56,7 @@ export default function TradingSession() {
             },
         }
     ]
-    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetTradingSessionStatus`,notifResults:true})
+    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetTradingSessionStatus`})
 
     const fetchHandler = (query:any)=>{
         if (query.StartDate && query?.EndDate){
@@ -69,7 +69,7 @@ export default function TradingSession() {
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchHandler} module={ModuleIdentifier.OMS_session}/>
+                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.OMS_session}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

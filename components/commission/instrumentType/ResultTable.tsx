@@ -104,7 +104,7 @@ export default function ResultTable() {
         <InstrumentTypeContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'relative flex flex-col grow overflow-hidden'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
                 </AccordionComponent>
                 <InstrumentTypeToolbar/>
                 <TableComponent data={data?.result}

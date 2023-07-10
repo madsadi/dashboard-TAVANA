@@ -117,7 +117,7 @@ export default function Orders() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const {data,query,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchOrders`,notifResults:true})
+    const {data,query,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchOrders`})
 
     const isRowSelectable = useMemo(() => {
         return (rowNode: any) => {
@@ -137,7 +137,7 @@ export default function Orders() {
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <SearchComponent module={ModuleIdentifier.ONLINE_ORDERS}
-                                     onSubmit={submitHandler}
+                                     onSubmit={submitHandler} loading={loading}
                     />
                 </AccordionComponent>
                 <OrdersToolbar/>

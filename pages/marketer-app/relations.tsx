@@ -38,8 +38,8 @@ export default function Relations() {
         }
     ]
     const {
-        data, fetchData, query: searchQuery
-    }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`,notifResults:true})
+        data, fetchData, query: searchQuery,loading
+    }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -113,7 +113,7 @@ export default function Relations() {
         <RelationsContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
                 </AccordionComponent>
                 <RelationToolbar/>
                 <TableComponent data={data?.result?.pagedData}

@@ -51,12 +51,12 @@ export default function LivePortfo() {
             headerName: 'حجم قابل فروش',
         }
     ]
-    const {data,loading,query,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolio`,notifResults:true})
+    const {data,loading,query,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolio`})
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.LIVE_PORTFO}/>
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.LIVE_PORTFO}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

@@ -40,14 +40,14 @@ export default function Roles() {
         }
     ]
 
-    const {data, query, fetchData}: any = useQuery({url: `${IDP}/api/roles/search`,notifResults:true})
+    const {data, query, fetchData,loading}: any = useQuery({url: `${IDP}/api/roles/search`})
     const [selectedRows, setSelectedRows] = useState<any>([])
 
     return (
         <RolesContext.Provider value={{fetchData, query, selectedRows, setSelectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.USER_MANAGEMENT_roles}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_roles}/>
                 </AccordionComponent>
                 <RolesToolbar/>
                 <TableComponent data={data?.result?.pagedData}

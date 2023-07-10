@@ -160,7 +160,7 @@ export default function RulesResultTableSection() {
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
                 <SearchComponent module={ModuleIdentifier.NETFLOW_rules}
-                                 onSubmit={submitHandler}
+                                 onSubmit={submitHandler} loading={loading}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}

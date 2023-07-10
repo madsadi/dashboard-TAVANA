@@ -95,13 +95,13 @@ export default function Users() {
         // }
     ]
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,fetchData}:any = useQuery({url:`${IDP}/api/users/SearchUserAccount`,notifResults:true})
+    const {data,query,fetchData,loading}:any = useQuery({url:`${IDP}/api/users/SearchUserAccount`})
 
     return (
         <UsersContext.Provider value={{fetchData,query,selectedRows}}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.USER_MANAGEMENT_users}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_users}/>
                 </AccordionComponent>
                 <UsersToolbar/>
                 <TableComponent data={data?.result?.pagedData}

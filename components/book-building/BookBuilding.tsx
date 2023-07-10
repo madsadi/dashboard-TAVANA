@@ -124,21 +124,24 @@ export default function BookBuilding() {
             }
         }
     ]
-    const {fetchAsyncData,query,loading} = useQuery({})
+    const {fetchAsyncData,query} = useQuery({})
     const [selectedRows, setSelectedRows] = useState([])
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
 
     const submitHandler = (query:any)=>{
+        setLoading(true)
         fetchAsyncData({},`${ADMIN_GATEWAY}/api/request/`+query?.api)
             .then((res)=>setData(res?.data?.result))
             .catch(() => throwToast({type:'customError',value:'نا موفق'}))
+            .finally(()=>setLoading(false))
     }
 
     return (
         <BookBuildingContext.Provider value={{selectedRows,query,submitHandler}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent onSubmit={submitHandler} module={ModuleIdentifier.BOOK_BUILDING}/>
+                    <SearchComponent onSubmit={submitHandler} loading={loading} module={ModuleIdentifier.BOOK_BUILDING}/>
                 </AccordionComponent>
                 <ToolBar/>
                 <TableComponent data={data}

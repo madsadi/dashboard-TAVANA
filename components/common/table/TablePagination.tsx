@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -7,6 +7,7 @@ import {
     ChevronUpIcon, CheckIcon
 } from "@heroicons/react/20/solid";
 import {Listbox, Transition} from "@headlessui/react";
+import {formatDecimals} from "../functions/common-funcions";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -15,30 +16,30 @@ function classNames(...classes: any) {
 export default function TablePagination({
                                             query,
                                             onSubmit,
-                                            totalCount=0
-                                        }: { query: any,onSubmit: Function,totalCount:number}) {
-    const [pageQuery,setPageQuery] = useState({PageSize:20,PageNumber:1})
+                                            totalCount = 0
+                                        }: { query: any, onSubmit: Function, totalCount: number }) {
+    const [pageQuery, setPageQuery] = useState({PageSize: 20, PageNumber: 1})
 
-    const sizes=[10,20,50,500]
+    const sizes = [10, 20, 50, 100, 200,300,400, 500,1000]
     const queryUpdate = (key: string, value: any) => {
         let _query: any = {...pageQuery};
         _query[key] = value;
         setPageQuery(_query)
     }
 
-    useEffect(()=>{
-        queryUpdate('PageNumber',1)
-    },[pageQuery?.PageSize])
+    useEffect(() => {
+        queryUpdate('PageNumber', 1)
+    }, [pageQuery?.PageSize])
 
-    useEffect(()=>{
-        if(query?.PageNumber && query?.PageSize) setPageQuery(query)
-    },[query])
+    useEffect(() => {
+        if (query?.PageNumber && query?.PageSize) setPageQuery(query)
+    }, [query])
 
     return (
         <div className={'flex items-center mx-auto py-3 space-x-2 space-x-reverse'}>
             <div className="relative rounded">
                 <Listbox name={'PageSize'} value={pageQuery?.PageSize}
-                         onChange={(e:any) => {
+                         onChange={(e: any) => {
                              queryUpdate('PageSize', e);
                              onSubmit({...pageQuery, PageNumber: 1, PageSize: e})
                          }}>
@@ -52,7 +53,7 @@ export default function TablePagination({
                                                         </span>
                                 <span className="pointer-events-none flex items-center mr-auto">
                                                             <ChevronUpIcon className="h-5 w-5 text-gray-400"
-                                                                             aria-hidden="false"/>
+                                                                           aria-hidden="false"/>
                                                         </span>
                             </Listbox.Button>
 
@@ -104,7 +105,6 @@ export default function TablePagination({
                     )}
                 </Listbox>
             </div>
-
             <button onClick={(e) => {
                 queryUpdate('PageNumber', 1)
                 onSubmit({...pageQuery, PageNumber: 1})
@@ -121,8 +121,14 @@ export default function TablePagination({
                     disabled={pageQuery?.PageNumber <= 1}>
                 <ChevronRightIcon className={'h-4 w-4'}/>
             </button>
-            <div className={'h-fit'}>صفحه {pageQuery?.PageNumber>Math.ceil(totalCount / pageQuery?.PageSize) ? 0:pageQuery?.PageNumber}<span
-                className={'mx-4'}>از</span>{Math.ceil(totalCount / pageQuery?.PageSize)} </div>
+            <div className={'text-center'}>
+                <div
+                    className={'h-fit'}>صفحه {pageQuery?.PageNumber > Math.ceil(totalCount / pageQuery?.PageSize) ? 0 : pageQuery?.PageNumber}<span
+                    className={'mx-4'}>از</span>{Math.ceil(totalCount / pageQuery?.PageSize)} </div>
+                <div className={'text-xs text-mute'}>
+                    {formatDecimals(totalCount)} نتیجه یافت شد
+                </div>
+            </div>
             <button onClick={(e) => {
                 queryUpdate('PageNumber', pageQuery?.PageNumber + 1)
                 onSubmit({...pageQuery, PageNumber: pageQuery?.PageNumber + 1})

@@ -104,7 +104,7 @@ export default function CategoryResultTableSection() {
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent module={ModuleIdentifier.COMMISSION_MANAGEMENT_category} onSubmit={fetchData}/>
+                <SearchComponent module={ModuleIdentifier.COMMISSION_MANAGEMENT_category} loading={loading} onSubmit={fetchData}/>
             </AccordionComponent>
             <TableComponent data={data?.result}
                             loading={loading}

@@ -9,7 +9,7 @@ import {DayValue} from "react-modern-calendar-datepicker";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/20/solid";
 import RoleSearchSection from "./RoleSearchSection";
 import useQuery from "../../../hooks/useQuery";
-import {ONLINE_TRADING} from "../../../api/constants";
+import {ADMIN_GATEWAY, ONLINE_TRADING} from "../../../api/constants";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -77,6 +77,9 @@ const InputComponent = ({
                     break;
                 case "SubSectorCode":
                     getTheOptions(`${ONLINE_TRADING}/api/request/GetAllSubSectors`)
+                    break;
+                case "variable":
+                    getTheOptions(`${ADMIN_GATEWAY}/api/request/GetFieldsList`)
                     break;
             }
         }

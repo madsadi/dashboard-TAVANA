@@ -14,13 +14,13 @@ export const CustomerManagement = createContext({})
 export default function HoldingsSubPages() {
     const [selectedRows, setSelectedRows] = useState<any>([]);
     const {page} = usePageStructure()
-    const {data, loading, fetchData, query} = useQuery({url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Search`,notifResults:true})
+    const {data, loading, fetchData, query} = useQuery({url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Search`})
 
     return (
         <CustomerManagement.Provider value={{fetchData, selectedRows, setSelectedRows, query}}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]}/>
                 </AccordionComponent>
                 <Toolbar/>
                 <TableComponent data={data?.result?.pagedData}

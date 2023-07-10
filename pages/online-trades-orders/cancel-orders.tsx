@@ -91,7 +91,7 @@ export default function CancelOrders() {
             headerName: 'خطا',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/GlobalCancel/SearchGlobalCancelOrder`,notifResults:true})
+    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/GlobalCancel/SearchGlobalCancelOrder`})
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -144,7 +144,7 @@ export default function CancelOrders() {
     return (
             <div className="flex flex-col h-full flex-1">
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.ONLINE_CANCEL}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.ONLINE_CANCEL}/>
                 </AccordionComponent>
                 <CancelOrdersToolbar/>
                 <TableComponent data={data?.result?.pagedData}
