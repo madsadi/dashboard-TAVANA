@@ -58,6 +58,10 @@ export const dateRangeHandler = (selectedDayRange: any) => {
     }
 }
 
+export function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ')
+}
+
 export const FindEnum = (title:string,dynamicsOption:any,label='') => {
     switch (title) {
         case 'variable':

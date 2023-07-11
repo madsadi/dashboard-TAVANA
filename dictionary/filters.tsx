@@ -1,4 +1,6 @@
-{
+import {ADMIN_GATEWAY, IDP} from "../api/constants";
+
+const filters = {
   "user-management_users": {
       "search": {
         "filters": [
@@ -322,9 +324,45 @@
     },
       "toolbar": {
         "modal": [
-          { "title": "type", "name": "نوع بازاریاب", "type": "selectInput","initialValue":"" },
-          { "title": "customerId", "name": "شناسه مشتری", "type": "input","initialValue":"" },
-          { "title": "branchId", "name": "شناسه شعبه", "type": "input" ,"initialValue":""}
+          { "title": "type", "name": "نوع بازاریاب", "type": "selectInput","initialValue":"",
+            "isRequired": true
+          },
+          { "title": "uniqueId",
+            "name": "کد/شناسه ملی بازاریاب",
+            "type": "dynamicSearch",
+            "initialValue":"",
+            "endpoint": `${ADMIN_GATEWAY}/api/request/customer/Search`,
+            "valueField": ["customerTitle","uniqueId"],
+            "queryField": "UniqueId",
+            "recordField": "uniqueId",
+            "alternative":"customerId",
+            "alternativeRelatedRecordField":"id",
+            "inputAble":true,
+            "isRequired": true
+          },
+          { "title": "branchId",
+            "name": "عنوان شعبه",
+            "type": "dynamicSearch" ,
+            "initialValue":"",
+            "endpoint": `${ADMIN_GATEWAY}/api/request/branch/Search`,
+            "valueField": ["title","subsidiaryTitle","typeTitle"],
+            "queryField": "Title",
+            "recordField": "id"
+          },
+          { "title": "title", "name": "عنوان بازاریاب", "type": "input" ,"initialValue":"","isRequired": true},
+          { "title": "mobile", "name": "شماره تلفن", "type": "input" ,"initialValue":""},
+          { "title": "userId",
+            "name": "کد ملی کاربر",
+            "type": "dynamicSearch" ,
+            "initialValue":"",
+            "endpoint": `${IDP}/api/users/SearchUserAccount`,
+            "valueField": ["firstName","lastName","UniqueId","Mobile"],
+            "queryField": "NationalId",
+            "recordField": "id"
+
+          },
+          { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS", "type": "input" ,"initialValue":""},
+          { "title": "tbsReagentId", "name": "شناسه معرف در TBS", "type": "input" ,"initialValue":""}
         ]
       }
   },
@@ -634,7 +672,7 @@
         {"title": "errorMessage", "name": "پیام خطا", "type": "input"}
       ],
       "extraAdd": [
-        {"title": "variable", "name": "متغیر", "type": "dynamic"},
+        {"title": "variable", "name": "متغیر", "type": "dynamicSelect"},
         {"title": "operator", "name": "عملگر", "type": "selectInput"}
       ]
     }
@@ -1094,3 +1132,5 @@
 
   }
 }
+
+export default filters;

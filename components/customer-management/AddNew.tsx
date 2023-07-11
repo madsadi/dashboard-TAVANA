@@ -52,7 +52,8 @@ export default function AddNew() {
                 }
             }
         })
-        if (Object.values(query)?.every((item: any) => item!==undefined && item!==null && item!=='' )) {
+        console.log(toolbar.filter((field:any)=>field.isRequired))
+        if (toolbar.filter((field:any)=>field.isRequired)?.every((item: any) => query[item.title]!==undefined && query[item.title]!==null && query[item.title]!=='' )) {
             await mutate(_body)
                 .then((res) => {
                     fetchData(searchQuery)
@@ -63,7 +64,7 @@ export default function AddNew() {
                     throwToast({type:'error',value:err})
                 })
         } else {
-            throwToast({type:'warning',value:'تمام ورودی ها اجباری می باشد.'})
+            throwToast({type:'warning',value:` ورودی های ${toolbar.filter((field:any)=>field.isRequired).filter((item:any)=>query[item.title]===undefined || query[item.title]===null || query[item.title]==='' ).map((item:any)=>item.name).join(',')}  اجباری می باشد. `})
         }
     }
 

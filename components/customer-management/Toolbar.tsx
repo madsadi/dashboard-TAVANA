@@ -3,22 +3,25 @@ import AddNew from "./AddNew";
 import Edit from "./Edit";
 import Remove from "./Remove";
 import {TBSBranches} from "./TBSBranches";
-import {useRouter} from "next/router";
 import {TBSMarketer} from "./TBSMarketer";
 import {TBSReagents} from "./TBSReagents";
 
-export default function Toolbar() {
-    const router = useRouter()
-    console.log(router)
+export interface CustomerManagementPropsType {
+        api: string,
+        columnsDefStructure: any,
+        searchFilter: string,
+    }
+export default function Toolbar(props: { page:CustomerManagementPropsType }) {
+    const {page} = props
     return (
         <div className={'border-x border-border'}>
             <div className={'toolbar p-2'}>
                 <AddNew />
                 <Edit />
                 <Remove />
-                {router.asPath==='/customer-management/branch' ? <TBSBranches/>:null}
-                {router.asPath==='/customer-management/marketer' ? <TBSMarketer/>:null}
-                {router.asPath==='/customer-management/marketer' ? <TBSReagents/>:null}
+                {page.api==='branch' ? <TBSBranches/>:null}
+                {page.api==='marketer' ? <TBSMarketer/>:null}
+                {page.api==='marketer' ? <TBSReagents/>:null}
             </div>
         </div>
     )

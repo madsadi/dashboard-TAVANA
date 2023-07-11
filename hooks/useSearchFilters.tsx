@@ -1,4 +1,4 @@
-import filters from '../dictionary/filters.json'
+import filters from '../dictionary/filters'
 
 export function useSearchFilters(module:string,feature?:string){
     const dictionary:any = filters;
