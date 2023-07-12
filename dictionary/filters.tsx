@@ -697,7 +697,7 @@ const filters = {
         {"title": "errorMessage", "name": "پیام خطا", "type": "input"}
       ],
       "extraAdd": [
-        {"title": "variable", "name": "متغیر", "type": "dynamicSelect"},
+        {"title": "variable", "name": "متغیر", "type": "dynamicSelectInput"},
         {"title": "operator", "name": "عملگر", "type": "selectInput"}
       ]
     }

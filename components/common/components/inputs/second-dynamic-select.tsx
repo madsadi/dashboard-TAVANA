@@ -15,7 +15,7 @@ export const SecondDynamicSelect=(props:BaseInputPropsType)=>{
 
     return(
         <div>
-            <label className={'mt-auto text-sm'} htmlFor={title}>{name}</label>
+            <label className={'flex items-center mt-auto text-sm'} htmlFor={title}>{name}</label>
             <div className="relative rounded">
                 <Listbox name={title} value={value}
                          onChange={(e) => {

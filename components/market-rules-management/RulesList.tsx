@@ -135,7 +135,7 @@ export default function RulesList() {
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <SearchComponent module={ModuleIdentifier.MARKET_RULES_MANAGEMENT}
-                                     onSubmit={fetchData} loading={loading}
+                                     onSubmit={fetchData} loading={loading} dynamicOptions={dynamicOptions}
                     />
                 </AccordionComponent>
                 <RulesToolbar/>
