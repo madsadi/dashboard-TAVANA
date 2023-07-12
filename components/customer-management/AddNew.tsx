@@ -26,13 +26,10 @@ export default function AddNew() {
     let initialValue: any = {};
 
     useEffect(() => {
-        if (toolbar) {
-            toolbar?.map((item: any) => {
-                initialValue[item.title] = item.initialValue;
-            })
-            setQuery(initialValue)
+        if (modal) {
+            setQuery(null)
         }
-    }, [toolbar])
+    }, [modal])
 
     const addNewHandler = async (e:any,query:any) => {
         e.preventDefault()

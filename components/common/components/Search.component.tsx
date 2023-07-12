@@ -1,8 +1,9 @@
 import InputComponent from "./InputComponent";
-import React, {forwardRef, useImperativeHandle, useState} from "react";
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {Loader} from "./Loader";
+import moment from "jalali-moment";
 
 const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
     const {onSubmit,module,loading, dynamicOptions = [],className,extraClassName} = props
@@ -25,6 +26,16 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
             setQuery({..._query,...newQuery})
         }
     }));
+
+    useEffect(()=>{
+        if (initialValue){
+            setQuery(initialValue)
+            let _startDate=moment(initialValue?.StartDate).locale('fa').format('YYYY/M/D').split('/')
+            let _endDate=moment(initialValue?.EndDate).locale('fa').format('YYYY/M/D').split('/')
+            setSelectedDayRange({from:{year:Number(_startDate[0]),month:Number(_startDate[1]),day:Number(_startDate[2])},to:{year:Number(_endDate[0]),month:Number(_endDate[1]),day:Number(_endDate[2])}})
+
+        }
+    },[initialValue])
 
     return (
         <form className={'flex flex-col grow'} onSubmit={(e) => {

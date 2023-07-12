@@ -1,4 +1,5 @@
 import {ADMIN_GATEWAY, IDP} from "../api/constants";
+import moment from "jalali-moment";
 
 const filters = {
   "user-management_users": {
@@ -343,8 +344,8 @@ const filters = {
         "SubsidiaryId": "",
         "BranchId": "",
         "IsActive": "",
-        "StartDate": "",
-        "EndDate": ""
+        "StartDate": moment().locale('en').format('YYYY/M/D'),
+        "EndDate": moment().locale('en').format('YYYY/M/D')
       }
     },
       "toolbar": {

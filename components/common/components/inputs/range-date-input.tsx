@@ -1,6 +1,6 @@
 import DatePicker from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
-import React, {Dispatch} from "react";
+import React, {Dispatch, useEffect} from "react";
 import {XCircleIcon} from "@heroicons/react/20/solid";
 import {dateRangeHandler} from "../../functions/common-funcions";
 import {DayRange} from "react-modern-calendar-datepicker";
