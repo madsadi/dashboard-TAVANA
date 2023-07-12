@@ -4,6 +4,7 @@ import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {Loader} from "./Loader";
 import moment from "jalali-moment";
+import {DayValue} from "react-modern-calendar-datepicker";
 
 const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
     const {onSubmit,module,loading, dynamicOptions = [],className,extraClassName} = props
@@ -30,10 +31,17 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
     useEffect(()=>{
         if (initialValue){
             setQuery(initialValue)
-            let _startDate=moment(initialValue?.StartDate).locale('fa').format('YYYY/M/D').split('/')
-            let _endDate=moment(initialValue?.EndDate).locale('fa').format('YYYY/M/D').split('/')
-            setSelectedDayRange({from:{year:Number(_startDate[0]),month:Number(_startDate[1]),day:Number(_startDate[2])},to:{year:Number(_endDate[0]),month:Number(_endDate[1]),day:Number(_endDate[2])}})
-
+            let SD:DayValue = null
+            let ED:DayValue = null
+            if (initialValue?.StartDate){
+                let _startDate=moment(initialValue?.StartDate).locale('fa').format('YYYY/M/D').split('/')
+                SD = {year:Number(_startDate[0]),month:Number(_startDate[1]),day:Number(_startDate[2])}
+            }
+            if (initialValue?.StartDate) {
+                let _endDate=moment(initialValue?.EndDate).locale('fa').format('YYYY/M/D').split('/')
+                ED = {year:Number(_endDate[0]),month:Number(_endDate[1]),day:Number(_endDate[2])}
+            }
+            setSelectedDayRange({from:SD,to:ED})
         }
     },[initialValue])
 

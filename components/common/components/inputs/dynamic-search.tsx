@@ -12,6 +12,7 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
     const [findings, setFindings] = useState<any>([])
     const [open, setOpen] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
+    const [placeholder, setPlaceholder] = useState('')
     const {data, fetchAsyncData} = useQuery({url:endpoint})
 
     const searchHandler = (item: string,page:number) => {
@@ -45,9 +46,10 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
 
     useEffect(()=>{
         if (query?.[title]){
-            setSearchItem(query?.[title])
+            setPlaceholder(query?.[title])
         }
     },[])
+
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 
@@ -100,6 +102,7 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
                 </label>
                 <input id={title} className={'w-full h-[36px]'} value={searchItem}
                        onFocus={() => setOpen(true)}
+                       placeholder={placeholder}
                        onChange={(e) => {
                            searchHandler(e.target.value,1);
                            setOpen(true)
