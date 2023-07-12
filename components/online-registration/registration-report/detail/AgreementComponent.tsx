@@ -5,7 +5,7 @@ import {
 } from "../../../../pages/online-registration/registration-report/[...detail]";
 import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 import useQuery from "../../../../hooks/useQuery";
-import {FILE_SERVER} from "../../../../api/constants";
+import {FILE_SERVER, SEJAM_GATEWAY} from "../../../../api/constants";
 import {useRouter} from "next/router";
 import Modal from "../../../common/layout/Modal";
 
@@ -19,10 +19,11 @@ export default function AgreementComponent() {
     const queryData:string[]|undefined = dep?.split('&')
     let userId:any = queryData?.[0]?.split('=')[1]
     const {data:agreements} = useQuery({url:`${FILE_SERVER}/api/admin-file-manager/get-content`,params:{UserId:userId,FileOwnerSoftware:1},revalidateOnMount:true})
+    const {data:enums} = useQuery({url:`${SEJAM_GATEWAY}/api/request/AgreementFileTypeMapping`,revalidateOnMount:true})
 
     const structureAgreements=(contents:any,metaData:any)=>{
         let a = contents?.filter((item:any)=>item.extension==='.pdf').map((item:any)=>{
-            let file = metaData?.find((x:any)=>x?.EnName===(item.fileName).split('.')[0])
+            let file = metaData?.find((x:any)=>enums?.result.find((i:any)=>i.agreementCode===x?.Code)?.fileType===item.fileType)
             if (file){
                 return {...item,Name:file?.Name,IsRequired:file?.IsRequired,ApprovalDateTime:file?.ApprovalDateTime,Status:file?.Status}
             }else return
@@ -31,9 +32,9 @@ export default function AgreementComponent() {
     }
 
     useEffect(()=>{
-        if (agreements?.result)
+        if (agreements?.result && enums?.result)
         structureAgreements(agreements?.result,agreement)
-    },[agreements])
+    },[agreements,enums])
 
     const modalHandler=(state:boolean)=>{
         if (!state){

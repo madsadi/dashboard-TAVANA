@@ -49,3 +49,10 @@ export const MARKETER_ADMIN =
             ? window._env_.MARKETER_ADMIN
             : config.app.MARKETER_ADMIN
         : config.app.MARKETER_ADMIN;
+
+export const SEJAM_GATEWAY =
+    typeof window !== "undefined"
+        ? window._env_.SEJAM_GATEWAY
+            ? window._env_.SEJAM_GATEWAY
+            : config.app.SEJAM_GATEWAY
+        : config.app.SEJAM_GATEWAY;

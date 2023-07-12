@@ -89,7 +89,7 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
                                 <ExclamationCircleIcon
                                     className={'h-4 w-4 text-red-500'}/>
                             </span>:null}
-                    {query[title] || query[title] === false ?
+                    {query?.[title] || query?.[title] === false ?
                         <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
                             let _query:any ={}
                             _query[alternative]=''
