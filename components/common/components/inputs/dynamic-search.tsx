@@ -19,8 +19,8 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
         if (inputAble){
             queryUpdate(title,item)
         }
-        if (item.length > 2) {
-            let _query:any = {}
+        if (item.length > 0) {
+            let _query:any = {PageNumber:page,PageSize:20}
             _query[queryField] = item
             setIsLoading(true)
             fetchAsyncData(_query)
@@ -43,6 +43,11 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
         }
     },[data])// eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(()=>{
+        if (query?.[title]){
+            setSearchItem(query?.[title])
+        }
+    },[])
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 

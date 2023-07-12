@@ -22,7 +22,7 @@ export default function HoldingsSubPages() {
                 <AccordionComponent>
                     <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]}/>
                 </AccordionComponent>
-                <Toolbar page={page}/>
+                <Toolbar />
                 <TableComponent data={data?.result?.pagedData}
                                 loading={loading}
                                 columnDefStructure={page?.columnsDefStructure}

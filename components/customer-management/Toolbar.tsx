@@ -5,14 +5,11 @@ import Remove from "./Remove";
 import {TBSBranches} from "./TBSBranches";
 import {TBSMarketer} from "./TBSMarketer";
 import {TBSReagents} from "./TBSReagents";
+import usePageStructure from "../../hooks/usePageStructure";
 
-export interface CustomerManagementPropsType {
-        api: string,
-        columnsDefStructure: any,
-        searchFilter: string,
-    }
-export default function Toolbar(props: { page:CustomerManagementPropsType }) {
-    const {page} = props
+export default function Toolbar() {
+    const {page} = usePageStructure()
+
     return (
         <div className={'border-x border-border'}>
             <div className={'toolbar p-2'}>
