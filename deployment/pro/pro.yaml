@@ -14,6 +14,7 @@ data:
   ONLINE_TRADING: "https://otg.tavanabroker.ir"
   FILE_SERVER: https://file-manager.tavanabroker.ir
   MARKETER_ADMIN: https://marketer-admin.tavanabroker.ir
+  SEJAM_GATEWAY: "https://sejam-gateway.tavanabroker.ir"
 ---
 apiVersion: apps/v1
 kind: Deployment
