@@ -50,7 +50,7 @@ export default function Recite() {
         }
     ]
     const {
-        data, fetchData, query: searchQuery
+        data, fetchData, query: searchQuery,loading
     }: any = useQuery({url: `${MARKETER_ADMIN}/factor/search-factor`})
 
     const detailCellRendererParams = useMemo(() => {
@@ -104,7 +104,7 @@ export default function Recite() {
         <ReciteContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_recite}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_recite}/>
                 </AccordionComponent>
                 <ReciteToolbar/>
                 <TableComponent data={data?.result.pagedData}

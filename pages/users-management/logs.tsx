@@ -83,7 +83,7 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-    const {data,query,fetchData}:any = useQuery({url:`${IDP}/api/users/SearchUserActivityLogs`});
+    const {data,query,fetchData,loading}:any = useQuery({url:`${IDP}/api/users/SearchUserActivityLogs`});
 
     const fetchDataHandler=(searchQuery:any)=>{
         if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(searchQuery.UserId) || !searchQuery.UserId){
@@ -96,7 +96,7 @@ export default function Users() {
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchDataHandler} module={ModuleIdentifier.USER_MANAGEMENT_logs}/>
+                <SearchComponent onSubmit={fetchDataHandler} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_logs}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             columnDefStructure={columnDefStructure}

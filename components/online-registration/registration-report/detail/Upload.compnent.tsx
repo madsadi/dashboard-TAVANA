@@ -112,7 +112,7 @@ export default function UploadComponent({
                     <div className="upload__image-wrapper max-h-[150px] h-[150px] aspect-video">
                         {imageList.length > 0 ? imageList.map((image, index) => {
                                 return (
-                                    <>
+                                    <div className={'h-full w-full'} key={index}>
                                         <div role={'button'} key={index} className="image-item w-full h-full relative"
                                              onClick={()=>onImageUpdate(index)}>
                                             <Image src={image['data_url']} alt="" fill/>
@@ -125,7 +125,7 @@ export default function UploadComponent({
                                         <Modal title={item?.Name} open={selected===image['data_url']} setOpen={modalHandler} ModalWidth={'max-w-5xl max-h-[700px] min-h-[400px]'}>
                                                 <img src={image['data_url']} alt="" className={'object-contain max-h-[500px] aspect-auto mx-auto'}/>
                                         </Modal>
-                                    </>
+                                    </div>
                                 )
                             }) :
                             <button

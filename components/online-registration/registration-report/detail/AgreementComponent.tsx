@@ -5,7 +5,7 @@ import {
 } from "../../../../pages/online-registration/registration-report/[...detail]";
 import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
 import useQuery from "../../../../hooks/useQuery";
-import {FILE_SERVER} from "../../../../api/constants";
+import {FILE_SERVER, SEJAM_GATEWAY} from "../../../../api/constants";
 import {useRouter} from "next/router";
 import Modal from "../../../common/layout/Modal";
 
@@ -19,19 +19,22 @@ export default function AgreementComponent() {
     const queryData:string[]|undefined = dep?.split('&')
     let userId:any = queryData?.[0]?.split('=')[1]
     const {data:agreements} = useQuery({url:`${FILE_SERVER}/api/admin-file-manager/get-content`,params:{UserId:userId,FileOwnerSoftware:1},revalidateOnMount:true})
+    const {data:enums} = useQuery({url:`${SEJAM_GATEWAY}/api/request/AgreementFileTypeMapping`,revalidateOnMount:true})
 
     const structureAgreements=(contents:any,metaData:any)=>{
-        let a = contents?.map((item:any)=>{
-            let file = metaData?.find((x:any)=>x.Code===(item.fileType-24))
-            return {...item,Name:file?.Name,IsRequired:file?.IsRequired,ApprovalDateTime:file?.ApprovalDateTime,Status:file?.Status}
+        let a = contents?.filter((item:any)=>item.extension==='.pdf').map((item:any)=>{
+            let file = metaData?.find((x:any)=>enums?.result.find((i:any)=>i.agreementCode===x?.Code)?.fileType===item.fileType)
+            if (file){
+                return {...item,Name:file?.Name,IsRequired:file?.IsRequired,ApprovalDateTime:file?.ApprovalDateTime,Status:file?.Status}
+            }else return
         })
         setLists(a)
     }
 
     useEffect(()=>{
-        if (agreements?.result)
+        if (agreements?.result && enums?.result)
         structureAgreements(agreements?.result,agreement)
-    },[agreements])
+    },[agreements,enums])
 
     const modalHandler=(state:boolean)=>{
         if (!state){
@@ -42,13 +45,13 @@ export default function AgreementComponent() {
     return (
         <>
             {
-                lists?.filter((item:any)=>item.extension==='.pdf').length ? <DaisyAccordionComponent title={'قرار داد ها'}>
+                lists?.length ? <DaisyAccordionComponent title={'قرار داد ها'}>
                     <div className={'grid xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4'}>
-                        {lists?.filter((item:any)=>item.extension==='.pdf').map((item: any) => {
+                        {lists?.map((item: any) => {
                             return (
                                 <div
                                     className="border border-dashed border-gray-200 p-2"
-                                    key={item?.AccountNumber}>
+                                    key={item?.id}>
                                     <div className={'flex space-x-2 space-x-reverse'}>
                                         <p>نام قرارداد:</p>
                                         <p className={'font-bold'}>{item?.Name || 'ثبت نشده'}</p>

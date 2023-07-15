@@ -137,7 +137,7 @@ export default function Orders() {
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <SearchComponent module={ModuleIdentifier.ONLINE_ORDERS}
-                                     onSubmit={submitHandler}
+                                     onSubmit={submitHandler} loading={loading}
                     />
                 </AccordionComponent>
                 <OrdersToolbar/>

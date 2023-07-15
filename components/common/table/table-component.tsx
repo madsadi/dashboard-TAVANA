@@ -5,6 +5,7 @@ import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
 import dynamic from "next/dynamic";
 import {useRouter} from "next/router";
 import {ExcelStyle} from "ag-grid-community";
+import {Loader} from "../components/Loader";
 const TablePagination = dynamic(() => import('./TablePagination'))
 
 const TableComponent: React.FC<any> = (props) =>{
@@ -92,6 +93,7 @@ const TableComponent: React.FC<any> = (props) =>{
     return(
         <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
+                {/*{!loading ? <div className={'absolute left-0 top-0 w-full h-full flex bg-gray-200/80 blur-md'}/>:null}*/}
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}

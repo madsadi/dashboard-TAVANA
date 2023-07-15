@@ -1,14 +1,15 @@
 import InputComponent from "./InputComponent";
-import React, {forwardRef, useImperativeHandle, useState} from "react";
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from "react";
 import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {Loader} from "./Loader";
+import moment from "jalali-moment";
+import {DayValue} from "react-modern-calendar-datepicker";
 
 const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
-    const {onSubmit,module, dynamicOptions = [],className,extraClassName} = props
+    const {onSubmit,module,loading, dynamicOptions = [],className,extraClassName} = props
     const {filters,initialValue} = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
-    const [loading, setLoading] = useState<boolean>(false)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -26,6 +27,23 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
             setQuery({..._query,...newQuery})
         }
     }));
+
+    useEffect(()=>{
+        if (initialValue){
+            setQuery(initialValue)
+            let SD:DayValue = null
+            let ED:DayValue = null
+            if (initialValue?.StartDate){
+                let _startDate=moment(initialValue?.StartDate).locale('fa').format('YYYY/M/D').split('/')
+                SD = {year:Number(_startDate[0]),month:Number(_startDate[1]),day:Number(_startDate[2])}
+            }
+            if (initialValue?.StartDate) {
+                let _endDate=moment(initialValue?.EndDate).locale('fa').format('YYYY/M/D').split('/')
+                ED = {year:Number(_endDate[0]),month:Number(_endDate[1]),day:Number(_endDate[2])}
+            }
+            setSelectedDayRange({from:SD,to:ED})
+        }
+    },[initialValue])
 
     return (
         <form className={'flex flex-col grow'} onSubmit={(e) => {
@@ -55,7 +73,7 @@ const SearchComponent: React.FC<any> = forwardRef((props,ref) => {
                 }}>
                     لغو فیلتر ها
                 </button>
-                <button className={'button bg-lime-600 h-fit relative'} type={'submit'}>
+                <button className={'button bg-lime-600 h-fit relative disabled:bg-gray-500'} type={'submit'} disabled={loading}>
                     جستجو
                     {loading ? <div className={'absolute left-2 top-1/2 -translate-y-1/2'}><Loader/></div>:null}
                 </button>

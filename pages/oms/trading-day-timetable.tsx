@@ -104,7 +104,7 @@ export default function TradingDayTimetable() {
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchHandler} module={ModuleIdentifier.OMS_timetable}/>
+                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.OMS_timetable}/>
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                             loading={loading}

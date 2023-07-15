@@ -149,7 +149,9 @@ export default function AddNew() {
                                 {expressionQuery?.variable?.displayName === 'نماد' ?
                                     <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate}/> :
                                     <>
-                                        <label className={'mt-auto'} htmlFor={'value'}>مقدار</label>
+                                        <label className={'flex items-center mt-auto text-sm'} htmlFor={'value'}>
+                                            مقدار
+                                        </label>
                                         <div className="relative rounded">
                                             <Listbox name={'value'} value={expressionQuery?.value}
                                                      onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.code === e)?.title)}>

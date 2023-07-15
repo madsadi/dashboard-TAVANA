@@ -164,7 +164,7 @@ export default function ClearingDateRangeTTradeResultTableSection() {
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent >
                 <SearchComponent module={ModuleIdentifier.NETFLOW_clearing_Range}
-                                 onSubmit={submitHandler}
+                                 onSubmit={submitHandler} loading={loading}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}

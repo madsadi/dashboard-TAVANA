@@ -114,7 +114,7 @@ const ToggleButton = ()=>{
     }
 
     return(
-        <button className={'relative w-[50px] h-[24px] flex bg-white p-1 rounded-full h-full border-2 border-white shadow-[0_0_0_1px_#eee] mr-2 overflow-hidden'} onClick={twoFactorHandler}>
+        <button className={'relative w-[50px] !h-[24px] flex bg-white p-1 rounded-full h-full border-2 border-white shadow-[0_0_0_1px_#eee] mr-2 overflow-hidden'} onClick={twoFactorHandler}>
             <div className={`rounded-full w-1/2 h-[90%] z-0 absolute right-0 top-1/2 -translate-y-1/2 transition-all ${!enable ? '-translate-x-full bg-red-500':'translate-x-0 bg-green-600 '}`}/>
         </button>
     )

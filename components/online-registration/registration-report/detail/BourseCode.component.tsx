@@ -13,15 +13,15 @@ export default function BourseCodeComponent(){
     return(
         <>
             {profile?.length ? <DaisyAccordionComponent title={'کد های بورسی'}>
-                <div className="grid md:grid-cols-4 grid-cols-2  gap-3">
+                <div className="space-y-5">
                     {
                         profile?.map((item: any) => {
                             return (
-                                <>
+                                <div className={'grid md:grid-cols-4 grid-cols-2  gap-3'} key={item?.code}>
                                     <LabelValue title={'کد'} value={item?.code}/>
                                     <LabelValue title={'نوع کد بورسی'}
                                                 value={tradingCodeTypeEnums.find((i: any) => i.id === item?.type)?.title}/>
-                                </>
+                                </div>
                             )
                         })
                     }

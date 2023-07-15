@@ -1,4 +1,7 @@
-{
+import {ADMIN_GATEWAY, IDP} from "../api/constants";
+import moment from "jalali-moment";
+
+const filters = {
   "user-management_users": {
       "search": {
         "filters": [
@@ -297,34 +300,94 @@
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
-        { "title": "FirstName", "name": "نام", "type": "input" },
-        { "title": "LastName", "name": "نام خانوادگی", "type": "input" },
-        { "title": "Mobile", "name": "شماره موبایل", "type": "input" },
         { "title": "Type", "name": "نوع بازاریاب", "type": "selectInput" },
-        { "title": "SubsidiaryId", "name": "شناسه شرکت", "type": "input" },
-        { "title": "BranchId", "name":"شناسه شعبه", "type": "input" },
+        { "title": "Title", "name": "عنوان بازاریاب", "type": "input" },
+        { "title": "userId",
+          "name": "کد ملی کاربر",
+          "type": "dynamicSearch" ,
+          "initialValue":"",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName","lastName","UniqueId","Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id"
+        },
+        { "title": "branchId",
+          "name": "عنوان شعبه",
+          "type": "dynamicSearch" ,
+          "initialValue":"",
+          "endpoint": `${ADMIN_GATEWAY}/api/request/branch/Search`,
+          "valueField": ["title","subsidiaryTitle","typeTitle"],
+          "queryField": "Title",
+          "recordField": "id"
+        },
+        { "title": "SubsidiaryID",
+          "name": "عنوان شرکت",
+          "type": "dynamicSearch" ,
+          "initialValue":"",
+          "endpoint": `${ADMIN_GATEWAY}/api/request/subsidiary/Search`,
+          "valueField": ["title","subsidiaryTypeTitle"],
+          "queryField": "Title",
+          "recordField": "id"
+        },
+        { "title": "UniqueId", "name": "کد ملی", "type": "input" },
+        { "title": "Mobile", "name": "شماره موبایل", "type": "input" },
         { "title": "IsActive", "name": "وضعیت", "type": "selectInput" },
         { "title": "date", "name": " تاریخ شروع و پایان", "type": "date"}
       ],
       "initialValue": {
         "PageNumber": 1,
         "PageSize": 20,
-        "FirstName": "",
-        "LastName": "",
+        "Title": "",
+        "userId": "",
         "Mobile": "",
-        "Type": "",
+        "Type": null,
         "SubsidiaryId": "",
         "BranchId": "",
         "IsActive": "",
-        "StartDate": "",
-        "EndDate": ""
+        "StartDate": moment().locale('en').format('YYYY/M/D'),
+        "EndDate": moment().locale('en').format('YYYY/M/D')
       }
     },
       "toolbar": {
         "modal": [
-          { "title": "type", "name": "نوع بازاریاب", "type": "selectInput","initialValue":"" },
-          { "title": "customerId", "name": "شناسه مشتری", "type": "input","initialValue":"" },
-          { "title": "branchId", "name": "شناسه شعبه", "type": "input" ,"initialValue":""}
+          { "title": "type", "name": "نوع بازاریاب", "type": "selectInput","initialValue":"",
+            "isRequired": true
+          },
+          { "title": "uniqueId",
+            "name": "کد/شناسه ملی بازاریاب",
+            "type": "dynamicSearch",
+            "initialValue":"",
+            "endpoint": `${ADMIN_GATEWAY}/api/request/customer/Search`,
+            "valueField": ["customerTitle","uniqueId"],
+            "queryField": "UniqueId",
+            "recordField": "uniqueId",
+            "alternative":"customerId",
+            "alternativeRelatedRecordField":"id",
+            "inputAble":true,
+            "isRequired": true
+          },
+          { "title": "branchId",
+            "name": "عنوان شعبه",
+            "type": "dynamicSearch" ,
+            "initialValue":"",
+            "endpoint": `${ADMIN_GATEWAY}/api/request/branch/Search`,
+            "valueField": ["title","subsidiaryTitle","typeTitle"],
+            "queryField": "Title",
+            "recordField": "id"
+          },
+          { "title": "title", "name": "عنوان بازاریاب", "type": "input" ,"initialValue":"","isRequired": true},
+          { "title": "mobile", "name": "شماره تلفن", "type": "input" ,"initialValue":""},
+          { "title": "userId",
+            "name": "کد ملی کاربر",
+            "type": "dynamicSearch" ,
+            "initialValue":"",
+            "endpoint": `${IDP}/api/users/SearchUserAccount`,
+            "valueField": ["firstName","lastName","UniqueId","Mobile"],
+            "queryField": "NationalId",
+            "recordField": "id"
+          },
+          { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS", "type": "input" ,"initialValue":""},
+          { "title": "tbsReagentId", "name": "شناسه معرف در TBS", "type": "input" ,"initialValue":""}
         ]
       }
   },
@@ -1094,3 +1157,5 @@
 
   }
 }
+
+export default filters;

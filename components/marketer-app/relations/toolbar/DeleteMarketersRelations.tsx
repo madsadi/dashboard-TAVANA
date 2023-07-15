@@ -6,7 +6,7 @@ import {MARKETER_ADMIN} from "../../../../api/constants";
 import {RelationsContext} from "../../../../pages/marketer-app/relations";
 
 export default function DeleteMarketersRelations() {
-    const {selectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
+    const {selectedRows,setSelectedRows,fetchData,searchQuery} = useContext<any>(RelationsContext)
     const {mutate} = useMutation({url:`${MARKETER_ADMIN}/marketer/delete-marketers-relations`,method:"DELETE"})
     const [modal, setModal] = useState(false)
 
@@ -23,6 +23,7 @@ export default function DeleteMarketersRelations() {
             .then((res)=> {
                 throwToast({type:'success',value:`با موفقیت انجام شد`})
                 setModal(false)
+                setSelectedRows([])
                 fetchData(searchQuery)
             })
             .catch((err) => throwToast({type:'error',value:err}))

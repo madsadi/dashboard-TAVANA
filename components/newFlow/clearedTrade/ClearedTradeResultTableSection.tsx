@@ -102,7 +102,7 @@ export default function ClearedTradeResultTableSection() {
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
                 <SearchComponent module={ModuleIdentifier.NETFLOW_cleared_trade}
-                                 onSubmit={fetchData}
+                                 onSubmit={fetchData} loading={loading}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}

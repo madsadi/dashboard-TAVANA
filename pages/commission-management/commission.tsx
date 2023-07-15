@@ -275,11 +275,13 @@ export default function Commission() {
     const {
         data: categoryData,
         query: categoryQuery,
+        loading:categoryLoading,
         fetchData: categorySearch
     }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
     const {
         data: instrumentData,
-        fetchData: instrumentSearch
+        fetchData: instrumentSearch,
+        loading:instrumentLoading
     }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
     const {fetchAsyncData: detailSearch}: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Search`})
     const [categoryModal, setCategoryModal] = useState(false)
@@ -289,6 +291,7 @@ export default function Commission() {
     const [categoryMessage, setCategoryMessage] = useState<string>('')
     const [selectedRows, setSelectedRows] = useState<any>([])
     const [ids, setIds] = useState<any>({})
+    const [detailLoading, setDetailLoading] = useState<boolean>(false)
     const ref: any = useRef()
     useEffect(() => {
         if (categoryData?.result?.pagedData?.length) {
@@ -315,9 +318,11 @@ export default function Commission() {
 
     const detailSearchHandler = (query: any) => {
         const {CommissionCategoryTitle, CommissionInstrumentTypeTitle, ...rest} = query
+        setDetailLoading(true)
         detailSearch(rest)
             .then((res: any) => setRowData(res?.data?.result))
             .catch((err: any) => throwToast({type: 'err', value: err}))
+            .finally(()=>setDetailLoading(false))
     }
 
     return (
@@ -336,7 +341,7 @@ export default function Commission() {
                             </div>
                             <SearchComponent
                                 className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '}
-                                extraClassName={'sm:mt-auto'} onSubmit={instrumentSearch}
+                                extraClassName={'sm:mt-auto'} loading={instrumentLoading} onSubmit={instrumentSearch}
                                 module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
                         </div>
                         <div className={'border border-dashed border-border p-2 rounded'}>
@@ -346,7 +351,7 @@ export default function Commission() {
                             </div>
                             <SearchComponent
                                 className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '}
-                                onSubmit={categorySearch} module={ModuleIdentifier.COMMISSION_MANAGEMENT_category}/>
+                                onSubmit={categorySearch} loading={categoryLoading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_category}/>
                         </div>
                         <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
                             <div className={'font-bold text-lg mb-5'}>
@@ -354,7 +359,7 @@ export default function Commission() {
                             </div>
                             <SearchComponent ref={ref}
                                              className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '}
-                                             extraClassName={'sm:mt-auto'} onSubmit={detailSearchHandler}
+                                             extraClassName={'sm:mt-auto'} loading={detailLoading} onSubmit={detailSearchHandler}
                                              module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail}/>
                         </div>
                     </div>

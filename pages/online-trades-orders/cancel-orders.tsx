@@ -144,7 +144,7 @@ export default function CancelOrders() {
     return (
             <div className="flex flex-col h-full flex-1">
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.ONLINE_CANCEL}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.ONLINE_CANCEL}/>
                 </AccordionComponent>
                 <CancelOrdersToolbar/>
                 <TableComponent data={data?.result?.pagedData}

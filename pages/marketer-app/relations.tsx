@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import {MARKETER_ADMIN} from "../../api/constants";
 import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
@@ -39,7 +38,7 @@ export default function Relations() {
         }
     ]
     const {
-        data, fetchData, query: searchQuery
+        data, fetchData, query: searchQuery,loading
     }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`})
 
     const detailCellRendererParams = useMemo(() => {
@@ -59,13 +58,19 @@ export default function Relations() {
                     {
                         field: 'StartDate',
                         headerName: 'تاریخ شروع ارتباط',
+                        cellRendererSelector: () => {
+                            const moodDetails = {
+                                component: (rowData: any) => <DateCell date={rowData.data.StartDate} hideTime={true}/>,
+                            }
+                            return moodDetails;
+                        },
                     },
                     {
-                        field: 'GEndDate',
+                        field: 'EndDate',
                         headerName: 'تاریخ پایان ارتباط',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GEndDate}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.EndDate} hideTime={true}/>,
                             }
                             return moodDetails;
                         },
@@ -95,7 +100,7 @@ export default function Relations() {
                     resizable: true,
                     sortable: true,
                     flex: 1,
-                    valueFormatter: formatNumber
+                    // valueFormatter: formatNumber
                 },
             },
             getDetailRowData: async (params: any) => {
@@ -108,10 +113,10 @@ export default function Relations() {
         <RelationsContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
                 </AccordionComponent>
                 <RelationToolbar/>
-                <TableComponent data={data?.result.pagedData}
+                <TableComponent data={data?.result?.pagedData}
                                 columnDefStructure={columnDefStructure}
                                 setSelectedRows={setSelectedRows}
                                 selectedRows={selectedRows}

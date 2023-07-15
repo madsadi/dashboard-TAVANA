@@ -158,7 +158,7 @@ export default function TradesResultTableSection() {
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
                 <SearchComponent module={ModuleIdentifier.NETFLOW_trades_report}
-                                 onSubmit={fetchData}
+                                 onSubmit={fetchData} loading={loading}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}
