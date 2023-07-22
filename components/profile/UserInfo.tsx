@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import {
     DevicePhoneMobileIcon,
     EnvelopeIcon,
@@ -8,64 +8,65 @@ import {
     CalendarDaysIcon,
     FingerPrintIcon
 } from "@heroicons/react/24/outline";
-import {jalali} from "../common/functions/common-funcions";
-import {EditInfoModal} from "./EditInfoModal";
-import {useSelector} from "react-redux";
+import { jalali } from "../common/functions/common-funcions";
+import { EditInfoModal } from "./EditInfoModal";
+import { useSelector } from "react-redux";
 import useMutation from "../../hooks/useMutation";
-import {IDP} from "../../api/constants";
-import {throwToast} from "../common/functions/notification";
-import {PasswordModal} from "./Password.modal";
-import {ChangeMobileNumber} from "./ChangeMobileNumber";
+import { IDP } from "../../api/constants";
+import { throwToast } from "../common/functions/notification";
+import { PasswordModal } from "./Password.modal";
+import { ChangeMobileNumber } from "./ChangeMobileNumber";
 import useSWR from "swr";
 import { Switch } from '@headlessui/react'
+import { SwitchToggle } from "../common/components/button/switch-toggle";
 
 export default function UserInfo() {
-    const {data} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
-    const [open,setOpen]=useState(false)
-    const [passwordModal,setPasswordModal]=useState(false)
+    const { data } = useSWR(`${IDP}/api/users/GetCurrentUserInfo`, { revalidateOnMount: true })
+    const [open, setOpen] = useState(false)
+    const [passwordModal, setPasswordModal] = useState(false)
     const fields: any = [
         {
             id: 0,
             title: 'نام و نام خانوادگی:',
-            icon: <UserIcon className={'h-4 min-w-4'}/>,
+            icon: <UserIcon className={'h-4 min-w-4'} />,
             info: data?.result?.firstName + " " + data?.result?.lastName
         },
         {
             id: 1,
             title: 'نام کاربری:',
-            icon: <FingerPrintIcon className={'h-4 min-w-4'}/>,
+            icon: <FingerPrintIcon className={'h-4 min-w-4'} />,
             info: data?.result?.userName
         },
         {
             id: 2,
             title: 'ایمیل:',
-            icon: <EnvelopeIcon className={'h-4 min-w-4'}/>,
+            icon: <EnvelopeIcon className={'h-4 min-w-4'} />,
             info: data?.result?.email
         },
         {
             id: 3,
             title: 'تلفن همراه:',
-            icon: <DevicePhoneMobileIcon className={'h-4 min-w-4'}/>,
+            icon: <DevicePhoneMobileIcon className={'h-4 min-w-4'} />,
             info: data?.result?.phoneNumber,
-            utility:<ChangeMobileNumber/>
+            utility: <ChangeMobileNumber />
         },
         {
             id: 4,
             title: 'کدملی:',
-            icon: <IdentificationIcon className={'h-4 min-w-4'}/>,
+            icon: <IdentificationIcon className={'h-4 min-w-4'} />,
             info: data?.result?.nationalId
         },
         {
             id: 5,
             title: 'تاریخ تولد:',
-            icon: <CalendarDaysIcon className={'h-4 min-w-4'}/>,
+            icon: <CalendarDaysIcon className={'h-4 min-w-4'} />,
             info: data?.result?.birthdate ? jalali(data?.result?.birthdate).date : '-'
         },
         {
             id: 6,
             title: 'ورود دو عاملی:',
-            icon: <QrCodeIcon className={'h-4 min-w-4'}/>,
-            info: <ToggleButton/>
+            icon: <QrCodeIcon className={'h-4 min-w-4'} />,
+            info: <ToggleButton />
         }
     ]
 
@@ -82,7 +83,7 @@ export default function UserInfo() {
                                 <span className={'min-w-fit'}>{field.title}</span>
                             </div>
                             <div className={'min-w-fit flex items-center'}>
-                                {field?.utility ? field?.utility:null}
+                                {field?.utility ? field?.utility : null}
                                 <div>
                                     {data && field.info}
                                 </div>
@@ -91,41 +92,30 @@ export default function UserInfo() {
                     )
                 })}
             </div>
-            <button className={'button bg-orange-500 m-2 mx-4'} onClick={()=>setOpen(true)}>
+            <button className={'button bg-orange-500 m-2 mx-4'} onClick={() => setOpen(true)}>
                 ویرایش حساب کاربری
             </button>
-            <button className={'button bg-green-500'} onClick={()=>setPasswordModal(true)}>
-               تغییر رمز عبور
+            <button className={'button bg-green-500'} onClick={() => setPasswordModal(true)}>
+                تغییر رمز عبور
             </button>
-            <PasswordModal setOpen={setPasswordModal} open={passwordModal}/>
-            <EditInfoModal setOpen={setOpen} open={open}/>
+            <PasswordModal setOpen={setPasswordModal} open={passwordModal} />
+            <EditInfoModal setOpen={setOpen} open={open} />
         </div>
     )
 }
 
-const ToggleButton = ()=>{
-    const {data} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
-    const {mutate} = useMutation({url:`${IDP}/api/account/2fa`,method:"PUT"})
-    const [enabled,setEnabled] = useState(data?.result.twoFactorEnabled)
+const ToggleButton = () => {
+    const { data } = useSWR(`${IDP}/api/users/GetCurrentUserInfo`, { revalidateOnMount: true })
+    const { mutate } = useMutation({ url: `${IDP}/api/account/2fa`, method: "PUT" })
+    const [enabled, setEnabled] = useState(data?.result.twoFactorEnabled)
 
-    const twoFactorHandler = async ()=>{
-        await mutate({}, {enabled:!enabled})
-            .then(()=>setEnabled(!enabled))
-            .catch((err)=>throwToast({type:'error',value:err}))
+    const twoFactorHandler = async () => {
+        await mutate({}, { enabled: !enabled })
+            .then(() => setEnabled(!enabled))
+            .catch((err) => throwToast({ type: 'error', value: err }))
     }
 
-    return(
-            <Switch
-                checked={enabled}
-                onChange={twoFactorHandler}
-                className={`${enabled ? 'bg-green-500' : 'bg-red-400'}
-          relative inline-flex w-[49px] !h-[24px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-            >
-                <span
-                    aria-hidden="true"
-                    className={`${enabled ? '-translate-x-6' : 'translate-x-0'}
-            pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                />
-            </Switch>
+    return (
+        <SwitchToggle isChecked={enabled} onChange={twoFactorHandler} />
     )
 }

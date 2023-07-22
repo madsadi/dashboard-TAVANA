@@ -1,13 +1,13 @@
 import React from 'react';
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import SidebarCollapsibleComponent from "../components/Sidebar-collapsible.component";
 import filters from "../../../dictionary/filters";
-import {ModuleIdentifier} from "../functions/Module-Identifier";
+import { ModuleIdentifier } from "../functions/Module-Identifier";
 
 export default function SideBarContent() {
     const router = useRouter()
-    const modules:any = filters
+    const modules: any = filters
     const items = [
         {
             label: 'داشبورد',
@@ -25,7 +25,7 @@ export default function SideBarContent() {
                     label: 'کاربران',
                     url: '/users-management/users',
                     className: router.pathname === '/users-management/users' ? 'sideBarActive' : '',
-                    permissions:modules[ModuleIdentifier.USER_MANAGEMENT_users].permissions
+                    permissions: modules[ModuleIdentifier.USER_MANAGEMENT_users].permissions
                 },
                 {
                     label: 'نقش و دسترسی',
@@ -240,10 +240,10 @@ export default function SideBarContent() {
             ]
         }
     ];
-    const userPermissions:string[] = ['IdentityServerApi.UserManagement.Read']
+    const userPermissions: string[] = ['IdentityServerApi.UserManagement.Read']
 
-    const hideItem = ({item,page}:{item:any,page:any})=>{
-        const found = page?.permissions?.some((r:string)=> userPermissions.indexOf([item.service,item.module,r].join('.')) >= 0)
+    const isAllowed = ({ item, page }: { item: any, page: any }) => {
+        const isAllowed = page?.permissions?.some((r: string) => userPermissions.indexOf([item.service, item.module, r].join('.')) >= 0)
         return true
     }
 
@@ -255,21 +255,19 @@ export default function SideBarContent() {
                         if (item.children) {
                             return (
                                 <SidebarCollapsibleComponent title={item.label}
-                                                             condition={item.expanded}
-                                                             key={item.label}>
+                                    condition={item.expanded}
+                                    key={item.label}>
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
                                             return (
-                                                <Link href={child.url} key={child.label} className={hideItem({
-                                                    item,
-                                                    page:child
-                                                }) ? '':'hidden'}>
+                                                <Link href={child.url}
+                                                    key={child.label}
+                                                    className={isAllowed({ item, page: child }) ? '' : 'hidden'}>
                                                     <li
                                                         className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}>
                                                         {child.label}
                                                     </li>
                                                 </Link>
-
                                             )
                                         })}
                                     </ul>
@@ -277,10 +275,9 @@ export default function SideBarContent() {
                             )
                         } else {
                             return (
-                                <div  className={hideItem({
-                                    item,
-                                    page:item
-                                }) ? 'w-full':'hidden'} key={item.label}>
+                                <div
+                                    className={isAllowed({ item, page: item }) ? 'w-full' : 'hidden'}
+                                    key={item.label}>
                                     <Link href={item.url}>
                                         <div
                                             className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}>

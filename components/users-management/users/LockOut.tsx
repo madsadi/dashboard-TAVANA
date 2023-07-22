@@ -1,83 +1,97 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
-import {UsersContext} from "../../../pages/users-management/users";
-import {DayValue} from "react-modern-calendar-datepicker";
+import { UsersContext } from "../../../pages/users-management/users";
+import { DayValue } from "react-modern-calendar-datepicker";
 import useMutation from "../../../hooks/useMutation";
-import {IDP} from "../../../api/constants";
-import {throwToast} from "../../common/functions/notification";
-import {useSearchFilters} from "../../../hooks/useSearchFilters";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import { IDP } from "../../../api/constants";
+import { throwToast } from "../../common/functions/notification";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
+import { Button } from "../../common/components/button/button";
+import filters from "../../../dictionary/filters";
 
-export default function LockOut(){
-    const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'lock-out')
-    const {selectedRows} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${IDP}/api/users/set-lockout-end-date`})
+export default function LockOut() {
+    const { toolbar } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'lock-out')
+    const { selectedRows } = useContext<any>(UsersContext)
+    const { mutate } = useMutation({ url: `${IDP}/api/users/set-lockout-end-date` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDay, setSelectedDay] = useState<DayValue>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const lockHandler = async (e: any) => {
         e.preventDefault()
-        await mutate({userId:selectedRows[0].id,lockoutEndDateTime:query.date})
+        setLoading(true)
+        await mutate({ userId: selectedRows[0].id, lockoutEndDateTime: query.date })
             .then(() => {
-                throwToast({type:'success',value:'با موفقیت انجام شد'})
+                throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
                 setModal(false)
                 setQuery({})
             })
-            .catch((err) => throwToast({type:'error',value:err}))
-
+            .catch((err) => throwToast({ type: 'error', value: err }))
+            .finally(() => setLoading(false))
     }
     const openHandler = () => {
         if (selectedRows.length) {
             setModal(true)
         } else {
-            throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
+            throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
         }
     }
 
-    useEffect(()=>{
-        if (!modal){
-            let _initialValue:any = {};
+    useEffect(() => {
+        if (!modal) {
+            let _initialValue: any = {};
             _initialValue.lockoutEndDateTime = null
             setSelectedDay(null)
             setQuery(_initialValue)
         }
-    },[modal])
+    }, [modal])
 
     const onChange = (key: string, value: any) => {
-        let _query: any = {...query};
+        let _query: any = { ...query };
         _query[key] = value
         setQuery(_query)
     }
-    return(
+    return (
         <>
-            <button className="button bg-yellow-500" onClick={openHandler}>قفل/باز کردن حساب کاربری</button>
+            <Button label={'قفل/باز کردن حساب کاربری'}
+                className="bg-yellow-500"
+                onClick={openHandler}
+                allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'SetLockoutEndDate'].join('.')]}
+            />
             <Modal title={'قفل/باز کردن حساب کاربری'} setOpen={setModal}
-                   open={modal}>
+                open={modal}>
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
                             toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
-                                                       query={query}
-                                                       item={item}
-                                                       onChange={onChange}
-                                                       setSelectedDay={setSelectedDay}
-                                                       selectedDay={selectedDay}
+                                    query={query}
+                                    item={item}
+                                    onChange={onChange}
+                                    setSelectedDay={setSelectedDay}
+                                    selectedDay={selectedDay}
                                 />
 
                             })
                         }
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    setModal(false)
-                                }}>لغو
-                        </button>
-                        <button type={"submit"} className="button bg-lime-600" onClick={lockHandler}>تایید</button>
+                        <Button label={'لغو'}
+                            className="bg-red-500"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setModal(false)
+                            }}
+                        />
+                        <Button label={'تایید'}
+                            className="bg-lime-600"
+                            onClick={lockHandler}
+                            type={"submit"}
+                            loading={loading}
+                        />
                     </div>
                 </div>
             </Modal>
