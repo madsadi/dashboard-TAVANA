@@ -17,6 +17,7 @@ import {throwToast} from "../common/functions/notification";
 import {PasswordModal} from "./Password.modal";
 import {ChangeMobileNumber} from "./ChangeMobileNumber";
 import useSWR from "swr";
+import { Switch } from '@headlessui/react'
 
 export default function UserInfo() {
     const {data} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
@@ -75,7 +76,7 @@ export default function UserInfo() {
                     return (
                         <div className={'flex even:bg-gray-200 p-2'} key={field.id}>
                             <div className={'flex flex-1 px-2'}>
-                                <div className={'bg-gray-400 rounded-full p-1 ml-3'}>
+                                <div className={'bg-gray-400 rounded-full p-1 ml-3 h-fit'}>
                                     {field.icon}
                                 </div>
                                 <span className={'min-w-fit'}>{field.title}</span>
@@ -103,19 +104,28 @@ export default function UserInfo() {
 }
 
 const ToggleButton = ()=>{
-    const {userInfo:data} = useSelector((state:any)=>state.userManagementConfig)
+    const {data} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
     const {mutate} = useMutation({url:`${IDP}/api/account/2fa`,method:"PUT"})
-    const [enable,isEnable] = useState(data?.twoFactorEnabled)
+    const [enabled,setEnabled] = useState(data?.result.twoFactorEnabled)
 
     const twoFactorHandler = async ()=>{
-        await mutate({}, {enabled:!enable})
-            .then(()=>isEnable(!enable))
+        await mutate({}, {enabled:!enabled})
+            .then(()=>setEnabled(!enabled))
             .catch((err)=>throwToast({type:'error',value:err}))
     }
 
     return(
-        <button className={'relative w-[50px] !h-[24px] flex bg-white p-1 rounded-full h-full border-2 border-white shadow-[0_0_0_1px_#eee] mr-2 overflow-hidden'} onClick={twoFactorHandler}>
-            <div className={`rounded-full w-1/2 h-[90%] z-0 absolute right-0 top-1/2 -translate-y-1/2 transition-all ${!enable ? '-translate-x-full bg-red-500':'translate-x-0 bg-green-600 '}`}/>
-        </button>
+            <Switch
+                checked={enabled}
+                onChange={twoFactorHandler}
+                className={`${enabled ? 'bg-green-500' : 'bg-red-400'}
+          relative inline-flex w-[49px] !h-[24px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+            >
+                <span
+                    aria-hidden="true"
+                    className={`${enabled ? '-translate-x-6' : 'translate-x-0'}
+            pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                />
+            </Switch>
     )
 }

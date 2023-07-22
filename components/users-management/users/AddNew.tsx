@@ -7,12 +7,14 @@ import {IDP} from "../../../api/constants";
 import {throwToast} from "../../common/functions/notification";
 import {useSearchFilters} from "../../../hooks/useSearchFilters";
 import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import {Button} from "../../common/components/button/button";
+import filters from "../../../dictionary/filters";
 
 export default function AddNew() {
     const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'add')
     const {fetchData, query: searchQuery} = useContext<any>(UsersContext)
     const {mutate} = useMutation({url:`${IDP}/api/users/create`})
-    const [modal, setModal] = useState(false)
+    const [modal, setModal] = useState<boolean>(false)
     const [query, setQuery] = useState<any>({})
 
     const addNewHandler = async (e: any) => {
@@ -35,6 +37,11 @@ export default function AddNew() {
 
     return (
         <>
+            {/*<Button label={'جدید'}*/}
+            {/*        className="bg-lime-600"*/}
+            {/*        onClick={() => setModal(true)}*/}
+            {/*        allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service,filters[ModuleIdentifier.USER_MANAGEMENT_users].module,'Create'].join('.')]}*/}
+            {/*/>*/}
             <button className="button bg-lime-600" onClick={() => setModal(true)}>جدید</button>
             <Modal title={'کاربر جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                    open={modal}>

@@ -10,8 +10,13 @@ export default function SidebarCollapsibleComponent({children,title,condition}:{
         }
     },[])
 
+    const hideTheComponent = ()=>{
+        const hide = children.props.children.every((item:any)=>item.props.className==='hidden')
+        return hide
+    }
+
     return(
-        <div className={`relative collapse border rounded-md border-border transition-all hover:bg-gray-100 ${condition ? 'bg-gray-100':''}`}>
+        <div className={`relative collapse border rounded-md border-border transition-all hover:bg-gray-100 ${condition ? 'bg-gray-100':''} ${hideTheComponent() ? 'hidden':''}`}>
             <input type="checkbox" className="peer w-full h-full " checked={checked} onChange={(e)=>isChecked(!checked)}/>
             <div className={`collapse-title flex items-center bg-transparent p-2 `}>
                 <h4 className={'text-right'}>{title}</h4>

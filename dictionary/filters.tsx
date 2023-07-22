@@ -1,9 +1,12 @@
 import {ADMIN_GATEWAY, IDP} from "../api/constants";
 import moment from "jalali-moment";
 
-const filters = {
+const filters:any = {
   "user-management_users": {
-      "search": {
+      service:'IdentityServerApi',
+      module:'UserManagement',
+      permissions:['Read','Create','Edit','ChangeUserPassword','ChangeUserActiveStatus','SetLockoutEndDate','RollAndPermissionManagment','RollAndPermissionManagment','RollAndPermissionManagment'],
+      search: {
         "filters": [
           {"title": "PageNumber", "name": "شماره صفحه", "type": null},
           {"title": "PageSize", "name": "تعداد", "type": null},
@@ -33,7 +36,7 @@ const filters = {
           "EndDate": ""
         }
       },
-      "toolbar": {
+      toolbar: {
         "add": [
           {"title": "userName", "name": "نام کاریری", "type": "input"},
           {"title": "phoneNumber", "name": "موبایل", "type": "input"},
