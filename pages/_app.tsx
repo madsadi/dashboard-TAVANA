@@ -23,7 +23,6 @@ function MyApp({Component, pageProps}: AppProps) {
     const toast: any = useRef(null);
 
     const authorityPath = IDP;
-    // const authorityPath = 'http://localhost:3000';
     const clientId = 'admin-gateway';
     const clientURL = typeof window !== 'undefined' && window.location.origin;
 
@@ -55,11 +54,6 @@ function MyApp({Component, pageProps}: AppProps) {
         return `/logo-dark.svg`;
     };
 
-    useEffect(() => {
-        if (typeof window !== undefined) {
-            console.log(window.matchMedia("(prefers-color-scheme: dark)"))
-        }
-    }, [])
     return (
         <AuthProvider {...oidcConfig} onSigninCallback={onSignIn}>
             <Provider store={store}>

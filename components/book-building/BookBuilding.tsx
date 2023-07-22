@@ -126,7 +126,7 @@ export default function BookBuilding() {
     ]
     const {fetchAsyncData,query} = useQuery({})
     const [selectedRows, setSelectedRows] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const [data, setData] = useState([])
 
     const submitHandler = (query:any)=>{

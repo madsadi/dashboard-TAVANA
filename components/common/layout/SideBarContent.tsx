@@ -2,9 +2,12 @@ import React from 'react';
 import {useRouter} from "next/router";
 import Link from "next/link";
 import SidebarCollapsibleComponent from "../components/Sidebar-collapsible.component";
+import filters from "../../../dictionary/filters";
+import {ModuleIdentifier} from "../functions/Module-Identifier";
 
 export default function SideBarContent() {
     const router = useRouter()
+    const modules:any = filters
     const items = [
         {
             label: 'داشبورد',
@@ -15,11 +18,14 @@ export default function SideBarContent() {
         {
             label: 'مدیریت کاربران',
             expanded: router.pathname.startsWith('/users-management'),
+            service: modules[ModuleIdentifier.USER_MANAGEMENT_users].service,
+            module: modules[ModuleIdentifier.USER_MANAGEMENT_users].module,
             children: [
                 {
                     label: 'کاربران',
                     url: '/users-management/users',
                     className: router.pathname === '/users-management/users' ? 'sideBarActive' : '',
+                    permissions:modules[ModuleIdentifier.USER_MANAGEMENT_users].permissions
                 },
                 {
                     label: 'نقش و دسترسی',
@@ -234,6 +240,12 @@ export default function SideBarContent() {
             ]
         }
     ];
+    const userPermissions:string[] = ['IdentityServerApi.UserManagement.Read']
+
+    const hideItem = ({item,page}:{item:any,page:any})=>{
+        const found = page?.permissions?.some((r:string)=> userPermissions.indexOf([item.service,item.module,r].join('.')) >= 0)
+        return true
+    }
 
     return (
         <div className={'w-full'}>
@@ -248,7 +260,10 @@ export default function SideBarContent() {
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
                                             return (
-                                                <Link href={child.url} key={child.label}>
+                                                <Link href={child.url} key={child.label} className={hideItem({
+                                                    item,
+                                                    page:child
+                                                }) ? '':'hidden'}>
                                                     <li
                                                         className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}>
                                                         {child.label}
@@ -262,7 +277,10 @@ export default function SideBarContent() {
                             )
                         } else {
                             return (
-                                <div className={'w-full'} key={item.label}>
+                                <div  className={hideItem({
+                                    item,
+                                    page:item
+                                }) ? 'w-full':'hidden'} key={item.label}>
                                     <Link href={item.url}>
                                         <div
                                             className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}>

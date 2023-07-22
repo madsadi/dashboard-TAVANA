@@ -2,11 +2,9 @@ import React from 'react';
 import type {NextPage} from 'next'
 import {useAuth} from 'react-oidc-context';
 import Image from "next/image";
-import {useTheme} from "next-themes";
 
 const Home: NextPage = () => {
     const auth = useAuth();
-    const {theme, systemTheme} = useTheme();
 
     return (
         <div className={'flex h-screen w-screen bg-[url(/leaf-tavana.jpg)] bg-no-repeat bg-center bg-cover'}>

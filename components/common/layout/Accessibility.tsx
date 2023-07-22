@@ -18,8 +18,7 @@ import useQuery from "../../../hooks/useQuery";
 import {IDP} from "../../../api/constants";
 import {useDispatch} from "react-redux";
 import useSWR from "swr";
-
-
+import jwt_decode from "jwt-decode";
 
 export const Accessibility = () => {
     const {data: info} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
@@ -29,6 +28,14 @@ export const Accessibility = () => {
         {name: 'پروفایل', description: `${info?.result?.firstName + " " + info?.result?.lastName}`, href: '/profile', icon: ChartPieIcon},
     ]
 
+    useEffect(()=>{
+        if (auth?.user?.access_token){
+            let token = auth?.user?.access_token
+            let decoded = jwt_decode(token);
+
+            console.log(decoded)
+        }
+    }, [auth?.user?.access_token])
     return (
         <>
             <Popover className={'lg:hidden mr-auto h-[34px]'}>
