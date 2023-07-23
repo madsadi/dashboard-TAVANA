@@ -4,13 +4,17 @@ import moment from "jalali-moment";
 const filters: any = {
   "dashboard": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
   },
   "user-management_users": {
     service: 'IdentityServerApi',
-    module: 'UserManagement',
-    permissions: ['Read', 'Create', 'Edit', 'ChangeUserPassword', 'ChangeUserActiveStatus', 'SetLockoutEndDate', 'RollAndPermissionManagment', 'RollAndPermissionManagment', 'RollAndPermissionManagment'],
+    module: {
+      primary: {
+        name: 'UserManagement',
+        permissions: ['Read', 'Create', 'Edit', 'ChangeUserPassword', 'ChangeUserActiveStatus', 'SetLockoutEndDate', 'RollAndPermissionManagment', 'RollAndPermissionManagment', 'RollAndPermissionManagment']
+      }
+    },
     search: {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -68,9 +72,13 @@ const filters: any = {
     }
   },
   "user-management_roles": {
-    service: '',
-    module: '',
-    permissions: [],
+    service: 'IdentityServerApi',
+    module: {
+      primary: {
+        name: 'RoleManagment',
+        permissions: ['Create', 'Edit', 'Active', 'DeActive', 'Read', 'RollAndPermissionManagment', 'RollAndPermissionManagment'],
+      }
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -96,9 +104,8 @@ const filters: any = {
   },
   "user-management_logs": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
-
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -120,10 +127,17 @@ const filters: any = {
     }
   },
   "online-registration": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    service: 'CustomerManagement',
+    module: {
+      primary: {
+        name: 'OnlineRegistrationProfile',
+        permissions: ['Create', 'Read', 'Edit', 'Delete']
+      },
+      secondary: {
+        name: 'TbsServices',
+        permissions: ['Create']
+      }
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -167,7 +181,7 @@ const filters: any = {
   },
   "customer-management_subsidiary": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -192,7 +206,7 @@ const filters: any = {
   },
   "customer-management_branch": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -240,7 +254,7 @@ const filters: any = {
   },
   "customer-management_employee": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "toolbar": {
@@ -258,7 +272,7 @@ const filters: any = {
   },
   "customer-management_businessUnit": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -288,7 +302,7 @@ const filters: any = {
   },
   "customer-management_station": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -326,7 +340,7 @@ const filters: any = {
   },
   "customer-management_trader": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "toolbar": {
@@ -340,7 +354,7 @@ const filters: any = {
   },
   "customer-management_marketer": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -447,7 +461,7 @@ const filters: any = {
   },
   "customer-management_agreement": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "toolbar": {
@@ -465,7 +479,7 @@ const filters: any = {
   },
   "customer-management_customerAgreement": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -516,7 +530,7 @@ const filters: any = {
   },
   "customer-management_contract": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -555,7 +569,7 @@ const filters: any = {
   },
   "customer-management_marketerContract": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -602,7 +616,7 @@ const filters: any = {
   },
   "online-orders": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -641,7 +655,7 @@ const filters: any = {
   },
   "online-trades": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -678,7 +692,7 @@ const filters: any = {
   },
   "online-cancel": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -711,7 +725,7 @@ const filters: any = {
   },
   "live-portfo": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -731,7 +745,7 @@ const filters: any = {
   },
   "oms-session": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -750,7 +764,7 @@ const filters: any = {
   },
   "oms-timetable": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -771,7 +785,7 @@ const filters: any = {
   },
   "market-rules-management": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -802,7 +816,7 @@ const filters: any = {
   },
   "book-building": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -838,7 +852,7 @@ const filters: any = {
   },
   "commission-management_instrument": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -872,7 +886,7 @@ const filters: any = {
   },
   "commission-management_category": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -900,7 +914,7 @@ const filters: any = {
   },
   "commission-management_detail": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -1122,7 +1136,7 @@ const filters: any = {
   },
   "netflow_trades_report": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -1158,7 +1172,7 @@ const filters: any = {
   },
   "netflow_rules": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -1187,7 +1201,7 @@ const filters: any = {
   },
   "netflow_cleared_trade": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -1214,7 +1228,7 @@ const filters: any = {
   },
   "netflow_clearing_Range": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
     "search": {
@@ -1237,13 +1251,13 @@ const filters: any = {
   },
   "netflow_information": {
     service: '',
-    module: '',
+    module: {},
     permissions: [],
 
   },
   "marketer-app_relations": {
     service: 'IdentityServerApi',
-    module: 'UserManagement',
+    module: {},
     permissions: [],
 
     "search": {
@@ -1283,7 +1297,7 @@ const filters: any = {
   },
   "marketer-app_recite": {
     service: 'IdentityServerApi',
-    module: 'UserManagement',
+    module: {},
     permissions: [],
 
     "search": {

@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from "react";
+import { useSelector } from "react-redux";
 import { isAllowed } from "../../functions/permission-utils";
 import { Loader } from "../Loader";
 
@@ -14,7 +15,7 @@ interface ButtonType {
 
 export const Button = (props: ButtonType) => {
     const { label, className, onClick, allowed, disabled, loading, type = 'button' } = props
-    const userPermissions: string[] = ['IdentityServerApi.UserManagement.Create']
+    const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
 
     return (
         <button className={"relative text-sm space-x-2 space-x-reverse flex justify-between items-center text-white p-1 px-4 rounded transition-all hover:opacity-70 disabled:bg-gray-400 disabled:!cursor-not-allowed " + className}

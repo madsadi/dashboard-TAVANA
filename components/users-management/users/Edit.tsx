@@ -8,10 +8,9 @@ import { throwToast } from "../../common/functions/notification";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
-import filters from "../../../constants/filters";
 
 export default function Edit() {
-    const { toolbar } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'edit')
+    const { toolbar, service, module } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'edit')
 
     const { fetchData, query: searchQuery, selectedRows } = useContext<any>(UsersContext)
     const { mutate } = useMutation({ url: `${IDP}/api/users/update` })
@@ -59,7 +58,7 @@ export default function Edit() {
             <Button label={'ویرایش'}
                 className="bg-orange-500"
                 onClick={openHandler}
-                allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'Edit'].join('.')]}
+                allowed={[[service, module, 'Edit'].join('.')]}
             />
             <Modal title={'ویرایش اطلاعات کاربر'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                 open={modal}>

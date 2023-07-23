@@ -4,10 +4,13 @@ import { useRouter } from "next/router";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import useMutation from "../../../hooks/useMutation";
 import { throwToast } from "../../common/functions/notification";
-import { Loader } from "../../common/components/Loader";
+import { Button } from "../../common/components/button/button";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export const AgreementToTbs = () => {
     const { selectedRows } = useContext<any>(OnlineRegContext)
+    const { service, module_secondary: module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const router = useRouter()
     let dep: string | undefined = router.query?.detail?.[0]
     const queryData: string[] | undefined = dep?.split('&')
@@ -45,9 +48,12 @@ export const AgreementToTbs = () => {
     }
 
     return (
-        <button className={'button flex items-center disabled:bg-gray-400 bg-orange-400'} onClick={TbsHandler} disabled={loading}>
-            ثبت قراردادها در تدبیر
-            {loading && <Loader />}
-        </button>
+        <Button label={'ثبت قراردادها در تدبیر'}
+            className="bg-orange-500 "
+            onClick={TbsHandler}
+            loading={loading}
+            allowed={restriction ? [[service, module, 'Create'].join('.')] : []}
+        />
+
     )
 }

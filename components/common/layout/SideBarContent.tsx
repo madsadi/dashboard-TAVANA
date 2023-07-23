@@ -5,6 +5,7 @@ import SidebarCollapsibleComponent from "../components/Sidebar-collapsible.compo
 import filters from "../../../constants/filters";
 import { ModuleIdentifier } from "../functions/Module-Identifier";
 import { isAllowed } from '../functions/permission-utils';
+import { useSelector } from 'react-redux';
 
 export default function SideBarContent() {
     const router = useRouter()
@@ -271,7 +272,7 @@ export default function SideBarContent() {
             ]
         }
     ];
-    const userPermissions: string[] = ['IdentityServerApi.UserManagement.Read']
+    const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
 
     return (
         <div className={'w-full'}>
@@ -285,11 +286,12 @@ export default function SideBarContent() {
                                     key={item.label}>
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
-                                            let _whoIsAllowed = filters[child.module].permissions.map((p: string) => [filters[child.module].service, filters[child.module].module, p].join('.'))
+                                            let _whoIsAllowed = Object.keys(filters[child.module].module).map((m: string) => filters[child.module].module[m].permissions.map((p: string) => [filters[child.module].service, filters[child.module].module[m].name, p].join('.')))
+
                                             return (
                                                 <Link href={child.url}
                                                     key={child.label}
-                                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed }) ? '' : 'hidden'}>
+                                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed.flat(1) }) ? '' : 'hidden'}>
                                                     <li
                                                         className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}>
                                                         {child.label}
@@ -301,10 +303,10 @@ export default function SideBarContent() {
                                 </SidebarCollapsibleComponent>
                             )
                         } else {
-                            let _whoIsAllowed = filters[item.module].permissions.map((p: string) => [filters[item.module].service, filters[item.module].module, p].join('.'))
+                            let _whoIsAllowed = Object.keys(filters[item.module].module).map((m: string) => filters[item.module].module[m].permissions.map((p: string) => [filters[item.module].service, filters[item.module].module[m].name, p].join('.')))
                             return (
                                 <div
-                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed }) ? 'w-full' : 'hidden'}
+                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed.flat(1) }) ? 'w-full' : 'hidden'}
                                     key={item.label}>
                                     <Link href={item.url}>
                                         <div

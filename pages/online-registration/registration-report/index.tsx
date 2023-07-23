@@ -278,6 +278,7 @@ export default function OnlineRegistration() {
                 </AccordionComponent>
                 <UserRegToolbarComponent />
                 <TableComponent data={data?.result?.pagedData}
+                    module={ModuleIdentifier.ONLINE_REGISTRATION}
                     loading={loading}
                     columnDefStructure={columnDefStructure}
                     rowId={['userId', 'id']}

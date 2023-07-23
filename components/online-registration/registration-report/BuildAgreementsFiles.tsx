@@ -1,6 +1,4 @@
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { OnlineRegContext } from "../../../pages/online-registration/registration-report";
 import { useRouter } from "next/router";
 import { throwToast } from "../../common/functions/notification";
@@ -9,11 +7,12 @@ import { ADMIN_GATEWAY } from "../../../api/constants";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/[...detail]";
-import { Loader } from "../../common/components/loader/Loader";
+import { Button } from "../../common/components/button/button";
 
 export default function BuildAgreementsFiles() {
     const { selectedRows } = useContext<any>(OnlineRegContext)
     const { fetchData: detailFetch } = useContext<any>(OnlineRegDetailContext)
+    const { service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UploadUserAgreementDocs` })
     const [loading, setLoading] = useState(false)
     const router = useRouter()
@@ -46,9 +45,11 @@ export default function BuildAgreementsFiles() {
 
 
     return (
-        <button className={'button flex items-center disabled:bg-gray-400 bg-lime-500'} onClick={handler} disabled={loading}>
-            ایجاد فایل های قرارداد
-            {loading && <Loader />}
-        </button>
+        <Button label={'ایجاد فایل های قرارداد'}
+            className="bg-lime-500"
+            onClick={handler}
+            loading={loading}
+            allowed={restriction ? [[service, module, 'Create'].join('.')] : []}
+        />
     )
 }

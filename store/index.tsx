@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import commissionConfig from './commissionConfig'
 import userManagementConfig from './user-management.config'
-import pageConfig from './page.config'
+import appConfig from './app.config'
 import _ from 'lodash';
 
-export const saveState = (state:object) => {
+export const saveState = (state: object) => {
     try {
         const serializedState = JSON.stringify(state);
         localStorage.setItem('state', serializedState);
@@ -27,14 +27,14 @@ export const loadState = () => {
 
 
 const persistedState = loadState();
-const store= configureStore({
+const store = configureStore({
     preloadedState: persistedState,
     reducer: {
         commissionConfig,
         userManagementConfig,
-        pageConfig,
+        appConfig,
     },
-    devTools: process.env.NODE_ENV==='development'
+    devTools: process.env.NODE_ENV === 'development'
 })
 
 store.subscribe(_.throttle(() => {

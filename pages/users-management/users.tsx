@@ -9,8 +9,6 @@ const UserDetailComponent = dynamic(() => import('../../components/users-managem
 import useQuery from '../../hooks/useQuery';
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
-import { isAllowed } from "../../components/common/functions/permission-utils";
-import filters from "../../constants/filters";
 
 export const UsersContext = createContext({})
 export default function Users() {
@@ -98,7 +96,6 @@ export default function Users() {
     ]
     const [selectedRows, setSelectedRows] = useState<any>([])
     const { data, query, fetchData, loading }: any = useQuery({ url: `${IDP}/api/users/SearchUserAccount` })
-    let userPermissions: string[] = []
 
     return (
         <UsersContext.Provider value={{ fetchData, query, selectedRows }}>
@@ -108,10 +105,11 @@ export default function Users() {
                 </AccordionComponent>
                 <UsersToolbar />
                 <TableComponent data={data?.result?.pagedData}
+                    module={ModuleIdentifier.USER_MANAGEMENT_users}
                     columnDefStructure={columnDefStructure}
                     rowId={['id']}
                     rowSelection={'single'}
-                    masterDetail={isAllowed({ userPermissions, whoIsAllowed: [[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'Create'].join('.')] }) ? true : false}
+                    masterDetail={true}
                     detailComponent={UserDetailComponent}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
