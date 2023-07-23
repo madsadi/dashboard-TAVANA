@@ -1,36 +1,36 @@
-import {AgGridReact} from "ag-grid-react";
-import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
-import {formatNumber} from "../functions/common-funcions";
-import {LoadingOverlay, NoRowOverlay} from "./customOverlay";
+import { AgGridReact } from "ag-grid-react";
+import React, { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import { formatNumber } from "../functions/common-funcions";
+import { LoadingOverlay, NoRowOverlay } from "./customOverlay";
 import dynamic from "next/dynamic";
-import {useRouter} from "next/router";
-import {ExcelStyle} from "ag-grid-community";
-import {Loader} from "../components/Loader";
+import { useRouter } from "next/router";
+import { ExcelStyle } from "ag-grid-community";
+import { Loader } from "../components/Loader";
 const TablePagination = dynamic(() => import('./TablePagination'))
 
-const TableComponent: React.FC<any> = (props) =>{
-    let {data=[],
+const TableComponent: React.FC<any> = (props) => {
+    let { data = [],
         columnDefStructure,
         rowSelection,
-        onGridReady=()=>{gridRef?.current?.api?.setRowData([])},
+        onGridReady = () => { gridRef?.current?.api?.setRowData([]) },
         rowId,
-        isRowSelectable=null,
-        masterDetail=false,
-        detailComponent=null,
-        detailCellRendererParams=null,
-        setSelectedRows=()=>null,
-        selectedRows=[],
-        onRowClicked=null,
-        suppressRowClickSelection=false,
-        pagination=false,
-        totalCount=0,
-        fetcher=()=>null,
-        query=null,
-        loading=false,
-        indexOfOpenedDetail=null,
+        isRowSelectable = null,
+        masterDetail = false,
+        detailComponent = null,
+        detailCellRendererParams = null,
+        setSelectedRows = () => null,
+        selectedRows = [],
+        onRowClicked = null,
+        suppressRowClickSelection = false,
+        pagination = false,
+        totalCount = 0,
+        fetcher = () => null,
+        query = null,
+        loading = false,
+        indexOfOpenedDetail = null,
     } = props
 
-    const excelStyles:ExcelStyle[] = [
+    const excelStyles: ExcelStyle[] = [
         {
             id: 'textFormat',
             dataType: 'String',
@@ -42,9 +42,9 @@ const TableComponent: React.FC<any> = (props) =>{
 
     useEffect(() => {
         gridRef?.current?.api?.setRowData([])
-    },[router.asPath])
+    }, [router.asPath])
 
-    const gridStyle = useMemo(() => ({width: '100%', height: '100%'}), []);
+    const gridStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
     const defaultColDef = useMemo(() => {
         return {
             resizable: true,
@@ -54,7 +54,7 @@ const TableComponent: React.FC<any> = (props) =>{
         };
     }, []);
     const getRowId = useCallback((params: any) => {
-        let id = rowId.map((s:string)=>params.data[s])
+        let id = rowId.map((s: string) => params.data[s])
         return id.join("-")
     }, [rowId]);
     const loadingOverlayComponent = useMemo(() => {
@@ -73,24 +73,24 @@ const TableComponent: React.FC<any> = (props) =>{
             noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
         };
     }, []);
-    const onSelectionChanged = ()=>{
+    const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
         setSelectedRows(selectedRows)
     }
 
-    useEffect(()=>{
-        if (selectedRows.length === 0){
+    useEffect(() => {
+        if (selectedRows.length === 0) {
             gridRef.current?.api?.deselectAll()
         }
-    },[selectedRows.length])
+    }, [selectedRows.length])
 
     const onFirstDataRendered = () => {
-        if (indexOfOpenedDetail>=0){
-                gridRef.current.api.getDisplayedRowAtIndex(indexOfOpenedDetail)?.setExpanded(true);
+        if (indexOfOpenedDetail >= 0) {
+            gridRef.current.api.getDisplayedRowAtIndex(indexOfOpenedDetail)?.setExpanded(true);
         }
     }
 
-    return(
+    return (
         <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
                 {/*{!loading ? <div className={'absolute left-0 top-0 w-full h-full flex bg-gray-200/80 blur-md'}/>:null}*/}
@@ -126,9 +126,9 @@ const TableComponent: React.FC<any> = (props) =>{
                 </div>
             </div>
             {pagination ? <TablePagination onSubmit={fetcher}
-                              query={query}
-                              totalCount={totalCount || 0}
-            />:null}
+                query={query}
+                totalCount={totalCount || 0}
+            /> : null}
         </>
     )
 }

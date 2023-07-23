@@ -13,7 +13,7 @@ import {
 } from "../components/customer-management/filters-and-structures/table-structures";
 
 export default function usePageStructure() {
-    const [page, setPage] = useState<any>({api:'',columnDefStructure: [],searchFilter:''});
+    const [page, setPage] = useState<any>({ api: '', columnDefStructure: [], searchFilter: '' });
     const router = useRouter()
 
     useEffect(() => {

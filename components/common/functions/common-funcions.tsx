@@ -23,15 +23,15 @@ import {
     subsidiaryType,
     TypeOfBranches,
     validityType
-} from "../../../dictionary/Enums";
-import {banks} from "../../online-registration/registration-report/enums";
+} from "../../../constants/Enums";
+import { banks } from "../../online-registration/registration-report/enums";
 
 export const formatNumber = (params: any) => {
-    if (typeof params?.value ==='number'){
+    if (typeof params?.value === 'number') {
         return Math.floor(params.value)
             .toString()
             .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-    }else{
+    } else {
         return params.value
     }
 };
@@ -43,7 +43,7 @@ export const formatDecimals = (params: any) => {
 
 export const jalali = (date: string) => {
     const jalaliD = moment(date).locale('fa');
-    return {date: jalaliD.format("YYYY/MM/DD"), time: jalaliD.format("HH:mm:ss")}
+    return { date: jalaliD.format("YYYY/MM/DD"), time: jalaliD.format("HH:mm:ss") }
 }
 
 export const dateRangeHandler = (selectedDayRange: any) => {
@@ -62,7 +62,7 @@ export function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export const FindEnum = (title:string,dynamicsOption:any,label='') => {
+export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
     switch (title) {
         case 'variable':
             return dynamicsOption
@@ -74,7 +74,7 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
         case 'startDateTime':
         case 'startHour':
         case 'endHour':
-            return {hours: Hours, minutes: Minutes}
+            return { hours: Hours, minutes: Minutes }
         case 'isActiveWithNoNull':
             return isActiveWithNoNull
         case 'isActive':
@@ -121,11 +121,11 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
             return onlineRegistrationStatusEnums
         case 'type':
         case 'Type':
-            if (label === 'نوع بازاریاب' || label === 'نوع قرارداد بازاریابی'){
+            if (label === 'نوع بازاریاب' || label === 'نوع قرارداد بازاریابی') {
                 return marketerTypeEnum
-            }else if (label === 'نوع ایستگاه معاملاتی'){
+            } else if (label === 'نوع ایستگاه معاملاتی') {
                 return stationTypeEnum
-            }else{
+            } else {
                 return TypeOfBranches
             }
         case 'isBourseCodeRequired':
@@ -140,12 +140,12 @@ export const FindEnum = (title:string,dynamicsOption:any,label='') => {
     }
 }
 
-export function findBank(account:string) {
-    if (account){
+export function findBank(account: string) {
+    if (account) {
         // const bankSelected : any = banks.find((item:any)=>String(item.number).startsWith(account?.slice(0,6)))
-        const bankSelected : any = banks.find((item:any)=>item.name===account)
+        const bankSelected: any = banks.find((item: any) => item.name === account)
         return bankSelected;
-    }else{
+    } else {
         return ''
     }
 }

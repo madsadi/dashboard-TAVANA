@@ -1,32 +1,35 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "../../common/layout/Modal";
-import {UsersContext} from "../../../pages/users-management/users";
-import {useDispatch, useSelector} from "react-redux";
-import {userDetail} from "../../../store/user-management.config";
+import { UsersContext } from "../../../pages/users-management/users";
+import { useDispatch, useSelector } from "react-redux";
+import { userDetail } from "../../../store/user-management.config";
 import useMutation from "../../../hooks/useMutation";
-import {IDP} from "../../../api/constants";
+import { IDP } from "../../../api/constants";
 import useQuery from "../../../hooks/useQuery";
-import {throwToast} from "../../common/functions/notification";
+import { throwToast } from "../../common/functions/notification";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Button } from "../../common/components/button/button";
+import filters from "../../../constants/filters";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export default function UserRole() {
-    const {userDetail: userDetailValue} = useSelector((state: any) => state.userManagementConfig)
-    const {mutate: addUserToRole} = useMutation({url: `${IDP}/api/users/add-user-to-role`})
-    const {mutate: removeUserFromRole} = useMutation({url: `${IDP}/api/users/remove-user-from-role`})
-    const {fetchAsyncData: getUserRoles} = useQuery({url: `${IDP}/api/users/get-user-roles`})
-    const {fetchAsyncData: searchRoles} = useQuery({url: `${IDP}/api/roles/search`})
-    const {selectedRows} = useContext<any>(UsersContext)
+    const { userDetail: userDetailValue } = useSelector((state: any) => state.userManagementConfig)
+    const { mutate: addUserToRole } = useMutation({ url: `${IDP}/api/users/add-user-to-role` })
+    const { mutate: removeUserFromRole } = useMutation({ url: `${IDP}/api/users/remove-user-from-role` })
+    const { fetchAsyncData: getUserRoles } = useQuery({ url: `${IDP}/api/users/get-user-roles` })
+    const { fetchAsyncData: searchRoles } = useQuery({ url: `${IDP}/api/roles/search` })
+    const { selectedRows } = useContext<any>(UsersContext)
     const [modal, setModal] = useState(false)
     const [roles, setRoles] = useState<any>([])
     const [userRoles, setUserRoles] = useState<any>([])
     const [rolesCount, setRolesCount] = useState<any>(0)
     const [rolesPage, setRolesPage] = useState<any>(1)
 
-    const PageSize=100
+    const PageSize = 100
     const dispatch = useDispatch()
     useEffect(() => {
         const fetchUserRoles = async () => {
-            await getUserRoles({UserId: selectedRows[0].id})
+            await getUserRoles({ UserId: selectedRows[0].id })
                 .then((res: any) => {
                     setUserRoles(res?.data?.result?.roles)
                 })
@@ -36,24 +39,25 @@ export default function UserRole() {
         }
     }, [selectedRows[0]])
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchAllRoles = async () => {
-            await searchRoles({PageNumber:rolesPage,PageSize:PageSize})
+            await searchRoles({ PageNumber: rolesPage, PageSize: PageSize })
                 .then((res: any) => {
                     setRoles(res?.data?.result?.pagedData)
-                    setRolesPage(rolesPage+1)
-                    if (rolesPage===1){
+                    setRolesPage(rolesPage + 1)
+                    if (rolesPage === 1) {
                         setRolesCount(res?.data?.result.totalCount)
                     }
                 })
         }
         fetchAllRoles()
-    },[])
+    }, [])
+
     const openHandler = () => {
         if (selectedRows.length) {
             setModal(true)
         } else {
-            throwToast({type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید'})
+            throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
         }
     }
 
@@ -70,15 +74,15 @@ export default function UserRole() {
     }
 
     const addRole = async (roleId: string) => {
-        await addUserToRole({userId: selectedRows[0].id, roleId: roleId})
+        await addUserToRole({ userId: selectedRows[0].id, roleId: roleId })
             .then(() => actionOfTransfer(roleId))
-            .catch((err) => throwToast({type: 'error', value: err}))
+            .catch((err) => throwToast({ type: 'error', value: err }))
     }
 
     const removeRole = async (roleId: string) => {
-        await removeUserFromRole({userId: selectedRows[0].id, roleId: roleId})
+        await removeUserFromRole({ userId: selectedRows[0].id, roleId: roleId })
             .then(() => actionOfTransfer(roleId))
-            .catch((err) => throwToast({type: 'error', value: err}))
+            .catch((err) => throwToast({ type: 'error', value: err }))
     }
 
     useEffect(() => {
@@ -88,16 +92,20 @@ export default function UserRole() {
     }, [modal])
 
     const searchHandler = async (page: number) => {
-        await searchRoles({PageNumber:page,PageSize:PageSize})
-            .then((res)=>setRoles([...roles,...res?.data?.result?.pagedData]))
-            .finally(()=>setRolesPage(page+1))
+        await searchRoles({ PageNumber: page, PageSize: PageSize })
+            .then((res) => setRoles([...roles, ...res?.data?.result?.pagedData]))
+            .finally(() => setRolesPage(page + 1))
     }
 
     return (
         <>
-            <button className="button bg-orange-500" onClick={openHandler}>مدریت نقش کاربر</button>
+            <Button label={'مدریت نقش کاربر'}
+                className="bg-orange-500"
+                onClick={openHandler}
+                allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'RollAndPermissionManagment'].join('.')]}
+            />
             <Modal title={'مدیریت نقش کاربر'} ModalWidth={'max-w-3xl'} setOpen={setModal}
-                   open={modal}>
+                open={modal}>
                 <div className="mt-4">
                     <div className={'grid grid-cols-2 gap-3'}>
                         <div>
@@ -108,10 +116,11 @@ export default function UserRole() {
                                     {
                                         userRoles?.map((role: any) => {
                                             return (
-                                                <button key={role?.name} onClick={() => removeRole(role?.id)}
-                                                        className={`flex w-full text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
-                                                    {role?.name}
-                                                </button>
+                                                <Button key={role?.name}
+                                                    label={role?.name}
+                                                    className={`flex w-full text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}
+                                                    onClick={() => removeRole(role?.id)}
+                                                />
                                             )
                                         })
                                     }
@@ -132,11 +141,11 @@ export default function UserRole() {
                                 >
                                     {roles.length ? roles?.map((role: any) => {
                                         return (
-                                            <button key={role.name} onClick={() => addRole(role.id)}
-                                                    disabled={userRoles.find((item: any) => item.id === role.id)}
-                                                    className={`flex w-full text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}>
-                                                {role?.name}
-                                            </button>
+                                            <Button key={role?.name}
+                                                label={role?.name}
+                                                className={`flex w-full text-center px-3 py-1 bg-gray-300 text-black text-sm disabled:opacity-50 h-fit space-x-reverse space-x-5`}
+                                                onClick={() => addRole(role.id)}
+                                            />
                                         )
                                     }) : <div>نتیجه ای یافت نشد</div>}
                                 </InfiniteScroll>

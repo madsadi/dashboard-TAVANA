@@ -1,4 +1,4 @@
-import React, {createContext, useState} from "react";
+import React, { createContext, useState } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
@@ -7,8 +7,10 @@ const UsersToolbar = dynamic(() => import('../../components/users-management/use
 const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'));
 const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'));
 import useQuery from '../../hooks/useQuery';
-import {IDP} from "../../api/constants";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import { IDP } from "../../api/constants";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { isAllowed } from "../../components/common/functions/permission-utils";
+import filters from "../../constants/filters";
 
 export const UsersContext = createContext({})
 export default function Users() {
@@ -48,7 +50,7 @@ export default function Users() {
             headerName: 'وضعیت',
             // cellStyle:{textAlign:'center'},
             cellRendererSelector: () => {
-                return {component: ToggleButton};
+                return { component: ToggleButton };
             },
         },
         {
@@ -95,28 +97,29 @@ export default function Users() {
         // }
     ]
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,fetchData,loading}:any = useQuery({url:`${IDP}/api/users/SearchUserAccount`})
+    const { data, query, fetchData, loading }: any = useQuery({ url: `${IDP}/api/users/SearchUserAccount` })
+    let userPermissions: string[] = []
 
     return (
-        <UsersContext.Provider value={{fetchData,query,selectedRows}}>
+        <UsersContext.Provider value={{ fetchData, query, selectedRows }}>
             <div className={'flex flex-col h-full grow'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_users}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_users} />
                 </AccordionComponent>
-                <UsersToolbar/>
+                <UsersToolbar />
                 <TableComponent data={data?.result?.pagedData}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['id']}
-                                rowSelection={'single'}
-                                masterDetail={true}
-                                detailComponent={UserDetailComponent}
-                                selectedRows={selectedRows}
-                                setSelectedRows={setSelectedRows}
-                                suppressRowClickSelection={true}
-                                pagination={true}
-                                totalCount={data?.result?.totalCount}
-                                fetcher={fetchData}
-                                query={query}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['id']}
+                    rowSelection={'single'}
+                    masterDetail={isAllowed({ userPermissions, whoIsAllowed: [[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'Create'].join('.')] }) ? true : false}
+                    detailComponent={UserDetailComponent}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    suppressRowClickSelection={true}
+                    pagination={true}
+                    totalCount={data?.result?.totalCount}
+                    fetcher={fetchData}
+                    query={query}
                 />
             </div>
         </UsersContext.Provider>

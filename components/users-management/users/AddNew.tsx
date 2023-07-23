@@ -1,71 +1,79 @@
 import Modal from "../../common/layout/Modal";
 import InputComponent from "../../common/components/InputComponent";
-import React, {useContext, useState} from "react";
-import {UsersContext} from "../../../pages/users-management/users";
+import React, { useContext, useState } from "react";
+import { UsersContext } from "../../../pages/users-management/users";
 import useMutation from "../../../hooks/useMutation";
-import {IDP} from "../../../api/constants";
-import {throwToast} from "../../common/functions/notification";
-import {useSearchFilters} from "../../../hooks/useSearchFilters";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
-import {Button} from "../../common/components/button/button";
-import filters from "../../../dictionary/filters";
+import { IDP } from "../../../api/constants";
+import { throwToast } from "../../common/functions/notification";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
+import { Button } from "../../common/components/button/button";
+import filters from "../../../constants/filters";
 
 export default function AddNew() {
-    const {toolbar} = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users,'add')
-    const {fetchData, query: searchQuery} = useContext<any>(UsersContext)
-    const {mutate} = useMutation({url:`${IDP}/api/users/create`})
+    const { toolbar } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'add')
+    const { fetchData, query: searchQuery } = useContext<any>(UsersContext)
+    const { mutate } = useMutation({ url: `${IDP}/api/users/create` })
     const [modal, setModal] = useState<boolean>(false)
     const [query, setQuery] = useState<any>({})
+    const [loading, setLoading] = useState<boolean>(false)
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
+        setLoading(true)
         await mutate(query)
             .then(() => {
-                throwToast({type:'success',value:'با موفقیت انجام شد'})
+                throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
                 setModal(false)
                 setQuery(null)
                 fetchData(searchQuery)
             })
-            .catch((err) => throwToast({type:'error',value:err}))
+            .catch((err) => throwToast({ type: 'error', value: err }))
+            .finally(() => setLoading(false))
     }
 
     const onChange = (key: string, value: any) => {
-        let _query: any = {...query};
+        let _query: any = { ...query };
         _query[key] = value
         setQuery(_query)
     }
 
     return (
         <>
-            {/*<Button label={'جدید'}*/}
-            {/*        className="bg-lime-600"*/}
-            {/*        onClick={() => setModal(true)}*/}
-            {/*        allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service,filters[ModuleIdentifier.USER_MANAGEMENT_users].module,'Create'].join('.')]}*/}
-            {/*/>*/}
-            <button className="button bg-lime-600" onClick={() => setModal(true)}>جدید</button>
+            <Button label={'جدید'}
+                className="bg-lime-600"
+                onClick={() => setModal(true)}
+                allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'Create'].join('.')]}
+            />
             <Modal title={'کاربر جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
-                   open={modal}>
+                open={modal}>
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
                             toolbar.map((item: any) => {
                                 return <InputComponent key={item.title}
-                                                       query={query}
-                                                       item={item}
-                                                       onChange={onChange}
+                                    query={query}
+                                    item={item}
+                                    onChange={onChange}
                                 />
 
                             })
                         }
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    setModal(false)
-                                }}>لغو
-                        </button>
-                        <button type={"submit"} className="button bg-lime-600" onClick={addNewHandler}>تایید</button>
+                        <Button label={'لغو'}
+                            className="bg-red-500"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setModal(false)
+                            }}
+                        />
+                        <Button label={'تایید'}
+                            className="bg-lime-600"
+                            onClick={addNewHandler}
+                            loading={loading}
+                            type={'submit'}
+                        />
                     </div>
                 </div>
             </Modal>
