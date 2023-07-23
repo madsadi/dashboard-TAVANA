@@ -3,7 +3,7 @@ import useMutation from "../../../hooks/useMutation";
 import { IDP } from "../../../api/constants";
 import { throwToast } from "../../common/functions/notification";
 import { SwitchToggle } from "../../common/components/button/switch-toggle";
-import filters from "../../../dictionary/filters";
+import filters from "../../../constants/filters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export default function ToggleButton(props: { data: { isActive: boolean, id: string } }) {

@@ -1,15 +1,15 @@
-import React, {useState, useMemo} from 'react';
+import React, { useState, useMemo } from 'react';
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
-import {formatNumber, jalali} from "../../common/functions/common-funcions";
+import { formatNumber, jalali } from "../../common/functions/common-funcions";
 import moment from "jalali-moment";
-import {enTierNameEnum} from '../../../dictionary/Enums'
+import { enTierNameEnum } from '../../../constants/Enums'
 import useQuery from "../../../hooks/useQuery";
-import {NETFLOW} from '../../../api/constants';
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
-import {throwToast} from "../../common/functions/notification";
+import { NETFLOW } from '../../../api/constants';
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
+import { throwToast } from "../../common/functions/notification";
 
 export default function ClearingDateRangeTTradeResultTableSection() {
     const columnDefStructure = [
@@ -93,13 +93,13 @@ export default function ClearingDateRangeTTradeResultTableSection() {
             headerName: 'مانده خریدار',
         },
     ]
-    const {data,query,loading,fetchData}:any = useQuery({url:`${NETFLOW}/Report/clearing-date-range-T`})
+    const { data, query, loading, fetchData }: any = useQuery({ url: `${NETFLOW}/Report/clearing-date-range-T` })
 
     const getRowStyle = (params: any) => {
         if (params?.node?.rowIndex === 0) {
-            return {borderRight: '2px solid rgba(5,122,85,1)'};
+            return { borderRight: '2px solid rgba(5,122,85,1)' };
         } else {
-            return {borderRight: '2px solid rgba(225,29,72,1)'};
+            return { borderRight: '2px solid rgba(225,29,72,1)' };
         }
     };
     const detailCellRendererParams = useMemo(() => {
@@ -124,22 +124,22 @@ export default function ClearingDateRangeTTradeResultTableSection() {
                             return moodDetails;
                         },
                     },
-                    {field: 'brokerCommission', headerName: 'کارگزار'},
-                    {field: 'brfCommission', headerName: 'سهم صندوق توسعه'},
-                    {field: 'accessCommission', headerName: 'کارمزد دسترسی'},
+                    { field: 'brokerCommission', headerName: 'کارگزار' },
+                    { field: 'brfCommission', headerName: 'سهم صندوق توسعه' },
+                    { field: 'accessCommission', headerName: 'کارمزد دسترسی' },
                     {
                         field: 'seoCommission',
                         headerName: 'کارمزد سازمان'
                     },
-                    {field: 'tmcCommission', headerName: 'کارمزد فناوری'},
-                    {field: 'csdCommission', headerName: 'کارمزد سپرده گزاری'},
-                    {field: 'rayanBourseCommission', headerName: 'کارمزد رایان'},
-                    {field: 'bourseCommisison', headerName: 'بورس مربوطه'},
-                    {field: 'inventoryCommission', headerName: 'هزینه انبارداری'},
-                    {field: 'farCommission', headerName: 'کارمزد فراوری'},
-                    {field: 'tax', headerName: 'مالیات'},
-                    {field: 'vatCommission', headerName: 'مالیات ارزش افزوده'},
-                    {field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری'},
+                    { field: 'tmcCommission', headerName: 'کارمزد فناوری' },
+                    { field: 'csdCommission', headerName: 'کارمزد سپرده گزاری' },
+                    { field: 'rayanBourseCommission', headerName: 'کارمزد رایان' },
+                    { field: 'bourseCommisison', headerName: 'بورس مربوطه' },
+                    { field: 'inventoryCommission', headerName: 'هزینه انبارداری' },
+                    { field: 'farCommission', headerName: 'کارمزد فراوری' },
+                    { field: 'tax', headerName: 'مالیات' },
+                    { field: 'vatCommission', headerName: 'مالیات ارزش افزوده' },
+                    { field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری' },
                 ],
                 defaultColDef: {
                     resizable: true,
@@ -153,30 +153,30 @@ export default function ClearingDateRangeTTradeResultTableSection() {
             },
         };
     }, []);
-    const submitHandler = (query:any)=>{
-        if (query?.StartDate && query?.EndDate){
+    const submitHandler = (query: any) => {
+        if (query?.StartDate && query?.EndDate) {
             fetchData(query)
-        }else{
-            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        } else {
+            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
         }
     }
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent >
                 <SearchComponent module={ModuleIdentifier.NETFLOW_clearing_Range}
-                                 onSubmit={submitHandler} loading={loading}
+                    onSubmit={submitHandler} loading={loading}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['sell','settlementDelay','enTierName','georgianTradeDate']}
-                            masterDetail={true}
-                            detailCellRendererParams={detailCellRendererParams}
-                            pagination={true}
-                            totalCount={data?.totalRecord}
-                            fetcher={fetchData}
-                            query={query}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['sell', 'settlementDelay', 'enTierName', 'georgianTradeDate']}
+                masterDetail={true}
+                detailCellRendererParams={detailCellRendererParams}
+                pagination={true}
+                totalCount={data?.totalRecord}
+                fetcher={fetchData}
+                query={query}
             />
         </div>
     );

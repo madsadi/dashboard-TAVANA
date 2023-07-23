@@ -1,15 +1,15 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Modal from "../../common/layout/Modal";
-import {errors} from "../../../dictionary/Enums";
-import {OrdersContext} from "../../../pages/online-trades-orders/orders";
-import {throwToast} from "../../common/functions/notification";
+import { errors } from "../../../constants/Enums";
+import { OrdersContext } from "../../../pages/online-trades-orders/orders";
+import { throwToast } from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../api/constants";
 
 export default function OrdersCancel() {
     const [modal, setModal] = useState(false)
-    const {query, fetchData, selectedRows, setSelectedRows} = useContext<any>(OrdersContext)
-    const {mutate} = useMutation({url: `${ADMIN_GATEWAY}/api/request/Cancel`})
+    const { query, fetchData, selectedRows, setSelectedRows } = useContext<any>(OrdersContext)
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/Cancel` })
     const cancelMultipleOrders = (e: any) => {
         const cancel = async (order: any) => {
             await mutate({
@@ -34,7 +34,7 @@ export default function OrdersCancel() {
 
     const openModalHandler = () => {
         if (selectedRows.length === 0) {
-            throwToast({type: 'warning', value: 'انتخابی برای حذف گروهی نشده است'})
+            throwToast({ type: 'warning', value: 'انتخابی برای حذف گروهی نشده است' })
         } else {
             setModal(true)
         }
@@ -51,7 +51,7 @@ export default function OrdersCancel() {
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <button className="button bg-red-500"
-                                onClick={() => setModal(false)}>لغو
+                            onClick={() => setModal(false)}>لغو
                         </button>
                         <button className="button bg-lime-600" onClick={cancelMultipleOrders}>تایید</button>
                     </div>

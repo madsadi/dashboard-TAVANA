@@ -1,17 +1,17 @@
-import React, {createContext, useMemo, useState} from "react";
+import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'));
 const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'));
-import {jalali} from "../../components/common/functions/common-funcions";
+import { jalali } from "../../components/common/functions/common-funcions";
 import moment from "jalali-moment";
-import { OrderType} from "../../dictionary/Enums";
+import { OrderType } from "../../constants/Enums";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
-import {throwToast} from "../../components/common/functions/notification";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { throwToast } from "../../components/common/functions/notification";
 
 export const OrdersContext = createContext({})
 export default function Orders() {
@@ -117,7 +117,7 @@ export default function Orders() {
     ]
 
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const {data,query,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchOrders`})
+    const { data, query, loading, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchOrders` })
 
     const isRowSelectable = useMemo(() => {
         return (rowNode: any) => {
@@ -125,35 +125,35 @@ export default function Orders() {
         };
     }, []);
 
-    const submitHandler = (query:any)=>{
-        if (query?.StartDate && query?.EndDate){
+    const submitHandler = (query: any) => {
+        if (query?.StartDate && query?.EndDate) {
             fetchData(query)
-        }else{
-            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        } else {
+            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
         }
     }
     return (
-        <OrdersContext.Provider value={{selectedRows,setSelectedRows,fetchData,query}}>
+        <OrdersContext.Provider value={{ selectedRows, setSelectedRows, fetchData, query }}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <SearchComponent module={ModuleIdentifier.ONLINE_ORDERS}
-                                     onSubmit={submitHandler} loading={loading}
+                        onSubmit={submitHandler} loading={loading}
                     />
                 </AccordionComponent>
-                <OrdersToolbar/>
+                <OrdersToolbar />
                 <TableComponent data={data?.result?.pagedData}
-                                loading={loading}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['orderId']}
-                                detailComponent={CustomDetailComponent}
-                                masterDetail={true}
-                                rowSelection={'multiple'}
-                                isRowSelectable={isRowSelectable}
-                                setSelectedRows={setSelectedRows}
-                                pagination={true}
-                                totalCount={data?.result?.totalCount}
-                                fetcher={fetchData}
-                                query={query}
+                    loading={loading}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['orderId']}
+                    detailComponent={CustomDetailComponent}
+                    masterDetail={true}
+                    rowSelection={'multiple'}
+                    isRowSelectable={isRowSelectable}
+                    setSelectedRows={setSelectedRows}
+                    pagination={true}
+                    totalCount={data?.result?.totalCount}
+                    fetcher={fetchData}
+                    query={query}
                 />
             </div>
         </OrdersContext.Provider>

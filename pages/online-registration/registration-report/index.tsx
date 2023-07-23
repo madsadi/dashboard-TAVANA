@@ -1,15 +1,15 @@
-import React, {createContext, useMemo, useState} from "react";
+import React, { createContext, useMemo, useState } from "react";
 import AccordionComponent from "../../../components/common/components/AccordionComponent";
 import SearchComponent from "../../../components/common/components/Search.component";
 import TableComponent from "../../../components/common/table/table-component";
 import DateCell from "../../../components/common/table/DateCell";
 import UserRegToolbarComponent
     from "../../../components/online-registration/registration-report/UserRegToolbar.component";
-import {formatNumber} from "../../../components/common/functions/common-funcions";
-import {EllipsisHorizontalCircleIcon} from "@heroicons/react/24/outline";
+import { formatNumber } from "../../../components/common/functions/common-funcions";
+import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {ModuleIdentifier} from "../../../components/common/functions/Module-Identifier";
+import { ADMIN_GATEWAY } from "../../../api/constants";
+import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
 
 export const OnlineRegContext = createContext({})
 export default function OnlineRegistration() {
@@ -62,7 +62,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.isSejami ? 'سجامی' : 'غیر سجامی'}</span>
-                            <DateCell date={rowData.data.isSejamiDateTime ? rowData.data.isSejamiDateTime : ''}/>
+                            <DateCell date={rowData.data.isSejamiDateTime ? rowData.data.isSejamiDateTime : ''} />
                         </div>
                     )
                 };
@@ -80,7 +80,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.sejamStatusCodeTitle}</span>
-                            <DateCell date={rowData.data.sejamStatusDateTime ? rowData.data.sejamStatusDateTime : ''}/>
+                            <DateCell date={rowData.data.sejamStatusDateTime ? rowData.data.sejamStatusDateTime : ''} />
                         </div>
                     )
                 };
@@ -99,7 +99,7 @@ export default function OnlineRegistration() {
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.registrationStateCodeTitle}</span>
                             <DateCell
-                                date={rowData.data.registrationStateDateTime ? rowData.data.registrationStateDateTime : ''}/>
+                                date={rowData.data.registrationStateDateTime ? rowData.data.registrationStateDateTime : ''} />
                         </div>
                     )
                 };
@@ -117,7 +117,7 @@ export default function OnlineRegistration() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.isTbsInserted ? 'بله' : 'خیر'}</span>
-                            <DateCell date={rowData.data.tbsInsertDateTime ? rowData.data.tbsInsertDateTime : ''}/>
+                            <DateCell date={rowData.data.tbsInsertDateTime ? rowData.data.tbsInsertDateTime : ''} />
                         </div>
                     )
                 };
@@ -148,7 +148,7 @@ export default function OnlineRegistration() {
             cellRendererSelector: () => {
                 const moodDetails = {
                     component: (rowData: any) => <DateCell
-                        date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime : ''}/>,
+                        date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime : ''} />,
                 }
                 return moodDetails;
             },
@@ -165,9 +165,9 @@ export default function OnlineRegistration() {
             cellRendererSelector: () => {
                 return {
                     component: (rowData: any) => {
-                        return (<a className={'flex h-full w-full'} target="_blank"  rel="noreferrer"
-                                   href={`/online-registration/registration-report/userId=${rowData.data.userId}`}>
-                            <EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'}/>
+                        return (<a className={'flex h-full w-full'} target="_blank" rel="noreferrer"
+                            href={`/online-registration/registration-report/userId=${rowData.data.userId}`}>
+                            <EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'} />
                         </a>)
                     },
                 };
@@ -181,7 +181,7 @@ export default function OnlineRegistration() {
         query: searchQuery,
         loading,
         fetchData
-    }: any = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchUser`})
+    }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchUser` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -189,6 +189,7 @@ export default function OnlineRegistration() {
                 enableRtl: true,
                 // getRowId:(params:any)=>params.data.orderId,
                 columnDefs: [
+
                     {
                         field: 'email',
                         headerName: 'ایمیل',
@@ -221,7 +222,7 @@ export default function OnlineRegistration() {
                                 return (
                                     <div className={'flex items-center space-x-2 space-x-reverse'}>
                                         <span>{rowData.data?.sejamToken}</span>
-                                        <DateCell date={rowData.data.sejamTokenDateTime}/>
+                                        <DateCell date={rowData.data.sejamTokenDateTime} />
                                     </div>
                                 )
                             };
@@ -240,7 +241,7 @@ export default function OnlineRegistration() {
                         headerName: 'زمان ایجاد',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
                             }
                             return moodDetails;
                         },
@@ -250,7 +251,7 @@ export default function OnlineRegistration() {
                         headerName: 'زمان بروزرسانی',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
                             }
                             return moodDetails;
                         },
@@ -270,25 +271,25 @@ export default function OnlineRegistration() {
     }, []);
 
     return (
-        <OnlineRegContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
+        <OnlineRegContext.Provider value={{ selectedRows, setSelectedRows, fetchData, searchQuery, data }}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.ONLINE_REGISTRATION}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.ONLINE_REGISTRATION} />
                 </AccordionComponent>
-                <UserRegToolbarComponent/>
+                <UserRegToolbarComponent />
                 <TableComponent data={data?.result?.pagedData}
-                                loading={loading}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['userId', 'id']}
-                                selectedRows={selectedRows}
-                                setSelectedRows={setSelectedRows}
-                                detailCellRendererParams={detailCellRendererParams}
-                                masterDetail={true}
-                                rowSelection={'multiple'}
-                                pagination={true}
-                                totalCount={data?.result?.totalCount}
-                                fetcher={fetchData}
-                                query={searchQuery}
+                    loading={loading}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['userId', 'id']}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    detailCellRendererParams={detailCellRendererParams}
+                    masterDetail={true}
+                    rowSelection={'multiple'}
+                    pagination={true}
+                    totalCount={data?.result?.totalCount}
+                    fetcher={fetchData}
+                    query={searchQuery}
                 />
             </div>
         </OnlineRegContext.Provider>

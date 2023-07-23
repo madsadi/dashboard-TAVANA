@@ -9,7 +9,7 @@ import useQuery from "../../../hooks/useQuery";
 import { throwToast } from "../../common/functions/notification";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Button } from "../../common/components/button/button";
-import filters from "../../../dictionary/filters";
+import filters from "../../../constants/filters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export default function UserRole() {

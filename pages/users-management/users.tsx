@@ -10,7 +10,7 @@ import useQuery from '../../hooks/useQuery';
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { isAllowed } from "../../components/common/functions/permission-utils";
-import filters from "../../dictionary/filters";
+import filters from "../../constants/filters";
 
 export const UsersContext = createContext({})
 export default function Users() {

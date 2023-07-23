@@ -8,7 +8,7 @@ import { throwToast } from "../../common/functions/notification";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
-import filters from "../../../dictionary/filters";
+import filters from "../../../constants/filters";
 
 export default function Edit() {
     const { toolbar } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'edit')

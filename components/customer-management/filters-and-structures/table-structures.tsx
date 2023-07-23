@@ -1,13 +1,13 @@
 import React from "react";
-import {marketerTypeEnum, stationTypeEnum, TypeOfBranches} from "../../../dictionary/Enums";
+import { marketerTypeEnum, stationTypeEnum, TypeOfBranches } from "../../../constants/Enums";
 import DateCell from "../../common/table/DateCell";
 import ToggleButton from "../ToggleButton";
-import {CopyButton} from "../../common/components/CopyButton";
-import {LinkIcon} from "@heroicons/react/20/solid";
+import { CopyButton } from "../../common/components/CopyButton";
+import { LinkIcon } from "@heroicons/react/20/solid";
 import useQuery from "../../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {getLink} from "../../../api/users-management.api";
-import {throwToast} from "../../common/functions/notification";
+import { ADMIN_GATEWAY } from "../../../api/constants";
+import { getLink } from "../../../api/users-management.api";
+import { throwToast } from "../../common/functions/notification";
 export const branchesColumnDefStructure = [
     {
         headerCheckboxSelection: true,
@@ -86,7 +86,7 @@ export const branchesColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -95,7 +95,7 @@ export const branchesColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -150,7 +150,7 @@ export const employeeColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -159,12 +159,12 @@ export const employeeColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
 ]
-export const subsidiaryColumnDefStructure = [
+export const subsidiaryColumnDefStructure: any[] = [
     {
         headerCheckboxSelection: true,
         checkboxSelection: true,
@@ -196,7 +196,7 @@ export const subsidiaryColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -205,7 +205,7 @@ export const subsidiaryColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -264,7 +264,7 @@ export const businessUnitColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -273,7 +273,7 @@ export const businessUnitColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -359,7 +359,7 @@ export const stationColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -368,7 +368,7 @@ export const stationColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -409,7 +409,7 @@ export const traderColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -418,7 +418,7 @@ export const traderColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -459,12 +459,12 @@ export const marketerColumnDefStructure = [
         },
     },
     {
-      field:'branchTitle',
-      headerName:'عنوان شعبه'
+        field: 'branchTitle',
+        headerName: 'عنوان شعبه'
     },
     {
-        field:'subsidiaryTitle',
-        headerName:'عنوان شرکت'
+        field: 'subsidiaryTitle',
+        headerName: 'عنوان شرکت'
     },
     {
         field: 'reagentRefCode',
@@ -474,7 +474,7 @@ export const marketerColumnDefStructure = [
         field: 'reagentUrl',
         headerName: 'لینک معرف',
         cellRendererSelector: () => {
-            return {component: (rowData:any)=> <CopyButton condition={rowData?.data?.reagentRefCode} id={rowData?.data?.id} entity={'reagentUrl'}/>}
+            return { component: (rowData: any) => <CopyButton condition={rowData?.data?.reagentRefCode} id={rowData?.data?.id} entity={'reagentUrl'} /> }
         },
     },
     {
@@ -485,14 +485,14 @@ export const marketerColumnDefStructure = [
         field: 'marketerUrl',
         headerName: 'لینک بازاریاب',
         cellRendererSelector: () => {
-            return {component: (rowData:any)=><CopyButton condition={rowData?.data?.marketerRefCode} id={rowData?.data?.id} entity={'marketerUrl'}/>}
+            return { component: (rowData: any) => <CopyButton condition={rowData?.data?.marketerRefCode} id={rowData?.data?.id} entity={'marketerUrl'} /> }
         },
     },
     {
         field: 'isActive',
         headerName: 'فعال/غیرفعال',
         cellRendererSelector: () => {
-            return {component: (rowData:any)=><ToggleButton data={{isActive:rowData.data.isActive,id:rowData.data.id}} api={'marketer'}/>};
+            return { component: (rowData: any) => <ToggleButton data={{ isActive: rowData.data.isActive, id: rowData.data.id }} api={'marketer'} /> };
         },
     },
     {
@@ -500,7 +500,7 @@ export const marketerColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -509,7 +509,7 @@ export const marketerColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -561,7 +561,7 @@ export const contractColumnDefStructure = [
         field: 'isActive',
         headerName: 'وضعیت فعالیت',
         cellRendererSelector: () => {
-            return {component: (rowData:any)=><ToggleButton data={{isActive:rowData.data.isActive,id:rowData.data.id}} api={'contract'}/>};
+            return { component: (rowData: any) => <ToggleButton data={{ isActive: rowData.data.isActive, id: rowData.data.id }} api={'contract'} /> };
         },
     },
     {
@@ -569,7 +569,7 @@ export const contractColumnDefStructure = [
         headerName: 'تاریخ تغییر رمز عبور',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.passwordSetDate}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.passwordSetDate} />,
             };
         },
     },
@@ -578,7 +578,7 @@ export const contractColumnDefStructure = [
         headerName: 'تاریخ تغییر رمز عبور',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -587,7 +587,7 @@ export const contractColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -618,16 +618,16 @@ export const marketerContractColumnDefStructure = [
     {
         field: 'description',
         headerName: 'توضیحات قرارداد',
-    },{
+    }, {
         field: 'mobile',
         headerName: 'تلفن بازاریاب',
-    },{
+    }, {
         field: 'marketerTypeTitle',
         headerName: 'نوع بازاریاب',
-    },{
+    }, {
         field: 'subsidiaryTitle',
         headerName: 'عنوان شرکت',
-    },{
+    }, {
         field: 'branchTitle',
         headerName: 'عنوان شعبه',
     },
@@ -681,7 +681,7 @@ export const marketerContractColumnDefStructure = [
         headerName: 'زمان شروع قرارداد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.contractStartDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.contractStartDateTime} />,
             };
         },
     },
@@ -690,7 +690,7 @@ export const marketerContractColumnDefStructure = [
         headerName: 'زمان پایان قرارداد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.contractEndDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.contractEndDateTime} />,
             };
         },
     },
@@ -699,7 +699,7 @@ export const marketerContractColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -708,7 +708,7 @@ export const marketerContractColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -768,7 +768,7 @@ export const agreementColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -777,7 +777,7 @@ export const agreementColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }
@@ -823,7 +823,7 @@ export const customerAgreementColumnDefStructure = [
         headerName: 'زمان تائید مشتری',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.customerApprovalDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.customerApprovalDateTime} />,
             };
         },
     }, {
@@ -831,7 +831,7 @@ export const customerAgreementColumnDefStructure = [
         headerName: 'زمان تائید امین',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.adminApprovalDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.adminApprovalDateTime} />,
             };
         },
     }, {
@@ -839,7 +839,7 @@ export const customerAgreementColumnDefStructure = [
         headerName: 'تاریخ شروع',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.startDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.startDateTime} />,
             };
         },
     }, {
@@ -847,7 +847,7 @@ export const customerAgreementColumnDefStructure = [
         headerName: ' تاریخ پایان',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.endDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.endDateTime} />,
             };
         },
     },
@@ -856,7 +856,7 @@ export const customerAgreementColumnDefStructure = [
         headerName: 'تاریخ ایجاد',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
             };
         },
     },
@@ -865,7 +865,7 @@ export const customerAgreementColumnDefStructure = [
         headerName: 'تاریخ ویرایش',
         cellRendererSelector: () => {
             return {
-                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
             };
         },
     }

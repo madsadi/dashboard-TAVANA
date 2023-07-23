@@ -2,40 +2,41 @@ import React from 'react';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import SidebarCollapsibleComponent from "../components/Sidebar-collapsible.component";
-import filters from "../../../dictionary/filters";
+import filters from "../../../constants/filters";
 import { ModuleIdentifier } from "../functions/Module-Identifier";
+import { isAllowed } from '../functions/permission-utils';
 
 export default function SideBarContent() {
     const router = useRouter()
-    const modules: any = filters
     const items = [
         {
             label: 'داشبورد',
             expanded: false,
             url: '/dashboard',
             className: router.pathname === '/dashboard' ? 'sideBarActive' : '',
+            module: ModuleIdentifier.DASHBOARD,
         },
         {
             label: 'مدیریت کاربران',
             expanded: router.pathname.startsWith('/users-management'),
-            service: modules[ModuleIdentifier.USER_MANAGEMENT_users].service,
-            module: modules[ModuleIdentifier.USER_MANAGEMENT_users].module,
             children: [
                 {
                     label: 'کاربران',
                     url: '/users-management/users',
                     className: router.pathname === '/users-management/users' ? 'sideBarActive' : '',
-                    permissions: modules[ModuleIdentifier.USER_MANAGEMENT_users].permissions
+                    module: ModuleIdentifier.USER_MANAGEMENT_users,
                 },
                 {
                     label: 'نقش و دسترسی',
                     url: '/users-management/roles',
                     className: router.pathname === '/users-management/roles' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.USER_MANAGEMENT_roles,
                 },
                 {
                     label: 'ورود/خروج کاربران',
                     url: '/users-management/logs',
                     className: router.pathname === '/users-management/logs' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.USER_MANAGEMENT_logs,
                 }
             ]
         },
@@ -47,6 +48,7 @@ export default function SideBarContent() {
                     label: 'گزارش ثبت نام',
                     url: '/online-registration/registration-report',
                     className: router.pathname === '/online-registration/registration-report' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.ONLINE_REGISTRATION,
                 }
             ]
         },
@@ -58,56 +60,67 @@ export default function SideBarContent() {
                     label: 'شرکت ها',
                     url: '/customer-management/subsidiary',
                     className: router.asPath === `/customer-management/subsidiary` ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_subsidiary,
                 },
                 {
                     label: 'شعب',
                     url: '/customer-management/branch',
                     className: router.asPath === '/customer-management/branch' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_branch,
                 },
                 {
                     label: 'کارمندان',
                     url: '/customer-management/employee',
                     className: router.asPath === '/customer-management/employee' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_employee,
                 },
                 {
                     label: 'واحد کاری',
                     url: '/customer-management/businessUnit',
                     className: router.asPath === '/customer-management/businessUnit' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit,
                 },
                 {
                     label: 'ایستگاه معاملاتی',
                     url: '/customer-management/station',
                     className: router.asPath === '/customer-management/station' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_station,
                 },
                 {
                     label: 'معامله گران',
                     url: '/customer-management/trader',
                     className: router.asPath === '/customer-management/trader' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_trader,
                 },
                 {
                     label: 'بازاریاب ها',
                     url: '/customer-management/marketer',
                     className: router.asPath === '/customer-management/marketer' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer,
                 },
                 {
                     label: 'قرارداد بازاریابی',
                     url: '/customer-management/contract',
                     className: router.asPath === '/customer-management/contract' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_contract,
                 },
                 {
                     label: 'قرارداد با بازاریاب',
                     url: '/customer-management/marketerContract',
                     className: router.asPath === '/customer-management/marketerContract' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketerContract,
                 },
                 {
                     label: 'توافقنامه ها',
                     url: '/customer-management/agreement',
                     className: router.asPath === '/customer-management/agreement' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agreement,
                 },
                 {
                     label: 'توافقنامه های بین طرفین',
                     url: '/customer-management/customerAgreement',
                     className: router.asPath === '/customer-management/customerAgreement' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement,
                 }
             ]
         },
@@ -119,16 +132,19 @@ export default function SideBarContent() {
                     label: 'سفارشات',
                     url: '/online-trades-orders/orders',
                     className: router.pathname === '/online-trades-orders/orders' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.ONLINE_ORDERS,
                 },
                 {
                     label: 'معاملات',
                     url: '/online-trades-orders/trades',
                     className: router.pathname === '/online-trades-orders/trades' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.ONLINE_TRADES,
                 },
                 {
                     label: 'حذف گروهی سفارشها',
                     url: '/online-trades-orders/cancel-orders',
                     className: router.pathname === '/online-trades-orders/cancel-orders' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.ONLINE_CANCEL,
                 }
             ],
         },
@@ -140,11 +156,13 @@ export default function SideBarContent() {
                     label: 'ارتباط بازاریاب ها',
                     url: '/marketer-app/relations',
                     className: router.pathname === '/marketer-app/relations' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.MARKETER_APP_RELATIONS,
                 },
                 {
                     label: 'گزارش صورتحسابهای بازاریاب',
                     url: '/marketer-app/recite',
                     className: router.pathname === '/marketer-app/recite' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.MARKETER_APP_recite,
                 }
             ],
         },
@@ -156,6 +174,7 @@ export default function SideBarContent() {
                     label: 'پرتفو لحضه ای',
                     url: '/portfo/live-portfo',
                     className: router.pathname === '/portfo/live-portfo' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.LIVE_PORTFO,
                 }
             ],
         },
@@ -167,11 +186,13 @@ export default function SideBarContent() {
                     label: 'وضعیت جلسه معاملاتی',
                     url: '/oms/trading-session',
                     className: router.pathname === '/oms/trading-session' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.OMS_session,
                 },
                 {
                     label: 'زمانبندی روز معاملاتی',
                     url: '/oms/trading-day-timetable',
                     className: router.pathname === '/oms/trading-day-timetable' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.OMS_timetable,
                 }
             ]
         },
@@ -180,12 +201,14 @@ export default function SideBarContent() {
             url: '/market-rules-management',
             expanded: false,
             className: router.pathname === '/market-rules-management' ? 'sideBarActive' : '',
+            module: ModuleIdentifier.MARKET_RULES_MANAGEMENT,
         },
         {
             label: 'عرضه اولیه',
             url: '/book-building',
             expanded: false,
             className: router.pathname === '/book-building' ? 'sideBarActive' : '',
+            module: ModuleIdentifier.BOOK_BUILDING,
         },
         {
             label: 'مدیریت کارمزد ها',
@@ -195,16 +218,19 @@ export default function SideBarContent() {
                     label: 'ضرایب کارمزد',
                     url: '/commission-management/commission',
                     className: router.pathname === '/commission-management/commission' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.COMMISSION_MANAGEMENT_detail,
                 },
                 {
                     label: 'گروه بندی ابزار مالی',
                     url: '/commission-management/instrument-type',
                     className: router.pathname === '/commission-management/instrument-type' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.COMMISSION_MANAGEMENT_instrument,
                 },
                 {
                     label: 'گروه بندی ضرایب کارمزد',
                     url: '/commission-management/category-panel',
                     className: router.pathname === '/commission-management/category-panel' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.COMMISSION_MANAGEMENT_category,
                 },
             ]
         },
@@ -216,36 +242,36 @@ export default function SideBarContent() {
                     label: 'معاملات',
                     url: '/netflow/trades-report',
                     className: router.pathname === '/netflow/Trades-report' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.NETFLOW_trades_report,
                 },
                 {
                     label: 'دریافت اطلاعات',
                     className: router.pathname === '/netflow/information' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.NETFLOW_information,
                     url: '/netflow/information'
                 },
                 {
                     label: 'ضرایب کارمزد',
                     className: router.pathname === '/netflow/rules' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.NETFLOW_rules,
                     url: '/netflow/rules'
                 },
                 {
                     label: 'معاملات تسویه شده',
                     className: router.pathname === '/netflow/cleared-trade' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.NETFLOW_cleared_trade,
                     url: '/netflow/cleared-trade'
                 },
                 {
                     label: 'تسویه و پایاپای',
                     className: router.pathname === '/netflow/clearing-date-range' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.NETFLOW_clearing_Range,
                     url: '/netflow/clearing-date-range'
                 }
             ]
         }
     ];
     const userPermissions: string[] = ['IdentityServerApi.UserManagement.Read']
-
-    const isAllowed = ({ item, page }: { item: any, page: any }) => {
-        const isAllowed = page?.permissions?.some((r: string) => userPermissions.indexOf([item.service, item.module, r].join('.')) >= 0)
-        return true
-    }
 
     return (
         <div className={'w-full'}>
@@ -259,10 +285,11 @@ export default function SideBarContent() {
                                     key={item.label}>
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
+                                            let _whoIsAllowed = filters[child.module].permissions.map((p: string) => [filters[child.module].service, filters[child.module].module, p].join('.'))
                                             return (
                                                 <Link href={child.url}
                                                     key={child.label}
-                                                    className={isAllowed({ item, page: child }) ? '' : 'hidden'}>
+                                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed }) ? '' : 'hidden'}>
                                                     <li
                                                         className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}>
                                                         {child.label}
@@ -274,9 +301,10 @@ export default function SideBarContent() {
                                 </SidebarCollapsibleComponent>
                             )
                         } else {
+                            let _whoIsAllowed = filters[item.module].permissions.map((p: string) => [filters[item.module].service, filters[item.module].module, p].join('.'))
                             return (
                                 <div
-                                    className={isAllowed({ item, page: item }) ? 'w-full' : 'hidden'}
+                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed }) ? 'w-full' : 'hidden'}
                                     key={item.label}>
                                     <Link href={item.url}>
                                         <div
