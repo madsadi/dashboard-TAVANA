@@ -14,7 +14,7 @@ import { Button } from "../../common/components/button/button";
 export default function EditRegStateComponent() {
     const { selectedRows, fetchData, searchQuery } = useContext<any>(OnlineRegContext)
     const { fetchData: detailFetch } = useContext<any>(OnlineRegDetailContext)
-    const { toolbar, service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
+    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/EditRegistrationState` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
@@ -72,7 +72,7 @@ export default function EditRegStateComponent() {
             <Button label={'تغییر وضعیت ثبت نام'}
                 className="bg-orange-500"
                 onClick={openHandler}
-                allowed={restriction ? [[service, module, 'Edit'].join('.')] : []}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
             <Modal title={'ویرایش اطلاعات کاربر'} setOpen={setModal}
                 open={modal}>

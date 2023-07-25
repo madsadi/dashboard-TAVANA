@@ -440,23 +440,20 @@ export const marketerColumnDefStructure = [
         cellRenderer: 'agGroupCellRenderer',
     },
     {
+        field: 'uniqueId',
+        headerName: 'کد ملی بازاریاب',
+    },
+    {
         field: 'title',
         headerName: 'بازاریاب',
     },
     {
-        field: 'type',
+        field: 'typeTitle',
         headerName: 'نوع بازاریاب',
-        cellRendererSelector: () => {
-            const ColourCellRenderer = (rowData: any) => {
-                return (
-                    <span>{marketerTypeEnum.find((item: any) => item.id === rowData.data.type).title}</span>
-                )
-            };
-            const moodDetails = {
-                component: ColourCellRenderer,
-            }
-            return moodDetails;
-        },
+    },
+    {
+        field: 'mobile',
+        headerName: 'موبایل بازاریاب',
     },
     {
         field: 'branchTitle',

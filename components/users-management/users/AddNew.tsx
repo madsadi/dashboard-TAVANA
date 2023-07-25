@@ -10,7 +10,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
 
 export default function AddNew() {
-    const { toolbar, service, module } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'add')
+    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'add')
     const { fetchData, query: searchQuery } = useContext<any>(UsersContext)
     const { mutate } = useMutation({ url: `${IDP}/api/users/create` })
     const [modal, setModal] = useState<boolean>(false)
@@ -42,7 +42,7 @@ export default function AddNew() {
             <Button label={'جدید'}
                 className="bg-lime-600"
                 onClick={() => setModal(true)}
-                allowed={[[service, module, 'Create'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}
             />
             <Modal title={'کاربر جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                 open={modal}>

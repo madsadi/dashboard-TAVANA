@@ -11,7 +11,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
 
 export default function LockOut() {
-    const { toolbar, module, service } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'lock-out')
+    const { toolbar, modules, service, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'lock-out')
     const { selectedRows } = useContext<any>(UsersContext)
     const { mutate } = useMutation({ url: `${IDP}/api/users/set-lockout-end-date` })
     const [modal, setModal] = useState(false)
@@ -58,7 +58,7 @@ export default function LockOut() {
             <Button label={'قفل/باز کردن حساب کاربری'}
                 className="bg-yellow-500"
                 onClick={openHandler}
-                allowed={[[service, module, 'SetLockoutEndDate'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'SetLockoutEndDate'].join('.')] : []}
             />
             <Modal title={'قفل/باز کردن حساب کاربری'} setOpen={setModal}
                 open={modal}>

@@ -10,7 +10,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
 
 export default function AddNew() {
-    const { toolbar, service, module } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles, 'add')
+    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles, 'add')
     const { fetchData, query: searchQuery } = useContext<any>(RolesContext)
     const { mutate } = useMutation({ url: `${IDP}/api/roles/create` })
     const [modal, setModal] = useState(false)
@@ -41,7 +41,7 @@ export default function AddNew() {
             <Button label={'نقش جدید'}
                 className="bg-lime-600"
                 onClick={() => setModal(true)}
-                allowed={[[service, module, 'Create'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}
             />
             <Modal title={'نقش جدید'}
                 setOpen={setModal}

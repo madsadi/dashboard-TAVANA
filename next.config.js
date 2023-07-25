@@ -13,6 +13,7 @@ const nextConfig = {
       MARKETER_ADMIN: process.env.MARKETER_ADMIN,
       ONLINE_TRADING: process.env.ONLINE_TRADING,
       SEJAM_GATEWAY: process.env.SEJAM_GATEWAY,
+      MARKETER_CLIENT: process.env.MARKETER_CLIENT,
     }
   }
 }

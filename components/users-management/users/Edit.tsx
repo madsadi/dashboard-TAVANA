@@ -10,7 +10,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
 
 export default function Edit() {
-    const { toolbar, service, module } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'edit')
+    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'edit')
 
     const { fetchData, query: searchQuery, selectedRows } = useContext<any>(UsersContext)
     const { mutate } = useMutation({ url: `${IDP}/api/users/update` })
@@ -58,7 +58,7 @@ export default function Edit() {
             <Button label={'ویرایش'}
                 className="bg-orange-500"
                 onClick={openHandler}
-                allowed={[[service, module, 'Edit'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
             <Modal title={'ویرایش اطلاعات کاربر'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                 open={modal}>

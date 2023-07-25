@@ -11,8 +11,10 @@ import useMutation from "../../../hooks/useMutation";
 import { Button } from "../../common/components/button/button";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import filters from "../../../constants/filters";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
 
 export default function Permissions() {
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles)
     const { userDetail: userDetailValue } = useSelector((state: any) => state.userManagementConfig)
     const { selectedRows, setSelectedRows } = useContext<any>(RolesContext)
     const { fetchAsyncData: getRolePermission } = useQuery({ url: `${IDP}/api/roles/get-role-permission` })
@@ -105,7 +107,7 @@ export default function Permissions() {
             <Button label={'ویرایش دسترسی های نقش'}
                 className="bg-orange-500"
                 onClick={openHandler}
-                allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_roles]?.service, filters[ModuleIdentifier.USER_MANAGEMENT_roles]?.module, 'RollAndPermissionManagment'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'RollAndPermissionManagment'].join('.')] : []}
             />
             <Modal title={'ویرایش دسترسی های نقش'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                 open={modal}>

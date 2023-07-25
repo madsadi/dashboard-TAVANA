@@ -8,7 +8,7 @@ import { Button } from "./button/button";
 
 const SearchComponent: React.FC<any> = forwardRef((props, ref) => {
     const { onSubmit, module, loading, dynamicOptions = [], className, extraClassName } = props
-    const { filters, initialValue, service, module: scope, restriction } = useSearchFilters(module)
+    const { filters, initialValue, service, modules, restriction } = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
@@ -45,6 +45,7 @@ const SearchComponent: React.FC<any> = forwardRef((props, ref) => {
         }
     }, [initialValue])
 
+
     return (
         <form className={'flex flex-col grow'} onSubmit={(e) => {
             e.preventDefault()
@@ -80,7 +81,7 @@ const SearchComponent: React.FC<any> = forwardRef((props, ref) => {
                     type={'submit'}
                     disabled={loading}
                     loading={loading}
-                    allowed={restriction ? [[service, scope, 'Read'].join('.')] : []}
+                    allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
                 />
             </div>
         </form>

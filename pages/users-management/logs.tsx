@@ -8,6 +8,7 @@ import useQuery from "../../hooks/useQuery";
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
+import DateCell from "../../components/common/table/DateCell";
 
 export default function Users() {
     const columnDefStructure: any = [
@@ -29,10 +30,7 @@ export default function Users() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <>
-                            <span>{jalali(rowData.data.date).date}</span>
-                            <span className={'ml-2'}>{jalali(rowData.data.date).time}</span>
-                        </>
+                        <DateCell date={rowData.data.date} />
                     )
                 };
                 const moodDetails = {

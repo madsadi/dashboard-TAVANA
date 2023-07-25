@@ -11,7 +11,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export const InquirySejamStateComponent = () => {
     const { selectedRows } = useContext<any>(OnlineRegContext)
-    const { service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const { fetchAsyncData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/checkUserSejamState` })
     const router = useRouter()
     let dep: string | undefined = router.query?.detail?.[0]
@@ -53,7 +53,7 @@ export const InquirySejamStateComponent = () => {
         <Button label={'وضعیت سجام'}
             className="bg-yellow-500"
             onClick={inquiryHandler}
-            allowed={restriction ? [[service, module, 'Read'].join('.')] : []}
+            allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
         />
     )
 }

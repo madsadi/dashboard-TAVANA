@@ -1,22 +1,24 @@
-import React, {useContext, useState} from "react";
-import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
+import React, { useContext, useState } from "react";
+import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/Modal";
 import moment from "jalali-moment";
 import InputComponent from "../common/components/InputComponent";
-import {jalali} from "../common/functions/common-funcions";
-import {BookBuildingContext} from "./BookBuilding";
-import {throwToast} from "../common/functions/notification";
+import { jalali } from "../common/functions/common-funcions";
+import { BookBuildingContext } from "./BookBuilding";
+import { throwToast } from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../api/constants";
-import {useSearchFilters} from "../../hooks/useSearchFilters";
-import {ModuleIdentifier} from "../common/functions/Module-Identifier";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import { useSearchFilters } from "../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../common/functions/Module-Identifier";
+import { Button } from "../common/components/button/button";
 
 export default function EditModal() {
-    const {toolbar} = useSearchFilters(ModuleIdentifier.BOOK_BUILDING,'edit')
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/EditBookBuilding`,method:"PUT"})
-    const {selectedRows} = useContext<any>(BookBuildingContext)
+    const { toolbar, restriction, modules, service } = useSearchFilters(ModuleIdentifier.BOOK_BUILDING, 'edit')
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/EditBookBuilding`, method: "PUT" })
+    const { selectedRows } = useContext<any>(BookBuildingContext)
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
+    const [loading, setLoading] = useState<boolean>(false)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
@@ -47,51 +49,69 @@ export default function EditModal() {
             })
             setModal(true);
         } else {
-            throwToast({type:'warning',value:'لطفا یک گزینه را انتخاب کنید'})
+            throwToast({ type: 'warning', value: 'لطفا یک گزینه را انتخاب کنید' })
         }
     }
 
     const updateHandler = async (e: any) => {
+        setLoading(true)
         await mutate({
             instrumentId: query?.instrumentId,
             maxQuantity: query?.maxQuantity,
             minPrice: query?.minPrice,
             maxPrice: query?.maxPrice,
-            fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD')+`${query?.startHour ? 'T'+query?.startHour+':':''}`+`${query?.startMinute ? query?.startMinute+':00':''}`,
-            toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD')+`${query?.endHour ? 'T'+query?.endHour+':':''}`+`${query?.endMinute ? query?.endMinute+':00':''}`,
+            fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD') + `${query?.startHour ? 'T' + query?.startHour + ':' : ''}` + `${query?.startMinute ? query?.startMinute + ':00' : ''}`,
+            toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD') + `${query?.endHour ? 'T' + query?.endHour + ':' : ''}` + `${query?.endMinute ? query?.endMinute + ':00' : ''}`,
         })
             .then(() => {
-                throwToast({type:'success',value:'با موفقیت انجام شد'})
+                throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
                 setModal(false)
             })
-            .catch((err) => throwToast({type:'error',value:err}))
+            .catch((err) => throwToast({ type: 'error', value: err }))
+            .finally(() => setLoading(false))
     }
+
     const onChange = (key: string, value: any) => {
-        let _query: any = {...query};
+        let _query: any = { ...query };
         _query[key] = value
         setQuery(_query)
     }
+
     return (
         <>
-            <button className="button bg-orange-400" onClick={openUpdate}>ویرایش</button>
+            <Button label={'ویرایش'}
+                className="bg-orange-600"
+                onClick={openUpdate}
+                allowed={restriction ? [[service[0], modules[0][0], 'Edit'].join('.')] : []}
+            />
             <Modal title={'ایجاد تغییرات'} ModalWidth={'max-w-3xl'} open={modal} setOpen={setModal}>
                 <form className={'grid grid-cols-2 gap-4'}>
                     {
                         toolbar.map((item: any) => {
                             return <InputComponent key={item.title}
-                                                   query={query}
-                                                   setQuery={setQuery}
-                                                   item={item}
-                                                   onChange={onChange}
-                                                   selectedDayRange={selectedDayRange}
-                                                   setSelectedDayRange={setSelectedDayRange}/>
+                                query={query}
+                                setQuery={setQuery}
+                                item={item}
+                                onChange={onChange}
+                                selectedDayRange={selectedDayRange}
+                                setSelectedDayRange={setSelectedDayRange} />
 
                         })
                     }
                 </form>
                 <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                    <button className="button bg-red-500" onClick={() => setModal(false)}>لغو</button>
-                    <button className="button bg-lime-500" onClick={updateHandler}>تایید</button>
+                    <Button label={'لغو'}
+                        className="bg-red-500"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            setModal(false)
+                        }}
+                    />
+                    <Button label={'تایید'}
+                        className="bg-lime-500"
+                        loading={loading}
+                        onClick={updateHandler}
+                    />
                 </div>
             </Modal>
 

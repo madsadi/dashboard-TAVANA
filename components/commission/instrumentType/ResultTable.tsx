@@ -1,12 +1,12 @@
-import React, {createContext, useState} from 'react';
+import React, { createContext, useState } from 'react';
 import dynamic from "next/dynamic";
 const InstrumentTypeToolbar = dynamic(() => import('./InstrumentTypeToolbar'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 import useQuery from "../../../hooks/useQuery";
-import {COMMISSION_BASE_URL} from "../../../api/constants";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import { COMMISSION_BASE_URL } from "../../../api/constants";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export const InstrumentTypeContext = createContext({})
 export default function ResultTable() {
@@ -97,22 +97,23 @@ export default function ResultTable() {
             minWidth: 120,
         }
     ]
-    const {fetchData,query,loading,data} = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
+    const { fetchData, query, loading, data } = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search` })
     const [selectedRows, setSelectedRows] = useState<any>([]);
 
     return (
-        <InstrumentTypeContext.Provider value={{fetchData,query,selectedRows}}>
+        <InstrumentTypeContext.Provider value={{ fetchData, query, selectedRows }}>
             <div className={'relative flex flex-col grow overflow-hidden'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument} />
                 </AccordionComponent>
-                <InstrumentTypeToolbar/>
+                <InstrumentTypeToolbar />
                 <TableComponent data={data?.result}
-                                loading={loading}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['id']}
-                                rowSelection={'single'}
-                                setSelectedRows={setSelectedRows}
+                    module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}
+                    loading={loading}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['id']}
+                    rowSelection={'single'}
+                    setSelectedRows={setSelectedRows}
                 />
             </div>
         </InstrumentTypeContext.Provider>

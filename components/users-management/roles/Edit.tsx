@@ -10,7 +10,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
 
 export default function Edit() {
-    const { toolbar, service, module } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles, 'edit')
+    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_roles, 'edit')
     const { fetchData, query: searchQuery, selectedRows, setSelectedRows } = useContext<any>(RolesContext)
     const { mutate } = useMutation({ url: `${IDP}/api/roles/update` })
     const [modal, setModal] = useState(false)
@@ -59,7 +59,7 @@ export default function Edit() {
             <Button label={'ویرایش نقش'}
                 className="bg-orange-500"
                 onClick={openHandler}
-                allowed={[[service, module, 'Edit'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
             <Modal title={'ویرایش نقش'} setOpen={setModal}
                 open={modal}>

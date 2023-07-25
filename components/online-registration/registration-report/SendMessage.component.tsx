@@ -11,7 +11,7 @@ import { Button } from '../../common/components/button/button';
 
 export const SendMessageComponent = () => {
     const [modal, setModal] = useState(false)
-    const { service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const [selectedDay, setSelectedDay] = useState<DayValue>(null)
     const [query, setQuery] = useState({ date: '' })
     const [loading, setLoading] = useState<boolean>(false)
@@ -36,7 +36,7 @@ export const SendMessageComponent = () => {
             <Button label={'ارسال پیام'}
                 className="bg-lime-500"
                 onClick={() => setModal(true)}
-                allowed={restriction ? [[service, module, 'Read'].join('.')] : []}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
             />
             <Modal title={'ارسال پیام'} setOpen={setModal}
                 open={modal}>

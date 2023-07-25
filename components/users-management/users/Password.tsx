@@ -10,7 +10,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
 
 export default function Password() {
-    const { toolbar, module, service } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'password')
+    const { toolbar, modules, service, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'password')
     const { selectedRows } = useContext<any>(UsersContext)
     const { mutate } = useMutation({ url: `${IDP}/api/users/change-user-password` })
     const [modal, setModal] = useState(false)
@@ -48,7 +48,7 @@ export default function Password() {
             <Button label={'رمز عبور جدید'}
                 className="bg-yellow-500"
                 onClick={openHandler}
-                allowed={[[service, module, 'ChangeUserPassword'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'ChangeUserPassword'].join('.')] : []}
             />
             <Modal title={'رمز عبور جدید'} setOpen={setModal}
                 open={modal}>

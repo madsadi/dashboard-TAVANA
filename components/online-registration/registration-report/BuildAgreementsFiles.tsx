@@ -12,7 +12,7 @@ import { Button } from "../../common/components/button/button";
 export default function BuildAgreementsFiles() {
     const { selectedRows } = useContext<any>(OnlineRegContext)
     const { fetchData: detailFetch } = useContext<any>(OnlineRegDetailContext)
-    const { service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UploadUserAgreementDocs` })
     const [loading, setLoading] = useState(false)
     const router = useRouter()
@@ -49,7 +49,7 @@ export default function BuildAgreementsFiles() {
             className="bg-lime-500"
             onClick={handler}
             loading={loading}
-            allowed={restriction ? [[service, module, 'Create'].join('.')] : []}
+            allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}
         />
     )
 }

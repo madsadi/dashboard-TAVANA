@@ -31,7 +31,7 @@ export const OrderType: any = [
     }
 ]
 
-export const IsValidEnums: any =[
+export const IsValidEnums: any = [
     {
         "id": true,
         "title": "معتبر"
@@ -46,10 +46,10 @@ export const IsValidEnums: any =[
     }
 ];
 
-export const Hours:any[] = [
-    "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
-export const Minutes:any[] = [
-    "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"];
+export const Hours: any[] = [
+    "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
+export const Minutes: any[] = [
+    "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"];
 
 export const subsidiaryType = [
     {
@@ -95,7 +95,7 @@ export const sides = [
     }
 ];
 
-export const Options:any[] = [
+export const Options: any[] = [
     {
         "id": true,
         "title": "حذف شده"
@@ -110,7 +110,7 @@ export const Options:any[] = [
     }
 ];
 
-export const activeStatus:any[] = [
+export const activeStatus: any[] = [
     {
         "id": true,
         "title": "فعال"
@@ -124,7 +124,7 @@ export const activeStatus:any[] = [
         "title": "همه"
     }
 ];
-export const statesEnums:any[] = [
+export const statesEnums: any[] = [
     {
         "id": 1,
         "code": 1,
@@ -162,7 +162,7 @@ export const statesEnums:any[] = [
         "title": "غیرفعال"
     }
 ];
-export const isActiveWithNoNull:any[] = [
+export const isActiveWithNoNull: any[] = [
     {
         "id": true,
         "title": "فعال"
@@ -172,11 +172,11 @@ export const isActiveWithNoNull:any[] = [
         "title": "غیر فعال"
     }
 ];
-export const category:any[] = [
-    {title: 'فعال', id: 'GetAllActive'},
-    {title: 'همه', id: 'GetAll'},
+export const category: any[] = [
+    { title: 'فعال', id: 'GetAllActive' },
+    { title: 'همه', id: 'GetAll' },
 ];
-export const isRequired:any[] = [
+export const isRequired: any[] = [
     {
         "id": true,
         "title": "بله"
@@ -187,7 +187,7 @@ export const isRequired:any[] = [
     }
 ];
 
-export const Months:any[] = [
+export const Months: any[] = [
     {
         "id": '140201',
         "title": "فروردین"
@@ -238,7 +238,38 @@ export const Months:any[] = [
     }
 ];
 
-export const orderTechnicalOrigin:any[] = [
+export const UserType: any = [
+    {
+        title: 'فعال',
+        id: true,
+    },
+    {
+        title: 'غیر فعال',
+        id: false,
+    },
+]
+export const SortBy: any = [
+    {
+        title: 'تاریخ ثبت نام',
+        id: 'RegisterDate'
+    },
+    {
+        title: 'گردش خالص ثبت شده',
+        id: 'TotalPureVolume'
+    },
+]
+
+export const SortOrder: any = [
+    {
+        title: 'صعودی',
+        id: 1
+    },
+    {
+        title: 'نزولی',
+        id: -1
+    },
+]
+export const orderTechnicalOrigin: any[] = [
     // {
     //     "id": 1,
     //     "code": 0,
@@ -271,7 +302,7 @@ export const orderTechnicalOrigin:any[] = [
     }
 ];
 
-export const orderOrigin:any[] =  [
+export const orderOrigin: any[] = [
     // {
     //     "code": 0,
     //     "title": "نامعتبر",
@@ -316,7 +347,7 @@ export const orderOrigin:any[] =  [
     }
 ];
 
-export const validityType =  [
+export const validityType = [
     {
         "id": 1,
         "name": "Day",
@@ -674,22 +705,22 @@ export const onlineRegistrationStatusEnums = [
 ]
 
 export const operators = [
-    {title: ')', id: ')'},
-    {title: '(', id: '('},
-    {title: 'و', id: '&&'},
-    {title: 'یا', id: '||'},
-    {title: 'جمع', id: '+'},
-    {title: 'تفریق', id: '-'},
-    {title: 'ضرب', id: '*'},
-    {title: 'تقسیم', id: '/'},
-    {title: 'مساوی', id: '='},
-    {title: 'مخالف', id: '!='},
-    {title: 'بزرگتر', id: '>'},
-    {title: 'کوچکتر', id: '<'},
-    {title: 'بزرگتر یا مساوی', id: '>='},
-    {title: 'کوچکتر یا مساوی', id: '<='},
-    {title: 'شامل', id: 'contain'},
-    {title: 'دقیقا شامل', id: 'exact'},
+    { title: ')', id: ')' },
+    { title: '(', id: '(' },
+    { title: 'و', id: '&&' },
+    { title: 'یا', id: '||' },
+    { title: 'جمع', id: '+' },
+    { title: 'تفریق', id: '-' },
+    { title: 'ضرب', id: '*' },
+    { title: 'تقسیم', id: '/' },
+    { title: 'مساوی', id: '=' },
+    { title: 'مخالف', id: '!=' },
+    { title: 'بزرگتر', id: '>' },
+    { title: 'کوچکتر', id: '<' },
+    { title: 'بزرگتر یا مساوی', id: '>=' },
+    { title: 'کوچکتر یا مساوی', id: '<=' },
+    { title: 'شامل', id: 'contain' },
+    { title: 'دقیقا شامل', id: 'exact' },
 ];
 
 export const originEnum: any = [
@@ -702,7 +733,7 @@ export const originEnum: any = [
         "title": "موبایل"
     }
 ]
-export const marketerTypeEnum: any =  [
+export const marketerTypeEnum: any = [
     {
         "id": 1,
         "title": "بازاریاب"
@@ -716,7 +747,7 @@ export const marketerTypeEnum: any =  [
         "title": "هردو"
     }
 ]
-export const CalculationBaseType: any =  [
+export const CalculationBaseType: any = [
     {
         "id": 1,
         "code": 1,
@@ -730,7 +761,7 @@ export const CalculationBaseType: any =  [
         "title": "کارمزد"
     }
 ]
-export const stationTypeEnum: any =  [
+export const stationTypeEnum: any = [
     {
         "id": 1,
         "code": 1,
@@ -884,7 +915,7 @@ export const enTierNameEnum: any = [
     }
 ]
 
-export const errors:any =  [
+export const errors: any = [
     {
         "errorCode": 1,
         "errorText": "مشتری مجاز به خرید نميباشد",

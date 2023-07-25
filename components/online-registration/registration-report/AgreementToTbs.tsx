@@ -10,7 +10,7 @@ import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export const AgreementToTbs = () => {
     const { selectedRows } = useContext<any>(OnlineRegContext)
-    const { service, module_secondary: module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const router = useRouter()
     let dep: string | undefined = router.query?.detail?.[0]
     const queryData: string[] | undefined = dep?.split('&')
@@ -52,7 +52,7 @@ export const AgreementToTbs = () => {
             className="bg-orange-500 "
             onClick={TbsHandler}
             loading={loading}
-            allowed={restriction ? [[service, module, 'Create'].join('.')] : []}
+            allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Create'].join('.')] : []}
         />
 
     )

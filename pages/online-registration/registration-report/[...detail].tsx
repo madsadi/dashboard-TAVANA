@@ -1,5 +1,5 @@
-import React, {createContext, useEffect, useMemo} from "react";
-import {useRouter} from "next/router";
+import React, { createContext, useEffect, useMemo } from "react";
+import { useRouter } from "next/router";
 import IdentityComponent from "../../../components/online-registration/registration-report/detail/Identity.component";
 import JobInfoComponent from "../../../components/online-registration/registration-report/detail/JobInfo.component";
 import BankComponent from "../../../components/online-registration/registration-report/detail/Bank.component";
@@ -17,20 +17,26 @@ import EditRegStateComponent from "../../../components/online-registration/regis
 import {
     InquirySejamStateComponent
 } from "../../../components/online-registration/registration-report/InquirySejamState.component";
-import {TBSComponent} from "../../../components/online-registration/registration-report/TBS.component";
+import { TBSComponent } from "../../../components/online-registration/registration-report/TBS.component";
 import DocumentsComponent from "../../../components/online-registration/registration-report/detail/Documents.component";
 import useQuery from "../../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {AgreementToTbs} from "../../../components/online-registration/registration-report/AgreementToTbs";
+import { ADMIN_GATEWAY } from "../../../api/constants";
+import { AgreementToTbs } from "../../../components/online-registration/registration-report/AgreementToTbs";
 import TableComponent from "../../../components/common/table/table-component";
 import DateCell from "../../../components/common/table/DateCell";
-import {formatNumber} from "../../../components/common/functions/common-funcions";
+import { formatNumber } from "../../../components/common/functions/common-funcions";
 import EditRefCode from "../../../components/online-registration/registration-report/EditRefCode";
 import BuildAgreementsFiles from "../../../components/online-registration/registration-report/BuildAgreementsFiles";
+import { useSelector } from "react-redux";
+import { isAllowed } from "../../../components/common/functions/permission-utils";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
-    const {data:info,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchUser`});
+    const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig);
+    const { service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
+    const { data: info, fetchData }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchUser` });
     let data = info?.result?.pagedData[0]
     const router = useRouter()
     let dep = router.query?.detail?.[0]
@@ -73,7 +79,7 @@ export default function Detail() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.isSejami ? 'سجامی' : 'غیر سجامی'}</span>
-                            <DateCell date={rowData.data.isSejamiDateTime}/>
+                            <DateCell date={rowData.data.isSejamiDateTime} />
                         </div>
                     )
                 };
@@ -91,7 +97,7 @@ export default function Detail() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.sejamStatusCodeTitle}</span>
-                            <DateCell date={rowData.data.sejamStatusDateTime}/>
+                            <DateCell date={rowData.data.sejamStatusDateTime} />
                         </div>
                     )
                 };
@@ -109,7 +115,7 @@ export default function Detail() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.registrationStateCodeTitle}</span>
-                            <DateCell date={rowData.data.registrationStateDateTime}/>
+                            <DateCell date={rowData.data.registrationStateDateTime} />
                         </div>
                     )
                 };
@@ -127,7 +133,7 @@ export default function Detail() {
                     return (
                         <div className={'flex items-center space-x-2 space-x-reverse'}>
                             <span>{rowData.data.isTbsInserted}</span>
-                            <DateCell date={rowData.data.tbsInsertDateTime}/>
+                            <DateCell date={rowData.data.tbsInsertDateTime} />
                         </div>
                     )
                 };
@@ -176,7 +182,7 @@ export default function Detail() {
                                 return (
                                     <div className={'flex items-center space-x-2 space-x-reverse'}>
                                         <span>{rowData.data?.sejamToken}</span>
-                                        <DateCell date={rowData.data.sejamTokenDateTime}/>
+                                        <DateCell date={rowData.data.sejamTokenDateTime} />
                                     </div>
                                 )
                             };
@@ -195,7 +201,7 @@ export default function Detail() {
                         headerName: 'زمان ایجاد',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.createDateTime}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.createDateTime} />,
                             }
                             return moodDetails;
                         },
@@ -205,7 +211,7 @@ export default function Detail() {
                         headerName: 'زمان بروزرسانی',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.updateDateTime} />,
                             }
                             return moodDetails;
                         },
@@ -225,7 +231,7 @@ export default function Detail() {
     }, []);
 
     useEffect(() => {
-        if (dep) {
+        if (dep && (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service, module, 'Read'].join('.')] }) : true)) {
             const queryData = dep.split('&')
             let _query: any = {};
 
@@ -236,37 +242,37 @@ export default function Detail() {
 
 
     return (
-        <OnlineRegDetailContext.Provider value={{data,fetchData}}>
+        <OnlineRegDetailContext.Provider value={{ data, fetchData }}>
             <div className={'h-full w-full'}>
                 <div className={'border border-border rounded-t-lg'}>
                     <div className={'toolbar p-2'}>
-                        <EditRegStateComponent/>
-                        <InquirySejamStateComponent/>
-                        <EditRefCode/>
-                        <BuildAgreementsFiles/>
-                        <TBSComponent/>
-                        <AgreementToTbs/>
+                        <EditRegStateComponent />
+                        <InquirySejamStateComponent />
+                        <EditRefCode />
+                        <BuildAgreementsFiles />
+                        <TBSComponent />
+                        <AgreementToTbs />
                     </div>
                 </div>
                 <TableComponent data={info?.result?.pagedData}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['userId','id']}
-                                detailCellRendererParams={detailCellRendererParams}
-                                masterDetail={true}
-                                indexOfOpenedDetail={0}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['userId', 'id']}
+                    detailCellRendererParams={detailCellRendererParams}
+                    masterDetail={true}
+                    indexOfOpenedDetail={0}
                 />
                 {data ? <div className={'w-full grow space-y-3 mt-5'}>
-                    <DocumentsComponent/>
-                    <IdentityComponent/>
-                    <JobInfoComponent/>
-                    <BankComponent/>
-                    <LegalPersonShareholdersComponent/>
-                    <LegalPersonStakeholdersComponent/>
-                    <BourseCodeComponent/>
-                    <AgentComponent/>
-                    <AddressesComponent/>
-                    <EconomicComponent/>
-                    <AgreementComponent/>
+                    <DocumentsComponent />
+                    <IdentityComponent />
+                    <JobInfoComponent />
+                    <BankComponent />
+                    <LegalPersonShareholdersComponent />
+                    <LegalPersonStakeholdersComponent />
+                    <BourseCodeComponent />
+                    <AgentComponent />
+                    <AddressesComponent />
+                    <EconomicComponent />
+                    <AgreementComponent />
                 </div> : null}
             </div>
         </OnlineRegDetailContext.Provider>

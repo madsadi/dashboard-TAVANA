@@ -1,13 +1,13 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
+import { formatNumber, jalali } from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../api/constants";
-import {throwToast} from "../../components/common/functions/notification";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import { throwToast } from "../../components/common/functions/notification";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 
 export default function Trades() {
     function chunk(str: string, n: number) {
@@ -119,14 +119,14 @@ export default function Trades() {
             headerName: 'نام نرم افزار',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/request/SearchTrades`})
+    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchTrades` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
                 enableRtl: true,
                 columnDefs: [
-                    {field: 'userId', headerName: 'شناسه کاربر'},
+                    { field: 'userId', headerName: 'شناسه کاربر' },
                     {
                         field: 'customerNationalId',
                         headerName: 'کد ملی مشتری',
@@ -143,7 +143,7 @@ export default function Trades() {
                         field: 'instrumentId',
                         headerName: 'شناسه نماد'
                     },
-                    {field: 'orderId', headerName: 'شناسه سفارش'},
+                    { field: 'orderId', headerName: 'شناسه سفارش' },
                 ],
                 defaultColDef: {
                     resizable: true,
@@ -158,28 +158,29 @@ export default function Trades() {
         };
     }, []);
 
-    const fetchHandler =(query:any)=>{
-        if (query?.StartDate && query?.EndDate){
+    const fetchHandler = (query: any) => {
+        if (query?.StartDate && query?.EndDate) {
             fetchData(query)
-        }else{
-            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        } else {
+            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
         }
     }
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.ONLINE_TRADES}/>
+                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.ONLINE_TRADES} />
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['tradeTime', 'tradeDate', 'orderId', 'tradeId']}
-                            detailCellRendererParams={detailCellRendererParams}
-                            masterDetail={true}
-                            pagination={true}
-                            totalCount={data?.result?.totalCount}
-                            fetcher={fetchHandler}
-                            query={query}
+                module={ModuleIdentifier.ONLINE_TRADES}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['tradeTime', 'tradeDate', 'orderId', 'tradeId']}
+                detailCellRendererParams={detailCellRendererParams}
+                masterDetail={true}
+                pagination={true}
+                totalCount={data?.result?.totalCount}
+                fetcher={fetchHandler}
+                query={query}
             />
         </div>
     )

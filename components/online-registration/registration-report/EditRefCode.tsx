@@ -14,7 +14,7 @@ import { Button } from "../../common/components/button/button";
 export default function EditRefCode() {
     const { selectedRows, fetchData, searchQuery } = useContext<any>(OnlineRegContext)
     const { fetchData: detailFetch } = useContext<any>(OnlineRegDetailContext)
-    const { toolbar, module, service, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'refCode')
+    const { toolbar, modules, service, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'refCode')
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateMarketerRefCode` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
@@ -70,7 +70,7 @@ export default function EditRefCode() {
             <Button label={'ویرایش کدبازاریابی'}
                 className="bg-orange-500"
                 onClick={openHandler}
-                allowed={restriction ? [[service, module, 'Edit'].join('.')] : []}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
             <Modal title={'ویرایش کدبازاریابی'} setOpen={setModal}
                 open={modal}>

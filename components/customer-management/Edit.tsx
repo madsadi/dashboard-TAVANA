@@ -1,34 +1,36 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/layout/Modal";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/components/InputComponent";
-import {DayRange} from "@amir04lm26/react-modern-calendar-date-picker";
-import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
-import {throwToast} from "../common/functions/notification";
+import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
+import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
+import { throwToast } from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../api/constants";
-import {useSearchFilters} from "../../hooks/useSearchFilters";
-import {ModuleIdentifier} from "../common/functions/Module-Identifier";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import { useSearchFilters } from "../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../common/functions/Module-Identifier";
+import { Button } from "../common/components/button/button";
 
 export default function Edit() {
-    const {page} = usePageStructure()
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/${page.api}/Update`,method:"PUT"})
-    const {toolbar} = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],'modal')
+    const { page } = usePageStructure()
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/${page.api}/Update`, method: "PUT" })
+    const { toolbar, restriction, service, modules } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`], 'modal')
 
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
+    const [loading, setLoading] = useState<boolean>(false)
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
         from: null,
         to: null
     });
 
-    const {fetchData, selectedRows,setSelectedRows,query:searchQuery} = useContext<any>(CustomerManagement)
+    const { fetchData, selectedRows, setSelectedRows, query: searchQuery } = useContext<any>(CustomerManagement)
 
-    useEffect(()=>{
-        if (!modal){
+    useEffect(() => {
+        if (!modal) {
             setSelectedRows([])
         }
-    },[modal])
+    }, [modal])
 
     useEffect(() => {
         if (toolbar && selectedRows[0]) {
@@ -38,13 +40,13 @@ export default function Edit() {
                 if (typeof ToEdit[item.title] == "string" || typeof ToEdit[item.title] == "number") {
                     initialValue[item.title] = ToEdit[item.title];
                 }
-                if (ToEdit.address?.[item.title] !== undefined ){
+                if (ToEdit.address?.[item.title] !== undefined) {
                     initialValue[item.title] = ToEdit.address[item.title];
                 }
-                if (ToEdit.region?.[item.title] !== undefined){
+                if (ToEdit.region?.[item.title] !== undefined) {
                     initialValue[item.title] = ToEdit.region[item.title];
                 }
-                if (item.title === "address"){ // due to database exception
+                if (item.title === "address") { // due to database exception
                     initialValue[item.title] = ToEdit.address["remnantAddress"];
                 }
             })
@@ -53,51 +55,64 @@ export default function Edit() {
     }, [toolbar, selectedRows[0]])
 
     const editHandler = async (e: any) => {
-        await mutate( {...query, id: selectedRows[0]?.id, addressId: selectedRows[0]?.address?.id})
+        setLoading(true)
+        await mutate({ ...query, id: selectedRows[0]?.id, addressId: selectedRows[0]?.address?.id })
             .then((res) => {
                 fetchData(searchQuery)
                 setModal(false);
                 setQuery(null)
             })
-            .catch((err: any) => throwToast({type:'error',value:err}))
+            .catch((err: any) => throwToast({ type: 'error', value: err }))
+            .finally(() => setLoading(false))
     }
 
     const openModalHandler = () => {
         if (selectedRows.length === 1) {
             setModal(true)
         } else {
-            throwToast({type:'warning',value:'لطفا یک گزینه برای تغییر انتخاب کنید'})
+            throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
         }
     }
     const onChange = (key: string, value: any) => {
-        let _query: any = {...query};
+        let _query: any = { ...query };
         _query[key] = value
         setQuery(_query)
     }
     return (
         <>
+            <Button label={'ویرایش'}
+                className="bg-orange-600"
+                onClick={openModalHandler}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
+            />
             <Modal title={` ویرایش ${page?.searchFilter} `} ModalWidth={'max-w-3xl'} setOpen={setModal} open={modal}>
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
                             toolbar?.map((item: any) => {
                                 return <InputComponent key={item.title}
-                                                       query={query}
-                                                       item={item}
-                                                       onChange={onChange}
-                                                       setQuery={setQuery}
-                                                       selectedDayRange={selectedDayRange}
-                                                       setSelectedDayRange={setSelectedDayRange}/>
+                                    query={query}
+                                    item={item}
+                                    onChange={onChange}
+                                    setQuery={setQuery}
+                                    selectedDayRange={selectedDayRange}
+                                    setSelectedDayRange={setSelectedDayRange} />
                             })
                         }
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500" onClick={() => setModal(false)}>لغو</button>
-                        <button className="button bg-lime-600" onClick={editHandler}>تایید</button>
+                        <Button label={'لغو'}
+                            className="bg-red-500"
+                            onClick={() => setModal(false)}
+                        />
+                        <Button label={'تایید'}
+                            className="bg-lime-600"
+                            loading={loading}
+                            onClick={editHandler}
+                        />
                     </div>
                 </div>
             </Modal>
-            <button className="button bg-orange-400" onClick={openModalHandler}>ویرایش</button>
         </>
     )
 }

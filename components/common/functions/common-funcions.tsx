@@ -18,10 +18,13 @@ import {
     originEnum, personOriginEnums,
     personTypeEnums, sejamStatusEnums,
     sides,
+    SortBy,
+    SortOrder,
     statesEnums,
     stationTypeEnum,
     subsidiaryType,
     TypeOfBranches,
+    UserType,
     validityType
 } from "../../../constants/Enums";
 import { banks } from "../../online-registration/registration-report/enums";
@@ -135,6 +138,12 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
             return isRequired
         case 'Period':
             return Months
+        case 'UserType':
+            return UserType
+        case 'SortBy':
+            return SortBy
+        case 'SortOrder':
+            return SortOrder
         default:
             return []
     }

@@ -4,8 +4,8 @@ const AccordionComponent = dynamic(() => import('../../common/components/Accordi
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import useQuery from "../../../hooks/useQuery";
-import {COMMISSION_BASE_URL} from "../../../api/constants";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import { COMMISSION_BASE_URL } from "../../../api/constants";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export default function CategoryResultTableSection() {
     const columnDefStructure = [
@@ -99,17 +99,18 @@ export default function CategoryResultTableSection() {
             minWidth: 120
         }
     ]
-    const {data,loading,fetchData} = useQuery({url:`${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
+    const { data, loading, fetchData } = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search` })
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
-                <SearchComponent module={ModuleIdentifier.COMMISSION_MANAGEMENT_category} loading={loading} onSubmit={fetchData}/>
+                <SearchComponent module={ModuleIdentifier.COMMISSION_MANAGEMENT_category} loading={loading} onSubmit={fetchData} />
             </AccordionComponent>
             <TableComponent data={data?.result}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['id']}
+                module={ModuleIdentifier.COMMISSION_MANAGEMENT_category}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['id']}
             />
         </div>
     );

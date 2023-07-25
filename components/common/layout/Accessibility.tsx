@@ -30,7 +30,7 @@ export const Accessibility = () => {
             let decoded = jwt_decode(token);
 
             console.log(decoded)
-            dispatch(user_permissions(['IdentityServerApi.RoleManagment.Create', 'IdentityServerApi.RoleManagment.Edit', 'CustomerManagement.OnlineRegistrationProfile.Read']))
+            dispatch(user_permissions(["CustomerManagement.Branch.Create", "BookBuildingStore.BookBuilding.Create"]))
         }
     }, [auth?.user?.access_token])
 
