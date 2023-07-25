@@ -3,14 +3,17 @@ import moment from "jalali-moment";
 
 const filters: any = {
   "dashboard": {
-    service: '',
-    module: '',
-    permissions: [],
+    services: {},
   },
   "user-management_users": {
-    service: 'IdentityServerApi',
-    module: 'UserManagement',
-    permissions: ['Read', 'Create', 'Edit', 'ChangeUserPassword', 'ChangeUserActiveStatus', 'SetLockoutEndDate', 'RollAndPermissionManagment', 'RollAndPermissionManagment', 'RollAndPermissionManagment'],
+    services: {
+      'IdentityServerApi': [
+        {
+          module: 'UserManagement',
+          permissions: ['Read', 'Create', 'Edit', 'ChangeUserPassword', 'ChangeUserActiveStatus', 'SetLockoutEndDate', 'RollAndPermissionManagment', 'RollAndPermissionManagment', 'RollAndPermissionManagment']
+        }
+      ],
+    },
     search: {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -68,9 +71,14 @@ const filters: any = {
     }
   },
   "user-management_roles": {
-    service: '',
-    module: '',
-    permissions: [],
+    services: {
+      'IdentityServerApi': [
+        {
+          module: 'RoleManagment',
+          permissions: ['Create', 'Edit', 'Active', 'DeActive', 'Read', 'RollAndPermissionManagment', 'RollAndPermissionManagment'],
+        }
+      ],
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -95,10 +103,7 @@ const filters: any = {
     }
   },
   "user-management_logs": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -120,10 +125,18 @@ const filters: any = {
     }
   },
   "online-registration": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      'CustomerManagement': [
+        {
+          module: 'OnlineRegistrationProfile',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        },
+        {
+          module: 'TbsServices',
+          permissions: ['Create']
+        }
+      ],
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -134,6 +147,7 @@ const filters: any = {
         { "title": "marketerId", "name": "شناسه بازاریاب", "type": "input" },
         { "title": "reagentId", "name": "شناسه معرف", "type": "input" },
         { "title": "personOrigin", "name": "نوع کاربر", "type": "selectInput" },
+        { "title": "AgentUniqueId", "name": "کد ملی نماینده", "type": "input" },
         { "title": "isSejami", "name": "سجامی هست؟", "type": "selectInput" },
         { "title": "sejamStatus", "name": "وضعیت سجامی", "type": "selectInput" },
         { "title": "registrationState", "name": "وضعیت ثبت نام", "type": "selectInput" },
@@ -147,6 +161,7 @@ const filters: any = {
         "UniqueId": "",
         "MobileNumber": "",
         "personType": null,
+        "AgentUniqueId": '',
         "marketerId": "",
         "reagentId": "",
         "personOrigin": null,
@@ -166,10 +181,7 @@ const filters: any = {
     }
   },
   "customer-management_subsidiary": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -191,10 +203,18 @@ const filters: any = {
     }
   },
   "customer-management_branch": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      'CustomerManagement': [
+        {
+          module: 'Branch',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        },
+        {
+          module: 'TbsServices',
+          permissions: ['Read']
+        }
+      ],
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -239,10 +259,7 @@ const filters: any = {
     }
   },
   "customer-management_employee": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "toolbar": {
       "modal": [
         { "title": "firstName", "name": "نام", "type": "input", "initialValue": "" },
@@ -257,10 +274,7 @@ const filters: any = {
     }
   },
   "customer-management_businessUnit": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -287,10 +301,7 @@ const filters: any = {
     }
   },
   "customer-management_station": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -325,10 +336,7 @@ const filters: any = {
     }
   },
   "customer-management_trader": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "toolbar": {
       "modal": [
         { "title": "stationId", "name": "شناسه ایستگاه معاملاتی", "type": "input", "initialValue": "" },
@@ -339,16 +347,26 @@ const filters: any = {
     }
   },
   "customer-management_marketer": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      'CustomerManagement': [
+        {
+          module: 'Marketer',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        },
+        {
+          module: 'TbsServices',
+          permissions: ['Read']
+        }
+      ],
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "Type", "name": "نوع بازاریاب", "type": "selectInput" },
         { "title": "Title", "name": "عنوان بازاریاب", "type": "input" },
+        { "title": "RefCode", "name": "کد بازاریاب/معرف", "type": "input" },
+        { "title": "TBSName", "name": "نام بازاریاب/معرف در TBS", "type": "input" },
         {
           "title": "userId",
           "name": "کد ملی کاربر",
@@ -370,7 +388,7 @@ const filters: any = {
           "recordField": "id"
         },
         {
-          "title": "SubsidiaryID",
+          "title": "SubsidiaryId",
           "name": "عنوان شرکت",
           "type": "dynamicSearch",
           "initialValue": "",
@@ -446,10 +464,7 @@ const filters: any = {
     }
   },
   "customer-management_agreement": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "toolbar": {
       "modal": [
         { "title": "subsidiaryId", "name": "شناسه شرکت", "type": "input", "initialValue": "" },
@@ -464,10 +479,7 @@ const filters: any = {
     }
   },
   "customer-management_customerAgreement": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -515,10 +527,7 @@ const filters: any = {
     }
   },
   "customer-management_contract": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -554,10 +563,7 @@ const filters: any = {
     }
   },
   "customer-management_marketerContract": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -601,10 +607,20 @@ const filters: any = {
     }
   },
   "online-orders": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      'OrderStore': [
+        {
+          module: 'Order',
+          permissions: ['Read']
+        }
+      ],
+      'OrderMediator': [
+        {
+          module: 'Order',
+          permissions: ['CancelUserOrder']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -640,10 +656,14 @@ const filters: any = {
     }
   },
   "online-trades": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      'OrderStore': [
+        {
+          module: 'Trade',
+          permissions: ['Read']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -677,10 +697,20 @@ const filters: any = {
     }
   },
   "online-cancel": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      'OrderStore': [
+        {
+          module: 'GlobalCancelOrder',
+          permissions: ['Read']
+        }
+      ],
+      'OrderMediator': [
+        {
+          module: 'Order',
+          permissions: ['CancelUserOrder', 'GlobalCancelOrderRequest']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -710,10 +740,7 @@ const filters: any = {
     }
   },
   "live-portfo": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -730,10 +757,7 @@ const filters: any = {
     }
   },
   "oms-session": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -749,10 +773,7 @@ const filters: any = {
     }
   },
   "oms-timetable": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -770,10 +791,14 @@ const filters: any = {
     }
   },
   "market-rules-management": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      'MarketRuleStore': [
+        {
+          module: 'MarketRule',
+          permissions: ['Read', 'Create', 'Edit', 'Read']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "isActive", "name": "وضعیت", "type": "selectInput" },
@@ -801,10 +826,14 @@ const filters: any = {
     }
   },
   "book-building": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      "BookBuildingStore": [
+        {
+          module: "BookBuilding",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "api", "name": "دسته بندی", "type": "selectInput" }
@@ -837,10 +866,14 @@ const filters: any = {
     }
   },
   "commission-management_instrument": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      "CommissionStore": [
+        {
+          module: "CommissionInstrumentType",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "CommissionInstrumentTypeId", "name": "شناسه نوع ابزار مالی کارمزد", "type": "input" },
@@ -871,10 +904,14 @@ const filters: any = {
     }
   },
   "commission-management_category": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      "CommissionStore": [
+        {
+          module: 'CommissionCategory',
+          permissions: ['Read', 'Create']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "CommissionCategoryId", "name": "شناسه", "type": "input" },
@@ -899,10 +936,22 @@ const filters: any = {
     }
   },
   "commission-management_detail": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {
+      "CommissionStore": [
+        {
+          module: 'CommissionDetail',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        },
+        {
+          module: 'CommissionInstrumentType',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        },
+        {
+          module: 'CommissionCategory',
+          permissions: ['Read', 'Create']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "CommissionInstrumentTypeTitle", "name": "ابزار مالی کارمزد", "type": "input" },
@@ -1121,10 +1170,7 @@ const filters: any = {
     }
   },
   "netflow_trades_report": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -1157,10 +1203,7 @@ const filters: any = {
     }
   },
   "netflow_rules": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -1186,10 +1229,7 @@ const filters: any = {
     }
   },
   "netflow_cleared_trade": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -1213,10 +1253,7 @@ const filters: any = {
     }
   },
   "netflow_clearing_Range": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -1236,16 +1273,10 @@ const filters: any = {
     }
   },
   "netflow_information": {
-    service: '',
-    module: '',
-    permissions: [],
-
+    services: {},
   },
   "marketer-app_relations": {
-    service: 'IdentityServerApi',
-    module: 'UserManagement',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -1282,10 +1313,7 @@ const filters: any = {
 
   },
   "marketer-app_recite": {
-    service: 'IdentityServerApi',
-    module: 'UserManagement',
-    permissions: [],
-
+    services: {},
     "search": {
       "filters": [
         { "title": "MarketerID", "name": "شناسه بازاریاب", "type": "input" },
@@ -1327,6 +1355,30 @@ const filters: any = {
       ]
     }
 
+  },
+  "marketer-app_subusers": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "Name", "name": "نام کاربر", "type": "input" },
+        { "title": "UserType", "name": "نوع کاربر", "type": "selectInput" },
+        { "title": "date", "name": "تاریخ", "type": "date" },
+        { "title": "SortBy", "name": "دسته بندی بر اساس", "type": "selectInput" },
+        { "title": "SortOrder", "name": "ترتیب", "type": "selectInput" },
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": moment.from(moment().locale('fa').format('YYYY-MM') + "-01", 'fa', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        "EndDate": moment().locale('en').format('YYYY-MM-DD'),
+        "UserType": true,
+        "Name": '',
+        "SortBy": "RegisterDate",
+        "SortOrder": 1,
+      }
+    },
   }
 }
 

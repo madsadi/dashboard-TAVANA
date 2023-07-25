@@ -3,11 +3,12 @@ import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import { jalali} from "../../components/common/functions/common-funcions";
+import { jalali } from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
-import {IDP} from "../../api/constants";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
-import {throwToast} from "../../components/common/functions/notification";
+import { IDP } from "../../api/constants";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { throwToast } from "../../components/common/functions/notification";
+import DateCell from "../../components/common/table/DateCell";
 
 export default function Users() {
     const columnDefStructure: any = [
@@ -29,10 +30,7 @@ export default function Users() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <>
-                            <span>{jalali(rowData.data.date).date}</span>
-                            <span className={'ml-2'}>{jalali(rowData.data.date).time}</span>
-                        </>
+                        <DateCell date={rowData.data.date} />
                     )
                 };
                 const moodDetails = {
@@ -83,28 +81,29 @@ export default function Users() {
             headerName: 'خطا'
         }
     ]
-    const {data,query,fetchData,loading}:any = useQuery({url:`${IDP}/api/users/SearchUserActivityLogs`});
+    const { data, query, fetchData, loading }: any = useQuery({ url: `${IDP}/api/users/SearchUserActivityLogs` });
 
-    const fetchDataHandler=(searchQuery:any)=>{
-        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(searchQuery.UserId) || !searchQuery.UserId){
+    const fetchDataHandler = (searchQuery: any) => {
+        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(searchQuery.UserId) || !searchQuery.UserId) {
             fetchData(searchQuery)
-        }else{
-            throwToast({type:'warning',value:'فرمت شناسه کاربری باید UUID/GUID باشد.'})
+        } else {
+            throwToast({ type: 'warning', value: 'فرمت شناسه کاربری باید UUID/GUID باشد.' })
         }
     }
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchDataHandler} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_logs}/>
+                <SearchComponent onSubmit={fetchDataHandler} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_logs} />
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['id']}
-                            pagination={true}
-                            totalCount={data?.result?.totalCount}
-                            fetcher={fetchData}
-                            query={query}
+                module={ModuleIdentifier.USER_MANAGEMENT_logs}
+                columnDefStructure={columnDefStructure}
+                rowId={['id']}
+                pagination={true}
+                totalCount={data?.result?.totalCount}
+                fetcher={fetchData}
+                query={query}
             />
         </div>
     )

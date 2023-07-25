@@ -51,8 +51,25 @@ export default function OnlineRegistration() {
             headerName: 'معرف'
         },
         {
-            field: 'agentTitle',
-            headerName: 'نماینده'
+            field: 'agentUniqueId',
+            headerName: 'نماینده',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <div className={'flex items-center space-x-2 space-x-reverse'}>
+                            <span>{rowData.data.agentUniqueId}</span>
+                            {rowData.data.agentTitle && rowData.data.agentUniqueId ? <span className="mx-1">-</span> : null}
+                            <span>
+                                {rowData.data.agentTitle}
+                            </span>
+                        </div>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
         },
         {
             field: 'isSejami',
@@ -189,7 +206,6 @@ export default function OnlineRegistration() {
                 enableRtl: true,
                 // getRowId:(params:any)=>params.data.orderId,
                 columnDefs: [
-
                     {
                         field: 'email',
                         headerName: 'ایمیل',
@@ -278,6 +294,7 @@ export default function OnlineRegistration() {
                 </AccordionComponent>
                 <UserRegToolbarComponent />
                 <TableComponent data={data?.result?.pagedData}
+                    module={ModuleIdentifier.ONLINE_REGISTRATION}
                     loading={loading}
                     columnDefStructure={columnDefStructure}
                     rowId={['userId', 'id']}

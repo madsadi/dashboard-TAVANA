@@ -1,46 +1,44 @@
-import {Fragment, useEffect, useState} from 'react'
-import {Popover, Transition} from '@headlessui/react'
-import {ChevronDownIcon, PhoneIcon, PlayCircleIcon} from '@heroicons/react/20/solid'
+import { Fragment, useEffect } from 'react'
+import { Popover, Transition } from '@headlessui/react'
 import {
     ArrowLeftOnRectangleIcon,
-    ArrowPathIcon,
     ChartPieIcon,
-    CursorArrowRaysIcon,
-    FingerPrintIcon,
-    SquaresPlusIcon, UserCircleIcon,
+    UserCircleIcon,
 } from '@heroicons/react/24/outline'
 import Time from "../components/Time";
 import Router from "next/router";
-import {useAuth} from "react-oidc-context";
+import { useAuth } from "react-oidc-context";
 import Link from "next/link";
-import {userInfo} from "../../../store/user-management.config";
-import useQuery from "../../../hooks/useQuery";
-import {IDP} from "../../../api/constants";
-import {useDispatch} from "react-redux";
+import { IDP } from "../../../api/constants";
+import { useDispatch } from "react-redux";
 import useSWR from "swr";
 import jwt_decode from "jwt-decode";
+import { user_permissions } from '../../../store/app.config';
 
 export const Accessibility = () => {
-    const {data: info} = useSWR(`${IDP}/api/users/GetCurrentUserInfo`,{revalidateOnMount:true})
+    const { data: info } = useSWR(`${IDP}/api/users/GetCurrentUserInfo`, { revalidateOnMount: true })
 
     const auth = useAuth();
+    const dispatch = useDispatch()
     const solutions = [
-        {name: 'پروفایل', description: `${info?.result?.firstName + " " + info?.result?.lastName}`, href: '/profile', icon: ChartPieIcon},
+        { name: 'پروفایل', description: `${info?.result?.firstName + " " + info?.result?.lastName}`, href: '/profile', icon: ChartPieIcon },
     ]
 
-    useEffect(()=>{
-        if (auth?.user?.access_token){
+    useEffect(() => {
+        if (auth?.user?.access_token) {
             let token = auth?.user?.access_token
             let decoded = jwt_decode(token);
 
             console.log(decoded)
+            dispatch(user_permissions(["CustomerManagement.Branch.Create", "BookBuildingStore.BookBuilding.Create"]))
         }
     }, [auth?.user?.access_token])
+
     return (
         <>
             <Popover className={'lg:hidden mr-auto h-[34px]'}>
                 <Popover.Button className="border border-border p-1 rounded">
-                    <UserCircleIcon className={'h-6 w-6'}/>
+                    <UserCircleIcon className={'h-6 w-6'} />
                 </Popover.Button>
 
                 <Transition
@@ -58,16 +56,16 @@ export const Accessibility = () => {
                             <div >
                                 {solutions.map((item) => (
                                     <div key={item.name}
-                                         className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                        className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                                         <div
                                             className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                             <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
-                                                       aria-hidden="true"/>
+                                                aria-hidden="true" />
                                         </div>
                                         <div>
                                             <a href={item.href} className="font-semibold text-gray-900">
                                                 {item.name}
-                                                <span className="absolute inset-0"/>
+                                                <span className="absolute inset-0" />
                                             </a>
                                             <p className="mt-1 text-gray-600">{item.description}</p>
                                         </div>
@@ -78,16 +76,16 @@ export const Accessibility = () => {
                                 <div
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
                                 >
-                                    <Time/>
+                                    <Time />
                                 </div>
                                 <button
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
                                     onClick={() => {
-                                        void auth.signoutRedirect({id_token_hint: auth.user?.id_token})
+                                        void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
                                         Router.push('/')
                                     }}>
                                     خروج
-                                    <ArrowLeftOnRectangleIcon className={'h-5 w-5 light:text-black mr-2'}/>
+                                    <ArrowLeftOnRectangleIcon className={'h-5 w-5 light:text-black mr-2'} />
                                 </button>
                             </div>
                         </div>
@@ -96,19 +94,19 @@ export const Accessibility = () => {
             </Popover>
             <div
                 className="lg:flex hidden mr-auto light:text-black space-x-1 space-x-reverse divide-x-2 divide-x-reverse divide-slate-400/25">
-                <Time/>
+                <Time />
                 <div>
                     <Link className={'flex items-center px-3 cursor-pointer'} href={'/profile'}>
                         {info?.result?.firstName + " " + info?.result?.lastName}
-                        <UserCircleIcon className={'h-5 w-5 mr-2'}/>
+                        <UserCircleIcon className={'h-5 w-5 mr-2'} />
                     </Link>
                 </div>
                 <button className={'flex pr-2'} onClick={() => {
-                    void auth.signoutRedirect({id_token_hint: auth.user?.id_token})
+                    void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
                     Router.push('/')
                 }}>
                     خروج
-                    <ArrowLeftOnRectangleIcon className={'h-5 w-5 light:text-black mr-2'}/>
+                    <ArrowLeftOnRectangleIcon className={'h-5 w-5 light:text-black mr-2'} />
                 </button>
             </div>
         </>

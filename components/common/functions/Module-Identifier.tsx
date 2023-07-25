@@ -33,4 +33,5 @@ export const ModuleIdentifier: any = {
     NETFLOW_information: "netflow_information",
     MARKETER_APP_RELATIONS: "marketer-app_relations",
     MARKETER_APP_recite: "marketer-app_recite",
+    MARKETER_APP_subusers: "marketer-app_subusers"
 }

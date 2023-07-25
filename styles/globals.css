@@ -310,7 +310,7 @@ input[type=number] {
     }
 
     .toolbar{
-        @apply grid grid-cols-3 md:flex gap-2
+        @apply grid grid-cols-3 md:flex gap-2 !px-5
     }
 
 }

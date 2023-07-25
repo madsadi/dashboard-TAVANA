@@ -1,26 +1,33 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/layout/Modal";
 import usePageStructure from "../../hooks/usePageStructure";
-import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
-import {throwToast} from "../common/functions/notification";
+import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
+import { throwToast } from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
-import {ADMIN_GATEWAY} from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import { Button } from "../common/components/button/button";
+import { useSearchFilters } from "../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../common/functions/Module-Identifier";
 
 export default function Remove() {
     const [modal, setModal] = useState(false)
     const [targetToEdit, setTargetToEdit] = useState<any>(null)
-    const { page } = usePageStructure()
-    const {mutate} = useMutation({url:`${ADMIN_GATEWAY}/api/request/${page.api}/Delete`,method:"DELETE"})
-    const { fetchData,query,selectedRows,setSelectedRows } = useContext<any>(CustomerManagement)
+    const [loading, setLoading] = useState<boolean>(false)
 
-    useEffect(()=>{
-        if (!modal){
+    const { page } = usePageStructure()
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/${page.api}/Delete`, method: "DELETE" })
+    const { fetchData, query, selectedRows, setSelectedRows } = useContext<any>(CustomerManagement)
+    const { restriction, modules, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`], 'modal')
+
+    useEffect(() => {
+        if (!modal) {
             setSelectedRows([])
         }
-    },[modal])
+    }, [modal])
 
     const removeHandler = async () => {
-        await mutate({},{Id:targetToEdit.id})
+        setLoading(true)
+        await mutate({}, { Id: targetToEdit.id })
             .then(() => {
                 setModal(false);
                 fetchData(query)
@@ -28,6 +35,7 @@ export default function Remove() {
             .catch(() => {
                 setModal(false);
             })
+            .finally(() => setLoading(false))
     }
 
     const openModalHandler = () => {
@@ -35,13 +43,18 @@ export default function Remove() {
             setTargetToEdit(selectedRows[0])
             setModal(true)
         } else {
-            throwToast({type:'warning',value:'لطفا یک گزینه برای حذف انتخاب کنید'})
+            throwToast({ type: 'warning', value: 'لطفا یک گزینه برای حذف انتخاب کنید' })
         }
     }
 
 
     return (
         <>
+            <Button label={'حذف'}
+                className="bg-red-600"
+                onClick={openModalHandler}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Delete'].join('.')] : []}
+            />
             <Modal title={` حذف ${page?.searchFilter} `} setOpen={setModal} open={modal}>
                 <div className="field mt-4">
                     <div>{
@@ -53,16 +66,18 @@ export default function Remove() {
                     }
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500"
-                            onClick={() => setModal(false)}>لغو
-                        </button>
-                        <button className="button bg-lime-600" onClick={removeHandler}>تایید</button>
+                        <Button label={'لغو'}
+                            className="bg-red-500"
+                            onClick={() => setModal(false)}
+                        />
+                        <Button label={'تایید'}
+                            className="bg-lime-500"
+                            loading={loading}
+                            onClick={removeHandler}
+                        />
                     </div>
                 </div>
             </Modal>
-            <button className="button bg-red-600" onClick={() => openModalHandler()}>
-                حذف
-            </button>
         </>
     )
 }

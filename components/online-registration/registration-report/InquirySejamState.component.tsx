@@ -1,38 +1,42 @@
-import React, {useContext} from "react";
-import {OnlineRegContext} from "../../../pages/online-registration/registration-report";
-import {onlineRegistrationState} from "./enums";
-import {useRouter} from "next/router";
+import React, { useContext } from "react";
+import { OnlineRegContext } from "../../../pages/online-registration/registration-report";
+import { onlineRegistrationState } from "./enums";
+import { useRouter } from "next/router";
 import useQuery from "../../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../../api/constants";
-import {throwToast} from "../../common/functions/notification";
+import { ADMIN_GATEWAY } from "../../../api/constants";
+import { throwToast } from "../../common/functions/notification";
+import { Button } from "../../common/components/button/button";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export const InquirySejamStateComponent = () => {
-    const {selectedRows} = useContext<any>(OnlineRegContext)
-    const {fetchAsyncData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/checkUserSejamState`})
+    const { selectedRows } = useContext<any>(OnlineRegContext)
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
+    const { fetchAsyncData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/checkUserSejamState` })
     const router = useRouter()
-    let dep:string|undefined = router.query?.detail?.[0]
-    const queryData:string[]|undefined = dep?.split('&')
+    let dep: string | undefined = router.query?.detail?.[0]
+    const queryData: string[] | undefined = dep?.split('&')
     let userId = queryData?.[0]?.split('=')[1]
 
     const inquiryHandler = () => {
         if (selectedRows?.length || userId) {
             const checkState = async (user: any, index: number) => {
-                await fetchAsyncData({userId:user.userId || userId})
+                await fetchAsyncData({ userId: user.userId || userId })
                     .then((res) => {
-                        if (userId){
-                            throwToast({type:'success',value:` وضعیت این کاربر ${onlineRegistrationState.find((item: any) => item.id === res?.data?.result.sejamStatus)?.title}  می باشد `})
-                        }else{
-                            throwToast({type:'success',value:` وضعیت کاربر با کد ملی ${user.uniqueId} ${onlineRegistrationState.find((item: any) => item.id === res?.data?.result.sejamStatus)?.title}  می باشد `})
+                        if (userId) {
+                            throwToast({ type: 'success', value: ` وضعیت این کاربر ${onlineRegistrationState.find((item: any) => item.id === res?.data?.result.sejamStatus)?.title}  می باشد ` })
+                        } else {
+                            throwToast({ type: 'success', value: ` وضعیت کاربر با کد ملی ${user.uniqueId} ${onlineRegistrationState.find((item: any) => item.id === res?.data?.result.sejamStatus)?.title}  می باشد ` })
                         }
                         if (index + 1 < selectedRows?.length) {
                             checkState(selectedRows[index + 1], index + 1)
                         }
                     })
                     .catch((err) => {
-                        if (err?.response?.data?.error?.message==='کاربر سجامی نیست' && !userId){
-                            throwToast({type:'customError',value:` کاربر با کد ملی ${user.uniqueId} سجامی نمی باشد `})
-                        }else{
-                            throwToast({type:'error',value:err})
+                        if (err?.response?.data?.error?.message === 'کاربر سجامی نیست' && !userId) {
+                            throwToast({ type: 'customError', value: ` کاربر با کد ملی ${user.uniqueId} سجامی نمی باشد ` })
+                        } else {
+                            throwToast({ type: 'error', value: err })
                         }
                         if (index + 1 < selectedRows?.length) {
                             checkState(selectedRows[index + 1], index + 1)
@@ -41,13 +45,15 @@ export const InquirySejamStateComponent = () => {
             }
             checkState(selectedRows?.[0] || userId, 0)
         } else {
-            throwToast({type:'warning',value:'لطفا یک ردیف را انتخاب کنید'})
+            throwToast({ type: 'warning', value: 'لطفا یک ردیف را انتخاب کنید' })
         }
     }
 
     return (
-            <button className={'button bg-yellow-500'} onClick={inquiryHandler}>
-                وضعیت سجام
-            </button>
+        <Button label={'وضعیت سجام'}
+            className="bg-yellow-500"
+            onClick={inquiryHandler}
+            allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
+        />
     )
 }

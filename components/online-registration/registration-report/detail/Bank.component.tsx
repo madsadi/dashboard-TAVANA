@@ -1,20 +1,26 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Image from "next/image";
-import {findBank} from "../../../common/functions/common-funcions";
+import { findBank } from "../../../common/functions/common-funcions";
 import LabelValue from "../../../common/components/LabelValue";
-import {accountTypeEnums} from "../enums";
+import { accountTypeEnums } from "../enums";
 import DaisyAccordionComponent from "../../../common/components/DaisyAccordion.component";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import useQuery from "../../../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../../api/constants";
+import { useSelector } from 'react-redux';
+import { useSearchFilters } from '../../../../hooks/useSearchFilters';
+import { ModuleIdentifier } from '../../../common/functions/Module-Identifier';
+import { isAllowed } from '../../../common/functions/permission-utils';
 
 export default function BankComponent() {
-    const {data,fetchData}:any = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetUserBankAccounts`})
+    const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig);
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
+    const { data, fetchData }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetUserBankAccounts` })
     const router = useRouter()
     let dep = router.query?.detail?.[0]
 
     useEffect(() => {
-        if (dep) {
+        if (dep && (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] }) : true)) {
             const queryData = dep.split('&')
             let _query: any = {};
 
@@ -30,22 +36,22 @@ export default function BankComponent() {
                     {data?.result?.bankAccounts?.map((item: any) => {
                         return (
                             <div className="grid md:grid-cols-4 grid-cols-2 gap-3 border border-dashed border-gray-200 p-5 mb-3"
-                                 key={item?.accountNumber}>
+                                key={item?.accountNumber}>
                                 <div>
                                     <Image src={`/bankIcons/${findBank(item?.bank?.name)?.logo}.svg`} height={24}
-                                           width={24} alt={item?.branchName}/>
+                                        width={24} alt={item?.branchName} />
                                 </div>
-                                <LabelValue title={'شماره حساب'} value={item?.accountNumber || 'ثبت نشده'}/>
-                                <LabelValue title={'نام بانک'} value={item?.bank?.name || 'ثبت نشده'}/>
-                                <LabelValue title={'نام شعبه'} value={item?.branchName || 'ثبت نشده'}/>
-                                <LabelValue title={'شهر شعبه'} value={item?.branchCity?.name || 'ثبت نشده'}/>
-                                <LabelValue title={'شماره شعبه'} value={item?.sheba || 'ثبت نشده'}/>
+                                <LabelValue title={'شماره حساب'} value={item?.accountNumber || 'ثبت نشده'} />
+                                <LabelValue title={'نام بانک'} value={item?.bank?.name || 'ثبت نشده'} />
+                                <LabelValue title={'نام شعبه'} value={item?.branchName || 'ثبت نشده'} />
+                                <LabelValue title={'شهر شعبه'} value={item?.branchCity?.name || 'ثبت نشده'} />
+                                <LabelValue title={'شماره شعبه'} value={item?.sheba || 'ثبت نشده'} />
                                 <LabelValue title={'نوع حساب'}
-                                            value={accountTypeEnums.find((i: any) => i.enTitle === item?.Type)?.faTitle}/>
+                                    value={accountTypeEnums.find((i: any) => i.enTitle === item?.Type)?.faTitle} />
                             </div>
                         )
                     })}
-                </DaisyAccordionComponent>:null
+                </DaisyAccordionComponent> : null
             }
         </>
     )

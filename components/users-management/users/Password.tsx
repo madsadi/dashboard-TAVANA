@@ -8,10 +8,9 @@ import { throwToast } from "../../common/functions/notification";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
-import filters from "../../../constants/filters";
 
 export default function Password() {
-    const { toolbar } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'password')
+    const { toolbar, modules, service, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users, 'password')
     const { selectedRows } = useContext<any>(UsersContext)
     const { mutate } = useMutation({ url: `${IDP}/api/users/change-user-password` })
     const [modal, setModal] = useState(false)
@@ -43,12 +42,13 @@ export default function Password() {
         _query[key] = value
         setQuery(_query)
     }
+
     return (
         <>
             <Button label={'رمز عبور جدید'}
                 className="bg-yellow-500"
                 onClick={openHandler}
-                allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'ChangeUserPassword'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'ChangeUserPassword'].join('.')] : []}
             />
             <Modal title={'رمز عبور جدید'} setOpen={setModal}
                 open={modal}>
@@ -61,7 +61,6 @@ export default function Password() {
                                     item={item}
                                     onChange={onChange}
                                 />
-
                             })
                         }
                     </form>
@@ -74,6 +73,7 @@ export default function Password() {
                             }}
                         />
                         <Button label={'تایید'}
+                            loading={loading}
                             className="bg-lime-600"
                             onClick={changePassHandler}
                             type={"submit"}

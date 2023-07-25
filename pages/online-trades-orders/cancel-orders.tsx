@@ -1,13 +1,14 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const CancelOrdersToolbar = dynamic(() => import('../../components/online-orders/cancel-orders/CancelOrdersToolbar'))
-import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
+import { formatNumber, jalali } from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import DateCell from "../../components/common/table/DateCell";
 
 export default function CancelOrders() {
     const columnDefStructure = [
@@ -51,11 +52,7 @@ export default function CancelOrders() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <>
-                            <span>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).date : '-'}</span>
-                            <span
-                                className={'ml-2'}>{props.data?.userRequestDateTime ? jalali(props.data?.userRequestDateTime).time : '-'}</span>
-                        </>
+                        <DateCell date={props.data?.userRequestDateTime} />
                     )
                 };
                 const moodDetails = {
@@ -91,15 +88,15 @@ export default function CancelOrders() {
             headerName: 'خطا',
         }
     ]
-    const {data, loading, query, fetchData} = useQuery({url: `${ADMIN_GATEWAY}/api/GlobalCancel/SearchGlobalCancelOrder`})
+    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/GlobalCancel/SearchGlobalCancelOrder` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
                 enableRtl: true,
                 columnDefs: [
-                    {field: 'id', headerName: 'شناسه درخواست'},
-                    {field: 'idOfBrokerIssuingTheOrder', headerName: 'کد کارگزاری'},
+                    { field: 'id', headerName: 'شناسه درخواست' },
+                    { field: 'idOfBrokerIssuingTheOrder', headerName: 'کد کارگزاری' },
                     {
                         field: 'userId',
                         headerName: 'شناسه کاربر'
@@ -108,7 +105,7 @@ export default function CancelOrders() {
                         field: 'userIP',
                         headerName: 'IP کاربر'
                     },
-                    {field: 'sourceOfRequestTitle', headerName: 'نرم افزار'},
+                    { field: 'sourceOfRequestTitle', headerName: 'نرم افزار' },
                     {
                         field: 'tradingDateTime', headerName: 'زمان اجرا',
                         cellRendererSelector: () => {
@@ -126,7 +123,7 @@ export default function CancelOrders() {
                             return moodDetails;
                         },
                     },
-                    {field: 'errorCode', headerName: 'کد خطای'},
+                    { field: 'errorCode', headerName: 'کد خطای' },
                 ],
                 defaultColDef: {
                     resizable: true,
@@ -142,22 +139,23 @@ export default function CancelOrders() {
     }, []);
 
     return (
-            <div className="flex flex-col h-full flex-1">
-                <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.ONLINE_CANCEL}/>
-                </AccordionComponent>
-                <CancelOrdersToolbar/>
-                <TableComponent data={data?.result?.pagedData}
-                                loading={loading}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['id', 'userRequestDateTime']}
-                                masterDetail={true}
-                                detailCellRendererParams={detailCellRendererParams}
-                                pagination={true}
-                                totalCount={data?.result?.totalCount}
-                                fetcher={fetchData}
-                                query={query}
-                />
-            </div>
+        <div className="flex flex-col h-full flex-1">
+            <AccordionComponent>
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.ONLINE_CANCEL} />
+            </AccordionComponent>
+            <CancelOrdersToolbar />
+            <TableComponent data={data?.result?.pagedData}
+                module={ModuleIdentifier.ONLINE_CANCEL}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['id', 'userRequestDateTime']}
+                masterDetail={true}
+                detailCellRendererParams={detailCellRendererParams}
+                pagination={true}
+                totalCount={data?.result?.totalCount}
+                fetcher={fetchData}
+                query={query}
+            />
+        </div>
     )
 }

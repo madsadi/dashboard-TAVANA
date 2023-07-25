@@ -1,16 +1,19 @@
-import React, {createContext, useMemo, useState} from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import dynamic from "next/dynamic";
 const RulesExpressionDetail = dynamic(() => import('./RulesExpressionDetail'))
 const TableComponent = dynamic(() => import('../common/table/table-component'))
 const RulesToolbar = dynamic(() => import('./RulesToolbar'))
 const AccordionComponent = dynamic(() => import('../common/components/AccordionComponent'))
 const SearchComponent = dynamic(() => import('../common/components/Search.component'))
-import {jalali} from "../common/functions/common-funcions";
-import {validate as uuidValidate} from 'uuid';
+import { jalali } from "../common/functions/common-funcions";
+import { validate as uuidValidate } from 'uuid';
 import useQuery from "../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 import DateCell from "../common/table/DateCell";
-import {ModuleIdentifier} from "../common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../common/functions/Module-Identifier";
+import { isAllowed } from '../common/functions/permission-utils';
+import { useSelector } from 'react-redux';
+import { useSearchFilters } from '../../hooks/useSearchFilters';
 
 export const MarketRulesContext = createContext({})
 export default function RulesList() {
@@ -83,7 +86,7 @@ export default function RulesList() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <DateCell date={props?.data?.updatedDateTime}/>
+                        <DateCell date={props?.data?.updatedDateTime} />
                     )
                 };
                 const moodDetails = {
@@ -120,33 +123,37 @@ export default function RulesList() {
             minWidth: 120
         }
     ]
-
+    const { restriction, service, modules } = useSearchFilters(ModuleIdentifier.MARKET_RULES_MANAGEMENT)
     const [selectedRows, setSelectedRows] = useState<any>([])
-    const {data,query,fetchData,loading} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetRules`})
-    const {data:dynamics,fetchData:fetchFields} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetFieldsList`})
+    const { data, query, fetchData, loading } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetRules` })
+    const { data: dynamics, fetchData: fetchFields } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetFieldsList` })
     let dynamicOptions = dynamics?.result
+    const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
 
-    useMemo(()=>{
-        fetchFields()
-    },[])
+    useMemo(() => {
+        if (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service[0], modules[0][0], 'Read'].join('.')] }) : true) {
+            fetchFields()
+        }
+    }, [])
 
     return (
-        <MarketRulesContext.Provider value={{selectedRows,setSelectedRows,dynamicOptions, fetchData, query}}>
+        <MarketRulesContext.Provider value={{ selectedRows, setSelectedRows, dynamicOptions, fetchData, query }}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
                     <SearchComponent module={ModuleIdentifier.MARKET_RULES_MANAGEMENT}
-                                     onSubmit={fetchData} loading={loading} dynamicOptions={dynamicOptions}
+                        onSubmit={fetchData} loading={loading} dynamicOptions={dynamicOptions}
                     />
                 </AccordionComponent>
-                <RulesToolbar/>
+                <RulesToolbar />
                 <TableComponent data={data?.result}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['id']}
-                                rowSelection={'single'}
-                                masterDetail={true}
-                                selectedRows={selectedRows}
-                                setSelectedRows={setSelectedRows}
-                                detailComponent={RulesExpressionDetail}
+                    module={ModuleIdentifier.MARKET_RULES_MANAGEMENT}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['id']}
+                    rowSelection={'single'}
+                    masterDetail={true}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    detailComponent={RulesExpressionDetail}
                 />
             </div>
         </MarketRulesContext.Provider>

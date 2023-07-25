@@ -4,7 +4,8 @@ import Link from "next/link";
 import SidebarCollapsibleComponent from "../components/Sidebar-collapsible.component";
 import filters from "../../../constants/filters";
 import { ModuleIdentifier } from "../functions/Module-Identifier";
-import { isAllowed } from '../functions/permission-utils';
+import { isAllowed, prepare } from '../functions/permission-utils';
+import { useSelector } from 'react-redux';
 
 export default function SideBarContent() {
     const router = useRouter()
@@ -163,6 +164,12 @@ export default function SideBarContent() {
                     url: '/marketer-app/recite',
                     className: router.pathname === '/marketer-app/recite' ? 'sideBarActive' : '',
                     module: ModuleIdentifier.MARKETER_APP_recite,
+                },
+                {
+                    label: 'زیر مجموعه های بازاریاب',
+                    url: '/marketer-app/sub-users',
+                    className: router.pathname === '/marketer-app/sub-users' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.MARKETER_APP_subusers,
                 }
             ],
         },
@@ -271,7 +278,7 @@ export default function SideBarContent() {
             ]
         }
     ];
-    const userPermissions: string[] = ['IdentityServerApi.UserManagement.Read']
+    const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
 
     return (
         <div className={'w-full'}>
@@ -285,11 +292,11 @@ export default function SideBarContent() {
                                     key={item.label}>
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
-                                            let _whoIsAllowed = filters[child.module].permissions.map((p: string) => [filters[child.module].service, filters[child.module].module, p].join('.'))
+
                                             return (
                                                 <Link href={child.url}
                                                     key={child.label}
-                                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed }) ? '' : 'hidden'}>
+                                                    className={isAllowed({ userPermissions, whoIsAllowed: prepare(filters[child.module].services) }) ? '' : 'hidden'}>
                                                     <li
                                                         className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}>
                                                         {child.label}
@@ -301,10 +308,9 @@ export default function SideBarContent() {
                                 </SidebarCollapsibleComponent>
                             )
                         } else {
-                            let _whoIsAllowed = filters[item.module].permissions.map((p: string) => [filters[item.module].service, filters[item.module].module, p].join('.'))
                             return (
                                 <div
-                                    className={isAllowed({ userPermissions, whoIsAllowed: _whoIsAllowed }) ? 'w-full' : 'hidden'}
+                                    className={isAllowed({ userPermissions, whoIsAllowed: prepare(filters[item.module].services) }) ? 'w-full' : 'hidden'}
                                     key={item.label}>
                                     <Link href={item.url}>
                                         <div

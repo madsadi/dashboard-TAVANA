@@ -9,10 +9,11 @@ import useQuery from "../../../hooks/useQuery";
 import { throwToast } from "../../common/functions/notification";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Button } from "../../common/components/button/button";
-import filters from "../../../constants/filters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
 
 export default function UserRole() {
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.USER_MANAGEMENT_users)
     const { userDetail: userDetailValue } = useSelector((state: any) => state.userManagementConfig)
     const { mutate: addUserToRole } = useMutation({ url: `${IDP}/api/users/add-user-to-role` })
     const { mutate: removeUserFromRole } = useMutation({ url: `${IDP}/api/users/remove-user-from-role` })
@@ -102,7 +103,7 @@ export default function UserRole() {
             <Button label={'مدریت نقش کاربر'}
                 className="bg-orange-500"
                 onClick={openHandler}
-                allowed={[[filters[ModuleIdentifier.USER_MANAGEMENT_users].service, filters[ModuleIdentifier.USER_MANAGEMENT_users].module, 'RollAndPermissionManagment'].join('.')]}
+                allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'RollAndPermissionManagment'].join('.')] : []}
             />
             <Modal title={'مدیریت نقش کاربر'} ModalWidth={'max-w-3xl'} setOpen={setModal}
                 open={modal}>

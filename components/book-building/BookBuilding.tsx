@@ -1,15 +1,14 @@
-import React, {createContext, useState} from 'react';
+import React, { createContext, useState } from 'react';
 import dynamic from 'next/dynamic'
-import {jalali} from "../common/functions/common-funcions";
 const ToolBar = dynamic(() => import('./ToolBar'))
 const TableComponent = dynamic(() => import('../common/table/table-component'))
 import AccordionComponent from "../common/components/AccordionComponent";
 import SearchComponent from "../common/components/Search.component";
 import useQuery from "../../hooks/useQuery";
-import {ADMIN_GATEWAY} from "../../api/constants";
-import {throwToast} from "../common/functions/notification";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import { throwToast } from "../common/functions/notification";
 import DateCell from "../common/table/DateCell";
-import {ModuleIdentifier} from "../common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../common/functions/Module-Identifier";
 
 export const BookBuildingContext = createContext({})
 export default function BookBuilding() {
@@ -60,7 +59,7 @@ export default function BookBuilding() {
             minWidth: 200,
             cellRendererSelector: () => {
                 return {
-                    component: (props:any)=><DateCell date={props?.data?.fromActiveDateTime}/>,
+                    component: (props: any) => <DateCell date={props?.data?.fromActiveDateTime} />,
                 };
             }
         },
@@ -72,7 +71,7 @@ export default function BookBuilding() {
             minWidth: 200,
             cellRendererSelector: () => {
                 return {
-                    component: (props:any)=><DateCell date={props?.data?.toActiveDateTime}/>,
+                    component: (props: any) => <DateCell date={props?.data?.toActiveDateTime} />,
                 };
             }
         },
@@ -92,10 +91,7 @@ export default function BookBuilding() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <>
-                            <span>{jalali(props.data.createDateTime).date}</span>
-                            {/*<span>{jalali(props.data.createDateTime).time}</span>*/}
-                        </>
+                        <DateCell date={props.data.createDateTime} hideTime />
                     )
                 };
                 const moodDetails = {
@@ -119,37 +115,38 @@ export default function BookBuilding() {
             minWidth: 200,
             cellRendererSelector: () => {
                 return {
-                    component: (props:any)=><DateCell date={props?.data?.updatedDateTime}/>,
+                    component: (props: any) => <DateCell date={props?.data?.updatedDateTime} />,
                 };
             }
         }
     ]
-    const {fetchAsyncData,query} = useQuery({})
+    const { fetchAsyncData, query } = useQuery({})
     const [selectedRows, setSelectedRows] = useState([])
     const [loading, setLoading] = useState<boolean>(false)
     const [data, setData] = useState([])
 
-    const submitHandler = (query:any)=>{
+    const submitHandler = (query: any) => {
         setLoading(true)
-        fetchAsyncData({},`${ADMIN_GATEWAY}/api/request/`+query?.api)
-            .then((res)=>setData(res?.data?.result))
-            .catch(() => throwToast({type:'customError',value:'نا موفق'}))
-            .finally(()=>setLoading(false))
+        fetchAsyncData({}, `${ADMIN_GATEWAY}/api/request/` + query?.api)
+            .then((res) => setData(res?.data?.result))
+            .catch(() => throwToast({ type: 'customError', value: 'نا موفق' }))
+            .finally(() => setLoading(false))
     }
 
     return (
-        <BookBuildingContext.Provider value={{selectedRows,query,submitHandler}}>
+        <BookBuildingContext.Provider value={{ selectedRows, query, submitHandler }}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent onSubmit={submitHandler} loading={loading} module={ModuleIdentifier.BOOK_BUILDING}/>
+                    <SearchComponent onSubmit={submitHandler} loading={loading} module={ModuleIdentifier.BOOK_BUILDING} />
                 </AccordionComponent>
-                <ToolBar/>
+                <ToolBar />
                 <TableComponent data={data}
-                                loading={loading}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['instrumentId','createDateTime']}
-                                rowSelection={'single'}
-                                setSelectedRows={setSelectedRows}
+                    module={ModuleIdentifier.BOOK_BUILDING}
+                    loading={loading}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['instrumentId', 'createDateTime']}
+                    rowSelection={'single'}
+                    setSelectedRows={setSelectedRows}
                 />
             </div>
         </BookBuildingContext.Provider>

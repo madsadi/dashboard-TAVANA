@@ -136,10 +136,11 @@ export default function HoldingsSubPages() {
         <CustomerManagement.Provider value={{ fetchData, selectedRows, setSelectedRows, query }}>
             <div className="flex flex-col h-full grow">
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]} />
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={page?.api ? ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`] : null} />
                 </AccordionComponent>
                 <Toolbar />
                 <TableComponent data={data?.result?.pagedData}
+                    module={ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]}
                     loading={loading}
                     columnDefStructure={page?.columnsDefStructure}
                     rowId={['id']}

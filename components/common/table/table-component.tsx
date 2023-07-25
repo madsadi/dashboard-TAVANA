@@ -10,6 +10,7 @@ const TablePagination = dynamic(() => import('./TablePagination'))
 
 const TableComponent: React.FC<any> = (props) => {
     let { data = [],
+        module,
         columnDefStructure,
         rowSelection,
         onGridReady = () => { gridRef?.current?.api?.setRowData([]) },
@@ -126,6 +127,7 @@ const TableComponent: React.FC<any> = (props) => {
                 </div>
             </div>
             {pagination ? <TablePagination onSubmit={fetcher}
+                module={module}
                 query={query}
                 totalCount={totalCount || 0}
             /> : null}

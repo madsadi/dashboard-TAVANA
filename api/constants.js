@@ -56,3 +56,10 @@ export const SEJAM_GATEWAY =
             ? window._env_.SEJAM_GATEWAY
             : config.app.SEJAM_GATEWAY
         : config.app.SEJAM_GATEWAY;
+
+export const MARKETER_CLIENT =
+    typeof window !== "undefined"
+        ? window._env_.MARKETER_CLIENT
+            ? window._env_.MARKETER_CLIENT
+            : config.app.MARKETER_CLIENT
+        : config.app.MARKETER_CLIENT;

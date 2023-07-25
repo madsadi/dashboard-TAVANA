@@ -4,11 +4,14 @@ import { useRouter } from "next/router";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import useMutation from "../../../hooks/useMutation";
 import { throwToast } from "../../common/functions/notification";
-import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/[...detail]";
-import { Loader } from "../../common/components/loader/Loader";
+import { Button } from "../../common/components/button/button";
+import { useSearchFilters } from "../../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export const TBSComponent = () => {
     const { selectedRows } = useContext<any>(OnlineRegContext)
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
+
     const router = useRouter()
     let dep: string | undefined = router.query?.detail?.[0]
     const queryData: string[] | undefined = dep?.split('&')
@@ -45,9 +48,11 @@ export const TBSComponent = () => {
     }
 
     return (
-        <button className={'button flex items-center disabled:bg-gray-400 bg-green-500 mr-auto'} onClick={TbsHandler} disabled={loading}>
-            ثبت در تدبیر
-            {loading && <Loader />}
-        </button>
+        <Button label={'ثبت در تدبیر'}
+            className="bg-green-500 mr-auto"
+            onClick={TbsHandler}
+            loading={loading}
+            allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Create'].join('.')] : []}
+        />
     )
 }
