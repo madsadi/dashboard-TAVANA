@@ -14,13 +14,13 @@ import { isAllowed } from '../../../common/functions/permission-utils';
 
 export default function BankComponent() {
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig);
-    const { service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
     const { data, fetchData }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetUserBankAccounts` })
     const router = useRouter()
     let dep = router.query?.detail?.[0]
 
     useEffect(() => {
-        if (dep && (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service, module, 'Read'].join('.')] }) : true)) {
+        if (dep && (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] }) : true)) {
             const queryData = dep.split('&')
             let _query: any = {};
 

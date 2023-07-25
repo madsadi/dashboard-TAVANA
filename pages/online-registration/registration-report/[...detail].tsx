@@ -35,7 +35,7 @@ import { ModuleIdentifier } from "../../../components/common/functions/Module-Id
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig);
-    const { service, module, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
+    const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
     const { data: info, fetchData }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchUser` });
     let data = info?.result?.pagedData[0]
     const router = useRouter()
@@ -231,7 +231,7 @@ export default function Detail() {
     }, []);
 
     useEffect(() => {
-        if (dep && (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service, module, 'Read'].join('.')] }) : true)) {
+        if (dep && (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] }) : true)) {
             const queryData = dep.split('&')
             let _query: any = {};
 

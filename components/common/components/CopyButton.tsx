@@ -11,7 +11,7 @@ import { Button } from './button/button';
 
 export const CopyButton = ({ entity, id, condition }: { entity: string, id: string, condition: boolean }) => {
     const { page } = usePageStructure()
-    const { restriction, module, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`], 'modal')
+    const { restriction, modules, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`], 'modal')
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
     const [loading, setLoading] = useState(false)
     const getLinkReq = async (id: string) => {
@@ -35,7 +35,7 @@ export const CopyButton = ({ entity, id, condition }: { entity: string, id: stri
             className="flex mt-1 border border-border rounded-lg p-1 !text-black bg-white items-center h-6"
             onClick={() => getLinkReq(id)}
             loading={loading}
-            allowed={restriction ? [[service, module, 'Read'].join('.')] : []}
+            allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
         />
             : null}
     </>

@@ -9,7 +9,7 @@ import { ModuleIdentifier } from "../common/functions/Module-Identifier";
 
 export default function ToggleButton(props: { api: string, data: { isActive: boolean, id: string } }) {
     const [isChecked, setIsChecked] = useState(props.data.isActive)
-    const { restriction, module, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${props?.api}`], 'modal')
+    const { restriction, modules, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${props?.api}`], 'modal')
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/${props.api}/UpdateActivationStatus`, method: "PUT" })
     const changeStatus = async () => {
         await mutate({ id: props.data.id, isActive: !isChecked })
@@ -21,6 +21,6 @@ export default function ToggleButton(props: { api: string, data: { isActive: boo
     }
 
     return (
-        <SwitchToggle isChecked={isChecked} onChange={changeStatus} allowed={restriction ? [[service, module, 'Edit'].join('.')] : []} />
+        <SwitchToggle isChecked={isChecked} onChange={changeStatus} allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []} />
     )
 }
