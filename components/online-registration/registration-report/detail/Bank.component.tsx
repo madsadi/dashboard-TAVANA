@@ -27,7 +27,7 @@ export default function BankComponent() {
             _query['userId'] = queryData[0].split('=')[1];
             fetchData(_query)
         }
-    }, [dep])
+    }, [dep, userPermissions])
 
     return (
         <>
