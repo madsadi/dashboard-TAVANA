@@ -1,17 +1,17 @@
 import Modal from "../../common/layout/Modal";
-import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
-import {CategoryResultModalTypes} from "../../../types/types";
-import {CommissionContext} from "../../../pages/commission-management/commission";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { CategoryResultModalTypes } from "../../../types/types";
+import { CommissionContext } from "../../../pages/commission-management/commission";
 import useQuery from "../../../hooks/useQuery";
-import {COMMISSION_BASE_URL} from "../../../api/constants";
-import {AgGridReact} from "ag-grid-react";
+import { COMMISSION_BASE_URL } from "../../../api/constants";
+import { AgGridReact } from "ag-grid-react";
 
-export const CategoryResultModal = (props: CategoryResultModalTypes) => {
-    const {setOpen, open, queryHandler, data} = props
-    const {categoryQuery} = useContext<any>(CommissionContext)
+const CategoryResultModal = (props: CategoryResultModalTypes) => {
+    const { setOpen, open, queryHandler, data } = props
+    const { categoryQuery } = useContext<any>(CommissionContext)
     const {
         fetchAsyncData
-    }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
+    }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search` })
     const columnDefStructure = [
 
         {
@@ -105,15 +105,15 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
                     'asking for ' + params.startRow + ' to ' + params.endRow
                 );
                 if (params.startRow < data.totalCount) {
-                    fetchAsyncData({...categoryQuery, PageNumber: params.endRow / 10}).then((res: any) => {
-                        params.successCallback([...res?.data?.result.pagedData],-1);
+                    fetchAsyncData({ ...categoryQuery, PageNumber: params.endRow / 10 }).then((res: any) => {
+                        params.successCallback([...res?.data?.result.pagedData], -1);
                     })
                 }
             },
         };
         params.api.setDatasource(dataSource);
     }
-    const gridStyle = useMemo(() => ({height: '100%', width: '100%'}), []);
+    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const defaultColDef = useMemo(() => {
         return {
             flex: 1,
@@ -124,17 +124,17 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
 
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
-        let fields = ['marketTitle','marketCode','offerTypeTitle','sideTitle','settlementDelayTitle','customerTypeTitle','customerCounterSideTitle',]
+        let fields = ['marketTitle', 'marketCode', 'offerTypeTitle', 'sideTitle', 'settlementDelayTitle', 'customerTypeTitle', 'customerCounterSideTitle',]
         queryHandler({
             CommissionCategoryId: selectedRows[0].id,
-            CommissionCategoryTitle: fields.map((item:string)=>{if (selectedRows[0][`${item}`]){return selectedRows[0][`${item}`]}}).join('-')
+            CommissionCategoryTitle: fields.map((item: string) => { if (selectedRows[0][`${item}`]) { return selectedRows[0][`${item}`] } }).join('-')
         })
         setOpen(false)
     }
 
     return (
         <Modal setOpen={setOpen} open={open} title={'نتایج جستجو گروه بندی ضرایب'}
-               ModalWidth={'max-w-5xl'}>
+            ModalWidth={'max-w-5xl'}>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[350px]'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
@@ -158,3 +158,5 @@ export const CategoryResultModal = (props: CategoryResultModalTypes) => {
         </Modal>
     )
 }
+
+export default CategoryResultModal

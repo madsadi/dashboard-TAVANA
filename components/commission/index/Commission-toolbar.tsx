@@ -3,14 +3,15 @@ import InActive from "./toolbar/InActive";
 import AddCommission from "./toolbar/Add";
 import EditCommission from "./toolbar/EditCommission";
 
-export const CommissionToolbar=()=>{
-    return(
+const CommissionToolbar = () => {
+    return (
         <div className={'border-x border-border'}>
             <div className={'toolbar p-2'}>
-                <InActive/>
-                <AddCommission/>
-                <EditCommission/>
+                <InActive />
+                <AddCommission />
+                <EditCommission />
             </div>
         </div>
     )
 }
+export default CommissionToolbar

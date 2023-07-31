@@ -1,12 +1,14 @@
 import InputComponent from "./InputComponent";
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState, FormEventHandler } from "react";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import moment from "jalali-moment";
 import { DayValue } from "react-modern-calendar-datepicker";
 import { Button } from "./button/button";
+import { SearchComponentTypes } from "types/types";
 
-const SearchComponent: React.FC<any> = forwardRef((props, ref) => {
+
+const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) => {
     const { onSubmit, module, loading, dynamicOptions = [], className, extraClassName } = props
     const { filters, initialValue, service, modules, restriction } = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
@@ -87,5 +89,6 @@ const SearchComponent: React.FC<any> = forwardRef((props, ref) => {
         </form>
     )
 })
-SearchComponent.displayName = 'SearchComponent';
+
 export default SearchComponent;
+SearchComponent.displayName = 'SearchComponent';

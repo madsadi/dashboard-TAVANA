@@ -363,13 +363,15 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "UniqueId", "name": " کد ملی بازاریاب/معرف ", "type": "input" },
+        { "title": "Mobile", "name": "شماره موبایل", "type": "input" },
         { "title": "Type", "name": "نوع بازاریاب", "type": "selectInput" },
         { "title": "Title", "name": "عنوان بازاریاب", "type": "input" },
-        { "title": "RefCode", "name": "کد بازاریاب/معرف", "type": "input" },
+        { "title": "RefCode", "name": "RefCode", "type": "input" },
         { "title": "TBSName", "name": "نام بازاریاب/معرف در TBS", "type": "input" },
         {
           "title": "userId",
-          "name": "کد ملی کاربر",
+          "name": "حساب کاربری (کد ملی کاربر)",
           "type": "dynamicSearch",
           "initialValue": "",
           "endpoint": `${IDP}/api/users/SearchUserAccount`,
@@ -397,8 +399,6 @@ const filters: any = {
           "queryField": "Title",
           "recordField": "id"
         },
-        { "title": "UniqueId", "name": "کد ملی", "type": "input" },
-        { "title": "Mobile", "name": "شماره موبایل", "type": "input" },
         { "title": "IsActive", "name": "وضعیت", "type": "selectInput" },
         { "title": "date", "name": " تاریخ شروع و پایان", "type": "date" }
       ],
@@ -412,8 +412,8 @@ const filters: any = {
         "SubsidiaryId": "",
         "BranchId": "",
         "IsActive": "",
-        "StartDate": moment().locale('en').format('YYYY/M/D'),
-        "EndDate": moment().locale('en').format('YYYY/M/D')
+        "StartDate": "",
+        "EndDate": ""
       }
     },
     "toolbar": {

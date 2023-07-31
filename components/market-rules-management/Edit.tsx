@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect, useMemo, useState } from "react";
 import Modal from "../common/layout/Modal";
-import { Badge } from "flowbite-react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { MarketRulesContext } from "./RulesList";
 import InputComponent from "../common/components/InputComponent";
@@ -14,6 +13,7 @@ import useQuery from "../../hooks/useQuery";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../common/functions/Module-Identifier";
 import { Button } from "../common/components/button/button";
+import Badge from "components/common/components/badge";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -289,7 +289,6 @@ export default function Edit() {
                                     className={'h-3 w-3 text-black'} /></div>
                                 return (
                                     <Badge
-                                        color="gray"
                                         key={index}
                                         onClick={() => remove(index)}>
                                         {appearance}
@@ -297,7 +296,7 @@ export default function Edit() {
                                 )
                             })}
                         </div>
-                        <textarea className={'w-full border border-border rounded shadow-sm'} placeholder={'عبارت'}
+                        <textarea className={'w-full border border-border rounded shadow-sm p-2'} placeholder={'عبارت'}
                             value={faExpression.join(' ')}
                             readOnly rows={5} cols={30} />
                         <div className={'text-left ltr my-2'}>
@@ -308,7 +307,6 @@ export default function Edit() {
                                         className={'flex items-center cursor-pointer text-sm'}>{item} <XCircleIcon
                                             className={'h-3 w-3 text-black'} /></div>
                                     return (<Badge
-                                        color="gray"
                                         key={index}
                                         onClick={() => remove(index)}
                                     >

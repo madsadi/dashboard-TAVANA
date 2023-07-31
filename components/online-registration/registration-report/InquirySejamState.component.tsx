@@ -9,7 +9,7 @@ import { Button } from "../../common/components/button/button";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
-export const InquirySejamStateComponent = () => {
+const InquirySejamStateComponent = () => {
     const { selectedRows } = useContext<any>(OnlineRegContext)
     const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const { fetchAsyncData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/checkUserSejamState` })
@@ -57,3 +57,5 @@ export const InquirySejamStateComponent = () => {
         />
     )
 }
+
+export default InquirySejamStateComponent;

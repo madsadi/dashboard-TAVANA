@@ -1,15 +1,17 @@
-import React, {createContext, useEffect, useRef, useState} from 'react';
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
-import AccordionComponent from "../../components/common/components/AccordionComponent";
-import SearchComponent from "../../components/common/components/Search.component";
-import TableComponent from "../../components/common/table/table-component";
+import React, { createContext, useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+const AccordionComponent = dynamic(() => import("../../components/common/components/AccordionComponent"));
+const SearchComponent = dynamic(() => import("../../components/common/components/Search.component"));
+const TableComponent = dynamic(() => import("../../components/common/table/table-component"));
+const CategoryResultModal = dynamic(() => import("../../components/commission/index/CategoryResultModal"));
+const InstrumentTypeResultModal = dynamic(() => import("../../components/commission/index/InstrumentTypeResultModal"));
+const CommissionToolbar = dynamic(() => import("../../components/commission/index/Commission-toolbar"));
+const DateCell = dynamic(() => import("../../components/common/table/DateCell"));
+
 import useQuery from "../../hooks/useQuery";
-import {COMMISSION_BASE_URL} from "../../api/constants";
-import {CategoryResultModal} from "../../components/commission/index/CategoryResultModal";
-import {throwToast} from "../../components/common/functions/notification";
-import {InstrumentTypeResultModal} from "../../components/commission/index/InstrumentTypeResultModal";
-import {CommissionToolbar} from "../../components/commission/index/Commission-toolbar";
-import DateCell from "../../components/common/table/DateCell";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { throwToast } from "../../components/common/functions/notification";
+import { COMMISSION_BASE_URL } from "../../api/constants";
 
 export const CommissionContext = createContext({})
 export default function Commission() {
@@ -169,7 +171,7 @@ export default function Commission() {
             ]
         },
         {
-          headerName: 'مالیات ارزش افزوده'  ,
+            headerName: 'مالیات ارزش افزوده',
             children: [
                 {
                     field: 'addedValueTax',
@@ -212,7 +214,7 @@ export default function Commission() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <DateCell date={props.data.beginningEffectingDate} hideTime={true}/>
+                        <DateCell date={props.data.beginningEffectingDate} hideTime={true} />
 
                     )
                 };
@@ -231,7 +233,7 @@ export default function Commission() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <DateCell date={props.data.endEffectingDate} hideTime={true}/>
+                        <DateCell date={props.data.endEffectingDate} hideTime={true} />
                     )
                 };
                 const moodDetails = {
@@ -259,7 +261,7 @@ export default function Commission() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <DateCell date={props.data.lastUpdateDateTime}/>
+                        <DateCell date={props.data.lastUpdateDateTime} />
                     )
                 };
                 const moodDetails = {
@@ -275,15 +277,15 @@ export default function Commission() {
     const {
         data: categoryData,
         query: categoryQuery,
-        loading:categoryLoading,
+        loading: categoryLoading,
         fetchData: categorySearch
-    }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search`})
+    }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search` })
     const {
         data: instrumentData,
         fetchData: instrumentSearch,
-        loading:instrumentLoading
-    }: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search`})
-    const {fetchAsyncData: detailSearch}: any = useQuery({url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Search`})
+        loading: instrumentLoading
+    }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search` })
+    const { fetchAsyncData: detailSearch }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Search` })
     const [categoryModal, setCategoryModal] = useState(false)
     const [instrumentType, setInstrumentTypeModal] = useState(false)
     const [rowData, setRowData] = useState<any>([])
@@ -313,25 +315,25 @@ export default function Commission() {
 
     const queryHandler = (newQuery: any) => {
         ref?.current?.changeQueries(newQuery)
-        setIds({...ids,...newQuery})
+        setIds({ ...ids, ...newQuery })
     }
 
     const detailSearchHandler = (query: any) => {
-        const {CommissionCategoryTitle, CommissionInstrumentTypeTitle, ...rest} = query
+        const { CommissionCategoryTitle, CommissionInstrumentTypeTitle, ...rest } = query
         setDetailLoading(true)
         detailSearch(rest)
             .then((res: any) => setRowData(res?.data?.result))
-            .catch((err: any) => throwToast({type: 'err', value: err}))
-            .finally(()=>setDetailLoading(false))
+            .catch((err: any) => throwToast({ type: 'err', value: err }))
+            .finally(() => setDetailLoading(false))
     }
 
     return (
-        <CommissionContext.Provider value={{categoryQuery, selectedRows,ids}}>
+        <CommissionContext.Provider value={{ categoryQuery, selectedRows, ids }}>
             <div className={'flex flex-col h-full grow'}>
                 <CategoryResultModal open={categoryModal} setOpen={setCategoryModal} queryHandler={queryHandler}
-                                     data={categoryData?.result}/>
+                    data={categoryData?.result} />
                 <InstrumentTypeResultModal open={instrumentType} setOpen={setInstrumentTypeModal}
-                                           queryHandler={queryHandler} data={instrumentData?.result}/>
+                    queryHandler={queryHandler} data={instrumentData?.result} />
                 <AccordionComponent>
                     <div className={'grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2'}>
                         <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
@@ -342,7 +344,7 @@ export default function Commission() {
                             <SearchComponent
                                 className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '}
                                 extraClassName={'sm:mt-auto'} loading={instrumentLoading} onSubmit={instrumentSearch}
-                                module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}/>
+                                module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument} />
                         </div>
                         <div className={'border border-dashed border-border p-2 rounded'}>
                             <div className={'font-bold text-lg mb-5 flex'}>
@@ -351,25 +353,25 @@ export default function Commission() {
                             </div>
                             <SearchComponent
                                 className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '}
-                                onSubmit={categorySearch} loading={categoryLoading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_category}/>
+                                onSubmit={categorySearch} loading={categoryLoading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_category} />
                         </div>
                         <div className={'flex flex-col border border-dashed border-border p-2 rounded'}>
                             <div className={'font-bold text-lg mb-5'}>
                                 ضرایب کارمزد
                             </div>
                             <SearchComponent ref={ref}
-                                             className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '}
-                                             extraClassName={'sm:mt-auto'} loading={detailLoading} onSubmit={detailSearchHandler}
-                                             module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail}/>
+                                className={'!xl:grid-cols-2 !lg:grid-cols-3 !md:grid-cols-3 !sm:grid-cols-3 !grid-cols-2 '}
+                                extraClassName={'sm:mt-auto'} loading={detailLoading} onSubmit={detailSearchHandler}
+                                module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail} />
                         </div>
                     </div>
                 </AccordionComponent>
-                <CommissionToolbar/>
+                <CommissionToolbar />
                 <TableComponent data={rowData}
-                                columnDefStructure={columnDefStructure}
-                                rowId={['id']}
-                                rowSelection={'single'}
-                                setSelectedRows={setSelectedRows}
+                    columnDefStructure={columnDefStructure}
+                    rowId={['id']}
+                    rowSelection={'single'}
+                    setSelectedRows={setSelectedRows}
                 />
             </div>
         </CommissionContext.Provider>

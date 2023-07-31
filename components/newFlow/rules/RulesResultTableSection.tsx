@@ -1,13 +1,13 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
-import {formatNumber} from "../../common/functions/common-funcions";
+import { formatNumber } from "../../common/functions/common-funcions";
 import useQuery from "../../../hooks/useQuery";
-import {NETFLOW} from "../../../api/constants";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
-import {throwToast} from "../../common/functions/notification";
+import { NETFLOW } from "../../../api/constants";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
+import { throwToast } from "../../common/functions/notification";
 
 export default function RulesResultTableSection() {
     const columnDefStructure = [
@@ -73,13 +73,13 @@ export default function RulesResultTableSection() {
             headerName: 'تاخیر',
         }
     ]
-    const {fetchData,loading,data,query} = useQuery({url:`${NETFLOW}/Report/rules`})
+    const { fetchData, loading, data, query } = useQuery({ url: `${NETFLOW}/Report/rules` })
 
     const getRowStyle = (params: any) => {
         if (params?.node?.data?.side === 1) {
-            return {backgroundColor: 'rgba(5,122,85,0.18)'};
+            return { backgroundColor: 'rgba(5,122,85,0.18)' };
         } else {
-            return {backgroundColor: 'rgba(225,29,72,0.18)'};
+            return { backgroundColor: 'rgba(225,29,72,0.18)' };
         }
     };
     const detailCellRendererParams = useMemo(() => {
@@ -108,19 +108,19 @@ export default function RulesResultTableSection() {
                             return moodDetails;
                         },
                     },
-                    {field: 'accountCommission', headerName: 'هزینه دسترسی'},
+                    { field: 'accountCommission', headerName: 'هزینه دسترسی' },
                     {
                         field: 'seoCommission',
                         headerName: 'کارمزد سازمان'
                     },
-                    {field: 'tmcCommission', headerName: 'کارمزد فناوری'},
-                    {field: 'csdCommission', headerName: 'کارمزد سپرده گزاری'},
-                    {field: 'rayanBourseCommission', headerName: 'کارمزد رایان'},
-                    {field: 'bourseCommission', headerName: 'بورس مربوطه'},
-                    {field: 'brokerCommission', headerName: 'کارگزار'},
-                    {field: 'tax', headerName: 'مالیات'},
-                    {field: 'vatCommission', headerName: 'مالیات ارزش افزوده'},
-                    {field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری'},
+                    { field: 'tmcCommission', headerName: 'کارمزد فناوری' },
+                    { field: 'csdCommission', headerName: 'کارمزد سپرده گزاری' },
+                    { field: 'rayanBourseCommission', headerName: 'کارمزد رایان' },
+                    { field: 'bourseCommission', headerName: 'بورس مربوطه' },
+                    { field: 'brokerCommission', headerName: 'کارگزار' },
+                    { field: 'tax', headerName: 'مالیات' },
+                    { field: 'vatCommission', headerName: 'مالیات ارزش افزوده' },
+                    { field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری' },
                     {
                         field: 'side', headerName: 'سمت',
                         cellRendererSelector: () => {
@@ -149,31 +149,31 @@ export default function RulesResultTableSection() {
         };
     }, []);
 
-    const submitHandler = (query:any)=>{
-        if (query?.StartDate && query?.EndDate){
+    const submitHandler = (query: any) => {
+        if (query?.StartDate && query?.EndDate) {
             fetchData(query)
-        }else{
-            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        } else {
+            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
         }
     }
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
                 <SearchComponent module={ModuleIdentifier.NETFLOW_rules}
-                                 onSubmit={submitHandler} loading={loading}
+                    onSubmit={submitHandler} loading={loading}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['endDate', 'startDate', 'name', 'tierName']}
-                            rowSelection={'single'}
-                            masterDetail={true}
-                            detailCellRendererParams={detailCellRendererParams}
-                            pagination={true}
-                            totalCount={data?.totalRecord}
-                            fetcher={fetchData}
-                            query={query}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['endDate', 'startDate', 'name', 'tierName']}
+                rowSelection={'single'}
+                masterDetail={true}
+                detailCellRendererParams={detailCellRendererParams}
+                pagination={true}
+                totalCount={data?.totalRecord}
+                fetcher={fetchData}
+                query={query}
             />
         </div>
     );

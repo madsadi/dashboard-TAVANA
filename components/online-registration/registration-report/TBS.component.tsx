@@ -8,7 +8,7 @@ import { Button } from "../../common/components/button/button";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
-export const TBSComponent = () => {
+const TBSComponent = () => {
     const { selectedRows } = useContext<any>(OnlineRegContext)
     const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
 
@@ -56,3 +56,5 @@ export const TBSComponent = () => {
         />
     )
 }
+
+export default TBSComponent

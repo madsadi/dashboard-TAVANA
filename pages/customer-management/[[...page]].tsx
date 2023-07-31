@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect, useMemo } from "react";
+import React, { useState, createContext } from "react";
 import dynamic from 'next/dynamic'
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
 const Toolbar = dynamic(() => import('../../components/customer-management/Toolbar'))

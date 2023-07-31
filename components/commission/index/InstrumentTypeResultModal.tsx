@@ -1,11 +1,11 @@
 import Modal from "../../common/layout/Modal";
-import React, { useMemo, useRef} from "react";
-import {CategoryResultModalTypes} from "../../../types/types";
-import {AgGridReact} from "ag-grid-react";
+import React, { useMemo, useRef } from "react";
+import { CategoryResultModalTypes } from "../../../types/types";
+import { AgGridReact } from "ag-grid-react";
 
-export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
-    const {setOpen, open, queryHandler,data} = props
-    const columnDefStructure:any = [
+const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
+    const { setOpen, open, queryHandler, data } = props
+    const columnDefStructure: any = [
         {
             field: 'id',
             headerName: 'شماره',
@@ -91,25 +91,25 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
     ]
 
     const gridRef: any = useRef()
-    const gridStyle = useMemo(() => ({height: '100%', width: '100%'}), []);
+    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const defaultColDef = useMemo(() => {
         return {
             flex: 1,
             resizable: true,
             minWidth: 100,
-            sortable:true
+            sortable: true
         };
     }, []);
 
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
-        let fields = ['bourseTitle','instrumentTypeTitle','sectorTitle','sectorTitle','subSectorTitle']
-        queryHandler({CommissionInstrumentTypeId:selectedRows[0].id,CommissionInstrumentTypeTitle:fields.map((item:string)=>{if (selectedRows[0][`${item}`]){return selectedRows[0][`${item}`]}}).join('-')})
+        let fields = ['bourseTitle', 'instrumentTypeTitle', 'sectorTitle', 'sectorTitle', 'subSectorTitle']
+        queryHandler({ CommissionInstrumentTypeId: selectedRows[0].id, CommissionInstrumentTypeTitle: fields.map((item: string) => { if (selectedRows[0][`${item}`]) { return selectedRows[0][`${item}`] } }).join('-') })
         setOpen(false)
     }
     return (
         <Modal setOpen={setOpen} open={open} title={'نتایج جستجو گروه بندی ابزار مالی'}
-               ModalWidth={'max-w-5xl'}>
+            ModalWidth={'max-w-5xl'}>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[350px]'}>
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
@@ -126,3 +126,5 @@ export const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
         </Modal>
     )
 }
+
+export default InstrumentTypeResultModal

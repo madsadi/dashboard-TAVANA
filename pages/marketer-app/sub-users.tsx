@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from "next/dynamic";
-
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
@@ -8,8 +7,6 @@ import useQuery from "../../hooks/useQuery";
 import { MARKETER_CLIENT } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/DateCell";
-import ReciteToolbar from "../../components/marketer-app/recite/toolbar/ReciteToolbar";
-import moment from "jalali-moment";
 
 export default function SubUsers() {
 
