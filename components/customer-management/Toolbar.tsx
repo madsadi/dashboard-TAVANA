@@ -6,6 +6,7 @@ import {TBSBranches} from "./TBSBranches";
 import {TBSMarketer} from "./TBSMarketer";
 import {TBSReagents} from "./TBSReagents";
 import usePageStructure from "../../hooks/usePageStructure";
+import {CreateRefCode} from "./CreateRefCode";
 
 export default function Toolbar() {
     const {page} = usePageStructure()
@@ -19,6 +20,7 @@ export default function Toolbar() {
                 {page.api==='branch' ? <TBSBranches/>:null}
                 {page.api==='marketer' ? <TBSMarketer/>:null}
                 {page.api==='marketer' ? <TBSReagents/>:null}
+                {page.api==='marketer' ? <CreateRefCode/>:null}
             </div>
         </div>
     )
