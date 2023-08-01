@@ -1,54 +1,54 @@
-import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
-import React, {useEffect, useRef, useState} from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
 import useQuery from "../../../../hooks/useQuery";
-import {ExclamationCircleIcon, XCircleIcon} from "@heroicons/react/20/solid";
+import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 
-export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:any,queryUpdate:any,setQuery:any,query:any}) {
-    const {title,name,endpoint,valueField=[],queryField,recordField,alternative,isRequired,inputAble,alternativeRelatedRecordField}=item
+export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { item: any, queryUpdate: any, setQuery: any, query: any }) {
+    const { title, name, endpoint, valueField = [], queryField, recordField, alternative, isRequired, inputAble, alternativeRelatedRecordField } = item
     const [page, setPage] = useState(1)
     const [searchItem, setSearchItem] = useState('')
     const [findings, setFindings] = useState<any>([])
     const [open, setOpen] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const [placeholder, setPlaceholder] = useState('')
-    const {data, fetchAsyncData} = useQuery({url:endpoint})
+    const { data, fetchAsyncData } = useQuery({ url: endpoint })
 
-    const searchHandler = (item: string,page:number) => {
+    const searchHandler = (item: string, page: number) => {
         setSearchItem(item)
-        if (inputAble){
-            queryUpdate(title,item)
+        if (inputAble) {
+            queryUpdate(title, item)
         }
         if (item.length > 0) {
-            let _query:any = {PageNumber:page,PageSize:20}
+            let _query: any = { PageNumber: page, PageSize: 20 }
             _query[queryField] = item
             setIsLoading(true)
             fetchAsyncData(_query)
-                .then((res:any)=>{
-                    if (searchItem===item){
-                        setPage(page+1)
-                        setFindings([...findings,...res?.data.result.pagedData])
-                    }else{
+                .then((res: any) => {
+                    if (searchItem === item) {
+                        setPage(page + 1)
+                        setFindings([...findings, ...res?.data.result.pagedData])
+                    } else {
                         setPage(page)
                         setFindings(res?.data.result?.pagedData)
                     }
                 })
-                .finally(()=>setIsLoading(false))
+                .finally(() => setIsLoading(false))
         }
     }
 
-    useEffect(()=>{
-        if (data){
-            setFindings([...findings,...data?.result?.pagedData])
+    useEffect(() => {
+        if (data) {
+            setFindings([...findings, ...data?.result?.pagedData])
         }
-    },[data])// eslint-disable-line react-hooks/exhaustive-deps
+    }, [data])// eslint-disable-line react-hooks/exhaustive-deps
 
-    useEffect(()=>{
-        if (query?.[title]){
+    useEffect(() => {
+        if (query?.[title]) {
             setPlaceholder(query?.[title])
         }
-    },[])
+    }, [])
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
@@ -69,17 +69,17 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
         }, [ref]);
     }
 
-    const select=(record:any)=>{
+    const select = (record: any) => {
         setOpen(false)
-        if (alternative){
-            let _query:any = {}
-            _query[alternative]=record[alternativeRelatedRecordField]
-            _query[title]=record[recordField]
-            setQuery({...query,..._query})
-        }else{
-            queryUpdate(title,record[recordField])
+        if (alternative) {
+            let _query: any = {}
+            _query[alternative] = record[alternativeRelatedRecordField]
+            _query[title] = record[recordField]
+            setQuery({ ...query, ..._query })
+        } else {
+            queryUpdate(title, record[recordField])
         }
-        setSearchItem(valueField?.map((F:any)=>record[F]).join(' '))
+        setSearchItem(valueField?.map((F: any) => record[F]).join(' '))
     }
 
     return (
@@ -88,37 +88,37 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
                 <label className={'flex items-center text-sm'} htmlFor="InstrumentId">
                     {name}
                     {isRequired ? <span className={'min-w-5 mr-2'}>
-                                <ExclamationCircleIcon
-                                    className={'h-4 w-4 text-red-500'}/>
-                            </span>:null}
+                        <ExclamationCircleIcon
+                            className={'h-4 w-4 text-red-500'} />
+                    </span> : null}
                     {query?.[title] || query?.[title] === false ?
                         <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
-                            let _query:any ={}
-                            _query[alternative]=''
-                            _query[title]=''
-                            setQuery({...query,..._query})
+                            let _query: any = {}
+                            _query[alternative] = ''
+                            _query[title] = ''
+                            setQuery({ ...query, ..._query })
                             setSearchItem('')
-                        }}/> : null}
+                        }} /> : null}
                 </label>
                 <input id={title} className={'w-full h-[36px]'} value={searchItem}
-                       onFocus={() => setOpen(true)}
-                       placeholder={placeholder}
-                       onChange={(e) => {
-                           searchHandler(e.target.value,1);
-                           setOpen(true)
-                       }}/>
+                    onFocus={() => setOpen(true)}
+                    placeholder={placeholder}
+                    onChange={(e) => {
+                        searchHandler(e.target.value, 1);
+                        setOpen(true)
+                    }} />
                 <div className={'absolute left-1 bottom-0 -translate-y-1/3 flex'}>
                     {isLoading && searchItem &&
-                        <div className={'animate-spin h-5 w-5'}><Image alt={'search'} height={32} width={32} src={'/icons/spinner.svg'}/></div>}
-                    <MagnifyingGlassIcon className={'h-5 w-5'}/>
+                        <div className={'animate-spin h-5 w-5'}><Image alt={'search'} height={32} width={32} src={'/icons/spinner.svg'} /></div>}
+                    <MagnifyingGlassIcon className={'h-5 w-5'} />
                 </div>
             </div>
             {searchItem && open && <div
                 className={'absolute w-full p-2 opacity-95 backdrop-blur-lg dark:bg-appbar/50 bg-white shadow-md rounded-lg top-full mt-3 z-10'}>
                 <InfiniteScroll
                     dataLength={findings.length}
-                    next={()=>searchHandler(searchItem,page)}
-                    hasMore={findings.length<data?.result?.totalCount}
+                    next={() => searchHandler(searchItem, page)}
+                    hasMore={findings.length < data?.result?.totalCount}
                     loader={<h4>Loading...</h4>}
                     height={150}
                     className={'custom-scrollbar overflow-y-auto'}
@@ -130,8 +130,8 @@ export default function DynamicSearch({item,queryUpdate,setQuery,query}: {item:a
                 >
                     {findings.length > 0 ? (findings.map((item: any) => {
                         return (
-                            <li className={'dark:odd:bg-slate-700 odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={item?.id} onClick={()=>select(item)}>
-                                <div>{valueField?.map((F:any)=>item[F]).join(' ')}</div>
+                            <li className={'dark:odd:bg-slate-700 odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={item?.id} onClick={() => select(item)}>
+                                <div>{valueField?.map((F: any) => item[F]).join(' ')}</div>
                             </li>)
                     })) : <div>نتیجه ای یافت نشد</div>}
                 </InfiniteScroll>

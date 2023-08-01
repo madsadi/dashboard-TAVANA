@@ -1,25 +1,21 @@
 import '../styles/globals.css';
-import type {AppProps} from 'next/app';
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import {Provider} from "react-redux";
+import type { AppProps } from 'next/app';
+import { Provider } from "react-redux";
 import store from "../store";
 import Head from "next/head";
-import React, {useEffect, useRef} from 'react';
-import {AuthProvider} from "react-oidc-context"
+import React, { useEffect, useRef } from 'react';
+import { AuthProvider } from "react-oidc-context"
 import Router from "next/router";
 import '../api/axios_interceptor';
 import Layout from "../components/common/layout/Layout";
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
-import 'ag-grid-enterprise';
 import 'react-toastify/dist/ReactToastify.css';
-import {ToastContainer} from "react-toastify";
-import {SWRConfig} from 'swr';
-import {fetcher} from "../api/fetcher";
-import {WebStorageStateStore} from "oidc-client-ts";
-import {IDP} from "../api/constants";
+import { ToastContainer } from "react-toastify";
+import { SWRConfig } from 'swr';
+import { fetcher } from "../api/fetcher";
+import { WebStorageStateStore } from "oidc-client-ts";
+import { IDP } from "../api/constants";
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
     const toast: any = useRef(null);
 
     const authorityPath = IDP;
@@ -27,7 +23,7 @@ function MyApp({Component, pageProps}: AppProps) {
     const clientURL = typeof window !== 'undefined' && window.location.origin;
 
     const oidcConfig = {
-        userStore: typeof window !== 'undefined' ? new WebStorageStateStore({store: window.localStorage}) : undefined,
+        userStore: typeof window !== 'undefined' ? new WebStorageStateStore({ store: window.localStorage }) : undefined,
         authority: `${authorityPath}`,
         client_id: `${clientId}`,
         scope: 'openid IdentityServerApi customerinfo',
@@ -70,7 +66,7 @@ function MyApp({Component, pageProps}: AppProps) {
                     closeOnClick
                     rtl={true}
                     pauseOnFocusLoss
-                    toastStyle={{fontFamily: "Yekan Bakh", fontSize: '14px'}}
+                    toastStyle={{ fontFamily: "Yekan Bakh", fontSize: '14px' }}
                 />
                 <SWRConfig
                     value={{

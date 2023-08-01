@@ -2,8 +2,8 @@ import React, { createContext, useState } from 'react';
 import dynamic from 'next/dynamic'
 const ToolBar = dynamic(() => import('./ToolBar'))
 const TableComponent = dynamic(() => import('../common/table/table-component'))
-import AccordionComponent from "../common/components/AccordionComponent";
-import SearchComponent from "../common/components/Search.component";
+const AccordionComponent = dynamic(() => import("../common/components/AccordionComponent"));
+const SearchComponent = dynamic(() => import("../common/components/Search.component"));
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../common/functions/notification";

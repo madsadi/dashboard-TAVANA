@@ -1,15 +1,15 @@
-import React, {createContext, useMemo, useState} from "react";
+import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import {formatNumber, jalali} from "../../components/common/functions/common-funcions";
+const ReciteToolbar = dynamic(() => import("../../components/marketer-app/recite/toolbar/ReciteToolbar"));
+
+import { formatNumber } from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
-import {MARKETER_ADMIN} from "../../api/constants";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
-import DateCell from "../../components/common/table/DateCell";
-import ReciteToolbar from "../../components/marketer-app/recite/toolbar/ReciteToolbar";
+import { MARKETER_ADMIN } from "../../api/constants";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 
 export const ReciteContext = createContext({})
 export default function Recite() {
@@ -38,7 +38,7 @@ export default function Recite() {
                     const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
                     return (
                         <div>
-                            {months[Number(rowData.data.Doreh.split('1402')[1])-1]}
+                            {months[Number(rowData.data.Doreh.split('1402')[1]) - 1]}
                         </div>
                     )
                 };
@@ -50,8 +50,8 @@ export default function Recite() {
         }
     ]
     const {
-        data, fetchData, query: searchQuery,loading
-    }: any = useQuery({url: `${MARKETER_ADMIN}/factor/search-factor`})
+        data, fetchData, query: searchQuery, loading
+    }: any = useQuery({ url: `${MARKETER_ADMIN}/factor/search-factor` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -70,19 +70,19 @@ export default function Recite() {
                     {
                         field: 'PureFee',
                         headerName: 'کارمزد خالص',
-                    },{
+                    }, {
                         field: 'MarketerFee',
                         headerName: 'کارمزد مارکتر',
-                    },{
+                    }, {
                         field: 'Plan',
                         headerName: 'پلکان',
-                    },{
+                    }, {
                         field: 'Tax',
                         headerName: 'مالیات',
-                    },{
+                    }, {
                         field: 'FinalFee',
                         headerName: 'کارمزد نهایی',
-                    },{
+                    }, {
                         field: 'Payment',
                         headerName: 'پرداختی',
                     }
@@ -101,20 +101,20 @@ export default function Recite() {
     }, []);
 
     return (
-        <ReciteContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
+        <ReciteContext.Provider value={{ selectedRows, setSelectedRows, fetchData, searchQuery, data }}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_recite}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_recite} />
                 </AccordionComponent>
-                <ReciteToolbar/>
+                <ReciteToolbar />
                 <TableComponent data={data?.result.pagedData}
-                                columnDefStructure={columnDefStructure}
-                                setSelectedRows={setSelectedRows}
-                                selectedRows={selectedRows}
-                                rowSelection={'single'}
-                                rowId={['IdpID']}
-                                detailCellRendererParams={detailCellRendererParams}
-                                masterDetail={true}
+                    columnDefStructure={columnDefStructure}
+                    setSelectedRows={setSelectedRows}
+                    selectedRows={selectedRows}
+                    rowSelection={'single'}
+                    rowId={['IdpID']}
+                    detailCellRendererParams={detailCellRendererParams}
+                    masterDetail={true}
                 />
             </div>
         </ReciteContext.Provider>

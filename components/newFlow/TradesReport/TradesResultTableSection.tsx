@@ -1,14 +1,13 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 const AccordionComponent = dynamic(() => import('../../common/components/AccordionComponent'))
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
-import {formatNumber, jalali} from "../../common/functions/common-funcions";
-import moment from "jalali-moment";
+import { formatNumber, jalali } from "../../common/functions/common-funcions";
 import useQuery from "../../../hooks/useQuery";
-import {NETFLOW} from '../../../api/constants';
+import { NETFLOW } from '../../../api/constants';
 import DateCell from "../../common/table/DateCell";
-import {ModuleIdentifier} from "../../common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
 export default function TradesResultTableSection() {
     const columnDefStructure = [
@@ -22,8 +21,8 @@ export default function TradesResultTableSection() {
         {
             field: 'georgianTradeDate',
             headerName: 'تاریخ',
-            width:150,
-            minWidth:150,
+            width: 150,
+            minWidth: 150,
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
@@ -74,11 +73,11 @@ export default function TradesResultTableSection() {
         {
             field: 'tradeDate',
             headerName: 'تاریخ معامله',
-            width:200,
+            width: 200,
             minWidth: 200,
             cellRendererSelector: () => {
                 return {
-                    component: (props:any)=><DateCell date={props.data.georgianTradeDate}/>,
+                    component: (props: any) => <DateCell date={props.data.georgianTradeDate} />,
                 };
             },
         },
@@ -113,15 +112,15 @@ export default function TradesResultTableSection() {
             headerName: 'متن پیام',
         },
     ]
-    const {fetchData,data,loading,query} = useQuery({url:`${NETFLOW}/Report/trades`})
+    const { fetchData, data, loading, query } = useQuery({ url: `${NETFLOW}/Report/trades` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
             detailGridOptions: {
                 enableRtl: true,
                 columnDefs: [
-                    {field: 'brokerCommission', headerName: 'کارمزد کارگزاری'},
-                    {field: 'brfCommission', headerName: 'سهم صندوق توسعه'},
+                    { field: 'brokerCommission', headerName: 'کارمزد کارگزاری' },
+                    { field: 'brfCommission', headerName: 'سهم صندوق توسعه' },
                     {
                         field: 'bourseCommisison',
                         headerName: 'کارمزد بورس'
@@ -130,15 +129,15 @@ export default function TradesResultTableSection() {
                         field: 'seoCommission',
                         headerName: 'کارمزد سازمان'
                     },
-                    {field: 'tmcCommission', headerName: 'کارمزد فناوری'},
-                    {field: 'accessCommission', headerName: 'حق دسترسی'},
-                    {field: 'csdCommission', headerName: 'کارمزد سپرده گزاری'},
-                    {field: 'rayanBourseCommission', headerName: 'کارمزد رایان'},
-                    {field: 'inventoryCommission', headerName: 'هزینه انبارداری'},
-                    {field: 'tax', headerName: 'مالیات'},
-                    {field: 'vatCommission', headerName: 'مالیات ارزش افزوده'},
-                    {field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری'},
-                    {field: 'farCommission', headerName: 'هزینه فرآوری'},
+                    { field: 'tmcCommission', headerName: 'کارمزد فناوری' },
+                    { field: 'accessCommission', headerName: 'حق دسترسی' },
+                    { field: 'csdCommission', headerName: 'کارمزد سپرده گزاری' },
+                    { field: 'rayanBourseCommission', headerName: 'کارمزد رایان' },
+                    { field: 'inventoryCommission', headerName: 'هزینه انبارداری' },
+                    { field: 'tax', headerName: 'مالیات' },
+                    { field: 'vatCommission', headerName: 'مالیات ارزش افزوده' },
+                    { field: 'vtsCommission', headerName: 'مالیات ارزض افزوده هزینه انبارداری' },
+                    { field: 'farCommission', headerName: 'هزینه فرآوری' },
                 ],
                 defaultColDef: {
                     resizable: true,
@@ -158,19 +157,19 @@ export default function TradesResultTableSection() {
         <div className={'relative flex flex-col grow overflow-hidden'}>
             <AccordionComponent>
                 <SearchComponent module={ModuleIdentifier.NETFLOW_trades_report}
-                                 onSubmit={fetchData} loading={loading}
+                    onSubmit={fetchData} loading={loading}
                 />
             </AccordionComponent>
             <TableComponent data={data?.result}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['ticket']}
-                            masterDetail={true}
-                            detailCellRendererParams={detailCellRendererParams}
-                            pagination={true}
-                            totalCount={data?.totalRecord}
-                            fetcher={fetchData}
-                            query={query}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['ticket']}
+                masterDetail={true}
+                detailCellRendererParams={detailCellRendererParams}
+                pagination={true}
+                totalCount={data?.totalRecord}
+                fetcher={fetchData}
+                query={query}
             />
         </div>
     );

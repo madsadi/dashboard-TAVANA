@@ -4,7 +4,6 @@ const AccordionComponent = dynamic(() => import('../../common/components/Accordi
 const TableComponent = dynamic(() => import('../../common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../common/components/Search.component'))
 import { formatNumber, jalali } from "../../common/functions/common-funcions";
-import moment from "jalali-moment";
 import { enTierNameEnum } from '../../../constants/Enums'
 import useQuery from "../../../hooks/useQuery";
 import { NETFLOW } from '../../../api/constants';

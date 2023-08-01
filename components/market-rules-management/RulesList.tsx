@@ -134,7 +134,7 @@ export default function RulesList() {
         if (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service[0], modules[0][0], 'Read'].join('.')] }) : true) {
             fetchFields()
         }
-    }, [])
+    }, [userPermissions])
 
     return (
         <MarketRulesContext.Provider value={{ selectedRows, setSelectedRows, dynamicOptions, fetchData, query }}>

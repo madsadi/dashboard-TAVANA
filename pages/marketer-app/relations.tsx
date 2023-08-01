@@ -1,11 +1,11 @@
-import React, {createContext, useMemo, useState} from "react";
+import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import useQuery from "../../hooks/useQuery";
-import {MARKETER_ADMIN} from "../../api/constants";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import { MARKETER_ADMIN } from "../../api/constants";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/DateCell";
 import RelationToolbar from "../../components/marketer-app/relations/toolbar/RelationToolbar";
 
@@ -38,8 +38,8 @@ export default function Relations() {
         }
     ]
     const {
-        data, fetchData, query: searchQuery,loading
-    }: any = useQuery({url: `${MARKETER_ADMIN}/marketer/search-marketers-relations`})
+        data, fetchData, query: searchQuery, loading
+    }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer/search-marketers-relations` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -60,7 +60,7 @@ export default function Relations() {
                         headerName: 'تاریخ شروع ارتباط',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.StartDate} hideTime={true}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.StartDate} hideTime={true} />,
                             }
                             return moodDetails;
                         },
@@ -70,7 +70,7 @@ export default function Relations() {
                         headerName: 'تاریخ پایان ارتباط',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.EndDate} hideTime={true}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.EndDate} hideTime={true} />,
                             }
                             return moodDetails;
                         },
@@ -80,7 +80,7 @@ export default function Relations() {
                         headerName: 'زمان ایجاد',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GCreateDate}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.GCreateDate} />,
                             }
                             return moodDetails;
                         },
@@ -90,7 +90,7 @@ export default function Relations() {
                         headerName: 'زمان بروزرسانی',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GUpdateDate}/>,
+                                component: (rowData: any) => <DateCell date={rowData.data.GUpdateDate} />,
                             }
                             return moodDetails;
                         },
@@ -110,20 +110,20 @@ export default function Relations() {
     }, []);
 
     return (
-        <RelationsContext.Provider value={{selectedRows, setSelectedRows, fetchData, searchQuery, data}}>
+        <RelationsContext.Provider value={{ selectedRows, setSelectedRows, fetchData, searchQuery, data }}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_RELATIONS}/>
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_RELATIONS} />
                 </AccordionComponent>
-                <RelationToolbar/>
+                <RelationToolbar />
                 <TableComponent data={data?.result?.pagedData}
-                                columnDefStructure={columnDefStructure}
-                                setSelectedRows={setSelectedRows}
-                                selectedRows={selectedRows}
-                                rowSelection={'multiple'}
-                                rowId={['LeaderMarketerID', 'FollowerMarketerID']}
-                                detailCellRendererParams={detailCellRendererParams}
-                                masterDetail={true}
+                    columnDefStructure={columnDefStructure}
+                    setSelectedRows={setSelectedRows}
+                    selectedRows={selectedRows}
+                    rowSelection={'multiple'}
+                    rowId={['LeaderMarketerID', 'FollowerMarketerID']}
+                    detailCellRendererParams={detailCellRendererParams}
+                    masterDetail={true}
                 />
             </div>
         </RelationsContext.Provider>

@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import { ExcelStyle } from "ag-grid-community";
 import { Loader } from "../components/Loader";
 const TablePagination = dynamic(() => import('./TablePagination'))
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import 'ag-grid-enterprise';
 
 const TableComponent: React.FC<any> = (props) => {
     let { data = [],

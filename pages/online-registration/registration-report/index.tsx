@@ -1,10 +1,11 @@
 import React, { createContext, useMemo, useState } from "react";
-import AccordionComponent from "../../../components/common/components/AccordionComponent";
-import SearchComponent from "../../../components/common/components/Search.component";
-import TableComponent from "../../../components/common/table/table-component";
-import DateCell from "../../../components/common/table/DateCell";
-import UserRegToolbarComponent
-    from "../../../components/online-registration/registration-report/UserRegToolbar.component";
+import dynamic from "next/dynamic";
+const AccordionComponent = dynamic(() => import("../../../components/common/components/AccordionComponent"));
+const SearchComponent = dynamic(() => import("../../../components/common/components/Search.component"));
+const TableComponent = dynamic(() => import("../../../components/common/table/table-component"));
+const DateCell = dynamic(() => import("../../../components/common/table/DateCell"));
+const UserRegToolbarComponent
+    = dynamic(() => import("../../../components/online-registration/registration-report/UserRegToolbar.component"));
 import { formatNumber } from "../../../components/common/functions/common-funcions";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";

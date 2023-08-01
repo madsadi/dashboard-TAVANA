@@ -8,7 +8,7 @@ import { Button } from "../../common/components/button/button";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 
-export const AgreementToTbs = () => {
+const AgreementToTbs = () => {
     const { selectedRows } = useContext<any>(OnlineRegContext)
     const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
     const router = useRouter()
@@ -57,3 +57,5 @@ export const AgreementToTbs = () => {
 
     )
 }
+
+export default AgreementToTbs

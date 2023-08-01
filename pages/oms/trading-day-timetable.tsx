@@ -3,12 +3,12 @@ import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import { jalali} from "../../components/common/functions/common-funcions";
+import { jalali } from "../../components/common/functions/common-funcions";
 import DateCell from "../../components/common/table/DateCell";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import {throwToast} from "../../components/common/functions/notification";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import { throwToast } from "../../components/common/functions/notification";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 
 export default function TradingDayTimetable() {
     const columnDefStructure = [
@@ -22,8 +22,8 @@ export default function TradingDayTimetable() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <DateCell date={rowData.data.tradingSessionDate}/>
-                        )
+                        <DateCell date={rowData.data.tradingSessionDate} />
+                    )
                 };
                 const moodDetails = {
                     component: ColourCellRenderer,
@@ -91,29 +91,29 @@ export default function TradingDayTimetable() {
             },
         }
     ]
-    const {data,loading,query,fetchData} = useQuery({url:`${ADMIN_GATEWAY}/api/request/GetTradingDayTimetable`})
+    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetTradingDayTimetable` })
 
-    const fetchHandler = (query:any)=>{
-        if (query.StartDate && query?.EndDate){
+    const fetchHandler = (query: any) => {
+        if (query.StartDate && query?.EndDate) {
             fetchData(query)
-        }else{
-            throwToast({type:'warning',value:'ورودی تاریخ الزامی می باشد'})
+        } else {
+            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
         }
     }
 
     return (
         <div className="flex flex-col h-full grow">
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.OMS_timetable}/>
+                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.OMS_timetable} />
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['id']}
-                            pagination={true}
-                            totalCount={data?.result?.totalCount}
-                            fetcher={fetchHandler}
-                            query={query}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['id']}
+                pagination={true}
+                totalCount={data?.result?.totalCount}
+                fetcher={fetchHandler}
+                query={query}
             />
         </div>
     )

@@ -15,6 +15,10 @@ import useSWR from "swr";
 import jwt_decode from "jwt-decode";
 import { user_permissions } from '../../../store/app.config';
 
+interface TokenType {
+    permission: string[]
+}
+
 export const Accessibility = () => {
     const { data: info } = useSWR(`${IDP}/api/users/GetCurrentUserInfo`, { revalidateOnMount: true })
 
@@ -27,10 +31,11 @@ export const Accessibility = () => {
     useEffect(() => {
         if (auth?.user?.access_token) {
             let token = auth?.user?.access_token
-            let decoded = jwt_decode(token);
+            let decoded: TokenType = jwt_decode(token);
 
-            console.log(decoded)
-            dispatch(user_permissions(["CustomerManagement.Branch.Create", "BookBuildingStore.BookBuilding.Create"]))
+            console.log(decoded);
+
+            dispatch(user_permissions(decoded.permission))
         }
     }, [auth?.user?.access_token])
 
@@ -82,6 +87,7 @@ export const Accessibility = () => {
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
                                     onClick={() => {
                                         void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
+                                        dispatch(user_permissions([]))
                                         Router.push('/')
                                     }}>
                                     خروج
@@ -103,6 +109,7 @@ export const Accessibility = () => {
                 </div>
                 <button className={'flex pr-2'} onClick={() => {
                     void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
+                    dispatch(user_permissions([]))
                     Router.push('/')
                 }}>
                     خروج
