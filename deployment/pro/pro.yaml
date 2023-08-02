@@ -9,13 +9,13 @@ data:
   AllowedOrigins : ""
   COMMISSION_BASE_URL: http://172.24.65.20:9007
   NETFLOW: http://172.24.65.20:8091
-  ADMIN_GATEWAY: https://admin-gateway.tavanabroker.ir
-  IDP: "https://idp.tavanabroker.ir"
-  ONLINE_TRADING: "https://otg.tavanabroker.ir"
-  FILE_SERVER: https://file-manager.tavanabroker.ir
-  MARKETER_ADMIN: https://marketer-admin.tavanabroker.ir
-  SEJAM_GATEWAY: "https://sejam-gateway.tavanabroker.ir"
-  MARKETER_CLIENT: "https://marketer-api.tavanabroker.ir"
+  ADMIN_GATEWAY: https://admin-gateway.tavanaco.ir
+  IDP: "https://idp.tavanaco.ir"
+  ONLINE_TRADING: "https://otg.tavanaco.ir"
+  FILE_SERVER: https://file-manager.tavanaco.ir
+  MARKETER_ADMIN: https://marketer-admin.tavanaco.ir
+  SEJAM_GATEWAY: "https://sejam-gateway.tavanaco.ir"
+  MARKETER_CLIENT: "https://marketer-api.tavanaco.ir"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -71,10 +71,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - admin-panel.tavanabroker.ir
-    secretName: tavana-ir
+    - admin-panel.tavanaco.ir
+    secretName: tavanaco-ir
   rules:
-    - host: admin-panel.tavanabroker.ir
+    - host: admin-panel.tavanaco.ir
       http:
         paths:
         - path: /
