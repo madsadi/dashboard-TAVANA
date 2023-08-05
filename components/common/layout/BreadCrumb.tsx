@@ -59,6 +59,7 @@ export default function BreadCrumbComponent() {
         "relations": 'ارتباط بازاریاب ها',
         "recite": 'گزارش صورتحسابهای بازاریاب',
         "sub-users": 'زیر مجموعه ها',
+        "asset-switch": 'گزارش تغییر ناظر'
     }
 
     useEffect(() => {

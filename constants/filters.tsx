@@ -1379,6 +1379,60 @@ const filters: any = {
         "SortOrder": 1,
       }
     },
+  },
+  "asset-switch": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "CustomerId", "name": "شناسه مشتری", "type": "input" },
+        { "title": "UnqiueId", "name": "کد ملی مشتری", "type": "input" },
+        { "title": "InstrumentId", "name": "تاریخ", "type": "search" },
+        { "title": "Status", "name": "وضعیت", "type": "selectInput" },
+        {
+          "title": "UserId",
+          "name": "حساب کاربری (کد ملی کاربر)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id"
+        },
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" },
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": '',
+        "EndDate": '',
+        "CustomerId": '',
+        "Status": null,
+        "UserId": "",
+      }
+    },
+    "toolbar": {
+      "add": [
+        {
+          "title": "customerId", "name": "شناسه مشتری", "type": "input", "initialValue": "",
+          "isRequired": true
+        },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "isRequired": true },
+      ],
+      "edit": [
+        { "title": "status", "name": "وضعیت", "type": "selectInput", "initialValue": null },
+        { "title": "description", "name": "توضیحات", "type": "input" },
+        { "title": "tradingCode", "name": "کد معاملاتی", "type": "input", "readOnly": true },
+        { "title": "uniqueId", "name": " کد ملی", "type": "input", "readOnly": true },
+        { "title": "title", "name": "عنوان مشتری", "type": "input", "readOnly": true },
+        { "title": "bourseCode", "name": "کد بورسی", "type": "input", "readOnly": true },
+        { "title": "instrumentId", "name": "شناسه نماد", "type": "input", "readOnly": true },
+        { "title": "faInsCode", "name": "نماد ", "type": "input", "readOnly": true },
+        { "title": "faInsName", "name": "شرکت ", "type": "input", "readOnly": true },
+      ]
+    }
+
   }
 }
 
