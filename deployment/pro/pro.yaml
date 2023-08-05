@@ -9,7 +9,7 @@ data:
   AllowedOrigins : ""
   COMMISSION_BASE_URL: http://172.24.65.20:9007
   NETFLOW: http://172.24.65.20:8091
-  ADMIN_GATEWAY: http://admin-gateway.pro-oms.svc.cluster.local:443
+  ADMIN_GATEWAY: https://admin-gateway.tavanaco.ir
   IDP: "https://idp.tavanaco.ir"
   ONLINE_TRADING: "https://otg.tavanaco.ir"
   FILE_SERVER: https://file-manager.tavanaco.ir
