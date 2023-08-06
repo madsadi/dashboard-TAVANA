@@ -198,7 +198,7 @@ const filters: any = {
       "modal": [
         { "title": "onlineRegistrationProfileId", "name": "شناسه ثبت نام شرکت", "type": "input", "initialValue": "" },
         { "title": "title", "name": "عنوان شرکت", "type": "input", "initialValue": "" },
-        { "title": "subsidiaryTypeCode", "name": "کد نوع شرکت", "type": "selectInput", "initialValue": null }
+        { "title": "subsidiaryTypeCode", "name": " نوع شرکت", "type": "selectInput", "initialValue": null }
       ]
     }
   },
