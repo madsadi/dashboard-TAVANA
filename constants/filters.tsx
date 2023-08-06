@@ -177,6 +177,10 @@ const filters: any = {
       ],
       "refCode": [
         { "title": "refCode", "name": "کد معرف", "type": "input" }
+      ],
+      "bourseCode": [
+        { "title": "type", "name": "نوع کد بورسی", "type": "selectInput" },
+        { "title": "code", "name": "کد بورسی", "type": "input" }
       ]
     }
   },

@@ -339,7 +339,8 @@ export default function SideBarContent() {
                                                 <Link href={child.url}
                                                     as={child?.as}
                                                     key={child.label}
-                                                    className={isAllowed({ userPermissions, whoIsAllowed: prepare(filters[child.module].services) }) ? '' : 'hidden'}>
+                                                    className={isAllowed({ userPermissions, whoIsAllowed: prepare(filters[child.module].services) }) ? '' : 'hidden'}
+                                                >
                                                     <li
                                                         className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}>
                                                         {child.label}

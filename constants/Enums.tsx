@@ -822,6 +822,37 @@ export const stationTypeEnum: any = [
     }
 ]
 
+export const bousreCodeType: any = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "Energy",
+        "title": "انرژی",
+        "isDisabled": true
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "Product",
+        "title": "کالا",
+        "isDisabled": true
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "StockExchange",
+        "title": "بورس-فرابورس",
+        "isDisabled": false
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "None",
+        "title": "نامشخص",
+        "isDisabled": true
+    }
+]
+
 export const TypeOfBranches: any = [
     {
         "id": 1,
