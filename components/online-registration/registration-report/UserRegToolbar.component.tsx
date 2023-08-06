@@ -6,6 +6,7 @@ import { SendMessageComponent } from "./SendMessage.component";
 import AgreementToTbs from "./AgreementToTbs";
 import EditRefCode from "./EditRefCode";
 import BuildAgreementsFiles from "./BuildAgreementsFiles";
+import EditBourseCode from "../edit-bourse-code";
 
 export default function UserRegToolbarComponent() {
     return (
@@ -16,6 +17,7 @@ export default function UserRegToolbarComponent() {
                 <SendMessageComponent />
                 <BuildAgreementsFiles />
                 <EditRefCode />
+                <EditBourseCode />
                 <TBSComponent />
                 <AgreementToTbs />
             </div>

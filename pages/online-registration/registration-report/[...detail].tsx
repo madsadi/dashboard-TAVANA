@@ -32,6 +32,7 @@ import { useSelector } from "react-redux";
 import { isAllowed } from "../../../components/common/functions/permission-utils";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
+import EditBourseCode from "components/online-registration/edit-bourse-code";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {
@@ -251,6 +252,8 @@ export default function Detail() {
                         <InquirySejamStateComponent />
                         <EditRefCode />
                         <BuildAgreementsFiles />
+                        <EditRefCode />
+                        <EditBourseCode />
                         <TBSComponent />
                         <AgreementToTbs />
                     </div>

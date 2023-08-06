@@ -1,6 +1,7 @@
 import moment from "jalali-moment";
 import {
     activeStatus,
+    bousreCodeType,
     CalculationBaseType,
     category,
     Hours,
@@ -129,6 +130,8 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
                 return marketerTypeEnum
             } else if (label === 'نوع ایستگاه معاملاتی') {
                 return stationTypeEnum
+            } if (label === 'نوع کد بورسی') {
+                return bousreCodeType
             } else {
                 return TypeOfBranches
             }

@@ -1,21 +1,21 @@
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
 import React, { useContext, useEffect, useState } from "react";
-import { OnlineRegContext } from "../../../pages/online-registration/registration-report";
 import { useRouter } from "next/router";
-import { throwToast } from "../../common/functions/notification";
-import useMutation from "../../../hooks/useMutation";
-import { ADMIN_GATEWAY } from "../../../api/constants";
-import { useSearchFilters } from "../../../hooks/useSearchFilters";
-import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
-import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/[...detail]";
-import { Button } from "../../common/components/button/button";
+import { OnlineRegContext } from "../../pages/online-registration/registration-report";
+import { OnlineRegDetailContext } from "../../pages/online-registration/registration-report/[...detail]";
+import { useSearchFilters } from "hooks/useSearchFilters";
+import { ModuleIdentifier } from "components/common/functions/Module-Identifier";
+import { ADMIN_GATEWAY } from "api/constants";
+import useMutation from "hooks/useMutation";
+import { throwToast } from "components/common/functions/notification";
+import { Button } from "components/common/components/button/button";
+import Modal from "components/common/layout/Modal";
+import InputComponent from "components/common/components/InputComponent";
 
-export default function EditRefCode() {
+export default function EditBourseCode() {
     const { selectedRows, fetchData, searchQuery } = useContext<any>(OnlineRegContext)
     const { fetchData: detailFetch } = useContext<any>(OnlineRegDetailContext)
-    const { toolbar, modules, service, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'refCode')
-    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateMarketerRefCode` })
+    const { toolbar, modules, service, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'bourseCode')
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/EditBourseCode` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)
@@ -39,12 +39,20 @@ export default function EditRefCode() {
         } else {
             throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
         }
-
     }
+
     const submitHandler = async (e: any) => {
         e.preventDefault()
         setLoading(true)
-        await mutate({ ...query, userId: selectedRows?.[0].userId || userId })
+        await mutate({
+            userId: selectedRows?.[0].userId || userId,
+            bourseCodes: [
+                {
+                    type: query.type,
+                    code: query.code
+                }
+            ]
+        })
             .then((res) => {
                 throwToast({ type: 'success', value: `${res?.data?.result?.message}` })
                 setModal(false)
@@ -58,19 +66,21 @@ export default function EditRefCode() {
             .catch((err) => throwToast({ type: 'error', value: err }))
             .finally(() => setLoading(false))
     }
+
     const onChange = (key: string, value: any) => {
         let _query: any = { ...query };
-        _query[key] = value.trim()
+        _query[key] = value
         setQuery(_query)
     }
+
     return (
         <>
-            <Button label={'ویرایش کدبازاریابی'}
-                className="bg-orange-500"
+            <Button label={'اصلاح کد بورسی'}
+                className="bg-sky-500"
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
-            <Modal title={'ویرایش کدبازاریابی'} setOpen={setModal}
+            <Modal title={'اصلاح کد بورسی'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
                     <form onSubmit={submitHandler}>

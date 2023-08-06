@@ -77,26 +77,44 @@ export const subsidiaryType = [
     {
         "id": 1,
         "code": 1,
-        "enTitle": "FinancialGroup",
-        "title": "گروه مالی"
-    },
-    {
-        "id": 2,
-        "code": 2,
         "enTitle": "SecurityBrokerage",
         "title": "کارگزاری"
     },
     {
+        "id": 2,
+        "code": 2,
+        "enTitle": "AssetManagement",
+        "title": "مدیریت دارایی"
+    },
+    {
         "id": 3,
         "code": 3,
-        "enTitle": "AssetManagement",
-        "title": "سبدگردانی"
+        "enTitle": "EnergyBrokerage",
+        "title": "انرژی"
     },
     {
         "id": 4,
         "code": 4,
+        "enTitle": "MerchandiseBrokerage",
+        "title": "کالا"
+    },
+    {
+        "id": 5,
+        "code": 5,
+        "enTitle": "ITTechnology",
+        "title": "آی تی"
+    },
+    {
+        "id": 6,
+        "code": 6,
+        "enTitle": "FinancialGroup",
+        "title": "هلدینگ"
+    },
+    {
+        "id": 7,
+        "code": 7,
         "enTitle": "CurrencyExchange",
-        "title": "صرافی ارز"
+        "title": "صرافی"
     }
 ]
 export const sides = [
@@ -801,6 +819,37 @@ export const stationTypeEnum: any = [
         "code": 3,
         "enTitle": "OMS",
         "title": "OMS"
+    }
+]
+
+export const bousreCodeType: any = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "Energy",
+        "title": "انرژی",
+        "isDisabled": true
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "Product",
+        "title": "کالا",
+        "isDisabled": true
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "StockExchange",
+        "title": "بورس-فرابورس",
+        "isDisabled": false
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "None",
+        "title": "نامشخص",
+        "isDisabled": true
     }
 ]
 

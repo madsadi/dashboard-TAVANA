@@ -177,6 +177,10 @@ const filters: any = {
       ],
       "refCode": [
         { "title": "refCode", "name": "کد معرف", "type": "input" }
+      ],
+      "bourseCode": [
+        { "title": "type", "name": "نوع کد بورسی", "type": "selectInput" },
+        { "title": "code", "name": "کد بورسی", "type": "input" }
       ]
     }
   },
@@ -198,7 +202,7 @@ const filters: any = {
       "modal": [
         { "title": "onlineRegistrationProfileId", "name": "شناسه ثبت نام شرکت", "type": "input", "initialValue": "" },
         { "title": "title", "name": "عنوان شرکت", "type": "input", "initialValue": "" },
-        { "title": "subsidiaryTypeCode", "name": "کد نوع شرکت", "type": "selectInput", "initialValue": null }
+        { "title": "subsidiaryTypeCode", "name": " نوع شرکت", "type": "selectInput", "initialValue": null }
       ]
     }
   },
