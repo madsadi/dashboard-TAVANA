@@ -137,6 +137,7 @@ export default function AssetSwitch() {
                     detailCellRendererParams={detailCellRendererParams}
                     rowId={['customerId', 'instrumentId']}
                     pagination={true}
+                    rowSelection={'multiple'}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     masterDetail={true}

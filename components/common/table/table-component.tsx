@@ -10,6 +10,7 @@ const TablePagination = dynamic(() => import('./TablePagination'))
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
+import { TableProps } from "types/common-components.type";
 
 const TableComponent: React.FC<any> = (props) => {
     let { data = [],
@@ -18,7 +19,7 @@ const TableComponent: React.FC<any> = (props) => {
         rowSelection,
         onGridReady = () => { gridRef?.current?.api?.setRowData([]) },
         rowId,
-        isRowSelectable = null,
+        isRowSelectable,
         masterDetail = false,
         detailComponent = null,
         detailCellRendererParams = null,
@@ -31,7 +32,7 @@ const TableComponent: React.FC<any> = (props) => {
         fetcher = () => null,
         query = null,
         loading = false,
-        indexOfOpenedDetail = null,
+        indexOfOpenedDetail = -1,
     } = props
 
     const excelStyles: ExcelStyle[] = [

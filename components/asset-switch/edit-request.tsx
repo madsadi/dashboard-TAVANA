@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/layout/Modal";
 import InputComponent from "../common/components/InputComponent";
-import { UsersContext } from "../../pages/users-management/users";
 import useMutation from "../../hooks/useMutation";
-import { ADMIN_GATEWAY, IDP } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../common/functions/notification";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../common/functions/Module-Identifier";
@@ -12,7 +11,6 @@ import { AssetSwitchContext } from "pages/portfo/asset-switch";
 
 export default function EditRequest() {
     const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.ASSET_SWITCH, 'edit')
-
     const { fetchData, query: searchQuery, selectedRows } = useContext<any>(AssetSwitchContext)
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateAssetSwitch` })
     const [modal, setModal] = useState(false)
@@ -22,15 +20,19 @@ export default function EditRequest() {
     const editHandler = async (e: any) => {
         e.preventDefault()
         setLoading(true)
-        await mutate({ userId: selectedRows[0].id, ...query })
-            .then(() => {
-                throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
-                setModal(false)
-                setQuery({})
-                fetchData(searchQuery)
+        {
+            selectedRows.map((row: any) => {
+                mutate({ id: row.id, status: row?.status, description: row?.description })
+                    .then(() => {
+                        throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
+                        setModal(false)
+                        setQuery({})
+                        fetchData(searchQuery)
+                    })
+                    .catch((err) => throwToast({ type: 'error', value: err }))
             })
-            .catch((err) => throwToast({ type: 'error', value: err }))
-            .finally(() => setLoading(false))
+            setLoading(false)
+        }
     }
 
     const openHandler = () => {
@@ -42,7 +44,7 @@ export default function EditRequest() {
     }
 
     useEffect(() => {
-        if (modal && selectedRows.length) {
+        if (modal && selectedRows.length === 1) {
             let { status, description, tradingCode, uniqueId, title, bourseCode, instrumentId, faInsCode, faInsName } = selectedRows[0]
             setQuery({ description, status, tradingCode, uniqueId, title, bourseCode, instrumentId, faInsCode, faInsName })
         }
@@ -66,7 +68,7 @@ export default function EditRequest() {
                 <div className="field mt-4">
                     <form className={'grid grid-cols-2 gap-4'}>
                         {
-                            toolbar.map((item: any) => {
+                            toolbar.filter((input: any) => selectedRows.length > 1 ? !input.readOnly : input).map((item: any) => {
                                 return <InputComponent key={item.title}
                                     query={query}
                                     item={item}
