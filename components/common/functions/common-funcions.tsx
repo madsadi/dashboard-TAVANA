@@ -22,6 +22,7 @@ import {
     SortOrder,
     statesEnums,
     stationTypeEnum,
+    StatusEnums,
     subsidiaryType,
     TypeOfBranches,
     UserType,
@@ -138,6 +139,9 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
             return isRequired
         case 'Period':
             return Months
+        case 'Status':
+        case 'status':
+            return StatusEnums
         case 'UserType':
             return UserType
         case 'SortBy':

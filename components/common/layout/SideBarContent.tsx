@@ -205,6 +205,13 @@ export default function SideBarContent() {
                     as: '/portfo/live-portfo',
                     className: router.pathname === '/portfo/live-portfo' ? 'sideBarActive' : '',
                     module: ModuleIdentifier.LIVE_PORTFO,
+                },
+                {
+                    label: 'گزارش تغییر ناظر',
+                    url: '/portfo/asset-switch',
+                    as: '/portfo/asset-switch',
+                    className: router.pathname === '/portfo/asset-switch' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.ASSET_SWITCH,
                 }
             ],
         },

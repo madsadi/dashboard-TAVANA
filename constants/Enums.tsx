@@ -46,6 +46,28 @@ export const IsValidEnums: any = [
     }
 ];
 
+export const StatusEnums: any = [
+    {
+        "id": 1,
+        "title": " ثبت شده"
+    },
+    {
+        "id": 2,
+        "title": "در حال بررسی"
+    },
+    {
+        "id": 3,
+        "title": "تایید شده"
+    },
+    {
+        "id": 4,
+        "title": "رد شده"
+    },
+    {
+        "id": 5,
+        "title": "لغو شده"
+    }
+];
 export const Hours: any[] = [
     "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
 export const Minutes: any[] = [
