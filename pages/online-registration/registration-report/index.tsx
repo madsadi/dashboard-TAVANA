@@ -5,7 +5,7 @@ const SearchComponent = dynamic(() => import("../../../components/common/compone
 const TableComponent = dynamic(() => import("../../../components/common/table/table-component"));
 const DateCell = dynamic(() => import("../../../components/common/table/DateCell"));
 const UserRegToolbarComponent
-    = dynamic(() => import("../../../components/online-registration/registration-report/UserRegToolbar.component"));
+    = dynamic(() => import("../../../components/online-registration/registration-report/user-reg-toolbar"));
 import { formatNumber } from "../../../components/common/functions/common-funcions";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";

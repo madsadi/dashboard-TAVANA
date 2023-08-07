@@ -179,8 +179,8 @@ const filters: any = {
         { "title": "refCode", "name": "کد معرف", "type": "input" }
       ],
       "bourseCode": [
+        { "title": "code", "name": " کد بورسی", "type": "input" },
         { "title": "type", "name": "نوع کد بورسی", "type": "selectInput" },
-        { "title": "code", "name": "کد بورسی", "type": "input" }
       ]
     }
   },
@@ -1366,6 +1366,16 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
+        {
+          "title": "IdpID",
+          "name": "حساب کاربری (کد ملی کاربر)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id"
+        },
         { "title": "Name", "name": "نام کاربر", "type": "input" },
         { "title": "UserType", "name": "نوع کاربر", "type": "selectInput" },
         { "title": "date", "name": "تاریخ", "type": "date" },
@@ -1377,7 +1387,7 @@ const filters: any = {
         "PageSize": 20,
         "StartDate": moment.from(moment().locale('fa').format('YYYY-MM') + "-01", 'fa', 'YYYY-MM-DD').format('YYYY-MM-DD'),
         "EndDate": moment().locale('en').format('YYYY-MM-DD'),
-        "UserType": true,
+        "UserType": 'active',
         "Name": '',
         "SortBy": "RegisterDate",
         "SortOrder": 1,

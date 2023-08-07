@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { OnlineRegContext } from "../../pages/online-registration/registration-report";
-import { OnlineRegDetailContext } from "../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegContext } from "pages/online-registration/registration-report";
+import { OnlineRegDetailContext } from "pages/online-registration/registration-report/[...detail]";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "components/common/functions/Module-Identifier";
 import { ADMIN_GATEWAY } from "api/constants";
@@ -49,7 +49,7 @@ export default function EditBourseCode() {
             bourseCodes: [
                 {
                     type: query.type,
-                    code: query.code
+                    code: [query.letter, query.digit].join('')
                 }
             ]
         })

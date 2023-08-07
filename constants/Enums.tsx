@@ -281,11 +281,11 @@ export const Months: any[] = [
 export const UserType: any = [
     {
         title: 'فعال',
-        id: true,
+        id: 'active',
     },
     {
         title: 'غیر فعال',
-        id: false,
+        id: 'inactive',
     },
 ]
 export const SortBy: any = [
@@ -1303,4 +1303,3 @@ export const errors: any = [
         "description": "توالی زمان در ارسال سفارش رعایت نشده است"
     }
 ]
-
