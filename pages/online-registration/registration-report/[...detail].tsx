@@ -14,15 +14,15 @@ const AgentComponent = dynamic(() => import("../../../components/online-registra
 const AddressesComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Addresses.component"));
 const EconomicComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Economic.component"));
 const AgreementComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/AgreementComponent"));
-const EditRegStateComponent = dynamic(() => import("../../../components/online-registration/registration-report/EditRegState.component"));
+const EditRegStateComponent = dynamic(() => import("../../../components/online-registration/registration-report/edit-reg-state"));
 const
     InquirySejamStateComponent
-        = dynamic(() => import("../../../components/online-registration/registration-report/InquirySejamState.component"));
-const TBSComponent = dynamic(() => import("../../../components/online-registration/registration-report/TBS.component"));
+        = dynamic(() => import("../../../components/online-registration/registration-report/inquiry-sejam-state"));
+const TBSComponent = dynamic(() => import("../../../components/online-registration/registration-report/tbs"));
 const DocumentsComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Documents.component"));
-const EditRefCode = dynamic(() => import("../../../components/online-registration/registration-report/EditRefCode"));
-const BuildAgreementsFiles = dynamic(() => import("../../../components/online-registration/registration-report/BuildAgreementsFiles"));
-const AgreementToTbs = dynamic(() => import("../../../components/online-registration/registration-report/AgreementToTbs"));
+const EditRefCode = dynamic(() => import("../../../components/online-registration/registration-report/edit-ref-code"));
+const BuildAgreementsFiles = dynamic(() => import("../../../components/online-registration/registration-report/build-agreements-files"));
+const AgreementToTbs = dynamic(() => import("../../../components/online-registration/registration-report/agreement-to-tbs"));
 const TableComponent = dynamic(() => import("../../../components/common/table/table-component"));
 const DateCell = dynamic(() => import("../../../components/common/table/DateCell"));
 import useQuery from "../../../hooks/useQuery";
@@ -32,7 +32,7 @@ import { useSelector } from "react-redux";
 import { isAllowed } from "../../../components/common/functions/permission-utils";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
-import EditBourseCode from "components/online-registration/edit-bourse-code";
+import EditBourseCode from "components/online-registration/registration-report/edit-bourse-code";
 
 export const OnlineRegDetailContext = createContext({})
 export default function Detail() {

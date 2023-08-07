@@ -1,12 +1,12 @@
 import React from "react";
-import EditRegStateComponent from "./EditRegState.component";
-import TBSComponent from "./TBS.component";
-import InquirySejamStateComponent from "./InquirySejamState.component";
-import { SendMessageComponent } from "./SendMessage.component";
-import AgreementToTbs from "./AgreementToTbs";
-import EditRefCode from "./EditRefCode";
-import BuildAgreementsFiles from "./BuildAgreementsFiles";
-import EditBourseCode from "../edit-bourse-code";
+import EditRegStateComponent from "./edit-reg-state";
+import TBSComponent from "./tbs";
+import InquirySejamStateComponent from "./inquiry-sejam-state";
+import { SendMessageComponent } from "./send-message";
+import AgreementToTbs from "./agreement-to-tbs";
+import EditRefCode from "./edit-ref-code";
+import BuildAgreementsFiles from "./build-agreements-files";
+import EditBourseCode from "./edit-bourse-code";
 
 export default function UserRegToolbarComponent() {
     return (

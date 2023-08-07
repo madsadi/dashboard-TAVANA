@@ -36,7 +36,7 @@ export default function BreadCrumbComponent() {
         "cleared-trade": 'معاملات تسویه شده',
         "clearing-date-range": 'تسویه و پایاپای',
         "portfo": 'پرتفو',
-        "live-portfo": 'پرتفو لحضه ای',
+        "live-portfo": 'پرتفو لحظه ای',
         '[[...query]]': 'تاریخچه',
         '[...detail]': 'جزییات اطلاعات کاربر',
         "customer-management": 'مدیریت مشتریان',

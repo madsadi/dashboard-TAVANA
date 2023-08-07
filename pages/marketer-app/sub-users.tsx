@@ -4,7 +4,7 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
 const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
 import useQuery from "../../hooks/useQuery";
-import { MARKETER_CLIENT } from "../../api/constants";
+import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/DateCell";
 
@@ -61,7 +61,7 @@ export default function SubUsers() {
     ]
     const {
         data, fetchData, loading, query
-    }: any = useQuery({ url: `${MARKETER_CLIENT}/volume-and-fee/users-total` })
+    }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer/all-users-total` })
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
