@@ -69,7 +69,7 @@ export default function SymbolSearchSection({ query, queryUpdate }: { query: any
         <div className={`relative`} ref={wrapperRef}>
             <div className={'relative'}>
                 <label className={'block text-sm'} htmlFor="InstrumentId">شناسه نماد</label>
-                <input id="InstrumentId" className={'w-full h-[36px]'} value={query?.InstrumentId}
+                <input id="InstrumentId" className={'w-full h-[36px] '} value={query?.InstrumentId}
                     onFocus={() => setOpen(true)}
                     onChange={(e) => {
                         searchHandler(e.target.value, 1);

@@ -1,4 +1,4 @@
-import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
+import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
 interface BaseInputPropsType {
@@ -18,8 +18,12 @@ export const BaseInput = (props: BaseInputPropsType) => {
                     <ExclamationCircleIcon
                         className={'h-4 w-4 text-red-500'} />
                 </span> : null}
+                {value || value === false ?
+                    <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
+                        onChange(title, '')
+                    }} /> : null}
             </label>
-            <input className={'w-full'}
+            <input className={'w-full h-[36px]'}
                 type={valueType || 'text'}
                 readOnly={readOnly}
                 dir={valueType === 'number' ? 'ltr' : 'rtl'}

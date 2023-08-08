@@ -70,8 +70,25 @@ export default function Detail() {
             headerName: 'معرف'
         },
         {
-            field: 'agentTitle',
-            headerName: 'نماینده'
+            field: 'agentUniqueId',
+            headerName: 'نماینده',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <div className={'flex items-center space-x-2 space-x-reverse'}>
+                            <span>{rowData.data.agentUniqueId}</span>
+                            {rowData.data.agentTitle && rowData.data.agentUniqueId ? <span className="mx-1">-</span> : null}
+                            <span>
+                                {rowData.data.agentTitle}
+                            </span>
+                        </div>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
         },
         {
             field: 'isSejami',

@@ -9,6 +9,7 @@ const UserDetailComponent = dynamic(() => import('../../components/users-managem
 import useQuery from '../../hooks/useQuery';
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import DateCell from "components/common/table/DateCell";
 
 export const UsersContext = createContext({})
 export default function Users() {
@@ -54,30 +55,46 @@ export default function Users() {
         {
             field: 'twoFactorEnabled',
             headerName: 'ورود دوعاملی',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <span>{rowData.data.twoFactorEnabled ? 'فعال':'غیر فعال'}</span>
+                    )
+                }
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
         },
-        {
-            field: 'lockOutEnabled',
-            headerName: 'قفل شده؟',
-        },
+        // {
+        //     field: 'lockOutEnabled',
+        //     headerName: 'قفل شده؟',
+        //     cellRendererSelector: () => {
+        //         const ColourCellRenderer = (rowData: any) => {
+        //             return (
+        //                 <span>{rowData.data.lockOutEnabled ? 'قفل شده':'قفل نشده'}</span>
+        //             )
+        //         }
+        //         const moodDetails = {
+        //             component: ColourCellRenderer,
+        //         }
+        //         return moodDetails;
+        //     }
+        // },
         // {
         //     field: 'accessFailedCount',
         //     headerName: 'تعداد ورود ناموفق',
         // },
-        // {
-        //     field: 'lockOutEnd',
-        //     headerName: 'قفل تا تاریخ',
-        //     // cellRendererSelector: () => {
-        //     //     const ColourCellRenderer = (rowData: any) => {
-        //     //         return (
-        //     //             <span>{jalali(rowData.data.LockOutEnd).date}</span>
-        //     //         )
-        //     //         const moodDetails = {
-        //     //             component: ColourCellRenderer,
-        //     //         }
-        //     //         return moodDetails;
-        //     //     }
-        //     // }
-        // },
+        {
+            field: 'lockOutEnd',
+            headerName: 'قفل تا تاریخ',
+            cellRendererSelector: () => {
+                    return {
+                        component: (rowData:any)=><DateCell date={rowData.data.LockOutEnd}/>,
+                    };
+            }
+        },
         // {
         //     field: 'birthDate',
         //     headerName: 'تاریخ تولد',

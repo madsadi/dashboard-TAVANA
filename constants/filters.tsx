@@ -1,5 +1,6 @@
 import { ADMIN_GATEWAY, IDP } from "../api/constants";
 import moment from "jalali-moment";
+import { splittedDate } from "components/common/functions/common-funcions";
 
 const filters: any = {
   "dashboard": {
@@ -66,7 +67,7 @@ const filters: any = {
         { "title": "newPassword", "name": "رمز عبور جدید", "type": "input" }
       ],
       "lock-out": [
-        { "title": "lockoutEndDateTime", "name": "تاریخ", "type": "singleDate" }
+        { "title": "lockoutEndDateTime", "name": "تاریخ", "type": "singleDate","minimumDate":splittedDate(moment().locale('fa').format('YYYY-MM-DD')) }
       ]
     }
   },
@@ -1374,7 +1375,8 @@ const filters: any = {
           "endpoint": `${IDP}/api/users/SearchUserAccount`,
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
           "queryField": "NationalId",
-          "recordField": "id"
+          "recordField": "id",
+          "isRequired":true
         },
         { "title": "Name", "name": "نام کاربر", "type": "input" },
         { "title": "UserType", "name": "نوع کاربر", "type": "selectInput" },

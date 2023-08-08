@@ -165,3 +165,8 @@ export function findBank(account: string) {
         return ''
     }
 }
+
+export const splittedDate=(date:string)=>{
+    let _date = date.split('-')
+    return {year:Number(_date[0]),month:Number(_date[1]),day:Number(_date[2])}
+}

@@ -22,7 +22,7 @@ export default function LockOut() {
     const lockHandler = async (e: any) => {
         e.preventDefault()
         setLoading(true)
-        await mutate({ userId: selectedRows[0].id, lockoutEndDateTime: query.date })
+        await mutate({ userId: selectedRows[0].id, lockoutEndDateTime: query.lockoutEndDateTime })
             .then(() => {
                 throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
                 setModal(false)
