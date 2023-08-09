@@ -285,20 +285,6 @@ input[type=number] {
     min-height: unset !important;
 }
 
-/*.dark .Calendar{*/
-/*  background: #3d3d3d !important;*/
-/*  --cl-color-black:white !important;*/
-/*}*/
-/*.dark .Calendar .Calendar__day{*/
-/*  color:white !important;*/
-/*}*/
-/*.dark .Calendar .Calendar__day:not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween):not(.-selected):hover{*/
-/*  color:black !important;*/
-/*}*/
-/*.dark .Calendar .Calendar__day.-weekend:not(.-selected):not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween){*/
-/*  color:red !important;*/
-/*}*/
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
