@@ -33,7 +33,7 @@ export const Accessibility = () => {
             let token = auth?.user?.access_token
             let decoded: TokenType = jwt_decode(token);
 
-            dispatch(user_permissions(decoded?.permission))
+            dispatch(user_permissions(decoded?.permission || []))
         }
     }, [auth?.user?.access_token])
 
