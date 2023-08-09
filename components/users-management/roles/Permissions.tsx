@@ -10,7 +10,6 @@ import { IDP } from "../../../api/constants";
 import useMutation from "../../../hooks/useMutation";
 import { Button } from "../../common/components/button/button";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
-import filters from "../../../constants/filters";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 
 export default function Permissions() {
@@ -25,33 +24,34 @@ export default function Permissions() {
     const [modal, setModal] = useState(false)
     const [permissions, setPermissions] = useState<any>([])
     const [userPermissions, setUserPermissions] = useState<any>([])
+    const [loading, setLoading] = useState<boolean>(false)
     const { result, keyword, search } = useFuzzy<any>(permissions, {
         keys: ['id', 'service', 'serviceTitle', 'module', 'moduleTitle', 'action', 'actionTitle'],
     });
 
     const dispatch = useDispatch()
-    useEffect(() => {
-        const fetchAllRoles = async () => {
-            await servicePermissions()
-                .then((res) => {
-                    setPermissions(res?.data?.result)
-                })
-        }
-        const fetchUserRoles = async () => {
-            await getRolePermission({ id: selectedRows[0].id })
-                .then((res) => {
-                    setUserPermissions(res?.data?.result)
-                    fetchAllRoles()
-                })
-        }
-        if (selectedRows[0]) {
-            fetchUserRoles()
-        }
-    }, [selectedRows[0]])
 
     const openHandler = () => {
         if (selectedRows.length) {
-            setModal(true)
+            const fetchAllRoles = async () => {
+                await servicePermissions()
+                    .then((res) => {
+                        setPermissions(res?.data?.result)
+                        setModal(true)
+                    })
+                    .finally(() => setLoading(false))
+            }
+            const fetchUserRoles = async () => {
+                await getRolePermission({ id: selectedRows[0].id })
+                    .then((res) => {
+                        setUserPermissions(res?.data?.result)
+                        fetchAllRoles()
+                    })
+            }
+            if (selectedRows[0]) {
+                setLoading(true)
+                fetchUserRoles()
+            }
         } else {
             throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
         }
@@ -106,6 +106,7 @@ export default function Permissions() {
         <>
             <Button label={'ویرایش دسترسی های نقش'}
                 className="bg-orange-500"
+                loading={loading}
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'RollAndPermissionManagment'].join('.')] : []}
             />

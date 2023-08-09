@@ -284,64 +284,67 @@ export default function DocumentsComponent() {
     }, [])
 
     return (
-        <DaisyAccordionComponent title={'مدارک'}>
-            {data?.personType === 2 ? <div>
-                <DaisyAccordionComponent title={'مدارک وکیل'}>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {firstDeck.map((item: any) => {
-                            return (
-                                <UploadComponent item={item} loading={loading} documents={document}
-                                    setDocs={setDocuments}
-                                    key={item.fileType} />
-                            )
-                        })}
-                    </div>
-                </DaisyAccordionComponent>
-                <DaisyAccordionComponent title={'مدارک مدیر عامل'}>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {secondDeck.map((item: any) => {
-                            return (
-                                <UploadComponent item={item} loading={loading} documents={document}
-                                    setDocs={setDocuments}
-                                    key={item.fileType} />
-                            )
-                        })}
-                    </div>
-                </DaisyAccordionComponent>
-                <DaisyAccordionComponent title={'مدارک مدیر عامل'}>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {thirdDeck.map((item: any) => {
-                            return (
-                                <UploadComponent item={item} loading={loading} documents={document}
-                                    setDocs={setDocuments}
-                                    key={item.fileType} />
-                            )
-                        })}
-                    </div>
-                </DaisyAccordionComponent>
-                <DaisyAccordionComponent title={'مدارک عضو هیئت مدیره'}>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {forthDeck.map((item: any) => {
-                            return (
-                                <UploadComponent item={item} loading={loading} documents={document}
-                                    setDocs={setDocuments}
-                                    key={item.fileType} />
-                            )
-                        })}
-                    </div>
-                </DaisyAccordionComponent>
-            </div>
-                :
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white/50 backdrop-blur-md p-3 rounded-md">
-                    {
-                        document.map((item: any) => {
-                            return (
-                                <UploadComponent item={item} documents={document} loading={loading}
-                                    setDocs={setDocuments} key={item.fileType} />
-                            )
-                        })
-                    }
-                </div>}
-        </DaisyAccordionComponent>
+        <>
+            {document.length ? <DaisyAccordionComponent title={'مدارک'}>
+                {data?.personType === 2 ? <div>
+                    <DaisyAccordionComponent title={'مدارک وکیل'}>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {firstDeck.map((item: any) => {
+                                return (
+                                    <UploadComponent item={item} loading={loading} documents={document}
+                                        setDocs={setDocuments}
+                                        key={item.fileType} />
+                                )
+                            })}
+                        </div>
+                    </DaisyAccordionComponent>
+                    <DaisyAccordionComponent title={'مدارک مدیر عامل'}>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {secondDeck.map((item: any) => {
+                                return (
+                                    <UploadComponent item={item} loading={loading} documents={document}
+                                        setDocs={setDocuments}
+                                        key={item.fileType} />
+                                )
+                            })}
+                        </div>
+                    </DaisyAccordionComponent>
+                    <DaisyAccordionComponent title={'مدارک مدیر عامل'}>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {thirdDeck.map((item: any) => {
+                                return (
+                                    <UploadComponent item={item} loading={loading} documents={document}
+                                        setDocs={setDocuments}
+                                        key={item.fileType} />
+                                )
+                            })}
+                        </div>
+                    </DaisyAccordionComponent>
+                    <DaisyAccordionComponent title={'مدارک عضو هیئت مدیره'}>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {forthDeck.map((item: any) => {
+                                return (
+                                    <UploadComponent item={item} loading={loading} documents={document}
+                                        setDocs={setDocuments}
+                                        key={item.fileType} />
+                                )
+                            })}
+                        </div>
+                    </DaisyAccordionComponent>
+                </div>
+                    :
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white/50 backdrop-blur-md p-3 rounded-md">
+                        {
+                            document.map((item: any) => {
+                                return (
+                                    <UploadComponent item={item} documents={document} loading={loading}
+                                        setDocs={setDocuments} key={item.fileType} />
+                                )
+                            })
+                        }
+                    </div>}
+            </DaisyAccordionComponent>
+                : null}
+        </>
     )
 }
