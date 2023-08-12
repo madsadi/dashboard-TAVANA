@@ -1,6 +1,6 @@
 import React from "react";
+import AddCommission from "./toolbar/add-new";
 import InActive from "./toolbar/deactive";
-import AddCommission from "./toolbar/add";
 import EditCommission from "./toolbar/edit-commission";
 
 const CommissionToolbar = () => {
