@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { isAllowed } from "../../functions/permission-utils";
-import { Loader } from "../loader";
+import { Loader } from "../loader-";
 
 interface ButtonType {
     className?: string,
