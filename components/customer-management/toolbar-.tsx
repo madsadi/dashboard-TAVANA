@@ -1,7 +1,7 @@
 import React from "react";
 import AddNew from "./add-new";
-import Edit from "./edit";
-import Remove from "./remove";
+import Edit from "./edit-";
+import Remove from "./remove-";
 import { TBSBranches } from "./tbs-branches";
 import { TBSMarketer } from "./tbs-marketer";
 import { TBSReagents } from "./tbs-reagents";
