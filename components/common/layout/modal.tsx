@@ -6,6 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 export default function Modal({ open, setOpen, title, children, ModalWidth }: { open: boolean, setOpen: any, title: string, children: any, ModalWidth: string }) {
     const cancelButtonRef = useRef(null)
 
+    
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
