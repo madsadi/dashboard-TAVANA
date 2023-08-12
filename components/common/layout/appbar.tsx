@@ -7,7 +7,7 @@ import {
 import { useRouter } from "next/router";
 import BreadCrumbComponent from "./bread-crumb";
 import SideBar from './side-bar';
-import { Accessibility } from "./accessibility-";
+import { Accessibility } from "./accessibility";
 
 export default function Example() {
     const [open, setOpen] = useState(false)
