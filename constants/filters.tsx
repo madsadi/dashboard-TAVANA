@@ -196,7 +196,7 @@ const filters: any = {
       "CustomerManagement": [
         {
           module: 'Subsidiary',
-          Permissions: ['Read', 'Create', 'Edit', 'Delete']
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
         }
       ]
     },
