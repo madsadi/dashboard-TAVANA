@@ -1,7 +1,7 @@
 import React from "react";
 import AddNew from "./add-new";
 import Edit from "./edit";
-import Permissions from "./permissions-";
+import Permissions from "./permissions";
 
 export default function RolesToolbar() {
     return (
