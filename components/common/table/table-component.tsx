@@ -5,7 +5,7 @@ import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { ExcelStyle } from "ag-grid-community";
-import { Loader } from "../components/loader-";
+import { Loader } from "../components/loader";
 const TablePagination = dynamic(() => import('./table-pagination'))
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
