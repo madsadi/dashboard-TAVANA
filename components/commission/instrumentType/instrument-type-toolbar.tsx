@@ -1,4 +1,4 @@
-import Edit from "./edit-";
+import Edit from "./edit";
 import AddNew from "./add-new";
 import Remove from "./remove";
 import React from "react";
