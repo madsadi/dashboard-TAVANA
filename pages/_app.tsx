@@ -7,7 +7,7 @@ import React, { useEffect, useRef } from 'react';
 import { AuthProvider } from "react-oidc-context"
 import Router from "next/router";
 import '../api/axios_interceptor';
-import Layout from "../components/common/layout/Layout";
+import Layout from "../components/common/layout/layout";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import { SWRConfig } from 'swr';

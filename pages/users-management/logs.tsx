@@ -1,14 +1,14 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
 import { jalali } from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
-import DateCell from "../../components/common/table/DateCell";
+import DateCell from "../../components/common/table/date-cell";
 
 export default function Users() {
     const columnDefStructure: any = [

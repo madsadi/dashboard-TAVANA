@@ -1,5 +1,5 @@
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
+import InputComponent from "../../common/components/input-generator";
+import Modal from "../../common/layout/modal";
 import React, { useContext, useEffect, useState } from "react";
 import { OnlineRegContext } from "../../../pages/online-registration/registration-report";
 import { useRouter } from "next/router";

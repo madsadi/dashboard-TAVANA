@@ -1,12 +1,12 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-const AccordionComponent = dynamic(() => import("../../components/common/components/AccordionComponent"));
-const SearchComponent = dynamic(() => import("../../components/common/components/Search.component"));
+const AccordionComponent = dynamic(() => import("../../components/common/components/accordion"));
+const SearchComponent = dynamic(() => import("../../components/common/components/search"));
 const TableComponent = dynamic(() => import("../../components/common/table/table-component"));
-const CategoryResultModal = dynamic(() => import("../../components/commission/index/CategoryResultModal"));
-const InstrumentTypeResultModal = dynamic(() => import("../../components/commission/index/InstrumentTypeResultModal"));
-const CommissionToolbar = dynamic(() => import("../../components/commission/index/Commission-toolbar"));
-const DateCell = dynamic(() => import("../../components/common/table/DateCell"));
+const CategoryResultModal = dynamic(() => import("../../components/commission/index/category-result-modal"));
+const InstrumentTypeResultModal = dynamic(() => import("../../components/commission/index/instrument-type-result-modal"));
+const CommissionToolbar = dynamic(() => import("../../components/commission/index/commission-toolbar"));
+const DateCell = dynamic(() => import("../../components/common/table/date-cell"));
 
 import useQuery from "../../hooks/useQuery";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";

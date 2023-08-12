@@ -5,7 +5,7 @@ import {
     ChartPieIcon,
     UserCircleIcon,
 } from '@heroicons/react/24/outline'
-import Time from "../components/Time";
+import Time from "../components/time";
 import Router from "next/router";
 import { useAuth } from "react-oidc-context";
 import Link from "next/link";

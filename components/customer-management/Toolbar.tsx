@@ -1,15 +1,15 @@
 import React from "react";
-import AddNew from "./AddNew";
-import Edit from "./Edit";
-import Remove from "./Remove";
-import {TBSBranches} from "./TBSBranches";
-import {TBSMarketer} from "./TBSMarketer";
-import {TBSReagents} from "./TBSReagents";
+import AddNew from "./add-new";
+import Edit from "./edit";
+import Remove from "./remove";
+import { TBSBranches } from "./tbs-branches";
+import { TBSMarketer } from "./tbs-marketer";
+import { TBSReagents } from "./tbs-reagents";
 import usePageStructure from "../../hooks/usePageStructure";
-import {CreateRefCode} from "./CreateRefCode";
+import { CreateRefCode } from "./create-ref-code";
 
 export default function Toolbar() {
-    const {page} = usePageStructure()
+    const { page } = usePageStructure()
 
     return (
         <div className={'border-x border-border'}>
@@ -17,10 +17,10 @@ export default function Toolbar() {
                 <AddNew />
                 <Edit />
                 <Remove />
-                {page.api==='branch' ? <TBSBranches/>:null}
-                {page.api==='marketer' ? <TBSMarketer/>:null}
-                {page.api==='marketer' ? <TBSReagents/>:null}
-                {page.api==='marketer' ? <CreateRefCode/>:null}
+                {page.api === 'branch' ? <TBSBranches /> : null}
+                {page.api === 'marketer' ? <TBSMarketer /> : null}
+                {page.api === 'marketer' ? <TBSReagents /> : null}
+                {page.api === 'marketer' ? <CreateRefCode /> : null}
             </div>
         </div>
     )

@@ -1,13 +1,8 @@
 import React from "react";
-import { marketerTypeEnum, stationTypeEnum, TypeOfBranches } from "../../../constants/Enums";
-import DateCell from "../../common/table/DateCell";
-import ToggleButton from "../ToggleButton";
-import { CopyButton } from "../../common/components/CopyButton";
-import { LinkIcon } from "@heroicons/react/20/solid";
-import useQuery from "../../../hooks/useQuery";
-import { ADMIN_GATEWAY } from "../../../api/constants";
-import { getLink } from "../../../api/users-management.api";
-import { throwToast } from "../../common/functions/notification";
+import { stationTypeEnum, TypeOfBranches } from "../../../constants/Enums";
+import DateCell from "../../common/table/date-cell";
+import ToggleButton from "../toggle-button";
+import { CopyButton } from "../../common/components/copy-button";
 export const branchesColumnDefStructure = [
     {
         headerCheckboxSelection: true,

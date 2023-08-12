@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Modal from "../common/layout/Modal";
+import Modal from "../common/layout/modal";
 import usePageStructure from "../../hooks/usePageStructure";
 import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
 import { throwToast } from "../common/functions/notification";

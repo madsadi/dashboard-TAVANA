@@ -1,9 +1,9 @@
 import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-const AccordionComponent = dynamic(() => import("../../../components/common/components/AccordionComponent"));
-const SearchComponent = dynamic(() => import("../../../components/common/components/Search.component"));
+const AccordionComponent = dynamic(() => import("../../../components/common/components/accordion"));
+const SearchComponent = dynamic(() => import("../../../components/common/components/search"));
 const TableComponent = dynamic(() => import("../../../components/common/table/table-component"));
-const DateCell = dynamic(() => import("../../../components/common/table/DateCell"));
+const DateCell = dynamic(() => import("../../../components/common/table/date-cell"));
 const UserRegToolbarComponent
     = dynamic(() => import("../../../components/online-registration/registration-report/user-reg-toolbar"));
 import { formatNumber } from "../../../components/common/functions/common-funcions";

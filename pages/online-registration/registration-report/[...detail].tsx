@@ -1,30 +1,30 @@
 import React, { createContext, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-const IdentityComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Identity.component"));
-const JobInfoComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/JobInfo.component"));
-const BankComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Bank.component"));
+const IdentityComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/identity"));
+const JobInfoComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/job-info"));
+const BankComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/bank"));
 const LegalPersonShareholdersComponent
-    = dynamic(() => import("../../../components/online-registration/registration-report/detail/LegalPersonShareholders.component"));
+    = dynamic(() => import("../../../components/online-registration/registration-report/detail/legal-person-shareholders"));
 const LegalPersonStakeholdersComponent
-    = dynamic(() => import("../../../components/online-registration/registration-report/detail/LegalPersonStakeholders.component"));
+    = dynamic(() => import("../../../components/online-registration/registration-report/detail/legal-person-stakeholders"));
 const BourseCodeComponent
-    = dynamic(() => import("../../../components/online-registration/registration-report/detail/BourseCode.component"));
-const AgentComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Agent.component"));
-const AddressesComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Addresses.component"));
-const EconomicComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Economic.component"));
-const AgreementComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/AgreementComponent"));
+    = dynamic(() => import("../../../components/online-registration/registration-report/detail/bourse-code"));
+const AgentComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/agent"));
+const AddressesComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/addresses"));
+const EconomicComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/economic"));
+const AgreementComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/agreement"));
 const EditRegStateComponent = dynamic(() => import("../../../components/online-registration/registration-report/edit-reg-state"));
 const
     InquirySejamStateComponent
         = dynamic(() => import("../../../components/online-registration/registration-report/inquiry-sejam-state"));
 const TBSComponent = dynamic(() => import("../../../components/online-registration/registration-report/tbs"));
-const DocumentsComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/Documents.component"));
+const DocumentsComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/documents"));
 const EditRefCode = dynamic(() => import("../../../components/online-registration/registration-report/edit-ref-code"));
 const BuildAgreementsFiles = dynamic(() => import("../../../components/online-registration/registration-report/build-agreements-files"));
 const AgreementToTbs = dynamic(() => import("../../../components/online-registration/registration-report/agreement-to-tbs"));
 const TableComponent = dynamic(() => import("../../../components/common/table/table-component"));
-const DateCell = dynamic(() => import("../../../components/common/table/DateCell"));
+const DateCell = dynamic(() => import("../../../components/common/table/date-cell"));
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import { formatNumber } from "../../../components/common/functions/common-funcions";

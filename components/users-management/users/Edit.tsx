@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import Modal from "../../common/layout/Modal";
-import InputComponent from "../../common/components/InputComponent";
+import Modal from "../../common/layout/modal";
+import InputComponent from "../../common/components/input-generator";
 import { UsersContext } from "../../../pages/users-management/users";
 import useMutation from "../../../hooks/useMutation";
 import { IDP } from "../../../api/constants";

@@ -5,8 +5,8 @@ import { CommissionContext } from "../../../../pages/commission-management/commi
 import { COMMISSION_BASE_URL } from "../../../../api/constants";
 import useMutation from "../../../../hooks/useMutation";
 import { throwToast } from "../../../common/functions/notification";
-import Modal from "../../../common/layout/Modal";
-import InputComponent from "../../../common/components/InputComponent";
+import Modal from "../../../common/layout/modal";
+import InputComponent from "../../../common/components/input-generator";
 import { DayRange } from "react-modern-calendar-datepicker";
 import { Button } from "../../../common/components/button/button";
 

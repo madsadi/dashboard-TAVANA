@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
+import InputComponent from "../../common/components/input-generator";
+import Modal from "../../common/layout/modal";
 import { DayValue } from "react-modern-calendar-datepicker";
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";

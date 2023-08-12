@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Modal from "../../common/layout/Modal";
+import Modal from "../../common/layout/modal";
 import { RolesContext } from "../../../pages/users-management/roles";
 import { useFuzzy } from 'react-use-fuzzy';
 import { useDispatch, useSelector } from "react-redux";

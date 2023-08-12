@@ -1,10 +1,10 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
 import { jalali } from "../../components/common/functions/common-funcions";
-import DateCell from "../../components/common/table/DateCell";
+import DateCell from "../../components/common/table/date-cell";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../../components/common/functions/notification";

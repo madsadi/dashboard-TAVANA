@@ -1,13 +1,13 @@
 import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
 import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
-import DateCell from "../../components/common/table/DateCell";
-import RelationToolbar from "../../components/marketer-app/relations/toolbar/RelationToolbar";
+import DateCell from "../../components/common/table/date-cell";
+import RelationToolbar from "../../components/marketer-app/relations/toolbar/relation-toolbar";
 
 export const RelationsContext = createContext({})
 export default function Relations() {

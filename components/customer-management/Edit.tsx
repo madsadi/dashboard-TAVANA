@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import Modal from "../common/layout/Modal";
+import Modal from "../common/layout/modal";
 import usePageStructure from "../../hooks/usePageStructure";
-import InputComponent from "../common/components/InputComponent";
+import InputComponent from "../common/components/input-generator";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
 import { throwToast } from "../common/functions/notification";

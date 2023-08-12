@@ -1,12 +1,12 @@
-import Modal from "../../common/layout/Modal";
+import Modal from "../../common/layout/modal";
 import React, { useContext, useState } from "react";
-import { InstrumentTypeContext } from "./ResultTable";
 import { throwToast } from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
 import { COMMISSION_BASE_URL } from "../../../api/constants";
 import { Button } from "../../common/components/button/button";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
+import { InstrumentTypeContext } from "pages/commission-management/instrument-type";
 
 export default function Edit() {
     const { restriction, service, modules } = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_instrument)

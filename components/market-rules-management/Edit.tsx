@@ -1,11 +1,11 @@
 import React, { Fragment, useContext, useEffect, useMemo, useState } from "react";
-import Modal from "../common/layout/Modal";
+import Modal from "../common/layout/modal";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { MarketRulesContext } from "./RulesList";
-import InputComponent from "../common/components/InputComponent";
+import { MarketRulesContext } from "./rules-list";
+import InputComponent from "../common/components/input-generator";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import SymbolSearchSection from "../common/components/SymbolSearchSecion";
+import SymbolSearchSection from "../common/components/symbol-search-secion";
 import { throwToast } from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
 import { ADMIN_GATEWAY } from "../../api/constants";

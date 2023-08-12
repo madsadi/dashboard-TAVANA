@@ -1,5 +1,5 @@
-import Modal from "../../common/layout/Modal";
-import InputComponent from "../../common/components/InputComponent";
+import Modal from "../../common/layout/modal";
+import InputComponent from "../../common/components/input-generator";
 import React, { useContext, useEffect, useState } from "react";
 import { RolesContext } from "../../../pages/users-management/roles";
 import useMutation from "../../../hooks/useMutation";

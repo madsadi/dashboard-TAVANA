@@ -1,7 +1,7 @@
 import React from "react";
-import AddComponent from "./AddComponent";
-import EditComponent from "./EditComponent";
-import RemoveComponent from "./RemoveComponent";
+import AddComponent from "./add-new";
+import EditComponent from "./edit";
+import RemoveComponent from "./remove";
 
 export default function ToolBar() {
     return (

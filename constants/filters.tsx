@@ -64,10 +64,10 @@ const filters: any = {
         { "title": "nationalId", "name": "کدملی", "type": "input" }
       ],
       "password": [
-        { "title": "newPassword", "name": "رمز عبور جدید", "type": "input" }
+        { "title": "newPassword", "name": "رمز عبور جدید", "type": "password" }
       ],
       "lock-out": [
-        { "title": "lockoutEndDateTime", "name": "تاریخ", "type": "singleDate","minimumDate":splittedDate(moment().locale('fa').format('YYYY-MM-DD')) }
+        { "title": "lockoutEndDateTime", "name": "تاریخ", "type": "singleDate", "minimumDate": splittedDate(moment().locale('fa').format('YYYY-MM-DD')) }
       ]
     }
   },
@@ -137,6 +137,12 @@ const filters: any = {
           permissions: ['Create']
         }
       ],
+      'FileManagerSystem': [
+        {
+          module: 'FileMananger',
+          permissions: ['Read']
+        }
+      ]
     },
     "search": {
       "filters": [
@@ -1376,7 +1382,7 @@ const filters: any = {
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
           "queryField": "NationalId",
           "recordField": "id",
-          "isRequired":true
+          "isRequired": true
         },
         { "title": "Name", "name": "نام کاربر", "type": "input" },
         { "title": "UserType", "name": "نوع کاربر", "type": "selectInput" },
