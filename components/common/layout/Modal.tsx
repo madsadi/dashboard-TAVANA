@@ -1,10 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
-import {Fragment, useRef, useState} from 'react'
-import {Dialog, Transition} from '@headlessui/react'
-import {XMarkIcon} from '@heroicons/react/24/outline'
+import { Fragment, useRef, useState } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
-export default function Modal({open, setOpen,title, children,ModalWidth}: { open: boolean, setOpen: any,title:string, children: any,ModalWidth:string }) {
-
+export default function Modal({ open, setOpen, title, children, ModalWidth }: { open: boolean, setOpen: any, title: string, children: any, ModalWidth: string }) {
     const cancelButtonRef = useRef(null)
 
     return (
@@ -19,7 +18,7 @@ export default function Modal({open, setOpen,title, children,ModalWidth}: { open
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-gray-800 backdrop-blur-sm bg-opacity-50 transition-opacity"/>
+                    <div className="fixed inset-0 bg-gray-800 backdrop-blur-sm bg-opacity-50 transition-opacity" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -36,9 +35,9 @@ export default function Modal({open, setOpen,title, children,ModalWidth}: { open
                             <Dialog.Panel
                                 className={`relative transform rounded-lg shadow-xl transition-all sm:my-8 ${ModalWidth} sm:w-full bg-white`}>
                                 <div
-                                    className="mx-auto flex h-5 w-5 flex-shrink-0 absolute left-3 top-2 items-center justify-center rounded-full bg-grey-100 sm:mx-0 cursor-pointer" onClick={()=>setOpen(false)}>
+                                    className="mx-auto flex h-5 w-5 flex-shrink-0 absolute left-3 top-2 items-center justify-center rounded-full bg-grey-100 sm:mx-0 cursor-pointer" onClick={() => setOpen(false)}>
                                     <XMarkIcon className="h-6 w-6"
-                                               aria-hidden="true"/>
+                                        aria-hidden="true" />
                                 </div>
                                 <div className="px-4 py-2">
                                     <div className="text-center">
@@ -48,7 +47,7 @@ export default function Modal({open, setOpen,title, children,ModalWidth}: { open
                                     </div>
                                 </div>
                                 <div className={'p-3'}>
-                                {children}
+                                    {children}
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

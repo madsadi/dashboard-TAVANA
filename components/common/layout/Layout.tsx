@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 const LayoutHOC = ({ children }: { children: any }) => {
     const route = useRouter()
 
-
     return (
         <>
             {route.pathname === '/' || route.pathname.startsWith('/authentication/callback') ?
