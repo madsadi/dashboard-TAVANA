@@ -41,7 +41,6 @@ export const Accessibility = () => {
         }
     }, [auth?.user?.access_token])
 
-
     useEffect(() => {
         if (info?.result?.isSimoultaneousLogin && !localStorage.getItem('onlogin-simultaneously')) {
             localStorage.setItem('onlogin-simultaneously', 'isChecked')
