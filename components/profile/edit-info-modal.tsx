@@ -25,7 +25,7 @@ export const EditInfoModal = ({ open, setOpen }: { open: boolean, setOpen: any }
         e.preventDefault()
         await mutate({ ...query, nationalId: `${query?.nationalId}` }, {}, { 'withCredentials': true })
             .then(() => {
-                swrMutate(`${IDP}/api/users/GetCurrentUserInfo`)
+                swrMutate({ url: `${IDP}/api/users/GetCurrentUserInfo` })
                 throwToast({ type: 'success', value: 'با موفقیت ویرایش شد' })
                 setOpen(false)
             })

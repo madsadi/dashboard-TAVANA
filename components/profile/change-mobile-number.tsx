@@ -26,6 +26,7 @@ export const ChangeMobileNumber = () => {
     }
 
     const changeMobile = () => {
+        setQuery({ token: "", newPhoneNumber: "" })
         fetchAsyncData()
             .then(() => setOpen(true))
             .catch((err) => throwToast({ type: 'error', value: err }))
@@ -44,7 +45,7 @@ export const ChangeMobileNumber = () => {
                         if (query?.newPhoneNumber && query?.token) {
                             mutate(query)
                                 .then((res) => {
-                                    swrMutate(`${IDP}/api/users/GetCurrentUserInfo`)
+                                    swrMutate({ url: `${IDP}/api/users/GetCurrentUserInfo` })
                                     setOpen(false)
                                     throwToast({ type: 'success', value: 'با موفقیت شماره تلفن همراه شما عوض شد.' })
                                 })

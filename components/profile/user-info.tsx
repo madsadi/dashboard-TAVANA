@@ -10,18 +10,16 @@ import {
 } from "@heroicons/react/24/outline";
 import { jalali } from "../common/functions/common-funcions";
 import { EditInfoModal } from "./edit-info-modal";
-import { useSelector } from "react-redux";
 import useMutation from "../../hooks/useMutation";
 import { IDP } from "../../api/constants";
 import { throwToast } from "../common/functions/notification";
 import { PasswordModal } from "./password-modal";
 import { ChangeMobileNumber } from "./change-mobile-number";
 import useSWR from "swr";
-import { Switch } from '@headlessui/react'
 import { SwitchToggle } from "../common/components/button/switch-toggle";
 
 export default function UserInfo() {
-    const { data } = useSWR(`${IDP}/api/users/GetCurrentUserInfo`, { revalidateOnMount: true })
+    const { data } = useSWR({ url: `${IDP}/api/users/GetCurrentUserInfo` }, { revalidateOnMount: true })
     const [open, setOpen] = useState(false)
     const [passwordModal, setPasswordModal] = useState(false)
     const fields: any = [
@@ -105,7 +103,7 @@ export default function UserInfo() {
 }
 
 const ToggleButton = () => {
-    const { data } = useSWR(`${IDP}/api/users/GetCurrentUserInfo`, { revalidateOnMount: true })
+    const { data } = useSWR({ url: `${IDP}/api/users/GetCurrentUserInfo` }, { revalidateOnMount: true })
     const { mutate } = useMutation({ url: `${IDP}/api/account/2fa`, method: "PUT" })
     const [enabled, setEnabled] = useState(data?.result.twoFactorEnabled)
 

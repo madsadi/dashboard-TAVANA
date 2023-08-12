@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import Modal from "../common/layout/modal";
-import { BookBuildingContext } from "./book-building";
 import { throwToast } from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { Button } from "../common/components/button/button";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../common/functions/Module-Identifier";
+import { BookBuildingContext } from "pages/book-building";
 
 export default function RemoveModal() {
     const { selectedRows } = useContext<any>(BookBuildingContext)

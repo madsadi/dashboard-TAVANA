@@ -14,13 +14,15 @@ import { useDispatch } from "react-redux";
 import useSWR from "swr";
 import jwt_decode from "jwt-decode";
 import { user_permissions } from '../../../store/app.config';
+import { clientId } from 'pages/_app';
+import { throwToast } from '../functions/notification';
 
 interface TokenType {
     permission: string[]
 }
 
 export const Accessibility = () => {
-    const { data: info } = useSWR(`${IDP}/api/users/GetCurrentUserInfo`, { revalidateOnMount: true })
+    const { data: info } = useSWR({ url: `${IDP}/api/users/GetCurrentUserInfo`, params: { cliendId: clientId } }, { revalidateOnMount: true })
 
     const auth = useAuth();
     const dispatch = useDispatch()
@@ -38,6 +40,13 @@ export const Accessibility = () => {
             dispatch(user_permissions(decoded?.permission || []))
         }
     }, [auth?.user?.access_token])
+
+    useEffect(() => {
+        if (info?.result?.isSimoultaneousLogin && !localStorage.getItem('onlogin-simultaneously')) {
+            localStorage.setItem('onlogin-simultaneously', 'isChecked')
+            throwToast({ type: 'warning', value: `${info.result.message}` })
+        }
+    }, [info])
 
     return (
         <>
@@ -87,6 +96,7 @@ export const Accessibility = () => {
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
                                     onClick={() => {
                                         void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
+                                        localStorage.removeItem('onlogin-simultaneously')
                                         dispatch(user_permissions([]))
                                         Router.push('/')
                                     }}>
@@ -109,6 +119,7 @@ export const Accessibility = () => {
                 </div>
                 <button className={'flex pr-2'} onClick={() => {
                     void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
+                    localStorage.removeItem('onlogin-simultaneously')
                     dispatch(user_permissions([]))
                     Router.push('/')
                 }}>

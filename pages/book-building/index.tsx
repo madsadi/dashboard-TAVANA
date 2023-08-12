@@ -11,7 +11,7 @@ import DateCell from "../../components/common/table/date-cell";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 
 export const BookBuildingContext = createContext({})
-export default function bookBuilding() {
+export default function BookBuilding() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
