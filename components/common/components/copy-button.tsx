@@ -15,7 +15,7 @@ export const CopyButton = ({ entity, id, condition }: { entity: string, id: stri
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
     const [loading, setLoading] = useState(false)
     const getLinkReq = async (id: string) => {
-        if (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service, module, 'Read'].join('.')] }) : true) {
+        if (restriction ? isAllowed({ userPermissions, whoIsAllowed: [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] }) : true) {
             setLoading(true)
             await getLink({ marketerId: id })
                 .then((res) => {

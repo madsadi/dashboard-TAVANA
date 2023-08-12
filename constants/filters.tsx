@@ -192,7 +192,14 @@ const filters: any = {
     }
   },
   "customer-management_subsidiary": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'Subsidiary',
+          Permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -270,7 +277,14 @@ const filters: any = {
     }
   },
   "customer-management_employee": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "Employee",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "toolbar": {
       "modal": [
         { "title": "firstName", "name": "نام", "type": "input", "initialValue": "" },
@@ -285,7 +299,14 @@ const filters: any = {
     }
   },
   "customer-management_businessUnit": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'BusinessUnit',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -312,7 +333,14 @@ const filters: any = {
     }
   },
   "customer-management_station": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'Station',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -347,7 +375,14 @@ const filters: any = {
     }
   },
   "customer-management_trader": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "Trader",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "toolbar": {
       "modal": [
         { "title": "stationId", "name": "شناسه ایستگاه معاملاتی", "type": "input", "initialValue": "" },
@@ -475,7 +510,14 @@ const filters: any = {
     }
   },
   "customer-management_agreement": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'Agreement',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "toolbar": {
       "modal": [
         { "title": "subsidiaryId", "name": "شناسه شرکت", "type": "input", "initialValue": "" },
@@ -490,7 +532,14 @@ const filters: any = {
     }
   },
   "customer-management_customerAgreement": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "CustomerAgreement",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -538,7 +587,14 @@ const filters: any = {
     }
   },
   "customer-management_contract": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "Contract",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
