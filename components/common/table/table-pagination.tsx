@@ -117,7 +117,9 @@ export default function TablePagination({
                 onSubmit({ ...pageQuery, PageNumber: 1 })
             }}
                 className={`${pageQuery?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                disabled={pageQuery?.PageNumber <= 1}>
+                disabled={pageQuery?.PageNumber <= 1}
+                aria-label="first-page"
+                >
                 <ChevronDoubleRightIcon className={'h-4 w-4'} />
             </button>
             <button onClick={(e) => {
@@ -125,7 +127,9 @@ export default function TablePagination({
                 onSubmit({ ...pageQuery, PageNumber: pageQuery?.PageNumber - 1 })
             }}
                 className={`${pageQuery?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                disabled={pageQuery?.PageNumber <= 1}>
+                disabled={pageQuery?.PageNumber <= 1}
+                aria-label="previous-page"
+                >
                 <ChevronRightIcon className={'h-4 w-4'} />
             </button>
             <div className={'text-center'}>
@@ -141,7 +145,9 @@ export default function TablePagination({
                 onSubmit({ ...pageQuery, PageNumber: pageQuery?.PageNumber + 1 })
             }}
                 className={`${pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                disabled={pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)}>
+                disabled={pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)}
+                aria-label="next-page"
+                >
                 <ChevronLeftIcon className={'h-4 w-4'} />
             </button>
             <button onClick={(e) => {
@@ -149,7 +155,9 @@ export default function TablePagination({
                 onSubmit({ ...pageQuery, PageNumber: Math.ceil(totalCount / pageQuery?.PageSize) })
             }}
                 className={`${pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
-                disabled={pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)}>
+                disabled={pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)}
+                aria-label="last-page"
+                >
                 <ChevronDoubleLeftIcon className={'h-4 w-4'} />
             </button>
         </div>

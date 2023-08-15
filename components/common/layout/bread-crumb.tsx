@@ -77,7 +77,7 @@ export default function BreadCrumbComponent() {
 
     return (
         <div className={'hidden md:flex items-center border border-border rounded-md'}>
-            <Link href={'/dashboard'} className={'hover:bg-border transition-all w-full px-3 p-1'}>
+            <Link href={'/dashboard'} aria-label="home" className={'hover:bg-border transition-all w-full px-3 p-1'}>
                 <HomeIcon className={'h-6.5 w-6'} />
             </Link>
             {path.map((item: string, index: number) => {

@@ -334,7 +334,6 @@ export default function SideBarContent() {
                                     key={item.label}>
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
-                                            console.log(filters[child.module].services, child.module);
 
                                             return (
                                                 <Link href={child.url}

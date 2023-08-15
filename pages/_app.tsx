@@ -41,7 +41,6 @@ const oidcConfig = {
 function MyApp({ Component, pageProps }: AppProps) {
     const toast: any = useRef(null);
 
-
     const onSignIn = () => {
         Router.push('/dashboard')
     }

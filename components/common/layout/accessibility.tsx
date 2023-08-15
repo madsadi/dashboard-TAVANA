@@ -36,8 +36,11 @@ export const Accessibility = () => {
             let decoded: TokenType = jwt_decode(token);
 
             console.log(decoded);
-
-            dispatch(user_permissions(decoded?.permission || []))
+            if (typeof decoded?.permission == "string") {
+                dispatch(user_permissions([decoded?.permission]))
+            } else {
+                dispatch(user_permissions(decoded?.permission || []))
+            }
         }
     }, [auth?.user?.access_token])
 
@@ -47,6 +50,13 @@ export const Accessibility = () => {
             throwToast({ type: 'warning', value: `${info.result.message}` })
         }
     }, [info])
+
+    const logout = () => {
+        void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
+        localStorage.removeItem('onlogin-simultaneously')
+        dispatch(user_permissions([]))
+        Router.push('/')
+    }
 
     return (
         <>
@@ -94,12 +104,7 @@ export const Accessibility = () => {
                                 </div>
                                 <button
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
-                                    onClick={() => {
-                                        void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
-                                        localStorage.removeItem('onlogin-simultaneously')
-                                        dispatch(user_permissions([]))
-                                        Router.push('/')
-                                    }}>
+                                    onClick={logout}>
                                     خروج
                                     <ArrowLeftOnRectangleIcon className={'h-5 w-5 light:text-black mr-2'} />
                                 </button>
@@ -117,12 +122,7 @@ export const Accessibility = () => {
                         <UserCircleIcon className={'h-5 w-5 mr-2'} />
                     </Link>
                 </div>
-                <button className={'flex pr-2'} onClick={() => {
-                    void auth.signoutRedirect({ id_token_hint: auth.user?.id_token })
-                    localStorage.removeItem('onlogin-simultaneously')
-                    dispatch(user_permissions([]))
-                    Router.push('/')
-                }}>
+                <button className={'flex pr-2'} onClick={logout}>
                     خروج
                     <ArrowLeftOnRectangleIcon className={'h-5 w-5 light:text-black mr-2'} />
                 </button>

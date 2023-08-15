@@ -5,6 +5,7 @@ body {
     padding: 0;
     margin: 0;
     font-family: "Yekan Bakh", sans-serif;
+    font-display: auto;
     color: #495057;
 }
 :root {

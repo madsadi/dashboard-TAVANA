@@ -1,7 +1,9 @@
 import React, { createContext, useState } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/search'));
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'),{
+    loading:()=> <p>در حال بارگزاری...</p>,
+});
 const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
 const UsersToolbar = dynamic(() => import('../../components/users-management/users/users-toolbar'));
 const ToggleButton = dynamic(() => import('../../components/users-management/users/toggle-button'));

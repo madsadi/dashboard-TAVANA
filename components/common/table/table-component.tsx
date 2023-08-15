@@ -10,7 +10,6 @@ const TablePagination = dynamic(() => import('./table-pagination'))
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
-import { TableProps } from "types/common-components.type";
 
 const TableComponent: React.FC<any> = (props) => {
     let { data = [],

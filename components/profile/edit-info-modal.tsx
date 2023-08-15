@@ -36,7 +36,7 @@ export const EditInfoModal = ({ open, setOpen }: { open: boolean, setOpen: any }
         if (data) {
             let _query: any = {}
             Object.keys(data)?.map((item: any) => {
-                if (item !== 'birthdate' || item !== 'twoFactorEnabled' || item !== 'phoneNumber') {
+                if (!['ip', 'isSimoultaneousLogin', 'message', 'twoFactorEnabled'].includes(item)) {
                     _query[item] = data[item]
                 }
             })

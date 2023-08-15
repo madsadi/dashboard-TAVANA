@@ -46,7 +46,7 @@ export default function Password() {
     return (
         <>
             <Button label={'رمز عبور جدید'}
-                className="bg-yellow-500"
+                className="bg-emerald-600"
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'ChangeUserPassword'].join('.')] : []}
             />

@@ -56,7 +56,7 @@ export default function LockOut() {
     return (
         <>
             <Button label={'قفل/باز کردن حساب کاربری'}
-                className="bg-yellow-500"
+                className="bg-emerald-600"
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'SetLockoutEndDate'].join('.')] : []}
             />
