@@ -34,7 +34,7 @@ export const SendMessageComponent = () => {
     return (
         <>
             <Button label={'ارسال پیام'}
-                className="bg-lime-500"
+                className="bg-fuchsia-600"
                 onClick={() => setModal(true)}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
             />
@@ -59,7 +59,7 @@ export const SendMessageComponent = () => {
                                 }}
                             />
                             <Button label={'تایید'}
-                                className="bg-lime-500"
+                                className="bg-fuchsia-600"
                                 loading={loading}
                                 type={"submit"}
                             />

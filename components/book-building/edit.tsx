@@ -108,7 +108,7 @@ export default function EditModal() {
                         }}
                     />
                     <Button label={'تایید'}
-                        className="bg-lime-500"
+                        className="bg-fuchsia-600"
                         loading={loading}
                         onClick={updateHandler}
                     />

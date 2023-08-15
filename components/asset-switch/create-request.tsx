@@ -47,7 +47,7 @@ export const CreateRequest = () => {
             <Button label="ایجاد درخواست تغییر ناظر"
                 disabled={loading}
                 allowed={restriction ? [[service[0], modules[0][0], 'Create'].join('')] : []}
-                className={'bg-lime-500'}
+                className={'bg-fuchsia-600'}
                 onClick={modalHandler}
             />
             <Modal open={modal} setOpen={setModal} title="ایجاد درخواست تغییر ناظر">

@@ -38,6 +38,7 @@ export const SelectInput = (props: BaseInputPropsType) => {
                     {({ open }) => (
                         <div className="relative">
                             <Listbox.Button
+                                aria-label="select"
                                 className="relative flex min-w-full h-[36px] cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                                 <span className="flex items-center">
                                     <span

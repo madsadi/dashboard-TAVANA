@@ -55,7 +55,7 @@ export default function RemoveModal() {
                             }}
                         />
                         <Button label={'بله'}
-                            className="bg-lime-500"
+                            className="bg-fuchsia-600"
                             loading={loading}
                             onClick={deleteHandler}
                         />

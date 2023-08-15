@@ -98,7 +98,7 @@ export default function EditRegStateComponent() {
                                 }}
                             />
                             <Button label={'تایید'}
-                                className="bg-lime-500"
+                                className="bg-fuchsia-600"
                                 loading={loading}
                                 type={"submit"}
                             />

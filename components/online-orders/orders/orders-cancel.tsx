@@ -68,7 +68,7 @@ export default function OrdersCancel() {
                             onClick={() => setModal(false)}
                         />
                         <Button label={'تایید '}
-                            className="bg-lime-500"
+                            className="bg-fuchsia-600"
                             onClick={cancelMultipleOrders}
                             loading={loading}
                         />
