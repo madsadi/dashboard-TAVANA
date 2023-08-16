@@ -8,7 +8,7 @@ interface BaseInputPropsType {
 }
 export const BaseInput = (props: BaseInputPropsType) => {
     const { item, value, onChange } = props;
-    const { name, title, valueType, readOnly, isRequired, placeholder } = item
+    const { name, title, valueType, readOnly, isRequired, placeholder, dir } = item
 
     return (
         <div>
@@ -26,7 +26,7 @@ export const BaseInput = (props: BaseInputPropsType) => {
             <input className={'w-full h-[36px]'}
                 type={valueType || 'text'}
                 readOnly={readOnly}
-                dir={valueType === 'number' ? 'ltr' : 'rtl'}
+                dir={dir || valueType === 'number' ? 'ltr' : 'rtl'}
                 id={title}
                 value={value}
                 placeholder={placeholder}
