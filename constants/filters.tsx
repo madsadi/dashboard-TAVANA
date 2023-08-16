@@ -1350,9 +1350,27 @@ const filters: any = {
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "date", "name": "تاریخ", "type": "date" },
         { "title": "LeaderMarketerName", "name": "نام بازاریاب", "type": "input" },
-        { "title": "LeaderMarketerID", "name": "شناسه بازاریاب", "type": "input" },
+        {
+          "title": "LeaderMarketerID",
+          "name": " شناسه بازارایاب زیرگروه (کد ملی) ",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+        },
         { "title": "FollowerMarketerName", "name": "نام زیرمجموعه بازاریاب", "type": "input" },
-        { "title": "FollowerMarketerID", "name": "شناسه زیرمجموعه بازاریاب", "type": "input" }
+        {
+          "title": "FollowerMarketerID",
+          "name": " شناسه بازارایاب زیرگروه (کد ملی)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+        },
       ],
       "initialValue": {
         "StartDate": "",
@@ -1365,15 +1383,55 @@ const filters: any = {
     },
     "toolbar": {
       "add": [
-        { "title": "LeaderMarketerID", "name": "شناسه بازارایاب سرگروه", "type": "input" },
-        { "title": "FollowerMarketerID", "name": "شناسه بازاریاب زیرگروه", "type": "input" },
-        { "title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input" },
+        {
+          "title": "LeaderMarketerID",
+          "name": " شناسه بازارایاب سرگروه (کد ملی)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+          "isRequired": true
+        },
+        {
+          "title": "FollowerMarketerID",
+          "name": " شناسه بازارایاب زیرگروه (کد ملی)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+          "isRequired": true
+        },
+        { "title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "dir": 'ltr' },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
       ],
       "edit": [
-        { "title": "LeaderMarketerID", "name": "شناسه بازارایاب سرگروه", "type": "input" },
-        { "title": "FollowerMarketerID", "name": "شناسه بازاریاب زیرگروه", "type": "input" },
-        { "title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input" },
+        {
+          "title": "LeaderMarketerID",
+          "name": "  شناسه بازارایاب سرگروه (کد ملی)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+          "isRequired": true
+        },
+        {
+          "title": "FollowerMarketerID",
+          "name": " شناسه بازارایاب زیرگروه (کد ملی)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+          "isRequired": true
+        },
+        { "title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "dir": "ltr" },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
       ]
     }

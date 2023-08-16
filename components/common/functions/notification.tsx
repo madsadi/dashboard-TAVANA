@@ -11,7 +11,11 @@ export const throwToast = ({ type = 'error', value = '' }: { type: string, value
             } else if (value.code === 'ERR_NETWORK') {
                 toast.error('مشکلی در برقراری ارتباط پیش آمده')
             } else {
-                toast.error(`${value?.response?.data?.error?.message}`)
+                if (value?.response?.data?.error?.message) {
+                    toast.error(`${value?.response?.data?.error?.message}`)
+                } else {
+                    toast.error('نا موفق')
+                }
             }
             break;
         case 'customError':

@@ -3,7 +3,7 @@ import Modal from "../../../common/layout/modal";
 import React, { useContext, useEffect, useState } from "react";
 import { throwToast } from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
-import { ADMIN_GATEWAY, MARKETER_ADMIN } from "../../../../api/constants";
+import { MARKETER_ADMIN } from "../../../../api/constants";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import { RelationsContext } from "../../../../pages/marketer-app/relations";
@@ -20,6 +20,9 @@ export default function EditMarketersRelations() {
         from: null,
         to: null
     });
+
+    console.log(selectedRows);
+
     useEffect(() => {
         if (modal && selectedRows?.length) {
             let _initialValue: any = {};
@@ -70,11 +73,13 @@ export default function EditMarketersRelations() {
             })
             .catch((err) => throwToast({ type: 'error', value: err }))
     }
+
     const onChange = (key: string, value: any) => {
         let _query: any = { ...query };
         _query[key] = value
         setQuery(_query)
     }
+
     return (
         <>
             <button className={'button bg-orange-500'} onClick={openHandler}>

@@ -30,11 +30,11 @@ export default function Relations() {
         },
         {
             field: 'FollowerMarketerName',
-            headerName: 'نام و نام خانوادگی کاربر بازاریاب',
+            headerName: ' نام و نام خانوادگی بازاریاب زیر گروه',
         },
         {
             field: 'LeaderMarketerName',
-            headerName: 'نام و نام خانوادگی بازاریاب',
+            headerName: 'نام و نام خانوادگی بازاریاب سرگروه',
         }
     ]
     const {
