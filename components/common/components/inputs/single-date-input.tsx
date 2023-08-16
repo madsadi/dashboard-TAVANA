@@ -15,7 +15,7 @@ interface BaseInputPropsType {
 }
 export const SingleDateInput = (props: BaseInputPropsType) => {
     const { item, query, onChange, setQuery, setSelectedDay, selectedDay } = props;
-    const { title } = item
+    const { title,minimumDate } = item
 
     const singleDateHandler = (selectedDay: DayValue) => {
         if (selectedDay) {
@@ -42,11 +42,15 @@ export const SingleDateInput = (props: BaseInputPropsType) => {
             <input className={'w-full'} readOnly ref={ref} value={singleDateHandler(selectedDay)} />
         </div>
     )
+
+    console.log(minimumDate);
+    
     return (
         <div>
             <DatePicker
                 value={selectedDay}
                 locale={'fa'}
+                minimumDate={minimumDate}
                 calendarPopperPosition={'auto'}
                 onChange={(e) => {
                     setSelectedDay(e);

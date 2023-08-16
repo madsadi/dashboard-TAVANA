@@ -1,11 +1,11 @@
 import React, { createContext, useState } from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-const RolesToolbar = dynamic(() => import('../../components/users-management/roles/RolesToolbar'));
-const RoleToggleButton = dynamic(() => import('../../components/users-management/roles/RoleToggleButton'));
-const RoleDetailComponent = dynamic(() => import("../../components/users-management/roles/RoleDetailComponent"));
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
+const RolesToolbar = dynamic(() => import('../../components/users-management/roles/roles-toolbar'));
+const RoleToggleButton = dynamic(() => import('../../components/users-management/roles/role-toggle-button'));
+const RoleDetailComponent = dynamic(() => import("../../components/users-management/roles/role-detail"));
 import useQuery from "../../hooks/useQuery";
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";

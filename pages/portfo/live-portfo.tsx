@@ -1,12 +1,12 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-import {useRouter} from "next/router";
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
+import { useRouter } from "next/router";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import {ModuleIdentifier} from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 
 export default function LivePortfo() {
     const router = useRouter()
@@ -51,24 +51,24 @@ export default function LivePortfo() {
             headerName: 'حجم قابل فروش',
         }
     ]
-    const {data,loading,query,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolio`})
+    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolio` })
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.LIVE_PORTFO}/>
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.LIVE_PORTFO} />
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['customerId', 'instrumentId']}
-                            onRowClicked={(e: any) => {
-                                router.push(`/portfo/${e.data.customerId}&${e.data.instrumentId}`)
-                            }}
-                            pagination={true}
-                            totalCount={data?.result?.totalCount}
-                            fetcher={fetchData}
-                            query={query}
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['customerId', 'instrumentId']}
+                onRowClicked={(e: any) => {
+                    router.push(`/portfo/${e.data.customerId}&${e.data.instrumentId}`)
+                }}
+                pagination={true}
+                totalCount={data?.result?.totalCount}
+                fetcher={fetchData}
+                query={query}
             />
         </div>
     )

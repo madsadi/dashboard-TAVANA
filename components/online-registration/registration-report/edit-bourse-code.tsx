@@ -8,8 +8,8 @@ import { ADMIN_GATEWAY } from "api/constants";
 import useMutation from "hooks/useMutation";
 import { throwToast } from "components/common/functions/notification";
 import { Button } from "components/common/components/button/button";
-import Modal from "components/common/layout/Modal";
-import InputComponent from "components/common/components/InputComponent";
+import Modal from "components/common/layout/modal";
+import InputComponent from "components/common/components/input-generator";
 
 export default function EditBourseCode() {
     const { selectedRows, fetchData, searchQuery } = useContext<any>(OnlineRegContext)
@@ -104,7 +104,7 @@ export default function EditBourseCode() {
                                 }}
                             />
                             <Button label={'تایید'}
-                                className="bg-lime-500"
+                                className="bg-fuchsia-600"
                                 loading={loading}
                                 type={"submit"}
                             />

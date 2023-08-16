@@ -7,40 +7,39 @@ import React, { useEffect, useRef } from 'react';
 import { AuthProvider } from "react-oidc-context"
 import Router from "next/router";
 import '../api/axios_interceptor';
-import Layout from "../components/common/layout/Layout";
+import Layout from "../components/common/layout/layout";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import { SWRConfig } from 'swr';
 import { fetcher } from "../api/fetcher";
 import { WebStorageStateStore } from "oidc-client-ts";
 import { IDP } from "../api/constants";
+const authorityPath = IDP;
+export const clientId = 'admin-gateway';
+const clientURL = typeof window !== 'undefined' && window.location.origin;
+
+const oidcConfig = {
+    userStore: typeof window !== 'undefined' ? new WebStorageStateStore({ store: window.localStorage }) : undefined,
+    authority: `${authorityPath}`,
+    client_id: `${clientId}`,
+    scope: 'openid IdentityServerApi customerinfo',
+    response_type: 'code',
+    redirect_uri: `${clientURL}/authentication/callback`,
+    post_logout_redirect_uri: `${clientURL}`, // Auth0 uses returnTo
+    silent_redirect_uri: `${clientURL}/authentication/silent_callback`,
+    automaticSilentRenew: true,
+    loadUserInfo: true,
+    metadata: {
+        issuer: `${authorityPath}/`,
+        authorization_endpoint: `${authorityPath}/connect/authorize`,
+        token_endpoint: `${authorityPath}/connect/token`,
+        userinfo_endpoint: `${authorityPath}/connect/userinfo`,
+        end_session_endpoint: `${authorityPath}/connect/endsession`
+    }
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
     const toast: any = useRef(null);
-
-    const authorityPath = IDP;
-    const clientId = 'admin-gateway';
-    const clientURL = typeof window !== 'undefined' && window.location.origin;
-
-    const oidcConfig = {
-        userStore: typeof window !== 'undefined' ? new WebStorageStateStore({ store: window.localStorage }) : undefined,
-        authority: `${authorityPath}`,
-        client_id: `${clientId}`,
-        scope: 'openid IdentityServerApi customerinfo',
-        response_type: 'code',
-        redirect_uri: `${clientURL}/authentication/callback`,
-        post_logout_redirect_uri: `${clientURL}`, // Auth0 uses returnTo
-        silent_redirect_uri: `${clientURL}/authentication/silent_callback`,
-        automaticSilentRenew: true,
-        loadUserInfo: true,
-        metadata: {
-            issuer: `${authorityPath}/`,
-            authorization_endpoint: `${authorityPath}/connect/authorize`,
-            token_endpoint: `${authorityPath}/connect/token`,
-            userinfo_endpoint: `${authorityPath}/connect/userinfo`,
-            end_session_endpoint: `${authorityPath}/connect/endsession`
-        }
-    }
 
     const onSignIn = () => {
         Router.push('/dashboard')

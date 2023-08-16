@@ -1,16 +1,15 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { formatNumber } from "../functions/common-funcions";
-import { LoadingOverlay, NoRowOverlay } from "./customOverlay";
+import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { ExcelStyle } from "ag-grid-community";
-import { Loader } from "../components/Loader";
-const TablePagination = dynamic(() => import('./TablePagination'))
+import { Loader } from "../components/loader";
+const TablePagination = dynamic(() => import('./table-pagination'))
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
-import { TableProps } from "types/common-components.type";
 
 const TableComponent: React.FC<any> = (props) => {
     let { data = [],

@@ -1,5 +1,5 @@
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
+import InputComponent from "../../common/components/input-generator";
+import Modal from "../../common/layout/modal";
 import React, { useContext, useEffect, useState } from "react";
 import { OnlineRegContext } from "../../../pages/online-registration/registration-report";
 import { useRouter } from "next/router";
@@ -94,7 +94,7 @@ export default function EditRefCode() {
                                 }}
                             />
                             <Button label={'تایید'}
-                                className="bg-lime-500"
+                                className="bg-fuchsia-600"
                                 loading={loading}
                                 type={"submit"}
                             />

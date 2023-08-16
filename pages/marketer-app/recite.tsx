@@ -1,10 +1,10 @@
 import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-const ReciteToolbar = dynamic(() => import("../../components/marketer-app/recite/toolbar/ReciteToolbar"));
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
+const ReciteToolbar = dynamic(() => import("../../components/marketer-app/recite/toolbar/recite-toolbar"));
 
 import { formatNumber } from "../../components/common/functions/common-funcions";
 import useQuery from "../../hooks/useQuery";

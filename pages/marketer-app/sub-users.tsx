@@ -1,12 +1,13 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
 import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
-import DateCell from "../../components/common/table/DateCell";
+import DateCell from "../../components/common/table/date-cell";
+import { throwToast } from "components/common/functions/notification";
 
 export default function SubUsers() {
 
@@ -63,10 +64,18 @@ export default function SubUsers() {
         data, fetchData, loading, query
     }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer/all-users-total` })
 
+    const searchHandler = (query: any) => {
+        if (query?.IdpID) {
+            fetchData(query)
+        } else {
+            throwToast({ type: 'warning', value: 'مقدار حساب کاربری اجباری می باشد' })
+        }
+    }
+
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_subusers} />
+                <SearchComponent onSubmit={searchHandler} loading={loading} module={ModuleIdentifier.MARKETER_APP_subusers} />
             </AccordionComponent>
             <TableComponent data={data?.result.pagedData}
                 module={ModuleIdentifier.MARKETER_APP_subusers}

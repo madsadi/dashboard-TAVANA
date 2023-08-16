@@ -1,0 +1,337 @@
+import React, { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import Modal from "../common/layout/modal";
+import { XCircleIcon } from "@heroicons/react/24/outline";
+import { MarketRulesContext } from "./rules-list";
+import InputComponent from "../common/components/input-generator";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
+import SymbolSearchSection from "../common/components/symbol-search-secion";
+import { throwToast } from "../common/functions/notification";
+import useMutation from "../../hooks/useMutation";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import useQuery from "../../hooks/useQuery";
+import { useSearchFilters } from "../../hooks/useSearchFilters";
+import { ModuleIdentifier } from "../common/functions/Module-Identifier";
+import { Button } from "../common/components/button/button";
+import Badge from "components/common/components/badge";
+
+function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ')
+}
+
+type queryType = {
+    name: string,
+    isActive: boolean,
+    sequenceNumber: number,
+    errorMessage: string
+}
+const initialQuery = {
+    name: '',
+    isActive: false,
+    sequenceNumber: 0,
+    errorMessage: ''
+}
+
+export default function Edit() {
+    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKET_RULES_MANAGEMENT, 'add')
+    const { toolbar: extra, restriction, service, modules } = useSearchFilters(ModuleIdentifier.MARKET_RULES_MANAGEMENT, 'extraAdd')
+    const { selectedRows, fetchData, dynamicOptions, query: rulesQuery, setSelectedRows } = useContext<any>(MarketRulesContext)
+    const { fetchAsyncData: remoteUrl } = useQuery({})
+    const [modal, setModal] = useState<boolean>(false)
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateRule`, method: 'PUT' })
+    const [query, setQuery] = useState<queryType>(initialQuery)
+    const [expressionQuery, setExpressionQuery] = useState<{ variable: any, operator: string, value: any, InstrumentId: string }>({
+        variable: null,
+        operator: '',
+        value: '',
+        InstrumentId: ''
+    })
+    const [valueOptions, setValueOptions] = useState<any>([])
+    const [expression, setExpression] = useState<string[]>([])
+    const [faExpression, setFaExpression] = useState<string[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
+
+    const expressionQueryUpdate = (key: string, value: any) => {
+        let _query: any = { ...expressionQuery };
+        _query[key] = value
+        setExpressionQuery(_query)
+
+        if (key === 'InstrumentId') {
+            _query.value = value
+            setExpressionQuery(_query)
+        } else {
+            if (key === 'variable') {
+                setExpression([...expression, value.name])
+                setFaExpression([...faExpression, value.displayName])
+            } else if (key === 'operator') {
+                setExpression([...expression, value])
+                setFaExpression([...faExpression, value])
+            }
+        }
+    }
+
+    const openUpdate = () => {
+        if (selectedRows.length) {
+            setModal(true)
+        } else {
+            throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
+        }
+    }
+
+    useEffect(() => {
+        expressionQueryUpdate('value', '')
+        if (expressionQuery.variable?.remoteUrl) {
+            const getValueFromRemoteUrl = async (api: string) => {
+                await remoteUrl({}, api)
+                    .then(res => setValueOptions(res?.data?.result))
+                    .catch(() => throwToast({ type: 'customError', value: 'نا موفق' }))
+            }
+            if (expressionQuery.variable?.displayName !== 'نماد') {
+                getValueFromRemoteUrl(expressionQuery.variable?.remoteUrl)
+            }
+        } else {
+            setValueOptions([])
+        }
+    }, [expressionQuery?.variable])
+
+    const submitForm = async (e: any) => {
+        e.preventDefault()
+        if (selectedRows[0]?.id) {
+            let _query = {
+                id: selectedRows[0].id,
+                expression: expression.join(' '),
+                ...query
+            }
+            setLoading(true)
+            await mutate(_query)
+                .then(() => {
+                    fetchData(rulesQuery)
+                    setSelectedRows([])
+                    throwToast({ type: 'success', value: 'با موفقیت انجام شد' });
+                    setModal(false)
+                })
+                .catch(() => throwToast({ type: 'customError', value: 'نا موفق' }))
+                .finally(() => setLoading(false))
+        }
+    }
+
+    const remove = (index: number) => {
+        expression.splice(index, 1)
+        faExpression.splice(index, 1)
+        setFaExpression([...faExpression])
+        setExpression([...expression])
+    }
+
+    const expressionTranslate = (expression: string) => {
+        let _array = expression.split(' ')
+        let _faArray: string[] = [];
+        setExpression(_array)
+        _array.map((item: any) => {
+            if (dynamicOptions?.find((field: any) => field.name === item)) {
+                //@ts-ignore
+                _faArray.push(`"${dynamicOptions?.find((field: any) => field.name === item)?.displayName}"`)
+                setFaExpression(_faArray)
+            } else {
+                _faArray.push(`"${item}"`)
+                setFaExpression(_faArray)
+            }
+        })
+    }
+
+    useEffect(() => {
+        if (!modal) {
+            setExpressionQuery({ variable: null, operator: '', value: '', InstrumentId: '' })
+            setExpression([])
+            setFaExpression([])
+            setQuery(initialQuery)
+        } else {
+            if (selectedRows[0]) {
+                let _query: any = { name: selectedRows[0]?.name, sequenceNumber: selectedRows[0]?.sequenceNumber, errorMessage: selectedRows[0]?.errorMessage, isActive: selectedRows[0]?.isActive, };
+                setQuery(_query)
+                expressionTranslate(selectedRows[0]?.expression)
+            }
+        }
+    }, [modal, selectedRows?.[0]])
+
+    const onChange = (key: string, value: any) => {
+        let _query: any = { ...query };
+        _query[key] = value
+        setQuery(_query)
+    }
+    return (
+        <>
+            <Button label={'ویرایش'}
+                className="bg-orange-500"
+                onClick={openUpdate}
+                allowed={restriction ? [[service[0], modules[0][0], 'Edit'].join('.')] : []}
+            />
+            <Modal title={'ویرایش قانون'} setOpen={setModal} open={modal} ModalWidth={'max-w-5xl'}>
+                <form onSubmit={submitForm}>
+                    <div className={'grid grid-cols-4 gap-4'}>
+                        {
+                            toolbar?.map((item: any) => {
+                                return <InputComponent key={item.title}
+                                    query={query}
+                                    item={item}
+                                    onChange={onChange}
+                                />
+                            })
+                        }
+                        {
+                            extra?.map((item: any) => {
+                                return <InputComponent key={item.title}
+                                    query={expressionQuery}
+                                    item={item}
+                                    onChange={expressionQueryUpdate}
+                                    dynamicsOption={dynamicOptions}
+                                />
+                            })
+                        }
+                        <div className={'col-span-2 flex items-center'}>
+                            <div className={'grow'}>
+                                {expressionQuery?.variable?.displayName === 'نماد' ?
+                                    <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate} /> :
+                                    <>
+                                        <label className={'flex items-center mt-auto'} htmlFor={'value'}>مقدار</label>
+                                        <div className="relative rounded">
+                                            <Listbox name={'value'} value={expressionQuery?.value}
+                                                onChange={(e) => expressionQueryUpdate('value', valueOptions.find((item: any) => item.code === e)?.title)}>
+                                                {({ open }) => (
+                                                    <div className="relative">
+                                                        <Listbox.Button
+                                                            className="relative flex min-w-full cursor-pointer rounded-r-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
+                                                            <span className="flex items-center">
+                                                                <span className="ml-2 block truncate text-sm">
+                                                                    {expressionQuery?.value}
+                                                                </span>
+                                                            </span>
+                                                            <span
+                                                                className="pointer-events-none flex items-center mr-auto">
+                                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                                                    aria-hidden="false" />
+                                                            </span>
+                                                        </Listbox.Button>
+
+                                                        <Transition
+                                                            show={open}
+                                                            as={Fragment}
+                                                            leave="transition ease-in duration-100"
+                                                            leaveFrom="opacity-100"
+                                                            leaveTo="opacity-0"
+                                                        >
+                                                            <Listbox.Options
+                                                                className="absolute z-10 mt-1 min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
+                                                                {!expressionQuery?.variable?.isRemote && <input
+                                                                    className={'w-full p-1.5 border border-border rounded-md'}
+                                                                    type={expressionQuery?.variable?.valueType === 'int' ? 'number' : 'text'}
+                                                                    value={expressionQuery?.value}
+                                                                    onChange={(e) => expressionQueryUpdate('value', e.target.value)} />}
+                                                                {valueOptions.map((item: any) => (
+                                                                    <Listbox.Option
+                                                                        key={item.id}
+                                                                        className={({ active }) =>
+                                                                            classNames(
+                                                                                active ? 'bg-border' : '',
+                                                                                'relative cursor-pointer select-none py-1 pl-3 pr-3'
+                                                                            )
+                                                                        }
+                                                                        value={item.code}
+                                                                    >
+                                                                        {({ selected, active }) => (
+                                                                            <>
+                                                                                <div className="flex items-center">
+                                                                                    <span>
+                                                                                        {item.title}
+                                                                                    </span>
+                                                                                    {selected ? (
+                                                                                        <span
+                                                                                            className={classNames(
+                                                                                                active ? '' : '',
+                                                                                                'flex items-center mr-auto'
+                                                                                            )}
+                                                                                        >
+                                                                                            <CheckIcon className="h-5 w-5"
+                                                                                                aria-hidden="true" />
+                                                                                        </span>
+                                                                                    ) : null}
+                                                                                </div>
+                                                                            </>
+                                                                        )}
+                                                                    </Listbox.Option>
+                                                                ))}
+                                                            </Listbox.Options>
+                                                        </Transition>
+                                                    </div>
+                                                )}
+                                            </Listbox>
+                                        </div>
+                                    </>}
+                            </div>
+                            <Button label={'اضافه'}
+                                className={`rounded-l ${expressionQuery?.value ? '' : 'bg-border text-gray-300'} h-[34px] mt-auto border-r-0 px-2 border border-border`}
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    if (expressionQuery?.variable?.fieldType === 'string') {
+                                        setExpression([...expression, `\"${expressionQuery?.value}\"`])
+                                        setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
+                                    } else {
+                                        setExpression([...expression, valueOptions.length ? valueOptions.find((item: any) => item.title === expressionQuery?.value).id : expressionQuery?.value])
+                                        setFaExpression([...faExpression, `"${expressionQuery?.value}"`])
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={'flex flex-wrap gap-2 my-5'}>
+                            {faExpression.map((item: string, index) => {
+                                let appearance: any = <div className={'flex items-center cursor-pointer text-sm'}>{item}<XCircleIcon
+                                    className={'h-3 w-3 text-black'} /></div>
+                                return (
+                                    <Badge
+                                        key={index}
+                                        onClick={() => remove(index)}>
+                                        {appearance}
+                                    </Badge>
+                                )
+                            })}
+                        </div>
+                        <textarea className={'w-full border border-border rounded shadow-sm p-2'} placeholder={'عبارت'}
+                            value={faExpression.join(' ')}
+                            readOnly rows={5} cols={30} />
+                        <div className={'text-left ltr my-2'}>
+                            <div>{expression.join(' ')}</div>
+                            <div className={'flex flex-wrap gap-2 my-2'}>
+                                {expression.map((item: string, index) => {
+                                    let appearance: any = <div
+                                        className={'flex items-center cursor-pointer text-sm'}>{item} <XCircleIcon
+                                            className={'h-3 w-3 text-black'} /></div>
+                                    return (<Badge
+                                        key={index}
+                                        onClick={() => remove(index)}
+                                    >
+                                        {appearance}
+                                    </Badge>)
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={'flex justify-end space-x-reverse space-x-2'}>
+                        <Button label={'لغو'}
+                            className={`mt-5 bg-red-600`}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setModal(false)
+                            }}
+                        />
+                        <Button label={' ثبت تغییرات'}
+                            className={`mt-5 bg-lime-600`}
+                            type={'submit'}
+                            loading={loading}
+                        />
+                    </div>
+                </form>
+            </Modal>
+        </>
+    )
+}

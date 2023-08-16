@@ -1,14 +1,17 @@
 import React, { createContext, useState } from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-const UsersToolbar = dynamic(() => import('../../components/users-management/users/UsersToolbar'));
-const ToggleButton = dynamic(() => import('../../components/users-management/users/ToggleButton'));
-const UserDetailComponent = dynamic(() => import('../../components/users-management/users/UserDetailComponent'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'),{
+    loading:()=> <p>در حال بارگزاری...</p>,
+});
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
+const UsersToolbar = dynamic(() => import('../../components/users-management/users/users-toolbar'));
+const ToggleButton = dynamic(() => import('../../components/users-management/users/toggle-button'));
+const UserDetailComponent = dynamic(() => import('../../components/users-management/users/user-detail'));
 import useQuery from '../../hooks/useQuery';
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import DateCell from "components/common/table/date-cell";
 
 export const UsersContext = createContext({})
 export default function Users() {
@@ -54,30 +57,46 @@ export default function Users() {
         {
             field: 'twoFactorEnabled',
             headerName: 'ورود دوعاملی',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <span>{rowData.data.twoFactorEnabled ? 'فعال' : 'غیر فعال'}</span>
+                    )
+                }
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            }
         },
-        {
-            field: 'lockOutEnabled',
-            headerName: 'قفل شده؟',
-        },
+        // {
+        //     field: 'lockOutEnabled',
+        //     headerName: 'قفل شده؟',
+        //     cellRendererSelector: () => {
+        //         const ColourCellRenderer = (rowData: any) => {
+        //             return (
+        //                 <span>{rowData.data.lockOutEnabled ? 'قفل شده':'قفل نشده'}</span>
+        //             )
+        //         }
+        //         const moodDetails = {
+        //             component: ColourCellRenderer,
+        //         }
+        //         return moodDetails;
+        //     }
+        // },
         // {
         //     field: 'accessFailedCount',
         //     headerName: 'تعداد ورود ناموفق',
         // },
-        // {
-        //     field: 'lockOutEnd',
-        //     headerName: 'قفل تا تاریخ',
-        //     // cellRendererSelector: () => {
-        //     //     const ColourCellRenderer = (rowData: any) => {
-        //     //         return (
-        //     //             <span>{jalali(rowData.data.LockOutEnd).date}</span>
-        //     //         )
-        //     //         const moodDetails = {
-        //     //             component: ColourCellRenderer,
-        //     //         }
-        //     //         return moodDetails;
-        //     //     }
-        //     // }
-        // },
+        {
+            field: 'lockOutEnd',
+            headerName: 'قفل تا تاریخ',
+            cellRendererSelector: () => {
+                return {
+                    component: (rowData: any) => <DateCell date={rowData.data.LockOutEnd} />,
+                };
+            }
+        },
         // {
         //     field: 'birthDate',
         //     headerName: 'تاریخ تولد',

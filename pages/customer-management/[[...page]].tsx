@@ -1,14 +1,14 @@
 import React, { useState, createContext } from "react";
 import dynamic from 'next/dynamic'
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'))
-const Toolbar = dynamic(() => import('../../components/customer-management/Toolbar'))
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'))
+const Toolbar = dynamic(() => import('../../components/customer-management/toolbar'))
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'))
+const SearchComponent = dynamic(() => import('../../components/common/components/search'))
 import usePageStructure from "../../hooks/usePageStructure";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
-import DateCell from "../../components/common/table/DateCell";
+import DateCell from "../../components/common/table/date-cell";
 
 const defStructure = (page: string) => {
     const D: any = {

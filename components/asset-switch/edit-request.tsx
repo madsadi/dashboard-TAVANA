@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import Modal from "../common/layout/Modal";
-import InputComponent from "../common/components/InputComponent";
+import Modal from "../common/layout/modal";
+import InputComponent from "../common/components/input-generator";
 import useMutation from "../../hooks/useMutation";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../common/functions/notification";

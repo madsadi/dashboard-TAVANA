@@ -1,5 +1,6 @@
 import { ADMIN_GATEWAY, IDP } from "../api/constants";
 import moment from "jalali-moment";
+import { splittedDate } from "components/common/functions/common-funcions";
 
 const filters: any = {
   "dashboard": {
@@ -63,10 +64,10 @@ const filters: any = {
         { "title": "nationalId", "name": "کدملی", "type": "input" }
       ],
       "password": [
-        { "title": "newPassword", "name": "رمز عبور جدید", "type": "input" }
+        { "title": "newPassword", "name": "رمز عبور جدید", "type": "password" }
       ],
       "lock-out": [
-        { "title": "lockoutEndDateTime", "name": "تاریخ", "type": "singleDate" }
+        { "title": "lockoutEndDateTime", "name": "تاریخ", "type": "singleDate", "minimumDate": splittedDate(moment().locale('fa').format('YYYY-MM-DD')) }
       ]
     }
   },
@@ -136,6 +137,12 @@ const filters: any = {
           permissions: ['Create']
         }
       ],
+      'FileManagerSystem': [
+        {
+          module: 'FileMananger',
+          permissions: ['Read']
+        }
+      ]
     },
     "search": {
       "filters": [
@@ -185,7 +192,14 @@ const filters: any = {
     }
   },
   "customer-management_subsidiary": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'Subsidiary',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -263,7 +277,14 @@ const filters: any = {
     }
   },
   "customer-management_employee": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "Employee",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "toolbar": {
       "modal": [
         { "title": "firstName", "name": "نام", "type": "input", "initialValue": "" },
@@ -278,7 +299,14 @@ const filters: any = {
     }
   },
   "customer-management_businessUnit": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'BusinessUnit',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -305,7 +333,14 @@ const filters: any = {
     }
   },
   "customer-management_station": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'Station',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -340,7 +375,14 @@ const filters: any = {
     }
   },
   "customer-management_trader": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "Trader",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "toolbar": {
       "modal": [
         { "title": "stationId", "name": "شناسه ایستگاه معاملاتی", "type": "input", "initialValue": "" },
@@ -468,7 +510,14 @@ const filters: any = {
     }
   },
   "customer-management_agreement": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: 'Agreement',
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "toolbar": {
       "modal": [
         { "title": "subsidiaryId", "name": "شناسه شرکت", "type": "input", "initialValue": "" },
@@ -483,7 +532,14 @@ const filters: any = {
     }
   },
   "customer-management_customerAgreement": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "CustomerAgreement",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -531,7 +587,14 @@ const filters: any = {
     }
   },
   "customer-management_contract": {
-    services: {},
+    services: {
+      "CustomerManagement": [
+        {
+          module: "Contract",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
@@ -1374,7 +1437,8 @@ const filters: any = {
           "endpoint": `${IDP}/api/users/SearchUserAccount`,
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
           "queryField": "NationalId",
-          "recordField": "id"
+          "recordField": "id",
+          "isRequired": true
         },
         { "title": "Name", "name": "نام کاربر", "type": "input" },
         { "title": "UserType", "name": "نوع کاربر", "type": "selectInput" },

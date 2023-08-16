@@ -1,15 +1,15 @@
 import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import('../../components/common/components/Search.component'));
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/AccordionComponent'));
-const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/OrdersToolbar'));
-const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/customDetailComponent'));
+const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
+const OrdersToolbar = dynamic(() => import('../../components/online-orders/orders/orders-toolbar'));
+const CustomDetailComponent = dynamic(() => import('../../components/online-orders/orders/custom-detail'));
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
-import DateCell from "../../components/common/table/DateCell";
+import DateCell from "../../components/common/table/date-cell";
 
 export const OrdersContext = createContext({})
 export default function Orders() {

@@ -10,7 +10,7 @@ export const isAllowed = ({ userPermissions, whoIsAllowed }: { userPermissions: 
             , [])
 
         let isAllowed = _whoIsAllowedUnique?.some((p: string) => userPermissions.indexOf(p) >= 0)
-        return true
+        return isAllowed
     }
     return true
 }

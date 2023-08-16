@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import InputComponent from "../../common/components/InputComponent";
-import Modal from "../../common/layout/Modal";
+import InputComponent from "../../common/components/input-generator";
+import Modal from "../../common/layout/modal";
 import { DayValue } from "react-modern-calendar-datepicker";
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
@@ -34,7 +34,7 @@ export const SendMessageComponent = () => {
     return (
         <>
             <Button label={'ارسال پیام'}
-                className="bg-lime-500"
+                className="bg-fuchsia-600"
                 onClick={() => setModal(true)}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
             />
@@ -59,7 +59,7 @@ export const SendMessageComponent = () => {
                                 }}
                             />
                             <Button label={'تایید'}
-                                className="bg-lime-500"
+                                className="bg-fuchsia-600"
                                 loading={loading}
                                 type={"submit"}
                             />

@@ -1,13 +1,14 @@
 import { ADMIN_GATEWAY } from "../../api/constants"
 import { Button } from "../common/components/button/button"
-import InputComponent from "../common/components/InputComponent"
+import InputComponent from "../common/components/input-generator"
 import { ModuleIdentifier } from "../common/functions/Module-Identifier"
 import { throwToast } from "../common/functions/notification"
-import Modal from "../common/layout/Modal"
+import Modal from "../common/layout/modal"
 import useMutation from "hooks/useMutation"
 import { useSearchFilters } from "../../hooks/useSearchFilters"
 import { AssetSwitchContext } from "../../pages/portfo/asset-switch"
 import { useContext, useState } from "react"
+
 
 export const CreateRequest = () => {
     const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.ASSET_SWITCH, 'add')
@@ -46,7 +47,7 @@ export const CreateRequest = () => {
             <Button label="ایجاد درخواست تغییر ناظر"
                 disabled={loading}
                 allowed={restriction ? [[service[0], modules[0][0], 'Create'].join('')] : []}
-                className={'bg-lime-500'}
+                className={'bg-fuchsia-600'}
                 onClick={modalHandler}
             />
             <Modal open={modal} setOpen={setModal} title="ایجاد درخواست تغییر ناظر">
