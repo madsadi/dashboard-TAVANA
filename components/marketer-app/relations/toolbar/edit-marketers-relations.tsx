@@ -26,8 +26,8 @@ export default function EditMarketersRelations() {
     useEffect(() => {
         if (modal && selectedRows?.length) {
             let _initialValue: any = {};
-            _initialValue['LeaderMarketerID'] = selectedRows[0][`LeaderMarketerName`].split('/')?.[1] || selectedRows[0][`LeaderMarketerName`]
-            _initialValue['FollowerMarketerID'] = selectedRows[0][`FollowerMarketerName`].split('/')?.[1] || selectedRows[0][`FollowerMarketerName`]
+            _initialValue['LeaderMarketerID'] = selectedRows[0][`LeaderMarketerID`]
+            _initialValue['FollowerMarketerID'] = selectedRows[0][`FollowerMarketerID`]
             _initialValue['CommissionCoefficient'] = selectedRows[0][`CommissionCoefficient`]
             _initialValue['StartDate'] = selectedRows[0]?.StartDate
             _initialValue['EndDate'] = selectedRows[0]?.EndDate
