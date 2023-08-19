@@ -21,8 +21,6 @@ export default function EditMarketersRelations() {
         to: null
     });
 
-    console.log(selectedRows);
-
     useEffect(() => {
         if (modal && selectedRows?.length) {
             let _initialValue: any = {};

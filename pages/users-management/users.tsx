@@ -1,8 +1,8 @@
 import React, { createContext, useState } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/search'));
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'),{
-    loading:()=> <p>در حال بارگزاری...</p>,
+const TableComponent = dynamic(() => import('../../components/common/table/table-component'), {
+    loading: () => <p>در حال بارگزاری...</p>,
 });
 const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
 const UsersToolbar = dynamic(() => import('../../components/users-management/users/users-toolbar'));
@@ -69,25 +69,6 @@ export default function Users() {
                 return moodDetails;
             }
         },
-        // {
-        //     field: 'lockOutEnabled',
-        //     headerName: 'قفل شده؟',
-        //     cellRendererSelector: () => {
-        //         const ColourCellRenderer = (rowData: any) => {
-        //             return (
-        //                 <span>{rowData.data.lockOutEnabled ? 'قفل شده':'قفل نشده'}</span>
-        //             )
-        //         }
-        //         const moodDetails = {
-        //             component: ColourCellRenderer,
-        //         }
-        //         return moodDetails;
-        //     }
-        // },
-        // {
-        //     field: 'accessFailedCount',
-        //     headerName: 'تعداد ورود ناموفق',
-        // },
         {
             field: 'lockOutEnd',
             headerName: 'قفل تا تاریخ',
@@ -97,21 +78,6 @@ export default function Users() {
                 };
             }
         },
-        // {
-        //     field: 'birthDate',
-        //     headerName: 'تاریخ تولد',
-        //     // cellRendererSelector: () => {
-        //     //     const ColourCellRenderer = (rowData: any) => {
-        //     //         return (
-        //     //             <span>{jalali(rowData.data.BirthDate).date}</span>
-        //     //         )
-        //     //         const moodDetails = {
-        //     //             component: ColourCellRenderer,
-        //     //         }
-        //     //         return moodDetails;
-        //     //     }
-        //     // }
-        // }
     ]
     const [selectedRows, setSelectedRows] = useState<any>([])
     const { data, query, fetchData, loading }: any = useQuery({ url: `${IDP}/api/users/SearchUserAccount` })

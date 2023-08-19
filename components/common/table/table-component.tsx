@@ -54,6 +54,7 @@ const TableComponent: React.FC<any> = (props) => {
             resizable: true,
             sortable: true,
             flex: 1,
+            cellClass: "textFormat",
             valueFormatter: formatNumber
         };
     }, []);
@@ -94,6 +95,10 @@ const TableComponent: React.FC<any> = (props) => {
         }
     }
 
+    const ExportAction = useCallback(() => {
+        gridRef?.current?.api.exportDataAsExcel();
+    }, []);
+
     return (
         <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
@@ -133,6 +138,7 @@ const TableComponent: React.FC<any> = (props) => {
                 module={module}
                 query={query}
                 totalCount={totalCount || 0}
+                exportExcel={ExportAction}
             /> : null}
         </>
     )

@@ -8,6 +8,7 @@ import { ModuleIdentifier } from '../functions/Module-Identifier';
 import { isAllowed } from '../functions/permission-utils';
 import { useSelector } from 'react-redux';
 import { Button } from './button/button';
+import copy from 'copy-to-clipboard';
 
 export const CopyButton = ({ entity, id, condition }: { entity: string, id: string, condition: boolean }) => {
     const { page } = usePageStructure()
@@ -20,7 +21,7 @@ export const CopyButton = ({ entity, id, condition }: { entity: string, id: stri
             await getLink({ marketerId: id })
                 .then((res) => {
                     throwToast({ type: 'success', value: 'لینک کپی شد' })
-                    navigator.clipboard.writeText(res?.result[entity])
+                    copy(res?.result[entity])
                 })
                 .catch(() => throwToast({ type: 'customError', value: 'دوباره امتحان کنید' }))
                 .finally(() => setLoading(false))
