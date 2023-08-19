@@ -11,6 +11,7 @@ import { formatDecimals } from "../functions/common-funcions";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { isAllowed } from "../functions/permission-utils";
 import { useSelector } from "react-redux";
+import ExcelExport from "../components/button/excel-export";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -20,8 +21,9 @@ export default function TablePagination({
     query,
     onSubmit,
     totalCount = 0,
-    module
-}: { query: any, onSubmit: Function, totalCount: number, module: string }) {
+    module,
+    exportExcel
+}: { query: any, onSubmit: Function, totalCount: number, module: string, exportExcel: () => void }) {
 
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
     const [pageQuery, setPageQuery] = useState({ PageSize: 20, PageNumber: 1 })
@@ -41,6 +43,8 @@ export default function TablePagination({
     useEffect(() => {
         if (query?.PageNumber && query?.PageSize) setPageQuery(query)
     }, [query])
+
+
 
     return (
         <div className={'flex items-center mx-auto py-3 space-x-2 space-x-reverse'}>
@@ -119,7 +123,7 @@ export default function TablePagination({
                 className={`${pageQuery?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                 disabled={pageQuery?.PageNumber <= 1}
                 aria-label="first-page"
-                >
+            >
                 <ChevronDoubleRightIcon className={'h-4 w-4'} />
             </button>
             <button onClick={(e) => {
@@ -129,7 +133,7 @@ export default function TablePagination({
                 className={`${pageQuery?.PageNumber <= 1 ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                 disabled={pageQuery?.PageNumber <= 1}
                 aria-label="previous-page"
-                >
+            >
                 <ChevronRightIcon className={'h-4 w-4'} />
             </button>
             <div className={'text-center'}>
@@ -147,7 +151,7 @@ export default function TablePagination({
                 className={`${pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                 disabled={pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)}
                 aria-label="next-page"
-                >
+            >
                 <ChevronLeftIcon className={'h-4 w-4'} />
             </button>
             <button onClick={(e) => {
@@ -157,9 +161,10 @@ export default function TablePagination({
                 className={`${pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize) ? 'text-gray-400' : 'hover:bg-gray-400'} rounded-full bg-border transition-all p-1`}
                 disabled={pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)}
                 aria-label="last-page"
-                >
+            >
                 <ChevronDoubleLeftIcon className={'h-4 w-4'} />
             </button>
+            <ExcelExport ExportAction={exportExcel} disabled={totalCount > 0} />
         </div>
     )
 }

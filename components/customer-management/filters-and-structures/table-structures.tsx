@@ -476,6 +476,7 @@ export const marketerColumnDefStructure = [
     {
         field: 'marketerUrl',
         headerName: 'لینک بازاریاب',
+        data: 'marketerUrl',
         cellRendererSelector: () => {
             return { component: (rowData: any) => <CopyButton condition={rowData?.data?.marketerRefCode} id={rowData?.data?.id} entity={'marketerUrl'} /> }
         },
