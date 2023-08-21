@@ -463,7 +463,7 @@ export const marketerColumnDefStructure = [
         headerName: 'کد معرفی',
     },
     {
-        field: 'reagentUrl',
+        field: 'reagentRefLink',
         headerName: 'لینک معرف',
         cellRendererSelector: () => {
             return { component: (rowData: any) => <CopyButton condition={rowData?.data?.reagentRefCode} id={rowData?.data?.id} entity={'reagentUrl'} /> }
@@ -474,7 +474,7 @@ export const marketerColumnDefStructure = [
         headerName: 'کدبازاریابی',
     },
     {
-        field: 'marketerUrl',
+        field: 'marketerRefLink',
         headerName: 'لینک بازاریاب',
         data: 'marketerUrl',
         cellRendererSelector: () => {

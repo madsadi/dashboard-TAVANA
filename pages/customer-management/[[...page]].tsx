@@ -112,7 +112,6 @@ export default function HoldingsSubPages() {
     const [selectedRows, setSelectedRows] = useState<any>([]);
     const { page } = usePageStructure()
     const { data, loading, fetchData, query } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Search` })
-
     const detailCellRendererParams = (page: string) => {
         return {
             detailGridOptions: {
@@ -130,7 +129,6 @@ export default function HoldingsSubPages() {
             },
         };
     }
-
 
     return (
         <CustomerManagement.Provider value={{ fetchData, selectedRows, setSelectedRows, query }}>
