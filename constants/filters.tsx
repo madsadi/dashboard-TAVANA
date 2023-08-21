@@ -10,7 +10,7 @@ const filters: any = {
     services: {
       'IdentityServerApi': [
         {
-          module: 'UserManagement',
+          module: 'UserManagment',
           permissions: ['Read', 'Create', 'Edit', 'ChangeUserPassword', 'ChangeUserActiveStatus', 'SetLockoutEndDate', 'RollAndPermissionManagment', 'RollAndPermissionManagment', 'RollAndPermissionManagment']
         }
       ],
