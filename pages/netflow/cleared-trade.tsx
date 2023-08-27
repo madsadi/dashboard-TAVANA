@@ -7,8 +7,9 @@ import { formatNumber, jalali } from "../../components/common/functions/common-f
 import useQuery from "../../hooks/useQuery";
 import { NETFLOW } from '../../api/constants';
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from 'components/common/layout/with-permission';
 
-export default function ClearedTrade() {
+function ClearedTrade() {
     const columnDefStructure = [
         {
             field: 'ticket',
@@ -118,3 +119,5 @@ export default function ClearedTrade() {
         </div>
     )
 }
+
+export default withPermission(ClearedTrade,ModuleIdentifier.NETFLOW_cleared_trade)

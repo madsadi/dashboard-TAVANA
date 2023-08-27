@@ -7,8 +7,9 @@ import { useRouter } from "next/router";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from "components/common/layout/with-permission";
 
-export default function LivePortfo() {
+function LivePortfo() {
     const router = useRouter()
     const columnDefStructure = [
         {
@@ -73,3 +74,5 @@ export default function LivePortfo() {
         </div>
     )
 }
+
+export default withPermission(LivePortfo,ModuleIdentifier.LIVE_PORTFO)

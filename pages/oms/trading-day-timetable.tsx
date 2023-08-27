@@ -9,8 +9,9 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../../components/common/functions/notification";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from "components/common/layout/with-permission";
 
-export default function TradingDayTimetable() {
+function TradingDayTimetable() {
     const columnDefStructure = [
         {
             field: 'instrumentGroupId',
@@ -118,3 +119,5 @@ export default function TradingDayTimetable() {
         </div>
     )
 }
+
+export default withPermission(TradingDayTimetable,ModuleIdentifier.OMS_timetable)

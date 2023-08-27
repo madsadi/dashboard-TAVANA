@@ -12,9 +12,10 @@ import useQuery from "../../hooks/useQuery";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
 import { COMMISSION_BASE_URL } from "../../api/constants";
+import { withPermission } from 'components/common/layout/with-permission';
 
 export const CommissionContext = createContext({})
-export default function Commission() {
+function Commission() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -377,3 +378,5 @@ export default function Commission() {
         </CommissionContext.Provider>
     )
 }
+
+export default withPermission(Commission,ModuleIdentifier.COMMISSION_MANAGEMENT_detail)

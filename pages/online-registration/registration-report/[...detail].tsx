@@ -33,9 +33,10 @@ import { isAllowed } from "../../../components/common/functions/permission-utils
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
 import EditBourseCode from "components/online-registration/registration-report/edit-bourse-code";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const OnlineRegDetailContext = createContext({})
-export default function Detail() {
+function Detail() {
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig);
     const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'edit')
     const { data: info, fetchData }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchUser` });
@@ -299,3 +300,5 @@ export default function Detail() {
         </OnlineRegDetailContext.Provider>
     )
 }
+
+export default withPermission(Detail,ModuleIdentifier.ONLINE_REGISTRATION)

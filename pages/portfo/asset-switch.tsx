@@ -9,9 +9,10 @@ import { ModuleIdentifier } from "../../components/common/functions/Module-Ident
 import DateCell from "components/common/table/date-cell";
 import { formatNumber } from "components/common/functions/common-funcions";
 import AssetSwitchToolbar from "components/asset-switch/asset-switch-toolbar";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const AssetSwitchContext = createContext({})
-export default function AssetSwitch() {
+function AssetSwitch() {
     const [selectedRows, setSelectedRows] = useState([])
     const columnDefStructure = [
         {
@@ -149,3 +150,5 @@ export default function AssetSwitch() {
         </AssetSwitchContext.Provider>
     )
 }
+
+export default withPermission(AssetSwitch,ModuleIdentifier.ASSET_SWITCH)

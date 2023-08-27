@@ -9,6 +9,7 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/date-cell";
+import { withPermission } from "components/common/layout/with-permission";
 
 const defStructure = (page: string) => {
     const D: any = {
@@ -108,7 +109,7 @@ const defStructure = (page: string) => {
 }
 
 export const CustomerManagement = createContext({})
-export default function HoldingsSubPages() {
+function HoldingsSubPages() {
     const [selectedRows, setSelectedRows] = useState<any>([]);
     const { page } = usePageStructure()
     const { data, loading, fetchData, query } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Search` })
@@ -156,3 +157,5 @@ export default function HoldingsSubPages() {
         </CustomerManagement.Provider>
     )
 }
+
+export default withPermission(HoldingsSubPages,ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${typeof window!=='undefined' && window.location.pathname.split('/').at(-1)}`])

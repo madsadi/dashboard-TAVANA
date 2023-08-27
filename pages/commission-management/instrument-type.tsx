@@ -7,9 +7,10 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 import useQuery from "../../hooks/useQuery";
 import { COMMISSION_BASE_URL } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from 'components/common/layout/with-permission';
 
 export const InstrumentTypeContext = createContext({})
-export default function InstrumentType() {
+function InstrumentType() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -119,3 +120,5 @@ export default function InstrumentType() {
         </InstrumentTypeContext.Provider>
     )
 }
+
+export default withPermission(InstrumentType,ModuleIdentifier.COMMISSION_MANAGEMENT_instrument)

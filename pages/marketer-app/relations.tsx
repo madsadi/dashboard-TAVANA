@@ -8,9 +8,10 @@ import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/date-cell";
 import RelationToolbar from "../../components/marketer-app/relations/toolbar/relation-toolbar";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const RelationsContext = createContext({})
-export default function Relations() {
+function Relations() {
     const [selectedRows, setSelectedRows] = useState<any>([])
 
     const columnDefStructure: any = [
@@ -129,3 +130,5 @@ export default function Relations() {
         </RelationsContext.Provider>
     )
 }
+
+export default withPermission(Relations,ModuleIdentifier.MARKETER_APP_RELATIONS)

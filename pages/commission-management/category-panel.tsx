@@ -6,8 +6,9 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 import useQuery from "../../hooks/useQuery";
 import { COMMISSION_BASE_URL } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from 'components/common/layout/with-permission';
 
-export default function CategoryPanel() {
+function CategoryPanel() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -115,3 +116,5 @@ export default function CategoryPanel() {
         </div>
     )
 }
+
+export default withPermission(CategoryPanel,ModuleIdentifier.COMMISSION_MANAGEMENT_category)

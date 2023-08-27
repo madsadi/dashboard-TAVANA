@@ -6,6 +6,7 @@ export default function DateCell({date,hideTime}:{date:any,hideTime?:boolean}){
     if (date){
          date_format = jalali(date)
     }
+    
     return(
         <>
             <span>{date ? date_format.date : '-'}</span>

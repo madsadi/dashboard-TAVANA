@@ -8,8 +8,9 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../../components/common/functions/notification";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from "components/common/layout/with-permission";
 
-export default function TradingSession() {
+function TradingSession() {
     const columnDefStructure = [
         {
             field: 'sessionStatusCode',
@@ -83,3 +84,5 @@ export default function TradingSession() {
         </div>
     )
 }
+
+export default withPermission(TradingSession,ModuleIdentifier.OMS_session)

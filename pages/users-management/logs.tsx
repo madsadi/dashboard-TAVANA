@@ -9,8 +9,9 @@ import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
 import DateCell from "../../components/common/table/date-cell";
+import { withPermission } from "components/common/layout/with-permission";
 
-export default function Users() {
+function Users() {
     const columnDefStructure: any = [
         {
             field: 'userId',
@@ -108,3 +109,5 @@ export default function Users() {
         </div>
     )
 }
+
+export default withPermission(Users,ModuleIdentifier.USER_MANAGEMENT_logs)

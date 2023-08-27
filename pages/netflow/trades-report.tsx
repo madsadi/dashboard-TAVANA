@@ -8,8 +8,9 @@ import useQuery from "../../hooks/useQuery";
 import { NETFLOW } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
+import { withPermission } from 'components/common/layout/with-permission';
 
-export default function TradesReport() {
+function TradesReport() {
     const columnDefStructure = [
         {
             field: 'name',
@@ -179,3 +180,5 @@ export default function TradesReport() {
 
     )
 }
+
+export default withPermission(TradesReport,ModuleIdentifier.NETFLOW_trades_report)
