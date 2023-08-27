@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 
-export const NotAllowed=()=>{
+export default function NotAllowed(){
     const router = useRouter()
     return(
         <div className={'flex flex-col h-full grow border border-border shadow-md rounded-md bg-gray-50'}>
