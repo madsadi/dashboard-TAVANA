@@ -1,5 +1,5 @@
 import filters from "constants/filters";
-import { NotAllowed } from "pages/not-allowed";
+import NotAllowed from "pages/not-allowed";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { isAllowed, prepare } from "../functions/permission-utils";
