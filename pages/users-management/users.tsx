@@ -91,7 +91,7 @@ function Users(){
                     <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_users} />
                 </AccordionComponent>
                 <UsersToolbar />
-                <TableComponent data={data?.result}
+                <TableComponent data={data?.result.pagedData}
                     module={ModuleIdentifier.USER_MANAGEMENT_users}
                     columnDefStructure={columnDefStructure}
                     rowId={['id']}
