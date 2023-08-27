@@ -11,9 +11,10 @@ import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const OnlineRegContext = createContext({})
-export default function OnlineRegistration() {
+function OnlineRegistration() {
     const columnDefStructure: any = [
         {
             headerCheckboxSelection: true,
@@ -313,3 +314,5 @@ export default function OnlineRegistration() {
         </OnlineRegContext.Provider>
     )
 }
+
+export default withPermission(OnlineRegistration,ModuleIdentifier.ONLINE_REGISTRATION)

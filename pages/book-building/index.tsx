@@ -9,9 +9,10 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../../components/common/functions/notification";
 import DateCell from "../../components/common/table/date-cell";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from 'components/common/layout/with-permission';
 
 export const BookBuildingContext = createContext({})
-export default function BookBuilding() {
+function BookBuilding() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -151,3 +152,5 @@ export default function BookBuilding() {
         </BookBuildingContext.Provider>
     )
 }
+
+export default withPermission(BookBuilding,ModuleIdentifier.BOOK_BUILDING)

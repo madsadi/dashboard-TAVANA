@@ -15,13 +15,6 @@ export const IDP =
             : config.app.IDP
         : config.app.IDP;
 
-export const COMMISSION_BASE_URL =
-    typeof window !== "undefined"
-        ? window._env_.COMMISSION_BASE_URL
-            ? window._env_.COMMISSION_BASE_URL
-            : config.app.COMMISSION_BASE_URL
-        : config.app.COMMISSION_BASE_URL;
-
 export const NETFLOW =
     typeof window !== "undefined"
         ? window._env_.NETFLOW

@@ -8,8 +8,9 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../../components/common/functions/notification";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from "components/common/layout/with-permission";
 
-export default function Trades() {
+function Trades() {
     function chunk(str: string, n: number) {
         var ret = [];
         var i;
@@ -185,3 +186,5 @@ export default function Trades() {
         </div>
     )
 }
+
+export default withPermission(Trades,ModuleIdentifier.ONLINE_TRADES)

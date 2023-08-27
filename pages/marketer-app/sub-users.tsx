@@ -8,8 +8,9 @@ import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/date-cell";
 import { throwToast } from "components/common/functions/notification";
+import { withPermission } from "components/common/layout/with-permission";
 
-export default function SubUsers() {
+function SubUsers() {
 
     const columnDefStructure: any = [
         {
@@ -90,3 +91,5 @@ export default function SubUsers() {
         </div>
     )
 }
+
+export default withPermission(SubUsers,ModuleIdentifier.MARKETER_APP_subusers)

@@ -3,7 +3,7 @@ import Modal from "../../common/layout/modal";
 import InputComponent from "../../common/components/input-generator";
 import { throwToast } from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
-import { COMMISSION_BASE_URL } from "../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../api/constants";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
@@ -15,7 +15,7 @@ export default function AddNew() {
     const { fetchData, query: insQuery } = useContext<any>(InstrumentTypeContext)
     const [query, setQuery] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const { mutate } = useMutation({ url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Add` })
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/CommissionInstrumentType/Add` })
 
     const addNewHandler = async (e: any) => {
         e?.preventDefault()

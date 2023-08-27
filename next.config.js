@@ -5,7 +5,6 @@ const nextConfig = {
   swcMinify: true,
   publicRuntimeConfig: {
     app: {
-      COMMISSION_BASE_URL: process.env.COMMISSION_BASE_URL,
       NETFLOW: process.env.NETFLOW,
       ADMIN_GATEWAY: process.env.ADMIN_GATEWAY,
       FILE_SERVER: process.env.FILE_SERVER,

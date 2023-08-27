@@ -10,9 +10,10 @@ import { formatNumber } from "../../components/common/functions/common-funcions"
 import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const ReciteContext = createContext({})
-export default function Recite() {
+function Recite() {
     const [selectedRows, setSelectedRows] = useState<any>([])
 
     const columnDefStructure: any = [
@@ -120,3 +121,5 @@ export default function Recite() {
         </ReciteContext.Provider>
     )
 }
+
+export default withPermission(Recite,ModuleIdentifier.MARKETER_APP_recite)

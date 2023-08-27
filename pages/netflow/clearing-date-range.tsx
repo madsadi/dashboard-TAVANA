@@ -9,8 +9,9 @@ import useQuery from "../../hooks/useQuery";
 import { NETFLOW } from '../../api/constants';
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
+import { withPermission } from 'components/common/layout/with-permission';
 
-export default function ClearingDateRange() {
+function ClearingDateRange() {
     const columnDefStructure = [
         {
             field: 'georgianTradeDate',
@@ -181,3 +182,5 @@ export default function ClearingDateRange() {
 
     )
 }
+
+export default withPermission(ClearingDateRange,ModuleIdentifier.NETFLOW_clearing_Range)

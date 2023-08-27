@@ -10,9 +10,10 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
 import DateCell from "../../components/common/table/date-cell";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const OrdersContext = createContext({})
-export default function Orders() {
+function Orders() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -151,3 +152,5 @@ export default function Orders() {
         </OrdersContext.Provider>
     )
 }
+
+export default withPermission(Orders,ModuleIdentifier.ONLINE_ORDERS)

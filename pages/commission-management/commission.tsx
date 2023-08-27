@@ -11,10 +11,11 @@ const DateCell = dynamic(() => import("../../components/common/table/date-cell")
 import useQuery from "../../hooks/useQuery";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { throwToast } from "../../components/common/functions/notification";
-import { COMMISSION_BASE_URL } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
+import { withPermission } from 'components/common/layout/with-permission';
 
 export const CommissionContext = createContext({})
-export default function Commission() {
+function Commission() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -279,13 +280,13 @@ export default function Commission() {
         query: categoryQuery,
         loading: categoryLoading,
         fetchData: categorySearch
-    }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search` })
+    }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/CommissionCategory/Search` })
     const {
         data: instrumentData,
         fetchData: instrumentSearch,
         loading: instrumentLoading
-    }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search` })
-    const { fetchAsyncData: detailSearch }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Search` })
+    }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/CommissionInstrumentType/Search` })
+    const { fetchAsyncData: detailSearch }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/CommissionDetail/Search` })
     const [categoryModal, setCategoryModal] = useState(false)
     const [instrumentType, setInstrumentTypeModal] = useState(false)
     const [rowData, setRowData] = useState<any>([])
@@ -377,3 +378,5 @@ export default function Commission() {
         </CommissionContext.Provider>
     )
 }
+
+export default withPermission(Commission,ModuleIdentifier.COMMISSION_MANAGEMENT_detail)

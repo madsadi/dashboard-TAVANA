@@ -9,8 +9,9 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/date-cell";
+import { withPermission } from "components/common/layout/with-permission";
 
-export default function CancelOrders() {
+function CancelOrders() {
     const columnDefStructure = [
         {
             field: 'id',
@@ -159,3 +160,5 @@ export default function CancelOrders() {
         </div>
     )
 }
+
+export default withPermission(CancelOrders,ModuleIdentifier.ONLINE_CANCEL)

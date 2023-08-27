@@ -14,6 +14,7 @@ import { SWRConfig } from 'swr';
 import { fetcher } from "../api/fetcher";
 import { WebStorageStateStore } from "oidc-client-ts";
 import { IDP } from "../api/constants";
+import ErrorBoundary from '../components/common/layout/error-boundry'
 const authorityPath = IDP;
 export const clientId = 'admin-gateway';
 const clientURL = typeof window !== 'undefined' && window.location.origin;

@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { CommissionContext } from "../../../../pages/commission-management/commission";
-import { COMMISSION_BASE_URL } from "../../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../../api/constants";
 import useMutation from "../../../../hooks/useMutation";
 import { throwToast } from "../../../common/functions/notification";
 import InputComponent from "../../../common/components/input-generator";
@@ -13,7 +13,7 @@ import { Button } from "../../../common/components/button/button";
 export default function InActive() {
     const { toolbar, restriction, service, modules } = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_detail, 'delete')
     const { selectedRows } = useContext<any>(CommissionContext)
-    const { mutate } = useMutation({ url: `${COMMISSION_BASE_URL}/api/CommissionDetail/InActive`, method: "PUT" })
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/CommissionDetail/InActive`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDay, setSelectedDay] = useState<DayValue>(null)

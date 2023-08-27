@@ -9,9 +9,10 @@ const RoleDetailComponent = dynamic(() => import("../../components/users-managem
 import useQuery from "../../hooks/useQuery";
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const RolesContext = createContext({})
-export default function Roles() {
+function Roles() {
     const columnDefStructure: any = [
         {
             headerCheckboxSelection: true,
@@ -69,3 +70,5 @@ export default function Roles() {
         </RolesContext.Provider>
     )
 }
+
+export default withPermission(Roles,ModuleIdentifier.USER_MANAGEMENT_roles)

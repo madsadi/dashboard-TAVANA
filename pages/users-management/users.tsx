@@ -12,9 +12,11 @@ import useQuery from '../../hooks/useQuery';
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "components/common/table/date-cell";
+import { withPermission } from "components/common/layout/with-permission";
 
 export const UsersContext = createContext({})
-export default function Users() {
+function Users(){
+
     const columnDefStructure: any = [
         {
             headerCheckboxSelection: true,
@@ -74,7 +76,7 @@ export default function Users() {
             headerName: 'قفل تا تاریخ',
             cellRendererSelector: () => {
                 return {
-                    component: (rowData: any) => <DateCell date={rowData.data.LockOutEnd} />,
+                    component: (rowData: any) => <DateCell date={rowData.data.lockOutEnd} />,
                 };
             }
         },
@@ -89,7 +91,7 @@ export default function Users() {
                     <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.USER_MANAGEMENT_users} />
                 </AccordionComponent>
                 <UsersToolbar />
-                <TableComponent data={data?.result?.pagedData}
+                <TableComponent data={data?.result.pagedData}
                     module={ModuleIdentifier.USER_MANAGEMENT_users}
                     columnDefStructure={columnDefStructure}
                     rowId={['id']}
@@ -108,3 +110,5 @@ export default function Users() {
         </UsersContext.Provider>
     )
 }
+
+export default withPermission(Users,ModuleIdentifier.USER_MANAGEMENT_users)

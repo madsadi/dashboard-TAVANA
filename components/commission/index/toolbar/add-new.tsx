@@ -2,7 +2,7 @@ import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import { useContext, useState } from "react";
 import { CommissionContext } from "../../../../pages/commission-management/commission";
-import { COMMISSION_BASE_URL } from "../../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../../api/constants";
 import useMutation from "../../../../hooks/useMutation";
 import { throwToast } from "../../../common/functions/notification";
 import Modal from "../../../common/layout/modal";
@@ -13,7 +13,7 @@ import { Button } from "../../../common/components/button/button";
 export default function AddCommission() {
     const { toolbar, restriction, service, modules } = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_detail, 'add')
     const { fetchData, query: searchQuery, ids } = useContext<any>(CommissionContext)
-    const { mutate } = useMutation({ url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Add` })
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/CommissionDetail/Add` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)

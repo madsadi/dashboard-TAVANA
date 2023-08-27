@@ -5,6 +5,8 @@ import { jalali} from "../../components/common/functions/common-funcions";
 import {useRouter} from "next/router";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
+import { withPermission } from "components/common/layout/with-permission";
+import { ModuleIdentifier } from "components/common/functions/Module-Identifier";
 
 type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, PageSize: number }
 const initialValue = {
@@ -14,7 +16,7 @@ const initialValue = {
     PageSize: 20,
 }
 
-export default function PortfolioBook(){
+function PortfolioBook(){
     const columnDefStructure = [
         {
             field: 'transactionId',
@@ -155,3 +157,5 @@ export default function PortfolioBook(){
         </div>
     )
 }
+
+export default withPermission(PortfolioBook,ModuleIdentifier.LIVE_PORTFO)

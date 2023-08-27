@@ -4,10 +4,11 @@ const AccordionComponent = dynamic(() => import('../../components/common/compone
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const SearchComponent = dynamic(() => import('../../components/common/components/search'))
 import useQuery from "../../hooks/useQuery";
-import { COMMISSION_BASE_URL } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { withPermission } from 'components/common/layout/with-permission';
 
-export default function CategoryPanel() {
+function CategoryPanel() {
     const columnDefStructure = [
         {
             headerCheckboxSelection: true,
@@ -99,7 +100,7 @@ export default function CategoryPanel() {
             minWidth: 120
         }
     ]
-    const { data, loading, fetchData } = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search` })
+    const { data, loading, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/CommissionCategory/Search` })
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>
@@ -115,3 +116,5 @@ export default function CategoryPanel() {
         </div>
     )
 }
+
+export default withPermission(CategoryPanel,ModuleIdentifier.COMMISSION_MANAGEMENT_category)

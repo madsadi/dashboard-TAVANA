@@ -200,7 +200,7 @@ export default function SideBarContent() {
             expanded: router.pathname.startsWith('/portfo'),
             children: [
                 {
-                    label: 'پرتفو لحضه ای',
+                    label: 'پرتفو لحظه ای',
                     url: '/portfo/live-portfo',
                     as: '/portfo/live-portfo',
                     className: router.pathname === '/portfo/live-portfo' ? 'sideBarActive' : '',
@@ -334,7 +334,6 @@ export default function SideBarContent() {
                                     key={item.label}>
                                     <ul className={'text-right list-disc pt-2 pr-3'}>
                                         {item.children.map((child: any) => {
-
                                             return (
                                                 <Link href={child.url}
                                                     as={child?.as}
