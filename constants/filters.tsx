@@ -630,7 +630,14 @@ const filters: any = {
     }
   },
   "customer-management_marketerContract": {
-    services: {},
+    services: {
+      "CustomerManagement":[
+        {
+          module: "MarketerContract",
+          permissions: ['Read', 'Create', 'Edit', 'Delete']
+        }
+      ]
+    },
     "search": {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },

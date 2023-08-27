@@ -2,20 +2,19 @@ import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import { useContext, useEffect, useState } from "react";
 import { CommissionContext } from "../../../../pages/commission-management/commission";
-import { COMMISSION_BASE_URL } from "../../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../../api/constants";
 import useMutation from "../../../../hooks/useMutation";
 import { throwToast } from "../../../common/functions/notification";
 import Modal from "../../../common/layout/modal";
 import InputComponent from "../../../common/components/input-generator";
 import { DayRange } from "react-modern-calendar-datepicker";
-import moment from "jalali-moment";
 import { jalali } from "../../../common/functions/common-funcions";
 import { Button } from "../../../common/components/button/button";
 
 export default function EditCommission() {
     const { toolbar, restriction, service, modules } = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_detail, 'edit')
     const { fetchData, query: searchQuery, selectedRows } = useContext<any>(CommissionContext)
-    const { mutate } = useMutation({ url: `${COMMISSION_BASE_URL}/api/CommissionDetail/Update`, method: "PUT" })
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/CommissionDetail/Update`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)

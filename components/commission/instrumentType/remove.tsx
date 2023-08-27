@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Modal from "../../common/layout/modal";
 import { throwToast } from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
-import { COMMISSION_BASE_URL } from "../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../api/constants";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { Button } from "../../common/components/button/button";
@@ -13,7 +13,7 @@ export default function Remove() {
     const [modal, setModal] = useState(false)
     const [loading, setLoading] = useState<boolean>(false);
     const { onSubmit, query: insQuery, selectedRows } = useContext<any>(InstrumentTypeContext)
-    const { mutate } = useMutation({ url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Delete`, method: "PUT" })
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/CommissionInstrumentType/Delete`, method: "PUT" })
     const confirmDeleteSelected = () => {
         if (selectedRows.length === 1) {
             setModal(true);

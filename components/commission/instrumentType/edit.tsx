@@ -2,7 +2,7 @@ import Modal from "../../common/layout/modal";
 import React, { useContext, useState } from "react";
 import { throwToast } from "../../common/functions/notification";
 import useMutation from "../../../hooks/useMutation";
-import { COMMISSION_BASE_URL } from "../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../api/constants";
 import { Button } from "../../common/components/button/button";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
@@ -11,7 +11,7 @@ import { InstrumentTypeContext } from "pages/commission-management/instrument-ty
 export default function Edit() {
     const { restriction, service, modules } = useSearchFilters(ModuleIdentifier.COMMISSION_MANAGEMENT_instrument)
     const [modal, setModal] = useState(false)
-    const { mutate } = useMutation({ url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Update`, method: "PUT" })
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/CommissionInstrumentType/Update`, method: "PUT" })
     const { selectedRows } = useContext<any>(InstrumentTypeContext)
     const [query, setQuery] = useState<{ sectorCode: string, subSectorCode: string }>({ sectorCode: '', subSectorCode: '' });
     const [loading, setLoading] = useState<boolean>(false);

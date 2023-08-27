@@ -76,7 +76,7 @@ function Users(){
             headerName: 'قفل تا تاریخ',
             cellRendererSelector: () => {
                 return {
-                    component: (rowData: any) => <DateCell date={rowData.data.LockOutEnd} />,
+                    component: (rowData: any) => <DateCell date={rowData.data.lockOutEnd} />,
                 };
             }
         },

@@ -1,9 +1,9 @@
 import Modal from "../../common/layout/modal";
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useMemo, useRef } from "react";
 import { CategoryResultModalTypes } from "../../../types/types";
 import { CommissionContext } from "../../../pages/commission-management/commission";
 import useQuery from "../../../hooks/useQuery";
-import { COMMISSION_BASE_URL } from "../../../api/constants";
+import { ADMIN_GATEWAY } from "../../../api/constants";
 import { AgGridReact } from "ag-grid-react";
 
 const CategoryResultModal = (props: CategoryResultModalTypes) => {
@@ -11,7 +11,7 @@ const CategoryResultModal = (props: CategoryResultModalTypes) => {
     const { categoryQuery } = useContext<any>(CommissionContext)
     const {
         fetchAsyncData
-    }: any = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionCategory/Search` })
+    }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/CommissionCategory/Search` })
     const columnDefStructure = [
 
         {

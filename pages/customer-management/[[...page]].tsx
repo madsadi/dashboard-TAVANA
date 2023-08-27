@@ -15,16 +15,20 @@ const defStructure = (page: string) => {
     const D: any = {
         'marketer': [
             {
-                field: 'tbsReagentName',
-                headerName: 'عنوان معرف',
+                field: 'id',
+                headerName: 'شناسه بازاریاب',
             },
             {
                 field: 'tbsMarketerId',
                 headerName: 'شناسه یازاریاب ',
             },
             {
-                field: 'tbsMarketerName',
-                headerName: 'عنوان بازاریاب',
+                field: 'reagentRefCode',
+                headerName: 'کد معرفی',
+            },
+            {
+                field: 'marketerRefCode',
+                headerName: 'کدبازاریابی',
             },
             {
                 field: 'tbsReagentId',

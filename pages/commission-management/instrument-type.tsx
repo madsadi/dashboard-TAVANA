@@ -5,7 +5,7 @@ const SearchComponent = dynamic(() => import('../../components/common/components
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'))
 const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'))
 import useQuery from "../../hooks/useQuery";
-import { COMMISSION_BASE_URL } from "../../api/constants";
+import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { withPermission } from 'components/common/layout/with-permission';
 
@@ -98,7 +98,7 @@ function InstrumentType() {
             minWidth: 120,
         }
     ]
-    const { fetchData, query, loading, data } = useQuery({ url: `${COMMISSION_BASE_URL}/api/CommissionInstrumentType/Search` })
+    const { fetchData, query, loading, data } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/CommissionInstrumentType/Search` })
     const [selectedRows, setSelectedRows] = useState<any>([]);
 
     return (
