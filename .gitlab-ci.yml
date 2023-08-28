@@ -195,6 +195,7 @@ deploy-asiatech:
   retry: 2
   only:
     - tags
+    - asiatech
 
 deploy-asiatech-SMS:
   stage: Deploy Asiatech Notifications
@@ -205,6 +206,7 @@ deploy-asiatech-SMS:
     - job: deploy-asiatech
   only:
     - tags
+    - asiatech
 
 ###############################################################################################
 #########                                                                             #########
@@ -226,6 +228,7 @@ deploy-pro:
   retry: 2
   only:
     - tags
+    - main
   when: manual
 
 deploy-pro-SMS:
@@ -237,3 +240,4 @@ deploy-pro-SMS:
     - job: deploy-pro
   only:
     - tags
+    - main
