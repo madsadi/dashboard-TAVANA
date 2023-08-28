@@ -76,8 +76,6 @@ build:
  
     after_script:
         -  echo "Build succeeded"
-    only:
-      - dev
 
 build-SMS:
   stage: Build SMS Notifications
