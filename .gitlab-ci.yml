@@ -5,6 +5,7 @@ variables:
     SMS_MESSAGE_BUILD: $IMAGE_NAME-->Build-OK
     SMS_MESSAGE_Deploy_Dev: $IMAGE_NAME-->Deployed->Develop
     SMS_MESSAGE_Deploy_Stg: $IMAGE_NAME-->Deployed->Stage
+    SMS_MESSAGE_Deploy_Asiatech: $IMAGE_NAME-->Deployed->Asiatech
     SMS_MESSAGE_Deploy_Pro: $IMAGE_NAME-->Deployed->Production
     REGISTRY_HOST: $DOCKER_PRIVATE_REGISTRY_IP:$DOCKER_PRIVATE_REGISTRY_PORT
     NAMESPACE_Dev: dev-oms
@@ -158,8 +159,6 @@ deploy-staging:
   only:
     - stg
 
-
-
 deploy-stg-SMS:
   stage: Deploy Stg Notifications
   image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
@@ -182,7 +181,14 @@ deploy-asiatech:
     - mkdir -p ~/.kube
     - chmod 700 ~/.kube
     - echo "$K8S_TEST_ASIATECH" | base64 -d > ~/.kube/config
-    - kubectl -n "$NAMESPACE_Pro" apply -f deployment/pro/pro.yaml
+    - curl  --header Private-Token:"$GITLAB_GET_DEPLOYMENT_TOKEN" "http://gitlab.tech1a.co/api/v4/projects/127/repository/files/asiatech-deployment%2Fasiatech-oms-template.yaml/raw?ref=main" -o stg-oms-template.yaml
+    - sed -E -i s#TECH1A_IMAGE_NAME#$IMAGE_NAME#g stg-oms-template.yaml
+    - cat stg-oms-template.yaml
+    - sed -E -i s#TECH1A_HOST#$TECH1A_STG_HOST#g stg-oms-template.yaml
+    - sed -E -i s#TECH1A_CONTAINERPORT#$TECH1A_CONTAINERPORT#g stg-oms-template.yaml
+    - cat stg-oms-template.yaml
+    - kubectl -n "$NAMESPACE_Stg" apply -f asiatech-oms-template.yaml
+    - kubectl -n "$NAMESPACE_Pro" apply -f asiatech-oms-template.yaml  
     - kubectl set image -n "$NAMESPACE_Pro" deployment/$IMAGE_NAME $IMAGE_NAME=$REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
   needs:
     - job: build
@@ -194,7 +200,7 @@ deploy-asiatech-SMS:
   stage: Deploy Asiatech Notifications
   image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
   script:
-    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_Deploy_Pro&flash=0"
+    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_Deploy_Asiatech&flash=0"
   needs:
     - job: deploy-asiatech
   only:
