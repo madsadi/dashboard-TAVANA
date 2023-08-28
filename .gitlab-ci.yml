@@ -70,7 +70,7 @@ build:
       DOCKER_DAEMON_OPTIONS: "--insecure-registry=$REGISTRY_HOST"
     script:
         - docker login -u "$DOCKER_PRIVATE_REGISTRY_USER" -p "$DOCKER_PRIVATE_REGISTRY_PASSWORD" "http://$REGISTRY_HOST"
-        #- DOCKER_BUILDKIT=0  docker build  --build-arg  DOCKER_PRIVATE_REGISTRY_PASSWORD=$DOCKER_PRIVATE_REGISTRY_PASSWORD -t $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest .
+        - DOCKER_BUILDKIT=0  docker build  --build-arg  DOCKER_PRIVATE_REGISTRY_PASSWORD=$DOCKER_PRIVATE_REGISTRY_PASSWORD -t $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest .
         - docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest
         - docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
         - docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
