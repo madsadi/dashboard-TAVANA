@@ -76,7 +76,9 @@ build:
  
     after_script:
         -  echo "Build succeeded"
-
+        
+    only:
+      - dev
 build-SMS:
   stage: Build SMS Notifications
   image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
