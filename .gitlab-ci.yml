@@ -76,6 +76,9 @@ build:
  
     after_script:
         -  echo "Build succeeded"
+    only:
+      - dev
+
 build-SMS:
   stage: Build SMS Notifications
   image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
@@ -83,8 +86,7 @@ build-SMS:
     - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_BUILD&flash=0"
   needs:
     - job: build
-  only:
-    - dev
+
 
 
 ###############################################################################################
