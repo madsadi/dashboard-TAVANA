@@ -11,7 +11,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
 
-const TableComponent: React.FC<any> = forwardRef((props,ref) => {
+const TableComponent: React.FC<any> = (props) => {
     let { data = [],
         module,
         columnDefStructure,
@@ -104,12 +104,6 @@ const TableComponent: React.FC<any> = forwardRef((props,ref) => {
         gridRef?.current?.api.exportDataAsExcel();
     }, []);
 
-    useImperativeHandle(ref, () => ({
-        setData(data:any[]){
-            gridRef.current?.api.setRowData(data)
-        }
-    }));
-
     return (
         <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
@@ -153,6 +147,6 @@ const TableComponent: React.FC<any> = forwardRef((props,ref) => {
             /> : null}
         </>
     )
-})
+}
 
 export default memo(TableComponent);
