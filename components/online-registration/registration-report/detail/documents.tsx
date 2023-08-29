@@ -252,7 +252,6 @@ export default function DocumentsComponent() {
             image: null
         }
     ]
-    console.log(service, modules);
 
     useEffect(() => {
         const getDocument = async () => {

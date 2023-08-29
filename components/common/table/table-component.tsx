@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import React, { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { formatNumber } from "../functions/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
@@ -11,7 +11,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
 
-const TableComponent: React.FC<any> = (props) => {
+const TableComponent: React.FC<any> = forwardRef((props,ref) => {
     let { data = [],
         module,
         columnDefStructure,
@@ -62,22 +62,27 @@ const TableComponent: React.FC<any> = (props) => {
         let id = rowId.map((s: string) => params.data[s])
         return id.join("-")
     }, [rowId]);
+
     const loadingOverlayComponent = useMemo(() => {
         return loading && LoadingOverlay;
     }, [loading]);
+
     const loadingOverlayComponentParams = useMemo(() => {
         return {
             loadingMessage: 'در حال بارگزاری...',
         };
     }, [loading]);
+
     const noRowsOverlayComponent = useMemo(() => {
         return NoRowOverlay;
     }, []);
+
     const noRowsOverlayComponentParams = useMemo(() => {
         return {
             noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
         };
     }, []);
+
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
         setSelectedRows(selectedRows)
@@ -98,6 +103,12 @@ const TableComponent: React.FC<any> = (props) => {
     const ExportAction = useCallback(() => {
         gridRef?.current?.api.exportDataAsExcel();
     }, []);
+
+    useImperativeHandle(ref, () => ({
+        setData(data:any[]){
+            gridRef.current?.api.setRowData(data)
+        }
+    }));
 
     return (
         <>
@@ -142,6 +153,6 @@ const TableComponent: React.FC<any> = (props) => {
             /> : null}
         </>
     )
-}
+})
 
 export default memo(TableComponent);
