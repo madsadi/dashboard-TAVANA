@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import React, { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { formatNumber } from "../functions/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
@@ -62,22 +62,27 @@ const TableComponent: React.FC<any> = (props) => {
         let id = rowId.map((s: string) => params.data[s])
         return id.join("-")
     }, [rowId]);
+
     const loadingOverlayComponent = useMemo(() => {
         return loading && LoadingOverlay;
     }, [loading]);
+
     const loadingOverlayComponentParams = useMemo(() => {
         return {
             loadingMessage: 'در حال بارگزاری...',
         };
     }, [loading]);
+
     const noRowsOverlayComponent = useMemo(() => {
         return NoRowOverlay;
     }, []);
+
     const noRowsOverlayComponentParams = useMemo(() => {
         return {
             noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
         };
     }, []);
+
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
         setSelectedRows(selectedRows)

@@ -429,11 +429,14 @@ export const marketerColumnDefStructure = [
         maxWidth: 40,
         flex: 0
     },
-    
+    {
+        field: 'id',
+        headerName: 'شناسه بازاریاب',
+        cellRenderer: 'agGroupCellRenderer',
+    },
     {
         field: 'uniqueId',
         headerName: 'کد ملی بازاریاب',
-        cellRenderer: 'agGroupCellRenderer',
     },
     {
         field: 'title',
@@ -459,7 +462,7 @@ export const marketerColumnDefStructure = [
         field: 'tbsReagentName',
         headerName: 'TBS عنوان معرف',
     },
-    
+
     {
         field: 'reagentRefLink',
         headerName: 'لینک معرف',
@@ -471,7 +474,7 @@ export const marketerColumnDefStructure = [
         field: 'tbsMarketerName',
         headerName: 'TBS عنوان بازاریاب',
     },
-    
+
     {
         field: 'marketerRefLink',
         headerName: 'لینک بازاریاب',

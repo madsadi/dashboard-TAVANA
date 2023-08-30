@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo } from "react";
+import React, { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 const IdentityComponent = dynamic(() => import("../../../components/online-registration/registration-report/detail/identity"));
@@ -260,7 +260,6 @@ function Detail() {
         }
     }, [dep, userPermissions])
 
-
     return (
         <OnlineRegDetailContext.Provider value={{ data, fetchData }}>
             <div className={'h-full w-full'}>
@@ -301,4 +300,4 @@ function Detail() {
     )
 }
 
-export default withPermission(Detail,ModuleIdentifier.ONLINE_REGISTRATION)
+export default Detail

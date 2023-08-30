@@ -504,8 +504,8 @@ const filters: any = {
           "queryField": "NationalId",
           "recordField": "id"
         },
-        { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS", "type": "input", "initialValue": "" },
-        { "title": "tbsReagentId", "name": "شناسه معرف در TBS", "type": "input", "initialValue": "" }
+        { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS",  "initialValue": "" },
+        { "title": "tbsReagentId", "name": "شناسه معرف در TBS",  "initialValue": "" }
       ]
     }
   },
