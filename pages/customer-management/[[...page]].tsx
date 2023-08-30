@@ -15,10 +15,6 @@ const defStructure = (page: string) => {
     const D: any = {
         'marketer': [
             {
-                field: 'id',
-                headerName: 'شناسه بازاریاب',
-            },
-            {
                 field: 'tbsMarketerId',
                 headerName: 'شناسه یازاریاب ',
             },
@@ -162,4 +158,4 @@ function HoldingsSubPages() {
     )
 }
 
-export default withPermission(HoldingsSubPages,ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${typeof window!=='undefined' && window.location.pathname.split('/').at(-1)}`])
+export default withPermission(HoldingsSubPages, ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${typeof window !== 'undefined' && window.location.pathname.split('/').at(-1)}`])
