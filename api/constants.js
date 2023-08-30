@@ -17,10 +17,10 @@ export const IDP =
 
 export const NETFLOW =
     typeof window !== "undefined"
-        ? window._env_.NETFLOW
-            ? window._env_.NETFLOW
-            : config.app.NETFLOW
-        : config.app.NETFLOW;
+        ? window._env_.NetflowEndPoint
+            ? window._env_.NetflowEndPoint
+            : config.app.NetflowEndPoint
+        : config.app.NetflowEndPoint;
 
 export const ADMIN_GATEWAY =
     typeof window !== "undefined"
@@ -38,10 +38,10 @@ export const FILE_SERVER =
 
 export const MARKETER_ADMIN =
     typeof window !== "undefined"
-        ? window._env_.MARKETER_ADMIN
-            ? window._env_.MARKETER_ADMIN
-            : config.app.MARKETER_ADMIN
-        : config.app.MARKETER_ADMIN;
+        ? window._env_.MarketerAdminEndPoint
+            ? window._env_.MarketerAdminEndPoint
+            : config.app.MarketerAdminEndPoint
+        : config.app.MarketerAdminEndPoint;
 
 export const SEJAM_GATEWAY =
     typeof window !== "undefined"

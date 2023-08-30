@@ -11,8 +11,8 @@ const nextConfig = {
       FileManagerEndPoint: process.env.FileManagerEndPoint,
       SejamGatewayEndPoint: process.env.SejamGatewayEndPoint,
 
-      NETFLOW: process.env.NETFLOW,
-      MARKETER_ADMIN: process.env.MARKETER_ADMIN,
+      NetflowEndPoint: process.env.NetflowEndPoint,
+      MarketerAdminEndPoint: process.env.MarketerAdminEndPoint,
     }
   }
 }
