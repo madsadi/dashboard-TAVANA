@@ -13,8 +13,8 @@ variables:
     NAMESPACE_Pro: pro-oms
     TECH1A_DEV_HOST: dev$IMAGE_NAME.$TECH1A_HOST
     TECH1A_STG_HOST: stg$IMAGE_NAME.$TECH1A_HOST
-    TECH1A_ASIATECH_HOST: $TECH1A_ASIATECH_HOST
-    TECH1A_PRO_HOST: $TECH1A_PRO_HOST
+    TECH1A_ASIATECH_HOST: $ASIATECH_HOST
+    TECH1A_PRO_HOST: $PRO_HOST
     TECH1A_CONTAINERPORT: 3000
 
 stages:
@@ -176,7 +176,9 @@ deploy-asiatech:
     - echo "$K8S_TEST_ASIATECH" | base64 -d > ~/.kube/config
     - curl  --header Private-Token:"$GITLAB_GET_DEPLOYMENT_TOKEN" "http://gitlab.tech1a.co/api/v4/projects/127/repository/files/asiatech-deployment%2Fasiatech-oms-template.yaml/raw?ref=main" -o asiatech-oms-template.yaml
     - sed -E -i s#TECH1A_IMAGE_NAME#$IMAGE_NAME#g asiatech-oms-template.yaml
+    - cat asiatech-oms-template.yaml
     - sed -E -i s#TECH1A_ASIATECH_HOST#$TECH1A_ASIATECH_HOST#g asiatech-oms-template.yaml
+    - cat asiatech-oms-template.yaml
     - sed -E -i s#TECH1A_CONTAINERPORT#$TECH1A_CONTAINERPORT#g asiatech-oms-template.yaml
     - kubectl -n "$NAMESPACE_Pro" apply -f asiatech-oms-template.yaml  
     - kubectl set image -n "$NAMESPACE_Pro" deployment/$IMAGE_NAME $IMAGE_NAME=$REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
