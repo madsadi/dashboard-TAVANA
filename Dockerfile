@@ -45,4 +45,4 @@ RUN yarn cache clean
 
 
 #Start App
-ENTRYPOINT /bin/bash -x ./entrypoint.sh SEJAM_GATEWAY=${SEJAM_GATEWAY} NETFLOW=${NETFLOW} ADMIN_GATEWAY=${ADMIN_GATEWAY} IDP=${IDP} ONLINE_TRADING=${ONLINE_TRADING} FILE_SERVER=${FILE_SERVER} MARKETER_ADMIN=${MARKETER_ADMIN} MARKETER_CLIENT=${MARKETER_CLIENT} && mv ./env-config.js ./public/static/assets/js && yarn start
+ENTRYPOINT /bin/bash -x ./entrypoint.sh && yarn start
