@@ -1,4 +1,4 @@
-import { ADMIN_GATEWAY, IDP } from "../api/constants";
+import { ADMIN_GATEWAY, IDP, MARKETER_ADMIN } from "../api/constants";
 import moment from "jalali-moment";
 import { splittedDate } from "components/common/functions/common-funcions";
 
@@ -504,8 +504,8 @@ const filters: any = {
           "queryField": "NationalId",
           "recordField": "id"
         },
-        { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS",  "initialValue": "" },
-        { "title": "tbsReagentId", "name": "شناسه معرف در TBS",  "initialValue": "" }
+        { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS", "initialValue": "" },
+        { "title": "tbsReagentId", "name": "شناسه معرف در TBS", "initialValue": "" }
       ]
     }
   },
@@ -631,7 +631,7 @@ const filters: any = {
   },
   "customer-management_marketerContract": {
     services: {
-      "CustomerManagement":[
+      "CustomerManagement": [
         {
           module: "MarketerContract",
           permissions: ['Read', 'Create', 'Edit', 'Delete']
@@ -1522,6 +1522,65 @@ const filters: any = {
         "SortOrder": 1,
       }
     },
+  },
+  "marketer-app_marketerContract": {
+    services: {},
+    "search": {
+      "filters": [
+        {
+          "title": "MarketerID",
+          "name": "حساب کاربری (کد ملی کاربر)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${MARKETER_ADMIN}/mraketer/search`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+        },
+        { "title": "ID", "name": "شناسه قرارداد", "type": "input" },
+        { "title": "CalculationBaseType", "name": "نوع کاربر", "type": "input" },
+        { "title": "CoefficientBaseType", "name": "تاریخ", "type": "input" },
+        { "title": "ContractNumber", "name": "دسته بندی بر اساس", "type": "input" },
+        { "title": "ContractType", "name": "ترتیب", "type": "selectInput" },
+        { "title": "Title", "name": "ترتیب", "type": "input" },
+        { "title": "Description", "name": "ترتیب", "type": "input" },
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" },
+      ],
+      "initialValue": {
+        "MarketerID": '',
+        "ID": '',
+        "StartDate": null,
+        "EndDate": null,
+        "CalculationBaseType": '',
+        "CoefficientBaseType": '',
+        "ContractNumber": "",
+        "ContractType": '',
+        "Title": '',
+        "Description": '',
+      }
+    },
+    "toolbar": {
+      "modal": [
+        {
+          "title": "MarketerID",
+          "name": "حساب کاربری (کد ملی کاربر)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${MARKETER_ADMIN}/mraketer/search`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id",
+        },
+        { "title": "ID", "name": "مجموع گردش", "type": "input" },
+        { "title": "CalculationBaseType", "name": "مجموع کارمزد", "type": "input" },
+        { "title": "CoefficientBaseType", "name": "خالص کارمزد", "type": "input" },
+        { "title": "ContractNumber", "name": "کارمزد بازاریاب", "type": "input", "valueType": "number" },
+        { "title": "ContractType", "name": "پلن دوره", "type": "input" },
+        { "title": "Title", "name": "کارمزد نهایی بازاریاب", "type": "input" },
+        { "title": "Description", "name": "مالیات", "type": "input" },
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" },
+      ]
+    }
   },
   "asset-switch": {
     services: {},

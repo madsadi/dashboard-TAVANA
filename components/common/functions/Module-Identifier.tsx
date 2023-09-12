@@ -34,5 +34,6 @@ export const ModuleIdentifier: any = {
     MARKETER_APP_RELATIONS: "marketer-app_relations",
     MARKETER_APP_recite: "marketer-app_recite",
     MARKETER_APP_subusers: "marketer-app_subusers",
+    MARKETER_APP_marketerContract: "marketer-app_marketerContract",
     ASSET_SWITCH: "asset-switch"
 }

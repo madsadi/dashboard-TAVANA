@@ -192,6 +192,13 @@ export default function SideBarContent() {
                     as: '/marketer-app/sub-users',
                     className: router.pathname === '/marketer-app/sub-users' ? 'sideBarActive' : '',
                     module: ModuleIdentifier.MARKETER_APP_subusers,
+                },
+                {
+                    label: 'قرارداد بازاریاب',
+                    url: '/marketer-app/marketer-contract',
+                    as: '/marketer-app/marketer-contract',
+                    className: router.pathname === '/marketer-app/marketer-contract' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.MARKETER_APP_marketerContract,
                 }
             ],
         },
