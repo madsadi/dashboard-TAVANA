@@ -4,6 +4,6 @@ IDP:'https://cluster.tech1a.co',
 NETFLOW:'http://172.24.65.20:8091',
 ADMIN_GATEWAY:'http://172.24.65.20:9020',
 FILE_SERVER:'http://172.24.65.20:9073',
-MARKETER_ADMIN:'http://stgmarketer-admin.tech1a.co',
+MARKETER_ADMIN:'http://devmarketer-admin.tech1a.co',
 SEJAM_GATEWAY:'http://172.24.65.20:9072',
  };

@@ -173,6 +173,13 @@ export default function SideBarContent() {
             expanded: router.pathname.startsWith('/marketer-app'),
             children: [
                 {
+                    label: 'بازاریاب ها',
+                    url: '/marketer-app/marketers',
+                    as: '/marketer-app/marketers',
+                    className: router.pathname === '/marketer-app/marketers' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.MARKETER_APP_marketers,
+                },
+                {
                     label: 'ارتباط بازاریاب ها',
                     url: '/marketer-app/relations',
                     as: '/marketer-app/relations',

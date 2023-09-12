@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
@@ -7,12 +7,11 @@ import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import MarketerContractToolbar from "components/marketer-app/marketer-contract/toolbar/marketer-contract-toolbar";
 import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
+import MarketerToolbar from "components/marketer-app/marketer/marketer-toolbar";
 
-export const MarketerContractContext = createContext({})
+export const MarketerContext = createContext({})
 function MarketerContract() {
-    const [selectedRows, setSelectedRows] = useState<any>([])
 
     const columnDefStructure: any = [
         {
@@ -25,12 +24,7 @@ function MarketerContract() {
             maxWidth: 40,
         },
         {
-            field: 'ContractID',
-            headerName: 'شناسه قرارداد',
-            cellRenderer: 'agGroupCellRenderer',
-        },
-        {
-            field: 'MarketerID',
+            field: 'Id',
             headerName: 'شناسه بازاریاب',
         },
         {
@@ -38,24 +32,28 @@ function MarketerContract() {
             headerName: 'عنوان بازاریاب',
         },
         {
-            field: 'CalculationBaseType',
-            headerName: 'کد ملی',
+            field: 'TypeTitle',
+            headerName: 'نوع بازاریاب',
         },
         {
-            field: 'CoefficientBaseType',
-            headerName: 'کد ملی',
+            field: 'Mobile',
+            headerName: 'موبایل',
         },
         {
-            field: 'ContractType',
-            headerName: 'نوع قرارداد',
+            field: 'SubsidiaryTitle',
+            headerName: 'عنوان شرکت',
         },
         {
-            field: 'Description',
-            headerName: 'توضیحات',
+            field: 'BranchTitle',
+            headerName: 'عنوان شعبه',
         },
         {
-            field: 'IsDeleted',
-            headerName: 'حذف شده؟',
+            field: 'MarketerRefCode',
+            headerName: 'کد بازاریاب',
+        },
+        {
+            field: 'ReagentRefCode',
+            headerName: 'کد معرف',
         },
         {
             field: 'IsActive',
@@ -65,27 +63,25 @@ function MarketerContract() {
             },
         },
     ]
+
     const {
         data, fetchData, query: searchQuery, loading
-    }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer-contract/search` })
+    }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer/search` })
 
     return (
-        <MarketerContractContext.Provider value={{ selectedRows, setSelectedRows, fetchData, searchQuery, data }}>
+        <MarketerContext.Provider value={{ fetchData, searchQuery, data }}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_marketerContract} />
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_marketers} />
                 </AccordionComponent>
-                <MarketerContractToolbar />
+                <MarketerToolbar />
                 <TableComponent data={data?.result}
                     columnDefStructure={columnDefStructure}
-                    setSelectedRows={setSelectedRows}
-                    selectedRows={selectedRows}
-                    rowSelection={'multiple'}
-                    rowId={['ContractID']}
+                    rowId={['Id']}
                 />
             </div>
-        </MarketerContractContext.Provider>
+        </MarketerContext.Provider>
     )
 }
 
-export default withPermission(MarketerContract, ModuleIdentifier.MARKETER_APP_marketerContract)
+export default withPermission(MarketerContract, ModuleIdentifier.MARKETER_APP_marketers)

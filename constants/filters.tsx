@@ -1582,6 +1582,21 @@ const filters: any = {
       ]
     }
   },
+  "marketer-app_marketers": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "Title", "name": "عنوان بازارایاب", "type": "input" },
+        { "title": "UniqueId", "name": "کدملی", "type": "input" },
+        { "title": "Mobile", "name": "موبایل", "type": "input" }
+      ],
+      "initialValue": {
+        "Title": '',
+        "UniqueId": null,
+        "Mobile": null
+      }
+    },
+  },
   "asset-switch": {
     services: {},
     "search": {
