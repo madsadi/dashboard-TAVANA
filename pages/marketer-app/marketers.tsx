@@ -76,8 +76,13 @@ function MarketerContract() {
                 </AccordionComponent>
                 <MarketerToolbar />
                 <TableComponent data={data?.result}
+                    module={ModuleIdentifier.MARKETER_APP_marketers}
                     columnDefStructure={columnDefStructure}
                     rowId={['Id']}
+                    pagination={true}
+                    totalCount={data?.result?.totalCount}
+                    fetcher={fetchData}
+                    query={searchQuery}
                 />
             </div>
         </MarketerContext.Provider>

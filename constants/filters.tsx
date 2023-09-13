@@ -1585,6 +1585,8 @@ const filters: any = {
     services: {},
     "search": {
       "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "Title", "name": "عنوان بازارایاب", "type": "input" },
         { "title": "UniqueId", "name": "کدملی", "type": "input" },
         { "title": "Mobile", "name": "موبایل", "type": "input" }
