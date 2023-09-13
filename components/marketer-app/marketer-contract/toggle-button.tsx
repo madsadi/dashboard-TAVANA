@@ -13,10 +13,10 @@ export default function ToggleButton(props: { data: { isActive: boolean, id: str
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-contract/modify-status`, method: "PUT" })
 
     const changeStatus = async () => {
-        await mutate({ id: props.data.id })
+        await mutate({ ContractID: props.data.id })
             .then((res) => {
                 setIsChecked(!isChecked);
-                toast.success(`${res?.data?.result?.message}`)
+                toast.success(`با موفقیت انجام شد`)
             })
             .catch((err) => throwToast({ type: 'error', value: err }))
     }

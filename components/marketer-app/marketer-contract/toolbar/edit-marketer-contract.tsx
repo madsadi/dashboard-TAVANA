@@ -26,7 +26,7 @@ export default function EditMarketerContract() {
 
     const submitHandler = async (e: any) => {
         e.preventDefault()
-        await mutate(query)
+        await mutate({ ContractID: selectedRows[0].ContractID, ...query })
             .then(() => {
                 throwToast({ type: 'success', value: `با موفقیت انجام شد` })
                 setModal(false)
@@ -44,9 +44,10 @@ export default function EditMarketerContract() {
             let _initialValue: any = {};
             toolbar.map((item: any) => {
                 if (item.name !== 'date') {
-                    _initialValue[`${item.name}`] = selectedRows[0][`${item.name}`]
+                    _initialValue[`${item.title}`] = selectedRows[0][`${item.title}`]
                 }
             })
+
             if (selectedRows[0]?.StartDate && selectedRows[0]?.EndDate) {
                 let shamsi_from_date = jalali(selectedRows[0]?.StartDate).date
                 let from_date = shamsi_from_date.split('/')

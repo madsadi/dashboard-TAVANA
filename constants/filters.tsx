@@ -1571,13 +1571,12 @@ const filters: any = {
           "queryField": "NationalId",
           "recordField": "id",
         },
-        { "title": "ID", "name": "مجموع گردش", "type": "input" },
-        { "title": "CalculationBaseType", "name": "مجموع کارمزد", "type": "input" },
-        { "title": "CoefficientBaseType", "name": "خالص کارمزد", "type": "input" },
-        { "title": "ContractNumber", "name": "کارمزد بازاریاب", "type": "input", "valueType": "number" },
-        { "title": "ContractType", "name": "پلن دوره", "type": "input" },
-        { "title": "Title", "name": "کارمزد نهایی بازاریاب", "type": "input" },
-        { "title": "Description", "name": "مالیات", "type": "input" },
+        { "title": "CalculationBaseType", "name": "نوع پایه محاسبه", "type": "input" },
+        { "title": "CoefficientBaseType", "name": "ضریب نوع پایه", "type": "input" },
+        { "title": "ContractNumber", "name": "شماره قرارداد", "type": "input" },
+        { "title": "ContractType", "name": "نوع قرارداد", "type": "selectInput" },
+        { "title": "Title", "name": "عنوان", "type": "input" },
+        { "title": "Description", "name": "توضیحات", "type": "input" },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" },
       ]
     }
@@ -1595,6 +1594,34 @@ const filters: any = {
         "UniqueId": null,
         "Mobile": null
       }
+    },
+  },
+  "marketer-app_marketerContract_detail": {
+    services: {},
+    "toolbar": {
+      "coeff-add": [
+        { "title": "MarketerID", "name": "شناسه بازارایاب", "type": "input" },
+        { "title": "Title", "name": "عنوان", "type": "input" },
+        { "title": "CoefficientPercentage", "name": "درصد ضریب", "type": "input" },
+        { "title": "HighThreshold", "name": "حد بالای پله", "type": "input" },
+        { "title": "LowThreshold", "name": "حد پائین پله", "type": "input" },
+        { "title": "StepNumber", "name": "شماره پله", "type": "input" },
+      ],
+      "add": [
+        { "title": "MarketerID", "name": "شناسه بازارایاب", "type": "input" },
+        { "title": "Title", "name": "عنوان", "type": "input" },
+        { "title": "CollateralCoefficient", "name": "ضریب کسورات حسن انجام کار", "type": "input" },
+        { "title": "TaxCoefficient", "name": "ضریب مالیات", "type": "input" },
+        { "title": "InsuranceCoefficient", "name": "ضریب کسورات بیمه", "type": "input" },
+        { "title": "ReturnDuration", "name": "دوره برگشت کسورات", "type": "input" },
+      ],
+      "edit": [
+        { "title": "Title", "name": "عنوان", "type": "input" },
+        { "title": "CollateralCoefficient", "name": "ضریب کسورات حسن انجام کار", "type": "input" },
+        { "title": "TaxCoefficient", "name": "ضریب مالیات", "type": "input" },
+        { "title": "InsuranceCoefficient", "name": "ضریب کسورات بیمه", "type": "input" },
+        { "title": "ReturnDuration", "name": "دوره برگشت کسورات", "type": "input" },
+      ],
     },
   },
   "asset-switch": {

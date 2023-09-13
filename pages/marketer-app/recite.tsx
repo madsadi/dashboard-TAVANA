@@ -27,19 +27,19 @@ function Recite() {
             maxWidth: 40,
         },
         {
-            field: 'MarketerName',
-            headerName: 'نام بازاریاب',
+            field: 'MarketerID',
+            headerName: 'شناسه بازاریاب',
             cellRenderer: 'agGroupCellRenderer',
         },
         {
-            field: 'Doreh',
+            field: 'Period',
             headerName: 'دوره زمانه',
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
                     return (
                         <div>
-                            {months[Number(rowData.data.Doreh.split('1402')[1]) - 1]}
+                            {months[Number(rowData.data.Period.split('1402')[1]) - 1]}
                         </div>
                     )
                 };
@@ -48,11 +48,23 @@ function Recite() {
                 }
                 return moodDetails;
             },
+        },
+        {
+            field: 'FactorID',
+            headerName: 'شناسه فاکتور',
+        },
+        {
+            field: 'Plan',
+            headerName: 'پلکان',
+        },
+        {
+            field: 'Status',
+            headerName: 'وضعیت فاکتور',
         }
     ]
     const {
         data, fetchData, query: searchQuery, loading
-    }: any = useQuery({ url: `${MARKETER_ADMIN}/factor/search-factor` })
+    }: any = useQuery({ url: `${MARKETER_ADMIN}/factor/get-all` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -61,31 +73,103 @@ function Recite() {
                 // getRowId:(params:any)=>params.data.orderId,
                 columnDefs: [
                     {
-                        field: 'TotalPureVolume',
-                        headerName: 'حجم خالص',
+                        field: 'TotalTurnOver',
+                        headerName: 'مجموع گردش',
                     },
                     {
-                        field: 'TotalFee',
-                        headerName: 'کارمزد کل',
+                        field: 'TotalBrokerCommission',
+                        headerName: 'مجموع کارمزد کارگزاری',
                     },
                     {
-                        field: 'PureFee',
-                        headerName: 'کارمزد خالص',
+                        field: 'TotalNetBrokerCommission',
+                        headerName: 'مجموع خالص کارمزد کارگزار',
                     }, {
-                        field: 'MarketerFee',
-                        headerName: 'کارمزد مارکتر',
+                        field: 'MarketerCommissionIncome',
+                        headerName: 'حق بازاریابی از خالص کارمزد در دوره',
                     }, {
-                        field: 'Plan',
-                        headerName: 'پلکان',
+                        field: 'TotalCMD',
+                        headerName: 'مجموع سهم صندوق توسعه',
                     }, {
                         field: 'Tax',
                         headerName: 'مالیات',
                     }, {
-                        field: 'FinalFee',
-                        headerName: 'کارمزد نهایی',
+                        field: 'CollateralOfThisMonth',
+                        headerName: 'کسورات حسن انجام کار این ماه',
+                    }, {
+                        field: 'TotalFeeOfFollowers',
+                        headerName: 'گردش خالض زیر مجموعه ها',
+                    }, {
+                        field: 'SumOfAdditions',
+                        headerName: 'سایر پرداختی',
+                    }, {
+                        field: 'SumOfDeductions',
+                        headerName: 'سایر کسورات',
                     }, {
                         field: 'Payment',
                         headerName: 'پرداختی',
+                    }, {
+                        field: 'IsCmdConcluded',
+                        headerName: 'سهم صندوق توسعه اضافه میشود؟',
+                    }, {
+                        field: 'MaketerCMDIncome',
+                        headerName: 'حق بازاریابی از سهم صندوق توسعه',
+                    }, {
+                        field: 'TaxDeduction',
+                        headerName: 'مالیات',
+                    }, {
+                        field: 'TaxCoefficient',
+                        headerName: 'ضریب مالیات',
+                    }, {
+                        field: 'CollateralDeduction',
+                        headerName: 'کسورات حسن انجام کار',
+                    }, {
+                        field: 'CollateralCoefficient',
+                        headerName: 'ضریب کسورات حسن انجام کار',
+                    }, {
+                        field: 'InsuranceDeduction',
+                        headerName: 'کسورات بیمه',
+                    }, {
+                        field: 'InsuranceCoefficient',
+                        headerName: 'ضریب کسورات بیمه',
+                    }, {
+                        field: 'MarketerTotalIncome',
+                        headerName: 'مجموع حق بازاریابی',
+                    }, {
+                        field: 'CalculationCoefficient',
+                        headerName: 'ضریب محاسبه حق بازاریابی',
+                    }, {
+                        field: 'ReturnDuration',
+                        headerName: 'دوره برگشت سپرده ها',
+                    }, {
+                        field: 'InterimAmountDeduction',
+                        headerName: 'کسورات علی الحساب',
+                    }, {
+                        field: 'EmployeeSalaryDeduction',
+                        headerName: 'کسورات حقوق پرسنل',
+                    }, {
+                        field: 'EmployerInsuranceDeduction',
+                        headerName: 'کسورات بیمه سهم کارفرما',
+                    }, {
+                        field: 'RedemptionDeduction',
+                        headerName: 'کسورات بازخرید',
+                    }, {
+                        field: 'OtherDeduction',
+                        headerName: 'سایر کسورات',
+                    }, {
+                        field: 'OtherDeductionDescription',
+                        headerName: 'توضیحات (سایر کسورات)',
+                    }, {
+                        field: 'CmdPayment',
+                        headerName: 'پرداختی سهم صندوق توسعه',
+                    }, {
+                        field: 'CollateralReturnPayment',
+                        headerName: 'پرداختی برگشت حسن انجام کار',
+                    }, {
+                        field: 'InsuranceReturnPayment',
+                        headerName: 'پرداختی برگشت بیمه',
+                    }, {
+                        field: 'OtherPayment',
+                        headerName: 'سایر پرداختی ها',
                     }
                 ],
                 defaultColDef: {
@@ -113,7 +197,7 @@ function Recite() {
                     setSelectedRows={setSelectedRows}
                     selectedRows={selectedRows}
                     rowSelection={'single'}
-                    rowId={['IdpID']}
+                    rowId={['FactorID']}
                     detailCellRendererParams={detailCellRendererParams}
                     masterDetail={true}
                 />
@@ -122,4 +206,4 @@ function Recite() {
     )
 }
 
-export default withPermission(Recite,ModuleIdentifier.MARKETER_APP_recite)
+export default withPermission(Recite, ModuleIdentifier.MARKETER_APP_recite)
