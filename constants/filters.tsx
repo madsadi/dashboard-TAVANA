@@ -1533,9 +1533,9 @@ const filters: any = {
           "type": "dynamicSearch",
           "initialValue": "",
           "endpoint": `${MARKETER_ADMIN}/marketer/search`,
-          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "valueField": ["Title", "UniqueId", "Mobile"],
           "queryField": "NationalId",
-          "recordField": "id",
+          "recordField": "MarketerID",
         },
         { "title": "ID", "name": "شناسه قرارداد", "type": "input" },
         { "title": "CalculationBaseType", "name": "نوع کاربر", "type": "input" },
@@ -1592,6 +1592,8 @@ const filters: any = {
         { "title": "Mobile", "name": "موبایل", "type": "input" }
       ],
       "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
         "Title": '',
         "UniqueId": null,
         "Mobile": null

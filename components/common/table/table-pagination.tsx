@@ -27,7 +27,7 @@ export default function TablePagination({
 
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
     const [pageQuery, setPageQuery] = useState({ PageSize: 20, PageNumber: 1 })
-    const { service, modules } = useSearchFilters(module)
+    const { service, modules, restriction } = useSearchFilters(module)
 
     const sizes = [10, 20, 50, 100, 200, 300, 400, 500, 1000]
     const queryUpdate = (key: string, value: any) => {
@@ -49,7 +49,7 @@ export default function TablePagination({
     return (
         <div className={'flex items-center mx-auto py-3 space-x-2 space-x-reverse'}>
             <div className="relative rounded">
-                <Listbox disabled={!isAllowed({ userPermissions, whoIsAllowed: [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] })} name={'PageSize'} value={pageQuery?.PageSize}
+                <Listbox disabled={restriction ? !isAllowed({ userPermissions, whoIsAllowed: [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] }) : false} name={'PageSize'} value={pageQuery?.PageSize}
                     onChange={(e: any) => {
                         queryUpdate('PageSize', e);
                         onSubmit({ ...pageQuery, PageNumber: 1, PageSize: e })

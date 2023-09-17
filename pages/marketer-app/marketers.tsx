@@ -24,8 +24,12 @@ function MarketerContract() {
             maxWidth: 40,
         },
         {
-            field: 'Id',
+            field: 'MarketerID',
             headerName: 'شناسه بازاریاب',
+        },
+        {
+            field: 'UniqueId',
+            headerName: 'کد ملی بازاریاب',
         },
         {
             field: 'Title',
@@ -75,10 +79,10 @@ function MarketerContract() {
                     <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_marketers} />
                 </AccordionComponent>
                 <MarketerToolbar />
-                <TableComponent data={data?.result}
+                <TableComponent data={data?.result.pagedData}
                     module={ModuleIdentifier.MARKETER_APP_marketers}
                     columnDefStructure={columnDefStructure}
-                    rowId={['Id']}
+                    rowId={['MarketerID']}
                     pagination={true}
                     totalCount={data?.result?.totalCount}
                     fetcher={fetchData}
