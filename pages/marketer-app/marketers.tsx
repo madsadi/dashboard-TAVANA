@@ -24,10 +24,6 @@ function MarketerContract() {
             maxWidth: 40,
         },
         {
-            field: 'MarketerID',
-            headerName: 'شناسه بازاریاب',
-        },
-        {
             field: 'UniqueId',
             headerName: 'کد ملی بازاریاب',
         },

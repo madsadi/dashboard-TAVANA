@@ -1587,7 +1587,7 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
-        { "title": "Title", "name": "عنوان بازارایاب", "type": "input" },
+        { "title": "TbsReagentName", "name": "عنوان بازارایاب", "type": "input" },
         { "title": "UniqueId", "name": "کدملی", "type": "input" },
         { "title": "Mobile", "name": "موبایل", "type": "input" }
       ],
