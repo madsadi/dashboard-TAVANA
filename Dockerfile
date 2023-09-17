@@ -18,8 +18,8 @@ ENV  IDP=https://cluster.tech1a.co
 ENV  ONLINE_TRADING=http://cluster.tech1a.co
 ENV FILE_SERVER=http://cluster.tech1a.co:9073
 ENV SEJAM_GATEWAY=http://cluster.tech1a.co:9072
-ENV  MARKETER_ADMIN=http://stgmarketer-admin.tech1a.co
-ENV  MARKETER_CLIENT=https://stgmarketer-api.tech1a.co
+ENV  MARKETER_ADMIN=http://devmarketer-admin.tech1a.co
+ENV  MARKETER_CLIENT=https://devmarketer-api.tech1a.co
 
 
 # create & set working directory
