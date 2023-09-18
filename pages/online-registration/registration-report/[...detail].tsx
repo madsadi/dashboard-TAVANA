@@ -163,7 +163,25 @@ function Detail() {
                 }
                 return moodDetails;
             },
-        }
+        },
+        {
+            field: 'isTBSDocsInserted',
+            headerName: 'ثبت فایل قراردادها در TBS؟',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <div className={'flex items-center space-x-2 space-x-reverse'}>
+                            <span>{rowData.data.isTBSDocsInserted ? 'بله' : 'خیر'}</span>
+                            <DateCell date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime : ''} />
+                        </div>
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
+        },
     ]
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -270,10 +288,10 @@ function Detail() {
                         <InquirySejamStateComponent />
                         <EditRefCode />
                         <EditBourseCode />
-                        <TBSComponent />
                         <UpdateAgentInfo />
-                        <AgreementToTbs />
                         <BuildAgreementsFiles />
+                        <TBSComponent />
+                        <AgreementToTbs />
                     </div>
                 </div>
                 <TableComponent data={info?.result?.pagedData}

@@ -152,22 +152,14 @@ function OnlineRegistration() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <div>{rowData.data.isTBSDocsInserted ? 'بله' : 'خیر'}</div>
+                        <div className={'flex items-center space-x-2 space-x-reverse'}>
+                            <span>{rowData.data.isTBSDocsInserted ? 'بله' : 'خیر'}</span>
+                            <DateCell date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime : ''} />
+                        </div>
                     )
                 };
                 const moodDetails = {
                     component: ColourCellRenderer,
-                }
-                return moodDetails;
-            },
-        },
-        {
-            field: 'tbsDocsInsertDateTime',
-            headerName: 'زمان ثبت فایل قراردادها در TBS',
-            cellRendererSelector: () => {
-                const moodDetails = {
-                    component: (rowData: any) => <DateCell
-                        date={rowData.data.tbsDocsInsertDateTime ? rowData.data.tbsDocsInsertDateTime : ''} />,
                 }
                 return moodDetails;
             },
@@ -315,4 +307,4 @@ function OnlineRegistration() {
     )
 }
 
-export default withPermission(OnlineRegistration,ModuleIdentifier.ONLINE_REGISTRATION)
+export default withPermission(OnlineRegistration, ModuleIdentifier.ONLINE_REGISTRATION)

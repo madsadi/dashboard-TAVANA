@@ -9,8 +9,10 @@ import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../common/functions/Module-Identifier";
 import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/[...detail]";
 import { Button } from "../../common/components/button/button";
+import { OnlineRegContext } from "pages/online-registration/registration-report";
 
 export default function UpdateAgentInfo() {
+    const { selectedRows, fetchData, searchQuery } = useContext<any>(OnlineRegContext)
     const { fetchData: detailFetch, data } = useContext<any>(OnlineRegDetailContext)
     const { toolbar, modules, service, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION, 'agentInfo')
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateAgentInfo` })
@@ -21,7 +23,9 @@ export default function UpdateAgentInfo() {
     let dep: string | undefined = router.query?.detail?.[0]
     const queryData: string[] | undefined = dep?.split('&')
     let userId = queryData?.[0]?.split('=')[1]
-    const info = data && JSON.parse(data?.metaData)?.Agent
+    const info = data || selectedRows[0] ? JSON.parse(data?.metaData || selectedRows[0]?.metaData)?.Agent : null
+
+    console.log(info, selectedRows, data);
 
     useEffect(() => {
         if (modal && info) {
@@ -34,11 +38,13 @@ export default function UpdateAgentInfo() {
                 }
             })
             setQuery(_initialValue)
+        } else {
+            setQuery({})
         }
     }, [modal])
 
     const openHandler = () => {
-        if (data?.length === 1 || userId) {
+        if (selectedRows?.length === 1 || userId) {
             setModal(true)
         } else {
             throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
@@ -58,12 +64,16 @@ export default function UpdateAgentInfo() {
         }
         e.preventDefault()
         setLoading(true)
-        await mutate({ ..._query, userId: data?.userId || userId })
+        await mutate({ ..._query, userId: selectedRows[0]?.userId || userId })
             .then((res) => {
                 throwToast({ type: 'success', value: `${res?.data?.result?.message}` })
                 setModal(false)
                 setQuery(null)
-                detailFetch({ UserId: userId })
+                if (router.pathname === '/online-registration/registration-report') {
+                    fetchData(searchQuery)
+                } else {
+                    detailFetch({ UserId: userId })
+                }
             })
             .catch((err) => throwToast({ type: 'error', value: err }))
             .finally(() => setLoading(false))
