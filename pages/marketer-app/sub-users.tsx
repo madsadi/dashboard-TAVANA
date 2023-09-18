@@ -66,7 +66,7 @@ function SubUsers() {
     }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer/all-users-total` })
 
     const searchHandler = (query: any) => {
-        if (query?.IdpID) {
+        if (query?.MarketerID) {
             fetchData(query)
         } else {
             throwToast({ type: 'warning', value: 'مقدار حساب کاربری اجباری می باشد' })
@@ -92,4 +92,4 @@ function SubUsers() {
     )
 }
 
-export default withPermission(SubUsers,ModuleIdentifier.MARKETER_APP_subusers)
+export default withPermission(SubUsers, ModuleIdentifier.MARKETER_APP_subusers)
