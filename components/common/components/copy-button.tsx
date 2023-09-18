@@ -15,8 +15,7 @@ interface CopyButtonProps { entity: string, id: string, condition: boolean, inpu
 export const CopyButton = (props: CopyButtonProps) => {
     const { entity, id, condition, inputModule } = props
     const { page } = usePageStructure()
-    const module = ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`]
-    const { restriction, modules, service } = useSearchFilters(inputModule || module)
+    const { restriction, modules, service } = useSearchFilters(inputModule || ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`])
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
     const [loading, setLoading] = useState(false)
     const getLinkReq = async (id: string) => {
