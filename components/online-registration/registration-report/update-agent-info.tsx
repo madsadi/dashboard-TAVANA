@@ -23,9 +23,7 @@ export default function UpdateAgentInfo() {
     let dep: string | undefined = router.query?.detail?.[0]
     const queryData: string[] | undefined = dep?.split('&')
     let userId = queryData?.[0]?.split('=')[1]
-    const info = data || selectedRows[0] ? JSON.parse(data?.metaData || selectedRows[0]?.metaData)?.Agent : null
-
-    console.log(info, selectedRows, data);
+    const info = data || selectedRows?.[0] ? JSON.parse(data?.metaData || selectedRows?.[0]?.metaData)?.Agent : null
 
     useEffect(() => {
         if (modal && info) {
@@ -64,7 +62,7 @@ export default function UpdateAgentInfo() {
         }
         e.preventDefault()
         setLoading(true)
-        await mutate({ ..._query, userId: selectedRows[0]?.userId || userId })
+        await mutate({ ..._query, userId: selectedRows?.[0]?.userId || userId })
             .then((res) => {
                 throwToast({ type: 'success', value: `${res?.data?.result?.message}` })
                 setModal(false)

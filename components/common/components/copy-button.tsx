@@ -10,9 +10,13 @@ import { useSelector } from 'react-redux';
 import { Button } from './button/button';
 import copy from 'copy-to-clipboard';
 
-export const CopyButton = ({ entity, id, condition }: { entity: string, id: string, condition: boolean }) => {
+interface CopyButtonProps { entity: string, id: string, condition: boolean, inputModule?: string }
+
+export const CopyButton = (props: CopyButtonProps) => {
+    const { entity, id, condition, inputModule } = props
     const { page } = usePageStructure()
-    const { restriction, modules, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`], 'modal')
+    let module = ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`]
+    const { restriction, modules, service } = useSearchFilters(inputModule || module)
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
     const [loading, setLoading] = useState(false)
     const getLinkReq = async (id: string) => {

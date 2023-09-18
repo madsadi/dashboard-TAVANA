@@ -9,9 +9,11 @@ import { ModuleIdentifier } from "../../components/common/functions/Module-Ident
 import { withPermission } from "components/common/layout/with-permission";
 import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
 import MarketerToolbar from "components/marketer-app/marketer/marketer-toolbar";
+import { CopyButton } from "components/common/components/copy-button";
 
 export const MarketerContext = createContext({})
 function MarketerContract() {
+
 
     const columnDefStructure: any = [
         {
@@ -48,12 +50,19 @@ function MarketerContract() {
             headerName: 'عنوان شعبه',
         },
         {
-            field: 'MarketerRefCode',
-            headerName: 'کد بازاریاب',
+            field: 'ReagentRefLink',
+            headerName: 'لینک معرف',
+            cellRendererSelector: () => {
+                return { component: (rowData: any) => <CopyButton condition={rowData?.data?.ReagentRefCode} id={rowData?.data?.MarketerID} entity={'reagentUrl'} inputModule={ModuleIdentifier.MARKETER_APP_marketers} /> }
+            },
         },
         {
-            field: 'ReagentRefCode',
-            headerName: 'کد معرف',
+            field: 'MarketerRefLink',
+            headerName: 'لینک بازاریاب',
+            data: 'marketerUrl',
+            cellRendererSelector: () => {
+                return { component: (rowData: any) => <CopyButton condition={rowData?.data?.MarketerRefCode} id={rowData?.data?.MarketerID} entity={'marketerUrl'} inputModule={ModuleIdentifier.MARKETER_APP_marketers} /> }
+            },
         },
         {
             field: 'IsActive',
