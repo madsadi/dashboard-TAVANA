@@ -7,7 +7,7 @@ import { RelationsContext } from "../../../../pages/marketer-app/relations";
 
 export default function DeleteMarketersRelations() {
     const { selectedRows, setSelectedRows, fetchData, searchQuery } = useContext<any>(RelationsContext)
-    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer/delete-marketers-relations`, method: "DELETE" })
+    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-relation/delete`, method: "DELETE" })
     const [modal, setModal] = useState(false)
 
     const openHandler = () => {

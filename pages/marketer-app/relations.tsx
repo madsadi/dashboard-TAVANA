@@ -40,7 +40,7 @@ function Relations() {
     ]
     const {
         data, fetchData, query: searchQuery, loading
-    }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer/search-marketers-relations` })
+    }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer-relation/search` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -131,4 +131,4 @@ function Relations() {
     )
 }
 
-export default withPermission(Relations,ModuleIdentifier.MARKETER_APP_RELATIONS)
+export default withPermission(Relations, ModuleIdentifier.MARKETER_APP_RELATIONS)

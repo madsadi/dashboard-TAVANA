@@ -13,7 +13,7 @@ import { jalali } from "../../../common/functions/common-funcions";
 export default function EditMarketersRelations() {
     const { selectedRows, fetchData, searchQuery, setSelectedRows } = useContext<any>(RelationsContext)
     const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS, 'edit')
-    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer/modify-marketers-relations`, method: "PUT" })
+    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-relation/modify`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
