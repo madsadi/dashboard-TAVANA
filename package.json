@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "entrypoint.sh ONLINE_TRADING=http://172.24.65.20 IDP=https://cluster.tech1a.co  NETFLOW=http://172.24.65.20:8091 ADMIN_GATEWAY=http://172.24.65.20:9020 FILE_SERVER=http://172.24.65.20:9073 MARKETER_ADMIN=http://devmarketer-admin.tech1a.co SEJAM_GATEWAY=http://172.24.65.20:9072  && move./env-config.js ./public/static/assets/js && next dev",
+    "dev": "entrypoint.sh ONLINE_TRADING=http://cluster.tech1a.co IDP=https://cluster.tech1a.co  NETFLOW=http://cluster.tech1a.co:8091 ADMIN_GATEWAY=http://cluster.tech1a.co:9020 FILE_SERVER=http://cluster.tech1a.co:9073 MARKETER_ADMIN=http://devmarketer-admin.tech1a.co SEJAM_GATEWAY=http://cluster.tech1a.co:9072  && move./env-config.js ./public/static/assets/js && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

@@ -62,7 +62,7 @@ export default function InsOrderCancel() {
                         onClick={() => setModal(false)}
                     />
                     <Button label={'تایید'}
-                        className="bg-fuchsia-600"
+                        className="bg-green-600"
                         onClick={confirmInsRemoving}
                         loading={loading}
                     />

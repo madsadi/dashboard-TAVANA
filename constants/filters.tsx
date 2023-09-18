@@ -188,6 +188,19 @@ const filters: any = {
       "bourseCode": [
         { "title": "code", "name": " کد بورسی", "type": "input" },
         { "title": "type", "name": "نوع کد بورسی", "type": "selectInput" },
+      ],
+      "agentInfo": [
+        { "title": "FirstName", "name": "نام(وکیل) ", "type": "input", "isRequired": true },
+        { "title": "LastName", "name": " (وکیل)نام خانوادگی", "type": "input", "isRequired": true },
+        { "title": "FatherName", "name": " نام پدر(وکیل)", "type": "input", "isRequired": true },
+        { "title": "UniqueId", "name": "کد ملی(وکیل)", "type": "input", "isRequired": true },
+        { "title": "BirthCertificateNumber", "name": "شماره شناسنامه (وکیل)", "type": "input", "isRequired": true },
+        { "title": "SerialNumber", "name": "شماره سریال شناسنامه", "type": "input", "isRequired": true },
+        { "title": "SerialLetter", "name": "حرف سریال شناسنامه", "type": "input", "isRequired": true },
+        { "title": "SerialSeri", "name": "سری سریال شناسنامه", "type": "input", "isRequired": true },
+        { "title": "IsReplica", "name": "	المثنی است؟", "type": "selectInput", "isRequired": true },
+        { "title": "BirthCertificateCity", "name": "شهر محل صدور", "type": "input", "isRequired": true },
+        { "title": "Address", "name": "	آدرس (وکیل)", "type": "input", "isRequired": true },
       ]
     }
   },
@@ -1587,7 +1600,7 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
-        { "title": "TbsReagentName", "name": "عنوان بازارایاب", "type": "input" },
+        { "title": "tbsReagentName", "name": "TBS عنوان معرف", "type": "input" },
         { "title": "UniqueId", "name": "کدملی", "type": "input" },
         { "title": "Mobile", "name": "موبایل", "type": "input" }
       ],

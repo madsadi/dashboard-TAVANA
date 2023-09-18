@@ -34,6 +34,7 @@ import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
 import EditBourseCode from "components/online-registration/registration-report/edit-bourse-code";
 import { withPermission } from "components/common/layout/with-permission";
+const UpdateAgentInfo = dynamic(() => import("components/online-registration/registration-report/update-agent-info"));
 
 export const OnlineRegDetailContext = createContext({})
 function Detail() {
@@ -268,11 +269,11 @@ function Detail() {
                         <EditRegStateComponent />
                         <InquirySejamStateComponent />
                         <EditRefCode />
-                        <BuildAgreementsFiles />
-                        <EditRefCode />
                         <EditBourseCode />
                         <TBSComponent />
+                        <UpdateAgentInfo />
                         <AgreementToTbs />
+                        <BuildAgreementsFiles />
                     </div>
                 </div>
                 <TableComponent data={info?.result?.pagedData}

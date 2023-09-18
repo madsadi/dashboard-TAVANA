@@ -138,6 +138,7 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
         case 'isBourseCodeRequired':
         case 'isRequired':
         case 'IsRequired':
+        case 'IsReplica':
         case 'isSejami':
             return isRequired
         case 'Period':
@@ -166,7 +167,7 @@ export function findBank(account: string) {
     }
 }
 
-export const splittedDate=(date:string)=>{
+export const splittedDate = (date: string) => {
     let _date = date.split('-')
-    return {year:Number(_date[0]),month:Number(_date[1]),day:Number(_date[2])}
+    return { year: Number(_date[0]), month: Number(_date[1]), day: Number(_date[2]) }
 }

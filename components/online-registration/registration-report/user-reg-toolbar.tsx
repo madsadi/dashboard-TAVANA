@@ -11,15 +11,15 @@ import EditBourseCode from "./edit-bourse-code";
 export default function UserRegToolbarComponent() {
     return (
         <div className={'border-x border-border'}>
-            <div className={'toolbar p-2 '}>
+            <div className={'toolbar py-2'}>
                 <EditRegStateComponent />
                 <InquirySejamStateComponent />
-                <SendMessageComponent />
-                <BuildAgreementsFiles />
                 <EditRefCode />
                 <EditBourseCode />
                 <TBSComponent />
                 <AgreementToTbs />
+                <SendMessageComponent />
+                <BuildAgreementsFiles />
             </div>
         </div>
     )
