@@ -1600,7 +1600,7 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
-        { "title": "tbsReagentName", "name": "TBS عنوان معرف", "type": "input" },
+        { "title": "TbsReagentName", "name": "TBS عنوان معرف", "type": "input" },
         { "title": "UniqueId", "name": "کدملی", "type": "input" },
         { "title": "Mobile", "name": "موبایل", "type": "input" }
       ],
