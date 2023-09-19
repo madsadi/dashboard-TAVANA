@@ -19,9 +19,13 @@ export default function EditMarketerContract() {
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({ from: null, to: null })
 
     const openHandler = () => {
-        setQuery({})
-        setSelectedDayRange({ from: null, to: null })
-        setModal(true)
+        if (selectedRows.length) {
+            setQuery({})
+            setSelectedDayRange({ from: null, to: null })
+            setModal(true)
+        } else {
+            throwToast({ type: 'warning', value: 'لطفا برای ویرایش یک گزینه را انتخاب کنید' })
+        }
     }
 
     const submitHandler = async (e: any) => {

@@ -40,11 +40,11 @@ function MarketerContract() {
         },
         {
             field: 'CalculationBaseType',
-            headerName: 'کد ملی',
+            headerName: 'نوع محاسابات',
         },
         {
             field: 'CoefficientBaseType',
-            headerName: 'کد ملی',
+            headerName: 'نوع ضرائب',
         },
         {
             field: 'ContractType',

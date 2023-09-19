@@ -227,6 +227,62 @@ export const isRequired: any[] = [
     }
 ];
 
+export const CalculationBaseTypeEnums = [
+    {
+        title: "جدول شماره ۱",
+        id: "PlanOne"
+    },
+    {
+        title: "جدول شماره ۲",
+        id: "PlanTwo"
+    },
+    {
+        title: "جدول شماره ۳",
+        id: "PlanThree"
+    },
+    {
+        title: "نامشخص",
+        id: "NoPlan"
+    },
+    {
+        title: "ثابت شماره ۱",
+        id: "ConstOne"
+    },
+    {
+        title: "ثابت شماره ۲",
+        id: "ConstTwo"
+    },
+    {
+        title: "ثابت شماره ۳",
+        id: "ConstThree"
+    },
+    {
+        title: "ثابت شماره ۴",
+        id: "ConstFour"
+    },
+]
+
+export const CoefficientBaseTypeEnums = [
+    {
+        title: "پلکان",
+        id: "Plan"
+    },
+    {
+        title: "ثابت",
+        id: "Const"
+    }
+]
+export const ContractTypeEnums = [
+    {
+        id: "Agency",
+        title: "نمایندگی"
+    },
+    {
+        id: "Independent",
+        title: "مستقل"
+    }
+]
+
 export const Months: any[] = [
     {
         "id": '140201',

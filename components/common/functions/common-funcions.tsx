@@ -3,7 +3,10 @@ import {
     activeStatus,
     bousreCodeType,
     CalculationBaseType,
+    CalculationBaseTypeEnums,
     category,
+    CoefficientBaseTypeEnums,
+    ContractTypeEnums,
     Hours,
     isActiveWithNoNull,
     isRequired,
@@ -143,6 +146,12 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
             return isRequired
         case 'Period':
             return Months
+        case 'ContractType':
+            return ContractTypeEnums
+        case 'CalculationBaseType':
+            return CalculationBaseTypeEnums
+        case 'CoefficientBaseType':
+            return CoefficientBaseTypeEnums
         case 'Status':
         case 'status':
             return StatusEnums
