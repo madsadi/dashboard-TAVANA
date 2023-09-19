@@ -12,7 +12,7 @@ import { DayRange } from "react-modern-calendar-datepicker";
 export default function AddMarketersRelations() {
     const { fetchData, searchQuery } = useContext<any>(RelationsContext)
     const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS, 'add')
-    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketerrelation/add` })
+    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-relation/add` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({ from: null, to: null })
