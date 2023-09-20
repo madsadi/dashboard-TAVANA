@@ -31,7 +31,7 @@ export default function DeleteMarketerContract() {
 
     return (
         <>
-            <button className={'button bg-red-600'} onClick={openHandler}>
+            <button className={'button bg-error'} onClick={openHandler}>
                 حذف قرارداد بازاریاب
             </button>
             <Modal title={'حذف قرارداد بازاریاب'} setOpen={setModal}
@@ -39,13 +39,13 @@ export default function DeleteMarketerContract() {
                 <div className="field mt-4">
                     <p className={'text-center'}>آیا از حذف کردن این قرارداد اطمینان دارید؟</p>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500"
+                        <button className="button bg-error"
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
                             }}>لغو
                         </button>
-                        <button type={"submit"} onClick={submitHandler} className="button bg-lime-600" >تایید</button>
+                        <button type={"submit"} onClick={submitHandler} className="button bg-primary" >تایید</button>
                     </div>
                 </div>
             </Modal>

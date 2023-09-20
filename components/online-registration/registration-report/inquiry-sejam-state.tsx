@@ -51,7 +51,6 @@ const InquirySejamStateComponent = () => {
 
     return (
         <Button label={'وضعیت سجام'}
-            className="bg-emerald-600"
             onClick={inquiryHandler}
             allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
         />

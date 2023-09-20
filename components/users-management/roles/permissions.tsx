@@ -105,7 +105,6 @@ export default function Permissions() {
     return (
         <>
             <Button label={'ویرایش دسترسی های نقش'}
-                className="bg-orange-500"
                 loading={loading}
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'RollAndPermissionManagment'].join('.')] : []}

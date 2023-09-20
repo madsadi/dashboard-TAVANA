@@ -285,10 +285,10 @@ function Detail() {
                 <div className={'border border-border rounded-t-lg'}>
                     <div className={'toolbar p-2'}>
                         <EditRegStateComponent />
-                        <InquirySejamStateComponent />
                         <EditRefCode />
                         <EditBourseCode />
                         <UpdateAgentInfo />
+                        <InquirySejamStateComponent />
                         <BuildAgreementsFiles />
                         <TBSComponent />
                         <AgreementToTbs />

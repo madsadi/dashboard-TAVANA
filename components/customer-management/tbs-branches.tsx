@@ -28,7 +28,6 @@ export const TBSBranches = () => {
     }
     return (
         <Button label={'دریافت شعب TBS'}
-            className="bg-lime-600"
             onClick={submitHandler}
             loading={loading}
             allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Read'].join('.')] : []}

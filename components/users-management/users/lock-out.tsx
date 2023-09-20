@@ -56,7 +56,6 @@ export default function LockOut() {
     return (
         <>
             <Button label={'قفل/باز کردن حساب کاربری'}
-                className="bg-emerald-600"
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'SetLockoutEndDate'].join('.')] : []}
             />
@@ -79,14 +78,14 @@ export default function LockOut() {
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label={'لغو'}
-                            className="bg-red-500"
+                            className="bg-error"
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
                             }}
                         />
                         <Button label={'تایید'}
-                            className="bg-lime-600"
+                            className="bg-primary"
                             onClick={lockHandler}
                             type={"submit"}
                             loading={loading}

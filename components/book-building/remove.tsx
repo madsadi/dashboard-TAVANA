@@ -40,7 +40,7 @@ export default function RemoveModal() {
     return (
         <>
             <Button label={'حذف'}
-                className="bg-red-600"
+                className="bg-error"
                 onClick={confirmDeleteSelected}
                 allowed={restriction ? [[service[0], modules[0][0], 'Delete'].join('.')] : []}
             />
@@ -49,13 +49,13 @@ export default function RemoveModal() {
                     <div className={'mx-auto'}>آیا از حذف ردیف مورد نظر اطمینان دارید؟</div>
                     <div className={'mr-auto space-x-reverse space-x-2 mt-10'}>
                         <Button label={'خیر'}
-                            className="bg-red-500"
+                            className="bg-error"
                             onClick={() => {
                                 setModal(false)
                             }}
                         />
                         <Button label={'بله'}
-                            className="bg-green-600"
+                            className="bg-primary"
                             loading={loading}
                             onClick={deleteHandler}
                         />

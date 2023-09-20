@@ -51,7 +51,7 @@ export default function Remove() {
     return (
         <>
             <Button label={'حذف'}
-                className="bg-red-600"
+                className="bg-error"
                 onClick={openModalHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Delete'].join('.')] : []}
             />
@@ -67,11 +67,11 @@ export default function Remove() {
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label={'لغو'}
-                            className="bg-red-500"
+                            className="bg-error"
                             onClick={() => setModal(false)}
                         />
                         <Button label={'تایید'}
-                            className="bg-green-600"
+                            className="bg-primary"
                             loading={loading}
                             onClick={removeHandler}
                         />

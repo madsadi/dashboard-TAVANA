@@ -51,7 +51,7 @@ export default function OrdersCancel() {
     return (
         <>
             <Button label={'لغو سفارش'}
-                className="bg-red-600"
+                className="bg-error"
                 onClick={openModalHandler}
                 allowed={restriction ? [[service[1], modules?.[1]?.[0], 'CancelUserOrder'].join('.')] : []}
             />
@@ -64,11 +64,11 @@ export default function OrdersCancel() {
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label={'لغو '}
-                            className="bg-red-500"
+                            className="bg-error"
                             onClick={() => setModal(false)}
                         />
                         <Button label={'تایید '}
-                            className="bg-green-600"
+                            className="bg-primary"
                             onClick={cancelMultipleOrders}
                             loading={loading}
                         />

@@ -58,7 +58,7 @@ export default function ClearingDateRange() {
                     <input className="w-full text-center" placeholder='تاخیر در تسویه' value={settlementDelay} onChange={(e) => setSettlementDelay(e.target.value)}/>
                 </div>
             </div>
-            <button onClick={submitHandler} className="button bg-lime-600 mt-5">بروزرسانی</button>
+            <button onClick={submitHandler} className="button bg-primary mt-5">بروزرسانی</button>
         </div>
     )
 }

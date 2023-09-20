@@ -50,7 +50,7 @@ export default function InActive() {
         <>
             <Button label="غیرفعال کردن جزئیات ضرایب کارمزد"
                 onClick={openHandler}
-                className="bg-orange-500"
+                className="bg-error"
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
             <Modal title={'غیرفعال کردن جزئیات ضرایب کارمزد'} ModalWidth={'max-w-3xl'} setOpen={setModal}
@@ -78,13 +78,13 @@ export default function InActive() {
                                 setModal(false)
                             }
                             }
-                            className="bg-red-500"
+                            className="bg-error"
                         />
                         <Button label="تایید"
                             type={"submit"}
                             onClick={editHandler}
                             loading={loading}
-                            className="bg-lime-600"
+                            className="bg-primary"
                         />
                     </div>
                 </div>

@@ -81,7 +81,7 @@ export default function Edit() {
     return (
         <>
             <Button label={'ویرایش'}
-                className="bg-orange-600"
+                className="bg-secondary"
                 onClick={openModalHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
@@ -102,11 +102,11 @@ export default function Edit() {
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label={'لغو'}
-                            className="bg-red-500"
+                            className="bg-error"
                             onClick={() => setModal(false)}
                         />
                         <Button label={'تایید'}
-                            className="bg-lime-600"
+                            className="bg-primary"
                             loading={loading}
                             onClick={editHandler}
                         />

@@ -6,18 +6,18 @@ import usePageStructure from "../../hooks/usePageStructure";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../common/functions/Module-Identifier";
 import useMutation from "../../hooks/useMutation";
-import {CustomerManagement} from "../../pages/customer-management/[[...page]]";
+import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
 
 export const CreateRefCode = () => {
     const { page } = usePageStructure()
-    const {selectedRows}=useContext<any>(CustomerManagement)
+    const { selectedRows } = useContext<any>(CustomerManagement)
     const { restriction, modules, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`])
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/marketer/CreateRefCode` })
     const [loading, setLoading] = useState(false)
 
     const submitHandler = () => {
         setLoading(true)
-        mutate({id:selectedRows[0].id})
+        mutate({ id: selectedRows[0].id })
             .then((res) => {
                 throwToast({ type: 'success', value: `${res?.data.result.message}` })
             })
@@ -37,10 +37,9 @@ export const CreateRefCode = () => {
 
     return (
         <Button label={'بروزرسانی لینک'}
-                className="bg-sky-400"
-                onClick={openModalHandler}
-                loading={loading}
-                allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Create'].join('.')] : []}
+            onClick={openModalHandler}
+            loading={loading}
+            allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Create'].join('.')] : []}
         />
     )
 }

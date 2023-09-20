@@ -38,7 +38,7 @@ export default function Remove() {
         <>
             <Button label="حذف"
                 onClick={confirmDeleteSelected}
-                className="bg-red-600"
+                className="bg-error"
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Delete'].join('.')] : []}
             />
             <Modal title={'تایید حذف'} open={modal} setOpen={setModal}>
@@ -47,12 +47,12 @@ export default function Remove() {
                     <div className={'mr-auto space-x-reverse space-x-2 mt-3'}>
                         <Button label="خیر"
                             onClick={() => setModal(false)}
-                            className="bg-red-500"
+                            className="bg-error"
                         />
                         <Button label="بله"
                             onClick={deleteHandler}
                             loading={loading}
-                            className="bg-lime-600"
+                            className="bg-primary"
                         />
                     </div>
                 </div>

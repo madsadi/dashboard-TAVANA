@@ -90,10 +90,10 @@ export default function UserInfo() {
                     )
                 })}
             </div>
-            <button className={'button bg-orange-500 m-2 mx-4'} onClick={() => setOpen(true)}>
+            <button className={'button bg-secondary m-2 mx-4'} onClick={() => setOpen(true)}>
                 ویرایش حساب کاربری
             </button>
-            <button className={'button bg-green-500'} onClick={() => setPasswordModal(true)}>
+            <button className={'button bg-primary'} onClick={() => setPasswordModal(true)}>
                 تغییر رمز عبور
             </button>
             <PasswordModal setOpen={setPasswordModal} open={passwordModal} />

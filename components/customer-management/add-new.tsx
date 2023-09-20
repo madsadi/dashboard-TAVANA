@@ -76,7 +76,7 @@ export default function AddNew() {
     return (
         <>
             <Button label={'جدید'}
-                className="bg-lime-600"
+                className="bg-primary"
                 onClick={() => setModal(true)}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}
             />
@@ -99,11 +99,11 @@ export default function AddNew() {
                     {page?.api === 'customerAgreement' && <ExtraDateAndTimeInput setQuery={setQuery} query={query} />}
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label={'لغو'}
-                            className="bg-red-600"
+                            className="bg-error"
                             onClick={() => setModal(false)}
                         />
                         <Button label={'تایید'}
-                            className="bg-lime-600"
+                            className="bg-primary"
                             type={'submit'}
                             loading={loading}
                             onClick={(e) => addNewHandler(e, query)}

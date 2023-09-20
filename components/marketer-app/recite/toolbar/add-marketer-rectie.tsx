@@ -36,7 +36,7 @@ export default function AddMarketerRectie() {
     }
     return (
         <>
-            <button className={'button bg-green-500'} onClick={openHandler}>
+            <button className={'button bg-primary'} onClick={openHandler}>
                 اضافه کردن صورت حساب
             </button>
             <Modal title={'ااضافه کردن صورت حساب'} setOpen={setModal}
@@ -55,13 +55,13 @@ export default function AddMarketerRectie() {
                             }
                         </div>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                            <button className="button bg-red-500"
+                            <button className="button bg-error"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     setModal(false)
                                 }}>لغو
                             </button>
-                            <button type={"submit"} className="button bg-lime-600" >تایید</button>
+                            <button type={"submit"} className="button bg-primary" >تایید</button>
                         </div>
                     </form>
                 </div>

@@ -59,7 +59,7 @@ export default function EditRequest() {
     return (
         <>
             <Button label={'ویرایش درخواست تغییر ناظر'}
-                className="bg-orange-500"
+                className="bg-secondary"
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
@@ -80,14 +80,14 @@ export default function EditRequest() {
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label={'لغو'}
-                            className="bg-red-500"
+                            className="bg-error"
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
                             }}
                         />
                         <Button label={'تایید'}
-                            className="bg-lime-600"
+                            className="bg-primary"
                             onClick={editHandler}
                             type={'submit'}
                             loading={loading}

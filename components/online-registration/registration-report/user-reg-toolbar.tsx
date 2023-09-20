@@ -14,10 +14,10 @@ export default function UserRegToolbarComponent() {
         <div className={'border-x border-border'}>
             <div className={'toolbar py-2'}>
                 <EditRegStateComponent />
-                <InquirySejamStateComponent />
                 <EditRefCode />
                 <EditBourseCode />
                 <UpdateAgentInfo />
+                <InquirySejamStateComponent />
                 <SendMessageComponent />
                 <BuildAgreementsFiles />
                 <TBSComponent />

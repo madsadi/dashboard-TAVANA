@@ -28,7 +28,6 @@ export const TBSReagents = () => {
     }
     return (
         <Button label={'دریافت معرف TBS'}
-            className="bg-lime-600"
             onClick={submitHandler}
             loading={loading}
             allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Read'].join('.')] : []}

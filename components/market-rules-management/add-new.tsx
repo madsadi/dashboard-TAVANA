@@ -126,7 +126,7 @@ export default function AddNew() {
     return (
         <>
             <Button label={'قانون جدید'}
-                className="bg-lime-600"
+                className="bg-primary"
                 onClick={() => setModal(true)}
                 allowed={restriction ? [[service[0], modules[0][0], 'Create'].join('.')] : []}
             />
@@ -285,14 +285,14 @@ export default function AddNew() {
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2'}>
                         <Button label={'لغو'}
-                            className={`mt-5 bg-red-600`}
+                            className={`mt-5 bg-error`}
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
                             }}
                         />
                         <Button label={'ثبت'}
-                            className={`mt-5 bg-lime-600`}
+                            className={`mt-5 bg-primary`}
                             type={'submit'}
                             loading={loading}
                         />

@@ -42,7 +42,7 @@ export default function GpOrderCancel() {
     return (
         <>
             <Button label={'حذف سفارش گروه'}
-                className="bg-red-600"
+                className="bg-error"
                 onClick={() => setModal(true)}
                 allowed={restriction ? [[service[1], modules[1][0], 'GlobalCancelOrderRequest'].join('.')] : []}
             />
@@ -59,11 +59,11 @@ export default function GpOrderCancel() {
                 </div>
                 <div className={'text-left space-x-2 space-x-reverse mt-4'}>
                     <Button label={'لغو'}
-                        className="bg-red-500"
+                        className="bg-error"
                         onClick={() => setModal(false)}
                     />
                     <Button label={'تایید'}
-                        className="bg-green-600"
+                        className="bg-primary"
                         loading={loading}
                         onClick={confirmGPRemoving}
                     />

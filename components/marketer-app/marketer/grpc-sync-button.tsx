@@ -19,7 +19,7 @@ export default function GRPCSyncButton() {
 
 
     return (
-        <button className={'button bg-green-500'} onClick={openHandler}>
+        <button className={'button bg-primary'} onClick={openHandler}>
             بروزرسانی بازاریاب ها
         </button>
     )

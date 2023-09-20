@@ -54,7 +54,7 @@ export default function AddCommission() {
         <>
             <Button label="ایجاد کارمزد"
                 onClick={openHandler}
-                className="bg-lime-600"
+                className="bg-primary"
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}
             />
             <Modal title={'ایجاد کارمزد'} ModalWidth={'max-w-7xl'} setOpen={setModal}
@@ -103,13 +103,13 @@ export default function AddCommission() {
                                 e.preventDefault()
                                 setModal(false)
                             }}
-                            className="bg-red-500"
+                            className="bg-error"
                         />
                         <Button label="تایید"
                             type={"submit"}
                             onClick={addNewHandler}
                             loading={loading}
-                            className="bg-lime-600"
+                            className="bg-primary"
                         />
                     </div>
                 </div>

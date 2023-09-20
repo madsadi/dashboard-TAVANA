@@ -49,11 +49,10 @@ export default function Edit() {
     return (
         <>
             <Button label="ویرایش"
-                onClick={() => setModal(true)}
-                className="bg-lime-600"
+                onClick={openUpdate}
+                className="bg-secondary"
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />
-            <button className="button bg-orange-400" onClick={openUpdate}>ویرایش</button>
             <Modal title={'ویرایش'} ModalWidth={'max-w-3xl'} open={modal} setOpen={setModal}>
                 <form className={'grid grid-cols-3 gap-4'}>
                     <div>
@@ -72,12 +71,12 @@ export default function Edit() {
                 <div className={'flex justify-end space-x-reverse space-x-2'}>
                     <Button label="لغو"
                         onClick={() => setModal(false)}
-                        className="bg-red-500"
+                        className="bg-error"
                     />
                     <Button label="تایید"
                         onClick={updateHandler}
                         loading={loading}
-                        className="bg-lime-600"
+                        className="bg-primary"
                     />
                 </div>
             </Modal>

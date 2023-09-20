@@ -49,7 +49,6 @@ const AgreementToTbs = () => {
 
     return (
         <Button label={'ثبت قراردادها در تدبیر'}
-            className="bg-orange-500 "
             onClick={TbsHandler}
             loading={loading}
             allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Create'].join('.')] : []}

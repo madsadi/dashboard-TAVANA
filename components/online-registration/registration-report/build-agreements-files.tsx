@@ -46,7 +46,6 @@ export default function BuildAgreementsFiles() {
 
     return (
         <Button label={'ایجاد فایل های قرارداد'}
-            className="bg-fuchsia-600"
             onClick={handler}
             loading={loading}
             allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}

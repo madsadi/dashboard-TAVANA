@@ -41,7 +41,7 @@ export default function AddNew() {
         <>
             <Button label="جدید"
                 onClick={() => setModal(true)}
-                className="bg-lime-600"
+                className="bg-primary"
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}
             />
             <Modal title={'جزییات کارمزد جدید'} ModalWidth={'max-w-3xl'} setOpen={setModal}
@@ -63,12 +63,12 @@ export default function AddNew() {
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label="لغو"
                             onClick={() => setModal(false)}
-                            className="bg-red-500"
+                            className="bg-error"
                         />
                         <Button label="تایید"
                             onClick={addNewHandler}
                             loading={loading}
-                            className="bg-lime-600"
+                            className="bg-primary"
                         />
                     </div>
                 </div>

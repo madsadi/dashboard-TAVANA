@@ -161,7 +161,7 @@ export default function Edit() {
     return (
         <>
             <Button label={'ویرایش'}
-                className="bg-orange-500"
+                className="bg-secondary"
                 onClick={openUpdate}
                 allowed={restriction ? [[service[0], modules[0][0], 'Edit'].join('.')] : []}
             />
@@ -318,14 +318,14 @@ export default function Edit() {
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2'}>
                         <Button label={'لغو'}
-                            className={`mt-5 bg-red-600`}
+                            className={`mt-5 bg-error`}
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
                             }}
                         />
                         <Button label={' ثبت تغییرات'}
-                            className={`mt-5 bg-lime-600`}
+                            className={`mt-5 bg-primary`}
                             type={'submit'}
                             loading={loading}
                         />

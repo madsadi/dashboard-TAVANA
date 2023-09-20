@@ -101,7 +101,6 @@ export default function UserRole() {
     return (
         <>
             <Button label={'مدریت نقش کاربر'}
-                className="bg-orange-500"
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'RollAndPermissionManagment'].join('.')] : []}
             />

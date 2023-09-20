@@ -70,7 +70,7 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
             </div>
             <div className={'flex space-x-3 space-x-reverse mr-auto mt-10 h-fit ' + extraClassName}>
                 <Button label={'لغو فیلتر ها'}
-                    className=" bg-red-600 h-fit"
+                    className=" bg-error h-fit"
                     type="reset"
                     onClick={(e) => {
                         e.preventDefault()
@@ -79,7 +79,7 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
                     }}
                 />
                 <Button label={'جستجو'}
-                    className="bg-lime-600 h-fit relative"
+                    className="bg-primary h-fit relative"
                     type={'submit'}
                     disabled={loading}
                     loading={loading}

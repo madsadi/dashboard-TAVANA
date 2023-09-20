@@ -17,9 +17,9 @@ interface ButtonType {
 export const Button = (props: ButtonType) => {
     const { label, className, onClick, allowed, disabled, loading, type = 'button', icon } = props
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
-
+    const defaultStyle = 'text-current border border-border'
     return (
-        <button className={"relative text-sm space-x-2 space-x-reverse flex justify-between items-center text-white p-1 px-4 rounded transition-all hover:opacity-70 disabled:bg-gray-400 disabled:!cursor-not-allowed " + className}
+        <button className={`relative text-sm space-x-2 shadow space-x-reverse flex justify-between items-center text-white p-1 px-4 rounded transition-all hover:opacity-70 disabled:bg-gray-400 disabled:!cursor-not-allowed ${className ? className : defaultStyle}`}
             onClick={onClick}
             disabled={!isAllowed({ userPermissions, whoIsAllowed: allowed }) || disabled || loading}
             type={type}

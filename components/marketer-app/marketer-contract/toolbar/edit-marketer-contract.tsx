@@ -83,7 +83,7 @@ export default function EditMarketerContract() {
 
     return (
         <>
-            <button className={'button bg-orange-500'} onClick={openHandler}>
+            <button className={'button bg-secondary'} onClick={openHandler}>
                 ویرایش قرارداد بازاریاب
             </button>
             <Modal title={'ویرایش قرارداد بازاریاب'} setOpen={setModal}
@@ -105,13 +105,13 @@ export default function EditMarketerContract() {
                             }
                         </div>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                            <button className="button bg-red-500"
+                            <button className="button bg-error"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     setModal(false)
                                 }}>لغو
                             </button>
-                            <button type={"submit"} className="button bg-lime-600">تایید</button>
+                            <button type={"submit"} className="button bg-primary">تایید</button>
                         </div>
                     </form>
                 </div>

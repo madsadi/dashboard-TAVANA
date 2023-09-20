@@ -18,7 +18,7 @@ export const SwitchToggle = (props: switchTogglePropsType) => {
             checked={isChecked}
             disabled={!isAllowed({ userPermissions, whoIsAllowed: allowed }) || disabled}
             onChange={onChange}
-            className={`${isChecked ? 'bg-green-500' : 'bg-red-400'}
+            className={`${isChecked ? 'bg-primary' : 'bg-error'}
           relative inline-flex w-[40px] !h-[20px] shrink-0 cursor-pointer rounded-full disabled:!bg-gray-500 disabled:cursor-not-allowed border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
         >
             <span

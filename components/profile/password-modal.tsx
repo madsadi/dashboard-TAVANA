@@ -46,14 +46,14 @@ export const PasswordModal = ({ open, setOpen }: { open: boolean, setOpen: any }
                         }
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-red-500"
+                        <button className="button bg-error"
                             type={'button'}
                             onClick={(e) => {
                                 e.preventDefault()
                                 setOpen(false)
                             }}>لغو
                         </button>
-                        <button type={"submit"} className="button bg-lime-600">تایید</button>
+                        <button type={"submit"} className="button bg-primary">تایید</button>
                     </div>
                 </form>
             </div>

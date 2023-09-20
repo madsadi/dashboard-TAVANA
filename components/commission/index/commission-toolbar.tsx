@@ -7,9 +7,9 @@ const CommissionToolbar = () => {
     return (
         <div className={'border-x border-border'}>
             <div className={'toolbar p-2'}>
-                <InActive />
                 <AddCommission />
                 <EditCommission />
+                <InActive />
             </div>
         </div>
     )

@@ -46,7 +46,6 @@ export default function Password() {
     return (
         <>
             <Button label={'رمز عبور جدید'}
-                className="bg-emerald-600"
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'ChangeUserPassword'].join('.')] : []}
             />
@@ -66,7 +65,7 @@ export default function Password() {
                     </form>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
                         <Button label={'لغو'}
-                            className="bg-red-500"
+                            className="bg-error"
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
@@ -74,7 +73,7 @@ export default function Password() {
                         />
                         <Button label={'تایید'}
                             loading={loading}
-                            className="bg-lime-600"
+                            className="bg-primary"
                             onClick={changePassHandler}
                             type={"submit"}
                         />
