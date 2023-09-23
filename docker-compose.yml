@@ -5,7 +5,7 @@ services:
     networks:
       - omsnet
     ports:
-      - 9021:3000
+      - 9021:80
     deploy:
       mode: replicated
       replicas: 1

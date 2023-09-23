@@ -5,11 +5,17 @@ variables:
     SMS_MESSAGE_BUILD: $IMAGE_NAME-->Build-OK
     SMS_MESSAGE_Deploy_Dev: $IMAGE_NAME-->Deployed->Develop
     SMS_MESSAGE_Deploy_Stg: $IMAGE_NAME-->Deployed->Stage
+    SMS_MESSAGE_Deploy_Asiatech: $IMAGE_NAME-->Deployed->Asiatech
     SMS_MESSAGE_Deploy_Pro: $IMAGE_NAME-->Deployed->Production
     REGISTRY_HOST: $DOCKER_PRIVATE_REGISTRY_IP:$DOCKER_PRIVATE_REGISTRY_PORT
     NAMESPACE_Dev: dev-oms
     NAMESPACE_Stg: stg-oms
     NAMESPACE_Pro: pro-oms
+    TECH1A_DEV_HOST: dev$IMAGE_NAME.$TECH1A_HOST
+    TECH1A_STG_HOST: stg$IMAGE_NAME.$TECH1A_HOST
+    TECH1A_ASIATECH_HOST: $ASIATECH_HOST
+    TECH1A_PRO_HOST: $PRO_HOST
+    TECH1A_CONTAINERPORT: 3000
 
 stages:
   - Code Quality
@@ -19,6 +25,8 @@ stages:
   - Deploy Dev Notifications
   - Deploy Staging
   - Deploy Stg Notifications
+  - Deploy Asiatech
+  - Deploy Asiatech Notifications
   - Deploy Production
   - Deploy Pro Notifications
 
@@ -69,11 +77,10 @@ build:
         - docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
         - docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
         - (if [ "$CI_COMMIT_TAG" != "" ]; then docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG;docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG; fi);
-        #- docker tag $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:latest $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
-        #- docker push $REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
  
     after_script:
         -  echo "Build succeeded"
+        
 build-SMS:
   stage: Build SMS Notifications
   image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
@@ -81,6 +88,8 @@ build-SMS:
     - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_BUILD&flash=0"
   needs:
     - job: build
+
+
 
 ###############################################################################################
 #########                                                                             #########
@@ -131,15 +140,17 @@ deploy-staging:
     - mkdir -p ~/.kube
     - chmod 700 ~/.kube
     - echo "$K8S_STG" | base64 -d > ~/.kube/config
-    - kubectl -n "$NAMESPACE_Stg" apply -f deployment/stage/stage.yaml
+    - curl  --header Private-Token:"$GITLAB_GET_DEPLOYMENT_TOKEN" "http://gitlab.tech1a.co/api/v4/projects/127/repository/files/stg-deployment%2Fstg-oms-template.yaml/raw?ref=main" -o stg-oms-template.yaml
+    - sed -E -i s#TECH1A_IMAGE_NAME#$IMAGE_NAME#g stg-oms-template.yaml
+    - sed -E -i s#TECH1A_HOST#$TECH1A_STG_HOST#g stg-oms-template.yaml
+    - sed -E -i s#TECH1A_CONTAINERPORT#$TECH1A_CONTAINERPORT#g stg-oms-template.yaml
+    - kubectl -n "$NAMESPACE_Stg" apply -f stg-oms-template.yaml
     - kubectl set image -n "$NAMESPACE_Stg" deployment/$IMAGE_NAME $IMAGE_NAME=$REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_PID
   needs:
     - job: build
   retry: 2
   only:
     - stg
-
-
 
 deploy-stg-SMS:
   stage: Deploy Stg Notifications
@@ -150,7 +161,42 @@ deploy-stg-SMS:
     - job: deploy-staging
   only:
     - stg
+###############################################################################################
+#########                                                                             #########
+#########                                 Deploy Asiatech                           #########
+#########                                                                             #########
+###############################################################################################
 
+deploy-asiatech:
+  stage: Deploy Asiatech
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/dtzar/helm-kubectl:3.0.3
+  script:
+    - mkdir -p ~/.kube
+    - chmod 700 ~/.kube
+    - echo "$K8S_TEST_ASIATECH" | base64 -d > ~/.kube/config
+    - curl  --header Private-Token:"$GITLAB_GET_DEPLOYMENT_TOKEN" "http://gitlab.tech1a.co/api/v4/projects/127/repository/files/asiatech-deployment%2Fasiatech-oms-template.yaml/raw?ref=main" -o asiatech-oms-template.yaml
+    - sed -E -i s#TECH1A_IMAGE_NAME#$IMAGE_NAME#g asiatech-oms-template.yaml
+    - cat asiatech-oms-template.yaml
+    - sed -E -i s#TECH1A_ASIATECH_HOST#$TECH1A_ASIATECH_HOST#g asiatech-oms-template.yaml
+    - cat asiatech-oms-template.yaml
+    - sed -E -i s#TECH1A_CONTAINERPORT#$TECH1A_CONTAINERPORT#g asiatech-oms-template.yaml
+    - kubectl -n "$NAMESPACE_Pro" apply -f asiatech-oms-template.yaml  
+    - kubectl set image -n "$NAMESPACE_Pro" deployment/$IMAGE_NAME $IMAGE_NAME=$REGISTRY_HOST/repository/tech1a-docker-registry/$IMAGE_NAME:$IMAGE_TAG_TAG
+  needs:
+    - job: build
+  retry: 2
+  only:
+    - asiatech
+
+deploy-asiatech-SMS:
+  stage: Deploy Asiatech Notifications
+  image: $REGISTRY_HOST/repository/tech1a-docker-registry/curlimages/curl
+  script:
+    - curl -X POST "https://my.candoosms.com/services/URLService/URN/?username=$SMS_PROVIDER_USER&password=$SMS_PROVIDER_PASSWORD&command=send&src=$SMS_SEND_SRC&destinations=$SMSGroup&body=$SMS_MESSAGE_Deploy_Asiatech&flash=0"
+  needs:
+    - job: deploy-asiatech
+  only:
+    - asiatech
 
 ###############################################################################################
 #########                                                                             #########
@@ -171,7 +217,6 @@ deploy-pro:
     - job: build
   retry: 2
   only:
-    - main
     - tags
   when: manual
 
@@ -183,5 +228,4 @@ deploy-pro-SMS:
   needs:
     - job: deploy-pro
   only:
-    - main
     - tags

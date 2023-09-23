@@ -10,18 +10,6 @@ ENV TZ=Asia/Tehran
 #RUN apt-get update
 #RUN apt-get install tzdata -y
 
-
-#Set BaseUrl
-ENV  NETFLOW=http://172.24.65.20:8091
-ENV  ADMIN_GATEWAY=http://172.24.65.20:9020
-ENV  IDP=https://cluster.tech1a.co
-ENV  ONLINE_TRADING=http://cluster.tech1a.co
-ENV FILE_SERVER=http://cluster.tech1a.co:9073
-ENV SEJAM_GATEWAY=http://cluster.tech1a.co:9072
-ENV  MARKETER_ADMIN=http://devmarketer-admin.tech1a.co
-ENV  MARKETER_CLIENT=https://devmarketer-api.tech1a.co
-
-
 # create & set working directory
 RUN mkdir -p /usr/src
 WORKDIR /usr/src
@@ -38,11 +26,11 @@ RUN yarn install
 
 # start app
 RUN yarn run build
-EXPOSE 3000
+EXPOSE 80
 
 #RUN rm -rf /usr/src/node_modules
 RUN yarn cache clean
 
 
 #Start App
-ENTRYPOINT /bin/bash -x ./entrypoint.sh SEJAM_GATEWAY=${SEJAM_GATEWAY} NETFLOW=${NETFLOW} ADMIN_GATEWAY=${ADMIN_GATEWAY} IDP=${IDP} ONLINE_TRADING=${ONLINE_TRADING} FILE_SERVER=${FILE_SERVER} MARKETER_ADMIN=${MARKETER_ADMIN} MARKETER_CLIENT=${MARKETER_CLIENT} && mv ./env-config.js ./public/static/assets/js && yarn start
+ENTRYPOINT /bin/bash -x ./entrypoint.sh && yarn start

@@ -3,56 +3,49 @@ const { publicRuntimeConfig: config } = getConfig();
 
 export const ONLINE_TRADING =
     typeof window !== "undefined"
-        ? window._env_.ONLINE_TRADING
-            ? window._env_.ONLINE_TRADING
-            : config.app.ONLINE_TRADING
-        : config.app.ONLINE_TRADING;
+        ? window._env_.OnlineTradingGatewayEndPoint
+            ? window._env_.OnlineTradingGatewayEndPoint
+            : config.app.OnlineTradingGatewayEndPoint
+        : config.app.OnlineTradingGatewayEndPoint;
 
 export const IDP =
     typeof window !== "undefined"
-        ? window._env_.IDP
-            ? window._env_.IDP
-            : config.app.IDP
-        : config.app.IDP;
+        ? window._env_.IdpEndPoint
+            ? window._env_.IdpEndPoint
+            : config.app.IdpEndPoint
+        : config.app.IdpEndPoint;
 
 export const NETFLOW =
     typeof window !== "undefined"
-        ? window._env_.NETFLOW
-            ? window._env_.NETFLOW
-            : config.app.NETFLOW
-        : config.app.NETFLOW;
+        ? window._env_.NetflowEndPoint
+            ? window._env_.NetflowEndPoint
+            : config.app.NetflowEndPoint
+        : config.app.NetflowEndPoint;
 
 export const ADMIN_GATEWAY =
     typeof window !== "undefined"
-        ? window._env_.ADMIN_GATEWAY
-            ? window._env_.ADMIN_GATEWAY
-            : config.app.ADMIN_GATEWAY
-        : config.app.ADMIN_GATEWAY;
+        ? window._env_.AdminGatewayEndPoint
+            ? window._env_.AdminGatewayEndPoint
+            : config.app.AdminGatewayEndPoint
+        : config.app.AdminGatewayEndPoint;
 
 export const FILE_SERVER =
     typeof window !== "undefined"
-        ? window._env_.FILE_SERVER
-            ? window._env_.FILE_SERVER
-            : config.app.FILE_SERVER
-        : config.app.FILE_SERVER;
+        ? window._env_.FileManagerEndPoint
+            ? window._env_.FileManagerEndPoint
+            : config.app.FileManagerEndPoint
+        : config.app.FileManagerEndPoint;
 
 export const MARKETER_ADMIN =
     typeof window !== "undefined"
-        ? window._env_.MARKETER_ADMIN
-            ? window._env_.MARKETER_ADMIN
-            : config.app.MARKETER_ADMIN
-        : config.app.MARKETER_ADMIN;
+        ? window._env_.MarketerAdminEndPoint
+            ? window._env_.MarketerAdminEndPoint
+            : config.app.MarketerAdminEndPoint
+        : config.app.MarketerAdminEndPoint;
 
 export const SEJAM_GATEWAY =
     typeof window !== "undefined"
-        ? window._env_.SEJAM_GATEWAY
-            ? window._env_.SEJAM_GATEWAY
-            : config.app.SEJAM_GATEWAY
-        : config.app.SEJAM_GATEWAY;
-
-export const MARKETER_CLIENT =
-    typeof window !== "undefined"
-        ? window._env_.MARKETER_CLIENT
-            ? window._env_.MARKETER_CLIENT
-            : config.app.MARKETER_CLIENT
-        : config.app.MARKETER_CLIENT;
+        ? window._env_.SejamGatewayEndPoint
+            ? window._env_.SejamGatewayEndPoint
+            : config.app.SejamGatewayEndPoint
+        : config.app.SejamGatewayEndPoint;
