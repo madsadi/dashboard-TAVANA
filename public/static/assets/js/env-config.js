@@ -1,12 +1,13 @@
 window._env_ = 
 {
-    //------------------- General Keys ----------------------------
+    //------------------- EndPoints ----------------------------
     "OnlineTradingGatewayEndPoint": "http://cluster.tech1a.co",
     "IdpEndPoint": "https://cluster.tech1a.co",
-    "IdpOauthEndPoint": "http://cluster.tech1a.co:8072",
     "JarchiEndPoint": "http://cluster.tech1a.co:8090",
     "CommissionStoreEndPoint": "http://cluster.tech1a.co:9007",
     "CommissionStoreRPCEndPoint": "http://cluster.tech1a.co:9076",
+    "NetFlowEndPoint": "http://cluster.tech1a.co:8091",
+    "NetFlowRPCEndPoint": "http://cluster.tech1a.co:8099",
     "AdminGatewayEndPoint": "http://cluster.tech1a.co:9020",
     "AdminPanelEndPoint": "http://cluster.tech1a.co:9021",
     "OnlineTradingWebEndPoint": "http://cluster.tech1a.co:9026",
@@ -18,8 +19,17 @@ window._env_ =
     "WalletEndPoint": "http://cluster.tech1a.co:9077",
     "StgMarketerEndPoint": "http://stgmarketer.tech1a.co",
     "MarketDataProviderEndPoint": "https://dev-mdp.tech1a.co",
-    "MarketDataProviderRPCEndPoint": "https://dev-mdp.tech1a.co",
-
+    "MarketDataProviderRPCEndPoint": "http://cluster.tech1a.co:9019",
+	"OrderMediatorRPCEndPoint": "http://cluster.tech1a.co:9027",
+	"OrderStoreRPCEndPoint": "http://cluster.tech1a.co:9028",
+	"WatchlistRPCEndPoint": "http://cluster.tech1a.co:9025",
+	"PortfolioRPCEndPoint": "http://cluster.tech1a.co:9033",
+	"BookBuildingRPCEndPoint": "http://cluster.tech1a.co:9023",
+	"OrderSwitchRPCEndPoint": "http://cluster.tech1a.co:9039",
+	"MarketRuleRPCEndPoint": "http://cluster.tech1a.co:9022",
+	"IdpUIEndPoint": "https://cluster.tech1a.co:8443",
+	"TbsEndPoint": "https://tbsapi.onlinetavana.ir/api",
+    "OnlineRegistrationEndPoint": "http://cluster.tech1a.co:9075",
     "SplunkHostEndPoint": "log.tech1a.co",
     "SplunkPort": 5141,
     "KafkaBootstrapServersEndPoint": "kafka.tech1a.co:29092",
@@ -27,23 +37,28 @@ window._env_ =
     "TavanaCaptchaVerificationEndPoint": "https://cluster.tech1a.co:8543/api/validate",
     "GoogleRecaptchaVerificationEndPoint": "https://www.google.com/recaptcha/api/siteverify",
     "GoogleRecaptchaServerKey": "6LeuUk8aAAAAAFjIwrWsSd0yIu5XUySlJ9hyeT38",
-
-    //------------------  Jarchi Keys ------------------------------
-    "JarchiConnectionString": "Server=172.24.34.11;Database=Jarchi;User Id=jarchi;Password=Jarchi@123456;",
-
-    //------------------  CustomerManagement Keys ------------------------------
-    "CustomerManagementConnectionString": "Data Source=172.24.34.11;Initial Catalog=CustomerRegistration;User Id=Customer_User;Password=C@123456;MultipleActiveResultSets=True;",
-    "TbsEndPoint": "https://tbsapi.onlinetavana.ir/api",
-    "OnlineRegistrationEndPoint": "http://cluster.tech1a.co:9075",
-
-    //------------------  Idp Keys ------------------------------
+    "CaptchaEndPoint": "https://cluster.tech1a.co:8543",
+	
+	//------------------- ConnectionStrings ----------------------------
+	"JarchiConnectionString": "Server=172.24.34.11;Database=Jarchi;User Id=jarchi;Password=Jarchi@123456;",
+	"CustomerManagementConnectionString": "Data Source=172.24.34.11;Initial Catalog=CustomerRegistration;User Id=Customer_User;Password=C@123456;MultipleActiveResultSets=True;",
     "IdpConnectionString": "Server=172.24.34.11;Database=Idp;User Id=Idp;Password=Idp@123456;",
-    "IdpUIEndPoint": "https://cluster.tech1a.co:8443",
-
-    //------------------  FileManager Keys ------------------------------
     "FileManagerConnectionString": "Server=172.24.34.11;Database=FileStream;uid=File_Stream;pwd=FS@123456;Integrated Security=False",
-
-    //------------------  CommissionStore Keys ------------------------------
-    "CommissionStoreConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_CommissionStore;User ID=comStoreUser;Password=Com@123456;MultipleActiveResultSets=True"
+	"CommissionStoreConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_CommissionStore;User ID=comStoreUser;Password=Com@123456;MultipleActiveResultSets=True",	
+	"BookBuildingConnectionString": "Data Source=172.24.34.11;Initial Catalog=dev_BookBuildingStore;User ID=oms;Password=Oms@123456;MultipleActiveResultSets=True",
+	"CashRequestConnectionString": "Data Source=172.30.70.11;Initial Catalog=Dev_CashRequest;User ID=CashRequestUser;Password=Cash@123456;MultipleActiveResultSets=True",
+	"IntradayPortfolioConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_PortfolioManagment;User ID=Portfolio;Password=HrxG+egWNdK&Hng(;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;TrustServerCertificate=True",
+	"IntradayPortfolioMongoConnectionString": "mongodb://root:Passw0rd@cluster.tech1a.co:27017",
+	"IpgTransactionConnectionString": "Server=172.30.70.11;Database=dev_IPGTransaction;uid=ipg;pwd=Ipg@123456;",
+	"MarketDataProviderConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_MarketData;User ID=MarketDataUser;Password=Market@123456;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;",
+	"MarketRuleStoreConnectionString": "Data Source=172.24.34.11;Initial Catalog=dev_MarketRuleStore;User ID=oms;Password=Oms@123456;MultipleActiveResultSets=True",
+	"NetFlowConnectionString": "server=172.24.34.11;database=Dev_NetFlow;uid=netFlowUser;pwd=NetFlow@123456;",
+	"OrderMediatorMongoConnectionString": "mongodb://root:Passw0rd@cluster.tech1a.co:27017",
+	"OrderSwitchRedisConnectionString": "172.24.65.13:16379,password=aK549l327v",
+	"TseTransmitterConnectionString": "Data Source=172.30.70.11;Initial Catalog=Dev_TSETransmitter;User ID=transmitterUser;Password=Transmitter@123456;MultipleActiveResultSets=True",
+	"WalletConnectionString": "Server=172.30.70.11;Database=Dev_CashFlow;uid=cfl;pwd=Cfl@123456;",
+	"WatchlistConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_Watchlist;User ID=WatchList_User;Password=Watchlist@1234;MultipleActiveResultSets=True;",
+            //------------------  Order Mediator Keys ------------------------------
+    "OrderMediatorSQLConnectionString":  "Data Source=172.24.34.11;Initial Catalog=Dev_OrderStore;User ID=oms;Password=Oms@123456;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;TrustServerCertificate=True"
 }
  ;

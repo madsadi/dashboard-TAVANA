@@ -2,11 +2,7 @@ import getConfig from "next/config";
 const { publicRuntimeConfig: config } = getConfig();
 
 export const ONLINE_TRADING =
-    typeof window !== "undefined"
-        ? window._env_.OnlineTradingGatewayEndPoint
-            ? window._env_.OnlineTradingGatewayEndPoint
-            : config.app.OnlineTradingGatewayEndPoint
-        : config.app.OnlineTradingGatewayEndPoint;
+    typeof window !== "undefined" ? window._env_.OnlineTradingGatewayEndPoint ? window._env_.OnlineTradingGatewayEndPoint : config.app.OnlineTradingGatewayEndPoint : config.app.OnlineTradingGatewayEndPoint;
 
 export const IDP =
     typeof window !== "undefined"
