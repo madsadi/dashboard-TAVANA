@@ -10,6 +10,7 @@ import DateCell from "components/common/table/date-cell";
 import { formatNumber } from "components/common/functions/common-funcions";
 import AssetSwitchToolbar from "components/asset-switch/asset-switch-toolbar";
 import { withPermission } from "components/common/layout/with-permission";
+import { AssetStatusEnums } from "constants/Enums";
 
 export const AssetSwitchContext = createContext({})
 function AssetSwitch() {
@@ -52,6 +53,11 @@ function AssetSwitch() {
         {
             field: 'status',
             headerName: 'وضعیت ',
+            valueFormatter: (rowData: any) => {
+                return (
+                    AssetStatusEnums.find((item: any) => item.id === rowData.data.status)?.title
+                )
+            },
         }, {
             field: 'description',
             headerName: 'توضیحات ',
@@ -59,6 +65,7 @@ function AssetSwitch() {
         {
             field: 'username',
             headerName: 'حساب کاربری',
+
         },
         {
             field: 'createDateTime',
@@ -151,4 +158,4 @@ function AssetSwitch() {
     )
 }
 
-export default withPermission(AssetSwitch,ModuleIdentifier.ASSET_SWITCH)
+export default withPermission(AssetSwitch, ModuleIdentifier.ASSET_SWITCH)

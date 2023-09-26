@@ -878,6 +878,39 @@ export const stationTypeEnum: any = [
     }
 ]
 
+export const AssetStatusEnums: any = [
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "Registered",
+        "title": "ثبت شده"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "Pending",
+        "title": "در حال بررسی"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "Accepted",
+        "title": "تایید شده"
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "Rejected",
+        "title": "رد شده"
+    },
+    {
+        "id": 5,
+        "code": 5,
+        "enTitle": "Canceled",
+        "title": "لغو شده"
+    }
+]
+
 export const bousreCodeType: any = [
     {
         "id": 1,

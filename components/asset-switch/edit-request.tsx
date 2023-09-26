@@ -12,7 +12,7 @@ import { AssetSwitchContext } from "pages/portfo/asset-switch";
 export default function EditRequest() {
     const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.ASSET_SWITCH, 'edit')
     const { fetchData, query: searchQuery, selectedRows } = useContext<any>(AssetSwitchContext)
-    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateAssetSwitch` })
+    const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateAssetSwitch`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)

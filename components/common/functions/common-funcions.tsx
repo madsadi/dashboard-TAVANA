@@ -1,6 +1,7 @@
 import moment from "jalali-moment";
 import {
     activeStatus,
+    AssetStatusEnums,
     bousreCodeType,
     CalculationBaseType,
     CalculationBaseTypeEnums,
@@ -154,7 +155,11 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
             return CoefficientBaseTypeEnums
         case 'Status':
         case 'status':
-            return StatusEnums
+            if (label === 'وضعیت تغییر کارگزاری') {
+                return AssetStatusEnums
+            } else {
+                return StatusEnums
+            }
         case 'UserType':
             return UserType
         case 'SortBy':

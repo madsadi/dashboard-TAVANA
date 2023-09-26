@@ -1650,7 +1650,7 @@ const filters: any = {
         { "title": "CustomerId", "name": "شناسه مشتری", "type": "input" },
         { "title": "UnqiueId", "name": "کد ملی مشتری", "type": "input" },
         { "title": "InstrumentId", "name": "تاریخ", "type": "search" },
-        { "title": "Status", "name": "وضعیت", "type": "selectInput" },
+        { "title": "Status", "name": "وضعیت تغییر کارگزاری", "type": "selectInput" },
         {
           "title": "UserId",
           "name": "حساب کاربری (کد ملی کاربر)",

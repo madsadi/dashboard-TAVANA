@@ -43,8 +43,6 @@ export default function EditMarketerContract() {
             })
     }
 
-    console.log(selectedRows, query);
-
     useEffect(() => {
         if (modal && selectedRows?.length) {
             let _initialValue: any = {};
