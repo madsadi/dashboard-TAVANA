@@ -45,7 +45,7 @@ const TBSComponent = () => {
 
     return (
         <Button label={'ثبت در تدبیر'}
-            className="!text-current border border-border mr-auto"
+            className="!text-current mr-auto"
             onClick={TbsHandler}
             loading={loading}
             allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Create'].join('.')] : []}

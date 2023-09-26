@@ -7,6 +7,7 @@ import { MARKETER_ADMIN } from "../../../../../api/constants";
 import { useSearchFilters } from "../../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../../common/functions/Module-Identifier";
 import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contract/[...contractId]";
+import { Button } from "components/common/components/button/button";
 
 export default function EditMarketerContractCoeffDetail() {
     const { coefficientFetch, coefficientSearchQuery, coefficientData } = useContext<any>(MarketerContractDetailContext)
@@ -34,8 +35,6 @@ export default function EditMarketerContractCoeffDetail() {
             })
     }
 
-    console.log(query);
-
     useEffect(() => {
         if (modal && coefficientData?.length) {
             let _initialValue: any = {};
@@ -55,9 +54,7 @@ export default function EditMarketerContractCoeffDetail() {
 
     return (
         <>
-            <button className={'button bg-secondary'} onClick={openHandler}>
-                ویرایش ضریب قرارداد بازاریاب
-            </button>
+            <Button className={'bg-secondary'} label="ویرایش ضریب قرارداد بازاریاب" onClick={openHandler} />
             <Modal title={'ویرایش ضریب قرارداد بازاریاب'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
@@ -75,13 +72,13 @@ export default function EditMarketerContractCoeffDetail() {
                             }
                         </div>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                            <button className="button bg-error"
+                            <Button className="bg-error"
+                                label="لغو"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     setModal(false)
-                                }}>لغو
-                            </button>
-                            <button type={"submit"} className="button bg-primary">تایید</button>
+                                }} />
+                            <Button type={"submit"} className="bg-primary" label="تایید" />
                         </div>
                     </form>
                 </div>

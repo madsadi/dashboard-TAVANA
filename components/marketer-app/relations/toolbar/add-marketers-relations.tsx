@@ -8,6 +8,7 @@ import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import { RelationsContext } from "../../../../pages/marketer-app/relations";
 import { DayRange } from "react-modern-calendar-datepicker";
+import { Button } from "components/common/components/button/button";
 
 export default function AddMarketersRelations() {
     const { fetchData, searchQuery } = useContext<any>(RelationsContext)
@@ -44,9 +45,7 @@ export default function AddMarketersRelations() {
 
     return (
         <>
-            <button className={'button bg-primary'} onClick={openHandler}>
-                ایجاد رابطه بین دو بازاریاب
-            </button>
+            <Button label="ایجاد رابطه بین دو بازاریاب" className={'bg-primary'} onClick={openHandler} />
             <Modal title={'ایجاد رابطه بین دو بازاریاب'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
@@ -66,13 +65,13 @@ export default function AddMarketersRelations() {
                             }
                         </div>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                            <button className="button bg-error"
+                            <Button className="bg-error"
+                                label="لغو"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     setModal(false)
-                                }}>لغو
-                            </button>
-                            <button type={"submit"} className="button bg-primary">تایید</button>
+                                }} />
+                            <Button type={"submit"} className="bg-primary" label="تایید" />
                         </div>
                     </form>
                 </div>

@@ -78,7 +78,7 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
                 renderFooter={() => {
                     return (
                         <div className="w-full flex !pb-5">
-                            <Button label="انتخاب تاریخ امروز" className="!mx-auto !px-2 !py-1 !text-current border border-border" onClick={selectTodayHandler} />
+                            <Button label="انتخاب تاریخ امروز" className="!mx-auto !px-2 !py-1 !text-current " onClick={selectTodayHandler} />
                         </div>
                     )
                 }}

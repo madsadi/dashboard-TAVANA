@@ -39,7 +39,7 @@ export default function AddNew() {
     return (
         <>
             <Button label={'نقش جدید'}
-                className="bg-primary"
+                className="bg-primary "
                 onClick={() => setModal(true)}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Create'].join('.')] : []}
             />

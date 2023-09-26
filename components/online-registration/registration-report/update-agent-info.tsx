@@ -85,7 +85,7 @@ export default function UpdateAgentInfo() {
     return (
         <>
             <Button label={'ویرایش وکیل/نماینده'}
-                className="bg-secondary"
+                className="bg-secondary "
                 onClick={openHandler}
                 allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Edit'].join('.')] : []}
             />

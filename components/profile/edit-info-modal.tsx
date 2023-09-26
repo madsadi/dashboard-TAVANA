@@ -5,6 +5,7 @@ import useMutation from "../../hooks/useMutation";
 import { IDP } from "../../api/constants";
 import { throwToast } from "../common/functions/notification";
 import useSWR, { useSWRConfig } from "swr";
+import { Button } from "components/common/components/button/button";
 
 const userInputs = [
     { title: 'userName', name: 'نام کاربری', type: 'input' },
@@ -65,17 +66,17 @@ export const EditInfoModal = ({ open, setOpen }: { open: boolean, setOpen: any }
                         }
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-error"
+                        <Button className="bg-error"
+                            label="لغو"
                             type={'button'}
                             onClick={(e) => {
                                 e.preventDefault()
                                 setOpen(false)
-                            }}>لغو
-                        </button>
-                        <button type={"submit"} className="button bg-primary">تایید</button>
+                            }} />
+                        <Button type={"submit"} className=" bg-primary" label="تایید" />
                     </div>
                 </form>
-            </div>
-        </Modal>
+            </div >
+        </Modal >
     )
 }

@@ -3,6 +3,7 @@ import { throwToast } from "../../common/functions/notification";
 import { MARKETER_ADMIN } from "../../../api/constants";
 import { MarketerContext } from "pages/marketer-app/marketers";
 import useQuery from "hooks/useQuery";
+import { Button } from "components/common/components/button/button";
 
 export default function GRPCSyncButton() {
     const { fetchData, searchQuery } = useContext<any>(MarketerContext)
@@ -19,8 +20,6 @@ export default function GRPCSyncButton() {
 
 
     return (
-        <button className={'button bg-primary'} onClick={openHandler}>
-            بروزرسانی بازاریاب ها
-        </button>
+        <Button className={'bg-primary'} label="بروزرسانی بازاریاب ها" onClick={openHandler} />
     )
 }

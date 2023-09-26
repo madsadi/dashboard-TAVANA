@@ -2,6 +2,7 @@ import React from "react";
 import useMutation from "../../../hooks/useMutation";
 import { NETFLOW } from "../../../api/constants";
 import { throwToast } from "../../common/functions/notification";
+import { Button } from "components/common/components/button/button";
 
 export default function NoDateBox({ api, title }: { api: string, title: string }) {
     const { mutate } = useMutation({ url: `${NETFLOW}${api}` })
@@ -17,7 +18,7 @@ export default function NoDateBox({ api, title }: { api: string, title: string }
     return (
         <div className={'bg-white p-2 rounded shadow-sm border border-border h-full'}>
             <label htmlFor="username1" className="block mb-3">{title}</label>
-            <button onClick={submitHandler} className="button bg-primary mt-10">بروزرسانی</button>
+            <Button onClick={submitHandler} className="bg-primary mt-10" label="بروزرسانی" />
         </div>
     )
 }

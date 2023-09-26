@@ -101,10 +101,10 @@ const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
         };
     }, []);
 
-    const onSelectionChanged = () => {
-        const selectedRows = gridRef.current?.api?.getSelectedRows();
+    const onSelectionChanged = (rowData: any) => {
+        const selectedRows = rowData.data
         let fields = ['bourseTitle', 'instrumentTypeTitle', 'sectorTitle', 'sectorTitle', 'subSectorTitle']
-        queryHandler({ CommissionInstrumentTypeId: selectedRows[0].id, CommissionInstrumentTypeTitle: fields.map((item: string) => { if (selectedRows[0][`${item}`]) { return selectedRows[0][`${item}`] } }).join('-') })
+        queryHandler({ CommissionInstrumentTypeId: selectedRows.id, CommissionInstrumentTypeTitle: fields.map((item: string) => { if (selectedRows[`${item}`]) { return selectedRows[`${item}`] } }).join('-') })
         setOpen(false)
     }
     return (
@@ -119,8 +119,8 @@ const InstrumentTypeResultModal = (props: CategoryResultModalTypes) => {
                         columnDefs={columnDefStructure}
                         defaultColDef={defaultColDef}
                         rowSelection={'single'}
-                        onSelectionChanged={onSelectionChanged}
-                    ></AgGridReact>
+                        onRowClicked={onSelectionChanged}
+                    />
                 </div>
             </div>
         </Modal>

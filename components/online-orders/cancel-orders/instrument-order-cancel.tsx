@@ -41,7 +41,7 @@ export default function InsOrderCancel() {
     return (
         <>
             <Button label={'حذف سفارش نماد'}
-                className="bg-error"
+                className="bg-error "
                 onClick={() => setModal(true)}
                 allowed={restriction ? [[service[1], modules[1][0], 'GlobalCancelOrderRequest'].join('.')] : []}
             />
@@ -58,11 +58,11 @@ export default function InsOrderCancel() {
                 </div>
                 <div className={'text-left space-x-2 space-x-reverse mt-4'}>
                     <Button label={'لغو'}
-                        className="bg-error"
+                        className="bg-error "
                         onClick={() => setModal(false)}
                     />
                     <Button label={'تایید'}
-                        className="bg-primary"
+                        className="bg-primary "
                         onClick={confirmInsRemoving}
                         loading={loading}
                     />

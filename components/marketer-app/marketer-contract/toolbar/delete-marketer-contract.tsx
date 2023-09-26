@@ -4,6 +4,7 @@ import { throwToast } from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
 import { MARKETER_ADMIN } from "../../../../api/constants";
 import { MarketerContractContext } from "pages/marketer-app/marketer-contract";
+import { Button } from "components/common/components/button/button";
 
 export default function DeleteMarketerContract() {
     const { selectedRows, setSelectedRows, fetchData, searchQuery } = useContext<any>(MarketerContractContext)
@@ -19,7 +20,7 @@ export default function DeleteMarketerContract() {
     }
     const submitHandler = async (e: any) => {
         e.preventDefault()
-        await mutate({}, { MarketerID: selectedRows[0].MarketerID })
+        await mutate({}, { ContractID: selectedRows[0].ContractID })
             .then((res) => {
                 throwToast({ type: 'success', value: `با موفقیت انجام شد` })
                 setModal(false)
@@ -31,21 +32,18 @@ export default function DeleteMarketerContract() {
 
     return (
         <>
-            <button className={'button bg-error'} onClick={openHandler}>
-                حذف قرارداد بازاریاب
-            </button>
+            <Button className={'bg-error'} label="حذف قرارداد بازاریاب" onClick={openHandler} />
             <Modal title={'حذف قرارداد بازاریاب'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
                     <p className={'text-center'}>آیا از حذف کردن این قرارداد اطمینان دارید؟</p>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-error"
+                        <Button label="لغو" className="bg-error"
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
-                            }}>لغو
-                        </button>
-                        <button type={"submit"} onClick={submitHandler} className="button bg-primary" >تایید</button>
+                            }} />
+                        <Button type={"submit"} onClick={submitHandler} className="bg-primary" label="تایید" />
                     </div>
                 </div>
             </Modal>

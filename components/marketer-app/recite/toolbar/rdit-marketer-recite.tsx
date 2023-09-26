@@ -10,6 +10,7 @@ import { RelationsContext } from "../../../../pages/marketer-app/relations";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { jalali } from "../../../common/functions/common-funcions";
 import { ReciteContext } from "../../../../pages/marketer-app/recite";
+import { Button } from "components/common/components/button/button";
 
 export default function EditMarketerRecite() {
     const { selectedRows, fetchData, searchQuery } = useContext<any>(ReciteContext)
@@ -66,9 +67,7 @@ export default function EditMarketerRecite() {
     }
     return (
         <>
-            <button className={'button bg-secondary'} onClick={openHandler}>
-                اصلاح کردن صورت حساب
-            </button>
+            <Button label="اصلاح کردن صورت حساب" className={'bg-secondary'} onClick={openHandler} />
             <Modal title={'اصلاح کردن صورت حساب'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
@@ -87,17 +86,17 @@ export default function EditMarketerRecite() {
                             }
                         </div>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                            <button className="button bg-error"
+                            <Button className="bg-error"
+                                label="لغو"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     setModal(false)
-                                }}>لغو
-                            </button>
-                            <button type={"submit"} className="button bg-primary" >تایید</button>
+                                }} />
+                            <Button type={"submit"} className="bg-primary" label="تایید" />
                         </div>
                     </form>
                 </div>
-            </Modal>
+            </Modal >
         </>
     )
 }

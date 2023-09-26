@@ -4,6 +4,7 @@ import { throwToast } from "../../../../common/functions/notification";
 import useMutation from "../../../../../hooks/useMutation";
 import { MARKETER_ADMIN } from "../../../../../api/constants";
 import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contract/[...contractId]";
+import { Button } from "components/common/components/button/button";
 
 export default function DeleteMarketerContractCoefDetail() {
     const { coefficientData, coefficientFetch, coefficientSearchQuery } = useContext<any>(MarketerContractDetailContext)
@@ -27,21 +28,19 @@ export default function DeleteMarketerContractCoefDetail() {
 
     return (
         <>
-            <button className={'button bg-error'} onClick={openHandler}>
-                حذف ضریب قرارداد بازاریاب
-            </button>
+            <Button className={'bg-error'} label="حذف ضریب قرارداد بازاریاب" onClick={openHandler} />
             <Modal title={'حذف ضریب قرارداد بازاریاب'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
                     <p className={'text-center'}>آیا از حذف کردن ضریب این قرارداد اطمینان دارید؟</p>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-error"
+                        <Button className="bg-error"
+                            label="لغو"
                             onClick={(e) => {
                                 e.preventDefault()
                                 setModal(false)
-                            }}>لغو
-                        </button>
-                        <button type={"submit"} onClick={submitHandler} className="button bg-primary" >تایید</button>
+                            }} />
+                        <Button type={"submit"} onClick={submitHandler} className="bg-primary" label="تایید" />
                     </div>
                 </div>
             </Modal>

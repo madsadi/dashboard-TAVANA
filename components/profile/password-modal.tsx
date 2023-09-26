@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import useMutation from "../../hooks/useMutation";
 import { IDP } from "../../api/constants";
 import { throwToast } from "../common/functions/notification";
+import { Button } from "components/common/components/button/button";
 
 const userInputs = [
     { title: 'currentPassword', name: 'رمز عبور', type: 'password' },
@@ -46,14 +47,14 @@ export const PasswordModal = ({ open, setOpen }: { open: boolean, setOpen: any }
                         }
                     </div>
                     <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                        <button className="button bg-error"
+                        <Button className=" bg-error"
+                            label="لغو"
                             type={'button'}
                             onClick={(e) => {
                                 e.preventDefault()
                                 setOpen(false)
-                            }}>لغو
-                        </button>
-                        <button type={"submit"} className="button bg-primary">تایید</button>
+                            }} />
+                        <Button type={"submit"} className="bg-primary" label="تایید" />
                     </div>
                 </form>
             </div>

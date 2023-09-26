@@ -8,7 +8,8 @@ import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import { DayRange } from "react-modern-calendar-datepicker";
 import { MarketerContractContext } from "pages/marketer-app/marketer-contract";
-import { jalali } from "components/common/functions/common-funcions";
+import { FindEnum, jalali } from "components/common/functions/common-funcions";
+import { Button } from "components/common/components/button/button";
 
 export default function EditMarketerContract() {
     const { fetchData, searchQuery, selectedRows } = useContext<any>(MarketerContractContext)
@@ -42,12 +43,15 @@ export default function EditMarketerContract() {
             })
     }
 
+    console.log(selectedRows, query);
 
     useEffect(() => {
         if (modal && selectedRows?.length) {
             let _initialValue: any = {};
             toolbar.map((item: any) => {
-                if (item.name !== 'date') {
+                if (item.type === 'selectInput') {
+                    _initialValue[`${item.title}`] = FindEnum(item.title, [], item.label).find((e: any) => e.title === selectedRows[0][`${item.title}`]).id
+                } else if (item.name !== 'date') {
                     _initialValue[`${item.title}`] = selectedRows[0][`${item.title}`]
                 }
             })
@@ -83,9 +87,7 @@ export default function EditMarketerContract() {
 
     return (
         <>
-            <button className={'button bg-secondary'} onClick={openHandler}>
-                ویرایش قرارداد بازاریاب
-            </button>
+            <Button className={'bg-secondary'} label="ویرایش قرارداد بازاریاب" onClick={openHandler} />
             <Modal title={'ویرایش قرارداد بازاریاب'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
@@ -105,13 +107,13 @@ export default function EditMarketerContract() {
                             }
                         </div>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>
-                            <button className="button bg-error"
+                            <Button className="bg-error"
+                                label="لغو"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     setModal(false)
-                                }}>لغو
-                            </button>
-                            <button type={"submit"} className="button bg-primary">تایید</button>
+                                }} />
+                            <Button type={"submit"} className="bg-primary" label="تایید" />
                         </div>
                     </form>
                 </div>

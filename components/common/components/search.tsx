@@ -1,5 +1,5 @@
 import InputComponent from "./input-generator";
-import React, { forwardRef, useEffect, useImperativeHandle, useState, FormEventHandler } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState, memo } from "react";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import moment from "jalali-moment";
@@ -70,7 +70,7 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
             </div>
             <div className={'flex space-x-3 space-x-reverse mr-auto mt-10 h-fit ' + extraClassName}>
                 <Button label={'لغو فیلتر ها'}
-                    className=" bg-error h-fit"
+                    className=" bg-error h-fit "
                     type="reset"
                     onClick={(e) => {
                         e.preventDefault()
@@ -79,7 +79,7 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
                     }}
                 />
                 <Button label={'جستجو'}
-                    className="bg-primary h-fit relative"
+                    className="bg-primary h-fit relative "
                     type={'submit'}
                     disabled={loading}
                     loading={loading}
@@ -90,5 +90,5 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
     )
 })
 
-export default SearchComponent;
+export default memo(SearchComponent);
 SearchComponent.displayName = 'SearchComponent';

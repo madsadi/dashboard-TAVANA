@@ -51,7 +51,7 @@ export default function OrdersCancel() {
     return (
         <>
             <Button label={'لغو سفارش'}
-                className="bg-error"
+                className="bg-error "
                 onClick={openModalHandler}
                 allowed={restriction ? [[service[1], modules?.[1]?.[0], 'CancelUserOrder'].join('.')] : []}
             />

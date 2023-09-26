@@ -17,6 +17,7 @@ import { PasswordModal } from "./password-modal";
 import { ChangeMobileNumber } from "./change-mobile-number";
 import useSWR from "swr";
 import { SwitchToggle } from "../common/components/button/switch-toggle";
+import { Button } from "components/common/components/button/button";
 
 export default function UserInfo() {
     const { data } = useSWR({ url: `${IDP}/api/users/GetCurrentUserInfo` }, { revalidateOnMount: true })
@@ -90,12 +91,10 @@ export default function UserInfo() {
                     )
                 })}
             </div>
-            <button className={'button bg-secondary m-2 mx-4'} onClick={() => setOpen(true)}>
-                ویرایش حساب کاربری
-            </button>
-            <button className={'button bg-primary'} onClick={() => setPasswordModal(true)}>
-                تغییر رمز عبور
-            </button>
+            <div className="flex items-center px-4 py-2 space-x-4 space-x-reverse">
+                <Button className={' bg-secondary'} label="ویرایش حساب کاربری" onClick={() => setOpen(true)} />
+                <Button className={' bg-primary'} label="تغییر رمز عبور" onClick={() => setPasswordModal(true)} />
+            </div>
             <PasswordModal setOpen={setPasswordModal} open={passwordModal} />
             <EditInfoModal setOpen={setOpen} open={open} />
         </div>

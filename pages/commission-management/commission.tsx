@@ -379,4 +379,4 @@ function Commission() {
     )
 }
 
-export default withPermission(Commission,ModuleIdentifier.COMMISSION_MANAGEMENT_detail)
+export default withPermission(Commission, ModuleIdentifier.COMMISSION_MANAGEMENT_detail)
