@@ -10,7 +10,7 @@ import { Button } from "../common/components/button/button";
 import { AssetSwitchContext } from "pages/portfo/asset-switch";
 
 export default function EditRequest() {
-    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.ASSET_SWITCH, 'edit')
+    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.PORTFO_asset_switch_request, 'edit')
     const { fetchData, query: searchQuery, selectedRows } = useContext<any>(AssetSwitchContext)
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/UpdateAssetSwitch`, method: "PUT" })
     const [modal, setModal] = useState(false)
@@ -20,19 +20,15 @@ export default function EditRequest() {
     const editHandler = async (e: any) => {
         e.preventDefault()
         setLoading(true)
-        {
-            selectedRows.map((row: any) => {
-                mutate({ id: row.id, status: row?.status, description: row?.description })
-                    .then(() => {
-                        throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
-                        setModal(false)
-                        setQuery({})
-                        fetchData(searchQuery)
-                    })
-                    .catch((err) => throwToast({ type: 'error', value: err }))
+        mutate({ id: selectedRows[0].id, status: query?.status, description: query?.description })
+            .then(() => {
+                throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
+                setModal(false)
+                setQuery({})
+                fetchData(searchQuery)
             })
-            setLoading(false)
-        }
+            .catch((err) => throwToast({ type: 'error', value: err }))
+        setLoading(false)
     }
 
     const openHandler = () => {
@@ -45,8 +41,8 @@ export default function EditRequest() {
 
     useEffect(() => {
         if (modal && selectedRows.length === 1) {
-            let { status, description, tradingCode, uniqueId, title, bourseCode, instrumentId, faInsCode, faInsName } = selectedRows[0]
-            setQuery({ description, status, tradingCode, uniqueId, title, bourseCode, instrumentId, faInsCode, faInsName })
+            let { status, description } = selectedRows[0]
+            setQuery({ description, status })
         }
     }, [modal])
 

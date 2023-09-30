@@ -135,17 +135,17 @@ function AssetSwitch() {
         <AssetSwitchContext.Provider value={{ selectedRows, fetchData, query }}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.ASSET_SWITCH} />
+                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.PORTFO_asset_switch_request} />
                 </AccordionComponent>
                 <AssetSwitchToolbar />
                 <TableComponent data={data?.result?.pagedData}
-                    module={ModuleIdentifier.ASSET_SWITCH}
+                    module={ModuleIdentifier.PORTFO_asset_switch_request}
                     loading={loading}
                     columnDefStructure={columnDefStructure}
                     detailCellRendererParams={detailCellRendererParams}
                     rowId={['customerId', 'instrumentId']}
                     pagination={true}
-                    rowSelection={'multiple'}
+                    rowSelection={'single'}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     masterDetail={true}
@@ -158,4 +158,4 @@ function AssetSwitch() {
     )
 }
 
-export default withPermission(AssetSwitch, ModuleIdentifier.ASSET_SWITCH)
+export default withPermission(AssetSwitch, ModuleIdentifier.PORTFO_asset_switch_request)

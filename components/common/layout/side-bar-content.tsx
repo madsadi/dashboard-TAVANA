@@ -184,7 +184,7 @@ export default function SideBarContent() {
                     url: '/marketer-app/relations',
                     as: '/marketer-app/relations',
                     className: router.pathname === '/marketer-app/relations' ? 'sideBarActive' : '',
-                    module: ModuleIdentifier.MARKETER_APP_RELATIONS,
+                    module: ModuleIdentifier.MARKETER_APP_relations,
                 },
                 {
                     label: 'گزارش صورتحسابهای بازاریاب',
@@ -206,6 +206,13 @@ export default function SideBarContent() {
                     as: '/marketer-app/marketer-contract',
                     className: router.pathname === '/marketer-app/marketer-contract' ? 'sideBarActive' : '',
                     module: ModuleIdentifier.MARKETER_APP_marketerContract,
+                },
+                {
+                    label: 'گزارش مغایرت بازاریاب',
+                    url: '/marketer-app/reconcilation',
+                    as: '/marketer-app/reconcilation',
+                    className: router.pathname === '/marketer-app/reconcilation' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.MARKETER_APP_reconcilation,
                 }
             ],
         },
@@ -218,14 +225,34 @@ export default function SideBarContent() {
                     url: '/portfo/live-portfo',
                     as: '/portfo/live-portfo',
                     className: router.pathname === '/portfo/live-portfo' ? 'sideBarActive' : '',
-                    module: ModuleIdentifier.LIVE_PORTFO,
+                    module: ModuleIdentifier.PORTFO_live,
                 },
                 {
-                    label: 'گزارش تغییر ناظر',
+                    label: 'درخواست تغییر ناظر',
                     url: '/portfo/asset-switch',
                     as: '/portfo/asset-switch',
                     className: router.pathname === '/portfo/asset-switch' ? 'sideBarActive' : '',
-                    module: ModuleIdentifier.ASSET_SWITCH,
+                    module: ModuleIdentifier.PORTFO_asset_switch_request,
+                }
+            ],
+        },
+        {
+            label: 'پرتفو سپرده گذاری',
+            expanded: router.pathname.startsWith('/csdi-portfo'),
+            children: [
+                {
+                    label: 'گزارش تغییر ناظر',
+                    url: '/csdi-portfo/asset-switch-report',
+                    as: '/csdi-portfo/asset-switch-report',
+                    className: router.pathname === '/csdi-portfo/asset-switch-report' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CSDI_PORTFO_asset_switch_report,
+                },
+                {
+                    label: 'گزارش تغییر پورتفوی سپرده گذاری',
+                    url: '/csdi-portfo/switch-report',
+                    as: '/csdi-portfo/switch-report',
+                    className: router.pathname === '/csdi-portfo/switch-report' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CSDI_PORTFO_switch_report,
                 }
             ],
         },

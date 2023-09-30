@@ -13,7 +13,7 @@ import { Button } from "components/common/components/button/button";
 
 export default function EditMarketersRelations() {
     const { selectedRows, fetchData, searchQuery, setSelectedRows } = useContext<any>(RelationsContext)
-    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS, 'edit')
+    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_relations, 'edit')
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-relation/modify`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})

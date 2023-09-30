@@ -552,12 +552,45 @@ export const personTypeEnums = [
         "enTitle": "LegalPerson",
         "title": "حقوقی"
     },
-    // {
-    //     "id": 3,
-    //     "code": 3,
-    //     "enTitle": "PrivatePortfolio",
-    //     "title": "سبد اختصاصی"
-    // }
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "Both",
+        "title": "هر دو"
+    }
+]
+
+export const changeTypeEnums = [
+    {
+        "id": 0,
+        "code": 0,
+        "enTitle": "UnKnown",
+        "title": "نامشخص"
+    },
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "Buy",
+        "title": "خرید"
+    },
+    {
+        "id": 2,
+        "code": 2,
+        "enTitle": "Sell",
+        "title": "فروش"
+    },
+    {
+        "id": 3,
+        "code": 3,
+        "enTitle": "SwitchIn",
+        "title": "ورود سهام با تغییر ناظر"
+    },
+    {
+        "id": 4,
+        "code": 4,
+        "enTitle": "SwitchOut",
+        "title": "خروج سهام با تغییر ناظر"
+    }
 ]
 export const personOriginEnums = [
     {

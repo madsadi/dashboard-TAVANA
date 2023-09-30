@@ -6,6 +6,7 @@ import {
     CalculationBaseType,
     CalculationBaseTypeEnums,
     category,
+    changeTypeEnums,
     CoefficientBaseTypeEnums,
     ContractTypeEnums,
     Hours,
@@ -116,7 +117,10 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
         case 'orderOrigin':
             return orderOrigin
         case 'personType':
+        case 'PersonType':
             return personTypeEnums
+        case "ChangeType":
+            return changeTypeEnums
         case 'personOrigin':
             return personOriginEnums
         case 'subsidiaryTypeCode':

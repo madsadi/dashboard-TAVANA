@@ -12,7 +12,7 @@ import { Button } from "components/common/components/button/button";
 
 export default function AddMarketersRelations() {
     const { fetchData, searchQuery } = useContext<any>(RelationsContext)
-    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_RELATIONS, 'add')
+    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_relations, 'add')
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-relation/add` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})

@@ -62,7 +62,11 @@ export default function BreadCrumbComponent() {
         "sub-users": 'زیر مجموعه ها',
         "marketers": 'بازارایاب ها',
         "marketer-contract": 'قرارداد بازاریاب ',
-        "asset-switch": 'گزارش تغییر ناظر'
+        "asset-switch": 'درخواست تغییر ناظر',
+        "reconcilation": 'گزارش مغایرت بازاریاب',
+        "csdi-portfo": "پرتفو سپرده گذاری",
+        "asset-switch-report": "گزارش تغییر ناظر",
+        "switch-report": "گزارش تغییر پورتفوی سپرده گذاری"
     }
 
     useEffect(() => {

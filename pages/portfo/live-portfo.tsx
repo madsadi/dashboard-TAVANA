@@ -57,7 +57,7 @@ function LivePortfo() {
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.LIVE_PORTFO} />
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.PORTFO_live} />
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
                 loading={loading}
@@ -75,4 +75,4 @@ function LivePortfo() {
     )
 }
 
-export default withPermission(LivePortfo,ModuleIdentifier.LIVE_PORTFO)
+export default withPermission(LivePortfo, ModuleIdentifier.PORTFO_live)

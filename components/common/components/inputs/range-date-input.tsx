@@ -1,7 +1,7 @@
 import DatePicker from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import React, { Dispatch } from "react";
-import { XCircleIcon } from "@heroicons/react/20/solid";
+import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import { dateRangeHandler } from "../../functions/common-funcions";
 import { DayRange } from "react-modern-calendar-datepicker";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
@@ -16,12 +16,16 @@ interface BaseInputPropsType {
 }
 export const RangeDateInput = (props: BaseInputPropsType) => {
     const { item, query, setQuery, setSelectedDayRange, selectedDayRange } = props;
-    const { name } = item
+    const { name, isRequired } = item
 
     const renderCustomInput = ({ ref }: { ref: any }) => (
         <div>
             <label className={'flex items-center text-sm'} htmlFor="rangeDate">
                 {name}
+                {isRequired ? <span className={'min-w-5 mr-2'}>
+                    <ExclamationCircleIcon
+                        className={'h-4 w-4 text-red-500'} />
+                </span> : null}
                 {query?.['StartDate'] || query?.['EndDate'] ?
                     <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
                         if (setQuery) {

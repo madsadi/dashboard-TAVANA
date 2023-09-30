@@ -11,7 +11,7 @@ import { useContext, useState } from "react"
 
 
 export const CreateRequest = () => {
-    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.ASSET_SWITCH, 'add')
+    const { toolbar, service, modules, restriction } = useSearchFilters(ModuleIdentifier.PORTFO_asset_switch_request, 'add')
     const { fetchData, query: searchQuery } = useContext<any>(AssetSwitchContext)
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/AssetSwitchRequest` })
     const [modal, setModal] = useState<boolean>(false)

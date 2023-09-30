@@ -7,40 +7,36 @@ import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/date-cell";
-import RelationToolbar from "../../components/marketer-app/relations/toolbar/relation-toolbar";
 import { withPermission } from "components/common/layout/with-permission";
 
-export const RelationsContext = createContext({})
-function Relations() {
-    const [selectedRows, setSelectedRows] = useState<any>([])
-
+function Reconcilation() {
     const columnDefStructure: any = [
         {
-            headerCheckboxSelection: true,
-            checkboxSelection: true,
-            showDisabledCheckboxes: true,
-            headerCheckboxSelectionFilteredOnly: true,
-            resizable: false,
-            minWidth: 40,
-            maxWidth: 40,
-        },
-        {
-            field: 'LeaderMarketerID',
-            headerName: 'شناسه بازاریاب',
+            field: 'MarketerFirstName',
+            headerName: 'نام بازاریاب',
             cellRenderer: 'agGroupCellRenderer',
         },
         {
-            field: 'FollowerMarketerName',
-            headerName: ' نام و نام خانوادگی بازاریاب زیر گروه',
+            field: 'MarketerLastNAme',
+            headerName: 'نام خانوادگی بازاریاب',
         },
         {
-            field: 'LeaderMarketerName',
-            headerName: 'نام و نام خانوادگی بازاریاب سرگروه',
+            field: 'TradeSide',
+            headerName: 'سمت معامله',
+        },
+        {
+            field: 'TradeCount',
+            headerName: 'تعداد معاملات نرم افزار بازاریاب',
+        },
+        {
+            field: 'TradeDate',
+            headerName: 'تاریخ معامله',
         }
     ]
+
     const {
         data, fetchData, query: searchQuery, loading
-    }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer-relation/search` })
+    }: any = useQuery({ url: `${MARKETER_ADMIN}/reconciliation` })
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -111,24 +107,18 @@ function Relations() {
     }, []);
 
     return (
-        <RelationsContext.Provider value={{ selectedRows, setSelectedRows, fetchData, searchQuery, data }}>
-            <div className={'flex flex-col h-full flex-1'}>
-                <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_relations} />
-                </AccordionComponent>
-                <RelationToolbar />
-                <TableComponent data={data?.result?.pagedData}
-                    columnDefStructure={columnDefStructure}
-                    setSelectedRows={setSelectedRows}
-                    selectedRows={selectedRows}
-                    rowSelection={'multiple'}
-                    rowId={['LeaderMarketerID', 'FollowerMarketerID']}
-                    detailCellRendererParams={detailCellRendererParams}
-                    masterDetail={true}
-                />
-            </div>
-        </RelationsContext.Provider>
+        <div className={'flex flex-col h-full flex-1'}>
+            <AccordionComponent>
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_reconcilation} />
+            </AccordionComponent>
+            <TableComponent data={data?.result?.pagedData}
+                columnDefStructure={columnDefStructure}
+                rowId={['MarketerID']}
+                detailCellRendererParams={detailCellRendererParams}
+                masterDetail={true}
+            />
+        </div>
     )
 }
 
-export default withPermission(Relations, ModuleIdentifier.MARKETER_APP_relations)
+export default withPermission(Reconcilation, ModuleIdentifier.MARKETER_APP_reconcilation)

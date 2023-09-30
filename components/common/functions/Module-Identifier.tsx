@@ -18,7 +18,7 @@ export const ModuleIdentifier: any = {
     ONLINE_ORDERS: 'online-orders',
     ONLINE_TRADES: 'online-trades',
     ONLINE_CANCEL: 'online-cancel',
-    LIVE_PORTFO: 'live-portfo',
+    PORTFO_live: 'portfo_live',
     OMS_session: 'oms-session',
     OMS_timetable: 'oms-timetable',
     MARKET_RULES_MANAGEMENT: "market-rules-management",
@@ -31,11 +31,14 @@ export const ModuleIdentifier: any = {
     NETFLOW_cleared_trade: "netflow_cleared_trade",
     NETFLOW_clearing_Range: "netflow_clearing_Range",
     NETFLOW_information: "netflow_information",
-    MARKETER_APP_RELATIONS: "marketer-app_relations",
+    MARKETER_APP_relations: "marketer-app_relations",
     MARKETER_APP_recite: "marketer-app_recite",
     MARKETER_APP_subusers: "marketer-app_subusers",
     MARKETER_APP_marketerContract: "marketer-app_marketerContract",
     MARKETER_APP_marketers: "marketer-app_marketers",
     MARKETER_APP_marketerContract_detail: "marketer-app_marketerContract_detail",
-    ASSET_SWITCH: "asset-switch"
+    MARKETER_APP_reconcilation: "marketer-app_reconcilation",
+    PORTFO_asset_switch_request: "portfo-asset-switch-request",
+    CSDI_PORTFO_asset_switch_report: "csdi-portfo_asset_switch_report",
+    CSDI_PORTFO_switch_report: "csdi-portfo_switch_report"
 }

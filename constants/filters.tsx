@@ -826,7 +826,7 @@ const filters: any = {
       ]
     }
   },
-  "live-portfo": {
+  "portfo_live": {
     services: {},
     "search": {
       "filters": [
@@ -1545,10 +1545,10 @@ const filters: any = {
           "name": "حساب کاربری (کد ملی کاربر)",
           "type": "dynamicSearch",
           "initialValue": "",
-          "endpoint": `${MARKETER_ADMIN}/marketer/search`,
-          "valueField": ["TbsReagentName"],
-          "queryField": "UniqueId",
-          "recordField": "MarketerID",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id"
         },
         { "title": "ID", "name": "شناسه قرارداد", "type": "input" },
         { "title": "CalculationBaseType", "name": "نوع محاسابات", "type": "selectInput" },
@@ -1579,10 +1579,10 @@ const filters: any = {
           "name": "حساب کاربری (کد ملی کاربر)",
           "type": "dynamicSearch",
           "initialValue": "",
-          "endpoint": `${MARKETER_ADMIN}/marketer/search`,
-          "valueField": ["TbsReagentName"],
-          "queryField": "UniqueId",
-          "recordField": "MarketerID",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id"
         },
         { "title": "CalculationBaseType", "name": "نوع پایه محاسبه", "type": "selectInput" },
         { "title": "CoefficientBaseType", "name": "نوع ضریب پایه ", "type": "selectInput" },
@@ -1641,7 +1641,30 @@ const filters: any = {
       ],
     },
   },
-  "asset-switch": {
+  "marketer-app_reconcilation": {
+    services: {},
+    "search": {
+      "filters": [
+        {
+          "title": "MarketerID",
+          "name": "حساب کاربری (کد ملی کاربر)",
+          "type": "dynamicSearch",
+          "initialValue": "",
+          "endpoint": `${IDP}/api/users/SearchUserAccount`,
+          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
+          "queryField": "NationalId",
+          "recordField": "id"
+        },
+        { "title": "date", "name": "تاریخ معامله", "type": "date" },
+      ],
+      "initialValue": {
+        "MarketerID": '',
+        "StartDate": null,
+        "EndDate": null,
+      }
+    },
+  },
+  "portfo-asset-switch-request": {
     services: {},
     "search": {
       "filters": [
@@ -1684,16 +1707,61 @@ const filters: any = {
       "edit": [
         { "title": "status", "name": "وضعیت", "type": "selectInput", "initialValue": null },
         { "title": "description", "name": "توضیحات", "type": "input" },
-        { "title": "tradingCode", "name": "کد معاملاتی", "type": "input", "readOnly": true },
-        { "title": "uniqueId", "name": " کد ملی", "type": "input", "readOnly": true },
-        { "title": "title", "name": "عنوان مشتری", "type": "input", "readOnly": true },
-        { "title": "bourseCode", "name": "کد بورسی", "type": "input", "readOnly": true },
-        { "title": "instrumentId", "name": "شناسه نماد", "type": "input", "readOnly": true },
-        { "title": "faInsCode", "name": "نماد ", "type": "input", "readOnly": true },
-        { "title": "faInsName", "name": "شرکت ", "type": "input", "readOnly": true },
       ]
     }
 
+  },
+  "csdi-portfo_asset_switch_report": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
+        { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
+        { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
+        { "title": "PersonType", "name": "حقیقی/حقوقی", "type": "selectInput" },
+        { "title": "ChangeType", "name": "نوع تغییر", "type": "selectInput" },
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": '',
+        "EndDate": '',
+        "TradingCode": '',
+        "BourseCode": null,
+        "InstrumentId": "",
+        "PersonType": "",
+        "ChangeType": "",
+      }
+    }
+  },
+  "csdi-portfo_switch_report": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
+        { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
+        { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
+        { "title": "PersonType", "name": "حقیقی/حقوقی", "type": "selectInput" },
+        { "title": "ChangeType", "name": "نوع تغییر", "type": "selectInput" },
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": '',
+        "EndDate": '',
+        "TradingCode": '',
+        "BourseCode": null,
+        "InstrumentId": "",
+        "PersonType": "",
+        "ChangeType": "",
+      }
+    }
   }
 }
 
