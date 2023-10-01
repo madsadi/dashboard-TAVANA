@@ -152,7 +152,7 @@ const CategoryResultModal = (props: CategoryResultModalTypes) => {
                         infiniteInitialRowCount={10}
                         maxBlocksInCache={100}
                         onGridReady={onGridReady}
-                    ></AgGridReact>
+                    />
                 </div>
             </div>
         </Modal>
