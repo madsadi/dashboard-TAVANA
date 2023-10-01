@@ -26,7 +26,7 @@ export default function TablePagination({
 }: { query: any, onSubmit: Function, totalCount: number, module: string, exportExcel: () => void }) {
 
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
-    const [pageQuery, setPageQuery] = useState({ PageSize: 20, PageNumber: 1 })
+    const [pageQuery, setPageQuery] = useState({ PageSize: query?.PageSize || 20, PageNumber: 1 })
     const { service, modules, restriction } = useSearchFilters(module)
 
     const sizes = [10, 20, 50, 100, 200, 300, 400, 500, 1000]

@@ -39,6 +39,8 @@ export const ModuleIdentifier: any = {
     MARKETER_APP_marketerContract_detail: "marketer-app_marketerContract_detail",
     MARKETER_APP_reconcilation: "marketer-app_reconcilation",
     PORTFO_asset_switch_request: "portfo-asset-switch-request",
+    CSDI_PORTFO: "csdi-portfo",
     CSDI_PORTFO_asset_switch_report: "csdi-portfo_asset_switch_report",
-    CSDI_PORTFO_switch_report: "csdi-portfo_switch_report"
+    CSDI_PORTFO_switch_report: "csdi-portfo_switch_report",
+    CSDI_PORTFO_comparison: "csdi-portfo_comparison",
 }

@@ -1720,7 +1720,7 @@ const filters: any = {
         { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
         { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
-        { "title": "PersonType", "name": "حقیقی/حقوقی", "type": "selectInput" },
+        { "title": "CustomerType", "name": "حقیقی/حقوقی", "type": "selectInput" },
         { "title": "ChangeType", "name": "نوع تغییر", "type": "selectInput" },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
       ],
@@ -1746,7 +1746,7 @@ const filters: any = {
         { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
         { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
-        { "title": "PersonType", "name": "حقیقی/حقوقی", "type": "selectInput" },
+        { "title": "CustomerType", "name": "حقیقی/حقوقی", "type": "selectInput" },
         { "title": "ChangeType", "name": "نوع تغییر", "type": "selectInput" },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
       ],
@@ -1760,6 +1760,52 @@ const filters: any = {
         "InstrumentId": "",
         "PersonType": "",
         "ChangeType": "",
+      }
+    }
+  },
+  "csdi-portfo": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
+        { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
+        { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
+        { "title": "CustomerType", "name": "حقیقی/حقوقی", "type": "selectInput" },
+        { "title": "Date", "name": "تاریخ", "type": "singleDate" },
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": '',
+        "EndDate": '',
+        "TradingCode": '',
+        "BourseCode": null,
+        "InstrumentId": "",
+        "PersonType": "",
+        "ChangeType": "",
+      }
+    }
+  },
+  "csdi-portfo_comparison": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input", "isRequired": true },
+        { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
+        { "title": "DateFirst", "name": " تاریخ اول", "type": "singleDate", "isRequired": true },
+        { "title": "DateSecond", "name": "تاریخ دوم", "type": "singleDate", "isRequired": true },
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": '',
+        "EndDate": '',
+        "TradingCode": '',
+        "BourseCode": null,
       }
     }
   }

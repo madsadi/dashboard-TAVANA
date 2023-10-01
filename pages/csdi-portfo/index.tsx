@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/search'));
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
+import TableComponent from '../../components/common/table/table-component'
 const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "components/common/table/date-cell";
-import { withPermission } from "components/common/layout/with-permission";
 import { changeTypeEnums, customerTypeEnums } from "constants/Enums";
+import CSDIPortfoToolbar from "components/csdi-portfo/csdi-portfo-toolbar";
+import { withPermission } from "components/common/layout/with-permission";
 
-function AssetSwitchReport() {
+function CSDIPortfo() {
     const columnDefStructure = [
         {
             field: 'tradingCode',
@@ -49,6 +50,24 @@ function AssetSwitchReport() {
             },
         },
         {
+            field: 'lastPrice',
+            headerName: 'قیمت آخرین  معامله',
+        },
+        {
+            field: 'closingPrice',
+            headerName: 'قیمت پایانی',
+            hide: true,
+        },
+        {
+            field: 'netValuebyClosingPrice ',
+            headerName: 'خالص ارزش فروش با قیمت پایانی',
+            hide: true,
+        },
+        {
+            field: 'netValuebyLastPrice ',
+            headerName: 'خالص ارزش فروش با قیمت  آخرین معامله',
+        },
+        {
             field: 'shareChange',
             headerName: 'تعداد تغییر ',
         },
@@ -57,21 +76,17 @@ function AssetSwitchReport() {
             headerName: 'تعداد مانده ',
         },
         {
-            field: 'changeTypeCode',
-            headerName: 'کد نوع تغییر',
-        },
-        {
             field: 'changeType',
             headerName: 'نوع تغییر',
-            cellClassRules: {
-                // out of range style
-                'text-emerald-500': (rowData: any) => rowData.data.changeType === 3,
-                'text-rose-500': (rowData: any) => rowData.data.changeType === 4,
-            },
             valueFormatter: (rowData: any) => {
-                return (
-                    changeTypeEnums.find((item) => item.id === rowData.data.changeType)?.title
-                )
+                return changeTypeEnums.find((item) => item.id === rowData.data.changeType)?.title
+            },
+        },
+        {
+            field: 'isFreezed',
+            headerName: 'سهم های فریز شده',
+            valueFormatter: (rowData: any) => {
+                return rowData.data.isFreezed ? 'فریز' : 'آزاد'
             },
         },
         {
@@ -80,7 +95,7 @@ function AssetSwitchReport() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <DateCell date={rowData.data.effectiveDate} />
+                        <DateCell date={rowData.data.effectiveDate} hideTime={true} />
                     )
                 };
                 const moodDetails = {
@@ -90,15 +105,25 @@ function AssetSwitchReport() {
             },
         }
     ]
-    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCustomerAssetSwitch` })
+    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetHistoricalCustomerPortfolio` })
+    const ref: any = useRef()
+
+    const findColId = (keyword: string, visible: boolean) => {
+        const colsss = ref.current?.getTableColumns()
+
+        ref.current?.tableColumnVisibility(colsss.filter((item: any) => item.colId.toLowerCase().includes(keyword.toLowerCase())).map((col: any) => col.colId), visible)
+    }
 
     return (
         <div className={'flex flex-col h-full flex-1 '}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.CSDI_PORTFO_asset_switch_report} />
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.CSDI_PORTFO} />
             </AccordionComponent>
-            <TableComponent data={data?.result?.pagedData}
-                module={ModuleIdentifier.CSDI_PORTFO_asset_switch_report}
+            <CSDIPortfoToolbar toggleAction={findColId} />
+            <TableComponent
+                data={data?.result?.pagedData}
+                ref={ref}
+                module={ModuleIdentifier.CSDI_PORTFO}
                 loading={loading}
                 columnDefStructure={columnDefStructure}
                 rowId={['id']}
@@ -111,4 +136,4 @@ function AssetSwitchReport() {
     )
 }
 
-export default withPermission(AssetSwitchReport, ModuleIdentifier.CSDI_PORTFO_asset_switch_report)
+export default withPermission(CSDIPortfo, ModuleIdentifier.CSDI_PORTFO)

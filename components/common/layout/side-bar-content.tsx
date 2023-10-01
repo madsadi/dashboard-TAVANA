@@ -241,6 +241,13 @@ export default function SideBarContent() {
             expanded: router.pathname.startsWith('/csdi-portfo'),
             children: [
                 {
+                    label: 'پورتفوی سپرده گذاری',
+                    url: '/csdi-portfo',
+                    as: '/csdi-portfo',
+                    className: router.pathname === '/csdi-portfo' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CSDI_PORTFO,
+                },
+                {
                     label: 'گزارش تغییر ناظر',
                     url: '/csdi-portfo/asset-switch-report',
                     as: '/csdi-portfo/asset-switch-report',
@@ -248,11 +255,18 @@ export default function SideBarContent() {
                     module: ModuleIdentifier.CSDI_PORTFO_asset_switch_report,
                 },
                 {
-                    label: 'گزارش تغییر پورتفوی سپرده گذاری',
+                    label: 'گزارش معاملات پورتفوی سپرده گذاری',
                     url: '/csdi-portfo/switch-report',
                     as: '/csdi-portfo/switch-report',
                     className: router.pathname === '/csdi-portfo/switch-report' ? 'sideBarActive' : '',
                     module: ModuleIdentifier.CSDI_PORTFO_switch_report,
+                },
+                {
+                    label: 'مقایسه پورتفوی',
+                    url: '/csdi-portfo/portfo-comparison',
+                    as: '/csdi-portfo/portfo-comparison',
+                    className: router.pathname === '/csdi-portfo/portfo-comparison' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CSDI_PORTFO_comparison,
                 }
             ],
         },

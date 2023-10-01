@@ -11,7 +11,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
 
-const TableComponent: React.FC<any> = (props) => {
+const TableComponent: React.FC<any> = forwardRef((props, ref) => {
     let { data = [],
         module,
         columnDefStructure,
@@ -104,6 +104,37 @@ const TableComponent: React.FC<any> = (props) => {
         gridRef?.current?.api.exportDataAsExcel();
     }, []);
 
+    useImperativeHandle(ref, () => ({
+        updateRow(newData: any) {
+            gridRef.current?.api?.applyTransaction({
+                update: [newData]
+            })
+        },
+        addNewRow(newData: any, index?: number) {
+            gridRef.current?.api?.applyTransaction({
+                add: [newData],
+                addIndex: index
+            })
+        },
+        removeRow(newData: any) {
+            gridRef.current?.api?.applyTransaction({
+                remove: [newData]
+            })
+        },
+        flushUpdates() {
+            gridRef.current?.api?.flushAsyncTransactions()
+        },
+        tableColumnVisibility(cols: any, visible: boolean) {
+            gridRef.current?.columnApi?.setColumnsVisible(cols, visible)
+        },
+        getTableColumns() {
+            return gridRef.current?.columnApi?.getColumns()
+        },
+        changeTableColumns(defStructure: any) {
+            gridRef.current?.api?.setColumnDefs(defStructure)
+        },
+    }));
+
     return (
         <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
@@ -148,5 +179,6 @@ const TableComponent: React.FC<any> = (props) => {
         </>
     )
 }
+)
 
 export default memo(TableComponent);

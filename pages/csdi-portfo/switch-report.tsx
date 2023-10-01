@@ -8,7 +8,7 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
-import { changeTypeEnums, personTypeEnums } from "constants/Enums";
+import { changeTypeEnums, customerTypeEnums } from "constants/Enums";
 
 function SwitchReport() {
     const columnDefStructure = [
@@ -40,11 +40,11 @@ function SwitchReport() {
             headerName: 'نام کامل نماد',
         },
         {
-            field: 'personType',
+            field: 'customerType',
             headerName: 'حقیقی/حقوقی ',
             valueFormatter: (rowData: any) => {
                 return (
-                    personTypeEnums.find((item) => item.id === rowData.data.personType)?.title
+                    customerTypeEnums.find((item) => item.id === rowData.data.customerType)?.title
                 )
             },
         },
@@ -80,7 +80,7 @@ function SwitchReport() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <DateCell date={rowData.data.EffectiveDate} />
+                        <DateCell date={rowData.data.effectiveDate} />
                     )
                 };
                 const moodDetails = {

@@ -9,6 +9,7 @@ import {
     changeTypeEnums,
     CoefficientBaseTypeEnums,
     ContractTypeEnums,
+    customerTypeEnums,
     Hours,
     isActiveWithNoNull,
     isRequired,
@@ -119,6 +120,8 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
         case 'personType':
         case 'PersonType':
             return personTypeEnums
+        case 'CustomerType':
+            return customerTypeEnums
         case "ChangeType":
             return changeTypeEnums
         case 'personOrigin':

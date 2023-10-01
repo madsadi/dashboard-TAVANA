@@ -110,7 +110,7 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-.ag-theme-alpine {
+.ag-theme-alpine, .ag-chart-wrapper {
     --ag-font-family: "Yekan Bakh", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif !important;
     --ag-borders: none !important;

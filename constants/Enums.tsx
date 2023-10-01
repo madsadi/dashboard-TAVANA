@@ -560,6 +560,21 @@ export const personTypeEnums = [
     }
 ]
 
+export const customerTypeEnums = [
+    {
+        "id": 0,
+        "code": 0,
+        "enTitle": "LegalPerson",
+        "title": "حقوقی"
+    },
+    {
+        "id": 1,
+        "code": 1,
+        "enTitle": "PrivatePerson",
+        "title": "حقیقی"
+    },
+]
+
 export const changeTypeEnums = [
     {
         "id": 0,

@@ -66,7 +66,8 @@ export default function BreadCrumbComponent() {
         "reconcilation": 'گزارش مغایرت بازاریاب',
         "csdi-portfo": "پرتفو سپرده گذاری",
         "asset-switch-report": "گزارش تغییر ناظر",
-        "switch-report": "گزارش تغییر پورتفوی سپرده گذاری"
+        "switch-report": "گزارش معاملات پورتفوی سپرده گذاری",
+        "portfo-comparison": "مقایسه پورتفوی"
     }
 
     useEffect(() => {
