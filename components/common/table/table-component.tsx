@@ -182,3 +182,4 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
 )
 
 export default memo(TableComponent);
+TableComponent.displayName = 'TableComponent';
