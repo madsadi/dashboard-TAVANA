@@ -12,8 +12,6 @@ interface BaseInputPropsType {
     query: any,
     setQuery: any,
     onChange: any,
-    selectedDay: DayValue,
-    setSelectedDay: Dispatch<DayValue>
 }
 export const SingleDateInput = (props: BaseInputPropsType) => {
     const { item, query, onChange, setQuery } = props;

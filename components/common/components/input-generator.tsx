@@ -46,8 +46,6 @@ const InputComponent = (props: PropsType) => {
                     <SingleDateInput query={query}
                         setQuery={setQuery}
                         onChange={onChange}
-                        setSelectedDay={setSelectedDay}
-                        selectedDay={selectedDay}
                         item={item} />
                 )
             case "date":

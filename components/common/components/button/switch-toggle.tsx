@@ -1,5 +1,4 @@
 import { Switch } from "@headlessui/react"
-import { spawn } from "child_process"
 import { useSelector } from "react-redux"
 import { isAllowed } from "../../functions/permission-utils"
 

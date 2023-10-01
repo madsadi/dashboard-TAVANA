@@ -54,7 +54,7 @@ export default function TablePagination({
                         queryUpdate('PageSize', e);
                         onSubmit({ ...pageQuery, PageNumber: 1, PageSize: e })
                     }}>
-                    {({ open }) => (
+                    {({ open }: { open: boolean }) => (
                         <div className="relative">
                             <Listbox.Button
                                 className="relative flex min-w-full cursor-pointer rounded-md border border-border disabled:cursor-not-allowed bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
@@ -80,7 +80,7 @@ export default function TablePagination({
                                     {sizes.map((size: any) => (
                                         <Listbox.Option
                                             key={size}
-                                            className={({ active }) =>
+                                            className={({ active }: { active: boolean }) =>
                                                 classNames(
                                                     active ? 'bg-border' : '',
                                                     'relative cursor-pointer select-none py-1 pl-3 pr-3'
@@ -88,7 +88,7 @@ export default function TablePagination({
                                             }
                                             value={size}
                                         >
-                                            {({ selected, active }) => (
+                                            {({ selected, active }: { selected: boolean, active: boolean }) => (
                                                 <>
                                                     <div className="flex items-center">
                                                         <span>
