@@ -12,6 +12,12 @@ body {
     color-scheme: light !important;
 }
 
+.tooltip::before{
+    background-color: #404040 !important;
+}
+.tooltip::after{
+    border-color: #404040 transparent transparent transparent !important;
+}
 @media (prefers-color-scheme: dark) {
     :root{
         --b3:180 1.9608% 90% !important;

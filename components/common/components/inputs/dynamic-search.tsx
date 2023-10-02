@@ -6,7 +6,7 @@ import useQuery from "../../../../hooks/useQuery";
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 
 export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { item: any, queryUpdate: any, setQuery: any, query: any }) {
-    const { title, name, endpoint, valueField = [], queryField, recordField, alternative, isRequired, inputAble, alternativeRelatedRecordField } = item
+    const { title, name, endpoint, valueField = [], queryField, recordField, alternative, isRequired, inputAble, alternativeRelatedRecordField, resultField = 'pagedData' } = item
     const [page, setPage] = useState(1)
     const [searchItem, setSearchItem] = useState('')
     const [findings, setFindings] = useState<any>([])
@@ -28,10 +28,10 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { 
                 .then((res: any) => {
                     if (searchItem === item) {
                         setPage(page + 1)
-                        setFindings([...findings, ...res?.data.result.pagedData])
+                        setFindings([...findings, ...res?.data.result?.[resultField]])
                     } else {
                         setPage(page)
-                        setFindings(res?.data.result?.pagedData)
+                        setFindings(res?.data.result?.[resultField])
                     }
                 })
                 .finally(() => setIsLoading(false))
@@ -40,7 +40,7 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { 
 
     useEffect(() => {
         if (data) {
-            setFindings([...findings, ...data?.result?.pagedData])
+            setFindings([...findings, ...data?.result?.[resultField]])
         }
     }, [data])// eslint-disable-line react-hooks/exhaustive-deps
 

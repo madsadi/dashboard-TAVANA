@@ -41,7 +41,7 @@ module.exports = {
             border: '#eee',
             active: '#F5BE32',
             selected: '#224865',
-            default:"#0a0a0a"
+            default:"#0a0a0a",
         }),
     },
     plugins: [
@@ -74,7 +74,8 @@ module.exports = {
                 "primary": "#059669",
                 "secondary": "#f97316",
                 "error": "#dc2626",
-                "default":"#0a0a0a"
+                "default":"#0a0a0a",
+                "helper":"#000"
               },
             },
           ],

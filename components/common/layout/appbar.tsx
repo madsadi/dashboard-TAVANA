@@ -18,7 +18,7 @@ export default function Example() {
     }, [router.pathname, query])
 
     return (
-        <Popover className="fixed top-0 w-full z-10 bg-white border-b border-border">
+        <Popover className="sticky top-0 right-0 w-full z-[100] bg-white border-b border-border">
             <div className="container">
                 <div className="relative flex items-center justify-between py-2 md:justify-start">
                     <div className="flex space-x-1 space-x-reverse items-center">

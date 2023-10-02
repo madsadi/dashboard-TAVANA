@@ -61,7 +61,7 @@ export const SingleDateInput = (props: BaseInputPropsType) => {
                 value={convertor(query?.[title])}
                 locale={'fa'}
                 minimumDate={minimumDate}
-                calendarPopperPosition={'auto'}
+                calendarPopperPosition={'bottom'}
                 onChange={(e: DayValue) => {
                     onChange(
                         `${title}`, `${moment.from(`${e?.year}/${e?.month}/${e?.day}`, "fa", 'YYYY/MM/DD').format('YYYY-MM-DD')}`

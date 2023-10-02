@@ -2,12 +2,13 @@ import { Dispatch, Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import SideBarContent from "./side-bar-content";
+import Image from 'next/image';
 
 export default function SideBar({ open, setOpen }: { open: boolean, setOpen: Dispatch<boolean> }) {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={setOpen}>
+            <Dialog as="div" className="relative z-[101]" onClose={setOpen}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-500"
@@ -54,7 +55,9 @@ export default function SideBar({ open, setOpen }: { open: boolean, setOpen: Dis
                                     </Transition.Child>
                                     <div className="flex h-full flex-col overflow-y-auto custom-scrollbar bg-white py-6 shadow-xl">
                                         <div className="px-4 sm:px-6">
-                                            <Dialog.Title className="text-lg font-medium text-gray-900">کارگزاری توانا</Dialog.Title>
+                                            <Dialog.Title className="text-lg flex items-center font-medium text-gray-900">
+                                                <Image width={150} height={150} src={"/logo-full.svg"} alt="hyper" />
+                                            </Dialog.Title>
                                         </div>
                                         <div className="relative mt-6 flex-1">
                                             <SideBarContent />

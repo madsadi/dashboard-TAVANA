@@ -117,4 +117,4 @@ function CategoryPanel() {
     )
 }
 
-export default withPermission(CategoryPanel,ModuleIdentifier.COMMISSION_MANAGEMENT_category)
+export default withPermission(CategoryPanel, ModuleIdentifier.COMMISSION_MANAGEMENT_category)

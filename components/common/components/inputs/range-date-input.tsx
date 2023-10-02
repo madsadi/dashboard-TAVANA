@@ -89,7 +89,7 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
                 shouldHighlightWeekends
                 renderInput={renderCustomInput}
                 locale={'fa'}
-                calendarPopperPosition={'auto'}
+                calendarPopperPosition={'bottom'}
             />
         </div>
     )
