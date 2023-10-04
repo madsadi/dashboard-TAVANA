@@ -8,7 +8,7 @@ import { Button } from "components/common/components/button/button";
 
 export default function DeleteMarketerRecite() {
     const { selectedRows, fetchData, searchQuery } = useContext<any>(ReciteContext)
-    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/factor/delete-factor`, method: "DELETE" })
+    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/factor/delete`, method: "DELETE" })
     const [modal, setModal] = useState(false)
 
     const openHandler = () => {
@@ -20,7 +20,7 @@ export default function DeleteMarketerRecite() {
     }
     const submitHandler = async (e: any) => {
         e.preventDefault()
-        await mutate({}, { MarketerID: selectedRows[0].MarketerID, Period: selectedRows[0].Period })
+        await mutate({}, { FactorID: selectedRows[0].FactorID })
             .then((res) => {
                 throwToast({ type: 'success', value: `${res?.data?.result?.message}` })
                 setModal(false)

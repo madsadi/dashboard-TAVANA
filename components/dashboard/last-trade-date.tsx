@@ -3,7 +3,6 @@ import { jalali } from "../common/functions/common-funcions";
 import useMutation from "../../hooks/useMutation";
 import { NETFLOW } from "../../api/constants";
 import useQuery from "../../hooks/useQuery";
-const AnimatedNumbers = lazy(() => import('react-animated-numbers'))
 
 export default function LastTradeDate() {
     const { mutate: sellCount } = useMutation({ url: `${NETFLOW}/Trade/sell-declaration-count` })
@@ -47,7 +46,7 @@ export default function LastTradeDate() {
 
     return (
         <>
-            {Object.values(date).length ? <div className={'absolute top-[51px] w-full right-0 border border-border bg-yellow-100 flex flex-col md:flex-row space-x-reverse md:space-x-5 p-1 text-sm md:divide-x md:divide-y-0 divide-y divide-x-reverse'}>
+            {Object.values(date).length ? <div className={'w-full border border-border bg-yellow-100 flex flex-col md:flex-row space-x-reverse md:space-x-5 p-1 text-sm md:divide-x md:divide-y-0 divide-y divide-x-reverse'}>
                 {Object.values(date).filter((item: any) => item).map((item: any, index: number) => {
                     return (
                         <div key={index} className={`pr-3 ${index > 0 ? 'text-red-600' : 'text-green-600'}`}>

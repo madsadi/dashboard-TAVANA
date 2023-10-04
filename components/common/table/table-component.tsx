@@ -19,6 +19,7 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
         onGridReady = () => { gridRef?.current?.api?.setRowData([]) },
         rowId,
         isRowSelectable,
+        selectionChanged = () => null,
         masterDetail = false,
         detailComponent = null,
         detailCellRendererParams = null,
@@ -86,6 +87,7 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
         setSelectedRows(selectedRows)
+        selectionChanged(selectedRows)
     }
 
     useEffect(() => {

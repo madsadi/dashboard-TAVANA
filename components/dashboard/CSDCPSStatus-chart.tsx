@@ -1,0 +1,39 @@
+import { AgChartsReact } from "ag-charts-react"
+import { ADMIN_GATEWAY } from "api/constants"
+import useQuery from "hooks/useQuery"
+import moment from "jalali-moment"
+
+export const CSDCPSStatusChart = () => {
+    const { data } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCSDCPSStatus`, revalidateOnMount: true, params: { EndDate: moment().locale('en').format('YYYY-MM-DD'), StartDate: moment().locale('en').format('YYYY-MM-DD') } })
+
+    const option1: any = {
+        data: data?.result?.pagedData || [],
+        title: {
+            fontFamily: "Yekan Bakh"
+        },
+        legend: {
+            position: "right" // 'bottom', 'left', 'top'
+        },
+        series: [
+            {
+                type: 'pie',
+                angleKey: 'firstnetValuebyClosingPrice',
+                calloutLabelKey: 'faInsCode',
+                sectorLabelKey: 'firstnetValuebyClosingPrice',
+                sectorLabel: {
+                    color: 'white',
+                    fontWeight: 'bold',
+                },
+            },
+        ],
+    }
+
+    console.log(data);
+
+    return (
+        <div className="border border-border rounded-lg shadow">
+            <AgChartsReact options={option1} />
+
+        </div>
+    )
+}

@@ -1,15 +1,15 @@
 import React, { createContext, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 
-const SearchComponent = dynamic(() => import('../../components/common/components/search'));
-const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-const AccordionComponent = dynamic(() => import('../../components/common/components/accordion'));
-const ReciteToolbar = dynamic(() => import("../../components/marketer-app/recite/toolbar/recite-toolbar"));
+const SearchComponent = dynamic(() => import('../../../components/common/components/search'));
+const TableComponent = dynamic(() => import('../../../components/common/table/table-component'));
+const AccordionComponent = dynamic(() => import('../../../components/common/components/accordion'));
+const ReciteToolbar = dynamic(() => import("../../../components/marketer-app/recite/toolbar/recite-toolbar"));
 
-import { formatNumber } from "../../components/common/functions/common-funcions";
-import useQuery from "../../hooks/useQuery";
-import { MARKETER_ADMIN } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { formatNumber } from "../../../components/common/functions/common-funcions";
+import useQuery from "../../../hooks/useQuery";
+import { MARKETER_ADMIN } from "../../../api/constants";
+import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 
 export const ReciteContext = createContext({})
@@ -185,11 +185,17 @@ function Recite() {
         };
     }, []);
 
+    const fetchHandler = (query: any) => {
+        const { Month, Year, ...rest } = query
+
+        fetchData({ ...rest, Period: Year + Month })
+    }
+
     return (
         <ReciteContext.Provider value={{ selectedRows, setSelectedRows, fetchData, searchQuery, data }}>
             <div className={'flex flex-col h-full flex-1'}>
                 <AccordionComponent>
-                    <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_recite} />
+                    <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.MARKETER_APP_recite} />
                 </AccordionComponent>
                 <ReciteToolbar />
                 <TableComponent data={data?.result.pagedData}

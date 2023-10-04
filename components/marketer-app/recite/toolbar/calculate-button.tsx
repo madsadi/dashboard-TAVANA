@@ -1,55 +1,28 @@
 import InputComponent from "../../../common/components/input-generator";
 import Modal from "../../../common/layout/modal";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { throwToast } from "../../../common/functions/notification";
 import useMutation from "../../../../hooks/useMutation";
 import { MARKETER_ADMIN } from "../../../../api/constants";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { ReciteContext } from "../../../../pages/marketer-app/recite";
 import { Button } from "components/common/components/button/button";
 
-export default function EditMarketerRecite() {
-    const { selectedRows, fetchData, searchQuery } = useContext<any>(ReciteContext)
-    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite, 'edit-base')
-    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/factor/base`, method: "PUT" })
+export default function CalculationButton() {
+    const { fetchData, searchQuery } = useContext<any>(ReciteContext)
+    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite, 'calculate')
+    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/factor/calculate` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
-    useEffect(() => {
-        if (modal && selectedRows?.length) {
-            let _initialValue: any = {};
-            _initialValue['MarketerID'] = selectedRows[0][`MarketerID`]
-            _initialValue['FactorID'] = selectedRows[0][`FactorID`]
-            _initialValue['Period'] = selectedRows[0][`Period`]
-            _initialValue['TotalTurnOver'] = selectedRows[0][`TotalTurnOver`]
-            _initialValue['TotalBrokerCommission'] = selectedRows[0][`TotalBrokerCommission`]
-            _initialValue['TotalCMD'] = selectedRows[0][`TotalCMD`]
-            _initialValue['TotalNetBrokerCommission'] = selectedRows[0][`TotalNetBrokerCommission`]
-            _initialValue['MarketerCommissionIncome'] = selectedRows[0][`MarketerCommissionIncome`]
-            _initialValue['TotalFeeOfFollowers'] = selectedRows[0][`TotalFeeOfFollowers`]
-            _initialValue['IsCmdConcluded'] = selectedRows[0][`IsCmdConcluded`]
-            _initialValue['MaketerCMDIncome'] = selectedRows[0][`MaketerCMDIncome`]
-
-            setQuery(_initialValue)
-        }
-    }, [modal])
 
     const openHandler = () => {
-        if (selectedRows?.length === 1) {
-            setModal(true)
-        } else {
-            throwToast({ type: 'warning', value: 'لطفا یک گزینه برای تغییر انتخاب کنید' })
-        }
-
+        setModal(true)
     }
     const submitHandler = async (e: any) => {
         e.preventDefault()
-        await mutate(query)
+        const { Year, Month, ...rest } = query
+        await mutate({ ...rest, Period: Year + Month })
             .then((res) => {
                 throwToast({ type: 'success', value: `با موفقیت انجام شد` })
                 setModal(false)
@@ -58,6 +31,7 @@ export default function EditMarketerRecite() {
             })
             .catch((err) => throwToast({ type: 'error', value: err }))
     }
+
     const onChange = (key: string, value: any) => {
         let _query: any = { ...query };
         _query[key] = value
@@ -65,8 +39,8 @@ export default function EditMarketerRecite() {
     }
     return (
         <>
-            <Button label="اصلاح کردن پایه صورت حساب" className={'bg-secondary'} onClick={openHandler} />
-            <Modal title={'اصلاح کردن پایه صورت حساب'} setOpen={setModal}
+            <Button label="محاسبه ی صورت حساب" onClick={openHandler} />
+            <Modal title={'محاسبه ی صورت حساب'} setOpen={setModal}
                 open={modal}>
                 <div className="field mt-4">
                     <form onSubmit={submitHandler}>
@@ -77,8 +51,6 @@ export default function EditMarketerRecite() {
                                         query={query}
                                         item={item}
                                         onChange={onChange}
-                                        selectedDayRange={selectedDayRange}
-                                        setSelectedDayRange={setSelectedDayRange}
                                     />
                                 })
                             }

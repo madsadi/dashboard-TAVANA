@@ -1,7 +1,8 @@
 import React from "react";
-import AddMarketerRectie from "./add-marketer-rectie";
 import EditMarketerRecite from "./rdit-marketer-recite";
 import DeleteMarketerRecite from "./delete-marketer-recite";
+import CalculationButton from "./calculate-button";
+import EditAccounting from "./edit-accounting";
 
 export default function ReciteToolbar() {
     return (
@@ -9,7 +10,9 @@ export default function ReciteToolbar() {
             <div className={'toolbar p-2 '}>
                 {/* <AddMarketerRectie /> */}
                 <EditMarketerRecite />
+                <EditAccounting />
                 <DeleteMarketerRecite />
+                <CalculationButton />
             </div>
         </div>
     )

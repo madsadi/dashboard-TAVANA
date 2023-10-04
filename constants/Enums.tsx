@@ -1,3 +1,5 @@
+import moment from "jalali-moment";
+
 export const OrderType: any = [
     {
         "id": 0,
@@ -283,53 +285,61 @@ export const ContractTypeEnums = [
     }
 ]
 
+const buildYears = (year: string) => {
+    let arrayOfYears = []
+    for (let y = 0; y < 15; y++) {
+        arrayOfYears.push({ title: String(Number(year) - y), id: Number(year) - y })
+    }
+    return arrayOfYears
+}
+export const Year: any[] = buildYears(moment().locale('fa').format('YYYY'))
 export const Months: any[] = [
     {
-        "id": '140201',
+        "id": '01',
         "title": "فروردین"
     },
     {
-        "id": '140202',
+        "id": '02',
         "title": "اردیبهشت"
     },
     {
-        "id": "140203",
+        "id": "03",
         "title": "خرداد"
     },
     {
-        "id": "140204",
+        "id": "04",
         "title": "تیر"
     },
     {
-        "id": "140205",
+        "id": "05",
         "title": "مرداد"
     },
     {
-        "id": "140206",
+        "id": "06",
         "title": "شهریور"
     },
     {
-        "id": "140207",
+        "id": "07",
         "title": "مهر"
     },
     {
-        "id": "140208",
+        "id": "08",
         "title": "آبان"
     },
     {
-        "id": "140209",
+        "id": "09",
         "title": "آذر"
     },
     {
-        "id": "140210",
+        "id": "10",
         "title": "دی"
     },
     {
-        "id": "140211",
+        "id": "11",
         "title": "بهمن"
     },
     {
-        "id": "140212",
+        "id": "12",
         "title": "اسفند"
     }
 ];

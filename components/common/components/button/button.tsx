@@ -3,20 +3,31 @@ import { useSelector } from "react-redux";
 import { isAllowed } from "../../functions/permission-utils";
 import { Loader } from "../loader";
 
-interface ButtonType {
+interface BaseType {
     className?: string,
     onClick?: MouseEventHandler<HTMLButtonElement> | undefined,
     allowed?: string[],
-    label: string,
     disabled?: boolean,
     loading?: boolean,
     type?: "button" | "submit" | "reset" | undefined,
     icon?: ReactNode,
-    isDefaultStyle?: boolean
+    isDefaultStyle?: boolean,
 }
 
+interface WithLabel extends BaseType {
+    label: string,
+    children?: never
+}
+
+interface WithChildren extends BaseType {
+    label?: never,
+    children: ReactNode
+}
+
+type ButtonType = WithLabel | WithChildren
+
 export const Button = (props: ButtonType) => {
-    const { label, className, onClick, allowed, disabled, loading, type = 'button', icon, isDefaultStyle = true } = props
+    const { label, children, className, onClick, allowed, disabled, loading, type = 'button', icon, isDefaultStyle = true } = props
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
     const defaultStyle = 'text-current border border-border'
     return (
@@ -26,7 +37,7 @@ export const Button = (props: ButtonType) => {
             type={type}
         >
             {loading ? <Loader /> : icon}
-            <p>{label}</p>
+            {children || <p>{label}</p>}
         </button>
     )
 }

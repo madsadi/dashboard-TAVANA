@@ -7,7 +7,7 @@ const appConfig = createSlice({
     reducers: {
         user_permissions: (state: InitialType, action: PayloadAction<any>) => {
             return { ...state, user_permissions: action.payload }
-        }
+        },
     }
 })
 
