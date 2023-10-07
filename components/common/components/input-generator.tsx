@@ -30,10 +30,6 @@ const InputComponent = (props: PropsType) => {
         setQuery,
         query,
         item,
-        selectedDayRange,
-        setSelectedDayRange,
-        selectedDay,
-        setSelectedDay,
         dynamicsOption
     } = props
 
@@ -53,8 +49,6 @@ const InputComponent = (props: PropsType) => {
                     <RangeDateInput item={item}
                         query={query}
                         setQuery={setQuery}
-                        setSelectedDayRange={setSelectedDayRange}
-                        selectedDayRange={selectedDayRange}
                     />
                 )
             case "input":

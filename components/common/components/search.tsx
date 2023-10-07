@@ -12,11 +12,6 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
     const { onSubmit, module, loading, dynamicOptions = [], className, extraClassName } = props
     const { filters, initialValue, service, modules, restriction } = useSearchFilters(module)
     const [query, setQuery] = useState<any>(initialValue)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
-    const [selectedDay, setSelectedDay] = useState<DayValue>(null);
 
     const onChange = (key: string, value: any) => {
         let _query: any = { ...query };
@@ -31,22 +26,11 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
         }
     }));
 
-    useEffect(() => {
-        if (initialValue) {
-            setQuery(initialValue)
-            let SD: DayValue = null
-            let ED: DayValue = null
-            if (initialValue?.StartDate) {
-                let _startDate = moment(initialValue?.StartDate).locale('fa').format('YYYY/M/D').split('/')
-                SD = { year: Number(_startDate[0]), month: Number(_startDate[1]), day: Number(_startDate[2]) }
-            }
-            if (initialValue?.StartDate) {
-                let _endDate = moment(initialValue?.EndDate).locale('fa').format('YYYY/M/D').split('/')
-                ED = { year: Number(_endDate[0]), month: Number(_endDate[1]), day: Number(_endDate[2]) }
-            }
-            setSelectedDayRange({ from: SD, to: ED })
-        }
-    }, [initialValue])
+    // useEffect(() => {
+    //     if (initialValue) {
+    //         setQuery(initialValue)
+    //     }
+    // }, [initialValue])
 
 
     return (
@@ -62,10 +46,6 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
                             query={query}
                             setQuery={setQuery}
                             onChange={onChange}
-                            selectedDayRange={selectedDayRange}
-                            setSelectedDayRange={setSelectedDayRange}
-                            selectedDay={selectedDay}
-                            setSelectedDay={setSelectedDay}
                             dynamicsOption={dynamicOptions}
                         />
                     })
@@ -78,7 +58,6 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
                     onClick={(e) => {
                         e.preventDefault()
                         setQuery(initialValue)
-                        setSelectedDayRange({ from: null, to: null })
                     }}
                 />
                 <Button label={'جستجو'}

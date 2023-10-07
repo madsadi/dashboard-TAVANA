@@ -18,6 +18,16 @@ body {
 .tooltip::after{
     border-color: #404040 transparent transparent transparent !important;
 }
+
+.StyledReceipt {
+    background: #d4d4d4;
+    width: 22rem;
+    padding: 1rem 1rem 2rem;
+    --mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50%/30px 100%;
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+  }
+  
 @media (prefers-color-scheme: dark) {
     :root{
         --b3:180 1.9608% 90% !important;

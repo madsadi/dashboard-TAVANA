@@ -1,10 +1,11 @@
+import React, { memo } from 'react';
 import { AgChartsReact } from "ag-charts-react"
 import { ADMIN_GATEWAY } from "api/constants"
 import useQuery from "hooks/useQuery"
 import moment from "jalali-moment"
 
-export const CSDCPSStatusChart = () => {
-    const { data } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCSDCPSStatus`, revalidateOnMount: true, params: { EndDate: moment().locale('en').format('YYYY-MM-DD'), StartDate: moment().locale('en').format('YYYY-MM-DD') } })
+const CSDCPSStatusChart = () => {
+    const { data, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCSDCPSStatus`, revalidateOnMount: true, params: { EndDate: moment().locale('en').format('YYYY-MM-DD'), StartDate: moment().locale('en').format('YYYY-MM-DD') } })
 
     const option1: any = {
         data: data?.result?.pagedData || [],
@@ -25,15 +26,14 @@ export const CSDCPSStatusChart = () => {
                     fontWeight: 'bold',
                 },
             },
-        ],
+        ]
     }
 
     console.log(data);
 
     return (
-        <div className="border border-border rounded-lg shadow">
-            <AgChartsReact options={option1} />
-
-        </div>
+        <AgChartsReact options={option1} />
     )
 }
+
+export default memo(CSDCPSStatusChart);

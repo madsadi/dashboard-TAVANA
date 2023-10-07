@@ -68,7 +68,8 @@ export default function BreadCrumbComponent() {
         "asset-switch-report": "گزارش تغییر ناظر",
         "switch-report": "گزارش معاملات پورتفوی سپرده گذاری",
         "portfo-comparison": "مقایسه پورتفوی",
-        "[...FactorId]": "اصلاح مالی صورت حساب "
+        "[...factorId]": "اصلاح مالی صورت حساب",
+        "detail": "جزییات",
     }
 
     useEffect(() => {
