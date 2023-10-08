@@ -13,8 +13,6 @@ import { CopyButton } from "components/common/components/copy-button";
 
 export const MarketerContext = createContext({})
 function MarketerContract() {
-
-
     const columnDefStructure: any = [
         {
             headerCheckboxSelection: true,

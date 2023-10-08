@@ -97,7 +97,7 @@ function MarketerContractDetail() {
     }, [contractId])
 
     return (
-        <MarketerContractDetailContext.Provider value={{ deductionFetch, deductionSearchQuery, deductionData: deductionData?.result?.pagedData, coefficientData: coefficientData?.result?.pagedData, coefficientFetch, coefficientSearchQuery }}>
+        <MarketerContractDetailContext.Provider value={{ contractId, deductionFetch, deductionSearchQuery, deductionData: deductionData?.result?.pagedData, coefficientData: coefficientData?.result?.pagedData, coefficientFetch, coefficientSearchQuery }}>
             <div className={'flex flex-col h-full flex-1'}>
                 <MarketerContractDeductionDetailToolbar />
                 <TableComponent data={deductionData?.result?.pagedData}

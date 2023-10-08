@@ -7,7 +7,7 @@ import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contr
 import { Button } from "components/common/components/button/button";
 
 export default function DeleteMarketerContractCoefDetail() {
-    const { coefficientData, coefficientFetch, coefficientSearchQuery } = useContext<any>(MarketerContractDetailContext)
+    const { coefficientFetch, coefficientSearchQuery, contractId } = useContext<any>(MarketerContractDetailContext)
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-contract-coefficient/delete`, method: "DELETE" })
     const [modal, setModal] = useState(false)
 
@@ -17,7 +17,7 @@ export default function DeleteMarketerContractCoefDetail() {
 
     const submitHandler = async (e: any) => {
         e.preventDefault()
-        await mutate({}, { ContractID: coefficientData[0].ContractID })
+        await mutate({}, { ContractID: contractId })
             .then((res) => {
                 throwToast({ type: 'success', value: `با موفقیت انجام شد` })
                 setModal(false)
