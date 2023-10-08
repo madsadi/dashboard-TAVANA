@@ -1544,7 +1544,7 @@ const filters: any = {
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
         {
-          "title": "MarketerID",
+          "title": "IdpID",
           "name": "حساب کاربری (کد ملی کاربر)",
           "type": "dynamicSearch",
           "initialValue": "",
