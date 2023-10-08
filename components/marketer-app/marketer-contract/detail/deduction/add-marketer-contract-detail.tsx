@@ -10,7 +10,7 @@ import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contr
 import { Button } from "components/common/components/button/button";
 
 export default function AddMarketerContractDetail() {
-    const { deductionFetch, deductionSearchQuery } = useContext<any>(MarketerContractDetailContext)
+    const { deductionFetch, deductionSearchQuery, deductionData } = useContext<any>(MarketerContractDetailContext)
     const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_marketerContract_detail, 'add')
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-contract-deduction/add` })
     const [modal, setModal] = useState(false)
@@ -23,7 +23,7 @@ export default function AddMarketerContractDetail() {
 
     const submitHandler = async (e: any) => {
         e.preventDefault()
-        await mutate(query)
+        await mutate({ ...query, ContractID: deductionData[0].ContractID, })
             .then((res) => {
                 throwToast({ type: 'success', value: `با موفقیت انجام شد` })
                 setModal(false)

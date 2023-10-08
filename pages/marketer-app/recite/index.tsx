@@ -6,7 +6,6 @@ const TableComponent = dynamic(() => import('../../../components/common/table/ta
 const AccordionComponent = dynamic(() => import('../../../components/common/components/accordion'));
 const ReciteToolbar = dynamic(() => import("../../../components/marketer-app/recite/toolbar/recite-toolbar"));
 
-import { formatNumber } from "../../../components/common/functions/common-funcions";
 import useQuery from "../../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../../api/constants";
 import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";

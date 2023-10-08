@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
-import React from "react";
+import React, { memo } from "react";
 
 interface BaseInputPropsType {
     item: any,

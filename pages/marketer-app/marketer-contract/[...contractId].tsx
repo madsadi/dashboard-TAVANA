@@ -72,6 +72,11 @@ function MarketerContractDetail() {
         {
             field: 'IsCmdConcluded',
             headerName: 'سهم صندوق توسعه اضافه میشود؟',
+            valueFormatter: (rowData: any) => {
+                return (
+                    rowData.data.IsCmdConcluded ? 'بله' : 'خیر'
+                )
+            }
         }
     ]
 

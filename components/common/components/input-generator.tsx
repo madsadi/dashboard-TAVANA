@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, memo } from "react";
 import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import SymbolSearchSection from "./symbol-search-secion";
 import { DayValue } from "react-modern-calendar-datepicker";
@@ -40,7 +40,6 @@ const InputComponent = (props: PropsType) => {
             case "singleDate":
                 return (
                     <SingleDateInput query={query}
-                        setQuery={setQuery}
                         onChange={onChange}
                         item={item} />
                 )

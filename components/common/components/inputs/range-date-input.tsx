@@ -32,7 +32,7 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
                     }} /> : null}
             </label>
             <input className={'w-full h-[36px]'} readOnly ref={ref} id="rangeDate"
-                value={dateRangeHandler(convertor({ StartDate: query.StartDate, EndDate: query.EndDate }))} />
+                value={dateRangeHandler(convertor({ StartDate: query?.StartDate, EndDate: query?.EndDate }))} />
         </div>
     )
 

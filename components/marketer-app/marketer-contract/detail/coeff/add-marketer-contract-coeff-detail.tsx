@@ -10,7 +10,7 @@ import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contr
 import { Button } from "components/common/components/button/button";
 
 export default function AddMarketerContractCoeffDetail() {
-    const { coefficientFetch, coefficientSearchQuery } = useContext<any>(MarketerContractDetailContext)
+    const { coefficientFetch, coefficientSearchQuery, coefficientData } = useContext<any>(MarketerContractDetailContext)
     const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_marketerContract_detail, 'coeff-add')
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-contract-coefficient/add` })
     const [modal, setModal] = useState(false)
@@ -23,7 +23,7 @@ export default function AddMarketerContractCoeffDetail() {
 
     const submitHandler = async (e: any) => {
         e.preventDefault()
-        await mutate(query)
+        await mutate({ ContractID: coefficientData[0].ContractID, ...query })
             .then((res) => {
                 throwToast({ type: 'success', value: `با موفقیت انجام شد` })
                 setModal(false)

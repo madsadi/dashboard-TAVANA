@@ -129,6 +129,7 @@ function FactorIdDetail() {
             headerName: 'سایر پرداختی ها',
         }
     ]
+
     return (
         <div className={'flex flex-col h-full grow'}>
             <div className="StyledReceipt shadow mx-auto">

@@ -1,9 +1,6 @@
 import InputComponent from "./input-generator";
-import React, { forwardRef, useEffect, useImperativeHandle, useState, memo } from "react";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
+import React, { forwardRef, useCallback, useImperativeHandle, useState, memo } from "react";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
-import moment from "jalali-moment";
-import { Day, DayValue } from "react-modern-calendar-datepicker";
 import { Button } from "./button/button";
 import { SearchComponentTypes } from "types/types";
 
@@ -25,13 +22,6 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
             setQuery({ ..._query, ...newQuery })
         }
     }));
-
-    // useEffect(() => {
-    //     if (initialValue) {
-    //         setQuery(initialValue)
-    //     }
-    // }, [initialValue])
-
 
     return (
         <form className={'flex flex-col grow'} onSubmit={(e) => {
