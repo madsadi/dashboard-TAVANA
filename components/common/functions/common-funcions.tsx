@@ -10,6 +10,7 @@ import {
     CoefficientBaseTypeEnums,
     ContractTypeEnums,
     customerTypeEnums,
+    FactorStatusEnums,
     Hours,
     isActiveWithNoNull,
     isRequired,
@@ -169,6 +170,8 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
         case 'status':
             if (label === 'وضعیت تغییر کارگزاری') {
                 return AssetStatusEnums
+            } else if (label === 'وضعیت فاکتور') {
+                return FactorStatusEnums
             } else {
                 return StatusEnums
             }

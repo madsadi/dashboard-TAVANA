@@ -1507,6 +1507,16 @@ const filters: any = {
         { "title": "Year", "name": "سال", "type": "selectInput" }
       ],
       "edit-base": [
+        { "title": "TotalTurnOver", "name": "مجموع گردش", "type": "input", "valueType": "number" },
+        { "title": "TotalBrokerCommission", "name": "مجموع کارمزد کارگزاری", "type": "input", "valueType": "number" },
+        { "title": "TotalNetBrokerCommission", "name": "مجموع خالص کارمزد کارگزار", "type": "input", "valueType": "number" },
+        { "title": "MarketerCommissionIncome", "name": "حق بازاریابی از خالص کارمزد در دوره", "type": "input", "valueType": "number" },
+        { "title": "TotalFeeOfFollowers", "name": "گردش خالض زیر مجموعه ها ", "type": "input", "valueType": "number" },
+        { "title": "Status", "name": "وضعیت فاکتور", "type": "selectInput" },
+        { "title": "IsCmdConcluded", "name": "سهم صندوق توسعه لحاظ میشود؟", "type": "selectInput" },
+        { "title": "TotalCMD", "name": "مجموع سهم صندوق توسعه", "type": "input", "valueType": "number" },
+      ],
+      "edit-accounting": [
         { "title": "Plan", "name": "پلکان", "type": "input" },
         { "title": "TaxDeduction", "name": "مالیات", "type": "input", "valueType": "number" },
         { "title": "TaxCoefficient", "name": "ضریب مالیات", "type": "input", "valueType": "number" },
@@ -1516,7 +1526,7 @@ const filters: any = {
         { "title": "InsuranceCoefficient", "name": "ضریب کسورات بیمه", "type": "input", "valueType": "number" },
         { "title": "MarketerTotalIncome", "name": "مجموع حق بازاریابی", "type": "input", "valueType": "number" },
         { "title": "Payment", "name": "پرداختی ", "type": "input", "valueType": "number" },
-        { "title": "Status", "name": "وضعیت", "type": "input", "valueType": "number" },
+        { "title": "Status", "name": "وضعیت فاکتور", "type": "selectInput" },
         { "title": "CalculationCoefficient", "name": "ضریب محاسبه حق بازاریابی", "type": "input", "valueType": "number" },
         { "title": "TotalCMD", "name": "مجموع سهم صندوق توسعه", "type": "input", "valueType": "number" },
         { "title": "IsCmdConcluded", "name": "سهم صندوق توسعه لحاظ میشود؟", "type": "selectInput" },
@@ -1653,23 +1663,18 @@ const filters: any = {
     services: {},
     "toolbar": {
       "coeff-add": [
-        { "title": "MarketerID", "name": "شناسه بازارایاب", "type": "input" },
-        { "title": "Title", "name": "عنوان", "type": "input" },
         { "title": "CoefficientPercentage", "name": "درصد ضریب", "type": "input" },
         { "title": "HighThreshold", "name": "حد بالای پله", "type": "input" },
         { "title": "LowThreshold", "name": "حد پائین پله", "type": "input" },
         { "title": "StepNumber", "name": "شماره پله", "type": "input" },
       ],
       "add": [
-        { "title": "MarketerID", "name": "شناسه بازارایاب", "type": "input" },
-        { "title": "Title", "name": "عنوان", "type": "input" },
         { "title": "CollateralCoefficient", "name": "ضریب کسورات حسن انجام کار", "type": "input" },
         { "title": "TaxCoefficient", "name": "ضریب مالیات", "type": "input" },
         { "title": "InsuranceCoefficient", "name": "ضریب کسورات بیمه", "type": "input" },
         { "title": "ReturnDuration", "name": "دوره برگشت کسورات", "type": "input" },
       ],
       "edit": [
-        { "title": "Title", "name": "عنوان", "type": "input" },
         { "title": "CollateralCoefficient", "name": "ضریب کسورات حسن انجام کار", "type": "input" },
         { "title": "TaxCoefficient", "name": "ضریب مالیات", "type": "input" },
         { "title": "InsuranceCoefficient", "name": "ضریب کسورات بیمه", "type": "input" },

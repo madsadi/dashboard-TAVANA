@@ -23,9 +23,7 @@ export default function EditMarketerRecite() {
     useEffect(() => {
         if (modal && selectedRows?.length) {
             let _initialValue: any = {};
-            _initialValue['MarketerID'] = selectedRows[0][`MarketerID`]
             _initialValue['FactorID'] = selectedRows[0][`FactorID`]
-            _initialValue['Period'] = selectedRows[0][`Period`]
             _initialValue['TotalTurnOver'] = selectedRows[0][`TotalTurnOver`]
             _initialValue['TotalBrokerCommission'] = selectedRows[0][`TotalBrokerCommission`]
             _initialValue['TotalCMD'] = selectedRows[0][`TotalCMD`]
@@ -34,6 +32,7 @@ export default function EditMarketerRecite() {
             _initialValue['TotalFeeOfFollowers'] = selectedRows[0][`TotalFeeOfFollowers`]
             _initialValue['IsCmdConcluded'] = selectedRows[0][`IsCmdConcluded`]
             _initialValue['MaketerCMDIncome'] = selectedRows[0][`MaketerCMDIncome`]
+            _initialValue['Status'] = selectedRows[0][`Status`]
 
             setQuery(_initialValue)
         }

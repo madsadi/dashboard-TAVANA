@@ -2,17 +2,17 @@ import InputComponent from "../../../common/components/input-generator";
 import Modal from "../../../common/layout/modal";
 import React, { useContext, useState } from "react";
 import { throwToast } from "../../../common/functions/notification";
-import useMutation from "../../../../hooks/useMutation";
 import { MARKETER_ADMIN } from "../../../../api/constants";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import { ReciteContext } from "../../../../pages/marketer-app/recite";
 import { Button } from "components/common/components/button/button";
+import useQuery from "hooks/useQuery";
 
 export default function CalculationButton() {
     const { fetchData, searchQuery } = useContext<any>(ReciteContext)
     const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite, 'calculate')
-    const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/factor/calculate` })
+    const { fetchAsyncData } = useQuery({ url: `${MARKETER_ADMIN}/factor/calculate` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
 
@@ -22,7 +22,7 @@ export default function CalculationButton() {
     const submitHandler = async (e: any) => {
         e.preventDefault()
         const { Year, Month, ...rest } = query
-        await mutate({ ...rest, Period: Year + Month })
+        await fetchAsyncData({ ...rest, Period: Year + Month })
             .then((res) => {
                 throwToast({ type: 'success', value: `با موفقیت انجام شد` })
                 setModal(false)

@@ -120,7 +120,7 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { 
                 </div>
             </div>
             {searchItem && open && <div
-                className={'absolute w-full p-2 opacity-95 backdrop-blur-lg dark:bg-appbar/50 bg-white shadow-md rounded-lg top-full mt-3 z-10'}>
+                className={'absolute w-full p-2 opacity-95 backdrop-blur-lg bg-white shadow-md rounded-lg top-full mt-3 z-10'}>
                 <InfiniteScroll
                     dataLength={findings.length}
                     next={() => searchHandler(searchItem, page)}
@@ -136,7 +136,7 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { 
                 >
                     {findings.length > 0 ? (findings.map((item: any) => {
                         return (
-                            <li className={'dark:odd:bg-slate-700 odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={item?.id} onClick={() => select(item)}>
+                            <li className={'odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={item?.id} onClick={() => select(item)}>
                                 <div>{valueField?.map((F: any) => item[F]).join(' ')}</div>
                             </li>)
                     })) : <div>نتیجه ای یافت نشد</div>}

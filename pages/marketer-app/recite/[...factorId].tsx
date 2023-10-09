@@ -16,7 +16,7 @@ function FactorIdEdit() {
     const {
         data, fetchData
     }: any = useQuery({ url: `${MARKETER_ADMIN}/factor/get-all` })
-    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite, 'edit-base')
+    const { toolbar } = useSearchFilters(ModuleIdentifier.MARKETER_APP_recite, 'edit-accounting')
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/factor/accounting`, method: "PUT" })
     const [query, setQuery] = useState<any>({})
 

@@ -55,17 +55,6 @@ function MarketerContract() {
             headerName: 'توضیحات',
         },
         {
-            field: 'IsDeleted',
-            headerName: 'حذف شده؟',
-        },
-        {
-            field: 'IsActive',
-            headerName: 'وضعیت',
-            cellRendererSelector: () => {
-                return { component: (rowData: any) => <ToggleButton data={{ isActive: rowData.data.IsActive, id: rowData.data.ContractID }} /> };
-            },
-        },
-        {
             field: 'StartDate',
             headerName: 'تاریخ شروع',
             cellRendererSelector: () => {

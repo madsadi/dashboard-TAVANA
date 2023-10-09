@@ -90,7 +90,7 @@ function SwitchReport() {
             },
         }
     ]
-    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCustomersAssetChangesByTrade` })
+    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCustomerCSDPortfolioChange` })
 
     return (
         <div className={'flex flex-col h-full flex-1 '}>

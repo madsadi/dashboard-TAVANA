@@ -82,7 +82,7 @@ export default function SymbolSearchSection({ query, queryUpdate }: { query: any
                 </div>
             </div>
             {query?.InstrumentId && open && <div
-                className={'absolute w-full p-2 opacity-95 backdrop-blur-lg dark:bg-appbar/50 bg-white shadow-md rounded-lg top-full mt-3 z-10'}>
+                className={'absolute w-full p-2 opacity-95 backdrop-blur-lg  bg-white shadow-md rounded-lg top-full mt-3 z-10'}>
                 <InfiniteScroll
                     dataLength={findings.length}
                     next={() => searchHandler(searchItem, page)}
@@ -98,7 +98,7 @@ export default function SymbolSearchSection({ query, queryUpdate }: { query: any
                 >
                     {findings.length > 0 ? (findings.map((symbol: any) => {
                         return (
-                            <li className={'dark:odd:bg-slate-700 odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={symbol.instrumentId} onClick={() => select(symbol)}>
+                            <li className={' odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer'} key={symbol.instrumentId} onClick={() => select(symbol)}>
                                 <div>{symbol.faInsCode} - {symbol.faInsName}</div>
                             </li>)
                     })) : <div>نتیجه ای یافت نشد</div>}

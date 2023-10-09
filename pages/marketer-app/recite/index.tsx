@@ -38,7 +38,7 @@ function Recite() {
                     const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
                     return (
                         <div>
-                            {months[Number(rowData.data.Period.split('1402')[1]) - 1]}
+                            {months[Number(rowData.data.Period.slice(3, 5)) - 1]}
                         </div>
                     )
                 };
