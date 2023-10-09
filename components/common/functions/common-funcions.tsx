@@ -39,12 +39,18 @@ import {
 } from "../../../constants/Enums";
 import { banks } from "../../online-registration/registration-report/enums";
 
-export const formatNumber = (params: any) => {
+export const formatNumber = (params: any, fixed: number) => {
     if (typeof params?.value === 'number') {
-        return params.value
-            .toFixed(2)
-            .toString()
-            .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        if (fixed) {
+            return params.value
+                .toFixed(fixed)
+                .toString()
+                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        } else {
+            return params.value
+                .toString()
+                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        }
     } else {
         return params.value
     }

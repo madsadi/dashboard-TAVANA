@@ -20,6 +20,10 @@ function CSDIPortfo() {
             headerName: 'تاریخ اول',
             children: [
                 {
+                    field: 'firstshareCount',
+                    headerName: 'تعداد مانده ',
+                },
+                {
                     field: 'firstlastPrice',
                     headerName: 'قیمت آخرین معامله',
                 },
@@ -37,15 +41,16 @@ function CSDIPortfo() {
                     field: 'firstnetValuebyLastPrice',
                     headerName: 'خالص ارزش فروش با قیمت  آخرین معامله',
                 },
-                {
-                    field: 'firstshareCount',
-                    headerName: 'تعداد مانده ',
-                },
+
             ]
         },
         {
             headerName: 'تاریخ دوم',
             children: [
+                {
+                    field: 'secondshareCount',
+                    headerName: 'تعداد مانده ',
+                },
                 {
                     field: 'secondlastPrice',
                     headerName: 'قیمت آخرین  معامله',
@@ -63,10 +68,6 @@ function CSDIPortfo() {
                 {
                     field: 'secondnetValuebyLastPrice',
                     headerName: 'خالص ارزش فروش با قیمت  آخرین معامله',
-                },
-                {
-                    field: 'secondshareCount',
-                    headerName: 'تعداد مانده ',
                 }
             ]
         },

@@ -56,7 +56,7 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
             sortable: true,
             flex: 1,
             cellClass: "textFormat",
-            valueFormatter: formatNumber
+            valueFormatter: (v: any) => formatNumber(v, v.colDef.fixed || 0)
         };
     }, []);
     const getRowId = useCallback((params: any) => {

@@ -26,14 +26,17 @@ function MarketerContractDetail() {
         {
             field: 'CollateralCoefficient',
             headerName: 'ضریب حسن انجام کار',
+            fixed: 2
         },
         {
             field: 'TaxCoefficient',
             headerName: 'ضریب مالیات',
+            fixed: 2
         },
         {
             field: 'InsuranceCoefficient',
             headerName: 'ضریب بیمه',
+            fixed: 2
         },
         {
             field: 'ReturnDuration',
@@ -56,6 +59,7 @@ function MarketerContractDetail() {
         {
             field: 'CoefficientPercentage',
             headerName: 'درصد ضریب',
+            fixed: 2
         },
         {
             field: 'HighThreshold',

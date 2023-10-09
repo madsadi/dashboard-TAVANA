@@ -59,12 +59,12 @@ function CSDIPortfo() {
             hide: true,
         },
         {
-            field: 'netValuebyClosingPrice ',
+            field: 'netValuebyClosingPrice',
             headerName: 'خالص ارزش فروش با قیمت پایانی',
             hide: true,
         },
         {
-            field: 'netValuebyLastPrice ',
+            field: 'netValuebyLastPrice',
             headerName: 'خالص ارزش فروش با قیمت  آخرین معامله',
         },
         {
