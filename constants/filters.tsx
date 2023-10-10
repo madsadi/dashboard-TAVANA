@@ -1842,7 +1842,7 @@ const filters: any = {
       ],
       "initialValue": {
         "PageNumber": 1,
-        "PageSize": 20,
+        "PageSize": 100,
         "StartDate": '',
         "EndDate": '',
         "TradingCode": '',

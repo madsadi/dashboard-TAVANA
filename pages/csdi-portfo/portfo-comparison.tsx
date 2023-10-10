@@ -182,7 +182,7 @@ function CSDIPortfo() {
 
     ]
     const { query, fetchAsyncData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetHistoricalCustomerPortfolio` })
-    const [data, setData] = useState<any>({ PageSize: 100 })
+    const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(false)
     const ref: any = useRef()
 
@@ -258,6 +258,7 @@ function CSDIPortfo() {
                             firstclosingPrice: 0,
                             firstshareCount: 0,
                             firstnetValuebyClosingPrice: 0,
+                            firstnetValuebyLastPrice: 0,
                             firstClosingPricePercentage: 0,
                             firstLastPricePercentage: 0,
                             secondlastPrice: item.lastPrice || 0,
