@@ -11,6 +11,7 @@ import { MARKETER_ADMIN } from "../../../api/constants";
 import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
+import { FactorStatusEnums } from "constants/Enums";
 
 export const ReciteContext = createContext({})
 function Recite() {
@@ -33,20 +34,12 @@ function Recite() {
         {
             field: 'Period',
             headerName: 'دوره زمانه',
-            cellRendererSelector: () => {
-                const ColourCellRenderer = (rowData: any) => {
-                    const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
-                    return (
-                        <div>
-                            {months[Number(rowData.data.Period.slice(3, 5)) - 1]}
-                        </div>
-                    )
-                };
-                const moodDetails = {
-                    component: ColourCellRenderer,
-                }
-                return moodDetails;
-            },
+            valueFormatter: (rowData: any) => {
+                const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+                return (
+                    months[Number(rowData.data.Period.slice(4, 6)) - 1] + '-' + rowData.data.Period.slice(0, 4)
+                )
+            }
         },
         {
             field: 'FactorID',
@@ -59,6 +52,11 @@ function Recite() {
         {
             field: 'Status',
             headerName: 'وضعیت فاکتور',
+            valueFormatter: (rowData: any) => {
+                return (
+                    FactorStatusEnums.find((item: any) => item.id === rowData.data.Status)?.title
+                )
+            }
         },
         {
             field: 'detail',
