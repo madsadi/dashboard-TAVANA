@@ -33,7 +33,7 @@ function Recite() {
         },
         {
             field: 'Period',
-            headerName: 'دوره زمانه',
+            headerName: 'دوره زمانی',
             valueFormatter: (rowData: any) => {
                 const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
                 return (

@@ -1554,7 +1554,7 @@ const filters: any = {
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
         {
-          "title": "IdpID",
+          "title": "MarketerID",
           "name": "حساب کاربری (کد ملی کاربر)",
           "type": "dynamicSearch",
           "initialValue": "",
@@ -1597,7 +1597,7 @@ const filters: any = {
           "recordField": "id"
         },
         { "title": "ID", "name": "شناسه قرارداد", "type": "input" },
-        { "title": "CalculationBaseType", "name": "نوع محاسابات", "type": "selectInput" },
+        { "title": "CalculationBaseType", "name": "نوع محاسبات", "type": "selectInput" },
         { "title": "CoefficientBaseType", "name": "نوع ضرائب", "type": "selectInput" },
         { "title": "ContractNumber", "name": "شماره قرارداد", "type": "input" },
         { "title": "ContractType", "name": "نوع قرارداد", "type": "selectInput" },

@@ -40,7 +40,7 @@ function MarketerContract() {
         },
         {
             field: 'CalculationBaseType',
-            headerName: 'نوع محاسابات',
+            headerName: 'نوع محاسبات',
         },
         {
             field: 'CoefficientBaseType',

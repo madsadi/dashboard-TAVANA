@@ -16,7 +16,6 @@ export default function LockOut() {
     const { mutate } = useMutation({ url: `${IDP}/api/users/set-lockout-end-date` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDay, setSelectedDay] = useState<DayValue>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
     const lockHandler = async (e: any) => {
@@ -43,7 +42,6 @@ export default function LockOut() {
         if (!modal) {
             let _initialValue: any = {};
             _initialValue.lockoutEndDateTime = null
-            setSelectedDay(null)
             setQuery(_initialValue)
         }
     }, [modal])
@@ -69,10 +67,7 @@ export default function LockOut() {
                                     query={query}
                                     item={item}
                                     onChange={onChange}
-                                    setSelectedDay={setSelectedDay}
-                                    selectedDay={selectedDay}
                                 />
-
                             })
                         }
                     </form>

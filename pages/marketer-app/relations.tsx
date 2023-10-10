@@ -77,21 +77,21 @@ function Relations() {
                         },
                     },
                     {
-                        field: 'GCreateDate',
+                        field: 'CreateDate',
                         headerName: 'زمان ایجاد',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GCreateDate} />,
+                                component: (rowData: any) => <DateCell date={rowData.data.CreateDate} />,
                             }
                             return moodDetails;
                         },
                     },
                     {
-                        field: 'GUpdateDate',
+                        field: 'UpdateDate',
                         headerName: 'زمان بروزرسانی',
                         cellRendererSelector: () => {
                             const moodDetails = {
-                                component: (rowData: any) => <DateCell date={rowData.data.GUpdateDate} />,
+                                component: (rowData: any) => <DateCell date={rowData.data.UpdateDate} />,
                             }
                             return moodDetails;
                         },
