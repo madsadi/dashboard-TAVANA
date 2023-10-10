@@ -22,12 +22,15 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
         selectionChanged = () => null,
         masterDetail = false,
         detailComponent = null,
+        colGroupInnerRenderer = null,
         detailCellRendererParams = null,
         setSelectedRows = () => null,
         selectedRows = [],
         onRowClicked = null,
         suppressRowClickSelection = false,
         pagination = false,
+        groupIncludeTotalFooter = false,
+        groupIncludeFooter = false,
         totalCount = 0,
         fetcher = () => null,
         query = null,
@@ -83,6 +86,15 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
             noRowsMessageFunc: () => 'هنوز گزارشی ثبت نشده.',
         };
     }, []);
+
+    const autoGroupColumnDef = useMemo(() => {
+        return {
+            minWidth: 300,
+            cellRendererParams: {
+                innerRenderer: colGroupInnerRenderer,
+            },
+        };
+    }, [colGroupInnerRenderer]);
 
     const onSelectionChanged = () => {
         const selectedRows = gridRef.current?.api?.getSelectedRows();
@@ -155,6 +167,9 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
                         noRowsOverlayComponentParams={noRowsOverlayComponentParams}
                         rowHeight={35}
                         headerHeight={35}
+                        autoGroupColumnDef={autoGroupColumnDef}
+                        groupIncludeFooter={groupIncludeFooter}
+                        groupIncludeTotalFooter={groupIncludeTotalFooter}
                         animateRows={true}
                         getRowId={getRowId}
                         asyncTransactionWaitMillis={1000}
