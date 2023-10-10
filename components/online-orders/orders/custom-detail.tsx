@@ -24,7 +24,7 @@ export default function CustomDetailComponent({ data, node, api }: { data: any, 
             resizable: true,
             sortable: true,
             flex: 1,
-            valueFormatter: formatNumber
+            valueFormatter: (v: any) => formatNumber(v, 0)
         };
     }, []);
     const onGridReady = (params: any) => {
