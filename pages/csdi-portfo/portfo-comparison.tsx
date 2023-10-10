@@ -197,23 +197,25 @@ function CSDIPortfo() {
         const { DateFirst, DateSecond, ...rest } = query
         if (rest.TradingCode || rest.BourseCode) {
             setLoading(true)
-            let res1 = await fetchAsyncData({ ...rest, Date: DateFirst })
-            let res2 = await fetchAsyncData({ ...rest, Date: DateSecond })
-            if (res2.data.result.totalCount > rest.PageSize || res1.data.result.totalCount > rest.PageSize) {
-                if (res2.data.result.totalCount > res1.data.result.totalCount) {
-                    res1 = await fetchAsyncData({ ...rest, Date: DateFirst, PageSize: res2.data.result.totalCount, PageNumber: 1 })
+            const [result1, result2] = await Promise.all([await fetchAsyncData({ ...rest, Date: DateFirst }).catch(() => setLoading(false)), await fetchAsyncData({ ...rest, Date: DateSecond }).catch(() => setLoading(false))])
+            let res1 = result1;
+            let res2 = result2;
+
+            if (res2?.data.result.totalCount > rest.PageSize || res1?.data.result.totalCount > rest.PageSize) {
+                if (res2?.data.result.totalCount > res1?.data.result.totalCount) {
+                    res1 = await fetchAsyncData({ ...rest, Date: DateFirst, PageSize: res2?.data.result.totalCount, PageNumber: 1 })
                 } else {
-                    res2 = await fetchAsyncData({ ...rest, Date: DateSecond, PageSize: res1.data.result.totalCount, PageNumber: 1 })
+                    res2 = await fetchAsyncData({ ...rest, Date: DateSecond, PageSize: res1?.data.result.totalCount, PageNumber: 1 })
                 }
             }
-            let netValueByClosingPriceSum1 = res1.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByClosingPrice, 0)
-            let netValueByLastPriceSum1 = res1.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByLastPrice, 0)
+            let netValueByClosingPriceSum1 = res1?.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByClosingPrice, 0)
+            let netValueByLastPriceSum1 = res1?.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByLastPrice, 0)
 
-            let netValueByClosingPriceSum2 = res2.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByClosingPrice, 0)
-            let netValueByLastPriceSum2 = res2.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByLastPrice, 0)
+            let netValueByClosingPriceSum2 = res2?.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByClosingPrice, 0)
+            let netValueByLastPriceSum2 = res2?.data.result.pagedData.reduce((a: any, b: any) => a + b.netValueByLastPrice, 0)
 
             let rowData: any[] = []
-            const baseData = res1.data.result.pagedData.map((item: any) => {
+            const baseData = res1?.data.result.pagedData.map((item: any) => {
                 return (
                     {
                         faInsCode: item.faInsCode,
@@ -235,7 +237,7 @@ function CSDIPortfo() {
             }
             )
             rowData.push(...baseData)
-            res2.data.result.pagedData.map((item: any) => {
+            res2?.data.result.pagedData.map((item: any) => {
                 let index = rowData.findIndex((r: any) => r.faInsCode === item.faInsCode)
                 if (index >= 0) {
                     rowData.splice(index, 1, {
@@ -274,7 +276,7 @@ function CSDIPortfo() {
                 date: { first: DateFirst, second: DateSecond },
                 result: {
                     pagedData: rowData,
-                    totalCount: res2.data.result.totalCount > res1.data.result.totalCount ? res2.data.result.totalCount : res1.data.result.totalCount
+                    totalCount: res2?.data.result.totalCount > res1?.data.result.totalCount ? res2?.data.result.totalCount : res1?.data.result.totalCount
                 }
             })
             setLoading(false)
