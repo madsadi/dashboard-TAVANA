@@ -69,7 +69,7 @@ export default function LastTradeDate() {
         },
         series: [
             {
-                fills: ['green', 'red'],
+                fills: counts.map((item: any) => item.typeEng === 'buy' ? 'green' : 'red'),
                 type: 'pie',
                 angleKey: 'count',
                 calloutLabelKey: 'type',
