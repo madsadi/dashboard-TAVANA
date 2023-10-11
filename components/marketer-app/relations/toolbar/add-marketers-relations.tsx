@@ -16,11 +16,9 @@ export default function AddMarketersRelations() {
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-relation/add` })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({ from: null, to: null })
 
     const openHandler = () => {
         setQuery({})
-        setSelectedDayRange({ from: null, to: null })
         setModal(true)
     }
 
@@ -58,8 +56,6 @@ export default function AddMarketersRelations() {
                                         setQuery={setQuery}
                                         item={item}
                                         onChange={onChange}
-                                        setSelectedDayRange={setSelectedDayRange}
-                                        selectedDayRange={selectedDayRange}
                                     />
                                 })
                             }

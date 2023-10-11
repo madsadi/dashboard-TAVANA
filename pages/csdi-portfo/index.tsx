@@ -10,6 +10,7 @@ import DateCell from "components/common/table/date-cell";
 import { changeTypeEnums, customerTypeEnums } from "constants/Enums";
 import CSDIPortfoToolbar from "components/csdi-portfo/csdi-portfo-toolbar";
 import { withPermission } from "components/common/layout/with-permission";
+import { throwToast } from "components/common/functions/notification";
 
 function CSDIPortfo() {
     const columnDefStructure = [
@@ -50,6 +51,10 @@ function CSDIPortfo() {
             },
         },
         {
+            field: 'shareCount',
+            headerName: 'تعداد مانده ',
+        },
+        {
             field: 'lastPrice',
             headerName: 'قیمت آخرین  معامله',
         },
@@ -59,22 +64,19 @@ function CSDIPortfo() {
             hide: true,
         },
         {
-            field: 'netValuebyClosingPrice',
+            field: 'netValueByClosingPrice',
             headerName: 'خالص ارزش فروش با قیمت پایانی',
             hide: true,
         },
         {
-            field: 'netValuebyLastPrice',
+            field: 'netValueByLastPrice',
             headerName: 'خالص ارزش فروش با قیمت  آخرین معامله',
         },
         {
             field: 'shareChange',
             headerName: 'تعداد تغییر ',
         },
-        {
-            field: 'shareCount',
-            headerName: 'تعداد مانده ',
-        },
+
         {
             field: 'changeType',
             headerName: 'نوع تغییر',
@@ -114,10 +116,17 @@ function CSDIPortfo() {
         ref.current?.tableColumnVisibility(colsss.filter((item: any) => item.colId.toLowerCase().includes(keyword.toLowerCase())).map((col: any) => col.colId), visible)
     }
 
+    const fetchHandler = (query: any) => {
+        if (query.Date) {
+            fetchData(query)
+        } else {
+            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
+        }
+    }
     return (
         <div className={'flex flex-col h-full flex-1 '}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.CSDI_PORTFO} />
+                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.CSDI_PORTFO} />
             </AccordionComponent>
             <CSDIPortfoToolbar toggleAction={findColId} />
             <TableComponent

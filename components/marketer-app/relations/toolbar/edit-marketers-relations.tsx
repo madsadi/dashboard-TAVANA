@@ -7,8 +7,6 @@ import { MARKETER_ADMIN } from "../../../../api/constants";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import { RelationsContext } from "../../../../pages/marketer-app/relations";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
-import { jalali } from "../../../common/functions/common-funcions";
 import { Button } from "components/common/components/button/button";
 
 export default function EditMarketersRelations() {
@@ -17,10 +15,6 @@ export default function EditMarketersRelations() {
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-relation/modify`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
 
     useEffect(() => {
         if (modal && selectedRows?.length) {
@@ -30,25 +24,6 @@ export default function EditMarketersRelations() {
             _initialValue['CommissionCoefficient'] = selectedRows[0][`CommissionCoefficient`]
             _initialValue['StartDate'] = selectedRows[0]?.StartDate
             _initialValue['EndDate'] = selectedRows[0]?.EndDate
-            if (selectedRows[0]?.StartDate && selectedRows[0]?.EndDate) {
-                let shamsi_from_date = jalali(selectedRows[0]?.StartDate).date
-                let from_date = shamsi_from_date.split('/')
-
-                let shamsi_to_date = jalali(selectedRows[0]?.EndDate).date
-                let to_date = shamsi_to_date.split('/')
-
-                setSelectedDayRange({ from: { year: Number(from_date[0]), month: Number(from_date[1]), day: Number(from_date[2]) }, to: { year: Number(to_date[0]), month: Number(to_date[1]), day: Number(to_date[2]) } })
-            } else if (selectedRows[0]?.StartDate && !selectedRows[0]?.EndDate) {
-                let shamsi_from_date = jalali(selectedRows[0]?.StartDate).date
-                let from_date = shamsi_from_date.split('/')
-
-                setSelectedDayRange({ from: { year: Number(from_date[0]), month: Number(from_date[1]), day: Number(from_date[2]) }, to: selectedDayRange.to })
-            } else if (!selectedRows[0]?.StartDate && selectedRows[0]?.EndDate) {
-                let shamsi_to_date = jalali(selectedRows[0]?.EndDate).date
-                let to_date = shamsi_to_date.split('/')
-
-                setSelectedDayRange({ from: selectedDayRange.from, to: { year: Number(to_date[0]), month: Number(to_date[1]), day: Number(to_date[2]) } })
-            }
             setQuery(_initialValue)
         }
     }, [modal])
@@ -94,8 +69,6 @@ export default function EditMarketersRelations() {
                                         setQuery={setQuery}
                                         item={item}
                                         onChange={onChange}
-                                        selectedDayRange={selectedDayRange}
-                                        setSelectedDayRange={setSelectedDayRange}
                                     />
                                 })
                             }

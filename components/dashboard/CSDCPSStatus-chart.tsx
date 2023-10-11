@@ -1,38 +1,93 @@
 import React, { memo } from 'react';
 import { AgChartsReact } from "ag-charts-react"
-import { ADMIN_GATEWAY } from "api/constants"
-import useQuery from "hooks/useQuery"
-import moment from "jalali-moment"
+import { AgChartOptions } from 'ag-charts-community';
 
-const CSDCPSStatusChart = () => {
-    const { data, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCSDCPSStatus`, revalidateOnMount: true, params: { EndDate: moment().locale('en').format('YYYY-MM-DD'), StartDate: moment().locale('en').format('YYYY-MM-DD') } })
+const CSDCPSStatusChart = (props: { data: any, onChartReady: () => void }) => {
+    const { data, onChartReady } = props
 
-    const option1: any = {
-        data: data?.result?.pagedData || [],
+    const option1: AgChartOptions = {
         title: {
-            fontFamily: "Yekan Bakh"
+            text: " تغییرات پورتفو سپرده گذاری",
+            fontFamily: 'Yekan Bakh'
         },
+        data: data,
         legend: {
-            position: "right" // 'bottom', 'left', 'top'
+            item: {
+                label: {
+                    fontFamily: "Yekan Bakh"
+                }
+            }
         },
         series: [
             {
-                type: 'pie',
-                angleKey: 'firstnetValuebyClosingPrice',
-                calloutLabelKey: 'faInsCode',
-                sectorLabelKey: 'firstnetValuebyClosingPrice',
-                sectorLabel: {
-                    color: 'white',
-                    fontWeight: 'bold',
-                },
+                type: 'column',
+                xKey: 'effectiveDate',
+                yKey: 'countBuyChange',
+                yName: 'تعداد خرید',
+                fill: 'green',
+                stroke: 'transparent',
+                stacked: true,
             },
-        ]
-    }
+            {
+                type: 'column',
+                xKey: 'effectiveDate',
+                yKey: 'countSellChange',
+                yName: 'تعداد فروش',
+                stacked: true,
+                stroke: 'transparent',
+                fill: 'red',
 
-    console.log(data);
+            },
+            {
+                type: 'column',
+                xKey: 'effectiveDate',
+                yKey: 'countAssetSwitchIn',
+                yName: 'تعداد تغییر ناظر ورودی',
+                stroke: 'transparent',
+                stacked: true,
+
+            },
+            {
+                type: 'column',
+                xKey: 'effectiveDate',
+                yKey: 'countAssetSwitchOut',
+                yName: 'تعداد تغییر ناظر خروجی',
+                stroke: 'transparent',
+                stacked: true,
+
+            },
+            {
+                type: 'column',
+                xKey: 'effectiveDate',
+                yKey: 'countFreezed',
+                yName: 'تعداد فریز شده',
+                stacked: true,
+                stroke: 'transparent',
+
+            },
+            {
+                type: 'column',
+                xKey: 'effectiveDate',
+                yKey: 'countUnFreezed',
+                yName: 'تعداد آزاد',
+                stacked: true,
+                stroke: 'transparent',
+
+            },
+            {
+                type: 'column',
+                xKey: 'effectiveDate',
+                yKey: 'countException',
+                yName: 'تعداد نا مشخص',
+                stacked: true,
+                stroke: 'transparent',
+
+            },
+        ],
+    };
 
     return (
-        <AgChartsReact options={option1} />
+        <AgChartsReact options={option1} className={'ag-rtl'} onChartReady={onChartReady} />
     )
 }
 

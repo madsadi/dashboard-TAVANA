@@ -1440,28 +1440,6 @@ const filters: any = {
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
       ],
       "edit": [
-        {
-          "title": "LeaderMarketerID",
-          "name": "  شناسه بازارایاب سرگروه (کد ملی)",
-          "type": "dynamicSearch",
-          "initialValue": "",
-          "endpoint": `${IDP}/api/users/SearchUserAccount`,
-          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
-          "queryField": "NationalId",
-          "recordField": "id",
-          "isRequired": true
-        },
-        {
-          "title": "FollowerMarketerID",
-          "name": " شناسه بازارایاب زیرگروه (کد ملی)",
-          "type": "dynamicSearch",
-          "initialValue": "",
-          "endpoint": `${IDP}/api/users/SearchUserAccount`,
-          "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
-          "queryField": "NationalId",
-          "recordField": "id",
-          "isRequired": true
-        },
         { "title": "CommissionCoefficient", "name": "ضریب کارمزد معرفی بازاریاب", "type": "input", "dir": "ltr" },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
       ]
@@ -1511,7 +1489,7 @@ const filters: any = {
         { "title": "TotalBrokerCommission", "name": "مجموع کارمزد کارگزاری", "type": "input", "valueType": "number" },
         { "title": "TotalNetBrokerCommission", "name": "مجموع خالص کارمزد کارگزار", "type": "input", "valueType": "number" },
         { "title": "MarketerCommissionIncome", "name": "حق بازاریابی از خالص کارمزد در دوره", "type": "input", "valueType": "number" },
-        { "title": "TotalFeeOfFollowers", "name": "گردش خالض زیر مجموعه ها ", "type": "input", "valueType": "number" },
+        { "title": "TotalFeeOfFollowers", "name": "گردش خالص زیر مجموعه ها ", "type": "input", "valueType": "number" },
         { "title": "Status", "name": "وضعیت فاکتور", "type": "selectInput" },
         { "title": "IsCmdConcluded", "name": "سهم صندوق توسعه لحاظ میشود؟", "type": "selectInput" },
         { "title": "TotalCMD", "name": "مجموع سهم صندوق توسعه", "type": "input", "valueType": "number" },
@@ -1814,7 +1792,7 @@ const filters: any = {
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
         { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
         { "title": "CustomerType", "name": "حقیقی/حقوقی", "type": "selectInput" },
-        { "title": "Date", "name": "تاریخ", "type": "singleDate" },
+        { "title": "Date", "name": "تاریخ", "type": "singleDate", "isRequired": true },
       ],
       "initialValue": {
         "PageNumber": 1,
