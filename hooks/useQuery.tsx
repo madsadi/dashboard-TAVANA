@@ -10,16 +10,19 @@ const useQuery = ({ url = '', params = {}, revalidateOnMount = false, notifResul
     const [query, setQuery] = useState(null);
 
     const fetchData = async (query: any = {}) => {
-        let bodyToQuery: any = {};
+        const params = new URLSearchParams();
         if (query) {
             Object.keys(query).map((item: any) => {
-                if (query[item] !== null && query[item] !== undefined && query[item] !== '') {
-                    bodyToQuery[item] = query[item]
+                if (query[item] !== null && query[item] !== undefined && query[item] !== '' && !Array.isArray(query[item])) {
+                    params.append(item, query[item])
+                } else if (Array.isArray(query[item])) {
+                    query[item].forEach((value: any) => params.append(item, value));
                 }
             })
         }
+
         setLoading(true)
-        await axios.get(url, { params: bodyToQuery })
+        await axios.get(url, { params: params })
             .then((res) => {
                 setData(res.data);
                 if (notifResults) {
@@ -35,15 +38,17 @@ const useQuery = ({ url = '', params = {}, revalidateOnMount = false, notifResul
             });
     };
     const fetchAsyncData = async (query: any = {}, endpoint = '') => {
-        let bodyToQuery: any = {};
+        const params = new URLSearchParams();
         if (query) {
             Object.keys(query).map((item: any) => {
-                if (query[item] !== null && query[item] !== undefined && query[item] !== '') {
-                    bodyToQuery[item] = query[item]
+                if (query[item] !== null && query[item] !== undefined && query[item] !== '' && !Array.isArray(query[item])) {
+                    params.append(item, query[item])
+                } else if (Array.isArray(query[item])) {
+                    query[item].forEach((value: any) => params.append(item, value));
                 }
             })
         }
-        return axios.get(url || endpoint, { params: bodyToQuery })
+        return axios.get(url || endpoint, { params: params })
     };
 
     useEffect(() => {

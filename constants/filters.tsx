@@ -510,6 +510,7 @@ const filters: any = {
           "title": "branchId",
           "name": "عنوان شعبه",
           "type": "dynamicSearch",
+          "placeholder": "branchTitle",
           "initialValue": "",
           "endpoint": `${ADMIN_GATEWAY}/api/request/branch/Search`,
           "valueField": ["title", "subsidiaryTitle", "typeTitle"],
@@ -522,6 +523,7 @@ const filters: any = {
           "title": "userId",
           "name": "کد ملی کاربر",
           "type": "dynamicSearch",
+          "placeholder": "uniqueId",
           "initialValue": "",
           "endpoint": `${IDP}/api/users/SearchUserAccount`,
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
@@ -724,7 +726,7 @@ const filters: any = {
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "OrderId", "name": "شناسه سفارش", "type": "input" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
         { "title": "OrderType", "name": "نوع سفارش", "type": "selectInput", "valueType": "number" },
         { "title": "OrderSide", "name": "سمت", "type": "selectInput", "valueType": "number" },
         { "title": "ValidityType", "name": "اعتبار", "type": "selectInput", "valueType": "number" },
@@ -767,7 +769,7 @@ const filters: any = {
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "OrderId", "name": "شناسه سفارش", "type": "input" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
         { "title": "OrderSide", "name": "سمت", "type": "selectInput", "valueType": "number" },
         { "title": "TradeId", "name": "شناسه معامله", "type": "input" },
         { "title": "TradeCancelationFlag", "name": "وضعیت لغو معامله", "type": "input" },
@@ -830,7 +832,7 @@ const filters: any = {
         { "title": "orderTechnicalOrigin", "name": "مرجع تکنیکال سفارش", "type": "selectInput", "valueType": "number" }
       ],
       "instrumentOrder": [
-        { "title": "InstrumentId", "name": "نماد", "type": "search" },
+        { "title": "InstrumentId", "name": "نماد", "type": "search", "display": "faInsCode" },
         { "title": "orderSide", "name": "سمت سفارش", "type": "selectInput", "valueType": "number" },
         { "title": "orderOrigin", "name": "نوع کاربر", "type": "selectInput", "valueType": "number" },
         { "title": "orderTechnicalOrigin", "name": "مرجع تکنیکال سفارش", "type": "selectInput", "valueType": "number" }
@@ -844,7 +846,7 @@ const filters: any = {
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "customerId", "name": "شناسه مشتری", "type": "input" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search" }
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" }
       ],
       "initialValue": {
         "PageNumber": 1,
@@ -940,7 +942,7 @@ const filters: any = {
     },
     "toolbar": {
       "add": [
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
         { "title": "maxQuantity", "name": "بیشینه حجم سفارش", "type": "input", "valueType": "number" },
         { "title": "minPrice", "name": "حداقل قیمت سفارش", "type": "input", "valueType": "number" },
         { "title": "maxPrice", "name": "حداکثر قیمت سفارش", "type": "input", "valueType": "number" },
@@ -951,7 +953,7 @@ const filters: any = {
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
       ],
       "edit": [
-        { "title": "instrumentId", "name": "شناسه نماد", "type": "search" },
+        { "title": "instrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
         { "title": "maxQuantity", "name": "بیشینه حجم سفارش", "type": "input", "valueType": "number" },
         { "title": "minPrice", "name": "حداقل قیمت سفارش", "type": "input", "valueType": "number" },
         { "title": "maxPrice", "name": "حداکثر قیمت سفارش", "type": "input", "valueType": "number" },
@@ -1267,6 +1269,29 @@ const filters: any = {
       ]
     }
   },
+  "commission-management_symbols": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "InstrumentIds", "name": "شناسه نماد", "type": "search", "isRequired": true, "isMultiple": true },
+        { "title": "OfferTypeCode", "name": "نوع عرضه", "type": "selectInput" },
+        { "title": "SideCode", "name": "سمت سفارش", "type": "selectInput" },
+        { "title": "CustomerTypeCode", "name": "نوع مشتری", "type": "selectInput" },
+        { "title": "CustomerCounterSideCode", "name": "مشتری طرف مقابل", "type": "selectInput" },
+      ],
+      "initialValue": {
+        "InstrumentIds": [],
+        "OfferTypeCode": "",
+        "SideCode": "",
+        "CustomerTypeCode": '',
+        "CustomerCounterSideCode": '',
+        "PageSize": 20,
+        "PageNumber": 1
+      }
+    }
+  },
   "netflow_trades_report": {
     services: {},
     "search": {
@@ -1276,7 +1301,7 @@ const filters: any = {
         { "title": "date", "name": "تاریخ", "type": "date" },
         { "title": "Ticket", "name": "شماره تیکت", "type": "input" },
         { "title": "Symbol", "name": "نماد", "type": "input" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "input" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "input", "display": "faInsCode" },
         { "title": "FirstName", "name": "نام", "type": "input" },
         { "title": "LastName", "name": "نام خانوادگی", "type": "input" },
         { "title": "NationalCode", "name": "کد ملی", "type": "input" },
@@ -1335,7 +1360,7 @@ const filters: any = {
         { "title": "date", "name": "تاریخ", "type": "date" },
         { "title": "Ticket", "name": "شماره تیکت", "type": "input" },
         { "title": "Symbol", "name": "نماد", "type": "input" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "input" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "input", "display": "faInsCode" },
         { "title": "Side", "name": "سمت", "type": "selectInput" }
       ],
       "initialValue": {
@@ -1602,6 +1627,7 @@ const filters: any = {
           "title": "MarketerID",
           "name": "حساب کاربری (کد ملی کاربر)",
           "type": "dynamicSearch",
+          "placeholder": "Title",
           "initialValue": "",
           "endpoint": `${IDP}/api/users/SearchUserAccount`,
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
@@ -1691,7 +1717,7 @@ const filters: any = {
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "CustomerId", "name": "شناسه مشتری", "type": "input" },
         { "title": "UnqiueId", "name": "کد ملی مشتری", "type": "input" },
-        { "title": "InstrumentId", "name": "تاریخ", "type": "search" },
+        { "title": "InstrumentId", "name": "تاریخ", "type": "search", "display": "faInsCode" },
         { "title": "Status", "name": "وضعیت تغییر کارگزاری", "type": "selectInput" },
         {
           "title": "UserId",
@@ -1703,7 +1729,7 @@ const filters: any = {
           "queryField": "NationalId",
           "recordField": "id"
         },
-        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" },
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
       ],
       "initialValue": {
         "PageNumber": 1,
@@ -1721,7 +1747,7 @@ const filters: any = {
           "title": "customerId", "name": "شناسه مشتری", "type": "input", "initialValue": "",
           "isRequired": true
         },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "isRequired": true },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "isRequired": true, "display": "faInsCode" },
       ],
       "edit": [
         { "title": "status", "name": "وضعیت", "type": "selectInput", "initialValue": null },
@@ -1738,7 +1764,7 @@ const filters: any = {
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
-        { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
+        { "title": "InstrumentId", "name": "نام نماد", "type": "search", "display": "faInsCode" },
         { "title": "CustomerType", "name": "حقیقی/حقوقی", "type": "selectInput" },
         { "title": "ChangeType", "name": "نوع تغییر", "type": "selectInput" },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
@@ -1764,7 +1790,7 @@ const filters: any = {
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
-        { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
+        { "title": "InstrumentId", "name": "نام نماد", "type": "search", "display": "faInsCode" },
         { "title": "CustomerType", "name": "حقیقی/حقوقی", "type": "selectInput" },
         { "title": "ChangeType", "name": "نوع تغییر", "type": "selectInput" },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
@@ -1790,7 +1816,7 @@ const filters: any = {
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
-        { "title": "InstrumentId", "name": "نام نماد", "type": "search" },
+        { "title": "InstrumentId", "name": "نام نماد", "type": "search", "display": "faInsCode" },
         { "title": "CustomerType", "name": "حقیقی/حقوقی", "type": "selectInput" },
         { "title": "Date", "name": "تاریخ", "type": "singleDate", "isRequired": true },
       ],

@@ -311,6 +311,13 @@ export default function SideBarContent() {
             expanded: router.pathname.startsWith('/commission-management'),
             children: [
                 {
+                    label: 'کارمزد نمادها',
+                    url: '/commission-management/symbols',
+                    as: '/commission-management/symbols',
+                    className: router.pathname === '/commission-management/symbols' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.COMMISSION_MANAGEMENT_symbols,
+                },
+                {
                     label: 'ضرایب کارمزد',
                     url: '/commission-management/commission',
                     as: '/commission-management/commission',

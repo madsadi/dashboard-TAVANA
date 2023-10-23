@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/layout/modal";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/components/input-generator";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
 import ExtraDateAndTimeInput from "./extra-date-time-input";
 import { throwToast } from "../common/functions/notification";
@@ -20,10 +19,7 @@ export default function AddNew() {
     const { toolbar, restriction, modules, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`], 'modal')
     const [query, setQuery] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
+
     let initialValue: any = {};
 
     useEffect(() => {
@@ -90,8 +86,6 @@ export default function AddNew() {
                                     item={item}
                                     setQuery={setQuery}
                                     onChange={onChange}
-                                    selectedDayRange={selectedDayRange}
-                                    setSelectedDayRange={setSelectedDayRange}
                                 />
                             })
                         }

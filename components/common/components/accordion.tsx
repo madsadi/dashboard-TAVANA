@@ -4,19 +4,20 @@ import { useState } from "react";
 
 export interface accordionPropsType {
     children: ReactNode,
-    title?: string
+    title?: string,
+    className?: string
 }
-export default function AccordionComponent({ children, title = 'جستجو' }: accordionPropsType) {
+export default function AccordionComponent({ children, title = 'جستجو', className }: accordionPropsType) {
     const [isChecked, setChecked] = useState(true)
 
     return (
-        <div className={`relative collapse border border-border rounded-t-lg z-[10] ${isChecked ? '!overflow-visible' : 'overflow-hidden '}`}>
+        <div className={`relative collapse border border-border rounded-t-lg z-[10] ${isChecked ? '!overflow-visible' : 'overflow-hidden '} ${className}`}>
             <input type="checkbox" checked={isChecked} className="peer w-full h-full" aria-label="accordion" aria-labelledby="accordion" onChange={(e) => setChecked(e.target.checked)} />
-            <div className={`collapse-title bg-gray-100 flex items-center px-2 py-2 peer-checked:hidden`}>
+            <div className={`collapse-title bg-border flex items-center px-2 py-2 peer-checked:hidden`}>
                 <div className={'min-w-7'}><ChevronLeftIcon className={'h-7 w-7 '} /></div>
                 <h4 className={'text-right'}>{title}</h4>
             </div>
-            <div className={`collapse-title bg-gray-100 hidden px-2 py-2 peer-checked:flex transition-all`}>
+            <div className={`collapse-title bg-border hidden px-2 py-2 peer-checked:flex transition-all`}>
                 <div className={'min-w-7'}><ChevronDownIcon className={'h-7 w-7 '} /></div>
                 <h4 className={'text-right'}>{title}</h4>
             </div>

@@ -7,7 +7,6 @@ import useMutation from "../../../../hooks/useMutation";
 import { throwToast } from "../../../common/functions/notification";
 import Modal from "../../../common/layout/modal";
 import InputComponent from "../../../common/components/input-generator";
-import { DayRange } from "react-modern-calendar-datepicker";
 import { jalali } from "../../../common/functions/common-funcions";
 import { Button } from "../../../common/components/button/button";
 
@@ -18,7 +17,6 @@ export default function EditCommission() {
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({ from: null, to: null })
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
@@ -54,14 +52,7 @@ export default function EditCommission() {
                         _query[`${child.title}`] = selectedRows[0][`${child.title}`]
                     })
                 } else {
-                    if (item.title === 'date') {
-                        _query[`StartDate`] = selectedRows[0][`beginningEffectingDate`]
-                        _query[`EndDate`] = selectedRows[0][`endEffectingDate`]
-                        setSelectedDayRange({
-                            from: selectedRows[0][`beginningEffectingDate`] ? convertDate(selectedRows[0][`beginningEffectingDate`]) : null,
-                            to: selectedRows[0][`endEffectingDate`] ? convertDate(selectedRows[0][`endEffectingDate`]) : null
-                        })
-                    } else {
+                    if (item.title !== 'date') {
                         _query[`${item.title}`] = selectedRows[0][`${item.title}`]
                     }
                 }
@@ -115,8 +106,6 @@ export default function EditCommission() {
                                             setQuery={setQuery}
                                             item={item}
                                             onChange={onChange}
-                                            selectedDayRange={selectedDayRange}
-                                            setSelectedDayRange={setSelectedDayRange}
                                         />
                                     </div>)
                                 }

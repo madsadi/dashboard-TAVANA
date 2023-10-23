@@ -26,6 +26,7 @@ export const ModuleIdentifier: any = {
     COMMISSION_MANAGEMENT_detail: "commission-management_detail",
     COMMISSION_MANAGEMENT_instrument: "commission-management_instrument",
     COMMISSION_MANAGEMENT_category: "commission-management_category",
+    COMMISSION_MANAGEMENT_symbols: "commission-management_symbols",
     NETFLOW_trades_report: "netflow_trades_report",
     NETFLOW_rules: "netflow_rules",
     NETFLOW_cleared_trade: "netflow_cleared_trade",

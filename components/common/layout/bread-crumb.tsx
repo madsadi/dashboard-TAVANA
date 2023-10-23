@@ -70,6 +70,7 @@ export default function BreadCrumbComponent() {
         "portfo-comparison": "مقایسه پورتفوی",
         "[...factorId]": "اصلاح مالی صورت حساب",
         "detail": "جزییات",
+        "symbols": "نمادها",
     }
 
     useEffect(() => {

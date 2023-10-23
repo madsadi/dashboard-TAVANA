@@ -9,8 +9,10 @@ import {
     changeTypeEnums,
     CoefficientBaseTypeEnums,
     ContractTypeEnums,
+    CustomerOriginEnums,
     customerTypeEnums,
     FactorStatusEnums,
+    GetOfferTypeEnums,
     Hours,
     isActiveWithNoNull,
     isRequired,
@@ -118,7 +120,13 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
         case 'Side':
         case 'orderSide':
         case 'OrderSide':
+        case 'SideCode':
             return sides
+        case 'CustomerTypeCode':
+        case 'CustomerCounterSideCode':
+            return CustomerOriginEnums
+        case 'OfferTypeCode':
+            return GetOfferTypeEnums
         case 'Deleted':
         case 'IsDeleted':
             return Options

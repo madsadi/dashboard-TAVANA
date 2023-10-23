@@ -7,7 +7,6 @@ import InputComponent from "../../../common/components/input-generator";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
 import Modal from "../../../common/layout/modal";
-import { DayValue } from "react-modern-calendar-datepicker";
 import { Button } from "../../../common/components/button/button";
 
 export default function InActive() {
@@ -16,7 +15,6 @@ export default function InActive() {
     const { mutate } = useMutation({ url: `${ADMIN_GATEWAY}/api/request/CommissionDetail/InActive`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDay, setSelectedDay] = useState<DayValue>(null)
     const [loading, setLoading] = useState<boolean>(false)
 
     const editHandler = async (e: any) => {
@@ -62,12 +60,9 @@ export default function InActive() {
                                 return <InputComponent key={item.title}
                                     query={query}
                                     setQuery={setQuery}
-                                    setSelectedDay={setSelectedDay}
-                                    selectedDay={selectedDay}
                                     item={item}
                                     onChange={onChange}
                                 />
-
                             })
                         }
                     </form>

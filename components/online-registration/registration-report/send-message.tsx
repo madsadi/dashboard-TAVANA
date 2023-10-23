@@ -12,7 +12,6 @@ import { Button } from '../../common/components/button/button';
 export const SendMessageComponent = () => {
     const [modal, setModal] = useState(false)
     const { service, modules, restriction } = useSearchFilters(ModuleIdentifier.ONLINE_REGISTRATION)
-    const [selectedDay, setSelectedDay] = useState<DayValue>(null)
     const [query, setQuery] = useState({ date: '' })
     const [loading, setLoading] = useState<boolean>(false)
     const { fetchAsyncData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SendMessageToUncompletedUsers` })
@@ -45,8 +44,6 @@ export const SendMessageComponent = () => {
                             <InputComponent item={{ title: '', type: 'singleDate', name: 'date', valueType: 'string' }}
                                 query={query}
                                 onChange={onChange}
-                                setSelectedDay={setSelectedDay}
-                                selectedDay={selectedDay}
                             />
                         </div>
                         <div className={'flex justify-end space-x-reverse space-x-2 mt-10'}>

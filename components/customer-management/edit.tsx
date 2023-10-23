@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/layout/modal";
 import usePageStructure from "../../hooks/usePageStructure";
 import InputComponent from "../common/components/input-generator";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
 import { throwToast } from "../common/functions/notification";
 import useMutation from "../../hooks/useMutation";
@@ -19,18 +18,7 @@ export default function Edit() {
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [loading, setLoading] = useState<boolean>(false)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
-
-    const { fetchData, selectedRows, setSelectedRows, query: searchQuery } = useContext<any>(CustomerManagement)
-
-    useEffect(() => {
-        if (!modal) {
-            setSelectedRows([])
-        }
-    }, [modal])
+    const { fetchData, selectedRows, query: searchQuery } = useContext<any>(CustomerManagement)
 
     useEffect(() => {
         if (toolbar && selectedRows[0]) {
@@ -95,8 +83,8 @@ export default function Edit() {
                                     item={item}
                                     onChange={onChange}
                                     setQuery={setQuery}
-                                    selectedDayRange={selectedDayRange}
-                                    setSelectedDayRange={setSelectedDayRange} />
+                                    dataHelper={selectedRows[0]}
+                                />
                             })
                         }
                     </form>

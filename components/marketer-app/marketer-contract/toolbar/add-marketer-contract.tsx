@@ -58,8 +58,6 @@ export default function AddMarketerContract() {
                                         setQuery={setQuery}
                                         item={item}
                                         onChange={onChange}
-                                        setSelectedDayRange={setSelectedDayRange}
-                                        selectedDayRange={selectedDayRange}
                                     />
                                 })
                             }

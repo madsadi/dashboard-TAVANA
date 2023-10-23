@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/modal";
 import moment from "jalali-moment";
 import InputComponent from "../common/components/input-generator";
@@ -16,10 +15,6 @@ export default function AddModal() {
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [loading, setLoading] = useState<boolean>(false)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
 
     const addNewHandler = async () => {
         if (query?.InstrumentId && query?.maxQuantity) {
@@ -36,7 +31,6 @@ export default function AddModal() {
                     setModal(false)
                     throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
                     setQuery(null)
-                    setSelectedDayRange({ from: null, to: null })
                 })
                 .catch((err) => throwToast({ type: 'error', value: err }))
                 .finally(() => setLoading(false))
@@ -52,7 +46,6 @@ export default function AddModal() {
     useEffect(() => {
         if (!modal) {
             setQuery(null)
-            setSelectedDayRange({ from: null, to: null })
         }
     }, [modal])
 
@@ -80,9 +73,7 @@ export default function AddModal() {
                                     setQuery={setQuery}
                                     item={item}
                                     onChange={onChange}
-                                    selectedDayRange={selectedDayRange}
-                                    setSelectedDayRange={setSelectedDayRange} />
-
+                                />
                             })
                         }
                     </form>

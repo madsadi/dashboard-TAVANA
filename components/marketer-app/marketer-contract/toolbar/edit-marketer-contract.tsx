@@ -98,8 +98,7 @@ export default function EditMarketerContract() {
                                         setQuery={setQuery}
                                         item={item}
                                         onChange={onChange}
-                                        setSelectedDayRange={setSelectedDayRange}
-                                        selectedDayRange={selectedDayRange}
+                                        dataHelper={selectedRows[0]}
                                     />
                                 })
                             }

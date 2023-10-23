@@ -18,11 +18,8 @@ type PropsType = {
     onChange: any,
     setQuery?: Dispatch<any>,
     item: any,
-    selectedDayRange: DayRange,
-    setSelectedDayRange: Dispatch<DayRange>,
     dynamicsOption: any,
-    selectedDay: DayValue,
-    setSelectedDay: Dispatch<DayValue>,
+    dataHelper?: any
 }
 const InputComponent = (props: PropsType) => {
     const {
@@ -30,7 +27,8 @@ const InputComponent = (props: PropsType) => {
         setQuery,
         query,
         item,
-        dynamicsOption
+        dynamicsOption,
+        dataHelper,
     } = props
 
     const { title, type } = item
@@ -75,11 +73,11 @@ const InputComponent = (props: PropsType) => {
                     <DynamicSelect item={item} onChange={onChange} value={query?.[title]} />
                 )
             case "dynamicSearch":
-                return <DynamicSearch queryUpdate={onChange} setQuery={setQuery} query={query} item={item} />
+                return <DynamicSearch queryUpdate={onChange} setQuery={setQuery} query={query} item={item} dataHelper={dataHelper} />
             case "search":
                 return (
                     <div>
-                        <SymbolSearchSection query={query} queryUpdate={onChange} />
+                        <SymbolSearchSection item={item} query={query} queryUpdate={onChange} />
                     </div>
                 )
             case "searchRoles":

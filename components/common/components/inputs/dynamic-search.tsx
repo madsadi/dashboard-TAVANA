@@ -5,14 +5,13 @@ import Image from "next/image";
 import useQuery from "../../../../hooks/useQuery";
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 
-export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { item: any, queryUpdate: any, setQuery: any, query: any }) {
-    const { title, name, endpoint, valueField = [], queryField, recordField, alternative, isRequired, inputAble, alternativeRelatedRecordField, resultField = 'pagedData' } = item
+export default function DynamicSearch({ item, queryUpdate, setQuery, query, dataHelper }: { item: any, queryUpdate: any, setQuery: any, query: any, dataHelper: any }) {
+    const { title, name, endpoint, valueField = [], placeholder, queryField, recordField, alternative, isRequired, inputAble, alternativeRelatedRecordField, resultField = 'pagedData' } = item
     const [page, setPage] = useState(1)
     const [searchItem, setSearchItem] = useState('')
     const [findings, setFindings] = useState<any>([])
     const [open, setOpen] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
-    const [placeholder, setPlaceholder] = useState('')
     const { data, fetchAsyncData } = useQuery({ url: endpoint })
 
     const searchHandler = (item: string, page: number) => {
@@ -43,12 +42,6 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { 
             setFindings([...findings, ...data?.result?.[resultField]])
         }
     }, [data])// eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(() => {
-        if (query?.[title]) {
-            setPlaceholder(query?.[title])
-        }
-    }, [])
 
     useEffect(() => {
         if (!query?.[title]) {
@@ -108,7 +101,7 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query }: { 
                 </label>
                 <input id={title} className={'w-full h-[36px]'} value={searchItem}
                     onFocus={() => setOpen(true)}
-                    placeholder={placeholder}
+                    placeholder={dataHelper?.[placeholder] || query?.[title]}
                     onChange={(e) => {
                         searchHandler(e.target.value, 1);
                         setOpen(true)

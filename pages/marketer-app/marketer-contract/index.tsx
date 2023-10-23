@@ -105,7 +105,7 @@ function MarketerContract() {
                     columnDefStructure={columnDefStructure}
                     setSelectedRows={setSelectedRows}
                     selectedRows={selectedRows}
-                    rowSelection={'multiple'}
+                    rowSelection={'single'}
                     rowId={['ContractID']}
                 />
             </div>

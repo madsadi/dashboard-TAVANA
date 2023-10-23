@@ -143,7 +143,7 @@ function AssetSwitch() {
                     loading={loading}
                     columnDefStructure={columnDefStructure}
                     detailCellRendererParams={detailCellRendererParams}
-                    rowId={['customerId', 'instrumentId']}
+                    rowId={['id']}
                     pagination={true}
                     rowSelection={'single'}
                     selectedRows={selectedRows}

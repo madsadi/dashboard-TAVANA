@@ -7,7 +7,6 @@ import useMutation from "../../../../hooks/useMutation";
 import { throwToast } from "../../../common/functions/notification";
 import Modal from "../../../common/layout/modal";
 import InputComponent from "../../../common/components/input-generator";
-import { DayRange } from "react-modern-calendar-datepicker";
 import { Button } from "../../../common/components/button/button";
 
 export default function AddCommission() {
@@ -17,7 +16,6 @@ export default function AddCommission() {
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({ from: null, to: null })
 
     const addNewHandler = async (e: any) => {
         e.preventDefault()
@@ -28,7 +26,6 @@ export default function AddCommission() {
                 throwToast({ type: 'success', value: 'با موفقیت انجام شد' })
                 setModal(false)
                 setQuery(null)
-                setSelectedDayRange({ from: null, to: null })
                 fetchData(searchQuery)
             })
             .catch((err) => throwToast({ type: 'error', value: err }))
@@ -88,9 +85,6 @@ export default function AddCommission() {
                                             setQuery={setQuery}
                                             item={item}
                                             onChange={onChange}
-                                            selectedDayRange={selectedDayRange}
-                                            setSelectedDayRange={setSelectedDayRange}
-
                                         />
                                     </div>)
                                 }

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import Modal from "../common/layout/modal";
 import moment from "jalali-moment";
 import InputComponent from "../common/components/input-generator";
@@ -19,10 +18,6 @@ export default function EditModal() {
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>(null)
     const [loading, setLoading] = useState<boolean>(false)
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
 
     const openUpdate = () => {
         if (selectedRows.length) {
@@ -37,7 +32,6 @@ export default function EditModal() {
                 month: Number(jalali(selectedRows[0]?.toActiveDateTime).date.split('/')[1]),
                 day: Number(jalali(selectedRows[0]?.toActiveDateTime).date.split('/')[2])
             }
-            setSelectedDayRange(_date)
             setQuery({
                 ...selectedRows[0],
                 StartDate: moment(selectedRows[0].fromActiveDateTime).locale('en').format('YYYY-MM-DD'),
@@ -93,9 +87,7 @@ export default function EditModal() {
                                 setQuery={setQuery}
                                 item={item}
                                 onChange={onChange}
-                                selectedDayRange={selectedDayRange}
-                                setSelectedDayRange={setSelectedDayRange} />
-
+                            />
                         })
                     }
                 </form>

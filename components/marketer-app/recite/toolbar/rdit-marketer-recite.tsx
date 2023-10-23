@@ -6,7 +6,6 @@ import useMutation from "../../../../hooks/useMutation";
 import { MARKETER_ADMIN } from "../../../../api/constants";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../common/functions/Module-Identifier";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
 import { ReciteContext } from "../../../../pages/marketer-app/recite";
 import { Button } from "components/common/components/button/button";
 
@@ -16,10 +15,7 @@ export default function EditMarketerRecite() {
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/factor/base`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-        from: null,
-        to: null
-    });
+
     useEffect(() => {
         if (modal && selectedRows?.length) {
             let _initialValue: any = {};
@@ -76,8 +72,6 @@ export default function EditMarketerRecite() {
                                         query={query}
                                         item={item}
                                         onChange={onChange}
-                                        selectedDayRange={selectedDayRange}
-                                        setSelectedDayRange={setSelectedDayRange}
                                     />
                                 })
                             }
