@@ -1853,6 +1853,30 @@ const filters: any = {
         "BourseCode": null,
       }
     }
+  },
+  "csdi-portfo_freezed_asset": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "CustomerId", "name": "شناسه مشتری", "type": "input" },
+        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
+        { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
+        { "title": "CustomerType", "name": " نوع مشتری", "type": "selectInput" },
+        { "title": "IsFreezed", "name": "آیا منجمد است؟", "type": "selectInput" },
+        { "title": "Date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "StartDate": '',
+        "EndDate": '',
+        "TradingCode": '',
+        "BourseCode": null,
+      }
+    }
   }
 }
 

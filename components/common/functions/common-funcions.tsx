@@ -169,6 +169,7 @@ export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
         case 'IsReplica':
         case 'isSejami':
         case 'IsCmdConcluded':
+        case 'IsFreezed':
             return isRequired
         case 'Month':
             return Months

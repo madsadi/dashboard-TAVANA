@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
@@ -10,6 +10,7 @@ import { withPermission } from "components/common/layout/with-permission";
 import DateCell from "components/common/table/date-cell";
 import { CustomerOriginEnums, GetOfferTypeEnums, sides } from "constants/Enums";
 import { throwToast } from "components/common/functions/notification";
+import { formatNumber } from "components/common/functions/common-funcions";
 
 function SymbolsCommission() {
     const [selectedRows, setSelectedRows] = useState<any>([])
@@ -85,6 +86,7 @@ function SymbolsCommission() {
         {
             field: 'instrumentId',
             headerName: 'شناسه نماد',
+            cellRenderer: 'agGroupCellRenderer'
         },
         {
             field: 'faInsCode',
@@ -183,7 +185,117 @@ function SymbolsCommission() {
             .finally(() => setLoading(false))
     }
 
-    console.log(data);
+    const detailCellRendererParams = useMemo(() => {
+        return {
+            detailGridOptions: {
+                enableRtl: true,
+                // getRowId:(params:any)=>params.data.orderId,
+                columnDefs: [
+                    {
+                        field: 'category',
+                        headerName: '',
+                    },
+                    {
+                        field: 'broker',
+                        headerName: 'کارگزاری',
+                    },
+                    {
+                        field: 'access',
+                        headerName: 'حق دسترسی',
+                    },
+                    {
+                        field: 'brokerCmdFund',
+                        headerName: 'سهم صندوق توسعه',
+                    },
+                    {
+                        field: 'bourse',
+                        headerName: 'بورس',
+                    },
+                    {
+                        field: 'seoControl',
+                        headerName: 'سازمان',
+                    },
+                    {
+                        field: 'csd',
+                        headerName: 'شرکت سپرده گذاری',
+                    },
+                    {
+                        field: 'tmc',
+                        headerName: 'مدیرت فناوری',
+                    },
+                    {
+                        field: 'rayan',
+                        headerName: 'رایان بورس',
+                    },
+                    {
+                        field: 'tax',
+                        headerName: 'مالیات',
+                    },
+                    {
+                        field: 'addedValue',
+                        headerName: 'ارزش افزوده',
+                    },
+                    {
+                        field: 'charge',
+                        headerName: 'عوارض',
+                    },
+                    {
+                        field: 'inventory',
+                        headerName: 'انبارداری',
+                    },
+                    {
+                        field: 'inventoryAddedValueTax',
+                        headerName: 'ارزش افزوده انبارداری',
+                    },
+                ],
+                defaultColDef: {
+                    resizable: true,
+                    sortable: true,
+                    flex: 1,
+                    valueFormatter: formatNumber
+                },
+            },
+            getDetailRowData: async (params: any) => {
+                params.successCallback([
+                    {
+                        category: 'ضریب کارمزد',
+                        broker: params.data.brokerCommissionCoeff,
+                        access: params.data.accessCommissionCoeff,
+                        brokerCmdFund: params.data.brokerCmdFundCoeff,
+                        bourse: params.data.brokerCmdFundCoeff,
+                        seoControl: params.data.seoControlCommissionCoeff,
+                        csd: params.data.csdCommissionCoeff,
+                        tmc: params.data.tmcCommissionCoeff,
+                        rayan: params.data.rayanCommissionCoeff,
+                        tax: params.data.taxCoeff,
+                        addedValue: params.data.addedValueTax,
+                        charge: params.data.charge,
+                        inventory: params.data.inventoryCoeff,
+                        inventoryAddedValueTax: params.data.inventoryAddedValueTaxCoeff,
+                    },
+                    {
+                        category: 'مقدار کمینه',
+                        broker: params.data.minBrokerCommissionValue,
+                    },
+                    {
+                        category: 'مقدار بیشینه',
+                        broker: params.data.maxBrokerCommissionValue,
+                        access: params.data.maxAccessCommissionValue,
+                        brokerCmdFund: params.data.maxBrokerCmdFundValue,
+                        bourse: params.data.maxBourseCommissionValue,
+                        seoControl: params.data.maxSeoControlCommissionValue,
+                        csd: params.data.maxCsdCommissionValue,
+                        tmc: params.data.maxTmcCommissionValue,
+                        rayan: params.data.maxRayanCommissionValue,
+                        tax: params.data.maxTaxValue,
+                        addedValue: params.data.maxAddedVlueTax,
+                        inventory: params.data.maxInventoryValue,
+                        inventoryAddedValueTax: params.data.maxInventoryAddedValueTax,
+                    }
+                ]);
+            },
+        };
+    }, []);
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
@@ -199,6 +311,8 @@ function SymbolsCommission() {
                 setSelectedRows={setSelectedRows}
                 selectedRows={selectedRows}
                 rowId={['id']}
+                detailCellRendererParams={detailCellRendererParams}
+                masterDetail={true}
                 pagination={true}
                 totalCount={data?.totalCount}
                 fetcher={fetchHandler}

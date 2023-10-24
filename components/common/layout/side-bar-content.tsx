@@ -267,6 +267,13 @@ export default function SideBarContent() {
                     as: '/csdi-portfo/portfo-comparison',
                     className: router.pathname === '/csdi-portfo/portfo-comparison' ? 'sideBarActive' : '',
                     module: ModuleIdentifier.CSDI_PORTFO_comparison,
+                },
+                {
+                    label: 'گزارش دارایی منجمد',
+                    url: '/csdi-portfo/freezed-asset',
+                    as: '/csdi-portfo/freezed-asset',
+                    className: router.pathname === '/csdi-portfo/freezed-asset' ? 'sideBarActive' : '',
+                    module: ModuleIdentifier.CSDI_PORTFO_freezed_asset,
                 }
             ],
         },

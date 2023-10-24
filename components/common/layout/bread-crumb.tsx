@@ -71,6 +71,7 @@ export default function BreadCrumbComponent() {
         "[...factorId]": "اصلاح مالی صورت حساب",
         "detail": "جزییات",
         "symbols": "نمادها",
+        "freezed-asset": "گزارش دارایی منجمد"
     }
 
     useEffect(() => {

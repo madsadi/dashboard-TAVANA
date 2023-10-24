@@ -44,4 +44,5 @@ export const ModuleIdentifier: any = {
     CSDI_PORTFO_asset_switch_report: "csdi-portfo_asset_switch_report",
     CSDI_PORTFO_switch_report: "csdi-portfo_switch_report",
     CSDI_PORTFO_comparison: "csdi-portfo_comparison",
+    CSDI_PORTFO_freezed_asset: "csdi-portfo_freezed_asset"
 }

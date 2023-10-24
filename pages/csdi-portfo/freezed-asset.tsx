@@ -8,9 +8,9 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
-import { changeTypeEnums, customerTypeEnums } from "constants/Enums";
+import { personTypeEnums } from "constants/Enums";
 
-function SwitchReport() {
+function FreezedAsset() {
     const columnDefStructure = [
         {
             field: 'tradingCode',
@@ -27,7 +27,15 @@ function SwitchReport() {
         {
             field: 'bourseCode',
             headerName: 'کد بورسی',
-        }, {
+        },
+        {
+            field: 'personType',
+            headerName: 'نوع مشتری',
+            valueFormatter: (rowData: any) => {
+                return personTypeEnums.find((item: any) => item.id === rowData.data.personType)?.title
+            }
+        },
+        {
             field: 'instrumentId',
             headerName: 'شناسه نماد',
         },
@@ -40,39 +48,11 @@ function SwitchReport() {
             headerName: 'نام کامل نماد',
         },
         {
-            field: 'customerType',
-            headerName: 'حقیقی/حقوقی ',
+            field: 'isFreezed',
+            headerName: 'وضعیت انجماد',
             valueFormatter: (rowData: any) => {
-                return (
-                    customerTypeEnums.find((item) => item.id === rowData.data.customerType)?.title
-                )
-            },
-        },
-        {
-            field: 'shareChange',
-            headerName: 'تعداد تغییر ',
-        },
-        {
-            field: 'shareCount',
-            headerName: 'تعداد مانده ',
-        },
-        {
-            field: 'changeTypeCode',
-            headerName: 'کد نوع تغییر',
-        },
-        {
-            field: 'changeType',
-            headerName: 'نوع تغییر',
-            cellClassRules: {
-                // out of range style
-                'text-emerald-500': (rowData: any) => rowData.data.changeType === 3 || rowData.data.changeType === 1,
-                'text-rose-500': (rowData: any) => rowData.data.changeType === 4 || rowData.data.changeType === 2,
-            },
-            valueFormatter: (rowData: any) => {
-                return (
-                    changeTypeEnums.find((item) => item.id === rowData.data.changeType)?.title
-                )
-            },
+                return rowData.data.isFreezed ? 'انجماد' : 'آزاد'
+            }
         },
         {
             field: 'effectiveDate',
@@ -90,15 +70,15 @@ function SwitchReport() {
             },
         }
     ]
-    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetCustomerCSDPortfolioChange` })
+    const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchCustomerFreezedAsset` })
 
     return (
         <div className={'flex flex-col h-full flex-1 '}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.CSDI_PORTFO_switch_report} />
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.CSDI_PORTFO_freezed_asset} />
             </AccordionComponent>
             <TableComponent data={data?.result?.pagedData}
-                module={ModuleIdentifier.CSDI_PORTFO_switch_report}
+                module={ModuleIdentifier.CSDI_PORTFO_freezed_asset}
                 loading={loading}
                 columnDefStructure={columnDefStructure}
                 rowId={['id']}
@@ -111,4 +91,4 @@ function SwitchReport() {
     )
 }
 
-export default withPermission(SwitchReport, ModuleIdentifier.CSDI_PORTFO_switch_report)
+export default withPermission(FreezedAsset, ModuleIdentifier.CSDI_PORTFO_freezed_asset)
