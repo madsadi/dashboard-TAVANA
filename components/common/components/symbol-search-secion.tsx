@@ -136,7 +136,7 @@ export default function SymbolSearchSection({ query, queryUpdate, item }: { quer
             </div>
             {
                 isMultiple && Array.isArray(query?.[title]) && query?.[title].length ? <div className="flex flex-wrap gap-2 mt-1">
-                    {arrayOfSymbols.map((item, index) => <div className="rounded-full cursor-pointer text-sm bg-border px-2 py-1" onClick={() => removeHandler(index)}>{item.faInsCode}</div>)}
+                    {arrayOfSymbols.map((item, index) => <div key={item.faInsCode} className="rounded-full cursor-pointer text-sm bg-border px-2 py-1" onClick={() => removeHandler(index)}>{item.faInsCode}</div>)}
                 </div> : null
             }
         </div>
