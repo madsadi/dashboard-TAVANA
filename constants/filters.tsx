@@ -847,8 +847,9 @@ const filters: any = {
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "customerId", "name": "شناسه مشتری", "type": "input" },
         { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
-        { "title": "BourseCode", "name": "عنوان بورس", "type": "dynamic" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" }
+        { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true }
       ],
       "initialValue": {
         "PageNumber": 1,
