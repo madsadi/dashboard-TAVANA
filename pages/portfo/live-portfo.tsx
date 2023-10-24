@@ -8,20 +8,28 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
+import DateCell from "components/common/table/date-cell";
 
 function LivePortfo() {
     const router = useRouter()
     const columnDefStructure = [
         {
-            field: 'customerId',
-            headerName: 'شناسه مشتری',
-        }, {
+            field: 'tradingCode',
+            headerName: 'کدمعاملاتی',
+        },
+        {
+            field: 'nationalId',
+            headerName: 'کد ملی ',
+        },
+        {
+            field: 'bourseCode',
+            headerName: 'کدبورسی ',
+        },
+        {
             field: 'customerTitle',
             headerName: 'عنوان مشتری',
-        }, {
-            field: 'customerNationalId',
-            headerName: 'کد ملی مشتری',
-        }, {
+        },
+        {
             field: 'instrumentId',
             headerName: 'شناسه نماد',
         }, {
@@ -29,17 +37,14 @@ function LivePortfo() {
             headerName: 'نماد',
         },
         {
-            field: 'shareCount',
-            headerName: 'حجم مانده',
+            field: 'faInsName',
+            headerName: 'نام کامل نماد',
         },
         {
-            field: 'intradayBuy',
-            headerName: 'حجم خرید',
+            field: 'currentShareCount',
+            headerName: 'مانده سپرده گذاری',
         },
         {
-            field: 'intradaySell',
-            headerName: 'حجم فروش',
-        }, {
             field: 'openBuyOrder',
             headerName: 'حجم سفارش های باز خرید',
         },
@@ -48,8 +53,35 @@ function LivePortfo() {
             headerName: 'حجم سفارش های باز فروش',
         },
         {
+            field: 'intradayBuy',
+            headerName: 'حجم خرید',
+        },
+        {
+            field: 'intradaySell',
+            headerName: 'حجم فروش',
+        },
+        {
             field: 'sellableShareCount',
             headerName: 'حجم قابل فروش',
+        },
+        {
+            field: 'remainAssetCount',
+            headerName: 'مانده دارایی',
+        },
+        {
+            field: 'effectiveDate',
+            headerName: 'تاریخ',
+            cellRendererSelector: () => {
+                const ColourCellRenderer = (rowData: any) => {
+                    return (
+                        <DateCell date={rowData.data.effectiveDate} />
+                    )
+                };
+                const moodDetails = {
+                    component: ColourCellRenderer,
+                }
+                return moodDetails;
+            },
         }
     ]
     const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolio` })
@@ -62,7 +94,7 @@ function LivePortfo() {
             <TableComponent data={data?.result?.pagedData}
                 loading={loading}
                 columnDefStructure={columnDefStructure}
-                rowId={['customerId', 'instrumentId']}
+                rowId={['id']}
                 onRowClicked={(e: any) => {
                     router.push(`/portfo/${e.data.customerId}&${e.data.instrumentId}`)
                 }}

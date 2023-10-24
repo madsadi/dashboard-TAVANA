@@ -73,16 +73,17 @@ function InstrumentType() {
             minWidth: 150,
         },
         {
-            field: 'inventoryStatus',
+            field: 'deleted',
             headerName: 'حذف شده',
             flex: 0,
             width: 120,
             minWidth: 120,
+            cellStyle: { display: 'flex' },
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
                         <div
-                            className={`${props.data.deleted ? 'bg-red-400' : 'bg-green-400'} text-white text-xs`}>{`${props.data.deleted ? 'حذف شده' : 'حذف نشده'}`}</div>
+                            className={`${props.data.deleted ? 'bg-red-400' : 'bg-green-400'} rounded text-center my-auto text-white text-xs px-3`}>{`${props.data.deleted ? 'حذف شده' : 'حذف نشده'}`}</div>
                     )
                 };
                 const moodDetails = {
@@ -108,7 +109,7 @@ function InstrumentType() {
                     <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument} />
                 </AccordionComponent>
                 <InstrumentTypeToolbar />
-                <TableComponent data={data?.result}
+                <TableComponent data={data?.result?.pagedData}
                     module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}
                     loading={loading}
                     columnDefStructure={columnDefStructure}
@@ -121,4 +122,4 @@ function InstrumentType() {
     )
 }
 
-export default withPermission(InstrumentType,ModuleIdentifier.COMMISSION_MANAGEMENT_instrument)
+export default withPermission(InstrumentType, ModuleIdentifier.COMMISSION_MANAGEMENT_instrument)

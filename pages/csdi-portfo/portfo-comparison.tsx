@@ -22,51 +22,26 @@ function CSDIPortfo() {
                 {
                     field: 'firstshareCount',
                     headerName: 'تعداد مانده ',
-                    cellClassRules: {
-                        // out of range style
-                        'bg-green-200': (params: any) => params?.data?.firstshareCount > params?.data?.secondshareCount,
-                        'bg-red-200': (params: any) => params?.data?.firstshareCount < params?.data?.secondshareCount,
-                    },
                 },
                 {
                     field: 'firstlastPrice',
                     headerName: 'قیمت آخرین معامله',
-                    cellClassRules: {
-                        // out of range style
-                        'bg-green-200': (params: any) => params?.data?.firstshareCount > params?.data?.secondshareCount,
-                        'bg-red-200': (params: any) => params?.data?.firstshareCount < params?.data?.secondshareCount,
-                    },
                 },
                 {
                     field: 'firstclosingPrice',
                     headerName: 'قیمت پایانی',
                     hide: true,
-                    cellClassRules: {
-                        // out of range style
-                        'bg-green-200': (params: any) => params?.data?.firstshareCount > params?.data?.secondshareCount,
-                        'bg-red-200': (params: any) => params?.data?.firstshareCount < params?.data?.secondshareCount,
-                    },
                 },
                 {
                     field: 'firstnetValuebyClosingPrice',
                     headerName: 'خالص ارزش فروش ',
                     hide: true,
                     aggFunc: 'sum',
-                    cellClassRules: {
-                        // out of range style
-                        'bg-green-200': (params: any) => params?.data?.firstshareCount > params?.data?.secondshareCount,
-                        'bg-red-200': (params: any) => params?.data?.firstshareCount < params?.data?.secondshareCount,
-                    },
                 },
                 {
                     field: 'firstnetValuebyLastPrice',
                     aggFunc: 'sum',
                     headerName: 'خالص ارزش فروش ',
-                    cellClassRules: {
-                        // out of range style
-                        'bg-green-200': (params: any) => params?.data?.firstshareCount > params?.data?.secondshareCount,
-                        'bg-red-200': (params: any) => params?.data?.firstshareCount < params?.data?.secondshareCount,
-                    },
                 },
                 {
                     field: 'firstClosingPricePercentage',
@@ -78,11 +53,6 @@ function CSDIPortfo() {
                         params.values.forEach((value: number) => total += value);
                         return total.toFixed(2) + '%';
                     },
-                    cellClassRules: {
-                        // out of range style
-                        'bg-green-200': (params: any) => params?.data?.firstshareCount > params?.data?.secondshareCount,
-                        'bg-red-200': (params: any) => params?.data?.firstshareCount < params?.data?.secondshareCount,
-                    },
                 },
                 {
                     field: 'firstLastPricePercentage',
@@ -92,11 +62,6 @@ function CSDIPortfo() {
                         let total = 0;
                         params.values.forEach((value: number) => total += value);
                         return total.toFixed(2) + '%';
-                    },
-                    cellClassRules: {
-                        // out of range style
-                        'bg-green-200': (params: any) => params?.data?.firstshareCount > params?.data?.secondshareCount,
-                        'bg-red-200': (params: any) => params?.data?.firstshareCount < params?.data?.secondshareCount,
                     },
                 },
             ]

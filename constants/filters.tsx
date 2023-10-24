@@ -846,6 +846,8 @@ const filters: any = {
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "customerId", "name": "شناسه مشتری", "type": "input" },
+        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
+        { "title": "BourseCode", "name": "عنوان بورس", "type": "dynamic" },
         { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" }
       ],
       "initialValue": {
