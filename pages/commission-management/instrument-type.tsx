@@ -116,6 +116,11 @@ function InstrumentType() {
                     rowId={['id']}
                     rowSelection={'single'}
                     setSelectedRows={setSelectedRows}
+                    masterDetail={true}
+                    pagination={true}
+                    totalCount={data?.totalCount}
+                    fetcher={fetchData}
+                    query={query}
                 />
             </div>
         </InstrumentTypeContext.Provider>

@@ -849,7 +849,7 @@ const filters: any = {
         { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
         { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
-        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true }
+        { "title": "date", "name": "تاریخ ", "type": "singleDate", "isRequired": true }
       ],
       "initialValue": {
         "PageNumber": 1,
@@ -985,7 +985,9 @@ const filters: any = {
         { "title": "InstrumentTypeDescription", "name": "توضیحات نوع ابزار", "type": "input" },
         { "title": "SectorCode", "name": "گروه صنعت", "type": "dynamic" },
         { "title": "SubSectorCode", "name": "زیرگروه صنعت", "type": "dynamic" },
-        { "title": "Deleted", "name": "حذف شده؟", "type": "selectInput" }
+        { "title": "Deleted", "name": "حذف شده؟", "type": "selectInput" },
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
       ],
       "initialValue": {
         "CommissionInstrumentTypeId": "",
@@ -994,7 +996,9 @@ const filters: any = {
         "InstrumentTypeDescription": "",
         "SectorTitle": "",
         "SubSectorTitle": "",
-        "Deleted": ""
+        "Deleted": "",
+        "PageNumber": 1,
+        "PageSize": 20,
       }
     },
     "toolbar": {

@@ -74,7 +74,7 @@ function LivePortfo() {
             cellRendererSelector: () => {
                 const ColourCellRenderer = (rowData: any) => {
                     return (
-                        <DateCell date={rowData.data.effectiveDate} />
+                        <DateCell date={rowData.data.effectiveDate} hideTime={true} />
                     )
                 };
                 const moodDetails = {
