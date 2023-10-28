@@ -33,9 +33,10 @@ export default function Box({ api, title }: { api: string, title: string }) {
                 maximumDate={utils('fa').getToday()}
                 renderInput={renderCustomInput}
                 locale={'fa'}
+                calendarPopperPosition={'bottom'}
                 shouldHighlightWeekends
             />
-            <Button onClick={submitHandler} className="bg-primary mt-10" label="بروزرسانی" />
+            <Button onClick={submitHandler} className="bg-primary mt-10 mx-auto" label="بروزرسانی" />
         </div>
     )
 }

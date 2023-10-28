@@ -42,6 +42,20 @@ function SymbolsCommission() {
             }
         },
         {
+            field: 'customerTypeCode',
+            headerName: 'سمت سفارش',
+            valueFormatter: (rowData: any) => {
+                return CustomerOriginEnums.find((item) => item.id === rowData.data.customerTypeCode)?.title
+            }
+        },
+        {
+            field: 'customerCounterSideCode',
+            headerName: 'سمت سفارش',
+            valueFormatter: (rowData: any) => {
+                return CustomerOriginEnums.find((item) => item.id === rowData.data.customerCounterSideCode)?.title
+            }
+        },
+        {
             field: 'totalCommissionCoeff',
             headerName: 'ضریب مجموع کارمزد',
         },

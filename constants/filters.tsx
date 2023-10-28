@@ -1492,7 +1492,6 @@ const filters: any = {
           "queryField": "NationalId",
           "recordField": "id"
         },
-        { "title": "FactorID", "name": "شناسه فاکتور", "type": "input" },
         { "title": "Month", "name": "ماه", "type": "selectInput" },
         { "title": "Year", "name": "سال", "type": "selectInput" }
       ],
@@ -1574,7 +1573,6 @@ const filters: any = {
           "recordField": "id",
           "isRequired": true
         },
-        { "title": "Name", "name": "نام کاربر", "type": "input" },
         { "title": "UserType", "name": "نوع کاربر", "type": "selectInput" },
         { "title": "date", "name": "تاریخ", "type": "date" },
         { "title": "SortBy", "name": "دسته بندی بر اساس", "type": "selectInput" },
@@ -1639,7 +1637,8 @@ const filters: any = {
           "endpoint": `${IDP}/api/users/SearchUserAccount`,
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
           "queryField": "NationalId",
-          "recordField": "id"
+          "recordField": "id",
+          "placeholer": "Title"
         },
         { "title": "CalculationBaseType", "name": "نوع پایه محاسبه", "type": "selectInput" },
         { "title": "CoefficientBaseType", "name": "نوع ضریب پایه ", "type": "selectInput" },
@@ -1734,7 +1733,7 @@ const filters: any = {
           "endpoint": `${IDP}/api/users/SearchUserAccount`,
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
           "queryField": "NationalId",
-          "recordField": "id"
+          "recordField": "id",
         },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true },
       ],

@@ -42,10 +42,6 @@ function Recite() {
             }
         },
         {
-            field: 'FactorID',
-            headerName: 'شناسه فاکتور',
-        },
-        {
             field: 'Plan',
             headerName: 'پلکان',
         },
@@ -103,6 +99,10 @@ function Recite() {
                     selectedRows={selectedRows}
                     rowSelection={'single'}
                     rowId={['FactorID']}
+                    pagination={true}
+                    totalCount={data?.result?.totalCount}
+                    fetcher={fetchData}
+                    query={searchQuery}
                 />
             </div>
         </ReciteContext.Provider>

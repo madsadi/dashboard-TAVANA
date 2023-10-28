@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 const ClearingDateRange = dynamic(() => import('../../components/newFlow/information/clearing-date-range'));
 const Box = dynamic(() => import('../../components/newFlow/information/box'));
 const NoDateBox = dynamic(() => import('../../components/newFlow/information/no-date-box'));
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
 
 export default function GetInformation() {
 
@@ -42,9 +43,9 @@ export default function GetInformation() {
         <div className="flex flex-col h-full grow">
             <div className={'grid grid-cols-3 gap-4'}>
                 {
-                    info.map((item: { api: string, title: string, date: boolean }) => {
+                    info.map((item: { api: string, title: string, date: boolean }, index: number) => {
                         return (
-                            <div key={item.title} className={`text-center`}>
+                            <div key={item.title} className={`text-center`} style={{ zIndex: 20 - index }}>
                                 {item.date ? <Box api={item.api} title={item.title} /> : <NoDateBox api={item.api} title={item.title} />}
                             </div>
                         )
