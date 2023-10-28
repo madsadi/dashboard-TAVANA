@@ -4,12 +4,13 @@ import { ModuleIdentifier } from "../../../../components/common/functions/Module
 import { withPermission } from "components/common/layout/with-permission";
 import { useRouter } from "next/router";
 import useQuery from "hooks/useQuery";
+import { formatNumber } from "components/common/functions/common-funcions";
 
 const DisplayValue = ({ item }: any) => {
     return (
         <div className="flex items-center justify-between">
             <label>{item.key}</label>
-            <div>{item.isBoolean ? (item.value ? 'بله' : 'خیر') : item.value}</div>
+            <div>{item.isBoolean ? (item.value ? 'بله' : 'خیر') : formatNumber(item.value,0)}</div>
         </div>
     )
 }

@@ -60,6 +60,8 @@ window._env_ =
 	"WalletConnectionString": "Server=172.30.70.11;Database=Dev_CashFlow;uid=cfl;pwd=Cfl@123456;",
 	"WatchlistConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_Watchlist;User ID=WatchList_User;Password=Watchlist@1234;MultipleActiveResultSets=True;",
             //------------------  Order Mediator Keys ------------------------------
-    "OrderMediatorSQLConnectionString":  "Data Source=172.24.34.11;Initial Catalog=Dev_OrderStore;User ID=oms;Password=Oms@123456;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;TrustServerCertificate=True"
+    "OrderMediatorSQLConnectionString":  "Data Source=172.24.34.11;Initial Catalog=Dev_OrderStore;User ID=oms;Password=Oms@123456;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;TrustServerCertificate=True",
+                //------------------  Credit Management Keys ------------------------------
+    "CreditManagementSQLConnectionString":  "Data Source=172.24.34.11;Initial Catalog=DEV-Credit;User ID=credit-management;Password=123456;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;TrustServerCertificate=True"
 }
  ;
