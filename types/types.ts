@@ -7,6 +7,7 @@ export interface SearchComponentTypes {
     className?: string,
     loading?: boolean,
     extraClassName?: string,
+    initialQuery?: { [key: string]: string | number | boolean },
     ref?: ForwardedRef<unknown>
 }
 

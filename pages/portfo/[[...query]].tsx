@@ -120,14 +120,14 @@ function PortfolioBook() {
             _query['Date'] = moment(queryData[2]).locale('en').format('YYYY-MM-DD');
             setQuery(_query)
             fetchData({ ...query, ..._query })
-
         }
     }, [dep]) // eslint-disable-line react-hooks/exhaustive-deps
+
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent isOpen={false}>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.PORTFO_detail} />
+                <SearchComponent onSubmit={fetchData} initialQuery={query} loading={loading} module={ModuleIdentifier.PORTFO_detail} />
             </AccordionComponent>
             <div className={'border-x border-border flex space-x-4 justify-around p-3'}>
                 <div>

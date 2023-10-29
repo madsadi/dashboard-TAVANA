@@ -100,7 +100,7 @@ export default function SymbolSearchSection({ query, queryUpdate, item }: { quer
                             setSearchItem('')
                         }} /> : null}
                 </label>
-                <input id={title} className={'w-full h-[36px] '} value={isMultiple ? searchItem : (display ? displayer : query?.InstrumentId)}
+                <input id={title} className={'w-full h-[36px] '} value={isMultiple ? searchItem : (display ? displayer || query?.InstrumentId : query?.InstrumentId)}
                     onFocus={() => setOpen(true)}
                     onChange={(e) => {
                         searchHandler(e.target.value, 1);

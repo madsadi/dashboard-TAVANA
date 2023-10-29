@@ -867,7 +867,7 @@ const filters: any = {
         { "title": "PageSize", "name": "تعداد", "type": null },
         { "title": "CustomerId", "name": "شناسه مشتری", "type": "input", "isRequired": true },
         { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
-        { "title": "date", "name": "تاریخ ", "type": "singleDate", "isRequired": true }
+        { "title": "Date", "name": "تاریخ ", "type": "singleDate", "isRequired": true }
       ],
       "initialValue": {
         "PageNumber": 1,

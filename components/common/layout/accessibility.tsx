@@ -35,7 +35,6 @@ export const Accessibility = () => {
             let token = auth?.user?.access_token
             let decoded: TokenType = jwt_decode(token);
 
-            console.log(decoded);
             if (typeof decoded?.permission == "string") {
                 dispatch(user_permissions([decoded?.permission]))
             } else {

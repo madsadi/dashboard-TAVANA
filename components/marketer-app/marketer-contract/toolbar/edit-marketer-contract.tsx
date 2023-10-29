@@ -17,12 +17,10 @@ export default function EditMarketerContract() {
     const { mutate } = useMutation({ url: `${MARKETER_ADMIN}/marketer-contract/modify`, method: "PUT" })
     const [modal, setModal] = useState(false)
     const [query, setQuery] = useState<any>({})
-    const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({ from: null, to: null })
 
     const openHandler = () => {
         if (selectedRows.length) {
             setQuery({})
-            setSelectedDayRange({ from: null, to: null })
             setModal(true)
         } else {
             throwToast({ type: 'warning', value: 'لطفا برای ویرایش یک گزینه را انتخاب کنید' })
@@ -49,30 +47,13 @@ export default function EditMarketerContract() {
             toolbar.map((item: any) => {
                 if (item.type === 'selectInput') {
                     _initialValue[`${item.title}`] = FindEnum(item.title, [], item.label).find((e: any) => e.title === selectedRows[0][`${item.title}`]).id
-                } else if (item.name !== 'date') {
+                } else if (item.title === 'date') {
+                    _initialValue['StartDate'] = selectedRows[0]?.StartDate
+                    _initialValue['EndDate'] = selectedRows[0]?.EndDate
+                } else {
                     _initialValue[`${item.title}`] = selectedRows[0][`${item.title}`]
                 }
             })
-
-            if (selectedRows[0]?.StartDate && selectedRows[0]?.EndDate) {
-                let shamsi_from_date = jalali(selectedRows[0]?.StartDate).date
-                let from_date = shamsi_from_date.split('/')
-
-                let shamsi_to_date = jalali(selectedRows[0]?.EndDate).date
-                let to_date = shamsi_to_date.split('/')
-
-                setSelectedDayRange({ from: { year: Number(from_date[0]), month: Number(from_date[1]), day: Number(from_date[2]) }, to: { year: Number(to_date[0]), month: Number(to_date[1]), day: Number(to_date[2]) } })
-            } else if (selectedRows[0]?.StartDate && !selectedRows[0]?.EndDate) {
-                let shamsi_from_date = jalali(selectedRows[0]?.StartDate).date
-                let from_date = shamsi_from_date.split('/')
-
-                setSelectedDayRange({ from: { year: Number(from_date[0]), month: Number(from_date[1]), day: Number(from_date[2]) }, to: selectedDayRange.to })
-            } else if (!selectedRows[0]?.StartDate && selectedRows[0]?.EndDate) {
-                let shamsi_to_date = jalali(selectedRows[0]?.EndDate).date
-                let to_date = shamsi_to_date.split('/')
-
-                setSelectedDayRange({ from: selectedDayRange.from, to: { year: Number(to_date[0]), month: Number(to_date[1]), day: Number(to_date[2]) } })
-            }
             setQuery(_initialValue)
         }
     }, [modal])

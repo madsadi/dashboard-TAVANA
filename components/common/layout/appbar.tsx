@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Popover } from '@headlessui/react'
 import {
     Bars3Icon,
-    ArrowRightIcon,
 } from '@heroicons/react/24/outline'
 import { useRouter } from "next/router";
 import BreadCrumbComponent from "./bread-crumb";
@@ -27,10 +26,6 @@ export default function Example() {
                             onClick={() => setOpen(true)}>
                             <Bars3Icon className={'h-6 w-6'} />
                         </div>
-                        {(router.pathname.startsWith('/portfo/[[...query]]')) &&
-                            <button
-                                className={'p-1 border border-border rounded-md cursor-pointer hover:bg-border transition-all'}
-                                onClick={() => router.back()}><ArrowRightIcon className={'h-6 w-6'} /></button>}
                         <BreadCrumbComponent />
                     </div>
                     <Accessibility />

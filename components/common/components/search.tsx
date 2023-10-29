@@ -1,14 +1,14 @@
 import InputComponent from "./input-generator";
-import React, { forwardRef, useCallback, useImperativeHandle, useState, memo } from "react";
+import React, { forwardRef, useImperativeHandle, useState, memo } from "react";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { Button } from "./button/button";
 import { SearchComponentTypes } from "types/types";
 
 
 const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) => {
-    const { onSubmit, module, loading, dynamicOptions = [], className, extraClassName } = props
+    const { onSubmit, module, loading, initialQuery, dynamicOptions = [], className, extraClassName } = props
     const { filters, initialValue, service, modules, restriction } = useSearchFilters(module)
-    const [query, setQuery] = useState<any>(initialValue)
+    const [query, setQuery] = useState<any>(initialQuery || initialValue)
 
     const onChange = (key: string, value: any) => {
         let _query: any = { ...query };
