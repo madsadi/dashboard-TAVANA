@@ -82,7 +82,7 @@ function SubUsers() {
                 module={ModuleIdentifier.MARKETER_APP_subusers}
                 columnDefStructure={columnDefStructure}
                 rowSelection={'single'}
-                rowId={['Username']}
+                rowId={['TradeCode']}
                 pagination={true}
                 totalCount={data?.result?.totalCount}
                 fetcher={fetchData}
