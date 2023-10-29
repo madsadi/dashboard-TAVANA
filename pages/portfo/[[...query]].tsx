@@ -11,10 +11,8 @@ import DateCell from "components/common/table/date-cell";
 import AccordionComponent from "components/common/components/accordion";
 const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 
-type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, Date: string, PageSize: number }
+type initialType = { PageNumber: number, Date: string, PageSize: number }
 const initialValue = {
-    InstrumentId: '',
-    CustomerId: '',
     Date: '',
     PageNumber: 1,
     PageSize: 20,
@@ -111,23 +109,28 @@ function PortfolioBook() {
 
     let userInfo = data?.result?.pagedData?.[0]
     let dep = router.query?.query?.[0]
+
+    const fetchHandler = (query: { [key: string]: any }) => {
+        fetchData({ ...query, CustomerId: dep?.split('&')[0] })
+    }
+
     useEffect(() => {
         if (dep) {
             const queryData = dep.split('&')
-            let _query = { ...query };
+            let _query: any = { ...query };
             _query['InstrumentId'] = queryData[1];
             _query['CustomerId'] = queryData[0];
             _query['Date'] = moment(queryData[2]).locale('en').format('YYYY-MM-DD');
-            setQuery(_query)
-            fetchData({ ...query, ..._query })
+            const { InstrumentId, ...rest } = _query
+            setQuery(rest)
+            fetchHandler({ ...query, ..._query })
         }
     }, [dep]) // eslint-disable-line react-hooks/exhaustive-deps
-
 
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent isOpen={false}>
-                <SearchComponent onSubmit={fetchData} initialQuery={query} loading={loading} module={ModuleIdentifier.PORTFO_detail} />
+                <SearchComponent onSubmit={fetchHandler} initialQuery={query} loading={loading} module={ModuleIdentifier.PORTFO_detail} />
             </AccordionComponent>
             <div className={'border-x border-border flex space-x-4 justify-around p-3'}>
                 <div>

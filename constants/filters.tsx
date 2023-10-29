@@ -865,7 +865,6 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
-        { "title": "CustomerId", "name": "شناسه مشتری", "type": "input", "isRequired": true },
         { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
         { "title": "Date", "name": "تاریخ ", "type": "singleDate", "isRequired": true }
       ],
