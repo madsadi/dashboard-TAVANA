@@ -5,10 +5,11 @@ import { useState } from "react";
 export interface accordionPropsType {
     children: ReactNode,
     title?: string,
-    className?: string
+    className?: string,
+    isOpen?: boolean
 }
-export default function AccordionComponent({ children, title = 'جستجو', className }: accordionPropsType) {
-    const [isChecked, setChecked] = useState(true)
+export default function AccordionComponent({ children, title = 'جستجو', className, isOpen = true }: accordionPropsType) {
+    const [isChecked, setChecked] = useState(isOpen)
 
     return (
         <div className={`relative collapse border border-border rounded-t-lg z-[10] ${isChecked ? '!overflow-visible' : 'overflow-hidden '} ${className}`}>

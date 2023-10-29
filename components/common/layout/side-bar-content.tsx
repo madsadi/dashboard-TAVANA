@@ -222,9 +222,9 @@ export default function SideBarContent() {
             children: [
                 {
                     label: 'پرتفو لحظه ای',
-                    url: '/portfo/live-portfo',
-                    as: '/portfo/live-portfo',
-                    className: router.pathname === '/portfo/live-portfo' ? 'sideBarActive' : '',
+                    url: '/portfo/intraday',
+                    as: '/portfo/intraday',
+                    className: router.pathname === '/portfo/intraday' ? 'sideBarActive' : '',
                     module: ModuleIdentifier.PORTFO_live,
                 },
                 {

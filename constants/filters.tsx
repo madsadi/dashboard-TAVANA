@@ -859,6 +859,24 @@ const filters: any = {
       }
     }
   },
+  "portfo_detail": {
+    services: {},
+    "search": {
+      "filters": [
+        { "title": "PageNumber", "name": "شماره صفحه", "type": null },
+        { "title": "PageSize", "name": "تعداد", "type": null },
+        { "title": "CustomerId", "name": "شناسه مشتری", "type": "input", "isRequired": true },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
+        { "title": "date", "name": "تاریخ ", "type": "singleDate", "isRequired": true }
+      ],
+      "initialValue": {
+        "PageNumber": 1,
+        "PageSize": 20,
+        "InstrumentId": "",
+        "customerId": ""
+      }
+    }
+  },
   "oms-session": {
     services: {},
     "search": {

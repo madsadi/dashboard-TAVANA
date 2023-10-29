@@ -43,14 +43,14 @@ function SymbolsCommission() {
         },
         {
             field: 'customerTypeCode',
-            headerName: 'سمت سفارش',
+            headerName: 'نوع مشتری',
             valueFormatter: (rowData: any) => {
                 return CustomerOriginEnums.find((item) => item.id === rowData.data.customerTypeCode)?.title
             }
         },
         {
             field: 'customerCounterSideCode',
-            headerName: 'سمت سفارش',
+            headerName: 'مشتری طرف مقابل',
             valueFormatter: (rowData: any) => {
                 return CustomerOriginEnums.find((item) => item.id === rowData.data.customerCounterSideCode)?.title
             }

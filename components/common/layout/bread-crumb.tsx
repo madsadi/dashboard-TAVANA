@@ -36,7 +36,7 @@ export default function BreadCrumbComponent() {
         "cleared-trade": 'معاملات تسویه شده',
         "clearing-date-range": 'تسویه و پایاپای',
         "portfo": 'پرتفو',
-        "live-portfo": 'پرتفو لحظه ای',
+        "intraday": 'پرتفو لحظه ای',
         '[[...query]]': 'تاریخچه',
         '[...detail]': 'جزییات اطلاعات کاربر',
         '[...contractId]': 'جزییات قرارداد بازاریاب',
@@ -69,6 +69,7 @@ export default function BreadCrumbComponent() {
         "switch-report": "گزارش معاملات پورتفوی سپرده گذاری",
         "portfo-comparison": "مقایسه پورتفوی",
         "[...factorId]": "اصلاح مالی صورت حساب",
+        "[...intradetail]": "تاریخچه پورتفوی لحظه ای",
         "detail": "جزییات",
         "symbols": "نمادها",
         "freezed-asset": "گزارش دارایی منجمد"

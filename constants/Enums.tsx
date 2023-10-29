@@ -62,32 +62,32 @@ export const CustomerOriginEnums = [
         "title": "کارگزاری"
     },
     {
-        "id": 3,
+        "id": 4,
         "code": 4,
         "enTitle": "Group",
         "title": "ایستگاه معاملاتی (آنلاین)"
     },
     {
-        "id": 4,
+        "id": 5,
         "code": 5,
         "enTitle": "Others",
         "title": "سایر"
     },
     {
-        "id": 5,
+        "id": 6,
         "code": 6,
         "enTitle": "MarketMaker",
         "title": "بازارگردان"
     },
     {
-        "id": 6,
+        "id": 7,
         "code": 7,
         "enTitle": "RelatedParty",
         "title": "اشخاص مرتبط با کارگزار"
     },
     {
-        "id": 7,
         "code": 8,
+        "id": 8,
         "enTitle": "All",
         "title": "همه"
     }

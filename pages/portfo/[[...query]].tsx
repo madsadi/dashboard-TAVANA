@@ -1,53 +1,85 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 const TableComponent = dynamic(() => import('../../components/common/table/table-component'));
-import { jalali} from "../../components/common/functions/common-funcions";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { withPermission } from "components/common/layout/with-permission";
 import { ModuleIdentifier } from "components/common/functions/Module-Identifier";
+import moment from "jalali-moment";
+import DateCell from "components/common/table/date-cell";
+import AccordionComponent from "components/common/components/accordion";
+const SearchComponent = dynamic(() => import('../../components/common/components/search'));
 
-type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, PageSize: number }
+type initialType = { CustomerId: string, InstrumentId: string, PageNumber: number, Date: string, PageSize: number }
 const initialValue = {
     InstrumentId: '',
     CustomerId: '',
+    Date: '',
     PageNumber: 1,
     PageSize: 20,
 }
 
-function PortfolioBook(){
+function PortfolioBook() {
     const columnDefStructure = [
+        {
+            field: 'id',
+            headerName: 'شناسه ردیف',
+        },
         {
             field: 'transactionId',
             headerName: 'شناسه تراکنش',
-        },{
-            field: 'transactionReferenceId',
-            headerName: 'شناسه تراکنش مرجع',
-        },{
+        },
+        {
             field: 'transactionTitle',
             headerName: 'نوع تراکنش',
-        },{
-            field: 'sideTitle',
-            headerName: 'سمت تراکنش',
-        },{
-            field: 'quantity',
-            headerName: 'حجم تراکنش',
         },
         {
-            field: 'referenceRemainQuantity',
-            headerName: 'مانده تراکنش مرجع',
+            field: 'instrumentId',
+            headerName: 'شناسه نماد',
         },
         {
-            field: 'receivedDateTime',
-            headerName: 'زمان دریافت',
+            field: 'faInsCode',
+            headerName: 'نماد',
+        },
+        {
+            field: 'currentShareCount',
+            headerName: 'مانده',
+        },
+        {
+            field: 'sellableShareCount',
+            headerName: 'قابل فروش',
+        },
+        {
+            field: 'changeQuantity',
+            headerName: 'تغییر حجم تراکنش',
+        },
+        {
+            field: 'openBuyOrder',
+            headerName: 'سفارش باز خرید',
+        }, {
+            field: 'openSellOrder',
+            headerName: 'سفارش باز فروش',
+        },
+        {
+            field: 'intradayBuy',
+            headerName: 'خرید امروز',
+        },
+        {
+            field: 'intradaySell',
+            headerName: 'فروش امروز',
+        },
+        {
+            field: 'remainAssetCount',
+            headerName: 'مانده کاردکس',
+        },
+        {
+            field: 'transactionDateTime',
+            headerName: 'زمان تراکنش',
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <>
-                            <span>{props.data.receivedDateTime ? jalali(props.data.receivedDateTime).date:'-'}</span>
-                            <span className={'ml-2'}>{props.data.receivedDateTime ? jalali(props.data.receivedDateTime).time:'-'}</span>
-                        </>
+                        <DateCell date={props.data.transactionDateTime} />
                     )
                 };
                 const moodDetails = {
@@ -57,42 +89,12 @@ function PortfolioBook(){
             },
         },
         {
-            field: 'openBuyOrder',
-            headerName: 'مجموع حجم سفارشات خرید باز',
-        }, {
-            field: 'openSellOrder',
-            headerName: 'مجموع حجم سفارشات فروش باز',
-        },
-        {
-            field: 'intradayBuy',
-            headerName: 'مجموع حجم خرید انجام شده',
-        },
-        {
-            field: 'intradaySell',
-            headerName: 'مجموع حجم فروش انجام شده',
-        },
-        {
-            field: 'shareCount',
-            headerName: 'تعداد مانده دارایی',
-        },
-        {
-            field: 'sellableShareCount',
-            headerName: 'تعداد مانده قابل فروش',
-        },
-        {
-            field: 'transactionErrorMessage',
-            headerName: 'خطای تراکنش',
-        },
-        {
-            field: 'transactionDateTime',
-            headerName: 'زمان تراکنش',
+            field: 'effectiveDate',
+            headerName: 'تاریخ',
             cellRendererSelector: () => {
                 const ColourCellRenderer = (props: any) => {
                     return (
-                        <>
-                            <span>{props.data.transactionDateTime ? jalali(props.data.transactionDateTime).date:'-'}</span>
-                            <span className={'ml-2'}>{props.data.transactionDateTime ? jalali(props.data.transactionDateTime).time:'-'}</span>
-                        </>
+                        <DateCell date={props.data.effectiveDate} />
                     )
                 };
                 const moodDetails = {
@@ -105,57 +107,57 @@ function PortfolioBook(){
 
     const router = useRouter()
     const [query, setQuery] = useState<initialType>(initialValue)
-    const {data,loading,fetchData}=useQuery({url:`${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolioBook`})
+    const { data, loading, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchPortfolioTransaction` })
 
     let userInfo = data?.result?.pagedData?.[0]
     let dep = router.query?.query?.[0]
-    useEffect(()=>{
-            if (dep){
-                const queryData = dep.split('&')
-                let _query = {...query};
-                _query['InstrumentId'] = queryData[1];
-                _query['CustomerId'] = queryData[0];
-                setQuery(_query)
-                fetchData({...query,InstrumentId:queryData[1],CustomerId:queryData[0]})
+    useEffect(() => {
+        if (dep) {
+            const queryData = dep.split('&')
+            let _query = { ...query };
+            _query['InstrumentId'] = queryData[1];
+            _query['CustomerId'] = queryData[0];
+            _query['Date'] = moment(queryData[2]).locale('en').format('YYYY-MM-DD');
+            setQuery(_query)
+            fetchData({ ...query, ..._query })
 
-            }
-    },[dep]) // eslint-disable-line react-hooks/exhaustive-deps
+        }
+    }, [dep]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    return(
+    return (
         <div className={'flex flex-col h-full flex-1'}>
-            <div className={'border border-border rounded-t-xl flex space-x-4 justify-between p-3'}>
+            <AccordionComponent isOpen={false}>
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.PORTFO_detail} />
+            </AccordionComponent>
+            <div className={'border-x border-border flex space-x-4 justify-around p-3'}>
+                <div>
+                    کدمعاملاتی:
+                    <span className={'mr-2 font-bold'}>{userInfo?.tradingCode}</span>
+                </div>
+                <div>
+                    کدملی:
+                    <span className={'mr-2 font-bold'}>{userInfo?.nationalId}</span>
+                </div>
                 <div>
                     عنوان مشتری:
                     <span className={'mr-2 font-bold'}>{userInfo?.customerTitle}</span>
                 </div>
                 <div>
-                    شناسه ملی:
-                    <span className={'mr-2 font-bold'}>{userInfo?.customerNationalId}</span>
-                </div>
-                <div>
-                    آیدی مشتری:
-                    <span className={'mr-2 font-bold'}>{userInfo?.customerId}</span>
-                </div>
-                <div>
-                    شناسه نماد:
-                    <span className={'mr-2 font-bold'}>{userInfo?.instrumentId}</span>
-                </div>
-                <div>
-                    نماد:
-                    <span className={'mr-2 font-bold'}>{userInfo?.faInsCode }</span>
+                    کدبورسی:
+                    <span className={'mr-2 font-bold'}>{userInfo?.bourseCode}</span>
                 </div>
             </div>
             <TableComponent data={data?.result?.pagedData}
-                            loading={loading}
-                            columnDefStructure={columnDefStructure}
-                            rowId={['receivedDateTime','transactionId']}
-                            pagination={true}
-                            totalCount={data?.result?.totalCount}
-                            fetcher={fetchData}
-                            query={query}
-                            />
+                loading={loading}
+                columnDefStructure={columnDefStructure}
+                rowId={['id']}
+                pagination={true}
+                totalCount={data?.result?.totalCount}
+                fetcher={fetchData}
+                query={query}
+            />
         </div>
     )
 }
 
-export default withPermission(PortfolioBook,ModuleIdentifier.LIVE_PORTFO)
+export default withPermission(PortfolioBook, ModuleIdentifier.LIVE_PORTFO)

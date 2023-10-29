@@ -9,6 +9,7 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import DateCell from "components/common/table/date-cell";
+import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 
 function LivePortfo() {
     const router = useRouter()
@@ -82,6 +83,26 @@ function LivePortfo() {
                 }
                 return moodDetails;
             },
+        },
+        {
+            field: 'detail',
+            headerName: 'جزییات',
+            flex: 0,
+            width: 90,
+            cellStyle: {
+                cursor: 'pointer',
+                display: 'flex'
+            },
+            cellRendererSelector: () => {
+                return {
+                    component: (rowData: any) => {
+                        return (<a className={'flex h-full w-full'} target="_blank" rel="noreferrer"
+                            href={`/portfo/${rowData.data.customerId}&${rowData.data.instrumentId}&${rowData.data.effectiveDate}`}>
+                            <EllipsisHorizontalCircleIcon className={'h-5 w-5 m-auto'} />
+                        </a>)
+                    },
+                };
+            },
         }
     ]
     const { data, loading, query, fetchData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/SearchIntradayPortfolio` })
@@ -95,9 +116,6 @@ function LivePortfo() {
                 loading={loading}
                 columnDefStructure={columnDefStructure}
                 rowId={['id']}
-                onRowClicked={(e: any) => {
-                    router.push(`/portfo/${e.data.customerId}&${e.data.instrumentId}`)
-                }}
                 pagination={true}
                 totalCount={data?.result?.totalCount}
                 fetcher={fetchData}
