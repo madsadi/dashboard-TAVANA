@@ -24,8 +24,8 @@ export default function AddModal() {
                 maxQuantity: query.maxQuantity,
                 minPrice: query.minPrice,
                 maxPrice: query.maxPrice,
-                fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD') + `${query?.startHour ? 'T' + query?.startHour + ':' : ''}` + `${query?.startMinute ? query?.startMinute + ':00' : ''}`,
-                toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD') + `${query?.endHour ? 'T' + query?.endHour + ':' : ''}` + `${query?.endMinute ? query?.endMinute + ':00' : ''}`,
+                fromActiveDateTime: moment(query.StartDate).locale('en').format('YYYY-MM-DD') + `${query?.startHour ? 'T' + query?.startHour + ':' : ''}` + `${query?.startMinute ? query?.startMinute + ':00.000Z' : ''}`,
+                toActiveDateTime: moment(query.EndDate).locale('en').format('YYYY-MM-DD') + `${query?.endHour ? 'T' + query?.endHour + ':' : ''}` + `${query?.endMinute ? query?.endMinute + ':00.000Z' : ''}`,
             })
                 .then(() => {
                     setModal(false)
