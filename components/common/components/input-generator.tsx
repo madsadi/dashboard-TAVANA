@@ -1,7 +1,5 @@
-import React, { Dispatch, memo } from "react";
-import { DayRange } from "@amir04lm26/react-modern-calendar-date-picker";
+import React, { Dispatch } from "react";
 import SymbolSearchSection from "./symbol-search-secion";
-import { DayValue } from "react-modern-calendar-datepicker";
 import RoleSearchSection from "./role-search-section";
 import { BaseInput } from "./inputs/base-input";
 import { PasswordInput } from "./inputs/password-input";
@@ -12,13 +10,15 @@ import { SecondDynamicSelect } from "./inputs/second-dynamic-select";
 import { RangeDateInput } from "./inputs/range-date-input";
 import { TimeValueInput } from "./inputs/time-value-input";
 import DynamicSearch from "./inputs/dynamic-search";
+import { FilterItemType } from "types/constant-filters.types";
+import { EnumType, QueryType } from "types/types";
 
 type PropsType = {
-    query: any,
-    onChange: any,
+    query: QueryType,
+    onChange: (key: string, value: any) => void,
     setQuery?: Dispatch<any>,
-    item: any,
-    dynamicsOption: any,
+    item: FilterItemType,
+    dynamicsOption?: EnumType[],
     dataHelper?: any
 }
 const InputComponent = (props: PropsType) => {
@@ -27,7 +27,7 @@ const InputComponent = (props: PropsType) => {
         setQuery,
         query,
         item,
-        dynamicsOption,
+        dynamicsOption = [],
         dataHelper,
     } = props
 
@@ -97,12 +97,3 @@ const InputComponent = (props: PropsType) => {
 }
 
 export default InputComponent;
-
-InputComponent.defaultProps = {
-    setSelectedDayRange: null,
-    selectedDayRange: '',
-    dynamicsOption: [],
-    setSelectedDay: null,
-    selectedDay: null,
-    queryUpdateAlternative: null
-}

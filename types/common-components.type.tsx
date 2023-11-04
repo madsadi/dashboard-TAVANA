@@ -1,5 +1,5 @@
 import { IsRowSelectable, RowClickedEvent } from "ag-grid-community";
-import { ReactElement } from "react";
+import { ReactElement, ForwardedRef } from "react";
 
 export interface TableProps<TData = any> {
     data: any[],
@@ -22,4 +22,15 @@ export interface TableProps<TData = any> {
     query?: null,
     loading?: boolean,
     indexOfOpenedDetail?: number,
+}
+
+export interface SearchComponentTypes {
+    onSubmit: Function,
+    module: string,
+    dynamicOptions?: any[],
+    className?: string,
+    loading?: boolean,
+    extraClassName?: string,
+    initialQuery?: { [key: string]: string | number | boolean },
+    ref?: ForwardedRef<unknown>
 }

@@ -4,8 +4,19 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
 import useQuery from "../../../../hooks/useQuery";
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
+import { FilterItemDynamicType } from "types/constant-filters.types";
+import { QueryType } from "types/types";
 
-export default function DynamicSearch({ item, queryUpdate, setQuery, query, dataHelper }: { item: any, queryUpdate: any, setQuery: any, query: any, dataHelper: any }) {
+interface DynamicSearchProps {
+    item: FilterItemDynamicType,
+    queryUpdate: (key: string, value: any) => void,
+    setQuery: any,
+    query: QueryType,
+    dataHelper: any
+}
+
+export default function DynamicSearch(props: DynamicSearchProps) {
+    const { item, queryUpdate, setQuery, query, dataHelper } = props
     const { title, name, endpoint, valueField = [], placeholder, queryField, recordField, alternative, isRequired, inputAble, alternativeRelatedRecordField, resultField = 'pagedData' } = item
     const [page, setPage] = useState(1)
     const [searchItem, setSearchItem] = useState('')
@@ -70,7 +81,7 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query, data
 
     const select = (record: any) => {
         setOpen(false)
-        if (alternative) {
+        if (alternative && alternativeRelatedRecordField) {
             let _query: any = {}
             _query[alternative] = record[alternativeRelatedRecordField]
             _query[title] = record[recordField]
@@ -92,8 +103,8 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query, data
                     </span> : null}
                     {query?.[title] || query?.[title] === false || searchItem ?
                         <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
-                            let _query: any = {}
-                            _query[alternative] = ''
+                            let _query: QueryType = {}
+                            _query[alternative || 'default'] = ''
                             _query[title] = ''
                             setQuery({ ...query, ..._query })
                             setSearchItem('')
@@ -101,7 +112,7 @@ export default function DynamicSearch({ item, queryUpdate, setQuery, query, data
                 </label>
                 <input id={title} className={'w-full h-[36px]'} value={searchItem}
                     onFocus={() => setOpen(true)}
-                    placeholder={dataHelper?.[placeholder] || query?.[title]}
+                    placeholder={dataHelper?.[placeholder || 'default'] || query?.[title]}
                     onChange={(e) => {
                         searchHandler(e.target.value, 1);
                         setOpen(true)

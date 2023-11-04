@@ -1,8 +1,11 @@
 import InputComponent from "./input-generator";
-import React, { forwardRef, useImperativeHandle, useState, memo } from "react";
+import React, { forwardRef, useImperativeHandle, useState, memo, FormEvent } from "react";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { Button } from "./button/button";
-import { SearchComponentTypes } from "types/types";
+import { FilterItemType } from "types/constant-filters.types";
+import { throwToast } from "../functions/notification";
+import { SearchComponentTypes } from "types/common-components.type";
+import { QueryType } from "types/types";
 
 
 const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) => {
@@ -11,26 +14,38 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
     const [query, setQuery] = useState<any>(initialQuery || initialValue)
 
     const onChange = (key: string, value: any) => {
-        let _query: any = { ...query };
+        let _query: QueryType = { ...query };
         _query[key] = value
         setQuery(_query)
     }
 
     useImperativeHandle(ref, () => ({
         changeQueries(newQuery: any) {//define the type object
-            let _query: any = { ...query };
+            let _query: QueryType = { ...query };
             setQuery({ ..._query, ...newQuery })
         }
     }));
 
-    return (
-        <form className={'flex flex-col grow'} onSubmit={(e) => {
-            e.preventDefault()
+    const queryValidationHandler = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const requiredItems = filters.filter((item: FilterItemType) => item.isRequired)
+        if (requiredItems.length) {
+            const emptyRequiredItems = requiredItems.filter((item: FilterItemType) => item.type === 'date' ? (query.StartDate === undefined || query.StartDate === null || query.EndDate === undefined || query.EndDate === null) : (query[item.title] === undefined || query[item.title] === null))
+            if (emptyRequiredItems.length) {
+                const warningItems = emptyRequiredItems.map((item: FilterItemType) => item.name).join(', ')
+                throwToast({ type: 'warning', value: `ورودی  ${warningItems} الزامی می باشد` })
+            } else {
+                onSubmit(query)
+            }
+        } else {
             onSubmit(query)
-        }}>
+        }
+    }
+    return (
+        <form className={'flex flex-col grow'} onSubmit={queryValidationHandler}>
             <div className={"grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4 " + className}>
                 {
-                    filters?.map((item: any) => {
+                    filters?.map((item: FilterItemType) => {
                         return <InputComponent key={item.title}
                             item={item}
                             query={query}

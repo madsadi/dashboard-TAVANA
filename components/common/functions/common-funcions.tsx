@@ -1,4 +1,5 @@
 import moment from "jalali-moment";
+import { EnumType } from "types/types";
 import {
     activeStatus,
     AssetStatusEnums,
@@ -49,15 +50,16 @@ export const formatNumber = (params: any, fixed: number) => {
                 .toString()
                 .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
         } else {
-            return params.value
+            const seperated = String(params.value).split('.')
+            return Number(seperated[0])
                 .toString()
-                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + (seperated.length > 1 ? ('.' + seperated[1]) : '')
         }
     } else {
         return params.value
     }
 };
-export const formatDecimals = (params: any) => {
+export const formatDecimals = (params: number) => {
     return Math.floor(params)
         .toString()
         .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
@@ -84,7 +86,7 @@ export function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export const FindEnum = (title: string, dynamicsOption: any, label = '') => {
+export const FindEnum = (title: string, dynamicsOption: EnumType[] | undefined, label = '') => {
     switch (title) {
         case 'variable':
             return dynamicsOption

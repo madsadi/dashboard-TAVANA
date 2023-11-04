@@ -18,7 +18,7 @@ export const ModuleIdentifier: any = {
     ONLINE_ORDERS: 'online-orders',
     ONLINE_TRADES: 'online-trades',
     ONLINE_CANCEL: 'online-cancel',
-    PORTFO_live: 'portfo_live',
+    PORTFO_intraday: 'intraday',
     PORTFO_detail: 'portfo_detail',
     PORTFO_asset_switch_request: "portfo-asset-switch-request",
     OMS_session: 'oms-session',

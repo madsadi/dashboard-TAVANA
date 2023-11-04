@@ -1,19 +1,48 @@
 import { Dispatch, ForwardedRef } from "react";
-
-export interface SearchComponentTypes {
-    onSubmit: Function,
-    module: string,
-    dynamicOptions?: any[],
-    className?: string,
-    loading?: boolean,
-    extraClassName?: string,
-    initialQuery?: { [key: string]: string | number | boolean },
-    ref?: ForwardedRef<unknown>
-}
+import { FilterItemType } from "./constant-filters.types";
 
 export interface CategoryResultModalTypes {
     setOpen: Dispatch<boolean>,
     open: boolean,
     queryHandler: Function,
     data: any
+}
+
+
+export interface QueryType {
+    [key: string]: any
+}
+
+interface ServicePropertyType {
+    [key: string]: {
+        module: string,
+        permissions: string[]
+    }[]
+}
+
+interface SearchPropertyType {
+    filters: FilterItemType[],
+    initialValue: {
+        [key: string]: any
+    },
+}
+
+type child = FilterItemType | { name: string, children: FilterItemType[] }
+interface ToolbarPropertyType {
+    [key: string]: child[]
+}
+
+export interface FilterTreeType {
+    [key: string]: {
+        services: ServicePropertyType,
+        search?: SearchPropertyType,
+        toolbar?: ToolbarPropertyType
+    }
+}
+
+export interface EnumType {
+    id: number,
+    code: number,
+    enTitle?: string,
+    title: string
 }

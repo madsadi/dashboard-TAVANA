@@ -1,10 +1,11 @@
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
-import React, { memo } from "react";
+import React from "react";
+import { FilterItemType } from "types/constant-filters.types";
 
 interface BaseInputPropsType {
-    item: any,
+    item: FilterItemType,
     value: any,
-    onChange: any
+    onChange: (key: string, value: any) => void
 }
 export const BaseInput = (props: BaseInputPropsType) => {
     const { item, value, onChange } = props;

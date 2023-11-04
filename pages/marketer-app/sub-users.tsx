@@ -7,7 +7,6 @@ import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import DateCell from "../../components/common/table/date-cell";
-import { throwToast } from "components/common/functions/notification";
 import { withPermission } from "components/common/layout/with-permission";
 
 function SubUsers() {
@@ -65,18 +64,10 @@ function SubUsers() {
         data, fetchData, loading, query
     }: any = useQuery({ url: `${MARKETER_ADMIN}/marketer/all-users-total` })
 
-    const searchHandler = (query: any) => {
-        if (query?.MarketerID) {
-            fetchData(query)
-        } else {
-            throwToast({ type: 'warning', value: 'مقدار حساب کاربری اجباری می باشد' })
-        }
-    }
-
     return (
         <div className={'flex flex-col h-full flex-1'}>
             <AccordionComponent>
-                <SearchComponent onSubmit={searchHandler} loading={loading} module={ModuleIdentifier.MARKETER_APP_subusers} />
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.MARKETER_APP_subusers} />
             </AccordionComponent>
             <TableComponent data={data?.result.pagedData}
                 module={ModuleIdentifier.MARKETER_APP_subusers}

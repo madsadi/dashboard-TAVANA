@@ -155,7 +155,7 @@ export default function AddNew() {
                         <div className={'col-span-2 flex items-center'}>
                             <div className={'grow'}>
                                 {expressionQuery?.variable?.displayName === 'نماد' ?
-                                    <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate} /> :
+                                    <SymbolSearchSection query={expressionQuery} queryUpdate={expressionQueryUpdate} item={{ name: 'نماد', title: 'InstrumentId', type: 'search', display: 'faInsCode' }} /> :
                                     <>
                                         <label className={'flex items-center mt-auto text-sm'} htmlFor={'value'}>
                                             مقدار

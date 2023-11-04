@@ -246,10 +246,7 @@ function CSDIPortfo() {
                 }
             })
             setLoading(false)
-        } else {
-            throwToast({ type: 'warning', value: ' لطفا یکی از ورودی های کد معاملاتی یا کد بورسی را پر کنید ' })
         }
-
     }
 
     return (

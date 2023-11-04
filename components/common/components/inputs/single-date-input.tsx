@@ -6,19 +6,21 @@ import { DayValue } from "react-modern-calendar-datepicker";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { jalali } from "components/common/functions/common-funcions";
+import { FilterItemSingleDateType, FilterItemType } from "types/constant-filters.types";
+import { QueryType } from "types/types";
 
-interface BaseInputPropsType {
-    item: any,
-    query: any,
-    onChange: any,
+interface SingleDateInputProps {
+    item: FilterItemSingleDateType,
+    query: QueryType,
+    onChange: (key: string, value: any) => void,
 }
-export const SingleDateInput = (props: BaseInputPropsType) => {
+export const SingleDateInput = (props: SingleDateInputProps) => {
     const { item, query, onChange } = props;
-    const { title, name, minimumDate, isRequired } = item
+    const { title, name, isRequired, minimumDate } = item
 
     const singleDateHandler = (selectedDay: DayValue) => {
         if (selectedDay) {
-            return Object.values(selectedDay).map((item: any) => item).join('-')
+            return Object.values(selectedDay).map((item: number) => item).join('-')
         } else {
             return ''
         }

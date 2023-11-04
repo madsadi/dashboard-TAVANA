@@ -116,17 +116,10 @@ function CSDIPortfo() {
         ref.current?.tableColumnVisibility(colsss.filter((item: any) => item.colId.toLowerCase().includes(keyword.toLowerCase())).map((col: any) => col.colId), visible)
     }
 
-    const fetchHandler = (query: any) => {
-        if (query.Date) {
-            fetchData(query)
-        } else {
-            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
-        }
-    }
     return (
         <div className={'flex flex-col h-full flex-1 '}>
             <AccordionComponent>
-                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.CSDI_PORTFO} />
+                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.CSDI_PORTFO} />
             </AccordionComponent>
             <CSDIPortfoToolbar toggleAction={findColId} />
             <TableComponent

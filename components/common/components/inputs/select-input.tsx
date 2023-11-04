@@ -2,16 +2,18 @@ import { CheckIcon, ChevronDownIcon, ExclamationCircleIcon, XCircleIcon } from "
 import { Listbox, Transition } from "@headlessui/react";
 import { classNames, FindEnum } from "../../functions/common-funcions";
 import React, { Fragment } from "react";
+import { FilterItemType } from "types/constant-filters.types";
+import { EnumType } from "types/types";
 
 interface BaseInputPropsType {
-    item: any,
+    item: FilterItemType,
     value: any,
-    onChange: any,
-    dynamicsOption?: any
+    onChange: (key: string, value: any) => void,
+    dynamicsOption?: EnumType[]
 }
 export const SelectInput = (props: BaseInputPropsType) => {
     const { item, value, onChange, dynamicsOption } = props;
-    const { name, title, valueType, readOnly, isRequired, placeholder } = item
+    const { name, title, valueType, isRequired } = item
 
     return (
         <div>

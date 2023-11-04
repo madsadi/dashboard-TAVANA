@@ -144,8 +144,10 @@ function TradesReport() {
                     valueFormatter: formatNumber
                 },
             },
-            getDetailRowData: async (params: any) => {
-                params.successCallback([...params.data?.feeBond, ...params.data?.feeValue])
+            getDetailRowData: (params: any) => {
+                console.log(params);
+
+                params.successCallback([...params.data?.feeBound, ...params.data?.feeValue])
             },
         };
     }, []);
@@ -181,4 +183,4 @@ function TradesReport() {
     )
 }
 
-export default withPermission(TradesReport,ModuleIdentifier.NETFLOW_trades_report)
+export default withPermission(TradesReport, ModuleIdentifier.NETFLOW_trades_report)

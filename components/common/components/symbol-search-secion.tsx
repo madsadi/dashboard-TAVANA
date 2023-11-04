@@ -4,8 +4,16 @@ import { useSearchSymbol } from "../../../hooks/useSearchSymbol";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
+import { QueryType } from "types/types";
+import { FilterItemSearchType } from "types/constant-filters.types";
 
-export default function SymbolSearchSection({ query, queryUpdate, item }: { query: any, queryUpdate: any, item?: any }) {
+interface SymbolSearchProps {
+    query: QueryType,
+    queryUpdate: (key: string, value: any) => void,
+    item: FilterItemSearchType
+}
+export default function SymbolSearchSection(props: SymbolSearchProps) {
+    const { query, queryUpdate, item } = props
     const { isMultiple, title, isRequired, name, display } = item
     const [searchApi, setSearchApi] = useState('')
     const [page, setPage] = useState(1)

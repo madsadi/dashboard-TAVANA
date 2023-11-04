@@ -41,7 +41,7 @@ export const SendMessageComponent = () => {
                 <div className="field mt-4">
                     <form onSubmit={sendMessage}>
                         <div className={'w-full md:w-3/5'}>
-                            <InputComponent item={{ title: '', type: 'singleDate', name: 'date', valueType: 'string' }}
+                            <InputComponent item={{ title: '', type: 'singleDate', name: 'date' }}
                                 query={query}
                                 onChange={onChange}
                             />

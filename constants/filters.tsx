@@ -1,8 +1,9 @@
-import { ADMIN_GATEWAY, IDP, MARKETER_ADMIN, SEJAM_GATEWAY } from "../api/constants";
+import { ADMIN_GATEWAY, IDP, SEJAM_GATEWAY } from "../api/constants";
 import moment from "jalali-moment";
 import { splittedDate } from "components/common/functions/common-funcions";
+import { FilterTreeType } from "types/types";
 
-const filters: any = {
+const filters: FilterTreeType = {
   "dashboard": {
     services: {},
   },
@@ -530,8 +531,8 @@ const filters: any = {
           "queryField": "NationalId",
           "recordField": "id"
         },
-        { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS", "initialValue": "" },
-        { "title": "tbsReagentId", "name": "شناسه معرف در TBS", "initialValue": "" }
+        { "title": "tbsMarketerId", "name": "شناسه بازاریاب در TBS", type: null, "initialValue": "" },
+        { "title": "tbsReagentId", "name": "شناسه معرف در TBS", type: null, "initialValue": "" }
       ]
     }
   },
@@ -839,7 +840,7 @@ const filters: any = {
       ]
     }
   },
-  "portfo_live": {
+  "intraday": {
     services: {},
     "search": {
       "filters": [
@@ -967,9 +968,9 @@ const filters: any = {
         { "title": "minPrice", "name": "حداقل قیمت سفارش", "type": "input", "valueType": "number" },
         { "title": "maxPrice", "name": "حداکثر قیمت سفارش", "type": "input", "valueType": "number" },
         { "title": "startHour", "name": "زمان شروع", "type": "selectInputTime" },
-        { "title": "startMinute", "name": "زمان شروع" },
+        { "title": "startMinute", "name": "زمان شروع", type: null },
         { "title": "endHour", "name": "زمان پایان", "type": "selectInputTime" },
-        { "title": "endMinute", "name": "زمان پایان" },
+        { "title": "endMinute", "name": "زمان پایان", type: null },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
       ],
       "edit": [
@@ -978,9 +979,9 @@ const filters: any = {
         { "title": "minPrice", "name": "حداقل قیمت سفارش", "type": "input", "valueType": "number" },
         { "title": "maxPrice", "name": "حداکثر قیمت سفارش", "type": "input", "valueType": "number" },
         { "title": "startHour", "name": "زمان شروع", "type": "selectInputTime" },
-        { "title": "startMinute", "name": "زمان شروع" },
+        { "title": "startMinute", "name": "زمان شروع", type: null },
         { "title": "endHour", "name": "زمان پایان", "type": "selectInputTime" },
-        { "title": "endMinute", "name": "زمان پایان" },
+        { "title": "endMinute", "name": "زمان پایان", type: null },
         { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
       ]
     }
@@ -1299,7 +1300,7 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
-        { "title": "InstrumentIds", "name": "شناسه نماد", "type": "search", "isRequired": true, "isMultiple": true },
+        { "title": "InstrumentIds", "name": "شناسه نماد", "type": "search", "isRequired": true, "isMultiple": true, "display": 'faInsCode' },
         { "title": "OfferTypeCode", "name": "نوع عرضه", "type": "selectInput" },
         { "title": "SideCode", "name": "سمت سفارش", "type": "selectInput" },
         { "title": "CustomerTypeCode", "name": "نوع مشتری", "type": "selectInput" },
@@ -1325,7 +1326,7 @@ const filters: any = {
         { "title": "date", "name": "تاریخ", "type": "date" },
         { "title": "Ticket", "name": "شماره تیکت", "type": "input" },
         { "title": "Symbol", "name": "نماد", "type": "input" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "input", "display": "faInsCode" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
         { "title": "FirstName", "name": "نام", "type": "input" },
         { "title": "LastName", "name": "نام خانوادگی", "type": "input" },
         { "title": "NationalCode", "name": "کد ملی", "type": "input" },
@@ -1384,7 +1385,7 @@ const filters: any = {
         { "title": "date", "name": "تاریخ", "type": "date" },
         { "title": "Ticket", "name": "شماره تیکت", "type": "input" },
         { "title": "Symbol", "name": "نماد", "type": "input" },
-        { "title": "InstrumentId", "name": "شناسه نماد", "type": "input", "display": "faInsCode" },
+        { "title": "InstrumentId", "name": "شناسه نماد", "type": "search", "display": "faInsCode" },
         { "title": "Side", "name": "سمت", "type": "selectInput" }
       ],
       "initialValue": {
@@ -1598,10 +1599,10 @@ const filters: any = {
       "initialValue": {
         "PageNumber": 1,
         "PageSize": 20,
+        "UserType": null,
+        "MarketerID": null,
         "StartDate": moment.from(moment().locale('fa').format('YYYY-MM') + "-01", 'fa', 'YYYY-MM-DD').format('YYYY-MM-DD'),
         "EndDate": moment().locale('en').format('YYYY-MM-DD'),
-        "UserType": 'active',
-        "Name": '',
         "SortBy": "RegisterDate",
         "SortOrder": 1,
       }
@@ -1655,7 +1656,6 @@ const filters: any = {
           "valueField": ["firstName", "lastName", "UniqueId", "Mobile"],
           "queryField": "NationalId",
           "recordField": "id",
-          "placeholer": "Title"
         },
         { "title": "CalculationBaseType", "name": "نوع پایه محاسبه", "type": "selectInput" },
         { "title": "CoefficientBaseType", "name": "نوع ضریب پایه ", "type": "selectInput" },
@@ -1862,7 +1862,7 @@ const filters: any = {
       "filters": [
         { "title": "PageNumber", "name": "شماره صفحه", "type": null },
         { "title": "PageSize", "name": "تعداد", "type": null },
-        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input", "isRequired": true },
+        { "title": "TradingCode", "name": "کد معاملاتی", "type": "input" },
         { "title": "BourseCode", "name": "کد بورسی", "type": "input" },
         { "title": "DateFirst", "name": " تاریخ اول", "type": "singleDate", "isRequired": true },
         { "title": "DateSecond", "name": "تاریخ دوم", "type": "singleDate", "isRequired": true },

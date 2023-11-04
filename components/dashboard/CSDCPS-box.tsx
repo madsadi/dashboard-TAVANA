@@ -33,7 +33,7 @@ export const CSDCPSStatusBox = () => {
     return (
         <div className='border border-border rounded-lg shadow p-4'>
             <div className='max-w-[250px]'>
-                <RangeDateInput query={query} setQuery={dateChangeHandler} item={{ name: 'تاریخ بازه' }} />
+                <RangeDateInput query={query} setQuery={dateChangeHandler} item={{ name: 'تاریخ بازه', title: 'date', type: 'date' }} />
             </div>
             <div className="relative">
                 <CSDCPSStatusChart data={rowData} onChartReady={() => dateChangeHandler({ StartDate: moment().locale('en').subtract(5, 'day').format('YYYY-MM-DD'), EndDate: moment().locale('en').format('YYYY-MM-DD') })} />

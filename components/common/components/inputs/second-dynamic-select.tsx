@@ -1,38 +1,40 @@
-import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import React, {Fragment} from "react";
-import {classNames} from "../../functions/common-funcions";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
+import React, { Fragment } from "react";
+import { FilterItemType } from "types/constant-filters.types";
+import { EnumType } from "types/types";
+import { classNames } from "../../functions/common-funcions";
 
 interface BaseInputPropsType {
-    item:any,
-    value:any,
-    onChange:any,
-    dynamicsOption?:any
+    item: FilterItemType,
+    value: any,
+    onChange: (key: string, value: any) => void,
+    dynamicsOption?: EnumType[]
 }
-export const SecondDynamicSelect=(props:BaseInputPropsType)=>{
-    const {item,value,onChange,dynamicsOption}=props;
-    const {name,title}=item
+export const SecondDynamicSelect = (props: BaseInputPropsType) => {
+    const { item, value, onChange, dynamicsOption } = props;
+    const { name, title } = item
 
-    return(
+    return (
         <div>
             <label className={'flex items-center mt-auto text-sm'} htmlFor={title}>{name}</label>
             <div className="relative rounded">
                 <Listbox name={title} value={value}
-                         onChange={(e) => {
-                             onChange(title, e);
-                         }}>
-                    {({open}) => (
+                    onChange={(e) => {
+                        onChange(title, e);
+                    }}>
+                    {({ open }) => (
                         <div className="relative">
                             <Listbox.Button
                                 className="relative flex min-w-full h-[36px] cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
-                                            <span className="flex items-center">
-                                                <span
-                                                    className="ml-2 block truncate text-sm">{value?.displayName}</span>
-                                            </span>
+                                <span className="flex items-center">
+                                    <span
+                                        className="ml-2 block truncate text-sm">{value?.displayName}</span>
+                                </span>
                                 <span className="pointer-events-none flex items-center mr-auto">
-                                                <ChevronDownIcon className="h-5 w-5 text-gray-400"
-                                                                 aria-hidden="false"/>
-                                            </span>
+                                    <ChevronDownIcon className="h-5 w-5 text-gray-400"
+                                        aria-hidden="false" />
+                                </span>
                             </Listbox.Button>
 
                             <Transition
@@ -47,7 +49,7 @@ export const SecondDynamicSelect=(props:BaseInputPropsType)=>{
                                     {dynamicsOption?.map((item: any) => (
                                         <Listbox.Option
                                             key={item.name}
-                                            className={({active}) =>
+                                            className={({ active }) =>
                                                 classNames(
                                                     active ? 'bg-border' : '',
                                                     'relative cursor-pointer select-none py-1 pl-3 pr-3'
@@ -55,12 +57,12 @@ export const SecondDynamicSelect=(props:BaseInputPropsType)=>{
                                             }
                                             value={item}
                                         >
-                                            {({selected, active}) => (
+                                            {({ selected, active }) => (
                                                 <>
                                                     <div className="flex items-center">
-                                                                    <span>
-                                                                        {item.displayName}
-                                                                    </span>
+                                                        <span>
+                                                            {item.displayName}
+                                                        </span>
                                                         {selected ? (
                                                             <span
                                                                 className={classNames(
@@ -68,9 +70,9 @@ export const SecondDynamicSelect=(props:BaseInputPropsType)=>{
                                                                     'flex items-center mr-auto'
                                                                 )}
                                                             >
-                                                                            <CheckIcon className="h-5 w-5"
-                                                                                       aria-hidden="true"/>
-                                                                        </span>
+                                                                <CheckIcon className="h-5 w-5"
+                                                                    aria-hidden="true" />
+                                                            </span>
                                                         ) : null}
                                                     </div>
                                                 </>

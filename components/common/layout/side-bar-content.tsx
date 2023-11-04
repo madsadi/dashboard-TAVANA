@@ -225,7 +225,7 @@ export default function SideBarContent() {
                     url: '/portfo/intraday',
                     as: '/portfo/intraday',
                     className: router.pathname === '/portfo/intraday' ? 'sideBarActive' : '',
-                    module: ModuleIdentifier.PORTFO_live,
+                    module: ModuleIdentifier.PORTFO_intraday,
                 },
                 {
                     label: 'درخواست تغییر ناظر',
