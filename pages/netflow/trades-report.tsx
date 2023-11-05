@@ -145,20 +145,10 @@ function TradesReport() {
                 },
             },
             getDetailRowData: (params: any) => {
-                console.log(params);
-
                 params.successCallback([...params.data?.feeBound, ...params.data?.feeValue])
             },
         };
     }, []);
-
-    const submitHandler = (query: any) => {
-        if (query?.StartDate && query?.EndDate) {
-            fetchData(query)
-        } else {
-            throwToast({ type: 'warning', value: 'ورودی تاریخ الزامی می باشد' })
-        }
-    }
 
     return (
         <div className={'relative flex flex-col grow overflow-hidden'}>

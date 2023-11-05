@@ -1,19 +1,19 @@
-import { IsRowSelectable, RowClickedEvent } from "ag-grid-community";
-import { ReactElement, ForwardedRef } from "react";
+import { ComponentType, IsRowSelectable, RowClickedEvent } from "ag-grid-community";
+import { SetStateAction, ForwardedRef, Dispatch, CSSProperties } from "react";
 import { QueryType } from "./types";
 
 export interface TableProps {
     data: any[],
-    module: string,
+    module?: string,
     columnDefStructure: any[],
     rowSelection?: 'single' | 'multiple',
     onGridReady?: () => void,
     rowId: string[],
     isRowSelectable?: IsRowSelectable,
     masterDetail?: boolean,
-    detailComponent?: ReactElement,
-    detailCellRendererParams?: detailCellRendererParamsType,
-    setSelectedRows?: (entry: any[]) => void,
+    detailComponent?: any,
+    detailCellRendererParams?: detailCellRendererParamsType | (() => detailCellRendererParamsType),
+    setSelectedRows?: Dispatch<SetStateAction<never[]>>,
     selectedRows?: any[],
     onRowClicked?: ((event: RowClickedEvent<any>) => void) | undefined,
     selectionChanged?: (arg: any[]) => void,
@@ -23,7 +23,7 @@ export interface TableProps {
     groupIncludeFooter?: boolean,
     pagination?: boolean,
     totalCount?: number,
-    fetcher?: () => void,
+    fetcher?: (query: QueryType) => Promise<void> | void,
     query?: QueryType,
     loading?: boolean,
     indexOfOpenedDetail?: number,
@@ -33,6 +33,9 @@ export interface detailCellRendererParamsType {
     detailGridOptions: {
         enableRtl: boolean,
         getRowId?: (params: any) => string,
+        rowStyle?: {},
+        getRowStyle?: (params: any) => CSSProperties,
+        suppressRowTransform?: boolean,
         columnDefs: any[],
         defaultColDef: {
             resizable?: boolean,
@@ -41,7 +44,7 @@ export interface detailCellRendererParamsType {
             valueFormatter?: (params: number, fixed: number) => string
         },
     },
-    getDetailRowData: (params: any) => Promise<void>,
+    getDetailRowData: (params: any) => Promise<void> | void,
 }
 
 export interface SearchComponentTypes {
