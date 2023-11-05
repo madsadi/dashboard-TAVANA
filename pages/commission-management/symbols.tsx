@@ -15,6 +15,7 @@ import { formatNumber } from "components/common/functions/common-funcions";
 function SymbolsCommission() {
     const [selectedRows, setSelectedRows] = useState<any>([])
     const [activeTab, setActiveTab] = useState<string>('Abstract')
+    const [loading, setLoading] = useState<boolean>(false)
     const [data, setData] = useState<{ pagedData: any[], totalCount: number }>({ pagedData: [], totalCount: 0 })
 
     const abstractColumnDefStructure: any = [
@@ -187,8 +188,16 @@ function SymbolsCommission() {
         'Full': fullColumnDefStructure
     }
     const {
-        fetchData, query, loading
+        fetchAsyncData, query
     }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/InstrumentCommissionDetail/${activeTab === 'Abstract' ? 'GetAbstractCommissionCoefficient' : 'GetFullCommissionCoefficient'}` })
+
+    const fetchHandler = async (query: any) => {
+        setLoading(true)
+        await fetchAsyncData(query)
+            .then((res: any) => setData(res?.data?.result))
+            .catch((err: any) => throwToast({ type: 'error', value: err }))
+            .finally(() => setLoading(false))
+    }
 
     const detailCellRendererParams = useMemo(() => {
         return {
@@ -309,7 +318,7 @@ function SymbolsCommission() {
                 <button onClick={() => { setActiveTab('Full'); setData({ pagedData: [], totalCount: 0 }) }} className={`px-10 py-2 rounded-t ${activeTab === 'Full' ? 'bg-border font-bold' : 'text-gray-400'}`}>جزیئات کارمزد</button>
             </div>
             <AccordionComponent className={'rounded-tr-none'}>
-                <SearchComponent onSubmit={fetchData} loading={loading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_symbols} />
+                <SearchComponent onSubmit={fetchHandler} loading={loading} module={ModuleIdentifier.COMMISSION_MANAGEMENT_symbols} />
             </AccordionComponent>
             <TableComponent data={data?.pagedData}
                 columnDefStructure={tabItems[activeTab]}
@@ -320,7 +329,7 @@ function SymbolsCommission() {
                 masterDetail={true}
                 pagination={true}
                 totalCount={data?.totalCount}
-                fetcher={fetchData}
+                fetcher={fetchHandler}
                 query={query}
             />
         </div>
