@@ -12,6 +12,7 @@ import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { isAllowed } from "../functions/permission-utils";
 import { useSelector } from "react-redux";
 import ExcelExport from "../components/button/excel-export";
+import { QueryType } from "types/types";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -23,10 +24,10 @@ export default function TablePagination({
     totalCount = 0,
     module,
     exportExcel
-}: { query: any, onSubmit: Function, totalCount: number, module: string, exportExcel: () => void }) {
+}: { query: QueryType, onSubmit: Function, totalCount: number, module: string, exportExcel: () => void }) {
 
     const { user_permissions: userPermissions } = useSelector((state: any) => state.appConfig)
-    const [pageQuery, setPageQuery] = useState({ PageSize: query?.PageSize || 20, PageNumber: 1 })
+    const [pageQuery, setPageQuery] = useState<QueryType>({ PageSize: query?.PageSize || 20, PageNumber: 1 })
     const { service, modules, restriction } = useSearchFilters(module)
 
     const sizes = [10, 20, 50, 100, 200, 300, 400, 500, 1000]

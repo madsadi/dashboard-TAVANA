@@ -1,17 +1,16 @@
 import React from 'react';
 
-export const LoadingOverlay=(props:any)=> {
+export const LoadingOverlay = (props: any) => {
     return (
         <div
             className="ag-overlay-loading-center"
-            style={{ height: '9%' }}
         >
             {props.loadingMessage}
         </div>
     );
 };
 
-export const NoRowOverlay = (props:any) => {
+export const NoRowOverlay = (props: any) => {
     return (
         <div
             className="ag-overlay-loading-center"

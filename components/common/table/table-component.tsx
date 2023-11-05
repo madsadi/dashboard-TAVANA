@@ -5,13 +5,13 @@ import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { ExcelStyle } from "ag-grid-community";
-import { Loader } from "../components/loader";
 const TablePagination = dynamic(() => import('./table-pagination'))
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
+import { TableProps } from "types/common-components.type";
 
-const TableComponent: React.FC<any> = forwardRef((props, ref) => {
+const TableComponent = forwardRef((props: TableProps, ref) => {
     let { data = [],
         module,
         columnDefStructure,
@@ -26,14 +26,14 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
         detailCellRendererParams = null,
         setSelectedRows = () => null,
         selectedRows = [],
-        onRowClicked = null,
+        onRowClicked = () => null,
         suppressRowClickSelection = false,
         pagination = false,
         groupIncludeTotalFooter = false,
         groupIncludeFooter = false,
         totalCount = 0,
         fetcher = () => null,
-        query = null,
+        query = {},
         loading = false,
         indexOfOpenedDetail = -1,
     } = props
@@ -119,6 +119,15 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
     }, []);
 
     useImperativeHandle(ref, () => ({
+        rowSetData(data: any[]) {
+            gridRef.current?.api?.setRowData(data)
+        },
+        showLoading() {
+            gridRef.current.api?.showLoadingOverlay();
+        },
+        hideOverlay() {
+            gridRef.current.api?.hideOverlay();
+        },
         updateRow(newData: any) {
             gridRef.current?.api?.applyTransaction({
                 update: [newData]
@@ -152,7 +161,6 @@ const TableComponent: React.FC<any> = forwardRef((props, ref) => {
     return (
         <>
             <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]'}>
-                {/*{!loading ? <div className={'absolute left-0 top-0 w-full h-full flex bg-gray-200/80 blur-md'}/>:null}*/}
                 <div style={gridStyle} className="ag-theme-alpine absolute">
                     <AgGridReact
                         ref={gridRef}

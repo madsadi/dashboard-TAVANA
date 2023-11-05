@@ -215,9 +215,9 @@ input[type=number] {
     transform: translateX(50%);
 }
 
-.ag-overlay-loading-wrapper {
-    background: transparent !important;
-}
+.ag-overlay-loading-wrapper{
+    background: #40404048 !important;
+  }
 
 .ag-watermark {
     display: none;

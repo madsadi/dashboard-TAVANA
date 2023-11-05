@@ -159,7 +159,7 @@ const filters: FilterTreeType = {
         { "title": "isSejami", "name": "سجامی هست؟", "type": "selectInput" },
         { "title": "sejamStatus", "name": "وضعیت سجامی", "type": "selectInput" },
         { "title": "registrationState", "name": "وضعیت ثبت نام", "type": "selectInput" },
-        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date" }
+        { "title": "date", "name": "تاریخ شروع و پایان", "type": "date", "isRequired": true }
       ],
       "initialValue": {
         "PageNumber": 1,

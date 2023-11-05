@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { throwToast } from "../components/common/functions/notification";
+import { QueryType } from 'types/types';
 
 
 const useQuery = ({ url = '', params = {}, revalidateOnMount = false, notifResults = false }) => {
     const [data, setData] = useState<any>(null);
     const error = '';
     const [loading, setLoading] = useState(false);
-    const [query, setQuery] = useState(null);
+    const [query, setQuery] = useState<QueryType>({});
 
-    const fetchData = async (query: any = {}) => {
+    const fetchData = async (query: QueryType = {}) => {
         const params = new URLSearchParams();
         if (query) {
-            Object.keys(query).map((item: any) => {
+            Object.keys(query).map((item: string) => {
                 if (query[item] !== null && query[item] !== undefined && query[item] !== '' && !Array.isArray(query[item])) {
                     params.append(item, query[item])
                 } else if (Array.isArray(query[item])) {
@@ -37,10 +38,10 @@ const useQuery = ({ url = '', params = {}, revalidateOnMount = false, notifResul
                 setLoading(false);
             });
     };
-    const fetchAsyncData = async (query: any = {}, endpoint = '') => {
+    const fetchAsyncData = async (query: QueryType = {}, endpoint = '') => {
         const params = new URLSearchParams();
         if (query) {
-            Object.keys(query).map((item: any) => {
+            Object.keys(query).map((item: string) => {
                 if (query[item] !== null && query[item] !== undefined && query[item] !== '' && !Array.isArray(query[item])) {
                     params.append(item, query[item])
                 } else if (Array.isArray(query[item])) {

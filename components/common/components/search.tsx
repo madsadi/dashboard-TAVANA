@@ -30,7 +30,7 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) 
         e.preventDefault()
         const requiredItems = filters.filter((item: FilterItemType) => item.isRequired)
         if (requiredItems.length) {
-            const emptyRequiredItems = requiredItems.filter((item: FilterItemType) => item.type === 'date' ? (query.StartDate === undefined || query.StartDate === null || query.EndDate === undefined || query.EndDate === null) : (query[item.title] === undefined || query[item.title] === null))
+            const emptyRequiredItems = requiredItems.filter((item: FilterItemType) => item.type === 'date' ? (!query.StartDate || !query.EndDate) : (query[item.title] === undefined || query[item.title] === null))
             if (emptyRequiredItems.length) {
                 const warningItems = emptyRequiredItems.map((item: FilterItemType) => item.name).join(', ')
                 throwToast({ type: 'warning', value: `ورودی  ${warningItems} الزامی می باشد` })

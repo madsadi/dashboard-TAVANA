@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(() => import("../../../components/common/components/accordion"));
 const SearchComponent = dynamic(() => import("../../../components/common/components/search"));
@@ -185,7 +185,6 @@ function OnlineRegistration() {
             },
         }
     ]
-
     const [selectedRows, setSelectedRows] = useState<any>([])
     const {
         data,
