@@ -1,5 +1,4 @@
 export const isAllowed = ({ userPermissions, whoIsAllowed }: { userPermissions: string[], whoIsAllowed: string[] | any }) => {
-
     if (whoIsAllowed !== undefined && whoIsAllowed.length > 0) {
         let _whoIsAllowedServiceAll = whoIsAllowed?.map((a: string) => [a.split('.')[0], 'All'].join('.'))
         let _whoIsAllowedModuleAll = whoIsAllowed?.map((a: string) => [a.split('.')[0], a.split('.')[1], 'All'].join('.'))

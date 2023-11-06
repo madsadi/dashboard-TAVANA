@@ -50,10 +50,27 @@ export const formatNumber = (params: any, fixed: number) => {
                 .toString()
                 .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
         } else {
-            const seperated = String(params.value).split('.')
-            return Number(seperated[0])
-                .toString()
-                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + (seperated.length > 1 ? ('.' + seperated[1]) : '')
+            if(params.value.toString().includes('e')){
+                const seperated = String(params.value).replace('.','').split('e')
+                if(seperated[1].includes('-')){
+                    let arrayOfDigits = []
+                    const power = +seperated[1].slice(1)
+                    for(let i=1;i<power;i++){
+                        arrayOfDigits.push('0')
+                    }
+                    return '0.'+arrayOfDigits.join('')+seperated[0]
+                }else{
+                    return params.value
+                        .toString()
+                        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                }
+            }else{
+                const seperated = String(params.value).split('.')
+                
+                return Number(seperated[0])
+                    .toString()
+                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + (seperated.length > 1 ? ('.' + seperated[1]) : '')
+                }
         }
     } else {
         return params.value

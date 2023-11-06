@@ -203,7 +203,6 @@ function SymbolsCommission() {
         return {
             detailGridOptions: {
                 enableRtl: true,
-                // getRowId:(params:any)=>params.data.orderId,
                 columnDefs: [
                     {
                         field: 'category',
@@ -276,7 +275,7 @@ function SymbolsCommission() {
                         broker: params.data.brokerCommissionCoeff,
                         access: params.data.accessCommissionCoeff,
                         brokerCmdFund: params.data.brokerCmdFundCoeff,
-                        bourse: params.data.brokerCmdFundCoeff,
+                        bourse: params.data.bourseCommissionCoeff,
                         seoControl: params.data.seoControlCommissionCoeff,
                         csd: params.data.csdCommissionCoeff,
                         tmc: params.data.tmcCommissionCoeff,
