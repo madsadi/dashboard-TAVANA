@@ -106,6 +106,8 @@ export default function SymbolSearchSection(props: SymbolSearchProps) {
                     {searchItem || query?.InstrumentId ?
                         <XCircleIcon className="h-5 w-5 text-gray-400 mr-2 cursor-pointer" onClick={() => {
                             setSearchItem('')
+                            queryUpdate(title, null)
+                            setDisplayer(null)
                         }} /> : null}
                 </label>
                 <input id={title} className={'w-full h-[36px] '} value={isMultiple ? searchItem : (display ? displayer || query?.InstrumentId : query?.InstrumentId)}
