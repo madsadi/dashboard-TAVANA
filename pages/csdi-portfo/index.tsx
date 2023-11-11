@@ -61,20 +61,20 @@ function CSDIPortfo() {
     {
       field: "lastPrice",
       headerName: "قیمت آخرین  معامله",
+      hide: true,
     },
     {
       field: "closingPrice",
       headerName: "قیمت پایانی",
-      hide: true,
     },
     {
       field: "netValueByClosingPrice",
       headerName: "خالص ارزش فروش با قیمت پایانی",
-      hide: true,
     },
     {
       field: "netValueByLastPrice",
       headerName: "خالص ارزش فروش با قیمت  آخرین معامله",
+      hide: true,
     },
     {
       field: "shareChange",

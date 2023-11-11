@@ -12,6 +12,7 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import CustomerToPortfoToolbar from "components/portfo/customer-to-portfo/toolbar";
+import { formatNumber } from "components/common/functions/common-funcions";
 
 function CustomerToPortfo() {
   const columnDefStructure = [
@@ -44,10 +45,26 @@ function CustomerToPortfo() {
     {
       field: "portfolioWeightByClosingPrice",
       headerName: "وزن پورتفوی",
+      valueFormatter: (rowData: any) => {
+        return (
+          formatNumber(
+            { value: rowData.data.portfolioWeightByClosingPrice },
+            2
+          ) + " %"
+        );
+      },
+      dir: "ltr",
     },
     {
       field: "portfolioWeightByLastPrice",
       headerName: "وزن پورتفوی",
+      valueFormatter: (rowData: any) => {
+        return (
+          formatNumber({ value: rowData.data.portfolioWeightByLastPrice }, 2) +
+          " %"
+        );
+      },
+      dir: "ltr",
       hide: true,
     },
   ];
@@ -78,10 +95,7 @@ function CustomerToPortfo() {
           module={ModuleIdentifier.PORTFO_customer_to_broker}
         />
       </AccordionComponent>
-      <CustomerToPortfoToolbar
-        toggleAction={findColId}
-        data={data?.result?.pagedData}
-      />
+      <CustomerToPortfoToolbar toggleAction={findColId} data={data?.result} />
       <TableComponent
         ref={ref}
         data={data?.result?.pagedData}

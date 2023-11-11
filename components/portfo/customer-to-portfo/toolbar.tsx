@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 export default function CustomerToPortfoToolbar(props: {
   toggleAction: (keyword: string, visible: boolean) => void;
-  data: any[];
+  data: { totalCount: number; pagedData: any[] };
 }) {
   const { toggleAction, data } = props;
   const [state, setState] = useState<"LastPrice" | "ClosingPrice">(
@@ -27,13 +27,31 @@ export default function CustomerToPortfoToolbar(props: {
           labelAfter={"قیمت آخرین  معامله"}
         />
         <div className="bg-gray-100 border border-border px-3 rounded-full mr-auto">
+          تعداد کل مشتریان:
+          <span className="mr-2">
+            {data?.totalCount
+              ? formatNumber(
+                  {
+                    value: data?.totalCount,
+                  },
+                  0
+                )
+              : "-"}
+          </span>
+        </div>
+        <div className="bg-gray-100 border border-border px-3 rounded-full mr-3">
           ارزش کل پورتفو:
-          {data?.[0]
-            ? formatNumber(
-                { value: data?.[0]["totalPortfolioValueBy" + state] },
-                0
-              )
-            : "-"}
+          <span className="mr-2">
+            {data?.pagedData?.[0]
+              ? formatNumber(
+                  {
+                    value:
+                      data?.pagedData?.[0]["totalPortfolioValueBy" + state],
+                  },
+                  0
+                )
+              : "-"}
+          </span>
         </div>
       </div>
     </div>
