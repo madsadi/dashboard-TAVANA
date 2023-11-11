@@ -71,6 +71,7 @@ export default function BreadCrumbComponent() {
     symbols: "نمادها",
     "freezed-asset": "گزارش دارایی منجمد",
     "customer-portfo": "روند پورتفوی مشتری",
+    "customer-to-broker": "رتبه پورتفوی مشتریان",
   };
 
   useEffect(() => {

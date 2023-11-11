@@ -314,6 +314,16 @@ export default function SideBarContent() {
               : "",
           module: ModuleIdentifier.PORTFO_customer_portfo,
         },
+        {
+          label: "رتبه پورتفوی مشتریان",
+          url: "/portfo/customer-to-broker",
+          as: "/portfo/customer-to-broker",
+          className:
+            router.pathname === "/portfo/customer-to-broker"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.PORTFO_customer_to_broker,
+        },
       ],
     },
     {

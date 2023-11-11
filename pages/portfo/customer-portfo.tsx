@@ -21,6 +21,7 @@ import { EnumType } from "types/types";
 import { AgChartOptions } from "ag-charts-community";
 import moment from "jalali-moment";
 import { SwitchToggle } from "components/common/components/button/switch-toggle";
+import { PresentationChartLineIcon } from "@heroicons/react/20/solid";
 
 function CustomerPortfo() {
   const {
@@ -37,7 +38,6 @@ function CustomerPortfo() {
   >("portfolioValueByClosingPrice");
 
   const options: AgChartOptions = {
-    autoSize: true,
     type: "area",
     title: {
       text: chartData?.result?.length
@@ -164,17 +164,18 @@ function CustomerPortfo() {
       >
         <div className="px-5">
           <SwitchToggle
-            isChecked={state === "portfolioValueByClosingPrice"}
+            isChecked={state === "portfolioValueByLastPrice"}
             onChange={changeHandler}
-            labelAfter={"قیمت پایانی"}
-            labelBefore={"آخرین قیمت"}
+            labelBefore={"قیمت پایانی"}
+            labelAfter={"آخرین قیمت"}
           />
         </div>
-        <div className="grow">
-          <AgChartsReact
-            options={options}
-            containerStyle={{ height: "100%" }}
-          />
+        <div className="grow flex flex-col">
+          {chartData.length ? (
+            <AgChartsReact options={options} />
+          ) : (
+            <PresentationChartLineIcon className="h-60 w-60 m-auto text-border" />
+          )}
         </div>
       </div>
     </div>

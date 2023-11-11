@@ -2779,7 +2779,7 @@ const filters: FilterTreeType = {
       },
     },
   },
-  "portfo-asset-switch-request": {
+  "portfo-asset_switch_request": {
     services: {},
     search: {
       filters: [
@@ -2847,6 +2847,33 @@ const filters: FilterTreeType = {
         },
         { title: "description", name: "توضیحات", type: "input" },
       ],
+    },
+  },
+  "portfo-customer_to_broker": {
+    services: {},
+    search: {
+      filters: [
+        { title: "PageNumber", name: "شماره صفحه", type: null },
+        { title: "PageSize", name: "تعداد", type: null },
+        { title: "CustomerId", name: "شناسه مشتری", type: "input" },
+        { title: "TradingCode", name: "کد معاملاتی مشتری", type: "input" },
+        { title: "BourseCode", name: "کد بورسی مشتری", type: "input" },
+        {
+          title: "Date",
+          name: "تاریخ گزارش",
+          type: "singleDate",
+          isRequired: true,
+        },
+      ],
+      initialValue: {
+        PageNumber: 1,
+        PageSize: 20,
+        StartDate: "",
+        EndDate: "",
+        CustomerId: "",
+        TradingCode: "",
+        BourseCode: "",
+      },
     },
   },
   "csdi-portfo_asset_switch_report": {
