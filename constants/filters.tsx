@@ -1361,15 +1361,21 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "CustomerId", name: "کد/شناسه ملی بازاریاب ", type: "input" },
+        { title: "CustomerId", name: "کد/شناسه ملی مشتری ", type: "input" },
         { title: "BourseCode", name: "کد بورسی ", type: "input" },
         { title: "TradingCode", name: "کد معاملاتی ", type: "input" },
         {
           title: "TimeInterval",
           name: "فاصله گزارش گیری ",
           type: "selectInput",
+          isRequired: true,
         },
-        { title: "Date", name: "تاریخ شروع و پایان", type: "date" },
+        {
+          title: "Date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+          isRequired: true,
+        },
       ],
       initialValue: {
         InstrumentId: "",

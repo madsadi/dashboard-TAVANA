@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(
   () => import("../../components/common/components/search")
@@ -18,10 +18,12 @@ import {
 } from "components/common/functions/common-funcions";
 import { Interval } from "constants/Enums";
 import { EnumType } from "types/types";
-import { AgChartOptions } from "ag-charts-community";
+import { AgChart, AgChartOptions } from "ag-charts-community";
 import moment from "jalali-moment";
 import { SwitchToggle } from "components/common/components/button/switch-toggle";
 import { PresentationChartLineIcon } from "@heroicons/react/20/solid";
+import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
+import { Button } from "components/common/components/button/button";
 
 function CustomerPortfo() {
   const {
@@ -39,6 +41,7 @@ function CustomerPortfo() {
 
   const options: AgChartOptions = {
     type: "area",
+    autoSize: true,
     title: {
       text: chartData?.result?.length
         ? [
@@ -112,20 +115,22 @@ function CustomerPortfo() {
         tooltip: {
           renderer: (params) => {
             return {
-              content: `${moment(params.xValue)
-                .locale("fa")
-                .format("YYYY-MM-DD")}: ${formatNumberSecond(params.yValue)}`,
+              content:
+                `تاریخ:
+                ${moment(params.xValue).locale("fa").format("DD-MM-YYYY")} ` +
+                `ارزش:
+                 ${formatNumberSecond(params.yValue)}`,
             };
           },
         },
       },
     ],
   };
-
+  const ref: any = useRef();
   const changeHandler = (e: any) => {
     let mode: any = e
-      ? "portfolioValueByClosingPrice"
-      : "portfolioValueByLastPrice";
+      ? "portfolioValueByLastPrice"
+      : "portfolioValueByClosingPrice";
     setState(mode);
     const _data = chartData?.result?.map((item: any) => {
       return {
@@ -148,6 +153,10 @@ function CustomerPortfo() {
     }
   }, [data]);
 
+  const download = useCallback(() => {
+    AgChart.download(ref.current.chart);
+  }, []);
+
   return (
     <div className={"flex flex-col h-full flex-1"}>
       <AccordionComponent>
@@ -162,17 +171,23 @@ function CustomerPortfo() {
           "relative grow flex flex-col overflow-hidden border border-border rounded-b-xl min-h-[200px]"
         }
       >
-        <div className="px-5">
+        <div className="flex items-center px-5">
           <SwitchToggle
             isChecked={state === "portfolioValueByLastPrice"}
             onChange={changeHandler}
             labelBefore={"قیمت پایانی"}
             labelAfter={"آخرین قیمت"}
           />
+          <Button
+            label="دانلود نمودار"
+            className="mr-auto bg-border my-1 !text-black"
+            icon={<ArrowDownTrayIcon className="h-5 w-5" />}
+            onClick={download}
+          />
         </div>
         <div className="grow flex flex-col">
-          {chartData.length ? (
-            <AgChartsReact options={options} />
+          {chartData?.result?.length ? (
+            <AgChartsReact ref={ref} options={options} />
           ) : (
             <PresentationChartLineIcon className="h-60 w-60 m-auto text-border" />
           )}
