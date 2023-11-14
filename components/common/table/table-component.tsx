@@ -181,9 +181,8 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     },
   }));
 
-  const popupParent = useMemo(() => {
-    return document.getElementById("grid");
-  }, []);
+  const popupParent =
+    typeof document !== "undefined" ? document.getElementById("grid") : null;
 
   return (
     <>
