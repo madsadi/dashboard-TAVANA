@@ -1,305 +1,315 @@
-@import '../public/yekanBakhFont.css';
+@import "../public/yekanBakhFont.css";
 
 html,
 body {
-    padding: 0;
-    margin: 0;
-    font-family: "Yekan Bakh", sans-serif;
-    font-display: auto;
-    color: #495057;
+  padding: 0;
+  margin: 0;
+  font-family: "Yekan Bakh", sans-serif;
+  font-display: auto;
+  color: #495057;
 }
 :root {
-    color-scheme: light !important;
+  color-scheme: light !important;
 }
 
-.tooltip::before{
-    background-color: #404040 !important;
+.tooltip::before {
+  background-color: #404040 !important;
 }
-.tooltip::after{
-    border-color: #404040 transparent transparent transparent !important;
+.tooltip::after {
+  border-color: #404040 transparent transparent transparent !important;
 }
 
 .StyledReceipt {
-    background: #d4d4d4;
-    width: 22rem;
-    padding: 1rem 1rem 2rem;
-    --mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50%/30px 100%;
-    -webkit-mask: var(--mask);
-    mask: var(--mask);
-  }
-  
+  background: #d4d4d4;
+  width: 22rem;
+  padding: 1rem 1rem 2rem;
+  --mask: conic-gradient(
+      from -45deg at bottom,
+      #0000,
+      #000 1deg 89deg,
+      #0000 90deg
+    )
+    50%/30px 100%;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+}
+
 @media (prefers-color-scheme: dark) {
-    :root{
-        --b3:180 1.9608% 90% !important;
-        --b1:0 0% 100% !important;
-        --b2:0 0% 94.902% !important;
-    }
+  :root {
+    --b3: 180 1.9608% 90% !important;
+    --b1: 0 0% 100% !important;
+    --b2: 0 0% 94.902% !important;
+  }
 }
 
 #__next {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 * {
-    box-sizing: border-box;
-    font-variant-numeric:tabular-nums;
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+  background: transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+  background: #888;
+  border-radius: 4px;
 }
 
-.sideBarActive{
-    @apply bg-gray-200 p-2 rounded-md;
+.sideBarActive {
+  @apply bg-gray-200 p-2 rounded-md;
 }
 #collapse > span {
-    text-align: right;
-    margin-right: 0.75rem;
+  text-align: right;
+  margin-right: 0.75rem;
 }
 
 #menuGroup > li {
-    border: 1px solid #eee;
-    border-radius: 8px;
+  border: 1px solid #eee;
+  border-radius: 8px;
 }
 
 #nonCollapse > li {
-    border: 1px solid #eee;
-    border-radius: 8px;
-    margin-top: 0.5rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-top: 0.5rem;
 }
 
 #nonCollapse > span {
-    padding: 0;
+  padding: 0;
 }
 
 .hiddenScrollBar::-webkit-scrollbar {
-    display: none !important;
+  display: none !important;
 }
 
 .backTransparent {
-    background: transparent !important;
-    border: 0 solid transparent !important;
+  background: transparent !important;
+  border: 0 solid transparent !important;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 * input {
-    border: 1px solid #eee !important;
-    border-radius: 5px !important;
-    padding: 5px !important;
-    font-size: 14px !important;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+  border: 1px solid #eee !important;
+  border-radius: 5px !important;
+  padding: 5px !important;
+  font-size: 14px !important;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
 }
 
 input:focus {
-    border: 1px solid #727171;
-    box-shadow: none;
+  border: 1px solid #727171;
+  box-shadow: none;
 }
 
 .DatePicker {
-    z-index: 9 !important;
-    width: 100%;
+  z-index: 9 !important;
+  width: 100%;
 }
 
 /* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.ag-theme-alpine, .ag-chart-wrapper {
-    --ag-font-family: "Yekan Bakh", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+.ag-theme-alpine,
+.ag-chart-wrapper {
+  --ag-font-family: "Yekan Bakh", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif !important;
-    --ag-borders: none !important;
-    --ag-borders-row: dashed 1px !important;
-    --ag-row-border-color: rgba(166, 166, 166, 0.41) !important;
-    --ag-background-color: transparent !important;
+  --ag-borders: none !important;
+  --ag-borders-row: dashed 1px !important;
+  --ag-row-border-color: rgba(166, 166, 166, 0.41) !important;
+  --ag-background-color: transparent !important;
+  --ag-toggle-button-switch-background-color: white !important;
 }
 
 .ag-body-viewport.ag-layout-normal::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
 
 .ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track {
-    background: transparent;
+  background: transparent;
 }
 
 .ag-body-viewport.ag-layout-normal::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+  background: #888;
+  border-radius: 4px;
 }
 
 .ag-body-horizontal-scroll-viewport::-webkit-scrollbar {
-    height: 6px;
+  height: 6px;
 }
 
 .ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track {
-    background: transparent;
+  background: transparent;
 }
 
 .ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+  background: #888;
+  border-radius: 4px;
 }
 
 .ag-header-cell-resize::after {
-    width: 3px !important;
+  width: 3px !important;
 }
 
 .Toastify__toast {
-    color: white;
-    background: #404040;
+  color: white;
+  background: #404040;
 }
 
 .ag-overlay-loading-center {
-    background: none !important;
-    box-shadow: none !important;
+  background: none !important;
+  box-shadow: none !important;
 }
 
 .bgMoon {
-    background: url("/moonShape.svg") no-repeat 50%;
-    background-size: cover;
+  background: url("/moonShape.svg") no-repeat 50%;
+  background-size: cover;
 }
 
 .sortableHelper {
-    z-index: 10;
+  z-index: 10;
 }
 
 .mustVisible > div.card {
-    visibility: visible !important;
+  visibility: visible !important;
 }
 
 .Toastify__toast {
-    min-height: unset !important;
+  min-height: unset !important;
 }
 
 .ltr {
-    direction: ltr;
+  direction: ltr;
 }
 
 .tooltipReferencePrice:hover #tooltip-referencePrice {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 .maxTreshold:hover #tooltip-maxTreshold {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 .minTreshold:hover #tooltip-minTreshold {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 .priceTooltip {
-    transform: translateX(50%);
+  transform: translateX(50%);
 }
 
-.ag-overlay-loading-wrapper{
-    background: #40404048 !important;
-  }
+.ag-overlay-loading-wrapper {
+  background: #40404048 !important;
+}
 
 .ag-watermark {
-    display: none;
+  display: none;
 }
 
 .placeholderStyle::placeholder {
-    color: #e5b651;
-    text-align: right;
+  color: #e5b651;
+  text-align: right;
 }
 
-.Calendar__monthSelector, .Calendar__yearSelector {
-    color: black !important;
+.Calendar__monthSelector,
+.Calendar__yearSelector {
+  color: black !important;
 }
 
 .rc-slider {
-    font-size: 1rem !important;
-    width: auto !important;
-    height: 10px !important;
+  font-size: 1rem !important;
+  width: auto !important;
+  height: 10px !important;
 }
 
 .rc-slider-rail {
-    height: 10px !important;
+  height: 10px !important;
 }
 
 .rc-slider-track {
-    height: 100% !important;
+  height: 100% !important;
 }
 
 .rc-slider-step {
-    display: none !important;
+  display: none !important;
 }
 
 .rc-slider-mark-text-active {
-    color: white !important;
+  color: white !important;
 }
 
 .rc-slider-mark {
-    bottom: 200%;
-    top: unset !important;
+  bottom: 200%;
+  top: unset !important;
 }
 
 .rc-slider-handle .rc-slider-handle-2 {
-    visibility: hidden !important;
-    opacity: 0 !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
 
 .rc-slider-handle {
-    margin-top: -2px !important;
+  margin-top: -2px !important;
 }
 
 .rc-slider-disabled {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .rc-slider-mark-text:first-child {
-    color: rgb(240 82 82);
+  color: rgb(240 82 82);
 }
 
 .rc-slider-mark-text:last-child {
-    color: rgb(49 196 141);
+  color: rgb(49 196 141);
 }
 
 .sortableHelper {
-    display: none;
+  display: none;
 }
 
 .cell-span {
-    background-color: #d0d0d0 !important;
-    display: flex !important;
-    border-bottom: 1px solid black !important;
+  background-color: #d0d0d0 !important;
+  display: flex !important;
+  border-bottom: 1px solid black !important;
 }
 
 .animated-container {
-    direction: ltr;
+  direction: ltr;
 }
 
-#nonCollapse>span{
-    padding-right: 0;
-    padding-left: 0;
+#nonCollapse > span {
+  padding-right: 0;
+  padding-left: 0;
 }
-.collapse-title, :where(.collapse > input[type="checkbox"]){
-    min-height: unset !important;
+.collapse-title,
+:where(.collapse > input[type="checkbox"]) {
+  min-height: unset !important;
 }
 
 @tailwind base;
@@ -307,13 +317,11 @@ input[type=number] {
 @tailwind utilities;
 
 @layer components {
-    .button {
-        @apply
-        text-sm text-white p-1 px-2 rounded md:px-10 transition-all hover:opacity-70
-    }
+  .button {
+    @apply text-sm text-white p-1 px-2 rounded md:px-10 transition-all hover:opacity-70;
+  }
 
-    .toolbar{
-        @apply grid grid-cols-3 md:flex gap-2 !px-4
-    }
-
+  .toolbar {
+    @apply grid grid-cols-3 md:flex gap-2 !px-4;
+  }
 }

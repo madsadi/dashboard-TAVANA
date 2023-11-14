@@ -24,11 +24,16 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     data = [],
     module,
     columnDefStructure,
+    colDef,
     rowSelection,
     onGridReady = () => {
       gridRef?.current?.api?.setRowData([]);
     },
+    enableCharts = false,
+    enableRangeSelection = false,
     rowId,
+    sideBar = true,
+    pivoteMode = false,
     isRowSelectable,
     selectionChanged = () => null,
     masterDetail = false,
@@ -71,8 +76,10 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
       flex: 1,
       cellClass: "textFormat",
       valueFormatter: (v: any) => formatNumber(v, v.colDef.fixed || 0),
+      ...colDef,
     };
-  }, []);
+  }, [colDef]);
+
   const getRowId = useCallback(
     (params: any) => {
       let id = rowId.map((s: string) => params.data[s]);
@@ -174,9 +181,14 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     },
   }));
 
+  const popupParent = useMemo(() => {
+    return document.getElementById("grid");
+  }, []);
+
   return (
     <>
       <div
+        id="grid"
         className={
           "relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]"
         }
@@ -193,12 +205,15 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
             loadingOverlayComponentParams={loadingOverlayComponentParams}
             noRowsOverlayComponent={noRowsOverlayComponent}
             noRowsOverlayComponentParams={noRowsOverlayComponentParams}
+            pivotMode={pivoteMode}
+            pivotPanelShow={"onlyWhenPivoting"}
             rowHeight={35}
             headerHeight={35}
             autoGroupColumnDef={autoGroupColumnDef}
             groupIncludeFooter={groupIncludeFooter}
             groupIncludeTotalFooter={groupIncludeTotalFooter}
             animateRows={true}
+            sideBar={sideBar}
             getRowId={getRowId}
             asyncTransactionWaitMillis={1000}
             columnHoverHighlight={true}
@@ -212,6 +227,9 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
             suppressRowClickSelection={suppressRowClickSelection}
             onFirstDataRendered={onFirstDataRendered}
             excelStyles={excelStyles}
+            popupParent={popupParent}
+            enableRangeSelection={enableRangeSelection}
+            enableCharts={enableCharts}
           />
         </div>
       </div>

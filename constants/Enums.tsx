@@ -325,6 +325,33 @@ export const sides = [
   },
 ];
 
+export const SettlementDelayEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "OneDaySettlement",
+    title: "تسویه یک روزه",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "TwoDaySettlement",
+    title: "تسویه دو روزه",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "ThreeDaySettlement",
+    title: "تسویه سه روزه",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "FiveDaySettlement",
+    title: "تسویه پنج روزه",
+  },
+];
+
 export const Options: any[] = [
   {
     id: true,
