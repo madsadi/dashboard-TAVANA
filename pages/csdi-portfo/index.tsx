@@ -50,7 +50,7 @@ function CSDIPortfo() {
       headerName: "حقیقی/حقوقی ",
       valueFormatter: (rowData: any) => {
         return customerTypeEnums.find(
-          (item) => item.id === rowData.data.customerType
+          (item) => item.id === rowData?.data?.customerType
         )?.title;
       },
     },
@@ -86,7 +86,7 @@ function CSDIPortfo() {
       headerName: "نوع تغییر",
       valueFormatter: (rowData: any) => {
         return changeTypeEnums.find(
-          (item) => item.id === rowData.data.changeType
+          (item) => item.id === rowData?.data?.changeType
         )?.title;
       },
     },
@@ -94,7 +94,7 @@ function CSDIPortfo() {
       field: "isFreezed",
       headerName: "سهم های فریز شده",
       valueFormatter: (rowData: any) => {
-        return rowData.data.isFreezed ? "فریز" : "آزاد";
+        return rowData?.data?.isFreezed ? "فریز" : "آزاد";
       },
     },
     {
@@ -102,7 +102,9 @@ function CSDIPortfo() {
       headerName: "تاریخ و زمان تغییر",
       cellRendererSelector: () => {
         const ColourCellRenderer = (rowData: any) => {
-          return <DateCell date={rowData.data.effectiveDate} hideTime={true} />;
+          return (
+            <DateCell date={rowData?.data?.effectiveDate} hideTime={true} />
+          );
         };
         const moodDetails = {
           component: ColourCellRenderer,

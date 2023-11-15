@@ -48,7 +48,7 @@ function CustomerToPortfo() {
       valueFormatter: (rowData: any) => {
         return (
           formatNumber(
-            { value: rowData.data.portfolioWeightByClosingPrice },
+            { value: rowData?.data?.portfolioWeightByClosingPrice },
             2
           ) + " %"
         );
@@ -60,8 +60,10 @@ function CustomerToPortfo() {
       headerName: "وزن پورتفوی",
       valueFormatter: (rowData: any) => {
         return (
-          formatNumber({ value: rowData.data.portfolioWeightByLastPrice }, 2) +
-          " %"
+          formatNumber(
+            { value: rowData?.data?.portfolioWeightByLastPrice },
+            2
+          ) + " %"
         );
       },
       dir: "ltr",
