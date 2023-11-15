@@ -54,7 +54,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     onGridReady = () => {
       gridRef?.current?.api?.setRowData([]);
     },
-    enableCharts = false,
+    enableCharts = true,
     enableRangeSelection = true,
     rowId,
     sideBar = sideBarConfig,
