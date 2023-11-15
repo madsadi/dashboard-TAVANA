@@ -1,5 +1,11 @@
 import InputComponent from "./input-generator";
-import React, { forwardRef, useImperativeHandle, useState, memo, FormEvent } from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useState,
+  memo,
+  FormEvent,
+} from "react";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { Button } from "./button/button";
 import { FilterItemType } from "types/constant-filters.types";
@@ -7,75 +13,115 @@ import { throwToast } from "../functions/notification";
 import { SearchComponentTypes } from "types/common-components.type";
 import { QueryType } from "types/types";
 
-
-const SearchComponent: React.FC<SearchComponentTypes> = forwardRef((props, ref) => {
-    const { onSubmit, module, loading, initialQuery, dynamicOptions = [], className, extraClassName } = props
-    const { filters, initialValue, service, modules, restriction } = useSearchFilters(module)
-    const [query, setQuery] = useState<any>(initialQuery || initialValue)
+const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
+  (props, ref) => {
+    const {
+      onSubmit,
+      module,
+      loading,
+      initialQuery,
+      dynamicOptions = [],
+      className,
+      extraClassName,
+    } = props;
+    const { filters, initialValue, service, modules, restriction } =
+      useSearchFilters(module);
+    const [query, setQuery] = useState<any>(initialQuery || initialValue);
 
     const onChange = (key: string, value: any) => {
-        let _query: QueryType = { ...query };
-        _query[key] = value
-        setQuery(_query)
-    }
+      let _query: QueryType = { ...query };
+      _query[key] = value;
+      setQuery(_query);
+    };
 
     useImperativeHandle(ref, () => ({
-        changeQueries(newQuery: any) {//define the type object
-            let _query: QueryType = { ...query };
-            setQuery({ ..._query, ...newQuery })
-        }
+      changeQueries(newQuery: any) {
+        //define the type object
+        let _query: QueryType = { ...query };
+        setQuery({ ..._query, ...newQuery });
+      },
     }));
 
     const queryValidationHandler = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const requiredItems = filters.filter((item: FilterItemType) => item.isRequired)
-        if (requiredItems.length) {
-            const emptyRequiredItems = requiredItems.filter((item: FilterItemType) => item.type === 'date' ? (!query.StartDate || !query.EndDate) : (query[item.title] === undefined || query[item.title] === null))
-            if (emptyRequiredItems.length) {
-                const warningItems = emptyRequiredItems.map((item: FilterItemType) => item.name).join(', ')
-                throwToast({ type: 'warning', value: `ورودی  ${warningItems} الزامی می باشد` })
-            } else {
-                onSubmit(query)
-            }
+      e.preventDefault();
+      const requiredItems = filters.filter(
+        (item: FilterItemType) => item.isRequired
+      );
+      if (requiredItems.length) {
+        const emptyRequiredItems = requiredItems.filter(
+          (item: FilterItemType) =>
+            item.type === "date"
+              ? !query.StartDate || !query.EndDate
+              : query[item.title] === undefined || query[item.title] === null
+        );
+        if (emptyRequiredItems.length) {
+          const warningItems = emptyRequiredItems
+            .map((item: FilterItemType) => item.name)
+            .join(", ");
+          throwToast({
+            type: "warning",
+            value: `ورودی  ${warningItems} الزامی می باشد`,
+          });
         } else {
-            onSubmit(query)
+          onSubmit(query);
         }
-    }
+      } else {
+        onSubmit(query);
+      }
+    };
+
     return (
-        <form className={'flex flex-col grow'} onSubmit={queryValidationHandler}>
-            <div className={"grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4 " + className}>
-                {
-                    filters?.map((item: FilterItemType) => {
-                        return <InputComponent key={item.title}
-                            item={item}
-                            query={query}
-                            setQuery={setQuery}
-                            onChange={onChange}
-                            dynamicsOption={dynamicOptions}
-                        />
-                    })
-                }
-            </div>
-            <div className={'flex space-x-3 space-x-reverse mr-auto mt-10 h-fit ' + extraClassName}>
-                <Button label={'لغو فیلتر ها'}
-                    className=" bg-error h-fit "
-                    type="reset"
-                    onClick={(e) => {
-                        e.preventDefault()
-                        setQuery(initialValue)
-                    }}
-                />
-                <Button label={'جستجو'}
-                    className="bg-primary h-fit relative "
-                    type={'submit'}
-                    disabled={loading}
-                    loading={loading}
-                    allowed={restriction ? [[service?.[0], modules?.[0]?.[0], 'Read'].join('.')] : []}
-                />
-            </div>
-        </form>
-    )
-})
+      <form className={"flex flex-col grow"} onSubmit={queryValidationHandler}>
+        <div
+          className={
+            "grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4 " + className
+          }
+        >
+          {filters?.map((item: FilterItemType) => {
+            return (
+              <InputComponent
+                key={item.title}
+                item={item}
+                query={query}
+                setQuery={setQuery}
+                onChange={onChange}
+                dynamicsOption={dynamicOptions}
+              />
+            );
+          })}
+        </div>
+        <div
+          className={
+            "flex space-x-3 space-x-reverse mr-auto mt-10 h-fit " +
+            extraClassName
+          }
+        >
+          <Button
+            label={"لغو فیلتر ها"}
+            className=" bg-error h-fit "
+            type="reset"
+            onClick={(e) => {
+              e.preventDefault();
+              setQuery(initialValue);
+            }}
+          />
+          <Button
+            label={"جستجو"}
+            className="bg-primary h-fit relative "
+            type={"submit"}
+            disabled={loading}
+            loading={loading}
+            allowed={
+              restriction
+                ? [[service?.[0], modules?.[0]?.[0], "Read"].join(".")]
+                : []
+            }
+          />
+        </div>
+      </form>
+    );
+  }
+);
 
 export default memo(SearchComponent);
-SearchComponent.displayName = 'SearchComponent';
+SearchComponent.displayName = "SearchComponent";

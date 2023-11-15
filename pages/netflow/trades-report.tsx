@@ -19,7 +19,6 @@ import {
   formatNumber,
   jalali,
 } from "components/common/functions/common-funcions";
-import { SideBarDef } from "ag-grid-community";
 
 function TradesReportPivot() {
   const columnDefStructure = [
@@ -233,30 +232,6 @@ function TradesReportPivot() {
     }
   }, [data]);
 
-  const sideBarConfig: SideBarDef = {
-    toolPanels: [
-      {
-        id: "columns",
-        labelDefault: "تنظیمات",
-        labelKey: "تنظیمات",
-        iconKey: "columns",
-        toolPanel: "agColumnsToolPanel",
-        minWidth: 225,
-        maxWidth: 225,
-        width: 225,
-      },
-      {
-        id: "filters",
-        labelDefault: "فیلتر",
-        labelKey: "فیلتر",
-        iconKey: "filter",
-        toolPanel: "agFiltersToolPanel",
-        minWidth: 180,
-        maxWidth: 400,
-        width: 250,
-      },
-    ],
-  };
   return (
     <div className={"relative flex flex-col grow overflow-hidden"}>
       <AccordionComponent>
@@ -271,17 +246,8 @@ function TradesReportPivot() {
         loading={loading}
         columnDefStructure={columnDefStructure}
         rowId={["ticket", "tradeDate"]}
-        enableCharts={true}
-        enableRangeSelection={true}
-        colDef={{
-          enableValue: true,
-          enablePivot: true,
-          enableRowGroup: true,
-          filter: true,
-        }}
         detailCellRendererParams={detailCellRendererParams}
         masterDetail={true}
-        sideBar={sideBarConfig}
         pagination={true}
         totalCount={data?.totalRecord}
         fetcher={fetchData}

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import ExcelExport from "../components/button/excel-export";
 import { QueryType } from "types/types";
 import { BaseInput } from "../components/inputs/base-input";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -40,6 +41,7 @@ export default function TablePagination({
     PageSize: query?.PageSize || 20,
     PageNumber: 1,
   });
+  const [customPageSize, setCustomPageSize] = useState<number>();
   const { service, modules, restriction } = useSearchFilters(module || "");
 
   const sizes = [10, 20, 50, 100, 200, 300, 400, 500, 1000];
@@ -57,17 +59,13 @@ export default function TablePagination({
     if (query?.PageNumber && query?.PageSize) setPageQuery(query);
   }, [query]);
 
-  var timer: any = 0;
   const onChangeHandler = (e: any) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      onSubmit({
-        ...pageQuery,
-        PageNumber: 1,
-        PageSize: e.target.value,
-      });
-      queryUpdate("PageSize", e.target.value);
-    }, 3000);
+    setCustomPageSize(e.target.value);
+  };
+
+  const onPageSizeChange = (value: number) => {
+    queryUpdate("PageSize", value);
+    onSubmit({ ...pageQuery, PageNumber: 1, PageSize: value });
   };
 
   return (
@@ -86,9 +84,9 @@ export default function TablePagination({
           }
           name={"PageSize"}
           value={pageQuery?.PageSize}
-          onChange={(e: any) => {
-            queryUpdate("PageSize", e);
-            onSubmit({ ...pageQuery, PageNumber: 1, PageSize: e });
+          onChange={(e: number) => {
+            onPageSizeChange(e);
+            setCustomPageSize(undefined);
           }}
         >
           {({ open }: { open: boolean }) => (
@@ -116,10 +114,20 @@ export default function TablePagination({
                 leaveTo="opacity-0"
               >
                 <Listbox.Options className="absolute z-10 mb-1 bottom-full min-w-full max-h-56 divide-y divide-border bg-white border border-border overflow-auto custom-scrollbar rounded-md focus:outline-none">
-                  <input
-                    className="w-full bg-sky-50"
-                    onChange={onChangeHandler}
-                  />
+                  <div className="relative">
+                    <input
+                      className="w-full bg-sky-50"
+                      placeholder="مقدار دلخواه"
+                      value={customPageSize}
+                      onChange={onChangeHandler}
+                    />
+                    {customPageSize ? (
+                      <CheckCircleIcon
+                        className="h-4 w-4 text-emerald-500 absolute left-3 z-10 top-1/2 -translate-y-1/2 cursor-pointer "
+                        onClick={() => onPageSizeChange(customPageSize)}
+                      />
+                    ) : null}
+                  </div>
                   {sizes.map((size: any) => (
                     <Listbox.Option
                       key={size}
@@ -148,8 +156,8 @@ export default function TablePagination({
                                   "flex items-center mr-auto"
                                 )}
                               >
-                                <CheckIcon
-                                  className="h-5 w-5"
+                                <CheckCircleIcon
+                                  className="h-4 w-4 text-emerald-500"
                                   aria-hidden="true"
                                 />
                               </span>

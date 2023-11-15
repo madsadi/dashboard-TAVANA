@@ -12,12 +12,37 @@ import { formatNumber } from "../functions/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { ExcelStyle } from "ag-grid-community";
+import { ExcelStyle, SideBarDef } from "ag-grid-community";
 const TablePagination = dynamic(() => import("./table-pagination"));
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "ag-grid-enterprise";
 import { TableProps } from "types/common-components.type";
+
+const sideBarConfig: SideBarDef = {
+  toolPanels: [
+    {
+      id: "columns",
+      labelDefault: "تنظیمات",
+      labelKey: "تنظیمات",
+      iconKey: "columns",
+      toolPanel: "agColumnsToolPanel",
+      minWidth: 225,
+      maxWidth: 225,
+      width: 225,
+    },
+    {
+      id: "filters",
+      labelDefault: "فیلتر",
+      labelKey: "فیلتر",
+      iconKey: "filter",
+      toolPanel: "agFiltersToolPanel",
+      minWidth: 180,
+      maxWidth: 400,
+      width: 250,
+    },
+  ],
+};
 
 const TableComponent = forwardRef((props: TableProps, ref) => {
   let {
@@ -30,9 +55,9 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
       gridRef?.current?.api?.setRowData([]);
     },
     enableCharts = false,
-    enableRangeSelection = false,
+    enableRangeSelection = true,
     rowId,
-    sideBar = true,
+    sideBar = sideBarConfig,
     pivoteMode = false,
     isRowSelectable,
     selectionChanged = () => null,
@@ -75,6 +100,10 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
       sortable: true,
       flex: 1,
       cellClass: "textFormat",
+      enableValue: true,
+      enablePivot: true,
+      enableRowGroup: true,
+      filter: true,
       valueFormatter: (v: any) => formatNumber(v, v.colDef.fixed || 0),
       ...colDef,
     };
