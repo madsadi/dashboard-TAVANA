@@ -324,4 +324,10 @@ input[type="number"] {
   .toolbar {
     @apply grid grid-cols-3 md:flex gap-2 !px-4;
   }
+
+  .tooltipClassName {
+    font-family: "Yekan Bakh";
+    padding: 4px;
+    font-size: 16px;
+  }
 }

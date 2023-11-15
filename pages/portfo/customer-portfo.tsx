@@ -42,6 +42,9 @@ function CustomerPortfo() {
   const options: AgChartOptions = {
     type: "area",
     autoSize: true,
+    tooltip: {
+      class: "tooltipClassName",
+    },
     title: {
       text: chartData?.result?.length
         ? [
@@ -114,13 +117,16 @@ function CustomerPortfo() {
         yKey: "value",
         tooltip: {
           renderer: (params) => {
-            return {
-              content:
-                `تاریخ:
-                ${moment(params.xValue).locale("fa").format("DD-MM-YYYY")} ` +
-                `ارزش:
-                 ${formatNumberSecond(params.yValue)}`,
-            };
+            return `
+            <div class="ag-chart-tooltip-title" >
+            ${moment(params.xValue).locale("fa").format("YYYY-MM-DD")}
+            </div>
+            <div class="ag-chart-tooltip-content">
+                <span class="flex">
+                ارزش:
+                ${formatNumberSecond(params.yValue)}
+                </span>    
+            </div>`;
           },
         },
       },
