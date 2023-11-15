@@ -82,6 +82,10 @@ function TradesReportPivot() {
       headerName: "نام ایستگاه",
     },
     {
+      field: "stationCode",
+      headerName: "کد ایستگاه",
+    },
+    {
       field: "tradeDate",
       headerName: "تاریخ معامله ",
       flex: 0,
@@ -138,7 +142,7 @@ function TradesReportPivot() {
     },
     {
       field: "brfCommission",
-      headerName: "مالیت ارزش افزوده انبارداری",
+      headerName: "سهم صندوق توسعه",
       hide: true,
       valueGetter: "data.feeDetail.brfCommission",
     },
@@ -185,13 +189,12 @@ function TradesReportPivot() {
             headerName: "کارمزد سازمان",
           },
           { field: "tmcCommission", headerName: "کارمزد فناوری" },
-          { field: "accessCommission", headerName: "کارمزد دسترسی" },
           { field: "csdCommission", headerName: "کارمزد سپرده گزاری" },
           { field: "vatCommission", headerName: "مالیات ارزش افزوده" },
-          { field: "brokerCommission", headerName: "کارگزار" },
-
+          { field: "brokerCommission", headerName: " کارمزد کارگزار" },
+          { field: "accessCommission", headerName: "کارمزد دسترسی" },
+          { field: "brfCommission", headerName: "سهم صندوق توسعه" },
           { field: "rayanBourseCommission", headerName: "کارمزد رایان" },
-          { field: "brfCommission", headerName: "مالیت ارزش افزوده انبارداری" },
           { field: "inventoryCommission", headerName: "کارمزد انبارداری" },
           { field: "tax", headerName: "مالیات" },
           {
