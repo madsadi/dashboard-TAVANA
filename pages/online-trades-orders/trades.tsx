@@ -9,14 +9,11 @@ const TableComponent = dynamic(
 const AccordionComponent = dynamic(
   () => import("../../components/common/components/accordion")
 );
-import {
-  formatNumber,
-  jalali,
-} from "../../components/common/functions/common-funcions";
+import { formatNumber, jalali } from "../../utils/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { throwToast } from "../../components/common/functions/notification";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { throwToast } from "../../utils/notification";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 
 function Trades() {

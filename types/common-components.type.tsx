@@ -1,17 +1,17 @@
 import {
   ColDef,
-  ComponentType,
   IsRowSelectable,
   RowClickedEvent,
   SideBarDef,
 } from "ag-grid-community";
 import { SetStateAction, ForwardedRef, Dispatch, CSSProperties } from "react";
 import { QueryType } from "./types";
+import { ModulesType } from "utils/generate-dynamic-col-defs";
 
 export interface TableProps {
   data: any[];
-  module?: string;
-  columnDefStructure: any[];
+  module: ModulesType;
+  columnDefStructure?: any[];
   rowSelection?: "single" | "multiple";
   onGridReady?: () => void;
   rowId: string[];

@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { formatNumber } from "../functions/common-funcions";
+import { formatNumber } from "../../../utils/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -18,6 +18,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "ag-grid-enterprise";
 import { TableProps } from "types/common-components.type";
+import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 
 const sideBarConfig: SideBarDef = {
   toolPanels: [
@@ -88,7 +89,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
 
   const gridRef: any = useRef();
   const router = useRouter();
-
+  const colDefStructure = generateDynamicColumnDefs(module);
   useEffect(() => {
     gridRef?.current?.api?.setRowData([]);
   }, [router.asPath]);
@@ -226,7 +227,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
             ref={gridRef}
             rowData={data}
             enableRtl={true}
-            columnDefs={columnDefStructure}
+            columnDefs={columnDefStructure || colDefStructure}
             onGridReady={onGridReady}
             defaultColDef={defaultColDef}
             loadingOverlayComponent={loadingOverlayComponent}

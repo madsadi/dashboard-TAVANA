@@ -9,11 +9,11 @@ const TableComponent = dynamic(
 const SearchComponent = dynamic(
   () => import("../../components/common/components/search")
 );
-import { formatNumber } from "../../components/common/functions/common-funcions";
+import { formatNumber } from "../../utils/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { NETFLOW } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
-import { throwToast } from "../../components/common/functions/notification";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
+import { throwToast } from "../../utils/notification";
 import { withPermission } from "components/common/layout/with-permission";
 import DateCell from "components/common/table/date-cell";
 

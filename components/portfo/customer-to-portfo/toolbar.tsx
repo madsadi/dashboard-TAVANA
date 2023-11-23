@@ -1,5 +1,5 @@
 import { SwitchToggle } from "components/common/components/button/switch-toggle";
-import { formatNumber } from "components/common/functions/common-funcions";
+import { formatNumber } from "utils/common-funcions";
 import React, { useState } from "react";
 
 export default function CustomerToPortfoToolbar(props: {

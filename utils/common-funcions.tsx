@@ -44,8 +44,8 @@ import {
   UserType,
   validityType,
   Year,
-} from "../../../constants/Enums";
-import { banks } from "../../online-registration/registration-report/enums";
+} from "../constants/Enums";
+import { banks } from "../components/online-registration/registration-report/enums";
 
 export const formatNumber = (params: any, fixed: number) => {
   if (typeof params?.value === "number") {
@@ -93,6 +93,19 @@ export const formatNumberSecond = (params: any) => {
   } else {
     return params;
   }
+};
+
+export const dateCell = (date: string, hideTime = false) => {
+  let date_format = { date: "", time: "" };
+
+  if (date) {
+    date_format = jalali(date);
+  }
+  return (
+    (date ? date_format.date : "-") +
+    "   " +
+    (date && !hideTime ? date_format.time : "")
+  );
 };
 
 export const formatDecimals = (params: number) => {

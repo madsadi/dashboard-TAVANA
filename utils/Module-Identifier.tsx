@@ -1,4 +1,4 @@
-export const ModuleIdentifier: any = {
+export const ModuleIdentifier = {
   DASHBOARD: "dashboard",
   USER_MANAGEMENT_users: "user-management_users",
   USER_MANAGEMENT_roles: "user-management_roles",
@@ -30,8 +30,15 @@ export const ModuleIdentifier: any = {
   BOOK_BUILDING: "book-building",
   COMMISSION_MANAGEMENT_detail: "commission-management_detail",
   COMMISSION_MANAGEMENT_instrument: "commission-management_instrument",
+  COMMISSION_MANAGEMENT_instrument_result:
+    "commission-management_instrument_result",
   COMMISSION_MANAGEMENT_category: "commission-management_category",
   COMMISSION_MANAGEMENT_symbols: "commission-management_symbols",
+  COMMISSION_MANAGEMENT_abstract_symbols:
+    "commission-management_abstract_symbols",
+  COMMISSION_MANAGEMENT_full_symbols: "commission-management_full_symbols",
+  COMMISSION_MANAGEMENT_full_symbols_detail:
+    "commission-management_full_symbols_detail",
   NETFLOW_trades_report: "netflow_trades_report",
   NETFLOW_rules: "netflow_rules",
   NETFLOW_cleared_trade: "netflow_cleared_trade",
@@ -49,4 +56,4 @@ export const ModuleIdentifier: any = {
   CSDI_PORTFO_switch_report: "csdi-portfo_switch_report",
   CSDI_PORTFO_comparison: "csdi-portfo_comparison",
   CSDI_PORTFO_freezed_asset: "csdi-portfo_freezed_asset",
-};
+} as const;

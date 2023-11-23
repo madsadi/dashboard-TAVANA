@@ -17,8 +17,8 @@ const CustomDetailComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
-import { throwToast } from "../../components/common/functions/notification";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
+import { throwToast } from "../../utils/notification";
 import DateCell from "../../components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
 

@@ -8,9 +8,9 @@ import {
   CheckIcon,
 } from "@heroicons/react/20/solid";
 import { Listbox, Transition } from "@headlessui/react";
-import { formatDecimals } from "../functions/common-funcions";
+import { formatDecimals } from "../../../utils/common-funcions";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
-import { isAllowed } from "../functions/permission-utils";
+import { isAllowed } from "../../../utils/permission-utils";
 import { useSelector } from "react-redux";
 import ExcelExport from "../components/button/excel-export";
 import { QueryType } from "types/types";

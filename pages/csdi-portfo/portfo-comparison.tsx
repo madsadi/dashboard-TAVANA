@@ -9,172 +9,12 @@ const AccordionComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { throwToast } from "components/common/functions/notification";
 import CSDIPortfoComparisonToolbar from "components/csdi-portfo/csdi-portfo-comparison";
+import { throwToast } from "utils/notification";
 
 function CSDIPortfo() {
-  const columnDefStructure = [
-    {
-      field: "faInsCode",
-      headerName: "نماد ",
-    },
-    {
-      headerName: "تاریخ اول",
-      children: [
-        {
-          field: "firstshareCount",
-          headerName: "تعداد مانده ",
-        },
-        {
-          field: "firstlastPrice",
-          headerName: "قیمت آخرین معامله",
-        },
-        {
-          field: "firstclosingPrice",
-          headerName: "قیمت پایانی",
-          hide: true,
-        },
-        {
-          field: "firstnetValuebyClosingPrice",
-          headerName: "خالص ارزش فروش ",
-          hide: true,
-          aggFunc: "sum",
-        },
-        {
-          field: "firstnetValuebyLastPrice",
-          aggFunc: "sum",
-          headerName: "خالص ارزش فروش ",
-        },
-        {
-          field: "firstClosingPricePercentage",
-          headerName: "درصد نماد ",
-          valueFormatter: (data: any) =>
-            data.data?.firstClosingPricePercentage
-              ? data.data?.firstClosingPricePercentage?.toFixed(2) + "%"
-              : null,
-          hide: true,
-          aggFunc: (params: any) => {
-            let total = 0;
-            params.values.forEach((value: number) => (total += value));
-            return total.toFixed(2) + "%";
-          },
-        },
-        {
-          field: "firstLastPricePercentage",
-          headerName: "درصد نماد ",
-          valueFormatter: (data: any) =>
-            data.data?.firstLastPricePercentage
-              ? data.data?.firstLastPricePercentage?.toFixed(2) + "%"
-              : null,
-          aggFunc: (params: any) => {
-            let total = 0;
-            params.values.forEach((value: number) => (total += value));
-            return total.toFixed(2) + "%";
-          },
-        },
-      ],
-    },
-    {
-      headerName: "تاریخ دوم",
-      children: [
-        {
-          field: "secondshareCount",
-          headerName: "تعداد مانده ",
-          cellClassRules: {
-            "bg-green-200": (params: any) =>
-              params?.data?.secondshareCount > params?.data?.firstshareCount,
-            "bg-red-200": (params: any) =>
-              params?.data?.secondshareCount < params?.data?.firstshareCount,
-          },
-        },
-        {
-          field: "secondlastPrice",
-          headerName: "قیمت آخرین  معامله",
-          cellClassRules: {
-            "bg-green-200": (params: any) =>
-              params?.data?.secondshareCount > params?.data?.firstshareCount,
-            "bg-red-200": (params: any) =>
-              params?.data?.secondshareCount < params?.data?.firstshareCount,
-          },
-        },
-        {
-          field: "secondclosingPrice",
-          headerName: "قیمت پایانی",
-          hide: true,
-          cellClassRules: {
-            "bg-green-200": (params: any) =>
-              params?.data?.secondshareCount > params?.data?.firstshareCount,
-            "bg-red-200": (params: any) =>
-              params?.data?.secondshareCount < params?.data?.firstshareCount,
-          },
-        },
-        {
-          field: "secondnetValuebyClosingPrice",
-          headerName: "خالص ارزش فروش ",
-          aggFunc: "sum",
-          hide: true,
-          cellClassRules: {
-            "bg-green-200": (params: any) =>
-              params?.data?.secondshareCount > params?.data?.firstshareCount,
-            "bg-red-200": (params: any) =>
-              params?.data?.secondshareCount < params?.data?.firstshareCount,
-          },
-        },
-        {
-          field: "secondnetValuebyLastPrice",
-          headerName: "خالص ارزش فروش ",
-          aggFunc: "sum",
-          cellClassRules: {
-            "bg-green-200": (params: any) =>
-              params?.data?.secondshareCount > params?.data?.firstshareCount,
-            "bg-red-200": (params: any) =>
-              params?.data?.secondshareCount < params?.data?.firstshareCount,
-          },
-        },
-        {
-          field: "secondClosingPricePercentage",
-          headerName: "درصد نماد ",
-          valueFormatter: (data: any) =>
-            data.data?.secondClosingPricePercentage
-              ? data.data?.secondClosingPricePercentage.toFixed(2) + "%"
-              : null,
-          hide: true,
-          aggFunc: (params: any) => {
-            let total = 0;
-            params.values.forEach((value: number) => (total += value));
-            return total.toFixed(2) + "%";
-          },
-          cellClassRules: {
-            "bg-green-200": (params: any) =>
-              params?.data?.secondshareCount > params?.data?.firstshareCount,
-            "bg-red-200": (params: any) =>
-              params?.data?.secondshareCount < params?.data?.firstshareCount,
-          },
-        },
-        {
-          field: "secondLastPricePercentage",
-          valueFormatter: (data: any) =>
-            data.data?.secondLastPricePercentage
-              ? data.data?.secondLastPricePercentage.toFixed(2) + "%"
-              : null,
-          headerName: "درصد نماد ",
-          aggFunc: (params: any) => {
-            let total = 0;
-            params.values.forEach((value: number) => (total += value));
-            return total.toFixed(2) + "%";
-          },
-          cellClassRules: {
-            "bg-green-200": (params: any) =>
-              params?.data?.secondshareCount > params?.data?.firstshareCount,
-            "bg-red-200": (params: any) =>
-              params?.data?.secondshareCount < params?.data?.firstshareCount,
-          },
-        },
-      ],
-    },
-  ];
   const { query, fetchAsyncData } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/GetHistoricalCustomerPortfolio`,
   });
@@ -336,6 +176,11 @@ function CSDIPortfo() {
         },
       });
       setLoading(false);
+    } else {
+      throwToast({
+        type: "warning",
+        value: " کد معاملاتی یا کد بورسی الزامی می باشد ",
+      });
     }
   };
 
@@ -353,7 +198,6 @@ function CSDIPortfo() {
         data={data?.result?.pagedData}
         ref={ref}
         module={ModuleIdentifier.CSDI_PORTFO_comparison}
-        columnDefStructure={columnDefStructure}
         rowId={["faInsCode"]}
         groupIncludeFooter={true}
         groupIncludeTotalFooter={true}

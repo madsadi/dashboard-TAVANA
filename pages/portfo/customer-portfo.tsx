@@ -9,13 +9,10 @@ const AccordionComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import { AgChartsReact } from "ag-charts-react";
-import {
-  formatNumberSecond,
-  nFormatter,
-} from "components/common/functions/common-funcions";
+import { formatNumberSecond, nFormatter } from "utils/common-funcions";
 import { Interval } from "constants/Enums";
 import { EnumType } from "types/types";
 import { AgChart, AgChartOptions } from "ag-charts-community";

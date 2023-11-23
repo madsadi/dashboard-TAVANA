@@ -16,280 +16,14 @@ const InstrumentTypeResultModal = dynamic(
 const CommissionToolbar = dynamic(
   () => import("../../components/commission/index/commission-toolbar")
 );
-const DateCell = dynamic(
-  () => import("../../components/common/table/date-cell")
-);
-
 import useQuery from "../../hooks/useQuery";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
-import { throwToast } from "../../components/common/functions/notification";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
+import { throwToast } from "../../utils/notification";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { withPermission } from "components/common/layout/with-permission";
 
 export const CommissionContext = createContext({});
 function Commission() {
-  const columnDefStructure = [
-    {
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      resizable: false,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      headerName: "کارمزد کارگزار",
-      children: [
-        {
-          field: "brokerCommissionCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "minBrokerCommissionValue",
-          headerName: "کمینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-        {
-          field: "maxBrokerCommissionValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: " کارمزد صندوق توسعه",
-      children: [
-        {
-          field: "brokerCmdFundCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "maxBrokerCmdFundValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "کارمزد حق نظارت سازمان",
-      children: [
-        {
-          field: "seoControlCommissionCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "maxSeoControlCommissionValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "کارمزد سپرده گذاری",
-      children: [
-        {
-          field: "csdCommissionCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "maxCsdCommissionValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "کارمزد فناوری",
-      children: [
-        {
-          field: "tmcCommissionCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "maxTmcCommissionValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "کارمزد بورس مربوطه",
-      children: [
-        {
-          field: "bourseCommissionCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "maxBourseCommissionValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "کارمزد رایان بورس",
-      children: [
-        {
-          field: "rayanCommissionCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "maxRayanCommissionValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "کارمزد حق دسترسی",
-      children: [
-        {
-          field: "accessCommissionCoeff",
-          headerName: "ضریب",
-          flex: 0,
-          width: 90,
-        },
-        {
-          field: "totalCommissionCoeff",
-          headerName: "مجموع ضریب",
-          flex: 0,
-          width: 110,
-        },
-        {
-          field: "maxAccessCommissionValue",
-          headerName: " بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "مالیات ارزش افزوده",
-      children: [
-        {
-          field: "addedValueTax",
-          headerName: "مقدار",
-          flex: 0,
-          width: 110,
-        },
-        {
-          field: "maxTaxValue",
-          headerName: "بیشینه مقدار",
-          flex: 0,
-          width: 110,
-        },
-      ],
-    },
-    {
-      headerName: "ضریب مالیات",
-      field: "taxCoeff",
-      flex: 0,
-      width: 90,
-    },
-    {
-      field: "charge",
-      headerName: "ضریب کارمزد عوارض",
-      flex: 0,
-      width: 110,
-    },
-    {
-      field: "netTradeValueCoeff",
-      headerName: "ضریب خالص ارزش معامله",
-      flex: 0,
-      width: 90,
-    },
-    {
-      field: "beginningEffectingDate",
-      headerName: "تاریخ شروع فعالیت کارمزد",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return (
-            <DateCell
-              date={props?.data?.beginningEffectingDate}
-              hideTime={true}
-            />
-          );
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "endEffectingDate",
-      headerName: "تاریخ پایان فعالیت کارمزد",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return (
-            <DateCell date={props.data.endEffectingDate} hideTime={true} />
-          );
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "deleted",
-      headerName: "حذف شده؟",
-      flex: 0,
-      width: 110,
-    },
-    {
-      field: "lastUpdaterUserId",
-      headerName: "کاربر تغییر دهنده",
-      flex: 0,
-      width: 120,
-      minWidth: 120,
-    },
-    {
-      field: "lastUpdateDateTime",
-      headerName: "زمان تغییر",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props.data.lastUpdateDateTime} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-      flex: 0,
-      width: 120,
-      minWidth: 120,
-    },
-  ];
   const {
     data: categoryData,
     query: categoryQuery,
@@ -301,11 +35,12 @@ function Commission() {
   const {
     data: instrumentData,
     fetchData: instrumentSearch,
+    query: instrumentQuery,
     loading: instrumentLoading,
   }: any = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/CommissionInstrumentType/Search`,
   });
-  const { fetchAsyncData: detailSearch }: any = useQuery({
+  const { fetchAsyncData: detailSearch, query }: any = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/CommissionDetail/Search`,
   });
   const [categoryModal, setCategoryModal] = useState(false);
@@ -327,7 +62,7 @@ function Commission() {
   }, [categoryData]);
 
   useEffect(() => {
-    if (instrumentData?.result?.length) {
+    if (instrumentData?.result?.pagedData.length) {
       setInstrumentTypeModal(true);
       setInstrumentMessage("");
     } else if (instrumentData !== null) {
@@ -351,7 +86,9 @@ function Commission() {
   };
 
   return (
-    <CommissionContext.Provider value={{ categoryQuery, selectedRows, ids }}>
+    <CommissionContext.Provider
+      value={{ categoryQuery, instrumentQuery, selectedRows, ids }}
+    >
       <div className={"flex flex-col h-full grow"}>
         <CategoryResultModal
           open={categoryModal}
@@ -427,11 +164,15 @@ function Commission() {
         </AccordionComponent>
         <CommissionToolbar />
         <TableComponent
-          data={rowData}
-          columnDefStructure={columnDefStructure}
+          data={rowData?.pagedData}
+          module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail}
           rowId={["id"]}
           rowSelection={"single"}
           setSelectedRows={setSelectedRows}
+          pagination={true}
+          totalCount={rowData?.totalCount}
+          fetcher={detailSearchHandler}
+          query={query}
         />
       </div>
     </CommissionContext.Provider>

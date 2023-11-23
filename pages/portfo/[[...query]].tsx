@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { withPermission } from "components/common/layout/with-permission";
-import { ModuleIdentifier } from "components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "utils/Module-Identifier";
 import moment from "jalali-moment";
 import DateCell from "components/common/table/date-cell";
 import AccordionComponent from "components/common/components/accordion";

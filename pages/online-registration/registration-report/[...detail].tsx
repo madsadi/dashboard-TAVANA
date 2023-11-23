@@ -115,11 +115,11 @@ const DateCell = dynamic(
 );
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
-import { formatNumber } from "../../../components/common/functions/common-funcions";
+import { formatNumber } from "../../../utils/common-funcions";
 import { useSelector } from "react-redux";
-import { isAllowed } from "../../../components/common/functions/permission-utils";
+import { isAllowed } from "../../../utils/permission-utils";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
-import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import EditBourseCode from "components/online-registration/registration-report/edit-bourse-code";
 import { withPermission } from "components/common/layout/with-permission";
 const UpdateAgentInfo = dynamic(

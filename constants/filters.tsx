@@ -1,6 +1,6 @@
 import { ADMIN_GATEWAY, IDP, SEJAM_GATEWAY } from "../api/constants";
 import moment from "jalali-moment";
-import { splittedDate } from "components/common/functions/common-funcions";
+import { splittedDate } from "utils/common-funcions";
 import { FilterTreeType } from "types/types";
 
 const filters: FilterTreeType = {
@@ -1621,7 +1621,7 @@ const filters: FilterTreeType = {
       ],
       initialValue: {
         PageNumber: 1,
-        PageSize: 10,
+        PageSize: 20,
         CommissionCategoryId: "",
         MarketTitle: "",
         OfferTypeTitle: "",

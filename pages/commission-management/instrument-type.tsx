@@ -15,103 +15,11 @@ const AccordionComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 
 export const InstrumentTypeContext = createContext({});
 function InstrumentType() {
-  const columnDefStructure = [
-    {
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      resizable: false,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      field: "id",
-      headerName: "شماره",
-      flex: 0,
-      width: 90,
-      minWidth: 90,
-    },
-    {
-      field: "bourseTitle",
-      headerName: "عنوان بورس",
-      flex: 0,
-    },
-    {
-      field: "instrumentTypeCode",
-      headerName: "کد نوع ابزار مالی",
-      flex: 0,
-    },
-    {
-      field: "instrumentTypeTitle",
-      headerName: "عنوان نوع ابزار مالی",
-      flex: 0,
-      width: 120,
-      minWidth: 120,
-    },
-    {
-      field: "sectorCode",
-      headerName: "کد گروه صنعت",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-    },
-    {
-      field: "sectorTitle",
-      headerName: " گروه صنعت",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-    },
-    {
-      field: "subSectorCode",
-      headerName: "کد زیرگروه صنعت",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-    },
-    {
-      field: "subSectorTitle",
-      headerName: "زیرگروه صنعت",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-    },
-    {
-      field: "deleted",
-      headerName: "حذف شده",
-      flex: 0,
-      width: 120,
-      minWidth: 120,
-      cellStyle: { display: "flex" },
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return (
-            <div
-              className={`${
-                props?.data?.deleted ? "bg-red-400" : "bg-green-400"
-              } rounded text-center my-auto text-white text-xs px-3`}
-            >{`${props?.data?.deleted ? "حذف شده" : "حذف نشده"}`}</div>
-          );
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "instrumentTypeDescription",
-      headerName: "توضیحات",
-      width: 120,
-      minWidth: 120,
-    },
-  ];
   const { fetchData, query, loading, data } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/CommissionInstrumentType/Search`,
   });
@@ -132,7 +40,6 @@ function InstrumentType() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.COMMISSION_MANAGEMENT_instrument}
           loading={loading}
-          columnDefStructure={columnDefStructure}
           rowId={["id"]}
           rowSelection={"single"}
           setSelectedRows={setSelectedRows}

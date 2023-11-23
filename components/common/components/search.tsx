@@ -9,7 +9,7 @@ import React, {
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { Button } from "./button/button";
 import { FilterItemType } from "types/constant-filters.types";
-import { throwToast } from "../functions/notification";
+import { throwToast } from "../../../utils/notification";
 import { SearchComponentTypes } from "types/common-components.type";
 import { QueryType } from "types/types";
 

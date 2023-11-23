@@ -11,7 +11,7 @@ const AccordionComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
 import MarketerToolbar from "components/marketer-app/marketer/marketer-toolbar";

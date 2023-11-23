@@ -5,158 +5,100 @@ import { CommissionContext } from "../../../pages/commission-management/commissi
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import { AgGridReact } from "ag-grid-react";
+import { ModuleIdentifier } from "utils/Module-Identifier";
+import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 
 const CategoryResultModal = (props: CategoryResultModalTypes) => {
-    const { setOpen, open, queryHandler, data } = props
-    const { categoryQuery } = useContext<any>(CommissionContext)
-    const {
-        fetchAsyncData
-    }: any = useQuery({ url: `${ADMIN_GATEWAY}/api/request/CommissionCategory/Search` })
-    const columnDefStructure = [
-
-        {
-            field: 'id',
-            headerName: 'شناسه',
-            flex: 0,
-            width: 90,
-            minWidth: 90
-        },
-        {
-            field: 'marketCode',
-            headerName: 'کد بازار',
-        },
-        {
-            field: 'marketTitle',
-            headerName: 'بازار',
-        },
-        {
-            field: 'offerTypeCode',
-            headerName: 'کد نوع عرضه',
-            flex: 0,
-        },
-        {
-            field: 'offerTypeTitle',
-            headerName: 'نوع عرضه',
-            flex: 0,
-            width: 150,
-            minWidth: 150,
-        },
-        {
-            field: 'sideCode',
-            headerName: 'کد سمت سفارش',
-            flex: 0,
-        }, {
-            field: 'sideTitle',
-            headerName: 'سمت سفارش',
-            flex: 0,
-            width: 150,
-            minWidth: 150,
-        },
-        {
-            field: 'settlementDelayCode',
-            headerName: 'کد تاخیر در تسویه',
-            flex: 0,
-            width: 150,
-            minWidth: 150,
-        },
-        {
-            field: 'settlementDelayTitle',
-            headerName: 'تاخیر در تسویه',
-            flex: 0,
-            width: 120,
-            minWidth: 120
-        },
-        {
-            field: 'customerTypeCode',
-            headerName: 'کد نوع مشتری',
-            flex: 0,
-            width: 150,
-            minWidth: 150,
-        },
-        {
-            field: 'customerTypeTitle',
-            headerName: 'نوع مشتری',
-            flex: 0,
-            width: 120,
-            minWidth: 120
-        },
-        {
-            field: 'customerCounterSideCode',
-            headerName: 'کد نوع طرف مقابل',
-            flex: 0,
-            width: 120,
-            minWidth: 120
-        },
-        {
-            field: 'customerCounterSideTitle',
-            headerName: 'نوع طرف مقابل',
-            flex: 0,
-            width: 120,
-            minWidth: 120
+  const { setOpen, open, queryHandler, data } = props;
+  const { categoryQuery } = useContext<any>(CommissionContext);
+  const { fetchAsyncData }: any = useQuery({
+    url: `${ADMIN_GATEWAY}/api/request/CommissionCategory/Search`,
+  });
+  const colDef = generateDynamicColumnDefs(
+    ModuleIdentifier.COMMISSION_MANAGEMENT_category
+  );
+  const gridRef: any = useRef();
+  const onGridReady = (params: any) => {
+    const dataSource = {
+      rowCount: undefined,
+      getRows: (params: any) => {
+        if (params.startRow < data.totalCount) {
+          fetchAsyncData({
+            ...categoryQuery,
+            PageNumber: params.endRow / 10,
+          }).then((res: any) => {
+            params.successCallback([...res?.data?.result.pagedData], -1);
+          });
         }
-    ]
+      },
+    };
+    params.api.setDatasource(dataSource);
+  };
+  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+  const defaultColDef = useMemo(() => {
+    return {
+      flex: 1,
+      resizable: true,
+      minWidth: 100,
+    };
+  }, []);
 
-    const gridRef: any = useRef()
-    const onGridReady = (params: any) => {
-        const dataSource = {
-            rowCount: undefined,
-            getRows: (params: any) => {
-                console.log(
-                    'asking for ' + params.startRow + ' to ' + params.endRow
-                );
-                if (params.startRow < data.totalCount) {
-                    fetchAsyncData({ ...categoryQuery, PageNumber: params.endRow / 10 }).then((res: any) => {
-                        params.successCallback([...res?.data?.result.pagedData], -1);
-                    })
-                }
-            },
-        };
-        params.api.setDatasource(dataSource);
-    }
-    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
-    const defaultColDef = useMemo(() => {
-        return {
-            flex: 1,
-            resizable: true,
-            minWidth: 100,
-        };
-    }, []);
-
-    const onSelectionChanged = (rowData: any) => {
-        const selectedRows = rowData.data
-        let fields = ['marketTitle', 'marketCode', 'offerTypeTitle', 'sideTitle', 'settlementDelayTitle', 'customerTypeTitle', 'customerCounterSideTitle',]
-        queryHandler({
-            CommissionCategoryId: selectedRows.id,
-            CommissionCategoryTitle: fields.map((item: string) => { if (selectedRows[`${item}`]) { return selectedRows[`${item}`] } }).join('-')
+  const onSelectionChanged = (rowData: any) => {
+    const selectedRows = rowData.data;
+    let fields = [
+      "marketTitle",
+      "marketCode",
+      "offerTypeTitle",
+      "sideTitle",
+      "settlementDelayTitle",
+      "customerTypeTitle",
+      "customerCounterSideTitle",
+    ];
+    queryHandler({
+      CommissionCategoryId: selectedRows.id,
+      CommissionCategoryTitle: fields
+        .map((item: string) => {
+          if (selectedRows[`${item}`]) {
+            return selectedRows[`${item}`];
+          }
         })
-        setOpen(false)
-    }
+        .join("-"),
+    });
+    setOpen(false);
+  };
 
-    return (
-        <Modal setOpen={setOpen} open={open} title={'نتایج جستجو گروه بندی ضرایب'}
-            ModalWidth={'max-w-5xl'}>
-            <div className={'relative grow overflow-hidden border border-border rounded-b-xl min-h-[350px]'}>
-                <div style={gridStyle} className="ag-theme-alpine absolute">
-                    <AgGridReact
-                        ref={gridRef}
-                        enableRtl={true}
-                        columnDefs={columnDefStructure}
-                        defaultColDef={defaultColDef}
-                        rowBuffer={0}
-                        rowSelection={'single'}
-                        rowModelType={'infinite'}
-                        cacheBlockSize={10}
-                        cacheOverflowSize={2}
-                        onRowClicked={onSelectionChanged}
-                        // maxConcurrentDatasourceRequests={1}
-                        infiniteInitialRowCount={10}
-                        maxBlocksInCache={100}
-                        onGridReady={onGridReady}
-                    />
-                </div>
-            </div>
-        </Modal>
-    )
-}
+  return (
+    <Modal
+      setOpen={setOpen}
+      open={open}
+      title={"نتایج جستجو گروه بندی ضرایب"}
+      ModalWidth={"max-w-5xl"}
+    >
+      <div
+        className={
+          "relative grow overflow-hidden border border-border rounded-b-xl min-h-[350px]"
+        }
+      >
+        <div style={gridStyle} className="ag-theme-alpine absolute">
+          <AgGridReact
+            ref={gridRef}
+            enableRtl={true}
+            columnDefs={colDef}
+            defaultColDef={defaultColDef}
+            rowBuffer={0}
+            rowSelection={"single"}
+            rowModelType={"infinite"}
+            cacheBlockSize={10}
+            cacheOverflowSize={2}
+            onRowClicked={onSelectionChanged}
+            infiniteInitialRowCount={10}
+            maxBlocksInCache={100}
+            onGridReady={onGridReady}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
 
-export default CategoryResultModal
+export default CategoryResultModal;

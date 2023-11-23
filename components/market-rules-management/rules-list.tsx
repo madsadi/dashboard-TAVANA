@@ -9,120 +9,15 @@ const AccordionComponent = dynamic(
   () => import("../common/components/accordion")
 );
 const SearchComponent = dynamic(() => import("../common/components/search"));
-import { jalali } from "../common/functions/common-funcions";
-import { validate as uuidValidate } from "uuid";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import DateCell from "../common/table/date-cell";
-import { ModuleIdentifier } from "../common/functions/Module-Identifier";
-import { isAllowed } from "../common/functions/permission-utils";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
+import { isAllowed } from "../../utils/permission-utils";
 import { useSelector } from "react-redux";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 
 export const MarketRulesContext = createContext({});
 export default function RulesList() {
-  const columnDefStructure = [
-    {
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      resizable: false,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      field: "id",
-      headerName: "شناسه",
-      cellRenderer: "agGroupCellRenderer",
-      flex: 0,
-      width: 90,
-      minWidth: 90,
-    },
-    {
-      field: "name",
-      headerName: "نام قانون",
-    },
-    {
-      field: "errorMessage",
-      headerName: "پیام خطا",
-    },
-    {
-      field: "sequenceNumber",
-      headerName: "مرتبه/اولویت",
-      flex: 0,
-      width: 120,
-      minWidth: 120,
-    },
-    {
-      field: "createDateTime",
-      headerName: "زمان ایجاد",
-      flex: 0,
-      width: 200,
-      minWidth: 200,
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.createDateTime} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "createBy",
-      headerName: "کاربر ایجاد کننده",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-    },
-    {
-      field: "updatedDateTime",
-      headerName: "زمان تغییر",
-      flex: 0,
-      width: 200,
-      minWidth: 200,
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.updatedDateTime} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "updatedBy",
-      headerName: "کاربر تغییر دهنده",
-      flex: 0,
-      width: 150,
-      minWidth: 150,
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return (
-            <>
-              {uuidValidate(props.data?.updatedBy)
-                ? "-"
-                : props.data?.updatedBy}
-            </>
-          );
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "userIP",
-      headerName: "آی پی کاربر",
-      flex: 0,
-      width: 120,
-      minWidth: 120,
-    },
-  ];
   const { restriction, service, modules } = useSearchFilters(
     ModuleIdentifier.MARKET_RULES_MANAGEMENT
   );
@@ -174,7 +69,6 @@ export default function RulesList() {
         <TableComponent
           data={data?.result}
           module={ModuleIdentifier.MARKET_RULES_MANAGEMENT}
-          columnDefStructure={columnDefStructure}
           rowId={["id"]}
           rowSelection={"single"}
           masterDetail={true}

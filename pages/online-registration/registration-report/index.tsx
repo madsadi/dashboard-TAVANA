@@ -24,11 +24,11 @@ const UserRegToolbarComponent = dynamic(
       "../../../components/online-registration/registration-report/user-reg-toolbar"
     )
 );
-import { formatNumber } from "../../../components/common/functions/common-funcions";
+import { formatNumber } from "../../../utils/common-funcions";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
-import { ModuleIdentifier } from "../../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 
 export const OnlineRegContext = createContext({});

@@ -23,7 +23,7 @@ const UserDetailComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { IDP } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import DateCell from "components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
 

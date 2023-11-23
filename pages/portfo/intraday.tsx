@@ -11,7 +11,7 @@ const AccordionComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import DateCell from "components/common/table/date-cell";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";

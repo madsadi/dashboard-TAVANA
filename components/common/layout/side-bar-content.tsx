@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import SidebarCollapsibleComponent from "../components/Sidebar-collapsible.component";
 import filters from "../../../constants/filters";
-import { ModuleIdentifier } from "../functions/Module-Identifier";
-import { isAllowed, prepare } from "../functions/permission-utils";
+import { ModuleIdentifier } from "../../../utils/Module-Identifier";
+import { isAllowed, prepare } from "../../../utils/permission-utils";
 import { useSelector } from "react-redux";
 
 export default function SideBarContent() {
@@ -522,7 +522,7 @@ export default function SideBarContent() {
   return (
     <div className={"w-full"}>
       <div className={"h-full space-y-3 overflow-y-auto p-3"}>
-        {items.map((item: any) => {
+        {items.map((item) => {
           if (item.children) {
             return (
               <SidebarCollapsibleComponent

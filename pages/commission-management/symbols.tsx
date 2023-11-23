@@ -11,12 +11,11 @@ const AccordionComponent = dynamic(
 );
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import DateCell from "components/common/table/date-cell";
-import { CustomerOriginEnums, GetOfferTypeEnums, sides } from "constants/Enums";
-import { throwToast } from "components/common/functions/notification";
-import { formatNumber } from "components/common/functions/common-funcions";
+import { throwToast } from "utils/notification";
+import { formatNumber } from "utils/common-funcions";
+import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 
 function SymbolsCommission() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
@@ -26,200 +25,13 @@ function SymbolsCommission() {
     pagedData: [],
     totalCount: 0,
   });
+  const abstractColumnDefStructure = generateDynamicColumnDefs(
+    ModuleIdentifier.COMMISSION_MANAGEMENT_abstract_symbols
+  );
+  const fullColumnDefStructure = generateDynamicColumnDefs(
+    ModuleIdentifier.COMMISSION_MANAGEMENT_full_symbols
+  );
 
-  const abstractColumnDefStructure: any = [
-    {
-      field: "instrumentId",
-      headerName: "شناسه نماد",
-    },
-    {
-      field: "faInsCode",
-      headerName: "نماد",
-    },
-    {
-      field: "offerTypeCode",
-      headerName: "نوع عرضه",
-      valueFormatter: (rowData: any) => {
-        return GetOfferTypeEnums.find(
-          (item) => item.id === rowData?.data?.offerTypeCode
-        )?.title;
-      },
-    },
-    {
-      field: "sideCode",
-      headerName: "سمت سفارش",
-      valueFormatter: (rowData: any) => {
-        return sides.find((item) => item.id === rowData?.data?.sideCode)?.title;
-      },
-    },
-    {
-      field: "customerTypeCode",
-      headerName: "نوع مشتری",
-      valueFormatter: (rowData: any) => {
-        return CustomerOriginEnums.find(
-          (item) => item.id === rowData?.data?.customerTypeCode
-        )?.title;
-      },
-    },
-    {
-      field: "customerCounterSideCode",
-      headerName: "مشتری طرف مقابل",
-      valueFormatter: (rowData: any) => {
-        return CustomerOriginEnums.find(
-          (item) => item.id === rowData?.data?.customerCounterSideCode
-        )?.title;
-      },
-    },
-    {
-      field: "totalCommissionCoeff",
-      headerName: "ضریب مجموع کارمزد",
-    },
-    {
-      field: "netTradeCoeff",
-      headerName: "ضریب ارزش تمام شده",
-    },
-    {
-      field: "breakEvenPriceCoeff",
-      headerName: "ضریب قیمت سربسر",
-    },
-    {
-      field: "beginningEffectingDate",
-      headerName: "تاریخ ابتدا",
-      cellRendererSelector: () => {
-        return {
-          component: (rowData: any) => (
-            <DateCell date={rowData?.data?.beginningEffectingDate} hideTime />
-          ),
-        };
-      },
-    },
-    {
-      field: "endEffectingDate",
-      headerName: "تاریخ انتها",
-      cellRendererSelector: () => {
-        return {
-          component: (rowData: any) => (
-            <DateCell date={rowData?.data?.endEffectingDate} hideTime />
-          ),
-        };
-      },
-    },
-    {
-      field: "valid",
-      headerName: "وضعیت نماد",
-      valueFormatter: (rowData: any) => {
-        return rowData?.data?.valid ? "فعال" : "غیر فعال";
-      },
-    },
-    {
-      field: "deleted",
-      headerName: "حذف شده؟",
-      valueFormatter: (rowData: any) => {
-        return rowData?.data?.deleted ? "حذف شده" : "حذف نشده";
-      },
-    },
-  ];
-  const fullColumnDefStructure: any = [
-    {
-      field: "instrumentId",
-      headerName: "شناسه نماد",
-      cellRenderer: "agGroupCellRenderer",
-    },
-    {
-      field: "faInsCode",
-      headerName: "نماد",
-    },
-    {
-      field: "offerTypeCode",
-      headerName: "نوع عرضه",
-      valueFormatter: (rowData: any) => {
-        return GetOfferTypeEnums.find(
-          (item) => item.id === rowData?.data?.offerTypeCode
-        )?.title;
-      },
-    },
-    {
-      field: "sideCode",
-      headerName: "سمت سفارش",
-      valueFormatter: (rowData: any) => {
-        return sides.find((item) => item.id === rowData?.data?.sideCode)?.title;
-      },
-    },
-    {
-      field: "settlementDelayCode",
-      headerName: "تاخیر در تسویه ",
-    },
-    {
-      field: "customerTypeCode",
-      headerName: "نوع مشتری",
-      valueFormatter: (rowData: any) => {
-        return CustomerOriginEnums.find(
-          (item) => item.id === rowData?.data?.customerTypeCode
-        )?.title;
-      },
-    },
-    {
-      field: "customerCounterSideCode",
-      headerName: "مشتری طرف مقابل",
-      valueFormatter: (rowData: any) => {
-        return CustomerOriginEnums.find(
-          (item) => item.id === rowData?.data?.customerCounterSideCode
-        )?.title;
-      },
-    },
-    {
-      field: "netBrokerCommissionCoeff",
-      headerName: "ضریب کارمزد نقد کارگزاری",
-    },
-    {
-      field: "totalCommissionCoeff",
-      headerName: "ضریب مجموع کارمزد",
-    },
-    {
-      field: "netTradeCoeff",
-      headerName: "ضریب ارزش تمام شده",
-    },
-    {
-      field: "breakEvenPriceCoeff",
-      headerName: "ضریب قیمت سربسر",
-    },
-    {
-      field: "beginningEffectingDate",
-      headerName: "تاریخ ابتدا",
-      cellRendererSelector: () => {
-        return {
-          component: (rowData: any) => (
-            <DateCell date={rowData?.data?.beginningEffectingDate} hideTime />
-          ),
-        };
-      },
-    },
-    {
-      field: "endEffectingDate",
-      headerName: "تاریخ انتها",
-      cellRendererSelector: () => {
-        return {
-          component: (rowData: any) => (
-            <DateCell date={rowData?.data?.endEffectingDate} hideTime />
-          ),
-        };
-      },
-    },
-    {
-      field: "valid",
-      headerName: "وضعیت نماد",
-      valueFormatter: (rowData: any) => {
-        return rowData?.data?.valid ? "فعال" : "غیر فعال";
-      },
-    },
-    {
-      field: "deleted",
-      headerName: "حذف شده؟",
-      valueFormatter: (rowData: any) => {
-        return rowData?.data?.deleted ? "حذف شده" : "حذف نشده";
-      },
-    },
-  ];
   const tabItems: any = {
     Abstract: abstractColumnDefStructure,
     Full: fullColumnDefStructure,
@@ -241,67 +53,13 @@ function SymbolsCommission() {
   };
 
   const detailCellRendererParams = useMemo(() => {
+    const colDef = generateDynamicColumnDefs(
+      ModuleIdentifier.COMMISSION_MANAGEMENT_full_symbols_detail
+    );
     return {
       detailGridOptions: {
         enableRtl: true,
-        columnDefs: [
-          {
-            field: "category",
-            headerName: "",
-          },
-          {
-            field: "broker",
-            headerName: "کارگزاری",
-          },
-          {
-            field: "access",
-            headerName: "حق دسترسی",
-          },
-          {
-            field: "brokerCmdFund",
-            headerName: "سهم صندوق توسعه",
-          },
-          {
-            field: "bourse",
-            headerName: "بورس",
-          },
-          {
-            field: "seoControl",
-            headerName: "سازمان",
-          },
-          {
-            field: "csd",
-            headerName: "شرکت سپرده گذاری",
-          },
-          {
-            field: "tmc",
-            headerName: "مدیرت فناوری",
-          },
-          {
-            field: "rayan",
-            headerName: "رایان بورس",
-          },
-          {
-            field: "tax",
-            headerName: "مالیات",
-          },
-          {
-            field: "addedValue",
-            headerName: "ارزش افزوده",
-          },
-          {
-            field: "charge",
-            headerName: "عوارض",
-          },
-          {
-            field: "inventory",
-            headerName: "انبارداری",
-          },
-          {
-            field: "inventoryAddedValueTax",
-            headerName: "ارزش افزوده انبارداری",
-          },
-        ],
+        columnDefs: colDef,
         defaultColDef: {
           resizable: true,
           sortable: true,
@@ -386,6 +144,7 @@ function SymbolsCommission() {
       </AccordionComponent>
       <TableComponent
         data={data?.pagedData}
+        module={ModuleIdentifier.COMMISSION_MANAGEMENT_symbols}
         columnDefStructure={tabItems[activeTab]}
         setSelectedRows={setSelectedRows}
         selectedRows={selectedRows}

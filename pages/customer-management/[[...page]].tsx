@@ -15,7 +15,7 @@ const SearchComponent = dynamic(
 import usePageStructure from "../../hooks/usePageStructure";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../components/common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import DateCell from "../../components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
 
@@ -118,6 +118,7 @@ const defStructure = (page: string) => {
   return D[page];
 };
 
+type asb = keyof typeof ModuleIdentifier;
 export const CustomerManagement = createContext({});
 function HoldingsSubPages() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
@@ -125,6 +126,9 @@ function HoldingsSubPages() {
   const { data, loading, fetchData, query } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Search`,
   });
+
+  //@ts-ignore
+  const moduleName: asb = `CUSTOMER_MANAGEMENT_${page?.api || "branch"}`;
   const detailCellRendererParams = (page: string) => {
     return {
       detailGridOptions: {
@@ -152,17 +156,13 @@ function HoldingsSubPages() {
           <SearchComponent
             onSubmit={fetchData}
             loading={loading}
-            module={
-              page?.api
-                ? ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]
-                : null
-            }
+            module={page?.api ? ModuleIdentifier?.[moduleName] : ""}
           />
         </AccordionComponent>
         <Toolbar />
         <TableComponent
           data={data?.result?.pagedData}
-          module={ModuleIdentifier?.[`CUSTOMER_MANAGEMENT_${page?.api}`]}
+          module={ModuleIdentifier?.[moduleName]}
           loading={loading}
           columnDefStructure={page?.columnsDefStructure}
           rowId={["id"]}
@@ -183,6 +183,7 @@ function HoldingsSubPages() {
 
 export default withPermission(
   HoldingsSubPages,
+  //@ts-ignore
   ModuleIdentifier?.[
     `CUSTOMER_MANAGEMENT_${
       typeof window !== "undefined" &&

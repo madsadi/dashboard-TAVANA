@@ -1,36 +1,44 @@
 import React, { useContext, useState } from "react";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { throwToast } from "../common/functions/notification";
+import { throwToast } from "../../utils/notification";
 import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
 import useQuery from "../../hooks/useQuery";
 import usePageStructure from "../../hooks/usePageStructure";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
-import { ModuleIdentifier } from "../common/functions/Module-Identifier";
+import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { Button } from "../common/components/button/button";
 
 export const TBSReagents = () => {
-    const { page } = usePageStructure()
-    const { restriction, modules, service } = useSearchFilters(ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`], 'modal')
-    const { fetchAsyncData } = useQuery({ url: `${ADMIN_GATEWAY}/api/request/GetAndSaveReagents` })
-    const { fetchData, query: searchQuery } = useContext<any>(CustomerManagement)
-    const [loading, setLoading] = useState(false)
-    const submitHandler = () => {
-        setLoading(true)
-        fetchAsyncData()
-            .then((res) => {
-                fetchData(searchQuery)
-                throwToast({ type: 'success', value: `${res?.data.result.message}` })
-            })
-            .catch((err) => {
-                throwToast({ type: 'error', value: err })
-            })
-            .finally(() => setLoading(false))
-    }
-    return (
-        <Button label={'دریافت معرف TBS'}
-            onClick={submitHandler}
-            loading={loading}
-            allowed={restriction ? [[service?.[0], modules?.[0]?.[1], 'Read'].join('.')] : []}
-        />
-    )
-}
+  const { page } = usePageStructure();
+  const { restriction, modules, service } = useSearchFilters(
+    ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],
+    "modal"
+  );
+  const { fetchAsyncData } = useQuery({
+    url: `${ADMIN_GATEWAY}/api/request/GetAndSaveReagents`,
+  });
+  const { fetchData, query: searchQuery } = useContext<any>(CustomerManagement);
+  const [loading, setLoading] = useState(false);
+  const submitHandler = () => {
+    setLoading(true);
+    fetchAsyncData()
+      .then((res) => {
+        fetchData(searchQuery);
+        throwToast({ type: "success", value: `${res?.data.result.message}` });
+      })
+      .catch((err) => {
+        throwToast({ type: "error", value: err });
+      })
+      .finally(() => setLoading(false));
+  };
+  return (
+    <Button
+      label={"دریافت معرف TBS"}
+      onClick={submitHandler}
+      loading={loading}
+      allowed={
+        restriction ? [[service?.[0], modules?.[0]?.[1], "Read"].join(".")] : []
+      }
+    />
+  );
+};
