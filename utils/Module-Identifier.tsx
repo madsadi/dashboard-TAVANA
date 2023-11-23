@@ -50,6 +50,7 @@ export const ModuleIdentifier = {
   MARKETER_APP_marketerContract: "marketer-app_marketerContract",
   MARKETER_APP_marketers: "marketer-app_marketers",
   MARKETER_APP_marketerContract_detail: "marketer-app_marketerContract_detail",
+  MARKETER_APP_reconcilation_detail: "marketer-app_reconcilation_detail",
   MARKETER_APP_reconcilation: "marketer-app_reconcilation",
   CSDI_PORTFO: "csdi-portfo",
   CSDI_PORTFO_asset_switch_report: "csdi-portfo_asset_switch_report",

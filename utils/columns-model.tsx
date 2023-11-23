@@ -1,3 +1,4 @@
+import { CopyButton } from "components/common/components/copy-button";
 import { dateCell } from "./common-funcions";
 import {
   CustomerOriginEnums,
@@ -9,6 +10,8 @@ import {
   sides,
 } from "constants/Enums";
 import { validate as uuidValidate } from "uuid";
+import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
+import { ModuleIdentifier } from "./Module-Identifier";
 
 // columnModel.js
 export const columnModel = [
@@ -823,6 +826,123 @@ export const columnModel = [
         params?.data?.secondshareCount < params?.data?.firstshareCount,
     },
   },
+  {
+    colId: "UniqueId",
+    field: "UniqueId",
+    headerName: "کد ملی بازاریاب",
+  },
+  {
+    colId: "Title",
+    field: "Title",
+    headerName: "عنوان بازاریاب",
+  },
+  {
+    colId: "TypeTitle",
+    field: "TypeTitle",
+    headerName: "نوع بازاریاب",
+  },
+  {
+    colId: "Mobile",
+    field: "Mobile",
+    headerName: "موبایل",
+  },
+  {
+    colId: "SubsidiaryTitle",
+    field: "SubsidiaryTitle",
+    headerName: "عنوان شرکت",
+  },
+  {
+    colId: "BranchTitle",
+    field: "BranchTitle",
+    headerName: "عنوان شعبه",
+  },
+  {
+    colId: "ReagentRefLink",
+    field: "ReagentRefLink",
+    headerName: "لینک معرف",
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => (
+          <CopyButton
+            condition={rowData?.data?.ReagentRefCode}
+            id={rowData?.data?.MarketerID}
+            entity={"reagentUrl"}
+            inputModule={ModuleIdentifier.MARKETER_APP_marketers}
+          />
+        ),
+      };
+    },
+  },
+  {
+    colId: "MarketerRefLink",
+    field: "MarketerRefLink",
+    headerName: "لینک بازاریاب",
+    data: "marketerUrl",
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => (
+          <CopyButton
+            condition={rowData?.data?.MarketerRefCode}
+            id={rowData?.data?.MarketerID}
+            entity={"marketerUrl"}
+            inputModule={ModuleIdentifier.MARKETER_APP_marketers}
+          />
+        ),
+      };
+    },
+  },
+  {
+    colId: "IsActive",
+    field: "IsActive",
+    headerName: "وضعیت",
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => (
+          <ToggleButton
+            data={{
+              isActive: rowData?.data?.IsActive,
+              id: rowData?.data?.id,
+            }}
+          />
+        ),
+      };
+    },
+  },
+  {
+    colId: "MarketerFirstName",
+    field: "MarketerFirstName",
+    headerName: "نام بازاریاب",
+  },
+  {
+    colId: "MarketerLastNAme",
+    field: "MarketerLastNAme",
+    headerName: "نام خانوادگی بازاریاب",
+  },
+  {
+    colId: "TradeSide",
+    field: "TradeSide",
+    headerName: "سمت معامله",
+  },
+  {
+    colId: "TradeCount",
+    field: "TradeCount",
+    headerName: "تعداد معاملات نرم افزار بازاریاب",
+  },
+  {
+    colId: "TradeDate",
+    field: "TradeDate",
+    headerName: "تاریخ معامله",
+  },
+  {
+    colId: "FollowerMarketerID",
+    field: "FollowerMarketerID",
+    headerName: "شناسه کاربری بازاریاب",
+  },
+  {
+    colId: "CommissionCoefficient",
+    field: "CommissionCoefficient",
+    headerName: "ضریب کارمزد",
+  },
 
   //with children
   {
@@ -882,6 +1002,38 @@ export const columnModel = [
   },
 
   //dates
+  {
+    colId: "StartDate",
+    field: "StartDate",
+    headerName: "تاریخ شروع ارتباط",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "EndDate",
+    field: "EndDate",
+    headerName: "تاریخ پایان ارتباط",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "GCreateDate",
+    field: "GCreateDate",
+    headerName: "زمان ایجاد",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "GUpdateDate",
+    field: "GUpdateDate",
+    headerName: "زمان بروزرسانی",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
   {
     colId: "fromActiveDateTime",
     field: "fromActiveDateTime",
