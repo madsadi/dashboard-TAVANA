@@ -45,6 +45,11 @@ export const ModuleIdentifier = {
   NETFLOW_clearing_Range: "netflow_clearing_Range",
   NETFLOW_information: "netflow_information",
   MARKETER_APP_relations: "marketer-app_relations",
+  MARKETER_APP_relations_detail: "marketer-app_relations_detail",
+  MARKETER_APP_relations_detail_deduction:
+    "marketer-app_marketerContract_detail_deduction",
+  MARKETER_APP_relations_detail_coefficient:
+    "marketer-app_marketerContract_detail_coefficient",
   MARKETER_APP_recite: "marketer-app_recite",
   MARKETER_APP_subusers: "marketer-app_subusers",
   MARKETER_APP_marketerContract: "marketer-app_marketerContract",

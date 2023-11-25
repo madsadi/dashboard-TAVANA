@@ -12,6 +12,7 @@ import {
 import { validate as uuidValidate } from "uuid";
 import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
 import { ModuleIdentifier } from "./Module-Identifier";
+import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 
 // columnModel.js
 export const columnModel = [
@@ -943,6 +944,141 @@ export const columnModel = [
     field: "CommissionCoefficient",
     headerName: "ضریب کارمزد",
   },
+  {
+    colId: "LeaderMarketerID",
+    field: "LeaderMarketerID",
+    headerName: "شناسه بازاریاب",
+  },
+  {
+    colId: "FollowerMarketerName",
+    field: "FollowerMarketerName",
+    headerName: " نام و نام خانوادگی بازاریاب زیر گروه",
+  },
+  {
+    colId: "LeaderMarketerName",
+    field: "LeaderMarketerName",
+    headerName: "نام و نام خانوادگی بازاریاب سرگروه",
+  },
+  {
+    colId: "FirstName",
+    field: "FirstName",
+    headerName: "نام ",
+  },
+  {
+    colId: "LastName",
+    field: "LastName",
+    headerName: "نام خانوادگی",
+  },
+  {
+    colId: "FirmTitle",
+    field: "FirmTitle",
+    headerName: "نام شرکت",
+  },
+  {
+    colId: "TotalPureVolume",
+    field: "TotalPureVolume",
+    headerName: "خالص گردش",
+  },
+  {
+    colId: "TotalFee",
+    field: "TotalFee",
+    headerName: "کل کارمزد",
+  },
+  {
+    colId: "Mobile",
+    field: "Mobile",
+    headerName: "موبایل",
+  },
+  {
+    colId: "BankAccountNumber",
+    field: "BankAccountNumber",
+    headerName: "شماره حساب بانکی",
+  },
+  {
+    colId: "Email",
+    field: "Email",
+    headerName: "ایمیل",
+  },
+  {
+    colId: "marketerContract-detail",
+    field: "marketerContract-detail",
+    headerName: "جزییات",
+    flex: 0,
+    width: 90,
+    cellStyle: {
+      cursor: "pointer",
+      display: "flex",
+    },
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => {
+          return (
+            <a
+              className={"flex h-full w-full"}
+              target="_blank"
+              rel="noreferrer"
+              href={`/marketer-app/marketer-contract/${rowData?.data?.ContractID}`}
+            >
+              <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+            </a>
+          );
+        },
+      };
+    },
+  },
+  {
+    colId: "CalculationBaseType",
+    field: "CalculationBaseType",
+    headerName: "نوع محاسبات",
+  },
+  {
+    colId: "CoefficientBaseType",
+    field: "CoefficientBaseType",
+    headerName: "نوع ضرائب",
+  },
+  {
+    colId: "ContractType",
+    field: "ContractType",
+    headerName: "نوع قرارداد",
+  },
+  {
+    colId: "Description",
+    field: "Description",
+    headerName: "توضیحات",
+  },
+  {
+    colId: "ContractID",
+    field: "ContractID",
+    headerName: "شناسه قرارداد",
+  },
+  {
+    colId: "MarketerID",
+    field: "MarketerID",
+    headerName: "شناسه بازاریاب",
+  },
+  {
+    colId: "CollateralCoefficient",
+    field: "CollateralCoefficient",
+    headerName: "ضریب حسن انجام کار",
+    fixed: 2,
+  },
+  {
+    colId: "TaxCoefficient",
+    field: "TaxCoefficient",
+    headerName: "ضریب مالیات",
+    fixed: 2,
+  },
+  {
+    colId: "InsuranceCoefficient",
+    field: "InsuranceCoefficient",
+    headerName: "ضریب بیمه",
+    fixed: 2,
+  },
+  {
+    colId: "ReturnDuration",
+    field: "ReturnDuration",
+    headerName: "دوره برگشت کسورات",
+  },
 
   //with children
   {
@@ -1079,6 +1215,28 @@ export const columnModel = [
     },
   },
   {
+    colId: "CreateDate",
+    field: "CreateDate",
+    headerName: "زمان تغییر",
+    flex: 0,
+    width: 200,
+    minWidth: 200,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "UpdateDate",
+    field: "UpdateDate",
+    headerName: "زمان تغییر",
+    flex: 0,
+    width: 200,
+    minWidth: 200,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
     colId: "beginningEffectingDate",
     field: "beginningEffectingDate",
     headerName: "تاریخ شروع",
@@ -1117,6 +1275,14 @@ export const columnModel = [
     headerName: "تاریخ و زمان تغییر",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "RegisterDate",
+    field: "RegisterDate",
+    headerName: "تاریخ ثبت نام",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
     },
   },
 ] as const;

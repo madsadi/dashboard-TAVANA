@@ -8,82 +8,11 @@ import { MARKETER_ADMIN } from "../../../api/constants";
 import { useRouter } from "next/router";
 import MarketerContractDeductionDetailToolbar from "components/marketer-app/marketer-contract/detail/deduction/marketer-contract-deduction-detail-toolbar";
 import MarketerContractCoefficientDetailToolbar from "components/marketer-app/marketer-contract/detail/coeff/marketer-contract-coefficient-detail-toolbar";
+import { ModuleIdentifier } from "utils/Module-Identifier";
 
 export const MarketerContractDetailContext = createContext({});
 function MarketerContractDetail() {
   const router = useRouter();
-  const columnDefDeductionStructure: any = [
-    {
-      field: "ContractID",
-      headerName: "شناسه قرارداد",
-    },
-    {
-      field: "MarketerID",
-      headerName: "شناسه بازاریاب",
-    },
-    {
-      field: "Title",
-      headerName: "عنوان بازاریاب",
-    },
-    {
-      field: "CollateralCoefficient",
-      headerName: "ضریب حسن انجام کار",
-      fixed: 2,
-    },
-    {
-      field: "TaxCoefficient",
-      headerName: "ضریب مالیات",
-      fixed: 2,
-    },
-    {
-      field: "InsuranceCoefficient",
-      headerName: "ضریب بیمه",
-      fixed: 2,
-    },
-    {
-      field: "ReturnDuration",
-      headerName: "دوره برگشت کسورات",
-    },
-  ];
-  const columnDefCoefficientStructure: any = [
-    {
-      field: "ContractID",
-      headerName: "شناسه قرارداد",
-    },
-    {
-      field: "MarketerID",
-      headerName: "شناسه بازاریاب",
-    },
-    {
-      field: "Title",
-      headerName: "عنوان بازاریاب",
-    },
-    {
-      field: "CoefficientPercentage",
-      headerName: "درصد ضریب",
-      fixed: 2,
-    },
-    {
-      field: "HighThreshold",
-      headerName: "حد بالای پله",
-    },
-    {
-      field: "LowThreshold",
-      headerName: "حد بالای پایین",
-    },
-    {
-      field: "StepNumber",
-      headerName: "شماره پله",
-    },
-    {
-      field: "IsCmdConcluded",
-      headerName: "سهم صندوق توسعه اضافه میشود؟",
-      valueFormatter: (rowData: any) => {
-        return rowData.data?.IsCmdConcluded ? "بله" : "خیر";
-      },
-    },
-  ];
-
   let contractId = router.query.contractId?.[0];
 
   const {
@@ -124,14 +53,14 @@ function MarketerContractDetail() {
         <MarketerContractDeductionDetailToolbar />
         <TableComponent
           data={deductionData?.result?.pagedData}
-          columnDefStructure={columnDefDeductionStructure}
+          module={ModuleIdentifier.MARKETER_APP_relations_detail_deduction}
           rowId={["ContractID"]}
         />
         <div className="mt-5" />
         <MarketerContractCoefficientDetailToolbar />
         <TableComponent
+          module={ModuleIdentifier.MARKETER_APP_relations_detail_coefficient}
           data={coefficientData?.result?.pagedData}
-          columnDefStructure={columnDefCoefficientStructure}
           rowId={["ContractID"]}
         />
       </div>

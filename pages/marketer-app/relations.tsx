@@ -12,38 +12,14 @@ const AccordionComponent = dynamic(
 import useQuery from "../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
-import DateCell from "../../components/common/table/date-cell";
 import RelationToolbar from "../../components/marketer-app/relations/toolbar/relation-toolbar";
 import { withPermission } from "components/common/layout/with-permission";
+import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 
 export const RelationsContext = createContext({});
 function Relations() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
 
-  const columnDefStructure: any = [
-    {
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      resizable: false,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      field: "LeaderMarketerID",
-      headerName: "شناسه بازاریاب",
-      cellRenderer: "agGroupCellRenderer",
-    },
-    {
-      field: "FollowerMarketerName",
-      headerName: " نام و نام خانوادگی بازاریاب زیر گروه",
-    },
-    {
-      field: "LeaderMarketerName",
-      headerName: "نام و نام خانوادگی بازاریاب سرگروه",
-    },
-  ];
   const {
     data,
     fetchData,
@@ -55,65 +31,9 @@ function Relations() {
     return {
       detailGridOptions: {
         enableRtl: true,
-        // getRowId:(params:any)=>params.data.orderId,
-        columnDefs: [
-          {
-            field: "FollowerMarketerID",
-            headerName: "شناسه کاربری بازاریاب",
-          },
-          {
-            field: "CommissionCoefficient",
-            headerName: "ضریب کارمزد",
-          },
-          {
-            field: "StartDate",
-            headerName: "تاریخ شروع ارتباط",
-            cellRendererSelector: () => {
-              const moodDetails = {
-                component: (rowData: any) => (
-                  <DateCell date={rowData.data.StartDate} hideTime={true} />
-                ),
-              };
-              return moodDetails;
-            },
-          },
-          {
-            field: "EndDate",
-            headerName: "تاریخ پایان ارتباط",
-            cellRendererSelector: () => {
-              const moodDetails = {
-                component: (rowData: any) => (
-                  <DateCell date={rowData.data.EndDate} hideTime={true} />
-                ),
-              };
-              return moodDetails;
-            },
-          },
-          {
-            field: "CreateDate",
-            headerName: "زمان ایجاد",
-            cellRendererSelector: () => {
-              const moodDetails = {
-                component: (rowData: any) => (
-                  <DateCell date={rowData.data.CreateDate} />
-                ),
-              };
-              return moodDetails;
-            },
-          },
-          {
-            field: "UpdateDate",
-            headerName: "زمان بروزرسانی",
-            cellRendererSelector: () => {
-              const moodDetails = {
-                component: (rowData: any) => (
-                  <DateCell date={rowData.data.UpdateDate} />
-                ),
-              };
-              return moodDetails;
-            },
-          },
-        ],
+        columnDefs: generateDynamicColumnDefs(
+          ModuleIdentifier.MARKETER_APP_relations_detail
+        ),
         defaultColDef: {
           resizable: true,
           sortable: true,
@@ -142,7 +62,7 @@ function Relations() {
         <RelationToolbar />
         <TableComponent
           data={data?.result?.pagedData}
-          columnDefStructure={columnDefStructure}
+          module={ModuleIdentifier.MARKETER_APP_relations}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection={"multiple"}
