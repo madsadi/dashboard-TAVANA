@@ -17,6 +17,7 @@ export default function Edit() {
     method: "PUT",
   });
   const { toolbar, restriction, service, modules } = useSearchFilters(
+    //@ts-ignore
     ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],
     "modal"
   );

@@ -22,6 +22,7 @@ export default function Remove() {
   const { fetchData, query, selectedRows, setSelectedRows } =
     useContext<any>(CustomerManagement);
   const { restriction, modules, service } = useSearchFilters(
+    //@ts-ignore
     ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],
     "modal"
   );

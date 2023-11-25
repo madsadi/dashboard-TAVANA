@@ -12,6 +12,7 @@ export const CreateRefCode = () => {
   const { page } = usePageStructure();
   const { selectedRows } = useContext<any>(CustomerManagement);
   const { restriction, modules, service } = useSearchFilters(
+    //@ts-ignore
     ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`]
   );
   const { mutate } = useMutation({

@@ -9,81 +9,13 @@ const TableComponent = dynamic(
 const AccordionComponent = dynamic(
   () => import("../../components/common/components/accordion")
 );
-import { jalali } from "../../utils/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { IDP } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { throwToast } from "../../utils/notification";
-import DateCell from "../../components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
 
 function Users() {
-  const columnDefStructure: any = [
-    {
-      field: "userId",
-      headerName: "شناسه کاربر",
-    },
-    {
-      field: "name",
-      headerName: "نام کاربر",
-    },
-    {
-      field: "typeTitle",
-      headerName: "نوع",
-    },
-    {
-      field: "date",
-      headerName: "تاریخ",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (rowData: any) => {
-          return <DateCell date={rowData?.data?.date} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "clientId",
-      headerName: "نرم افزار",
-    },
-    {
-      field: "succeed",
-      headerName: "وضعیت",
-    },
-    {
-      field: "ip",
-    },
-    {
-      field: "userAgent",
-    },
-    {
-      field: "browser",
-      headerName: "مرورگر",
-    },
-    {
-      field: "os",
-      headerName: "سیستم عامل",
-    },
-    {
-      field: "isMobile",
-      headerName: "از طریق موبایل",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (rowData: any) => {
-          return <span>{rowData?.data?.isMobile ? "بله" : "خیر"}</span>;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "errorMessage",
-      headerName: "خطا",
-    },
-  ];
   const { data, query, fetchData, loading }: any = useQuery({
     url: `${IDP}/api/users/SearchUserActivityLogs`,
   });
@@ -116,7 +48,6 @@ function Users() {
       <TableComponent
         data={data?.result?.pagedData}
         module={ModuleIdentifier.USER_MANAGEMENT_logs}
-        columnDefStructure={columnDefStructure}
         rowId={["id"]}
         pagination={true}
         totalCount={data?.result?.totalCount}

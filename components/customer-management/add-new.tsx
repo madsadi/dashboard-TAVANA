@@ -19,6 +19,7 @@ export default function AddNew() {
     url: `${ADMIN_GATEWAY}/api/request/${page?.api}/Add`,
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
+    //@ts-ignore
     ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],
     "modal"
   );

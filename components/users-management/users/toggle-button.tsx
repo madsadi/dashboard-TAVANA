@@ -6,7 +6,7 @@ import { SwitchToggle } from "../../common/components/button/switch-toggle";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { useSearchFilters } from "hooks/useSearchFilters";
 
-export default function ToggleButton(props: {
+export default function ToggleButtonUsers(props: {
   data: { isActive: boolean; id: string };
 }) {
   const [isChecked, setIsChecked] = useState(props.data.isActive);

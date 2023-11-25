@@ -5,6 +5,7 @@ import TableComponent from "../../common/table/table-component";
 import { useSelector } from "react-redux";
 import useQuery from "../../../hooks/useQuery";
 import { IDP } from "../../../api/constants";
+import { ModuleIdentifier } from "utils/Module-Identifier";
 
 export default function UserDetailComponent({ data }: { data: any }) {
   const { userDetail } = useSelector(
@@ -13,30 +14,6 @@ export default function UserDetailComponent({ data }: { data: any }) {
   const { data: userRoles, fetchData }: any = useQuery({
     url: `${IDP}/api/users/get-user-roles`,
   });
-
-  const columnDefStructure: any = [
-    {
-      field: "id",
-      headerName: "شناسه نقش",
-    },
-    {
-      field: "name",
-      headerName: "عنوان نقش",
-    },
-    {
-      field: "isActive",
-      headerName: "وضعیت",
-      cellRendererSelector: (rowData: any) => {
-        const constValueGetter = () => {
-          return <span>{rowData.data.isActive ? "فعال" : "غیر فعال"}</span>;
-        };
-        const moodDetails = {
-          component: constValueGetter,
-        };
-        return moodDetails;
-      },
-    },
-  ];
 
   useEffect(() => {
     fetchData({ userId: data.id });
@@ -95,8 +72,9 @@ export default function UserDetailComponent({ data }: { data: any }) {
         </div>
       </div>
       <TableComponent
+        sideBar={false}
+        module={ModuleIdentifier.USER_MANAGEMENT_users_detail}
         data={userRoles?.result?.roles}
-        columnDefStructure={columnDefStructure}
         rowId={["id"]}
       />
     </div>

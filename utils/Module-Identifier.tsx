@@ -1,7 +1,9 @@
 export const ModuleIdentifier = {
   DASHBOARD: "dashboard",
   USER_MANAGEMENT_users: "user-management_users",
+  USER_MANAGEMENT_users_detail: "user-management_users_detail",
   USER_MANAGEMENT_roles: "user-management_roles",
+  USER_MANAGEMENT_roles_detail: "user-management_roles_detail",
   USER_MANAGEMENT_logs: "user-management_logs",
   ONLINE_REGISTRATION: "online-registration",
   ONLINE_REGISTRATION_detail: "online-registration_detail",

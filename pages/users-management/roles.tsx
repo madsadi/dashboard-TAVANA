@@ -12,9 +12,6 @@ const AccordionComponent = dynamic(
 const RolesToolbar = dynamic(
   () => import("../../components/users-management/roles/roles-toolbar")
 );
-const RoleToggleButton = dynamic(
-  () => import("../../components/users-management/roles/role-toggle-button")
-);
 const RoleDetailComponent = dynamic(
   () => import("../../components/users-management/roles/role-detail")
 );
@@ -25,34 +22,6 @@ import { withPermission } from "components/common/layout/with-permission";
 
 export const RolesContext = createContext({});
 function Roles() {
-  const columnDefStructure: any = [
-    {
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      resizable: false,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      field: "id",
-      headerName: "شناسه نقش",
-      cellRenderer: "agGroupCellRenderer",
-    },
-    {
-      field: "name",
-      headerName: "نقش",
-    },
-    {
-      field: "isActive",
-      headerName: "وضعیت",
-      cellRendererSelector: () => {
-        return { component: RoleToggleButton };
-      },
-    },
-  ];
-
   const { data, query, fetchData, loading }: any = useQuery({
     url: `${IDP}/api/roles/search`,
   });
@@ -74,7 +43,6 @@ function Roles() {
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.USER_MANAGEMENT_roles}
-          columnDefStructure={columnDefStructure}
           rowId={["id"]}
           rowSelection={"single"}
           masterDetail={true}

@@ -1,6 +1,9 @@
 import { ColDef } from "ag-grid-community";
 import columnModel from "./columns-model";
 import { ModuleIdentifier } from "./Module-Identifier";
+import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
+import RoleToggleButton from "components/users-management/roles/role-toggle-button";
+import ToggleButtonUsers from "components/users-management/users/toggle-button";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
@@ -300,7 +303,21 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "BranchTitle" },
     { colId: "ReagentRefLink" },
     { colId: "MarketerRefLink" },
-    { colId: "IsActive" },
+    {
+      colId: "IsActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToggleButton
+              data={{
+                isActive: rowData?.data?.IsActive,
+                id: rowData?.data?.id,
+              }}
+            />
+          ),
+        };
+      },
+    },
   ],
   "marketer-app_reconcilation": [
     { colId: "MarketerFirstName", cellRenderer: "agGroupCellRenderer" },
@@ -354,6 +371,14 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "StartDate" },
     { colId: "EndDate" },
     { colId: "marketerContract-detail" },
+  ],
+  "marketer-app_recite": [
+    { colId: "checkbox" },
+    { colId: "MarketerID" },
+    { colId: "Period" },
+    { colId: "Plan" },
+    { colId: "Status" },
+    { colId: "marketer-recite-detail" },
   ],
   "marketer-app_marketerContract_detail_deduction": [
     { colId: "ContractID" },
@@ -454,7 +479,7 @@ export const modularColsDef: ModularColsDefType = {
   ],
   netflow_trades_report: [
     { colId: "fullName", cellRenderer: "agGroupCellRenderer" },
-    { colId: "side" },
+    { colId: "sideTitle" },
     { colId: "symbol" },
     { colId: "settlementValue" },
     { colId: "price" },
@@ -705,6 +730,64 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "remainAssetCount" },
     { colId: "effectiveDate" },
     { colId: "intraday-detail" },
+  ],
+  "user-management_logs": [
+    { colId: "userId" },
+    { colId: "name" },
+    { colId: "typeTitle" },
+    { colId: "date" },
+    { colId: "clientId" },
+    { colId: "succeed" },
+    { colId: "ip" },
+    { colId: "userAgent" },
+    { colId: "browser" },
+    { colId: "os" },
+    { colId: "isMobile" },
+    { colId: "errorMessage" },
+  ],
+  "user-management_roles": [
+    { colId: "checkbox" },
+    { colId: "id", cellRenderer: "agGroupCellRenderer" },
+    { colId: "name", headerName: "نقش" },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return { component: RoleToggleButton };
+      },
+    },
+  ],
+  "user-management_roles_detail": [
+    { colId: "id" },
+    { colId: "serviceTitle" },
+    { colId: "moduleTitle" },
+    { colId: "actionTitle" },
+  ],
+  "user-management_users": [
+    { colId: "checkbox" },
+    { colId: "username", cellRenderer: "agGroupCellRenderer" },
+    { colId: "phoneNumber" },
+    { colId: "firstName" },
+    { colId: "lastName" },
+    { colId: "nationalId" },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return { component: ToggleButtonUsers };
+      },
+    },
+    { colId: "twoFactorEnabled" },
+    { colId: "lockOutEnd" },
+  ],
+  "user-management_users_detail": [
+    { colId: "id", flex: 1 },
+    { colId: "name", flex: 1 },
+    {
+      colId: "isActive",
+      flex: 1,
+      valueFormatter: (rowData: any) => {
+        return rowData.data.isActive ? "فعال" : "غیر فعال";
+      },
+    },
   ],
 };
 

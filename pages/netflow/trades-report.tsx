@@ -51,7 +51,7 @@ function TradesReportPivot() {
       const _data = data?.result.map((item: any) => {
         return {
           ...item,
-          side: sides.find((e: EnumType) => e.id === item.side)?.title,
+          sideTitle: sides.find((e: EnumType) => e.id === item.side)?.title,
           tradeDate: jalali(item?.georgianTradeDate).date,
           settlementDelay: SettlementDelayEnums.find(
             (e: EnumType) => e.id === item.settlementDelay

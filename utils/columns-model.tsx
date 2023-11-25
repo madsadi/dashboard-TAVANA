@@ -3,6 +3,7 @@ import { chunk, dateCell, formatNumber } from "./common-funcions";
 import {
   AssetStatusEnums,
   CustomerOriginEnums,
+  FactorStatusEnums,
   GetOfferTypeEnums,
   SettlementDelayEnums,
   changeTypeEnums,
@@ -12,10 +13,10 @@ import {
   sides,
 } from "constants/Enums";
 import { validate as uuidValidate } from "uuid";
-import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
 import { ModuleIdentifier } from "./Module-Identifier";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import DateCell from "components/common/table/date-cell";
+import { EnumType } from "types/types";
 
 // columnModel.js
 export const columnModel = [
@@ -33,8 +34,6 @@ export const columnModel = [
     colId: "id",
     field: "id",
     headerName: "شناسه",
-    flex: 0,
-    width: 90,
     minWidth: 90,
   },
   {
@@ -51,6 +50,11 @@ export const columnModel = [
     headerName: "نام کامل نماد",
     flex: 0,
     width: 200,
+  },
+  {
+    colId: "typeTitle",
+    field: "typeTitle",
+    headerName: "نوع",
   },
   {
     colId: "instrumentId",
@@ -83,6 +87,21 @@ export const columnModel = [
     width: 120,
     minWidth: 120,
   },
+  {
+    colId: "serviceTitle",
+    field: "serviceTitle",
+    headerName: "عنوان سرویس",
+  },
+  {
+    colId: "moduleTitle",
+    field: "moduleTitle",
+    headerName: "عنوان ماژول",
+  },
+  {
+    colId: "actionTitle",
+    field: "actionTitle",
+    headerName: "عنوان عملیات",
+  },
 
   {
     colId: "updatedBy",
@@ -105,6 +124,74 @@ export const columnModel = [
     flex: 0,
     width: 150,
     minWidth: 150,
+  },
+  {
+    colId: "Period",
+    field: "Period",
+    headerName: "دوره زمانی",
+    valueFormatter: (rowData: any) => {
+      const months = [
+        "فروردین",
+        "اردیبهشت",
+        "خرداد",
+        "تیر",
+        "مرداد",
+        "شهریور",
+        "مهر",
+        "آبان",
+        "آذر",
+        "دی",
+        "بهمن",
+        "اسفند",
+      ];
+      return (
+        months[Number(rowData.data?.Period?.slice(4, 6)) - 1] +
+        "-" +
+        rowData.data?.Period?.slice(0, 4)
+      );
+    },
+  },
+  {
+    colId: "Plan",
+    field: "Plan",
+    headerName: "پلکان",
+  },
+  {
+    colId: "Status",
+    field: "Status",
+    headerName: "وضعیت فاکتور",
+    valueFormatter: (rowData: any) => {
+      return FactorStatusEnums.find(
+        (item: any) => item.id === rowData?.data?.Status
+      )?.title;
+    },
+  },
+  {
+    colId: "marketer-recite-detail",
+    field: "detail",
+    headerName: "جزییات",
+    flex: 0,
+    width: 90,
+    cellStyle: {
+      cursor: "pointer",
+      display: "flex",
+    },
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => {
+          return (
+            <a
+              className={"flex h-full w-full"}
+              target="_blank"
+              rel="noreferrer"
+              href={`/marketer-app/recite/detail/${rowData.data?.FactorID}`}
+            >
+              <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+            </a>
+          );
+        },
+      };
+    },
   },
   {
     colId: "name",
@@ -162,6 +249,10 @@ export const columnModel = [
     valueFormatter: (rowData: any) => {
       return sides.find((item) => item.id === rowData?.data?.sideCode)?.title;
     },
+    cellClassRules: {
+      "text-red-500": (params: any) => params?.value === 2,
+      "text-emerald-500": (params: any) => params?.value === 1,
+    },
     flex: 0,
   },
   {
@@ -171,6 +262,10 @@ export const columnModel = [
     flex: 0,
     width: 150,
     minWidth: 150,
+    cellClassRules: {
+      "text-red-500": (params: any) => params?.data?.side === 2,
+      "text-emerald-500": (params: any) => params?.data?.side === 1,
+    },
   },
   {
     colId: "settlementDelayCode",
@@ -270,11 +365,13 @@ export const columnModel = [
     field: "side",
     headerName: "سمت",
     valueFormatter: (rowData: any) => {
-      return rowData.data?.side === 1 ? "خرید" : "فروش";
+      return sides.find((item: EnumType) => item.id === rowData?.value)?.title;
     },
     cellClassRules: {
-      "text-emerald-500": (params: any) => params?.data?.side === "خرید",
-      "text-rose-500": (params: any) => params?.data?.side === "فروش",
+      "text-red-500": (params: any) =>
+        params?.data?.side === "فروش" || params?.data?.side === 2,
+      "text-emerald-500": (params: any) =>
+        params?.data?.side === "خرید" || params?.data?.side === 1,
     },
   },
   {
@@ -610,7 +707,7 @@ export const columnModel = [
       return props.data.deleted ? "حذف شده" : "حذف نشده";
     },
     cellClassRules: {
-      "text-red-400": (props: any) => props.data.deleted,
+      "text-red-500": (props: any) => props.data.deleted,
       "text-emerald-500": (props: any) => !props.data.deleted,
     },
   },
@@ -705,8 +802,8 @@ export const columnModel = [
       return props.data.deleted ? "حذف شده" : "حذف نشده";
     },
     cellClassRules: {
-      "text-red-400": (props: any) => props.data.deleted,
-      "text-green-400": (props: any) => !props.data.deleted,
+      "text-red-500": (props: any) => props.data.deleted,
+      "text-emerald-500": (props: any) => !props.data.deleted,
     },
   },
   {
@@ -749,7 +846,7 @@ export const columnModel = [
       // out of range style
       "text-emerald-500": (rowData: any) =>
         rowData?.data?.changeType === 3 || rowData.data?.changeType === 1,
-      "text-rose-500": (rowData: any) =>
+      "text-red-500": (rowData: any) =>
         rowData?.data?.changeType === 4 || rowData.data?.changeType === 2,
     },
     valueFormatter: (rowData: any) => {
@@ -1097,21 +1194,38 @@ export const columnModel = [
     },
   },
   {
+    colId: "phoneNumber",
+    field: "phoneNumber",
+    headerName: "موبایل",
+  },
+  {
+    colId: "firstName",
+    field: "firstName",
+    headerName: "نام",
+  },
+  {
+    colId: "lastName",
+    field: "lastName",
+    headerName: "نام خانوادگی",
+  },
+  {
+    colId: "twoFactorEnabled",
+    field: "twoFactorEnabled",
+    headerName: "ورود دوعاملی",
+    valueFormatter: (rowData: any) => {
+      return rowData?.data?.twoFactorEnabled ? "فعال" : "غیر فعال";
+    },
+  },
+
+  {
     colId: "IsActive",
     field: "IsActive",
     headerName: "وضعیت",
-    cellRendererSelector: () => {
-      return {
-        component: (rowData: any) => (
-          <ToggleButton
-            data={{
-              isActive: rowData?.data?.IsActive,
-              id: rowData?.data?.id,
-            }}
-          />
-        ),
-      };
-    },
+  },
+  {
+    colId: "isActive",
+    field: "isActive",
+    headerName: "وضعیت",
   },
   {
     colId: "intraday-detail",
@@ -1303,7 +1417,7 @@ export const columnModel = [
     cellClassRules: {
       "text-emerald-500": (rowData: any) =>
         rowData?.data?.orderSideTitle === "خرید",
-      "text-rose-500": (rowData: any) =>
+      "text-red-500": (rowData: any) =>
         rowData?.data?.orderSideTitle === "فروش",
     },
     width: 140,
@@ -1671,6 +1785,49 @@ export const columnModel = [
     headerName: "حجم انجام شده",
   },
   {
+    colId: "clientId",
+    field: "clientId",
+    headerName: "نرم افزار",
+  },
+  {
+    colId: "succeed",
+    field: "succeed",
+    headerName: "وضعیت",
+    cellClassRules: {
+      "text-red-500": (rowData: any) => !rowData?.data?.succeed,
+      "text-emerald-500": (rowData: any) => rowData?.data?.succeed,
+    },
+    valueFormatter: (rowData: any) => {
+      return rowData.value ? "موفق" : "نا موفق";
+    },
+  },
+  {
+    colId: "ip",
+    field: "ip",
+  },
+  {
+    colId: "userAgent",
+    field: "userAgent",
+  },
+  {
+    colId: "browser",
+    field: "browser",
+    headerName: "مرورگر",
+  },
+  {
+    colId: "os",
+    field: "os",
+    headerName: "سیستم عامل",
+  },
+  {
+    colId: "isMobile",
+    field: "isMobile",
+    headerName: "از طریق موبایل",
+    valueFormatter: (rowData: any) => {
+      return rowData?.data?.isMobile ? "بله" : "خیر";
+    },
+  },
+  {
     colId: "tradeTime",
     field: "tradeTime",
     headerName: "زمان معامله",
@@ -1920,6 +2077,16 @@ export const columnModel = [
     },
   },
   {
+    colId: "lockOutEnd",
+    field: "lockOutEnd",
+    headerName: "قفل تا تاریخ",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
     colId: "GCreateDate",
     field: "GCreateDate",
     headerName: "زمان ایجاد",
@@ -1941,9 +2108,6 @@ export const columnModel = [
     colId: "tradeDate",
     field: "tradeDate",
     headerName: "تاریخ معامله ",
-    valueFormatter: (rowData: any) => {
-      return dateCell(rowData.value, true);
-    },
     flex: 0,
     width: 180,
   },
@@ -2097,6 +2261,7 @@ export const columnModel = [
       return dateCell(rowData.value);
     },
   },
+
   {
     colId: "tradingSessionDate",
     field: "tradingSessionDate",

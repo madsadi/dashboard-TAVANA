@@ -11,6 +11,7 @@ import { Button } from "../common/components/button/button";
 export const TBSReagents = () => {
   const { page } = usePageStructure();
   const { restriction, modules, service } = useSearchFilters(
+    //@ts-ignore
     ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],
     "modal"
   );

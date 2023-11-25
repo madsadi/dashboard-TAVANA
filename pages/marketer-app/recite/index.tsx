@@ -18,92 +18,11 @@ import useQuery from "../../../hooks/useQuery";
 import { MARKETER_ADMIN } from "../../../api/constants";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
-import { FactorStatusEnums } from "constants/Enums";
 
 export const ReciteContext = createContext({});
 function Recite() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
 
-  const columnDefStructure: any = [
-    {
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      resizable: false,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      field: "MarketerID",
-      headerName: "شناسه بازاریاب",
-    },
-    {
-      field: "Period",
-      headerName: "دوره زمانی",
-      valueFormatter: (rowData: any) => {
-        const months = [
-          "فروردین",
-          "اردیبهشت",
-          "خرداد",
-          "تیر",
-          "مرداد",
-          "شهریور",
-          "مهر",
-          "آبان",
-          "آذر",
-          "دی",
-          "بهمن",
-          "اسفند",
-        ];
-        return (
-          months[Number(rowData.data?.Period?.slice(4, 6)) - 1] +
-          "-" +
-          rowData.data?.Period?.slice(0, 4)
-        );
-      },
-    },
-    {
-      field: "Plan",
-      headerName: "پلکان",
-    },
-    {
-      field: "Status",
-      headerName: "وضعیت فاکتور",
-      valueFormatter: (rowData: any) => {
-        return FactorStatusEnums.find(
-          (item: any) => item.id === rowData?.data?.Status
-        )?.title;
-      },
-    },
-    {
-      field: "detail",
-      headerName: "جزییات",
-      flex: 0,
-      width: 90,
-      cellStyle: {
-        cursor: "pointer",
-        display: "flex",
-      },
-      cellRendererSelector: () => {
-        return {
-          component: (rowData: any) => {
-            return (
-              <a
-                className={"flex h-full w-full"}
-                target="_blank"
-                rel="noreferrer"
-                href={`/marketer-app/recite/detail/${rowData.data?.FactorID}`}
-              >
-                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
-              </a>
-            );
-          },
-        };
-      },
-    },
-  ];
   const {
     data,
     fetchData,
@@ -131,8 +50,8 @@ function Recite() {
         </AccordionComponent>
         <ReciteToolbar />
         <TableComponent
+          module={ModuleIdentifier.MARKETER_APP_recite}
           data={data?.result.pagedData}
-          columnDefStructure={columnDefStructure}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection={"single"}

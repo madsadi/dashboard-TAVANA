@@ -21,6 +21,7 @@ export const CopyButton = (props: CopyButtonProps) => {
   const { entity, id, condition, inputModule } = props;
   const { page } = usePageStructure();
   const { restriction, modules, service } = useSearchFilters(
+    //@ts-ignore
     inputModule || ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`]
   );
   const { user_permissions: userPermissions } = useSelector(

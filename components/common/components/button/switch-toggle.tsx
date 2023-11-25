@@ -19,7 +19,7 @@ export const SwitchToggle = (props: switchTogglePropsType) => {
   );
 
   return (
-    <div className="flex items-center space-x-2 space-x-reverse">
+    <div className="flex items-center space-x-2 space-x-reverse mt-1">
       {labelBefore ? <span>{labelBefore}</span> : null}
       <Switch
         checked={isChecked}

@@ -44,10 +44,10 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
 
     const queryValidationHandler = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const requiredItems = filters.filter(
+      const requiredItems = filters?.filter(
         (item: FilterItemType) => item.isRequired
       );
-      if (requiredItems.length) {
+      if (requiredItems?.length) {
         const emptyRequiredItems = requiredItems.filter(
           (item: FilterItemType) =>
             item.type === "date"

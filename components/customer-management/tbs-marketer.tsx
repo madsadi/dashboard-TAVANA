@@ -11,6 +11,7 @@ import { ModuleIdentifier } from "../../utils/Module-Identifier";
 export const TBSMarketer = () => {
   const { page } = usePageStructure();
   const { restriction, modules, service } = useSearchFilters(
+    //@ts-ignore
     ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],
     "modal"
   );

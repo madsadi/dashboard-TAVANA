@@ -90,6 +90,9 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   const gridRef: any = useRef();
   const router = useRouter();
   const colDefStructure = generateDynamicColumnDefs(module);
+
+  console.log(colDefStructure);
+
   useEffect(() => {
     gridRef?.current?.api?.setRowData([]);
   }, [router.asPath]);

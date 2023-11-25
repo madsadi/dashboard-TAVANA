@@ -13,6 +13,7 @@ export default function ToggleButton(props: {
 }) {
   const [isChecked, setIsChecked] = useState(props.data.isActive);
   const { restriction, modules, service } = useSearchFilters(
+    //@ts-ignore
     ModuleIdentifier[`CUSTOMER_MANAGEMENT_${props?.api}`],
     "modal"
   );
