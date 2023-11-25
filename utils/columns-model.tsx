@@ -1,11 +1,13 @@
 import { CopyButton } from "components/common/components/copy-button";
-import { dateCell } from "./common-funcions";
+import { chunk, dateCell, formatNumber } from "./common-funcions";
 import {
+  AssetStatusEnums,
   CustomerOriginEnums,
   GetOfferTypeEnums,
   SettlementDelayEnums,
   changeTypeEnums,
   customerTypeEnums,
+  enTierNameEnum,
   personTypeEnums,
   sides,
 } from "constants/Enums";
@@ -13,6 +15,7 @@ import { validate as uuidValidate } from "uuid";
 import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
 import { ModuleIdentifier } from "./Module-Identifier";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
+import DateCell from "components/common/table/date-cell";
 
 // columnModel.js
 export const columnModel = [
@@ -38,20 +41,24 @@ export const columnModel = [
     colId: "faInsCode",
     field: "faInsCode",
     headerName: "نماد",
-    minWidth: 120,
-    width: 120,
+    flex: 0,
+    minWidth: 100,
+    width: 100,
   },
   {
     colId: "faInsName",
     field: "faInsName",
     headerName: "نام کامل نماد",
+    flex: 0,
+    width: 200,
   },
   {
     colId: "instrumentId",
     field: "instrumentId",
     headerName: "کد نماد",
-    minWidth: 120,
-    width: 120,
+    flex: 0,
+    minWidth: 180,
+    width: 180,
   },
   {
     colId: "maxQuantity",
@@ -102,6 +109,8 @@ export const columnModel = [
   {
     colId: "name",
     field: "name",
+    flex: 0,
+    width: 260,
     headerName: "نام ",
   },
   {
@@ -190,6 +199,8 @@ export const columnModel = [
     colId: "tradingCode",
     field: "tradingCode",
     headerName: "کد معاملاتی",
+    flex: 0,
+    width: 160,
   },
   {
     colId: "access",
@@ -216,6 +227,55 @@ export const columnModel = [
     flex: 0,
     width: 150,
     minWidth: 150,
+  },
+  {
+    colId: "type",
+    field: "type",
+    headerName: "سمت معامله",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (props: any) => {
+        return (
+          <span className={`my-auto`}>
+            {props.node.rowIndex === 0 ? "کارمزد خرید" : "کارمزد فروش"}
+          </span>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
+    },
+  },
+  {
+    colId: "netflow-rules-detail-type",
+    field: "type",
+    headerName: "دسته",
+    rowSpan: (params: any) => (params.data?.side === 1 ? 2 : 1),
+    cellClassRules: {
+      "cell-span": (params: any) => params.data?.side === 1,
+    },
+    valueFormatter: (rowData: any) => {
+      return rowData.node.rowIndex > 1 ? "ضریب کارمزد" : "سقف کارمزد";
+    },
+  },
+  {
+    colId: "fullName",
+    field: "fullName",
+    headerName: "نام",
+    flex: 0,
+    width: 260,
+  },
+  {
+    colId: "side",
+    field: "side",
+    headerName: "سمت",
+    valueFormatter: (rowData: any) => {
+      return rowData.data?.side === 1 ? "خرید" : "فروش";
+    },
+    cellClassRules: {
+      "text-emerald-500": (params: any) => params?.data?.side === "خرید",
+      "text-rose-500": (params: any) => params?.data?.side === "فروش",
+    },
   },
   {
     colId: "customerTypeTitle",
@@ -251,6 +311,12 @@ export const columnModel = [
     width: 120,
     minWidth: 120,
   },
+  {
+    colId: "accountCommission",
+    field: "accountCommission",
+    headerName: "هزینه دسترسی",
+  },
+
   {
     colId: "brokerCommissionCoeff",
     field: "brokerCommissionCoeff",
@@ -431,6 +497,22 @@ export const columnModel = [
     width: 90,
   },
   {
+    colId: "tradeCode",
+    field: "tradeCode",
+    headerName: "کد معاملاتی",
+  },
+  {
+    colId: "stationName",
+    field: "stationName",
+    headerName: "نام ایستگاه",
+  },
+  {
+    colId: "stationCode",
+    field: "stationCode",
+    headerName: "کد ایستگاه",
+  },
+
+  {
     colId: "brokerCmdFund",
     field: "brokerCmdFund",
     headerName: "سهم صندوق توسعه",
@@ -440,6 +522,43 @@ export const columnModel = [
     field: "bourse",
     headerName: "بورس",
   },
+  {
+    colId: "brfCommission",
+    field: "brfCommission",
+    headerName: "سهم صندوق توسعه",
+  },
+  {
+    colId: "seoCommission",
+    field: "seoCommission",
+    headerName: "کارمزد سازمان",
+  },
+  {
+    colId: "rayanBourseCommission",
+    field: "rayanBourseCommission",
+    cellStyle: { direction: "ltr" },
+    headerName: "کارمزد رایان",
+  },
+  {
+    colId: "inventoryCommission",
+    field: "inventoryCommission",
+    headerName: "هزینه انبارداری",
+  },
+  {
+    colId: "vatCommission",
+    field: "vatCommission",
+    headerName: "مالیات ارزش افزوده",
+  },
+  {
+    colId: "vtsCommission",
+    field: "vtsCommission",
+    headerName: "مالیات ارزض افزوده هزینه انبارداری",
+  },
+  {
+    colId: "farCommission",
+    field: "farCommission",
+    headerName: "هزینه فرآوری",
+  },
+
   {
     colId: "seoControl",
     field: "seoControl",
@@ -464,6 +583,7 @@ export const columnModel = [
     colId: "tax",
     field: "tax",
     headerName: "مالیات",
+    cellStyle: { direction: "ltr" },
   },
   {
     colId: "addedValue",
@@ -500,23 +620,27 @@ export const columnModel = [
     headerName: "کاربر تغییر دهنده",
     flex: 0,
     width: 120,
-    minWidth: 120,
   },
   {
     colId: "bourseCode",
     field: "bourseCode",
     headerName: "کد بورسی",
     flex: 0,
+    width: 120,
   },
   {
     colId: "nationalId",
     field: "nationalId",
     headerName: "کد ملی",
+    flex: 0,
+    width: 150,
   },
   {
     colId: "customerTitle",
     field: "customerTitle",
     headerName: "عنوان مشتری",
+    flex: 0,
+    width: 180,
   },
   {
     colId: "bourseTitle",
@@ -651,6 +775,23 @@ export const columnModel = [
     width: 120,
     minWidth: 120,
   },
+  {
+    colId: "userId",
+    field: "userId",
+    headerName: "شناسه کاربر",
+  },
+  {
+    colId: "idOfBrokerIssuingTheOrder",
+    field: "idOfBrokerIssuingTheOrder",
+    headerName: "کد کارگزاری",
+  },
+  {
+    colId: "sourceOfRequestTitle",
+    field: "sourceOfRequestTitle",
+    headerName: "نرم افزار",
+  },
+
+  { colId: "errorCode", field: "errorCode", headerName: "کد خطا" },
   {
     colId: "isFreezed",
     field: "isFreezed",
@@ -830,12 +971,75 @@ export const columnModel = [
   {
     colId: "UniqueId",
     field: "UniqueId",
-    headerName: "کد ملی بازاریاب",
+    cellClass: "textFormat",
+    headerName: "کد ملی ",
+  },
+  {
+    colId: "uniqueId",
+    field: "uniqueId",
+    cellClass: "textFormat",
+    headerName: "کد ملی ",
+  },
+  {
+    colId: "portfolioValueByClosingPrice",
+    field: "portfolioValueByClosingPrice",
+    headerName: "ارزش پورتفوی",
+  },
+  {
+    colId: "portfolioValueByLastPrice",
+    field: "portfolioValueByLastPrice",
+    headerName: "ارزش پورتفوی",
+  },
+  {
+    colId: "portfolioWeightByClosingPrice",
+    field: "portfolioWeightByClosingPrice",
+    headerName: "وزن پورتفوی",
+    valueFormatter: (rowData: any) => {
+      return (
+        formatNumber(
+          { value: rowData?.data?.portfolioWeightByClosingPrice },
+          2
+        ) + " %"
+      );
+    },
+    dir: "ltr",
+  },
+  {
+    colId: "portfolioWeightByLastPrice",
+    field: "portfolioWeightByLastPrice",
+    headerName: "وزن پورتفوی",
+    valueFormatter: (rowData: any) => {
+      return (
+        formatNumber({ value: rowData?.data?.portfolioWeightByLastPrice }, 2) +
+        " %"
+      );
+    },
+    dir: "ltr",
+  },
+  {
+    colId: "userFirstName",
+    field: "userFirstName",
+    headerName: "نام کاربر",
+  },
+  {
+    colId: "userLastName",
+    field: "userLastName",
+    headerName: "نام خانوادگی کاربر",
+  },
+  {
+    colId: "userUniqueId",
+    field: "userUniqueId",
+    headerName: "کد ملی کاربر",
   },
   {
     colId: "Title",
     field: "Title",
-    headerName: "عنوان بازاریاب",
+    headerName: "عنوان ",
+  },
+  {
+    colId: "title",
+    field: "title",
+    headerName: "عنوان مشتری",
   },
   {
     colId: "TypeTitle",
@@ -906,6 +1110,33 @@ export const columnModel = [
             }}
           />
         ),
+      };
+    },
+  },
+  {
+    colId: "intraday-detail",
+    field: "detail",
+    headerName: "جزییات",
+    flex: 0,
+    width: 90,
+    cellStyle: {
+      cursor: "pointer",
+      display: "flex",
+    },
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => {
+          return (
+            <a
+              className={"flex h-full w-full"}
+              target="_blank"
+              rel="noreferrer"
+              href={`/portfo/${rowData?.data?.customerId}&${rowData?.data?.instrumentId}&${rowData?.data?.effectiveDate}`}
+            >
+              <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+            </a>
+          );
+        },
       };
     },
   },
@@ -1042,8 +1273,18 @@ export const columnModel = [
     headerName: "نوع قرارداد",
   },
   {
+    colId: "username",
+    field: "username",
+    headerName: "حساب کاربری",
+  },
+  {
     colId: "Description",
     field: "Description",
+    headerName: "توضیحات",
+  },
+  {
+    colId: "description",
+    field: "description",
     headerName: "توضیحات",
   },
   {
@@ -1055,6 +1296,51 @@ export const columnModel = [
     colId: "MarketerID",
     field: "MarketerID",
     headerName: "شناسه بازاریاب",
+  },
+  {
+    colId: "orderSideTitle",
+    field: "orderSideTitle",
+    cellClassRules: {
+      "text-emerald-500": (rowData: any) =>
+        rowData?.data?.orderSideTitle === "خرید",
+      "text-rose-500": (rowData: any) =>
+        rowData?.data?.orderSideTitle === "فروش",
+    },
+    width: 140,
+    flex: 0,
+    headerName: "سمت سفارش",
+  },
+  {
+    colId: "instrumentGroupIdentification",
+    field: "instrumentGroupIdentification",
+    headerName: "کد گروه نمادها",
+    width: 160,
+    flex: 0,
+  },
+  {
+    colId: "idOfTheBrokersOrderEntryServer",
+    field: "idOfTheBrokersOrderEntryServer",
+    headerName: "شناسه سرور سفارش",
+  },
+  {
+    colId: "orderOriginTitle",
+    field: "orderOriginTitle",
+    width: 140,
+    flex: 0,
+    headerName: "نوع مشتری",
+  },
+  {
+    colId: "orderTechnicalOriginTitle",
+    field: "orderTechnicalOriginTitle",
+    headerName: "مرجع تکنیکال سفارش",
+    width: 160,
+    flex: 0,
+  },
+
+  {
+    colId: "errorText",
+    field: "errorText",
+    headerName: "خطا",
   },
   {
     colId: "CollateralCoefficient",
@@ -1079,69 +1365,526 @@ export const columnModel = [
     field: "ReturnDuration",
     headerName: "دوره برگشت کسورات",
   },
+  {
+    colId: "CoefficientPercentage",
+    field: "CoefficientPercentage",
+    headerName: "درصد ضریب",
+    fixed: 2,
+  },
+  {
+    colId: "HighThreshold",
+    field: "HighThreshold",
+    headerName: "حد بالای پله",
+  },
+  {
+    colId: "LowThreshold",
+    field: "LowThreshold",
+    headerName: "حد بالای پایین",
+  },
+  {
+    colId: "StepNumber",
+    field: "StepNumber",
+    headerName: "شماره پله",
+  },
+  {
+    colId: "IsCmdConcluded",
+    field: "IsCmdConcluded",
+    headerName: "سهم صندوق توسعه اضافه میشود؟",
+    valueFormatter: (rowData: any) => {
+      return rowData.data?.IsCmdConcluded ? "بله" : "خیر";
+    },
+  },
+  {
+    colId: "isCanceled",
+    field: "isCanceled",
+    headerName: "وضعیت",
+    valueFormatter: (rowData: any) => {
+      return rowData.data?.isCanceled ? "ابطال کامل معاملات" : "تائید شده";
+    },
+  },
+  {
+    colId: "customerNationalId",
+    field: "customerNationalId",
+    headerName: "کد ملی مشتری",
+  },
+  {
+    colId: "customerId",
+    field: "customerId",
+    headerName: "شناسه مشتری",
+  },
+  {
+    colId: "tradeId",
+    field: "tradeId",
+    headerName: "شناسه معامله",
+  },
+  {
+    colId: "orderId",
+    field: "orderId",
+    headerName: "شناسه سفارش",
+  },
+  {
+    colId: "userTitle",
+    field: "userTitle",
+    headerName: "عنوان کاربر",
+  },
+  {
+    colId: "traderId",
+    field: "traderId",
+    headerName: "شناسه معاملاتی",
+  },
+  {
+    colId: "ticket",
+    field: "ticket",
+    headerName: "شناسه",
+    flex: 0,
+    width: 160,
+  },
+  {
+    colId: "symbol",
+    field: "symbol",
+    headerName: "نماد",
+    flex: 0,
+    width: 180,
+  },
+  {
+    colId: "price",
+    field: "price",
+    headerName: "قیمت",
+  },
+  {
+    colId: "shares",
+    field: "shares",
+    headerName: "حجم",
+  },
+  {
+    colId: "settlementValue",
+    field: "settlementValue",
+    headerName: "ارزش ناخالص",
+  },
+
+  {
+    colId: "enTierName",
+    field: "enTierName",
+    headerName: "نام گروه",
+    valueFormatter: (rowData: any) => {
+      return enTierNameEnum.find(
+        (item: any) => rowData.data?.enTierName === item.enTitle
+      )?.faTitle;
+    },
+    flex: 0,
+    width: 250,
+  },
+  {
+    colId: "brokerCode",
+    field: "brokerCode",
+    headerName: "کد کارگزار",
+  },
+  {
+    colId: "brokerName",
+    field: "brokerName",
+    headerName: "نام کارگزار",
+  },
+  {
+    colId: "settlementDelay",
+    field: "settlementDelay",
+    headerName: "تاخیر",
+  },
+  {
+    colId: "buyerCode",
+    field: "buyerCode",
+    headerName: "شناسه خریدار",
+    flex: 0,
+    width: 180,
+  },
+  {
+    colId: "sellerCode",
+    field: "sellerCode",
+    headerName: "شناسه فروشنده",
+  },
+  {
+    colId: "buy",
+    field: "buy",
+    headerName: "مبلغ خرید",
+  },
+  {
+    colId: "sell",
+    field: "sell",
+    headerName: "مبلغ فروش",
+  },
+  {
+    colId: "sellerInterest",
+    field: "sellerInterest",
+    headerName: "سود فروشنده",
+  },
+  {
+    colId: "currentShareCount",
+    field: "currentShareCount",
+    headerName: "مانده",
+  },
+  {
+    colId: "transactionId",
+    field: "transactionId",
+    headerName: "شناسه تراکنش",
+  },
+  {
+    colId: "transactionTitle",
+    field: "transactionTitle",
+    headerName: "نوع تراکنش",
+  },
+  {
+    colId: "sellableShareCount",
+    field: "sellableShareCount",
+    headerName: "قابل فروش",
+  },
+  {
+    colId: "changeQuantity",
+    field: "changeQuantity",
+    headerName: "تغییر حجم تراکنش",
+  },
+  {
+    colId: "openBuyOrder",
+    field: "openBuyOrder",
+    headerName: "سفارش باز خرید",
+  },
+  {
+    colId: "openSellOrder",
+    field: "openSellOrder",
+    headerName: "سفارش باز فروش",
+  },
+  {
+    colId: "intradayBuy",
+    field: "intradayBuy",
+    headerName: "خرید امروز",
+  },
+  {
+    colId: "intradaySell",
+    field: "intradaySell",
+    headerName: "فروش امروز",
+  },
+  {
+    colId: "remainAssetCount",
+    field: "remainAssetCount",
+    headerName: "مانده کاردکس",
+  },
+  {
+    colId: "buyerInterest",
+    field: "buyerInterest",
+    headerName: "سود خریدار",
+  },
+  {
+    colId: "credit",
+    field: "credit",
+    headerName: "بستانکار",
+  },
+  {
+    colId: "debit",
+    field: "debit",
+    headerName: "بدهکار",
+  },
+  {
+    colId: "sellerBalance",
+    field: "sellerBalance",
+    headerName: "مانده فروشنده",
+  },
+  {
+    colId: "email",
+    field: "email",
+    headerName: "ایمیل",
+  },
+  {
+    colId: "branchTitle",
+    field: "branchTitle",
+    headerName: "شعبه",
+  },
+  {
+    colId: "countryName",
+    field: "countryName",
+    headerName: "کشور",
+  },
+  {
+    colId: "foreignCSDCode",
+    field: "foreignCSDCode",
+    headerName: "کد فراگیر اتباع",
+  },
+  {
+    colId: "personOriginTitle",
+    field: "personOriginTitle",
+    headerName: "گروه کاربر",
+  },
+  {
+    colId: "riskLevelTitle",
+    field: "riskLevelTitle",
+    headerName: "ریسک پذیری",
+  },
+  {
+    colId: "sejamToken",
+    field: "sejamToken",
+    headerName: "توکن سجام",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (rowData: any) => {
+        return (
+          <div className={"flex items-center space-x-2 space-x-reverse"}>
+            <span>{rowData?.data?.sejamToken}</span>
+            <DateCell date={rowData?.data?.sejamTokenDateTime} />
+          </div>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
+    },
+  },
+  {
+    colId: "changeReasonDescription",
+    field: "changeReasonDescription",
+    headerName: "توضیحات",
+  },
+  {
+    colId: "buyerBalance",
+    field: "buyerBalance",
+    headerName: "مانده خریدار",
+  },
+  {
+    colId: "instrumentGroupId",
+    field: "instrumentGroupId",
+    headerName: "کد گروه نماد",
+  },
+  {
+    colId: "quantity",
+    field: "quantity",
+    headerName: "حجم",
+  },
+  {
+    colId: "tradePrice",
+    field: "tradePrice",
+    headerName: "قیمت",
+  },
+  {
+    colId: "tradeQuantity",
+    field: "tradeQuantity",
+    headerName: "حجم",
+  },
+  {
+    colId: "exequtedQuantity",
+    field: "exequtedQuantity",
+    headerName: "حجم انجام شده",
+  },
+  {
+    colId: "tradeTime",
+    field: "tradeTime",
+    headerName: "زمان معامله",
+    valueFormatter: (rowData: any) => {
+      return chunk(rowData?.data?.tradeTime, 2).join(":");
+    },
+  },
+  {
+    colId: "status",
+    field: "status",
+    headerName: "وضعیت ",
+    valueFormatter: (rowData: any) => {
+      return AssetStatusEnums.find(
+        (item: any) => item.id === rowData?.data?.status
+      )?.title;
+    },
+  },
+  {
+    colId: "applicationSourceName",
+    field: "applicationSourceName",
+    headerName: "نام نرم افزار",
+  },
+  {
+    colId: "remainingQuantity",
+    field: "remainingQuantity",
+    headerName: "حجم باقی مانده",
+  },
+  {
+    colId: "orderStatusTitle",
+    field: "orderStatusTitle",
+    headerName: "وضعیت سفارش",
+  },
+  {
+    colId: "orderTypeTitle",
+    field: "orderTypeTitle",
+    headerName: "نوع سفارش",
+  },
+  {
+    colId: "validityTypeTitle",
+    field: "validityTypeTitle",
+    headerName: "اعتبار سفارش",
+  },
+  {
+    colId: "tradingDayInsGroupTitle",
+    field: "tradingDayInsGroupTitle",
+    headerName: "وضعیت معاملاتی گروه",
+  },
+
+  {
+    colId: "afterOpeningInsGroupTitle",
+    field: "afterOpeningInsGroupTitle",
+    headerName: "وضعیت بعد از گشایش",
+  },
+  {
+    colId: "sessionStatusCode",
+    field: "sessionStatusCode",
+    headerName: "کد وضعیت جلسه معاملاتی",
+  },
+  {
+    colId: "sessionStatusTitle",
+    field: "sessionStatusTitle",
+    headerName: "وضعیت جلسه معاملاتی",
+  },
+  {
+    colId: "mobileNumber",
+    field: "mobileNumber",
+    headerName: "شماره تلفن",
+    cellClass: "textFormat",
+  },
+  {
+    colId: "personTypeTitle",
+    field: "personTypeTitle",
+    headerName: "حقیقی / حقوقی",
+  },
+  {
+    colId: "marketerRefCode",
+    field: "marketerRefCode",
+    headerName: "کد معرفی/بازاریابی",
+  },
+  {
+    colId: "marketerTitle",
+    field: "marketerTitle",
+    headerName: "بازاریاب",
+  },
+  {
+    colId: "reagentTitle",
+    field: "reagentTitle",
+    headerName: "معرف",
+  },
+  {
+    colId: "agentUniqueId",
+    field: "agentUniqueId",
+    headerName: "نماینده",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (rowData: any) => {
+        return (
+          <div className={"flex items-center space-x-2 space-x-reverse"}>
+            <span>{rowData?.data?.agentUniqueId}</span>
+            {rowData?.data?.agentTitle && rowData?.data?.agentUniqueId ? (
+              <span className="mx-1">-</span>
+            ) : null}
+            <span>{rowData?.data?.agentTitle}</span>
+          </div>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
+    },
+  },
+
+  {
+    colId: "online-registration-detail",
+    field: "detail",
+    headerName: "جزییات",
+    flex: 0,
+    width: 90,
+    cellStyle: {
+      cursor: "pointer",
+      display: "flex",
+    },
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => {
+          return (
+            <a
+              className={"flex h-full w-full"}
+              target="_blank"
+              rel="noreferrer"
+              href={`/online-registration/registration-report/userId=${rowData?.data?.userId}`}
+            >
+              <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+            </a>
+          );
+        },
+      };
+    },
+  },
 
   //with children
   {
     colId: "brokerCommission",
+    field: "brokerCommission",
     headerName: "کارمزد کارگزار",
-    children: [],
   },
   {
     colId: "brokerCmdCommission",
+    field: "brokerCmdCommission",
     headerName: "کارمزد صندوق توسعه",
-    children: [],
   },
   {
     colId: "seoControlCommission",
+    field: "seoControlCommission",
     headerName: "کارمزد حق نظارت سازمان",
-    children: [],
   },
   {
     colId: "csdCommission",
+    field: "csdCommission",
     headerName: "کارمزد سپرده گذاری",
-    children: [],
   },
   {
     colId: "tmcCommission",
     headerName: "کارمزد فناوری",
-    children: [],
+    field: "tmcCommission",
   },
   {
     colId: "bourseCommission",
+    field: "bourseCommission",
     headerName: "کارمزد بورس مربوطه",
-    children: [],
   },
   {
     colId: "rayanCommission",
+    field: "rayanCommission",
     headerName: "کارمزد رایان بورس",
-    children: [],
   },
   {
     colId: "accessCommission",
+    field: "accessCommission",
     headerName: "کارمزد حق دسترسی",
-    children: [],
   },
   {
     colId: "taxCommission",
+    field: "taxCommission",
     headerName: "مالیات ارزش افزوده",
-    children: [],
   },
   {
     colId: "first-date",
+    field: "first-date",
     headerName: "تاریخ اول",
-    children: [],
   },
   {
     colId: "second-date",
+    field: "second-date",
     headerName: "تاریخ دوم",
-    children: [],
   },
 
   //dates
   {
+    colId: "georgianTradeDate",
+    field: "georgianTradeDate",
+    headerName: "تاریخ معامله",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+    flex: 0,
+    width: 180,
+  },
+  {
     colId: "StartDate",
     field: "StartDate",
-    headerName: "تاریخ شروع ارتباط",
+    headerName: "تاریخ شروع ",
+    flex: 0,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1149,7 +1892,29 @@ export const columnModel = [
   {
     colId: "EndDate",
     field: "EndDate",
-    headerName: "تاریخ پایان ارتباط",
+    headerName: "تاریخ پایان ",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "startDate",
+    field: "startDate",
+    headerName: "تاریخ شروع ",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "endDate",
+    field: "endDate",
+    flex: 0,
+    width: 180,
+    headerName: "تاریخ پایان ",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1158,13 +1923,35 @@ export const columnModel = [
     colId: "GCreateDate",
     field: "GCreateDate",
     headerName: "زمان ایجاد",
+    flex: 0,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
   },
   {
+    colId: "transactionDateTime",
+    field: "transactionDateTime",
+    headerName: "زمان تراکنش",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "tradeDate",
+    field: "tradeDate",
+    headerName: "تاریخ معامله ",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+    flex: 0,
+    width: 180,
+  },
+  {
     colId: "GUpdateDate",
     field: "GUpdateDate",
+    flex: 0,
+    width: 180,
     headerName: "زمان بروزرسانی",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
@@ -1175,8 +1962,7 @@ export const columnModel = [
     field: "fromActiveDateTime",
     headerName: "زمان شروع",
     flex: 0,
-    width: 200,
-    minWidth: 200,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1186,8 +1972,7 @@ export const columnModel = [
     field: "toActiveDateTime",
     headerName: "زمان پایان",
     flex: 0,
-    width: 200,
-    minWidth: 200,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1197,8 +1982,17 @@ export const columnModel = [
     field: "createDateTime",
     headerName: "زمان ایجاد",
     flex: 0,
-    width: 120,
-    minWidth: 120,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "updateDateTime",
+    field: "updateDateTime",
+    flex: 0,
+    width: 180,
+    headerName: "زمان بروزرسانی",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
     },
@@ -1208,8 +2002,7 @@ export const columnModel = [
     field: "updatedDateTime",
     headerName: "زمان تغییر",
     flex: 0,
-    width: 200,
-    minWidth: 200,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1219,8 +2012,7 @@ export const columnModel = [
     field: "CreateDate",
     headerName: "زمان تغییر",
     flex: 0,
-    width: 200,
-    minWidth: 200,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1230,8 +2022,7 @@ export const columnModel = [
     field: "UpdateDate",
     headerName: "زمان تغییر",
     flex: 0,
-    width: 200,
-    minWidth: 200,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1241,8 +2032,7 @@ export const columnModel = [
     field: "beginningEffectingDate",
     headerName: "تاریخ شروع",
     flex: 0,
-    width: 150,
-    minWidth: 150,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1252,8 +2042,7 @@ export const columnModel = [
     field: "endEffectingDate",
     headerName: "تاریخ پایان",
     flex: 0,
-    width: 150,
-    minWidth: 150,
+    width: 180,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -1266,12 +2055,13 @@ export const columnModel = [
       return dateCell(rowData.value);
     },
     flex: 0,
-    width: 120,
-    minWidth: 120,
+    width: 180,
   },
   {
     colId: "effectiveDate",
     field: "effectiveDate",
+    flex: 0,
+    width: 180,
     headerName: "تاریخ و زمان تغییر",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
@@ -1280,9 +2070,215 @@ export const columnModel = [
   {
     colId: "RegisterDate",
     field: "RegisterDate",
+    flex: 0,
+    width: 180,
     headerName: "تاریخ ثبت نام",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "date",
+    field: "date",
+    headerName: "تاریخ",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+    flex: 0,
+    width: 180,
+  },
+  {
+    colId: "tradingDateTime",
+    field: "tradingDateTime",
+    headerName: "زمان اجرا",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "tradingSessionDate",
+    field: "tradingSessionDate",
+    headerName: "تاریخ جلسه معاملاتی",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "userRequestDateTime",
+    field: "userRequestDateTime",
+    flex: 0,
+    width: 180,
+    headerName: "زمان درخواست",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "receiveResponseFromCapServerDateTime",
+    field: "receiveResponseFromCapServerDateTime",
+    headerName: "زمان ثبت در هسته",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "eventTriggerTime",
+    field: "eventTriggerTime",
+    flex: 0,
+    width: 180,
+    headerName: "زمانبندی اجرای وضعیت",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "eventDate",
+    field: "eventDate",
+    flex: 0,
+    width: 180,
+    headerName: "تاریخ وزمان ارسال",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "dateReceived",
+    field: "dateReceived",
+    headerName: "تاریخ و زمان دریافت",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "isSejami",
+    field: "isSejami",
+    headerName: "سجامی است؟",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (rowData: any) => {
+        return (
+          <div className={"flex items-center space-x-2 space-x-reverse"}>
+            <span>{rowData?.data?.isSejami ? "سجامی" : "غیر سجامی"}</span>
+            <DateCell
+              date={
+                rowData?.data?.isSejamiDateTime
+                  ? rowData?.data?.isSejamiDateTime
+                  : ""
+              }
+            />
+          </div>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
+    },
+  },
+  {
+    colId: "sejamStatusCodeTitle",
+    field: "sejamStatusCodeTitle",
+    headerName: "وضعیت سجام",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (rowData: any) => {
+        return (
+          <div className={"flex items-center space-x-2 space-x-reverse"}>
+            <span>{rowData?.data?.sejamStatusCodeTitle}</span>
+            <DateCell
+              date={
+                rowData?.data?.sejamStatusDateTime
+                  ? rowData?.data?.sejamStatusDateTime
+                  : ""
+              }
+            />
+          </div>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
+    },
+  },
+  {
+    colId: "registrationStateCodeTitle",
+    field: "registrationStateCodeTitle",
+    headerName: "وضعیت ثبت نام",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (rowData: any) => {
+        return (
+          <div className={"flex items-center space-x-2 space-x-reverse"}>
+            <span>{rowData?.data?.registrationStateCodeTitle}</span>
+            <DateCell
+              date={
+                rowData?.data?.registrationStateDateTime
+                  ? rowData?.data?.registrationStateDateTime
+                  : ""
+              }
+            />
+          </div>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
+    },
+  },
+  {
+    colId: "isTbsInserted",
+    field: "isTbsInserted",
+    headerName: "ثبت در TBS",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (rowData: any) => {
+        return (
+          <div className={"flex items-center space-x-2 space-x-reverse"}>
+            <span>{rowData?.data?.isTbsInserted ? "بله" : "خیر"}</span>
+            <DateCell
+              date={
+                rowData?.data?.tbsInsertDateTime
+                  ? rowData?.data?.tbsInsertDateTime
+                  : ""
+              }
+            />
+          </div>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
+    },
+  },
+
+  {
+    colId: "isTBSDocsInserted",
+    field: "isTBSDocsInserted",
+    headerName: "ثبت فایل قراردادها در TBS؟",
+    cellRendererSelector: () => {
+      const ColourCellRenderer = (rowData: any) => {
+        return (
+          <div className={"flex items-center space-x-2 space-x-reverse"}>
+            <span>{rowData?.data?.isTBSDocsInserted ? "بله" : "خیر"}</span>
+            <DateCell
+              date={
+                rowData?.data?.tbsDocsInsertDateTime
+                  ? rowData?.data?.tbsDocsInsertDateTime
+                  : ""
+              }
+            />
+          </div>
+        );
+      };
+      const moodDetails = {
+        component: ColourCellRenderer,
+      };
+      return moodDetails;
     },
   },
 ] as const;

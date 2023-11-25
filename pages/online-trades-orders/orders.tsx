@@ -18,114 +18,10 @@ const CustomDetailComponent = dynamic(
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
-import { throwToast } from "../../utils/notification";
-import DateCell from "../../components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
 
 export const OrdersContext = createContext({});
 function Orders() {
-  const columnDefStructure = [
-    {
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      resizable: false,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      field: "customerTitle",
-      headerName: "عنوان مشتری",
-      cellRenderer: "agGroupCellRenderer",
-    },
-    {
-      field: "faInsCode",
-      headerName: "نماد",
-    },
-    {
-      field: "orderSideTitle",
-      headerName: "طرف سفارش",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (rowData: any) => {
-          return (
-            <span
-              className={`${
-                rowData?.data?.orderSideTitle === "خرید"
-                  ? "text-green-400"
-                  : "text-red-500"
-              }`}
-            >
-              {rowData?.data?.orderSideTitle}
-            </span>
-          );
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "price",
-      headerName: "قیمت",
-    },
-    {
-      field: "quantity",
-      headerName: "حجم",
-    },
-    {
-      field: "exequtedQuantity",
-      headerName: "حجم انجام شده",
-    },
-    {
-      field: "remainingQuantity",
-      headerName: "حجم باقی مانده",
-    },
-    {
-      field: "orderStatusTitle",
-      headerName: "وضعیت سفارش",
-    },
-    {
-      field: "orderTypeTitle",
-      headerName: "نوع سفارش",
-    },
-    {
-      field: "validityTypeTitle",
-      headerName: "اعتبار سفارش",
-    },
-    {
-      field: "userRequestDateTime",
-      headerName: "زمان درخواست کاربر",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.userRequestDateTime} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "receiveResponseFromCapServerDateTime",
-      headerName: "زمان ثبت در هسته",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return (
-            <DateCell
-              date={props?.data?.receiveResponseFromCapServerDateTime}
-            />
-          );
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-  ];
-
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, query, loading, fetchData } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/SearchOrders`,
@@ -137,14 +33,6 @@ function Orders() {
     };
   }, []);
 
-  const submitHandler = (query: any) => {
-    if (query?.StartDate && query?.EndDate) {
-      fetchData(query);
-    } else {
-      throwToast({ type: "warning", value: "ورودی تاریخ الزامی می باشد" });
-    }
-  };
-
   return (
     <OrdersContext.Provider
       value={{ selectedRows, setSelectedRows, fetchData, query }}
@@ -153,7 +41,7 @@ function Orders() {
         <AccordionComponent>
           <SearchComponent
             module={ModuleIdentifier.ONLINE_ORDERS}
-            onSubmit={submitHandler}
+            onSubmit={fetchData}
             loading={loading}
           />
         </AccordionComponent>
@@ -162,7 +50,6 @@ function Orders() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.ONLINE_ORDERS}
           loading={loading}
-          columnDefStructure={columnDefStructure}
           rowId={["orderId"]}
           detailComponent={CustomDetailComponent}
           masterDetail={true}

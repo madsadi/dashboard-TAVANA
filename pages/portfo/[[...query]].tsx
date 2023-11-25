@@ -23,87 +23,6 @@ const initialValue = {
 };
 
 function PortfolioBook() {
-  const columnDefStructure = [
-    {
-      field: "id",
-      headerName: "شناسه ردیف",
-    },
-    {
-      field: "transactionId",
-      headerName: "شناسه تراکنش",
-    },
-    {
-      field: "transactionTitle",
-      headerName: "نوع تراکنش",
-    },
-    {
-      field: "instrumentId",
-      headerName: "شناسه نماد",
-    },
-    {
-      field: "faInsCode",
-      headerName: "نماد",
-    },
-    {
-      field: "currentShareCount",
-      headerName: "مانده",
-    },
-    {
-      field: "sellableShareCount",
-      headerName: "قابل فروش",
-    },
-    {
-      field: "changeQuantity",
-      headerName: "تغییر حجم تراکنش",
-    },
-    {
-      field: "openBuyOrder",
-      headerName: "سفارش باز خرید",
-    },
-    {
-      field: "openSellOrder",
-      headerName: "سفارش باز فروش",
-    },
-    {
-      field: "intradayBuy",
-      headerName: "خرید امروز",
-    },
-    {
-      field: "intradaySell",
-      headerName: "فروش امروز",
-    },
-    {
-      field: "remainAssetCount",
-      headerName: "مانده کاردکس",
-    },
-    {
-      field: "transactionDateTime",
-      headerName: "زمان تراکنش",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.transactionDateTime} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "effectiveDate",
-      headerName: "تاریخ",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.effectiveDate} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-  ];
-
   const router = useRouter();
   const [query, setQuery] = useState<initialType>(initialValue);
   const { data, loading, fetchData } = useQuery({
@@ -161,9 +80,9 @@ function PortfolioBook() {
         </div>
       </div>
       <TableComponent
+        module={ModuleIdentifier.PORTFO_detail}
         data={data?.result?.pagedData}
         loading={loading}
-        columnDefStructure={columnDefStructure}
         rowId={["id"]}
         pagination={true}
         totalCount={data?.result?.totalCount}
@@ -174,4 +93,4 @@ function PortfolioBook() {
   );
 }
 
-export default withPermission(PortfolioBook, ModuleIdentifier.LIVE_PORTFO);
+export default withPermission(PortfolioBook, ModuleIdentifier.PORTFO_intraday);

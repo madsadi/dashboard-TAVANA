@@ -13,68 +13,14 @@ const CancelOrdersToolbar = dynamic(
   () =>
     import("../../components/online-orders/cancel-orders/cancel-orders-toolbar")
 );
-import { formatNumber, jalali } from "../../utils/common-funcions";
+import { formatNumber } from "../../utils/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
-import DateCell from "../../components/common/table/date-cell";
 import { withPermission } from "components/common/layout/with-permission";
+import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 
 function CancelOrders() {
-  const columnDefStructure = [
-    {
-      field: "id",
-      cellRenderer: "agGroupCellRenderer",
-      flex: 0,
-      minWidth: 40,
-      maxWidth: 40,
-    },
-    {
-      field: "instrumentGroupIdentification",
-      headerName: "کد گروه نمادها",
-    },
-    {
-      field: "instrumentId",
-      headerName: "شناسه نماد",
-    },
-    {
-      field: "faInsCode",
-      headerName: "نماد",
-    },
-    {
-      field: "orderSideTitle",
-      headerName: "سمت سفارش",
-    },
-    {
-      field: "idOfTheBrokersOrderEntryServer",
-      headerName: "شناسه سرور سفارش",
-    },
-    {
-      field: "orderOriginTitle",
-      headerName: "نوع مشتری",
-    },
-    {
-      field: "orderTechnicalOriginTitle",
-      headerName: "مرجع تکنیکال سفارش",
-    },
-    {
-      field: "userRequestDateTime",
-      headerName: "زمان درخواست",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props.data?.userRequestDateTime} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "errorText",
-      headerName: "خطا",
-    },
-  ];
   const { data, loading, query, fetchData } = useQuery({
     url: `${ADMIN_GATEWAY}/api/GlobalCancel/SearchGlobalCancelOrder`,
   });
@@ -83,38 +29,9 @@ function CancelOrders() {
     return {
       detailGridOptions: {
         enableRtl: true,
-        columnDefs: [
-          { field: "id", headerName: "شناسه درخواست" },
-          { field: "idOfBrokerIssuingTheOrder", headerName: "کد کارگزاری" },
-          {
-            field: "userId",
-            headerName: "شناسه کاربر",
-          },
-          {
-            field: "userIP",
-            headerName: "IP کاربر",
-          },
-          { field: "sourceOfRequestTitle", headerName: "نرم افزار" },
-          {
-            field: "tradingDateTime",
-            headerName: "زمان اجرا",
-            cellRendererSelector: () => {
-              const ColourCellRenderer = (props: any) => {
-                return (
-                  <>
-                    <span>{jalali(props.data.tradingDateTime).date}</span>
-                    <span>{jalali(props.data.tradingDateTime).time}</span>
-                  </>
-                );
-              };
-              const moodDetails = {
-                component: ColourCellRenderer,
-              };
-              return moodDetails;
-            },
-          },
-          { field: "errorCode", headerName: "کد خطای" },
-        ],
+        columnDefs: generateDynamicColumnDefs(
+          ModuleIdentifier.ONLINE_CANCEL_detail
+        ),
         defaultColDef: {
           resizable: true,
           sortable: true,
@@ -142,7 +59,6 @@ function CancelOrders() {
         data={data?.result?.pagedData}
         module={ModuleIdentifier.ONLINE_CANCEL}
         loading={loading}
-        columnDefStructure={columnDefStructure}
         rowId={["id", "userRequestDateTime"]}
         masterDetail={true}
         detailCellRendererParams={detailCellRendererParams}

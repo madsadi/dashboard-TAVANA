@@ -9,80 +9,33 @@ const AccordionComponent = dynamic(
 const TableComponent = dynamic(
   () => import("../../components/common/table/table-component")
 );
-import { jalali } from "../../utils/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
-import { throwToast } from "../../utils/notification";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import DateCell from "components/common/table/date-cell";
 
 function TradingSession() {
-  const columnDefStructure = [
-    {
-      field: "sessionStatusCode",
-      headerName: "کد وضعیت جلسه معاملاتی",
-    },
-    {
-      field: "sessionStatusTitle",
-      headerName: "وضعیت جلسه معاملاتی",
-    },
-    {
-      field: "startDate",
-      headerName: "تاریخ و زمان شروع",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (rowData: any) => {
-          return <DateCell date={rowData.data?.startDate} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-    {
-      field: "endDate",
-      headerName: "تاریخ و زمان پایان",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (rowData: any) => {
-          return <DateCell date={rowData.data?.endDate} />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-    },
-  ];
   const { data, loading, query, fetchData } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/GetTradingSessionStatus`,
   });
-
-  const fetchHandler = (query: any) => {
-    if (query.StartDate && query?.EndDate) {
-      fetchData(query);
-    } else {
-      throwToast({ type: "warning", value: "ورودی تاریخ الزامی می باشد" });
-    }
-  };
 
   return (
     <div className="flex flex-col h-full grow">
       <AccordionComponent>
         <SearchComponent
-          onSubmit={fetchHandler}
+          onSubmit={fetchData}
           loading={loading}
           module={ModuleIdentifier.OMS_session}
         />
       </AccordionComponent>
       <TableComponent
+        module={ModuleIdentifier.OMS_session}
         data={data?.result?.pagedData}
         loading={loading}
-        columnDefStructure={columnDefStructure}
         rowId={["id"]}
         pagination={true}
         totalCount={data?.result?.totalCount}
-        fetcher={fetchHandler}
+        fetcher={fetchData}
         query={query}
       />
     </div>

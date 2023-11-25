@@ -1149,7 +1149,12 @@ const filters: FilterTreeType = {
           type: "selectInput",
           valueType: "number",
         },
-        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+          isRequired: true,
+        },
       ],
       initialValue: {
         PageNumber: 1,
@@ -1210,7 +1215,12 @@ const filters: FilterTreeType = {
           type: "selectInput",
           valueType: "number",
         },
-        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+          isRequired: true,
+        },
       ],
       initialValue: {
         PageNumber: 1,
@@ -1388,7 +1398,7 @@ const filters: FilterTreeType = {
       filters: [
         { title: "PageNumber", name: "شماره صفحه", type: null },
         { title: "PageSize", name: "تعداد", type: null },
-        { title: "date", name: "تاریخ", type: "date" },
+        { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
         PageNumber: 1,
@@ -1405,7 +1415,7 @@ const filters: FilterTreeType = {
         { title: "PageNumber", name: "شماره صفحه", type: null },
         { title: "PageSize", name: "تعداد", type: null },
         { title: "InstrumentGroupId", name: "کد گروه نماد", type: "input" },
-        { title: "date", name: "تاریخ", type: "date" },
+        { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
         PageNumber: 1,
@@ -2207,12 +2217,12 @@ const filters: FilterTreeType = {
       filters: [
         { title: "PageNumber", name: "شماره صفحه", type: null },
         { title: "PageSize", name: "تعداد", type: null },
-        { title: "date", name: "تاریخ", type: "date" },
         { title: "Name", name: "نام", type: "input" },
         { title: "BuyerCode", name: "شناسه خریدار", type: "input" },
         { title: "SellerCode", name: "شناسه فروشنده", type: "input" },
         { title: "Symbol", name: "نماد", type: "input" },
         { title: "SettlementDelay", name: "تاخیر", type: "input" },
+        { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
         PageNumber: 1,
@@ -2262,9 +2272,9 @@ const filters: FilterTreeType = {
       filters: [
         { title: "PageNumber", name: "شماره صفحه", type: null },
         { title: "PageSize", name: "تعداد", type: null },
-        { title: "date", name: "تاریخ", type: "date" },
         { title: "EnTierName", name: "نام انگلیسی گروه", type: "input" },
         { title: "SettlementDelay", name: "تاخیر", type: "input" },
+        { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
         PageNumber: 1,

@@ -12,64 +12,8 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import CustomerToPortfoToolbar from "components/portfo/customer-to-portfo/toolbar";
-import { formatNumber } from "utils/common-funcions";
 
 function CustomerToPortfo() {
-  const columnDefStructure = [
-    {
-      field: "tradingCode",
-      headerName: "کدمعاملاتی",
-    },
-    {
-      field: "nationalId",
-      headerName: "کد ملی ",
-    },
-    {
-      field: "bourseCode",
-      headerName: "کدبورسی ",
-    },
-
-    {
-      field: "customerTitle",
-      headerName: "عنوان مشتری",
-    },
-    {
-      field: "portfolioValueByClosingPrice",
-      headerName: "ارزش پورتفوی",
-    },
-    {
-      field: "portfolioValueByLastPrice",
-      headerName: "ارزش پورتفوی",
-      hide: true,
-    },
-    {
-      field: "portfolioWeightByClosingPrice",
-      headerName: "وزن پورتفوی",
-      valueFormatter: (rowData: any) => {
-        return (
-          formatNumber(
-            { value: rowData?.data?.portfolioWeightByClosingPrice },
-            2
-          ) + " %"
-        );
-      },
-      dir: "ltr",
-    },
-    {
-      field: "portfolioWeightByLastPrice",
-      headerName: "وزن پورتفوی",
-      valueFormatter: (rowData: any) => {
-        return (
-          formatNumber(
-            { value: rowData?.data?.portfolioWeightByLastPrice },
-            2
-          ) + " %"
-        );
-      },
-      dir: "ltr",
-      hide: true,
-    },
-  ];
   const { data, loading, query, fetchData } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/GetCustomerPortfolioComparedToBroker`,
   });
@@ -99,10 +43,10 @@ function CustomerToPortfo() {
       </AccordionComponent>
       <CustomerToPortfoToolbar toggleAction={findColId} data={data?.result} />
       <TableComponent
+        module={ModuleIdentifier.PORTFO_customer_to_broker}
         ref={ref}
         data={data?.result?.pagedData}
         loading={loading}
-        columnDefStructure={columnDefStructure}
         rowId={["customerId"]}
         pagination={true}
         totalCount={data?.result?.totalCount}

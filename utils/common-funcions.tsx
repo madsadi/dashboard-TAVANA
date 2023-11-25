@@ -85,6 +85,18 @@ export const formatNumber = (params: any, fixed: number) => {
   }
 };
 
+export function chunk(str: string, n: number) {
+  var ret = [];
+  var i;
+  var len;
+
+  for (i = 0, len = str?.length; i < len; i += n) {
+    ret.push(str.substr(i, n));
+  }
+
+  return ret;
+}
+
 export const formatNumberSecond = (params: any) => {
   if (typeof params === "number") {
     return Math.floor(params)

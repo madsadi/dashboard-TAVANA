@@ -13,70 +13,10 @@ import { formatNumber } from "../../utils/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { NETFLOW } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
-import { throwToast } from "../../utils/notification";
 import { withPermission } from "components/common/layout/with-permission";
-import DateCell from "components/common/table/date-cell";
+import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 
 function Rules() {
-  const columnDefStructure = [
-    {
-      field: "name",
-      headerName: "نام",
-      cellRenderer: "agGroupCellRenderer",
-      flex: 0,
-      width: 260,
-    },
-    {
-      field: "startDate",
-      headerName: "تاریخ شروع",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.startDate} hideTime />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-      flex: 0,
-      width: 180,
-    },
-    {
-      field: "endDate",
-      headerName: "تاریخ شروع",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.endDate} hideTime />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-      flex: 0,
-      width: 180,
-    },
-    {
-      field: "symbol",
-      headerName: "نماد",
-      flex: 0,
-      width: 180,
-    },
-    {
-      field: "buyerCode",
-      headerName: "شناسه خریدار",
-      flex: 0,
-      width: 180,
-    },
-    {
-      field: "sellerCode",
-      headerName: "شناسه فروشنده",
-    },
-    {
-      field: "settlementDelay",
-      headerName: "تاخیر",
-    },
-  ];
   const { fetchData, loading, data, query } = useQuery({
     url: `${NETFLOW}/Report/rules`,
   });
@@ -95,58 +35,9 @@ function Rules() {
         rowStyle: {},
         getRowStyle: getRowStyle,
         suppressRowTransform: true,
-        columnDefs: [
-          {
-            field: "type",
-            headerName: "دسته",
-            rowSpan: (params: any) => (params.data.side === 1 ? 2 : 1),
-            cellClassRules: {
-              "cell-span": (params: any) => params.data.side === 1,
-            },
-            cellRendererSelector: () => {
-              const ColourCellRenderer = (props: any) => {
-                return (
-                  <span className={`my-auto`}>
-                    {props.node.rowIndex > 1 ? "ضریب کارمزد" : "سقف کارمزد"}
-                  </span>
-                );
-              };
-              const moodDetails = {
-                component: ColourCellRenderer,
-              };
-              return moodDetails;
-            },
-          },
-          { field: "accountCommission", headerName: "هزینه دسترسی" },
-          {
-            field: "seoCommission",
-            headerName: "کارمزد سازمان",
-          },
-          { field: "tmcCommission", headerName: "کارمزد فناوری" },
-          { field: "csdCommission", headerName: "کارمزد سپرده گزاری" },
-          { field: "rayanBourseCommission", headerName: "کارمزد رایان" },
-          { field: "bourseCommission", headerName: "بورس مربوطه" },
-          { field: "brokerCommission", headerName: "کارگزار" },
-          { field: "tax", headerName: "مالیات" },
-          { field: "vatCommission", headerName: "مالیات ارزش افزوده" },
-          {
-            field: "vtsCommission",
-            headerName: "مالیات ارزض افزوده هزینه انبارداری",
-          },
-          {
-            field: "side",
-            headerName: "سمت",
-            cellRendererSelector: () => {
-              const ColourCellRenderer = (props: any) => {
-                return <span>{props.data.side === 1 ? "خرید" : "فروش"}</span>;
-              };
-              const moodDetails = {
-                component: ColourCellRenderer,
-              };
-              return moodDetails;
-            },
-          },
-        ],
+        columnDefs: generateDynamicColumnDefs(
+          ModuleIdentifier.NETFLOW_rules_detail
+        ),
         defaultColDef: {
           resizable: true,
           sortable: true,
@@ -154,35 +45,28 @@ function Rules() {
           valueFormatter: formatNumber,
         },
       },
-      getDetailRowData: async (params: any) => {
+      getDetailRowData: (params: any) => {
         params.successCallback([
-          ...params.data?.feeBond,
+          ...params.data?.feeBound,
           ...params.data?.feeValue,
         ]);
       },
     };
   }, []);
 
-  const submitHandler = (query: any) => {
-    if (query?.StartDate && query?.EndDate) {
-      fetchData(query);
-    } else {
-      throwToast({ type: "warning", value: "ورودی تاریخ الزامی می باشد" });
-    }
-  };
   return (
     <div className="flex flex-col h-full grow">
       <AccordionComponent>
         <SearchComponent
           module={ModuleIdentifier.NETFLOW_rules}
-          onSubmit={submitHandler}
+          onSubmit={fetchData}
           loading={loading}
         />
       </AccordionComponent>
       <TableComponent
+        module={ModuleIdentifier.NETFLOW_rules}
         data={data?.result}
         loading={loading}
-        columnDefStructure={columnDefStructure}
         rowId={["endDate", "startDate", "name", "tierName"]}
         rowSelection={"single"}
         masterDetail={true}

@@ -9,60 +9,14 @@ const TableComponent = dynamic(
 const SearchComponent = dynamic(
   () => import("../../components/common/components/search")
 );
-import { formatNumber, jalali } from "../../utils/common-funcions";
+import { formatNumber } from "../../utils/common-funcions";
 import useQuery from "../../hooks/useQuery";
 import { NETFLOW } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import DateCell from "components/common/table/date-cell";
+import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 
 function ClearedTrade() {
-  const columnDefStructure = [
-    {
-      field: "ticket",
-      headerName: "شناسه",
-      cellRenderer: "agGroupCellRenderer",
-      flex: 0,
-      width: 160,
-    },
-    {
-      field: "date",
-      headerName: "تاریخ",
-      cellRendererSelector: () => {
-        const ColourCellRenderer = (props: any) => {
-          return <DateCell date={props?.data?.date} hideTime />;
-        };
-        const moodDetails = {
-          component: ColourCellRenderer,
-        };
-        return moodDetails;
-      },
-      flex: 0,
-      width: 180,
-    },
-    {
-      field: "symbol",
-      headerName: "نماد",
-      flex: 0,
-      width: 180,
-    },
-    {
-      field: "instrumentId",
-      headerName: "شناسه نماد",
-    },
-    {
-      field: "price",
-      headerName: "قیمت",
-    },
-    {
-      field: "shares",
-      headerName: "حجم",
-    },
-    {
-      field: "settlementValue",
-      headerName: "ارزش ناخالص",
-    },
-  ];
   const { data, query, loading, fetchData }: any = useQuery({
     url: `${NETFLOW}/Report/cleared-trade`,
   });
@@ -71,30 +25,9 @@ function ClearedTrade() {
     return {
       detailGridOptions: {
         enableRtl: true,
-        columnDefs: [
-          { field: "brokerCommission", headerName: "کارمزد کارگزاری" },
-          { field: "brfCommission", headerName: "سهم صندوق توسعه" },
-          {
-            field: "bourseCommisison",
-            headerName: "کارمزد بورس",
-          },
-          {
-            field: "seoCommission",
-            headerName: "کارمزد سازمان",
-          },
-          { field: "tmcCommission", headerName: "کارمزد فناوری" },
-          { field: "accessCommission", headerName: "حق دسترسی" },
-          { field: "csdCommission", headerName: "کارمزد سپرده گزاری" },
-          { field: "rayanBourseCommission", headerName: "کارمزد رایان" },
-          { field: "inventoryCommission", headerName: "هزینه انبارداری" },
-          { field: "tax", headerName: "مالیات" },
-          { field: "vatCommission", headerName: "مالیات ارزش افزوده" },
-          {
-            field: "vtsCommission",
-            headerName: "مالیات ارزض افزوده هزینه انبارداری",
-          },
-          { field: "farCommission", headerName: "هزینه فرآوری" },
-        ],
+        columnDefs: generateDynamicColumnDefs(
+          ModuleIdentifier.NETFLOW_cleared_trade_detail
+        ),
         defaultColDef: {
           resizable: true,
           sortable: true,
@@ -119,8 +52,8 @@ function ClearedTrade() {
       </AccordionComponent>
       <TableComponent
         data={data?.result}
+        module={ModuleIdentifier.NETFLOW_cleared_trade}
         loading={loading}
-        columnDefStructure={columnDefStructure}
         rowId={["ticket"]}
         masterDetail={true}
         detailCellRendererParams={detailCellRendererParams}
