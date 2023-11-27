@@ -73,6 +73,16 @@ export default function SideBarContent() {
       expanded: router.pathname.startsWith("/customer-management"),
       children: [
         {
+          label: "مشتری ها",
+          url: "/customer-management/customer",
+          as: "/customer-management/customer",
+          className:
+            router.asPath === `/customer-management/customer`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
+        },
+        {
           label: "شرکت ها",
           url: "/customer-management/[[...page]]",
           as: "/customer-management/subsidiary",
@@ -530,7 +540,7 @@ export default function SideBarContent() {
                 condition={item.expanded}
                 key={item.label}
               >
-                <ul className={"text-right list-disc pt-2 pr-3"}>
+                <ul className={"text-right list-disc pt-2 pr-3 font-light"}>
                   {item.children.map((child: any) => {
                     return (
                       <Link
@@ -549,7 +559,7 @@ export default function SideBarContent() {
                         }
                       >
                         <li
-                          className={`hover:bg-gray-200 w-full p-2 rounded-md ${child.className}`}
+                          className={`hover:bg-gray-200 w-full px-2 first:mt-1 rounded-md ${child.className}`}
                         >
                           {child.label}
                         </li>
@@ -574,7 +584,7 @@ export default function SideBarContent() {
               >
                 <Link href={item.url} as={item?.as}>
                   <div
-                    className={`border rounded-md p-2 border-border transition-all hover:bg-gray-100 ${item.className}`}
+                    className={`border rounded-md p-2 border-border transition-all font-semibold hover:bg-gray-100 ${item.className}`}
                   >
                     {item.label}
                   </div>

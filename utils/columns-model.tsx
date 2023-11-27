@@ -9,6 +9,8 @@ import {
   changeTypeEnums,
   customerTypeEnums,
   enTierNameEnum,
+  genderEnums,
+  isRequired,
   personTypeEnums,
   sides,
 } from "constants/Enums";
@@ -712,6 +714,20 @@ export const columnModel = [
     },
   },
   {
+    colId: "isDeleted",
+    field: "isDeleted",
+    headerName: "حذف شده؟",
+    flex: 0,
+    width: 110,
+    valueFormatter: (props: any) => {
+      return props.data.isDeleted ? "حذف شده" : "حذف نشده";
+    },
+    cellClassRules: {
+      "text-red-500": (props: any) => props.data.isDeleted,
+      "text-emerald-500": (props: any) => !props.data.isDeleted,
+    },
+  },
+  {
     colId: "lastUpdaterUserId",
     field: "lastUpdaterUserId",
     headerName: "کاربر تغییر دهنده",
@@ -975,9 +991,9 @@ export const columnModel = [
     field: "secondshareCount",
     headerName: "تعداد مانده ",
     cellClassRules: {
-      "bg-green-200": (params: any) =>
+      "text-emerald-500": (params: any) =>
         params?.data?.secondshareCount > params?.data?.firstshareCount,
-      "bg-red-200": (params: any) =>
+      "text-red-500": (params: any) =>
         params?.data?.secondshareCount < params?.data?.firstshareCount,
     },
   },
@@ -985,45 +1001,21 @@ export const columnModel = [
     colId: "secondlastPrice",
     field: "secondlastPrice",
     headerName: "قیمت آخرین  معامله",
-    cellClassRules: {
-      "bg-green-200": (params: any) =>
-        params?.data?.secondshareCount > params?.data?.firstshareCount,
-      "bg-red-200": (params: any) =>
-        params?.data?.secondshareCount < params?.data?.firstshareCount,
-    },
   },
   {
     colId: "secondclosingPrice",
     field: "secondclosingPrice",
     headerName: "قیمت پایانی",
-    cellClassRules: {
-      "bg-green-200": (params: any) =>
-        params?.data?.secondshareCount > params?.data?.firstshareCount,
-      "bg-red-200": (params: any) =>
-        params?.data?.secondshareCount < params?.data?.firstshareCount,
-    },
   },
   {
     colId: "secondnetValuebyClosingPrice",
     field: "secondnetValuebyClosingPrice",
     headerName: "خالص ارزش فروش ",
-    cellClassRules: {
-      "bg-green-200": (params: any) =>
-        params?.data?.secondshareCount > params?.data?.firstshareCount,
-      "bg-red-200": (params: any) =>
-        params?.data?.secondshareCount < params?.data?.firstshareCount,
-    },
   },
   {
     colId: "secondnetValuebyLastPrice",
     field: "secondnetValuebyLastPrice",
     headerName: "خالص ارزش فروش ",
-    cellClassRules: {
-      "bg-green-200": (params: any) =>
-        params?.data?.secondshareCount > params?.data?.firstshareCount,
-      "bg-red-200": (params: any) =>
-        params?.data?.secondshareCount < params?.data?.firstshareCount,
-    },
   },
   {
     colId: "secondClosingPricePercentage",
@@ -1038,12 +1030,6 @@ export const columnModel = [
       params.values.forEach((value: number) => (total += value));
       return total.toFixed(2) + "%";
     },
-    cellClassRules: {
-      "bg-green-200": (params: any) =>
-        params?.data?.secondshareCount > params?.data?.firstshareCount,
-      "bg-red-200": (params: any) =>
-        params?.data?.secondshareCount < params?.data?.firstshareCount,
-    },
   },
   {
     colId: "secondLastPricePercentage",
@@ -1057,12 +1043,6 @@ export const columnModel = [
       let total = 0;
       params.values.forEach((value: number) => (total += value));
       return total.toFixed(2) + "%";
-    },
-    cellClassRules: {
-      "bg-green-200": (params: any) =>
-        params?.data?.secondshareCount > params?.data?.firstshareCount,
-      "bg-red-200": (params: any) =>
-        params?.data?.secondshareCount < params?.data?.firstshareCount,
     },
   },
   {
@@ -1209,6 +1189,15 @@ export const columnModel = [
     headerName: "نام خانوادگی",
   },
   {
+    colId: "detail-opener",
+    headerName: "",
+    field: "id",
+    cellRenderer: "agGroupCellRenderer",
+    flex: 0,
+    minWidth: 50,
+    maxWidth: 50,
+  },
+  {
     colId: "twoFactorEnabled",
     field: "twoFactorEnabled",
     headerName: "ورود دوعاملی",
@@ -1221,11 +1210,17 @@ export const columnModel = [
     colId: "IsActive",
     field: "IsActive",
     headerName: "وضعیت",
+    valueFormatter: (rowData: any) => {
+      return rowData?.data?.IsActive ? "فعال" : "غیر فعال";
+    },
   },
   {
     colId: "isActive",
     field: "isActive",
     headerName: "وضعیت",
+    valueFormatter: (rowData: any) => {
+      return rowData?.data?.isActive ? "فعال" : "غیر فعال";
+    },
   },
   {
     colId: "intraday-detail",
@@ -1246,6 +1241,33 @@ export const columnModel = [
               target="_blank"
               rel="noreferrer"
               href={`/portfo/${rowData?.data?.customerId}&${rowData?.data?.instrumentId}&${rowData?.data?.effectiveDate}`}
+            >
+              <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+            </a>
+          );
+        },
+      };
+    },
+  },
+  {
+    colId: "customer-detail",
+    field: "detail",
+    headerName: "جزییات",
+    flex: 0,
+    width: 90,
+    cellStyle: {
+      cursor: "pointer",
+      display: "flex",
+    },
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => {
+          return (
+            <a
+              className={"flex h-full w-full"}
+              target="_blank"
+              rel="noreferrer"
+              href={`/customer-management/customer/${rowData?.data?.userId}`}
             >
               <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
             </a>
@@ -1480,6 +1502,11 @@ export const columnModel = [
     headerName: "دوره برگشت کسورات",
   },
   {
+    colId: "regentTitle",
+    field: "regentTitle",
+    headerName: "معرف",
+  },
+  {
     colId: "CoefficientPercentage",
     field: "CoefficientPercentage",
     headerName: "درصد ضریب",
@@ -1585,8 +1612,60 @@ export const columnModel = [
         (item: any) => rowData.data?.enTierName === item.enTitle
       )?.faTitle;
     },
-    flex: 0,
-    width: 250,
+  },
+  {
+    colId: "isProfessional",
+    field: "isProfessional",
+    headerName: "مشتری حرفه؟",
+    valueFormatter: (rowData: any) => {
+      return isRequired.find(
+        (item: any) => rowData.data?.isProfessional === item.id
+      )?.title;
+    },
+  },
+  {
+    colId: "isPAM",
+    field: "isPAM",
+    headerName: "مشتری نامک",
+    valueFormatter: (rowData: any) => {
+      return isRequired.find((item: any) => rowData.data?.isPAM === item.id)
+        ?.title;
+    },
+  },
+  {
+    colId: "isDeceased",
+    field: "isDeceased",
+    headerName: "فوت شده؟",
+    valueFormatter: (rowData: any) => {
+      return isRequired.find(
+        (item: any) => rowData.data?.isDeceased === item.id
+      )?.title;
+    },
+  },
+  {
+    colId: "isDissolved",
+    field: "isDissolved",
+    headerName: "منحل شده؟",
+    valueFormatter: (rowData: any) => {
+      return isRequired.find(
+        (item: any) => rowData.data?.isDissolved === item.id
+      )?.title;
+    },
+  },
+  {
+    colId: "genderTitle",
+    field: "genderTitle",
+    headerName: "جنسیت",
+  },
+  {
+    colId: "sejamStatusTitle",
+    field: "sejamStatusTitle",
+    headerName: "وضعیت سجام",
+  },
+  {
+    colId: "adminNote",
+    field: "adminNote",
+    headerName: "توضیحات ادمین",
   },
   {
     colId: "brokerCode",

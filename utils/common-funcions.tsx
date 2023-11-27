@@ -13,6 +13,7 @@ import {
   CustomerOriginEnums,
   customerTypeEnums,
   FactorStatusEnums,
+  genderEnums,
   GetOfferTypeEnums,
   Hours,
   Interval,
@@ -32,6 +33,7 @@ import {
   originEnum,
   personOriginEnums,
   personTypeEnums,
+  riskLevel,
   sejamStatusEnums,
   sides,
   SortBy,
@@ -199,6 +201,9 @@ export const FindEnum = (
     case "State":
     case "state":
       return statesEnums;
+    case "Gender":
+    case "gender":
+      return genderEnums;
     case "OrderType":
       return OrderType;
     case "IsValid":
@@ -243,15 +248,20 @@ export const FindEnum = (
     case "calculationBase":
       return CalculationBaseType;
     case "sejamStatus":
+    case "SejamStatus":
       return sejamStatusEnums;
     case "registrationState":
       return onlineRegistrationStatusEnums;
+    case "riskLevel":
+      return riskLevel;
     case "type":
     case "Type":
       if (label === "نوع بازاریاب" || label === "نوع قرارداد بازاریابی") {
         return marketerTypeEnum;
       } else if (label === "نوع ایستگاه معاملاتی") {
         return stationTypeEnum;
+      } else if (label === "نوع حساب بانکی") {
+        return [];
       }
       if (label === "نوع کد بورسی") {
         return bousreCodeType;
@@ -265,6 +275,11 @@ export const FindEnum = (
     case "isSejami":
     case "IsCmdConcluded":
     case "IsFreezed":
+    case "IsProfessionalInvestor":
+    case "IsPAMTrader":
+    case "IsDeceased":
+    case "IsDissolved":
+    case "isFromSejam":
       return isRequired;
     case "Month":
       return Months;

@@ -8,8 +8,8 @@ export default function LabelValue({
   className?: string;
 }) {
   return (
-    <div className={"space-y-2 " + className}>
-      {title && <div className={"font-light"}>{title}:</div>}
+    <div className={"space-y-1 " + className}>
+      {title && <div className={"font-light text-sm"}>{title}:</div>}
       <div className={"font-semibold text-base"}>{value ? value : "-"}</div>
     </div>
   );

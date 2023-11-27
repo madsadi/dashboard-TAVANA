@@ -4,6 +4,7 @@ import { ModuleIdentifier } from "./Module-Identifier";
 import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
 import RoleToggleButton from "components/users-management/roles/role-toggle-button";
 import ToggleButtonUsers from "components/users-management/users/toggle-button";
+import ToogleCustomerPAM from "components/customer-management/customer/edit-customer-PAM";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
@@ -31,6 +32,47 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "createDateTime" },
     { colId: "updatedBy" },
     { colId: "updatedDateTime" },
+  ],
+  "customer-management_customer": [
+    { colId: "checkbox" },
+    { colId: "detail-opener" },
+    { colId: "uniqueId" },
+    { colId: "title" },
+    { colId: "personTypeTitle" },
+    { colId: "personOriginTitle" },
+    { colId: "countryName" },
+    { colId: "foreignCSDCode" },
+    { colId: "branchTitle" },
+    { colId: "regentTitle" },
+    { colId: "marketerTitle" },
+    { colId: "isActive" },
+    { colId: "isDeleted" },
+    { colId: "createDateTime" },
+    { colId: "customer-detail" },
+  ],
+  "customer-management_customer_detail": [
+    { colId: "genderTitle" },
+    { colId: "isProfessional" },
+    {
+      colId: "isPAM",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToogleCustomerPAM
+              data={{
+                isActive: rowData?.data?.isPAM,
+                id: rowData?.data?.id,
+              }}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "sejamStatusTitle" },
+    { colId: "isDeceased" },
+    { colId: "isDissolved" },
+    { colId: "adminNote" },
+    { colId: "updateDateTime" },
   ],
   "commission-management_category": [
     { colId: "id" },

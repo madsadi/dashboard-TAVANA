@@ -381,6 +381,18 @@ export const activeStatus: any[] = [
     title: "همه",
   },
 ];
+
+export const genderEnums: any[] = [
+  {
+    id: 1,
+    title: "مرد",
+  },
+  {
+    id: 2,
+    title: "زنان",
+  },
+];
+
 export const statesEnums: any[] = [
   {
     id: 1,
@@ -800,6 +812,39 @@ export const customerTypeEnums = [
     code: 1,
     enTitle: "PrivatePerson",
     title: "حقیقی",
+  },
+];
+
+export const riskLevel = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "VeryLow",
+    title: "خیلی کم",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "Low",
+    title: "کم",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "Medium",
+    title: "عادی",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "High",
+    title: "زیاد",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "VeyHigh",
+    title: "خیلی زیاد",
   },
 ];
 
