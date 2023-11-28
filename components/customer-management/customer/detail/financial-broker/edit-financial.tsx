@@ -7,20 +7,20 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerBankAccountContext } from "./customer-bank-account-info";
+import { CustomerFinancialBrokerInfoContext } from "./customer-financial-broker-info";
 
-export default function EditBankAccount(props: any) {
+export default function EditFinancialBroker() {
   const { fetchHandler, customerId, selected } = useContext<any>(
-    CustomerBankAccountContext
+    CustomerFinancialBrokerInfoContext
   );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/bankAccount/Edit`,
+    url: `${ADMIN_GATEWAY}/api/request/customerFinancialBroker/Edit`,
     method: "PATCH",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "add-bank-account"
+    "add-financial-broker"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,7 +47,7 @@ export default function EditBankAccount(props: any) {
       .then(() => {
         throwToast({
           type: "success",
-          value: "حساب بانکی با موفقیت ویرایش شد",
+          value: "سابقه کارگزاری با موفقیت ویرایش شد",
         });
         fetchHandler();
         setModal(false);
@@ -83,12 +83,12 @@ export default function EditBankAccount(props: any) {
         onClick={openModalHandler}
         allowed={
           restriction
-            ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
+            ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
             : []
         }
       />
       <Modal
-        title={`ویرایش حساب بانکی`}
+        title={`ویرایش سابقه کارگزاری`}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}

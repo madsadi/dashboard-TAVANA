@@ -14,7 +14,11 @@ export default function CustomerToolbar() {
   const displayCondition = router.pathname.includes("[...userId]");
 
   return (
-    <div className={"border-x border-border"}>
+    <div
+      className={`border-x border-border ${
+        displayCondition ? "border-t rounded-t-lg" : ""
+      }`}
+    >
       <div className={"toolbar p-2"}>
         {!displayCondition ? <AddNew /> : null}
         <EditActivationStatus />

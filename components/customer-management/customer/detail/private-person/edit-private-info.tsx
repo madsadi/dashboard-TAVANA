@@ -7,48 +7,39 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerBankAccountContext } from "./customer-bank-account-info";
+import { CustomerPrivatePersonInfoContext } from "./customer-private-person";
 
-export default function EditBankAccount(props: any) {
-  const { fetchHandler, customerId, selected } = useContext<any>(
-    CustomerBankAccountContext
+export default function EditPrivateInfo() {
+  const { fetchHandler, customerId, info } = useContext<any>(
+    CustomerPrivatePersonInfoContext
   );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/bankAccount/Edit`,
-    method: "PATCH",
+    url: `${ADMIN_GATEWAY}/api/request/privatePerson/Add`,
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "add-bank-account"
+    "add-private-person"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (modal && toolbar) {
-      let ToEdit = selected;
+      let ToEdit = info;
       let initialValue: any = {};
       toolbar?.map((item: any) => {
         initialValue[item.title] = ToEdit?.[item.title];
       });
       setQuery(initialValue);
     }
-  }, [modal, toolbar]);
+  }, [toolbar, modal]);
 
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
     setLoading(true);
-    await mutate({
-      customerId: customerId,
-      id: selected.id,
-      ...query,
-    })
+    await mutate({ customerId: customerId, ...query })
       .then(() => {
-        throwToast({
-          type: "success",
-          value: "حساب بانکی با موفقیت ویرایش شد",
-        });
         fetchHandler();
         setModal(false);
       })
@@ -56,17 +47,6 @@ export default function EditBankAccount(props: any) {
         throwToast({ type: "error", value: err });
       })
       .finally(() => setLoading(false));
-  };
-
-  const openModalHandler = () => {
-    if (selected) {
-      setModal(true);
-    } else {
-      throwToast({
-        type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
-      });
-    }
   };
 
   const onChange = (key: string, value: any) => {
@@ -78,17 +58,18 @@ export default function EditBankAccount(props: any) {
   return (
     <>
       <Button
-        label={"ویرایش "}
+        label={"ویرایش"}
         className="bg-secondary"
-        onClick={openModalHandler}
+        onClick={() => setModal(true)}
+        disabled={!info}
         allowed={
           restriction
-            ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
+            ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
             : []
         }
       />
       <Modal
-        title={`ویرایش حساب بانکی`}
+        title={`ویرایش اطلاعات  هویتی`}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}
@@ -103,7 +84,7 @@ export default function EditBankAccount(props: any) {
                   item={item}
                   setQuery={setQuery}
                   onChange={onChange}
-                  dataHelper={selected}
+                  dataHelper={info}
                 />
               );
             })}

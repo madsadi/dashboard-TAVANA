@@ -800,6 +800,167 @@ export const personTypeEnums = [
   },
 ];
 
+export const LegalPersonTypeEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Commercial",
+    title: "شرکت های تجاری",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "NonCommercial",
+    title: "موسسات غیرتجاری",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "RegisteredWithLaw",
+    title: "ثبت شده به موجب قانون",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "InvestmentFunds",
+    title: "صندوق سرمایه گذاری",
+  },
+];
+
+export const LegalPersonTypeSubEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "PrivateCompany",
+    title: "سهامی خاص",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "LimitedCompany",
+    title: "با مسئولیت محدود",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "PublicCompany",
+    title: "سهامی عام",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "CooperativeCompany",
+    title: "تعاونی",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "GeneralPartnership",
+    title: "تضامنی",
+  },
+  {
+    id: 6,
+    code: 6,
+    enTitle: "ProportionalLiabilityPartnership",
+    title: "نسبی",
+  },
+  {
+    id: 7,
+    code: 7,
+    enTitle: "JointMixedCompany",
+    title: "مختلط سهامی",
+  },
+  {
+    id: 8,
+    code: 8,
+    enTitle: "Profit",
+    title: "انتفاعی",
+  },
+  {
+    id: 9,
+    code: 9,
+    enTitle: "NonProfit",
+    title: "غیرانتفاعی",
+  },
+  {
+    id: 10,
+    code: 10,
+    enTitle: "LimitedPartnershipCompany",
+    title: "مختلط غیرسهامی",
+  },
+  {
+    id: 11,
+    code: 11,
+    enTitle: "Governmental",
+    title: "شخصیت حقوقی دولتی",
+  },
+  {
+    id: 12,
+    code: 12,
+    enTitle: "NonGovernmental",
+    title: "شخصیت حقوقی عمومی",
+  },
+  {
+    id: 13,
+    code: 13,
+    enTitle: "DedicatedMarketing",
+    title: "اختصاصی بازارگردانی",
+  },
+  {
+    id: 14,
+    code: 14,
+    enTitle: "RealEstate",
+    title: "املاک و مستغلات",
+  },
+  {
+    id: 15,
+    code: 15,
+    enTitle: "Project",
+    title: "پروژه ای",
+  },
+  {
+    id: 16,
+    code: 16,
+    enTitle: "VentureCapitalFund",
+    title: "جسورانه",
+  },
+  {
+    id: 17,
+    code: 17,
+    enTitle: "Private",
+    title: "خصوصی",
+  },
+  {
+    id: 18,
+    code: 18,
+    enTitle: "FixedIncomeSecurities",
+    title: "در اوراق بهادار با درآمد ثابت",
+  },
+  {
+    id: 19,
+    code: 19,
+    enTitle: "SecuritiesWithCommodityDeposits",
+    title: "در اوراق بهادار مبتنی بر سپرده کالایی",
+  },
+  {
+    id: 20,
+    code: 20,
+    enTitle: "InStock",
+    title: "در سهام",
+  },
+  {
+    id: 21,
+    code: 21,
+    enTitle: "LandAndBuildings",
+    title: "زمین و ساختمان",
+  },
+  {
+    id: 22,
+    code: 22,
+    enTitle: "Mixed",
+    title: "مختلط",
+  },
+];
 export const customerTypeEnums = [
   {
     id: 0,
@@ -1275,6 +1436,155 @@ export const TypeOfBranches: any = [
   {
     id: "",
     title: "همه",
+  },
+];
+
+export const TransactionLevelEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "One",
+    title: "کمتر از 250 میلیون ریال",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "Two",
+    title: "بین 250 تا 1000 میلیون ریال",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "Three",
+    title: "بین 1000 تا 5000 میلیون ریال",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "Four",
+    title: "بین 5000 تا 10000 میلیون ریال",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "Five",
+    title: "بیش از 10000 میلیون ریال",
+  },
+  {
+    id: 6,
+    code: 6,
+    enTitle: "Eleven",
+    title: "کمتر از 500 میلیون ریال",
+  },
+  {
+    id: 7,
+    code: 7,
+    enTitle: "Twelve",
+    title: "بین 500 تا 1000 میلیون ریال",
+  },
+  {
+    id: 8,
+    code: 8,
+    enTitle: "Thirteen",
+    title: "بین 1000 تا 5000 میلیون ریال",
+  },
+  {
+    id: 9,
+    code: 9,
+    enTitle: "Fourteen",
+    title: "بین 5000 تا 10000 میلیون ریال",
+  },
+  {
+    id: 10,
+    code: 10,
+    enTitle: "Fifteen",
+    title: "بیش از 10000 میلیون ریال",
+  },
+];
+
+export const TradingKnowledgeLevelEnunms = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Excellent",
+    title: "عالی",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "Good",
+    title: "خوب",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "Medium",
+    title: "متوسط",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "Low",
+    title: "کم",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "VeryLow",
+    title: "بسیار کم",
+  },
+];
+export const BankAccountTypeEnums: any = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "None",
+    title: "نامشخص",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "ShortTermAccount",
+    title: "کوتاه مدت",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "CurrentAccount",
+    title: "جاری",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "SavingAccount",
+    title: "قرض الحسنه",
+  },
+];
+
+export const AgentTypeEnums: any = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Attorney",
+    title: "وکیل",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "Province",
+    title: "ولی",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "Conspiracy",
+    title: "قیم",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "Prescriptive",
+    title: "وصی",
   },
 ];
 

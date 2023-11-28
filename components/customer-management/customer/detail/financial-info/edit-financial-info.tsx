@@ -7,20 +7,20 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerBankAccountContext } from "./customer-bank-account-info";
+import { CustomerFinancialInfoContext } from "./customer-financial-info";
 
-export default function EditBankAccount(props: any) {
-  const { fetchHandler, customerId, selected } = useContext<any>(
-    CustomerBankAccountContext
-  );
+export default function EditFinancialInfo() {
   const [modal, setModal] = useState(false);
+  const { fetchHandler, customerId, selected } = useContext<any>(
+    CustomerFinancialInfoContext
+  );
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/bankAccount/Edit`,
+    url: `${ADMIN_GATEWAY}/api/request/financialInfo/Edit`,
     method: "PATCH",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "add-bank-account"
+    "add-financial-info"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,15 +39,11 @@ export default function EditBankAccount(props: any) {
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
     setLoading(true);
-    await mutate({
-      customerId: customerId,
-      id: selected.id,
-      ...query,
-    })
+    await mutate({ customerId: customerId, ...query })
       .then(() => {
         throwToast({
           type: "success",
-          value: "حساب بانکی با موفقیت ویرایش شد",
+          value: "اطلاعات مالی با موفقیت ویرایش شد",
         });
         fetchHandler();
         setModal(false);
@@ -57,6 +53,14 @@ export default function EditBankAccount(props: any) {
       })
       .finally(() => setLoading(false));
   };
+
+  const onChange = (key: string, value: any) => {
+    let _query: any = { ...query };
+    _query[key] = value;
+    setQuery(_query);
+  };
+
+  console.log(selected);
 
   const openModalHandler = () => {
     if (selected) {
@@ -69,26 +73,20 @@ export default function EditBankAccount(props: any) {
     }
   };
 
-  const onChange = (key: string, value: any) => {
-    let _query: any = { ...query };
-    _query[key] = value;
-    setQuery(_query);
-  };
-
   return (
     <>
       <Button
-        label={"ویرایش "}
+        label={"ویرایش"}
         className="bg-secondary"
         onClick={openModalHandler}
         allowed={
           restriction
-            ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
+            ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
             : []
         }
       />
       <Modal
-        title={`ویرایش حساب بانکی`}
+        title={`ویرایش اطلاعات مالی`}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}

@@ -7,20 +7,20 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerBankAccountContext } from "./customer-bank-account-info";
+import { CustomerAgentInfoContext } from "./customer-agent-info";
 
-export default function EditBankAccount(props: any) {
+export default function EditAgentRelation() {
   const { fetchHandler, customerId, selected } = useContext<any>(
-    CustomerBankAccountContext
+    CustomerAgentInfoContext
   );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/bankAccount/Edit`,
+    url: `${ADMIN_GATEWAY}/api/request/customerAgentRelation/Edit`,
     method: "PATCH",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "add-bank-account"
+    "add-agent-relation"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,7 +47,7 @@ export default function EditBankAccount(props: any) {
       .then(() => {
         throwToast({
           type: "success",
-          value: "حساب بانکی با موفقیت ویرایش شد",
+          value: "نماینده با موفقیت ویرایش شد",
         });
         fetchHandler();
         setModal(false);

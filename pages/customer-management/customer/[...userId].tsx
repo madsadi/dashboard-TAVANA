@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 const TableComponent = dynamic(
   () => import("../../../components/common/table/table-component")
 );
-
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import { useSelector } from "react-redux";
@@ -14,16 +13,47 @@ import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 import CustomerToolbar from "components/customer-management/customer/toolbar";
+import CustomerLegalPerson from "components/customer-management/customer/detail/legal-person/customer-legal-person";
 const CustomerIdentityInfo = dynamic(
   () =>
     import(
-      "components/customer-management/customer/detail/identity/customer-identity-info"
+      "components/customer-management/customer/detail/private-person/customer-private-person"
     )
 );
 const CustomerBankAccountInfo = dynamic(
   () =>
     import(
       "components/customer-management/customer/detail/bank-account/customer-bank-account-info"
+    )
+);
+const CustomerAgentInfo = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/agent/customer-agent-info"
+    )
+);
+const CustomerAddressInfo = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/address/customer-address-info"
+    )
+);
+const CustomerJobInfo = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/job/customer-job-info"
+    )
+);
+const CustomerFinancialBrokerInfo = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/financial-broker/customer-financial-broker-info"
+    )
+);
+const CustomerFinancialInfoInfo = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/financial-info/customer-financial-info"
     )
 );
 
@@ -105,8 +135,17 @@ function Detail() {
         />
         {data ? (
           <div className={"w-full grow space-y-3 mt-5"}>
-            <CustomerIdentityInfo />
+            {data.personType === 1 ? (
+              <CustomerIdentityInfo />
+            ) : (
+              <CustomerLegalPerson />
+            )}
             <CustomerBankAccountInfo />
+            <CustomerAgentInfo />
+            <CustomerAddressInfo />
+            <CustomerJobInfo />
+            <CustomerFinancialBrokerInfo />
+            <CustomerFinancialInfoInfo />
           </div>
         ) : null}
       </div>

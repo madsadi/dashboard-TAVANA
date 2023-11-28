@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import LabelValue from "../../../../common/components/label-value";
 import { jalali } from "../../../../../utils/common-funcions";
 import { useContext } from "react";
@@ -8,7 +8,12 @@ import { ADMIN_GATEWAY } from "api/constants";
 import useQuery from "hooks/useQuery";
 import AddNewAccount from "./add-new-account";
 import EditBankAccount from "./edit-bank-account";
+import ConfirmBankAccount from "./confirm-bank-account";
+import DefaultBankAccount from "./default-bank-account";
+import RemoveBankAccount from "./remove-bank-acccount";
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 
+export const CustomerBankAccountContext = createContext({});
 export default function CustomerBankAccountInfo() {
   const { data } = useContext<any>(CustomerDetailContext);
   const [selected, setSelected] = useState<any>(null);
@@ -16,42 +21,61 @@ export default function CustomerBankAccountInfo() {
     url: `${ADMIN_GATEWAY}/api/request/bankAccount/Search`,
   });
 
+  const fetchHandler = () => {
+    fetchData({ CustomerId: data.id });
+  };
   useEffect(() => {
-    if (data) fetchData({ CustomerId: data.id });
+    if (data) fetchHandler();
   }, [data]);
 
+  const selectionHandler = (bank: any) => {
+    if (selected?.accountNumber === bank.accountNumber) {
+      setSelected(null);
+    } else {
+      setSelected(bank);
+    }
+  };
   return (
-    <>
+    <CustomerBankAccountContext.Provider
+      value={{
+        fetchHandler,
+        customerId: data.id,
+        selected,
+      }}
+    >
       {info ? (
-        <DaisyAccordionComponent
-          title={"حساب های بانکی"}
-          extra={
-            <CustomerBankAccounttoolbar
-              refetch={() => fetchData({ CustomerId: data.id })}
-              privateInfo={info?.result?.pagedData[0]}
-              selectedItem={selected}
-            />
-          }
-        >
+        <DaisyAccordionComponent title={"حساب های بانکی"}>
+          <CustomerBankAccounttoolbar />
           {info?.result?.pagedData.map((bank: any) => {
             return (
               <div
-                className="flex space-x-2 space-x-reverse"
+                className="flex space-x-2 space-x-reverse mb-5 "
                 key={bank.accountNumber}
               >
                 <input
                   type="checkbox"
                   className="h-5 w-5 my-auto"
                   checked={selected?.accountNumber === bank.accountNumber}
-                  onChange={() => {
-                    if (selected?.accountNumber === bank.accountNumber) {
-                      setSelected(null);
-                    } else {
-                      setSelected(bank);
-                    }
-                  }}
+                  onChange={() => selectionHandler(bank)}
                 />
-                <div className="grid md:grid-cols-5 grid-cols-2 gap-3 border border-border rounded-md p-5 mb-3 grow">
+                <div
+                  className={`relative grid md:grid-cols-5 grid-cols-2 gap-3 border  rounded-md p-5 grow cursor-pointer ${
+                    bank.isDefault
+                      ? "border-emerald-500 pt-10"
+                      : "border-border"
+                  }`}
+                  onClick={() => selectionHandler(bank)}
+                >
+                  {bank.isDefault ? (
+                    <div
+                      className={
+                        "absolute flex items-center top-2 right-3 text-emerald-500"
+                      }
+                    >
+                      <CheckBadgeIcon className={" h-7 w-7  "} />
+                      <p>حساب پیش فرض</p>
+                    </div>
+                  ) : null}
                   <LabelValue
                     title={"عنوان مشتری"}
                     value={bank?.customerTitle}
@@ -110,24 +134,18 @@ export default function CustomerBankAccountInfo() {
           })}
         </DaisyAccordionComponent>
       ) : null}
-    </>
+    </CustomerBankAccountContext.Provider>
   );
 }
 
-const CustomerBankAccounttoolbar = (props: {
-  refetch: () => void;
-  privateInfo: any;
-  selectedItem: any;
-}) => {
-  const { refetch, privateInfo, selectedItem } = props;
+const CustomerBankAccounttoolbar = () => {
   return (
-    <div className="toolbar z-10">
-      <AddNewAccount refetch={refetch} privateInfo={privateInfo} />
-      <EditBankAccount
-        refetch={refetch}
-        privateInfo={privateInfo}
-        selectedItem={selectedItem}
-      />
+    <div className="flex space-x-2 space-x-reverse z-10 mb-4">
+      <AddNewAccount />
+      <EditBankAccount />
+      <ConfirmBankAccount />
+      <DefaultBankAccount />
+      <RemoveBankAccount />
     </div>
   );
 };

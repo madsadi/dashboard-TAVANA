@@ -30,7 +30,7 @@ export default function DaisyAccordionComponent({
         <h4 className={"text-right"}>{title}</h4>
         {extra}
       </div>
-      <div className="collapse-content peer-checked:pt-8 peer-checked:border-t border-border bg-transparent">
+      <div className="collapse-content peer-checked:pt-5 peer-checked:border-t border-border bg-transparent">
         {children}
       </div>
     </div>

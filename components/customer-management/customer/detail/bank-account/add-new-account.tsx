@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { ADMIN_GATEWAY } from "api/constants";
 import { Button } from "components/common/components/button/button";
 import InputComponent from "components/common/components/input-generator";
@@ -7,9 +8,12 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
+import { CustomerBankAccountContext } from "./customer-bank-account-info";
 
-export default function AddNewAccount(props: any) {
-  const { refetch, privateInfo } = props;
+export default function AddNewAccount() {
+  const { fetchHandler, customerId } = useContext<any>(
+    CustomerBankAccountContext
+  );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/bankAccount/Add`,
@@ -30,9 +34,13 @@ export default function AddNewAccount(props: any) {
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
     setLoading(true);
-    await mutate({ customerId: privateInfo.customerId, ...query })
+    await mutate({ customerId: customerId, ...query })
       .then(() => {
-        refetch();
+        throwToast({
+          type: "success",
+          value: "حساب بانکی با موفقیت اضافه شد",
+        });
+        fetchHandler();
         setModal(false);
       })
       .catch((err) => {
@@ -50,7 +58,7 @@ export default function AddNewAccount(props: any) {
   return (
     <>
       <Button
-        label={"افزودن حساب بانکی"}
+        label={"افزودن "}
         className="bg-primary"
         onClick={() => setModal(true)}
         allowed={

@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { ADMIN_GATEWAY } from "api/constants";
 import { Button } from "components/common/components/button/button";
 import InputComponent from "components/common/components/input-generator";
@@ -7,37 +8,39 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
+import { CustomerFinancialBrokerInfoContext } from "./customer-financial-broker-info";
 
-export default function EditPrivateInfo(props: any) {
-  const { refetch, privateInfo } = props;
+export default function AddFinancialBroker() {
+  const { fetchHandler, customerId } = useContext<any>(
+    CustomerFinancialBrokerInfoContext
+  );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/privatePerson/Add`,
+    url: `${ADMIN_GATEWAY}/api/request/customerFinancialBroker/Add`,
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "add-privatePerson"
+    "add-financial-broker"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (modal && toolbar) {
-      let ToEdit = privateInfo;
-      let initialValue: any = {};
-      toolbar?.map((item: any) => {
-        initialValue[item.title] = ToEdit?.[item.title];
-      });
-      setQuery(initialValue);
+    if (modal) {
+      setQuery(null);
     }
-  }, [toolbar, modal]);
+  }, [modal]);
 
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
     setLoading(true);
-    await mutate({ customerId: privateInfo.customerId, ...query })
+    await mutate({ customerId: customerId, ...query })
       .then(() => {
-        refetch();
+        throwToast({
+          type: "success",
+          value: "سابقه کارگزاری با موفقیت اضافه شد",
+        });
+        fetchHandler();
         setModal(false);
       })
       .catch((err) => {
@@ -55,18 +58,17 @@ export default function EditPrivateInfo(props: any) {
   return (
     <>
       <Button
-        label={"ویرایش اطلاعات  هویتی"}
-        className="bg-secondary"
+        label={"افزودن"}
+        className="bg-primary"
         onClick={() => setModal(true)}
-        disabled={!privateInfo}
         allowed={
           restriction
-            ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
+            ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
             : []
         }
       />
       <Modal
-        title={`ویرایش اطلاعات  هویتی`}
+        title={`افزودن سابقه کارگزاری`}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}
@@ -81,7 +83,6 @@ export default function EditPrivateInfo(props: any) {
                   item={item}
                   setQuery={setQuery}
                   onChange={onChange}
-                  dataHelper={privateInfo}
                 />
               );
             })}

@@ -2,7 +2,9 @@ import moment from "jalali-moment";
 import { EnumType } from "types/types";
 import {
   activeStatus,
+  AgentTypeEnums,
   AssetStatusEnums,
+  BankAccountTypeEnums,
   bousreCodeType,
   CalculationBaseType,
   CalculationBaseTypeEnums,
@@ -20,6 +22,8 @@ import {
   isActiveWithNoNull,
   isRequired,
   IsValidEnums,
+  LegalPersonTypeEnums,
+  LegalPersonTypeSubEnums,
   marketerTypeEnum,
   Minutes,
   Months,
@@ -42,6 +46,8 @@ import {
   stationTypeEnum,
   StatusEnums,
   subsidiaryType,
+  TradingKnowledgeLevelEnunms,
+  TransactionLevelEnums,
   TypeOfBranches,
   UserType,
   validityType,
@@ -261,7 +267,7 @@ export const FindEnum = (
       } else if (label === "نوع ایستگاه معاملاتی") {
         return stationTypeEnum;
       } else if (label === "نوع حساب بانکی") {
-        return [];
+        return BankAccountTypeEnums;
       }
       if (label === "نوع کد بورسی") {
         return bousreCodeType;
@@ -280,6 +286,7 @@ export const FindEnum = (
     case "IsDeceased":
     case "IsDissolved":
     case "isFromSejam":
+    case "isConfirmed":
       return isRequired;
     case "Month":
       return Months;
@@ -287,10 +294,20 @@ export const FindEnum = (
       return Year;
     case "ContractType":
       return ContractTypeEnums;
+    case "transactionLevel":
+      return TransactionLevelEnums;
+    case "tradingKnowledgeLevel":
+      return TradingKnowledgeLevelEnunms;
+    case "ContractType":
+      return ContractTypeEnums;
+    case "legalPersonTypeCategory":
+      return LegalPersonTypeEnums;
+    case "legalPersonTypeSubCategory":
+      return LegalPersonTypeSubEnums;
     case "CalculationBaseType":
       return CalculationBaseTypeEnums;
-    case "CoefficientBaseType":
-      return CoefficientBaseTypeEnums;
+    case "agentType":
+      return AgentTypeEnums;
     case "Status":
     case "status":
       if (label === "وضعیت تغییر کارگزاری") {

@@ -4,26 +4,25 @@ import InputComponent from "components/common/components/input-generator";
 import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
-import { CustomerContext } from "pages/customer-management/customer";
-import { CustomerDetailContext } from "pages/customer-management/customer/[...userId]";
 import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
+import { CustomerAddressInfoContext } from "./customer-address-info";
 
-export default function AddPrivateInfo(props: any) {
-  const { refetch, privateInfo } = props;
+export default function AddAddress() {
   const [modal, setModal] = useState(false);
+  const { fetchHandler, customerId } = useContext<any>(
+    CustomerAddressInfoContext
+  );
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/privatePerson/Add`,
+    url: `${ADMIN_GATEWAY}/api/request/address/Add`,
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "add-privatePerson"
+    "add-address"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
-
-  let initialValue: any = {};
 
   useEffect(() => {
     if (modal) {
@@ -34,10 +33,13 @@ export default function AddPrivateInfo(props: any) {
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
     setLoading(true);
-    await mutate(query)
+    await mutate({ customerId: customerId, ...query })
       .then(() => {
-        refetch();
-        setQuery(initialValue);
+        throwToast({
+          type: "success",
+          value: "آدرس با موفقیت اضافه شد",
+        });
+        fetchHandler();
         setModal(false);
       })
       .catch((err) => {
@@ -55,10 +57,9 @@ export default function AddPrivateInfo(props: any) {
   return (
     <>
       <Button
-        label={"ثبت اطلاعات  هویتی"}
+        label={"جدید"}
         className="bg-primary"
         onClick={() => setModal(true)}
-        disabled={privateInfo}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
@@ -66,7 +67,7 @@ export default function AddPrivateInfo(props: any) {
         }
       />
       <Modal
-        title={`ثبت اطلاعات  هویتی`}
+        title={`آدرس جدید `}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}

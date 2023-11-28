@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { ADMIN_GATEWAY } from "api/constants";
 import { Button } from "components/common/components/button/button";
 import InputComponent from "components/common/components/input-generator";
@@ -7,37 +8,42 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
+import { CustomerBankAccountContext } from "./customer-bank-account-info";
 
-export default function EditDeseacedDate(props: any) {
-  const { refetch, privateInfo } = props;
+export default function ConfirmBankAccount() {
+  const { fetchHandler, selected } = useContext<any>(
+    CustomerBankAccountContext
+  );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/privatePerson/EditDeceasedDate`,
+    url: `${ADMIN_GATEWAY}/api/request/bankAccount/EditConfirmationStatus`,
+    method: "PATCH",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "edit-deceased-date"
+    "confirm-bank-account"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (modal && toolbar) {
-      let ToEdit = privateInfo;
+      let ToEdit = selected;
       let initialValue: any = {};
       toolbar?.map((item: any) => {
         initialValue[item.title] = ToEdit?.[item.title];
       });
       setQuery(initialValue);
     }
-  }, [toolbar, modal]);
+  }, [modal, toolbar]);
 
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
     setLoading(true);
-    await mutate({ customerId: privateInfo.customerId, ...query })
+    await mutate({ id: selected.id, ...query })
       .then(() => {
-        refetch();
+        throwToast({ type: "success", value: "حساب بانکی با موفقیت تایید شد" });
+        fetchHandler();
         setModal(false);
       })
       .catch((err) => {
@@ -52,25 +58,30 @@ export default function EditDeseacedDate(props: any) {
     setQuery(_query);
   };
 
+  const openModalHandler = () => {
+    if (selected) {
+      setModal(true);
+    } else {
+      throwToast({
+        type: "warning",
+        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+      });
+    }
+  };
+
   return (
     <>
       <Button
-        label={"ویرایش تاریخ وفات"}
+        label={"تائید "}
         className="bg-secondary"
-        onClick={() => setModal(true)}
-        disabled={!privateInfo?.isDeceased}
+        onClick={openModalHandler}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
             : []
         }
       />
-      <Modal
-        title={`ویرایش تاریخ وفات`}
-        ModalWidth={"max-w-3xl"}
-        setOpen={setModal}
-        open={modal}
-      >
+      <Modal title={`تائید حساب بانکی`} setOpen={setModal} open={modal}>
         <div className="field mt-4">
           <form className={"grid grid-cols-2 gap-4"}>
             {toolbar?.map((item: any) => {
