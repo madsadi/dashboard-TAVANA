@@ -8,6 +8,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerPrivatePersonInfoContext } from "./customer-private-person";
+import { useRouter } from "next/router";
 
 export default function EditPrivateInfo() {
   const { fetchHandler, customerId, info } = useContext<any>(
@@ -23,9 +24,12 @@ export default function EditPrivateInfo() {
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const isPrivatePersonPage =
+    router.pathname === "/customer-management/private-person";
 
   useEffect(() => {
-    if (modal && toolbar) {
+    if (modal && toolbar && info) {
       let ToEdit = info;
       let initialValue: any = {};
       toolbar?.map((item: any) => {
@@ -33,7 +37,7 @@ export default function EditPrivateInfo() {
       });
       setQuery(initialValue);
     }
-  }, [toolbar, modal]);
+  }, [toolbar, modal, info]);
 
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
@@ -55,13 +59,24 @@ export default function EditPrivateInfo() {
     setQuery(_query);
   };
 
+  const modalHandler = () => {
+    if ((info && !isPrivatePersonPage) || (isPrivatePersonPage && info)) {
+      setModal(true);
+    } else {
+      throwToast({
+        type: "warning",
+        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+      });
+    }
+  };
+
   return (
     <>
       <Button
         label={"ویرایش"}
         className="bg-secondary"
-        onClick={() => setModal(true)}
-        disabled={!info}
+        onClick={modalHandler}
+        disabled={!info && !isPrivatePersonPage}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]

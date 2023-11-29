@@ -9,6 +9,7 @@ import useQuery from "hooks/useQuery";
 import AddPrivateInfo from "./add-private-info";
 import EditPrivateInfo from "./edit-private-info";
 import EditDeseacedDate from "./edit-deceased-date";
+import { useRouter } from "next/router";
 
 export const CustomerPrivatePersonInfoContext = createContext({});
 export default function CustomerIdentityInfo() {
@@ -79,10 +80,20 @@ export default function CustomerIdentityInfo() {
   );
 }
 
-const CustomerIdentitytoolbar = () => {
+export const CustomerIdentitytoolbar = () => {
+  const router = useRouter();
+  const isPrivatePersonPage =
+    router.pathname === "/customer-management/private-person";
+
   return (
-    <div className="flex space-x-2 space-x-reverse z-10 mb-4">
-      <AddPrivateInfo />
+    <div
+      className={
+        isPrivatePersonPage
+          ? "toolbar p-2 border-x border-border"
+          : "flex space-x-2 space-x-reverse z-10 mb-4"
+      }
+    >
+      {isPrivatePersonPage ? null : <AddPrivateInfo />}
       <EditPrivateInfo />
       <EditDeseacedDate />
     </div>

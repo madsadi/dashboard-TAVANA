@@ -1056,6 +1056,8 @@ export const columnModel = [
     field: "uniqueId",
     cellClass: "textFormat",
     headerName: "کد ملی ",
+    flex: 0,
+    width: 100,
   },
   {
     colId: "portfolioValueByClosingPrice",
@@ -1187,6 +1189,21 @@ export const columnModel = [
     colId: "lastName",
     field: "lastName",
     headerName: "نام خانوادگی",
+    flex: 0,
+    width: 120,
+  },
+  { colId: "seriShChar", field: "seriShChar", headerName: "سری حرفی شناسنامه" },
+  { colId: "seriSh", field: "seriSh", headerName: "سری عددی شناسنامه" },
+  { colId: "shSerial", field: "shSerial", headerName: "	سریال شناسنامه" },
+  { colId: "shNumber", field: "shNumber", headerName: "شماره شناسنامه" },
+  { colId: "birthPlace", field: "birthPlace", headerName: "محل تولد" },
+  { colId: "issuePlace", field: "issuePlace", headerName: "محل صدور" },
+  {
+    colId: "fatherName",
+    field: "fatherName",
+    headerName: "نام پدر",
+    flex: 0,
+    width: 120,
   },
   {
     colId: "detail-opener",
@@ -1656,6 +1673,8 @@ export const columnModel = [
     colId: "genderTitle",
     field: "genderTitle",
     headerName: "جنسیت",
+    flex: 0,
+    width: 100,
   },
   {
     colId: "sejamStatusTitle",
@@ -2340,7 +2359,26 @@ export const columnModel = [
       return dateCell(rowData.value);
     },
   },
-
+  {
+    colId: "birthDate",
+    field: "birthDate",
+    headerName: "تاریخ تولد",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "deceasedDate",
+    field: "deceasedDate",
+    headerName: "تاریخ وفات",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
   {
     colId: "tradingSessionDate",
     field: "tradingSessionDate",

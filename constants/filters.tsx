@@ -624,6 +624,51 @@ const filters: FilterTreeType = {
           type: "selectInput",
         },
       ],
+      "add-private-portfolio": [
+        {
+          title: "privatePortfolioTitle",
+          name: "عنوان سبد اختصاصی",
+          type: "input",
+        },
+        { title: "bourseCode", name: "	کدبورسی سبد اختصاصی", type: "input" },
+        {
+          title: "relatedCustomerId",
+          name: " مالک سبد اختصاصی",
+          type: "dynamicSearch",
+          initialValue: "",
+          placeholder: "relatedCustomerTitle",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        {
+          title: "assetManagerId",
+          name: "مدیر سبد اختصاصی",
+          type: "dynamicSearch",
+          initialValue: "",
+          placeholder: "assetManagerTitle",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        {
+          title: "managementType",
+          name: " نوع مدیریت سبد اختصاصی",
+          type: "selectInput",
+        },
+        {
+          title: "managementStartDate",
+          name: "تاریخ شروع مدیریت",
+          type: "singleDate",
+        },
+        {
+          title: "managementEndDate",
+          name: "تاریخ پایان مدیریت",
+          type: "singleDate",
+        },
+      ],
       "edit-expiration-date": [
         {
           title: "expirationDate",
@@ -811,7 +856,37 @@ const filters: FilterTreeType = {
       ],
     },
   },
-
+  "customer-management_private_person": {
+    services: {},
+    search: {
+      filters: [
+        { title: "PageNumber", name: "شماره صفحه", type: null },
+        { title: "PageSize", name: "تعداد", type: null },
+        { title: "uniqueId", name: "کد ملی", type: "input" },
+        { title: "Gender", name: "جنسیت", type: "selectInput" },
+        { title: "BirthDate", name: "	تاریخ تولد", type: "singleDate" },
+        {
+          title: "birthPlace",
+          name: "محل تولد ",
+          type: "dynamicSearch",
+          initialValue: "",
+          placeholder: "birthPlace",
+          endpoint: `${SEJAM_GATEWAY}/api/request/SearchCity`,
+          valueField: ["cityName"],
+          resultField: "response",
+          queryField: "CityName",
+          recordField: "cityId",
+        },
+        { title: "isDeceased", name: "فوت شده؟", type: "selectInput" },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        PageNumber: 1,
+        PageSize: 20,
+        Title: "",
+      },
+    },
+  },
   "customer-management_subsidiary": {
     services: {
       CustomerManagement: [

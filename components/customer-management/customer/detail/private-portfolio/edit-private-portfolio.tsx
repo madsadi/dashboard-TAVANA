@@ -4,29 +4,25 @@ import InputComponent from "components/common/components/input-generator";
 import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
-import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerPrivatePersonInfoContext } from "./customer-private-person";
+import { CustomerPrivatePortfolioInfoContext } from "./customer-private-portfolio";
 
-export default function EditDeseacedDate() {
+export default function EditPrivatePortfolio() {
   const { fetchHandler, customerId, info } = useContext<any>(
-    CustomerPrivatePersonInfoContext
+    CustomerPrivatePortfolioInfoContext
   );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/privatePerson/EditDeceasedDate`,
+    url: `${ADMIN_GATEWAY}/api/request/privatePortfolio/Add`,
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
-    "edit-deceased-date"
+    "add-private-portfolio"
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
-  const isPrivatePersonPage =
-    router.pathname === "/customer-management/private-person";
 
   useEffect(() => {
     if (modal && toolbar) {
@@ -44,10 +40,6 @@ export default function EditDeseacedDate() {
     setLoading(true);
     await mutate({ customerId: customerId, ...query })
       .then(() => {
-        throwToast({
-          type: "success",
-          value: "اطلاعات با موفقیت ویرایش شد",
-        });
         fetchHandler();
         setModal(false);
       })
@@ -63,26 +55,13 @@ export default function EditDeseacedDate() {
     setQuery(_query);
   };
 
-  const modalHandler = () => {
-    if ((info && !isPrivatePersonPage) || (isPrivatePersonPage && info)) {
-      setModal(true);
-    } else {
-      throwToast({
-        type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
-      });
-    }
-  };
-
   return (
     <>
       <Button
-        label={"ویرایش تاریخ وفات"}
+        label={"ویرایش"}
         className="bg-secondary"
-        onClick={modalHandler}
-        disabled={
-          (!info?.isDeceased && !isPrivatePersonPage) || !isPrivatePersonPage
-        }
+        onClick={() => setModal(true)}
+        disabled={!info}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
@@ -90,7 +69,7 @@ export default function EditDeseacedDate() {
         }
       />
       <Modal
-        title={`ویرایش تاریخ وفات`}
+        title={`ثبت اطلاعات هویتی مشتری از نوع سبد اختصاصی`}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}
@@ -105,6 +84,7 @@ export default function EditDeseacedDate() {
                   item={item}
                   setQuery={setQuery}
                   onChange={onChange}
+                  dataHelper={info}
                 />
               );
             })}

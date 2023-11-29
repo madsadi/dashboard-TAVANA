@@ -14,6 +14,7 @@ import { withPermission } from "components/common/layout/with-permission";
 import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 import CustomerToolbar from "components/customer-management/customer/toolbar";
 import CustomerLegalPerson from "components/customer-management/customer/detail/legal-person/customer-legal-person";
+import CustomerPrivatePortfolio from "components/customer-management/customer/detail/private-portfolio/customer-private-portfolio";
 const CustomerIdentityInfo = dynamic(
   () =>
     import(
@@ -119,6 +120,12 @@ function Detail() {
     }
   }, [dep, userPermissions]);
 
+  const IdentityComponent: any = {
+    1: <CustomerIdentityInfo />,
+    2: <CustomerLegalPerson />,
+    3: <CustomerPrivatePortfolio />,
+  };
+
   return (
     <CustomerDetailContext.Provider value={{ data, fetchDetailData, query }}>
       <div className={"h-full w-full"}>
@@ -135,17 +142,17 @@ function Detail() {
         />
         {data ? (
           <div className={"w-full grow space-y-3 mt-5"}>
-            {data.personType === 1 ? (
-              <CustomerIdentityInfo />
-            ) : (
-              <CustomerLegalPerson />
-            )}
+            {IdentityComponent[data.personType]}
             <CustomerBankAccountInfo />
-            <CustomerAgentInfo />
-            <CustomerAddressInfo />
-            <CustomerJobInfo />
-            <CustomerFinancialBrokerInfo />
-            <CustomerFinancialInfoInfo />
+            {data.personType !== 3 ? (
+              <>
+                <CustomerAgentInfo />
+                <CustomerAddressInfo />
+                <CustomerJobInfo />
+                <CustomerFinancialBrokerInfo />
+                <CustomerFinancialInfoInfo />
+              </>
+            ) : null}
           </div>
         ) : null}
       </div>

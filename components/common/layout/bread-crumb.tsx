@@ -74,6 +74,7 @@ export default function BreadCrumbComponent() {
     "freezed-asset": "گزارش دارایی منجمد",
     "customer-portfo": "روند پورتفوی مشتری",
     "customer-to-broker": "رتبه پورتفوی مشتریان",
+    "private-person": "اشخاص حقیقی",
   };
 
   useEffect(() => {

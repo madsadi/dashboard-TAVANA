@@ -83,6 +83,16 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
         },
         {
+          label: " اشخاص حقیقی",
+          url: "/customer-management/private-person",
+          as: "/customer-management/private-person",
+          className:
+            router.asPath === `/customer-management/private-person`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person,
+        },
+        {
           label: "شرکت ها",
           url: "/customer-management/[[...page]]",
           as: "/customer-management/subsidiary",

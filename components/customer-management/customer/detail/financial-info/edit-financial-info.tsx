@@ -60,25 +60,12 @@ export default function EditFinancialInfo() {
     setQuery(_query);
   };
 
-  console.log(selected);
-
-  const openModalHandler = () => {
-    if (selected) {
-      setModal(true);
-    } else {
-      throwToast({
-        type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
-      });
-    }
-  };
-
   return (
     <>
       <Button
         label={"ویرایش"}
         className="bg-secondary"
-        onClick={openModalHandler}
+        onClick={() => setModal(true)}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]

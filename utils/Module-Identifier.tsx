@@ -9,6 +9,7 @@ export const ModuleIdentifier = {
   ONLINE_REGISTRATION_detail: "online-registration_detail",
   CUSTOMER_MANAGEMENT_customer: "customer-management_customer",
   CUSTOMER_MANAGEMENT_customer_detail: "customer-management_customer_detail",
+  CUSTOMER_MANAGEMENT_private_person: "customer-management_private_person",
   CUSTOMER_MANAGEMENT_subsidiary: "customer-management_subsidiary",
   CUSTOMER_MANAGEMENT_branch: "customer-management_branch",
   CUSTOMER_MANAGEMENT_employee: "customer-management_employee",
@@ -21,7 +22,6 @@ export const ModuleIdentifier = {
     "customer-management_customerAgreement",
   CUSTOMER_MANAGEMENT_contract: "customer-management_contract",
   CUSTOMER_MANAGEMENT_marketerContract: "customer-management_marketerContract",
-
   ONLINE_ORDERS: "online-orders",
   ONLINE_TRADES: "online-trades",
   ONLINE_TRADES_detail: "online-trades_detail",

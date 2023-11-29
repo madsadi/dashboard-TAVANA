@@ -795,8 +795,8 @@ export const personTypeEnums = [
   {
     id: 3,
     code: 3,
-    enTitle: "Both",
-    title: "هر دو",
+    enTitle: "PrivatePortfolio",
+    title: "سبد اختصاصی",
   },
 ];
 
