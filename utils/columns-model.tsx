@@ -1387,6 +1387,45 @@ export const columnModel = [
     headerName: "	کد ملی مدیر سبد",
   },
   {
+    colId: "customerUniqueId",
+    field: "customerUniqueId",
+    headerName: "کد ملی مشتری",
+  },
+  {
+    colId: "customerPhoneNumber",
+    field: "customerPhoneNumber",
+    headerName: "تلفن تماس مشتری",
+  },
+  { colId: "sheba", field: "sheba", headerName: "شبای حساب" },
+  { colId: "accountNumber", field: "accountNumber", headerName: "	شماره حساب" },
+  { colId: "bankTitle", field: "bankTitle", headerName: "نام بانک" },
+  { colId: "branchCode", field: "branchCode", headerName: "کد شعبه" },
+  { colId: "cityTitle", field: "cityTitle", headerName: "شهر شعبه" },
+  {
+    colId: "isDefault",
+    field: "isDefault",
+    headerName: "حساب پیش فرض؟",
+    valueFormatter: (rowData: any) => {
+      return rowData.data?.isDefault ? "بله" : "خیر";
+    },
+  },
+  {
+    colId: "isFromSejam",
+    field: "isFromSejam",
+    headerName: "سجامی؟",
+    valueFormatter: (rowData: any) => {
+      return rowData.data?.isFromSejam ? "بله" : "خیر";
+    },
+  },
+  {
+    colId: "isConfirmed",
+    field: "isConfirmed",
+    headerName: "تائید شده؟",
+    valueFormatter: (rowData: any) => {
+      return rowData.data?.isConfirmed ? "بله" : "خیر";
+    },
+  },
+  {
     colId: "managementTypeTitle",
     field: "managementTypeTitle",
     headerName: "نوع مدیریت سبد",

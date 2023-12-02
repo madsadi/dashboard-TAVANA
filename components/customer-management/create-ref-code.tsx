@@ -50,7 +50,7 @@ export const CreateRefCode = () => {
       loading={loading}
       allowed={
         restriction
-          ? [[service?.[0], modules?.[0]?.[1], "Create"].join(".")]
+          ? [[service?.[0], modules?.[0]?.[2], "Create"].join(".")]
           : []
       }
     />

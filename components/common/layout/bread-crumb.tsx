@@ -77,6 +77,7 @@ export default function BreadCrumbComponent() {
     "private-person": "اشخاص حقیقی",
     "legal-person": "اشخاص حقوقی",
     "private-portfolio": "سبدهای اختصاصی",
+    "bank-account": "حساب بانکی ",
   };
 
   useEffect(() => {

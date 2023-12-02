@@ -113,6 +113,16 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_private_portfolio,
         },
         {
+          label: "حساب بانکی",
+          url: "/customer-management/bank-account",
+          as: "/customer-management/bank-account",
+          className:
+            router.asPath === `/customer-management/bank-account`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_bank_account,
+        },
+        {
           label: "شرکت ها",
           url: "/customer-management/[[...page]]",
           as: "/customer-management/subsidiary",

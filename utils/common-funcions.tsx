@@ -290,6 +290,7 @@ export const FindEnum = (
     case "isFromSejam":
     case "isConfirmed":
     case "isExpired":
+    case "isDefault":
       return isRequired;
     case "Month":
       return Months;

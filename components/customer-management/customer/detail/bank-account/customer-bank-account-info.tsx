@@ -138,10 +138,16 @@ export default function CustomerBankAccountInfo() {
   );
 }
 
-const CustomerBankAccounttoolbar = () => {
+export const CustomerBankAccounttoolbar = ({ isMainPage = false }) => {
   return (
-    <div className="flex space-x-2 space-x-reverse z-10 mb-4">
-      <AddNewAccount />
+    <div
+      className={
+        isMainPage
+          ? "toolbar p-2 border-x border-border"
+          : "flex space-x-2 space-x-reverse z-10 mb-4"
+      }
+    >
+      {isMainPage ? null : <AddNewAccount />}
       <EditBankAccount />
       <ConfirmBankAccount />
       <DefaultBankAccount />

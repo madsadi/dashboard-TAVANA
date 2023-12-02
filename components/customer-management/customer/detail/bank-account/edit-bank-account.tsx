@@ -9,7 +9,7 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerBankAccountContext } from "./customer-bank-account-info";
 
-export default function EditBankAccount(props: any) {
+export default function EditBankAccount({ isMainPage = false }) {
   const { fetchHandler, customerId, selected } = useContext<any>(
     CustomerBankAccountContext
   );
@@ -78,12 +78,12 @@ export default function EditBankAccount(props: any) {
   return (
     <>
       <Button
-        label={"ویرایش "}
+        label={"ویرایش"}
         className="bg-secondary"
         onClick={openModalHandler}
         allowed={
           restriction
-            ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
+            ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
             : []
         }
       />
