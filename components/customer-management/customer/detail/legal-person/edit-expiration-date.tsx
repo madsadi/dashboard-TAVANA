@@ -9,7 +9,7 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerLegalPersonInfoContext } from "./customer-legal-person";
 
-export default function EditExpirationDate() {
+export default function EditExpirationDate({ isMainPage = false }) {
   const { fetchHandler, customerId, info } = useContext<any>(
     CustomerLegalPersonInfoContext
   );
@@ -59,13 +59,24 @@ export default function EditExpirationDate() {
     setQuery(_query);
   };
 
+  const modalHandler = () => {
+    if ((info && !isMainPage) || (isMainPage && info)) {
+      setModal(true);
+    } else {
+      throwToast({
+        type: "warning",
+        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+      });
+    }
+  };
+
   return (
     <>
       <Button
         label={"ویرایش تاریخ انقضای مجوز"}
         className="bg-secondary"
-        onClick={() => setModal(true)}
-        disabled={!info}
+        onClick={modalHandler}
+        disabled={!info && !isMainPage}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
@@ -88,6 +99,7 @@ export default function EditExpirationDate() {
                   item={item}
                   setQuery={setQuery}
                   onChange={onChange}
+                  dataHelper={info}
                 />
               );
             })}

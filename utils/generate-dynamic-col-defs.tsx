@@ -60,7 +60,7 @@ export const modularColsDef: ModularColsDefType = {
           component: (rowData: any) => (
             <ToogleCustomerPAM
               data={{
-                isActive: rowData?.data?.isPAM,
+                isActive: rowData?.data?.isPAMTrader,
                 id: rowData?.data?.id,
               }}
             />
@@ -90,6 +90,38 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "issuePlace" },
     { colId: "isDeceased" },
     { colId: "deceasedDate" },
+    { colId: "createDateTime" },
+    { colId: "updateDateTime" },
+  ],
+  "customer-management_legal_person": [
+    { colId: "checkbox" },
+    { colId: "uniqueId", headerName: "شناسه ملی" },
+    { colId: "companyName" },
+    { colId: "registerNumber" },
+    { colId: "registerPlace" },
+    { colId: "registerDate" },
+    { colId: "evidenceReleaseCompany" },
+    { colId: "evidenceReleaseDate" },
+    { colId: "economicCode" },
+    { colId: "evidenceExpirationDate" },
+    { colId: "legalPersonTypeCategoryTitle" },
+    { colId: "legalPersonTypeSubCategoryTitle" },
+    { colId: "isDissolved" },
+    { colId: "createDateTime" },
+    { colId: "updateDateTime" },
+  ],
+  "customer-management_private_portfolio": [
+    { colId: "checkbox" },
+    { colId: "privatePortfolioTitle" },
+    { colId: "bourseCode" },
+    { colId: "relatedCustomerTitle" },
+    { colId: "relatedCustomerUniqueId" },
+    { colId: "assetManagerTitle" },
+    { colId: "assetManagerUniqueId" },
+    { colId: "managementTypeTitle" },
+    { colId: "managementStartDate" },
+    { colId: "managementEndDate" },
+    { colId: "isExpired" },
     { colId: "createDateTime" },
     { colId: "updateDateTime" },
   ],

@@ -68,7 +68,7 @@ export default function CustomerPrivatePortfolio() {
               }
             />
             <LabelValue
-              title={"	تاریخ پایان مدیریت سبد "}
+              title={"تاریخ پایان مدیریت سبد "}
               value={
                 info?.managementEndDate
                   ? jalali(info?.managementEndDate).date
@@ -98,11 +98,17 @@ export default function CustomerPrivatePortfolio() {
   );
 }
 
-const CustomerIdentitytoolbar = () => {
+export const CustomerIdentitytoolbar = ({ isMainPage = false }) => {
   return (
-    <div className="flex space-x-2 space-x-reverse z-10 mb-4">
-      <AddPrivatePortfolio />
-      <EditPrivatePortfolio />
+    <div
+      className={
+        isMainPage
+          ? "toolbar p-2 border-x border-border"
+          : "flex space-x-2 space-x-reverse z-10 mb-4"
+      }
+    >
+      {isMainPage ? null : <AddPrivatePortfolio />}
+      <EditPrivatePortfolio isMainPage={isMainPage} />
     </div>
   );
 };

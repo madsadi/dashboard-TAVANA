@@ -75,6 +75,8 @@ export default function BreadCrumbComponent() {
     "customer-portfo": "روند پورتفوی مشتری",
     "customer-to-broker": "رتبه پورتفوی مشتریان",
     "private-person": "اشخاص حقیقی",
+    "legal-person": "اشخاص حقوقی",
+    "private-portfolio": "سبدهای اختصاصی",
   };
 
   useEffect(() => {

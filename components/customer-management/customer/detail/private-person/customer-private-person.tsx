@@ -80,22 +80,18 @@ export default function CustomerIdentityInfo() {
   );
 }
 
-export const CustomerIdentitytoolbar = () => {
-  const router = useRouter();
-  const isPrivatePersonPage =
-    router.pathname === "/customer-management/private-person";
-
+export const CustomerIdentitytoolbar = ({ isMainPage = false }) => {
   return (
     <div
       className={
-        isPrivatePersonPage
+        isMainPage
           ? "toolbar p-2 border-x border-border"
           : "flex space-x-2 space-x-reverse z-10 mb-4"
       }
     >
-      {isPrivatePersonPage ? null : <AddPrivateInfo />}
-      <EditPrivateInfo />
-      <EditDeseacedDate />
+      {isMainPage ? null : <AddPrivateInfo />}
+      <EditPrivateInfo isMainPage={isMainPage} />
+      <EditDeseacedDate isMainPage={isMainPage} />
     </div>
   );
 };

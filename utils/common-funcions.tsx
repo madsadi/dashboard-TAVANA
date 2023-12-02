@@ -24,6 +24,7 @@ import {
   IsValidEnums,
   LegalPersonTypeEnums,
   LegalPersonTypeSubEnums,
+  ManagementTypeEnums,
   marketerTypeEnum,
   Minutes,
   Months,
@@ -285,8 +286,10 @@ export const FindEnum = (
     case "IsPAMTrader":
     case "IsDeceased":
     case "IsDissolved":
+    case "isDissolved":
     case "isFromSejam":
     case "isConfirmed":
+    case "isExpired":
       return isRequired;
     case "Month":
       return Months;
@@ -306,6 +309,8 @@ export const FindEnum = (
       return LegalPersonTypeSubEnums;
     case "CalculationBaseType":
       return CalculationBaseTypeEnums;
+    case "managementType":
+      return ManagementTypeEnums;
     case "agentType":
       return AgentTypeEnums;
     case "Status":

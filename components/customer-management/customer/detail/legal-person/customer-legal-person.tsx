@@ -9,6 +9,7 @@ import useQuery from "hooks/useQuery";
 import AddLegalPerson from "./add-legal-person";
 import EditLegalPerson from "./edit-legal-person";
 import EditExpirationDate from "./edit-expiration-date";
+import { useRouter } from "next/router";
 
 export const CustomerLegalPersonInfoContext = createContext({});
 export default function CustomerLegalPerson() {
@@ -93,12 +94,18 @@ export default function CustomerLegalPerson() {
   );
 }
 
-const CustomerIdentitytoolbar = () => {
+export const CustomerIdentitytoolbar = ({ isMainPage = false }) => {
   return (
-    <div className="flex space-x-2 space-x-reverse z-10 mb-4">
-      <AddLegalPerson />
-      <EditLegalPerson />
-      <EditExpirationDate />
+    <div
+      className={
+        isMainPage
+          ? "toolbar p-2 border-x border-border"
+          : "flex space-x-2 space-x-reverse z-10 mb-4"
+      }
+    >
+      {isMainPage ? null : <AddLegalPerson />}
+      <EditLegalPerson isMainPage={isMainPage} />
+      <EditExpirationDate isMainPage={isMainPage} />
     </div>
   );
 };

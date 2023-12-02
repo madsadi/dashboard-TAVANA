@@ -10,7 +10,7 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerPrivatePersonInfoContext } from "./customer-private-person";
 
-export default function EditDeseacedDate() {
+export default function EditDeseacedDate({ isMainPage = false }) {
   const { fetchHandler, customerId, info } = useContext<any>(
     CustomerPrivatePersonInfoContext
   );
@@ -24,9 +24,6 @@ export default function EditDeseacedDate() {
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
-  const isPrivatePersonPage =
-    router.pathname === "/customer-management/private-person";
 
   useEffect(() => {
     if (modal && toolbar) {
@@ -64,7 +61,7 @@ export default function EditDeseacedDate() {
   };
 
   const modalHandler = () => {
-    if ((info && !isPrivatePersonPage) || (isPrivatePersonPage && info)) {
+    if ((info && !isMainPage) || (isMainPage && info)) {
       setModal(true);
     } else {
       throwToast({
@@ -80,9 +77,7 @@ export default function EditDeseacedDate() {
         label={"ویرایش تاریخ وفات"}
         className="bg-secondary"
         onClick={modalHandler}
-        disabled={
-          (!info?.isDeceased && !isPrivatePersonPage) || !isPrivatePersonPage
-        }
+        disabled={(!info?.isDeceased && !isMainPage) || !isMainPage}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]

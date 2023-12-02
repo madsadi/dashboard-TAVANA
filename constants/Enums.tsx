@@ -501,6 +501,20 @@ export const CoefficientBaseTypeEnums = [
     id: "Const",
   },
 ];
+export const ManagementTypeEnums = [
+  {
+    title: "رسمی",
+    id: 1,
+  },
+  {
+    title: "غیر رسمی",
+    id: 2,
+  },
+  {
+    title: "هر دو",
+    id: null,
+  },
+];
 export const ContractTypeEnums = [
   {
     id: "Agency",

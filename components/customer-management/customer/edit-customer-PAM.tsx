@@ -30,6 +30,8 @@ export default function ToogleCustomerPAM(props: {
       .finally(() => setLoading(false));
   };
 
+  console.log(props, isChecked);
+
   return (
     <SwitchToggle
       isChecked={isChecked}

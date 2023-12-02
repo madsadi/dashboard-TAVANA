@@ -93,6 +93,26 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person,
         },
         {
+          label: " اشخاص حقوقی",
+          url: "/customer-management/legal-person",
+          as: "/customer-management/legal-person",
+          className:
+            router.asPath === `/customer-management/legal-person`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person,
+        },
+        {
+          label: "سبدهای اختصاصی",
+          url: "/customer-management/private-portfolio",
+          as: "/customer-management/private-portfolio",
+          className:
+            router.asPath === `/customer-management/private-portfolio`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_private_portfolio,
+        },
+        {
           label: "شرکت ها",
           url: "/customer-management/[[...page]]",
           as: "/customer-management/subsidiary",

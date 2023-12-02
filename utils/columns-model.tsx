@@ -1353,6 +1353,66 @@ export const columnModel = [
     field: "LastName",
     headerName: "نام خانوادگی",
   },
+  { colId: "companyName", field: "companyName", headerName: "	عنوان شرکت" },
+  { colId: "registerNumber", field: "registerNumber", headerName: "شماره ثبت" },
+  { colId: "registerPlace", field: "registerPlace", headerName: "محل ثبت" },
+  {
+    colId: "evidenceReleaseCompany",
+    field: "evidenceReleaseCompany",
+    headerName: "صادر کنند مجوز ",
+  },
+  {
+    colId: "relatedCustomerTitle",
+    field: "relatedCustomerTitle",
+    headerName: "عنوان مالک سبد",
+  },
+  {
+    colId: "relatedCustomerUniqueId",
+    field: "relatedCustomerUniqueId",
+    headerName: "کد ملی مالک سبد",
+  },
+  {
+    colId: "privatePortfolioTitle",
+    field: "privatePortfolioTitle",
+    headerName: "عنوان سبد اختصاصی",
+  },
+  {
+    colId: "assetManagerTitle",
+    field: "assetManagerTitle",
+    headerName: "	عنوان مدیر سبد",
+  },
+  {
+    colId: "assetManagerUniqueId",
+    field: "assetManagerUniqueId",
+    headerName: "	کد ملی مدیر سبد",
+  },
+  {
+    colId: "managementTypeTitle",
+    field: "managementTypeTitle",
+    headerName: "نوع مدیریت سبد",
+  },
+
+  {
+    colId: "isExpired",
+    field: "isExpired",
+    headerName: "منقضی شده؟",
+    valueFormatter: (rowData: any) => {
+      return rowData?.data?.isExpired ? "بله" : "خیر";
+    },
+  },
+
+  { colId: "economicCode", field: "economicCode", headerName: "کد اقتصادی" },
+
+  {
+    colId: "legalPersonTypeCategoryTitle",
+    field: "legalPersonTypeCategoryTitle",
+    headerName: "نوع موسه",
+  },
+  {
+    colId: "legalPersonTypeSubCategoryTitle",
+    field: "legalPersonTypeSubCategoryTitle",
+    headerName: "گروه بندی موسسه",
+  },
   {
     colId: "FirmTitle",
     field: "FirmTitle",
@@ -2340,6 +2400,56 @@ export const columnModel = [
     },
   },
   {
+    colId: "registerDate",
+    field: "registerDate",
+    headerName: "تاریخ ثبت",
+    flex: 0,
+    width: 120,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "evidenceReleaseDate",
+    field: "evidenceReleaseDate",
+    headerName: "تاریخ صدور مجوز",
+    flex: 0,
+    width: 120,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "managementStartDate",
+    field: "managementStartDate",
+    headerName: "	تاریخ شروع مدیریت سبد",
+    flex: 0,
+    width: 120,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "managementEndDate",
+    field: "managementEndDate",
+    headerName: "	تاریخ پایان مدیریت سبد",
+    flex: 0,
+    width: 120,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "evidenceExpirationDate",
+    field: "evidenceExpirationDate",
+    headerName: "تاریخ انقضا مجوز",
+    flex: 0,
+    width: 120,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
     colId: "date",
     field: "date",
     headerName: "تاریخ",
@@ -2537,7 +2647,6 @@ export const columnModel = [
       return moodDetails;
     },
   },
-
   {
     colId: "isTBSDocsInserted",
     field: "isTBSDocsInserted",

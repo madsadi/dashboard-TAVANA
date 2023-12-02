@@ -9,7 +9,7 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerPrivatePortfolioInfoContext } from "./customer-private-portfolio";
 
-export default function EditPrivatePortfolio() {
+export default function EditPrivatePortfolio({ isMainPage = false }) {
   const { fetchHandler, customerId, info } = useContext<any>(
     CustomerPrivatePortfolioInfoContext
   );
@@ -55,13 +55,24 @@ export default function EditPrivatePortfolio() {
     setQuery(_query);
   };
 
+  const modalHandler = () => {
+    if ((info && !isMainPage) || (isMainPage && info)) {
+      setModal(true);
+    } else {
+      throwToast({
+        type: "warning",
+        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+      });
+    }
+  };
+
   return (
     <>
       <Button
         label={"ویرایش"}
         className="bg-secondary"
-        onClick={() => setModal(true)}
-        disabled={!info}
+        onClick={modalHandler}
+        disabled={!info && !isMainPage}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]

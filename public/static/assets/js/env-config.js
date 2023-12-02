@@ -33,7 +33,7 @@ window._env_ =
     "OnlineRegistrationEndPoint": "http://cluster.tech1a.co:9075",
     "SplunkHostEndPoint": "log.tech1a.co",
     "SplunkPort": 5141,
-    "KafkaBootstrapServersEndPoint": "11devkafka.tech1a.co:29092",
+    "KafkaBootstrapServersEndPoint": "devkafka.tech1a.co:29092",
     "RegisterServicePermissionEndPoint": "https://cluster.tech1a.co/api/service-permossion/register-service-permission",
     "TavanaCaptchaVerificationEndPoint": "https://cluster.tech1a.co:8543/api/validate",
     "GoogleRecaptchaVerificationEndPoint": "https://www.google.com/recaptcha/api/siteverify",

@@ -8,9 +8,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerPrivatePersonInfoContext } from "./customer-private-person";
-import { useRouter } from "next/router";
 
-export default function EditPrivateInfo() {
+export default function EditPrivateInfo({
+  isMainPage = false,
+}: {
+  isMainPage?: boolean;
+}) {
   const { fetchHandler, customerId, info } = useContext<any>(
     CustomerPrivatePersonInfoContext
   );
@@ -24,9 +27,6 @@ export default function EditPrivateInfo() {
   );
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
-  const isPrivatePersonPage =
-    router.pathname === "/customer-management/private-person";
 
   useEffect(() => {
     if (modal && toolbar && info) {
@@ -60,7 +60,7 @@ export default function EditPrivateInfo() {
   };
 
   const modalHandler = () => {
-    if ((info && !isPrivatePersonPage) || (isPrivatePersonPage && info)) {
+    if ((info && !isMainPage) || (isMainPage && info)) {
       setModal(true);
     } else {
       throwToast({
@@ -76,7 +76,7 @@ export default function EditPrivateInfo() {
         label={"ویرایش"}
         className="bg-secondary"
         onClick={modalHandler}
-        disabled={!info && !isPrivatePersonPage}
+        disabled={!info && !isMainPage}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]

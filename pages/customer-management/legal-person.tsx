@@ -13,40 +13,19 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 import {
   CustomerIdentitytoolbar,
-  CustomerPrivatePersonInfoContext,
-} from "components/customer-management/customer/detail/private-person/customer-private-person";
+  CustomerLegalPersonInfoContext,
+} from "components/customer-management/customer/detail/legal-person/customer-legal-person";
 
-function PrivatePerson() {
+function LegalPerson() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
-  const { data, loading, query, fetchData } = useQuery({
-    url: `${ADMIN_GATEWAY}/api/request/privatePerson/search`,
+  const { data, fetchData, loading, query }: any = useQuery({
+    url: `${ADMIN_GATEWAY}/api/request/legalPerson/Search`,
   });
 
-  const detailCellRendererParams = () => {
-    return {
-      detailGridOptions: {
-        enableRtl: true,
-        getRowId: (params: any) => params.data.id,
-        columnDefs: generateDynamicColumnDefs(
-          ModuleIdentifier.CUSTOMER_MANAGEMENT_customer_detail
-        ),
-        defaultColDef: {
-          resizable: true,
-          sortable: true,
-          flex: 1,
-        },
-      },
-      getDetailRowData: async (params: any) => {
-        params.successCallback([params.data]);
-      },
-    };
-  };
-
   return (
-    <CustomerPrivatePersonInfoContext.Provider
+    <CustomerLegalPersonInfoContext.Provider
       value={{
         fetchHandler: () => fetchData(query),
         customerId: selectedRows?.[0]?.id,
@@ -58,31 +37,29 @@ function PrivatePerson() {
           <SearchComponent
             onSubmit={fetchData}
             loading={loading}
-            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person}
+            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person}
           />
         </AccordionComponent>
         <CustomerIdentitytoolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
-          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person}
+          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person}
           loading={loading}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection="single"
           rowId={["customerId"]}
-          masterDetail={true}
-          detailCellRendererParams={detailCellRendererParams}
           pagination={true}
           totalCount={data?.result?.totalCount}
           fetcher={fetchData}
           query={query}
         />
       </div>
-    </CustomerPrivatePersonInfoContext.Provider>
+    </CustomerLegalPersonInfoContext.Provider>
   );
 }
 
 export default withPermission(
-  PrivatePerson,
-  ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person
+  LegalPerson,
+  ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person
 );

@@ -13,40 +13,19 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 import {
   CustomerIdentitytoolbar,
-  CustomerPrivatePersonInfoContext,
-} from "components/customer-management/customer/detail/private-person/customer-private-person";
+  CustomerPrivatePortfolioInfoContext,
+} from "components/customer-management/customer/detail/private-portfolio/customer-private-portfolio";
 
-function PrivatePerson() {
+function PrivatePortfolio() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
-  const { data, loading, query, fetchData } = useQuery({
-    url: `${ADMIN_GATEWAY}/api/request/privatePerson/search`,
+  const { data, fetchData, loading, query }: any = useQuery({
+    url: `${ADMIN_GATEWAY}/api/request/privatePortfolio/Search`,
   });
 
-  const detailCellRendererParams = () => {
-    return {
-      detailGridOptions: {
-        enableRtl: true,
-        getRowId: (params: any) => params.data.id,
-        columnDefs: generateDynamicColumnDefs(
-          ModuleIdentifier.CUSTOMER_MANAGEMENT_customer_detail
-        ),
-        defaultColDef: {
-          resizable: true,
-          sortable: true,
-          flex: 1,
-        },
-      },
-      getDetailRowData: async (params: any) => {
-        params.successCallback([params.data]);
-      },
-    };
-  };
-
   return (
-    <CustomerPrivatePersonInfoContext.Provider
+    <CustomerPrivatePortfolioInfoContext.Provider
       value={{
         fetchHandler: () => fetchData(query),
         customerId: selectedRows?.[0]?.id,
@@ -58,31 +37,29 @@ function PrivatePerson() {
           <SearchComponent
             onSubmit={fetchData}
             loading={loading}
-            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person}
+            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_portfolio}
           />
         </AccordionComponent>
         <CustomerIdentitytoolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
-          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person}
+          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_portfolio}
           loading={loading}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection="single"
           rowId={["customerId"]}
-          masterDetail={true}
-          detailCellRendererParams={detailCellRendererParams}
           pagination={true}
           totalCount={data?.result?.totalCount}
           fetcher={fetchData}
           query={query}
         />
       </div>
-    </CustomerPrivatePersonInfoContext.Provider>
+    </CustomerPrivatePortfolioInfoContext.Provider>
   );
 }
 
 export default withPermission(
-  PrivatePerson,
-  ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person
+  PrivatePortfolio,
+  ModuleIdentifier.CUSTOMER_MANAGEMENT_private_portfolio
 );
