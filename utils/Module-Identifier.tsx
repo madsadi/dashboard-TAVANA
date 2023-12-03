@@ -13,7 +13,10 @@ export const ModuleIdentifier = {
   CUSTOMER_MANAGEMENT_private_portfolio:
     "customer-management_private_portfolio",
   CUSTOMER_MANAGEMENT_legal_person: "customer-management_legal_person",
+  CUSTOMER_MANAGEMENT_agent_relation: "customer-management_agent_relation",
+  CUSTOMER_MANAGEMENT_branch_history: "customer-management_branch_history",
   CUSTOMER_MANAGEMENT_bank_account: "customer-management_bank_account",
+  CUSTOMER_MANAGEMENT_agent: "customer-management_agent",
   CUSTOMER_MANAGEMENT_subsidiary: "customer-management_subsidiary",
   CUSTOMER_MANAGEMENT_branch: "customer-management_branch",
   CUSTOMER_MANAGEMENT_employee: "customer-management_employee",
@@ -22,6 +25,7 @@ export const ModuleIdentifier = {
   CUSTOMER_MANAGEMENT_trader: "customer-management_trader",
   CUSTOMER_MANAGEMENT_marketer: "customer-management_marketer",
   CUSTOMER_MANAGEMENT_agreement: "customer-management_agreement",
+  CUSTOMER_MANAGEMENT_marketer_history: "customer-management_marketer_history",
   CUSTOMER_MANAGEMENT_customerAgreement:
     "customer-management_customerAgreement",
   CUSTOMER_MANAGEMENT_contract: "customer-management_contract",

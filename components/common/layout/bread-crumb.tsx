@@ -78,6 +78,10 @@ export default function BreadCrumbComponent() {
     "legal-person": "اشخاص حقوقی",
     "private-portfolio": "سبدهای اختصاصی",
     "bank-account": "حساب بانکی ",
+    agent: "وکیل/نماینده",
+    "agent-relation": "وکالت/نمایندگی مشتریان",
+    "branch-history": "سابقه شعبه",
+    "marketer-history": "سابقه بازاریاب ",
   };
 
   useEffect(() => {

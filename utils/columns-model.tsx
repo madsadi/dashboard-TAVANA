@@ -1181,6 +1181,41 @@ export const columnModel = [
     headerName: "موبایل",
   },
   {
+    colId: "branchTypeTitle",
+    field: "branchTypeTitle",
+    headerName: "نوع شعبه",
+  },
+  {
+    colId: "tbsBranchId",
+    field: "tbsBranchId",
+    headerName: "شناسه شعبه در TBS",
+  },
+  {
+    colId: "tbsBranchTitle",
+    field: "tbsBranchTitle",
+    headerName: "عنوان شعبه در TBS",
+  },
+  {
+    colId: "subsidiaryTitle",
+    field: "subsidiaryTitle",
+    headerName: "عنوان شرکت",
+  },
+  {
+    colId: "marketerTypeTitle",
+    field: "marketerTypeTitle",
+    headerName: "	نوع بازاریاب",
+  },
+  {
+    colId: "tbsMarketerId",
+    field: "tbsMarketerId",
+    headerName: "شناسه بازاریاب در TBS",
+  },
+  {
+    colId: "tbsMarketerTitle",
+    field: "tbsMarketerTitle",
+    headerName: "عنوان بازاریاب در TBS",
+  },
+  {
     colId: "firstName",
     field: "firstName",
     headerName: "نام",
@@ -1430,7 +1465,12 @@ export const columnModel = [
     field: "managementTypeTitle",
     headerName: "نوع مدیریت سبد",
   },
-
+  { colId: "agentTitle", field: "agentTitle", headerName: "عنوان نماینده" },
+  {
+    colId: "agentTypeTitle",
+    field: "agentTypeTitle",
+    headerName: "نوع نماینده",
+  },
   {
     colId: "isExpired",
     field: "isExpired",
@@ -2523,7 +2563,7 @@ export const columnModel = [
     field: "deceasedDate",
     headerName: "تاریخ وفات",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
     },
@@ -2533,9 +2573,9 @@ export const columnModel = [
     field: "tradingSessionDate",
     headerName: "تاریخ جلسه معاملاتی",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
-      return dateCell(rowData.value);
+      return dateCell(rowData.value, true);
     },
   },
   {
@@ -2546,6 +2586,16 @@ export const columnModel = [
     headerName: "زمان درخواست",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "expirationDate",
+    field: "expirationDate",
+    flex: 0,
+    width: 120,
+    headerName: "تاریخ انقضاء",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
     },
   },
   {
@@ -2562,6 +2612,17 @@ export const columnModel = [
     flex: 0,
     width: 180,
     headerName: "زمانبندی اجرای وضعیت",
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+
+  {
+    colId: "changeDateTime",
+    field: "changeDateTime",
+    flex: 0,
+    width: 180,
+    headerName: "تاریخ وزمان تغییر",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },

@@ -7,15 +7,16 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import React, { useContext, useEffect, useState } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerAgentInfoContext } from "./customer-agent-info";
+import { CustomerAgentRelationInfoContext } from "./customer-agent-relation-info";
 
-export default function AddAgentRelation() {
-  const [modal, setModal] = useState(false);
-  const { fetchHandler, customerId } = useContext<any>(
-    CustomerAgentInfoContext
+export default function EditAgentRelation() {
+  const { fetchHandler, customerId, selected } = useContext<any>(
+    CustomerAgentRelationInfoContext
   );
+  const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customerAgentRelation/Add`,
+    url: `${ADMIN_GATEWAY}/api/request/customerAgentRelation/Edit`,
+    method: "PATCH",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,
@@ -24,22 +25,29 @@ export default function AddAgentRelation() {
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
 
-  let initialValue: any = {};
-
   useEffect(() => {
-    if (modal) {
-      setQuery(null);
+    if (modal && toolbar) {
+      let ToEdit = selected;
+      let initialValue: any = {};
+      toolbar?.map((item: any) => {
+        initialValue[item.title] = ToEdit?.[item.title];
+      });
+      setQuery(initialValue);
     }
-  }, [modal]);
+  }, [modal, toolbar]);
 
   const addNewHandler = async (e: any, query: any) => {
     e.preventDefault();
     setLoading(true);
-    await mutate({ customerId: customerId, ...query })
+    await mutate({
+      customerId: customerId,
+      id: selected.id,
+      ...query,
+    })
       .then(() => {
         throwToast({
           type: "success",
-          value: "نماینده با موفقیت اضافه شد",
+          value: "نماینده با موفقیت ویرایش شد",
         });
         fetchHandler();
         setModal(false);
@@ -48,6 +56,17 @@ export default function AddAgentRelation() {
         throwToast({ type: "error", value: err });
       })
       .finally(() => setLoading(false));
+  };
+
+  const openModalHandler = () => {
+    if (selected) {
+      setModal(true);
+    } else {
+      throwToast({
+        type: "warning",
+        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+      });
+    }
   };
 
   const onChange = (key: string, value: any) => {
@@ -59,9 +78,9 @@ export default function AddAgentRelation() {
   return (
     <>
       <Button
-        label={" جدید"}
-        className="bg-primary"
-        onClick={() => setModal(true)}
+        label={"ویرایش "}
+        className="bg-secondary"
+        onClick={openModalHandler}
         allowed={
           restriction
             ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
@@ -69,7 +88,7 @@ export default function AddAgentRelation() {
         }
       />
       <Modal
-        title={` جدید`}
+        title={`ویرایش حساب بانکی`}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}
@@ -84,6 +103,7 @@ export default function AddAgentRelation() {
                   item={item}
                   setQuery={setQuery}
                   onChange={onChange}
+                  dataHelper={selected}
                 />
               );
             })}

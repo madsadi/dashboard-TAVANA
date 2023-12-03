@@ -27,10 +27,10 @@ const CustomerBankAccountInfo = dynamic(
       "components/customer-management/customer/detail/bank-account/customer-bank-account-info"
     )
 );
-const CustomerAgentInfo = dynamic(
+const CustomerAgentRelationInfo = dynamic(
   () =>
     import(
-      "components/customer-management/customer/detail/agent/customer-agent-info"
+      "components/customer-management/customer/detail/agent-relation/customer-agent-relation-info"
     )
 );
 const CustomerAddressInfo = dynamic(
@@ -146,7 +146,7 @@ function Detail() {
             <CustomerBankAccountInfo />
             {data.personType !== 3 ? (
               <>
-                <CustomerAgentInfo />
+                <CustomerAgentRelationInfo />
                 <CustomerAddressInfo />
                 <CustomerJobInfo />
                 <CustomerFinancialBrokerInfo />

@@ -9,8 +9,8 @@ import useQuery from "hooks/useQuery";
 import AddAgentRelation from "./add-agent-relation";
 import EditAgentRelation from "./edit-agent-relation";
 
-export const CustomerAgentInfoContext = createContext({});
-export default function CustomerAgentInfo() {
+export const CustomerAgentRelationInfoContext = createContext({});
+export default function CustomerAgentRelationInfo() {
   const { data } = useContext<any>(CustomerDetailContext);
   const [selected, setSelected] = useState<any>(null);
   const { data: info, fetchData }: any = useQuery({
@@ -32,7 +32,7 @@ export default function CustomerAgentInfo() {
     }
   };
   return (
-    <CustomerAgentInfoContext.Provider
+    <CustomerAgentRelationInfoContext.Provider
       value={{
         fetchHandler,
         customerId: data.id,
@@ -41,7 +41,7 @@ export default function CustomerAgentInfo() {
     >
       {info ? (
         <DaisyAccordionComponent title={"اطلاعات وکیل/نماینده"}>
-          <CustomerAgenttoolbar />
+          <CustomerAgentRelationToolbar />
           {info?.result?.pagedData.map((agent: any) => {
             return (
               <div
@@ -111,13 +111,19 @@ export default function CustomerAgentInfo() {
           })}
         </DaisyAccordionComponent>
       ) : null}
-    </CustomerAgentInfoContext.Provider>
+    </CustomerAgentRelationInfoContext.Provider>
   );
 }
 
-const CustomerAgenttoolbar = () => {
+export const CustomerAgentRelationToolbar = ({ isMainPage = false }) => {
   return (
-    <div className="flex space-x-2 space-x-reverse z-10 mb-4">
+    <div
+      className={
+        isMainPage
+          ? "toolbar p-2 border-x border-border"
+          : "flex space-x-2 space-x-reverse z-10 mb-4"
+      }
+    >
       <AddAgentRelation />
       <EditAgentRelation />
     </div>

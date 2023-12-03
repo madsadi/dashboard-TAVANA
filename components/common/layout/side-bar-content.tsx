@@ -123,6 +123,46 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_bank_account,
         },
         {
+          label: "وکیل/نماینده",
+          url: "/customer-management/agent",
+          as: "/customer-management/agent",
+          className:
+            router.asPath === `/customer-management/agent`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agent,
+        },
+        {
+          label: "وکالت/نمایندگی مشتریان",
+          url: "/customer-management/agent-relation",
+          as: "/customer-management/agent-relation",
+          className:
+            router.asPath === `/customer-management/agent-relation`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agent_relation,
+        },
+        {
+          label: "سابقه شعبه",
+          url: "/customer-management/branch-history",
+          as: "/customer-management/branch-history",
+          className:
+            router.asPath === `/customer-management/branch-history`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history,
+        },
+        {
+          label: "سابقه بازاریاب",
+          url: "/customer-management/marketer-history",
+          as: "/customer-management/marketer-history",
+          className:
+            router.asPath === `/customer-management/marketer-history`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer_history,
+        },
+        {
           label: "شرکت ها",
           url: "/customer-management/[[...page]]",
           as: "/customer-management/subsidiary",
