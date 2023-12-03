@@ -143,7 +143,7 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agent_relation,
         },
         {
-          label: "سابقه شعبه",
+          label: "سابقه تغییرات شعبه مشتریان",
           url: "/customer-management/branch-history",
           as: "/customer-management/branch-history",
           className:
@@ -153,7 +153,7 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history,
         },
         {
-          label: "سابقه بازاریاب",
+          label: "سابقه تغییرات بازاریاب مشتریان",
           url: "/customer-management/marketer-history",
           as: "/customer-management/marketer-history",
           className:

@@ -1,4 +1,3 @@
-import moment from "jalali-moment";
 import { useEffect, useState } from "react";
 
 export default function Time() {
