@@ -16,6 +16,7 @@ import jwt_decode from "jwt-decode";
 import { user_permissions } from "../../../store/app.config";
 import { clientId } from "pages/_app";
 import { throwToast } from "../../../utils/notification";
+import moment from "jalali-moment";
 
 interface TokenType {
   permission: string[];
@@ -134,6 +135,9 @@ export const Accessibility = () => {
       </Popover>
       <div className="lg:flex hidden mr-auto light:text-black space-x-1 space-x-reverse divide-x-2 divide-x-reverse divide-slate-400/25">
         <Time />
+        <div className="px-3" dir="rtl">
+          {moment().locale("fa").format("dddd DD MMMM YYYY")}
+        </div>
         <div>
           <Link
             className={"flex items-center px-3 cursor-pointer"}

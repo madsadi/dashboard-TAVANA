@@ -28,7 +28,6 @@ export default function Time() {
   return (
     <div className={"px-3 w-fit text-center"} suppressHydrationWarning={true}>
       {value}
-      <span className="ml-2">{moment().locale("fa").format("YYYY/MM/DD")}</span>
     </div>
   );
 }
