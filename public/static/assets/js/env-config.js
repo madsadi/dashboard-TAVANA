@@ -33,13 +33,22 @@ window._env_ =
     "OnlineRegistrationEndPoint": "http://cluster.tech1a.co:9075",
     "SplunkHostEndPoint": "log.tech1a.co",
     "SplunkPort": 5141,
-    "KafkaBootstrapServersEndPoint": "devkafka.tech1a.co:29092",
+    "KafkaBootstrapServersEndPoint": "172.24.35.22:29092",
     "RegisterServicePermissionEndPoint": "https://cluster.tech1a.co/api/service-permossion/register-service-permission",
     "TavanaCaptchaVerificationEndPoint": "https://cluster.tech1a.co:8543/api/validate",
     "GoogleRecaptchaVerificationEndPoint": "https://www.google.com/recaptcha/api/siteverify",
     "GoogleRecaptchaServerKey": "6LeuUk8aAAAAAFjIwrWsSd0yIu5XUySlJ9hyeT38",
     "CaptchaEndPoint": "https://cluster.tech1a.co:8543",
-	
+
+
+    //--------------------marketer--------------------------------------
+	"MARKETER_MONGO_CONNECTION_STRING": "mongodb://root:Passw0rd@172.24.35.21:27017/?directConnection=true&timeoutMS=2000",
+    "MARKETER_ADMIN_OPENAPI_URL": "",
+    "MARKETE_ADMIN_ORIGINS": "*",
+    "MARKETER_ADMIN_SPLUNK_INDEX": "dev",
+    "MARKETER_ADMIN_DOCS": "/docs",
+    "MARKETER_ADMIN_REDOC": "/redoc",
+
 	//------------------- ConnectionStrings ----------------------------
 	"JarchiConnectionString": "Server=172.24.34.11;Database=Jarchi;User Id=jarchi;Password=Jarchi@123456;",
 	"CustomerManagementConnectionString": "Data Source=172.24.34.11;Initial Catalog=CustomerRegistration;User Id=Customer_User;Password=C@123456;MultipleActiveResultSets=True;",
@@ -49,12 +58,12 @@ window._env_ =
 	"BookBuildingConnectionString": "Data Source=172.24.34.11;Initial Catalog=dev_BookBuildingStore;User ID=oms;Password=Oms@123456;MultipleActiveResultSets=True",
 	"CashRequestConnectionString": "Data Source=172.30.70.11;Initial Catalog=Dev_CashRequest;User ID=CashRequestUser;Password=Cash@123456;MultipleActiveResultSets=True",
 	"IntradayPortfolioConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_PortfolioManagment;User ID=Portfolio;Password=HrxG+egWNdK&Hng(;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;TrustServerCertificate=True",
-	"IntradayPortfolioMongoConnectionString": "mongodb://root:Passw0rd@devmongo.tech1a.co:27017",
+	"IntradayPortfolioMongoConnectionString": "mongodb://root:Passw0rd@172.24.35.21:27017",
 	"IpgTransactionConnectionString": "Server=172.30.70.11;Database=dev_IPGTransaction;uid=ipg;pwd=Ipg@123456;",
 	"MarketDataProviderConnectionString": "Data Source=172.24.34.11;Initial Catalog=Dev_MarketData;User ID=MarketDataUser;Password=Market@123456;MultipleActiveResultSets=True;Application Name=My Application;Connection Timeout=120;",
 	"MarketRuleStoreConnectionString": "Data Source=172.24.34.11;Initial Catalog=dev_MarketRuleStore;User ID=oms;Password=Oms@123456;MultipleActiveResultSets=True",
 	"NetFlowConnectionString": "server=172.24.34.11;database=Dev_NetFlow;uid=netFlowUser;pwd=NetFlow@123456;",
-	"OrderMediatorMongoConnectionString": "mongodb://root:Passw0rd@devmongo.tech1a.co:27017/",
+	"OrderMediatorMongoConnectionString": "mongodb://root:Passw0rd@172.24.35.21:27017/",
 	"OrderSwitchRedisConnectionString": "172.24.65.13:16379,password=aK549l327v",
 	"TseTransmitterConnectionString": "Data Source=172.30.70.11;Initial Catalog=Dev_TSETransmitter;User ID=transmitterUser;Password=Transmitter@123456;MultipleActiveResultSets=True",
 	"WalletConnectionString": "Server=172.30.70.11;Database=Dev_CashFlow;uid=cfl;pwd=Cfl@123456;",

@@ -45,7 +45,7 @@ export default function EditCustomerReagent() {
     setLoading(true);
     await mutate({
       ...query,
-      id: selectedRows[0]?.id || data.id,
+      id: selectedRows?.[0]?.id || data.id,
     })
       .then(() => {
         if (data) {

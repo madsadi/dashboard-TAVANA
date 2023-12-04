@@ -12,7 +12,7 @@ import { CustomerDetailContext } from "pages/customer-management/customer/[...us
 
 export default function EditCustomerNationality() {
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customer/EditCustomerCountry`,
+    url: `${ADMIN_GATEWAY}/api/request/customer/EditCountry`,
     method: "PATCH",
   });
   const { toolbar, restriction, service, modules } = useSearchFilters(
