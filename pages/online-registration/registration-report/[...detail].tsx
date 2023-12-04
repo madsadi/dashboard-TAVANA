@@ -164,6 +164,8 @@ function Detail() {
     };
   }, []);
 
+  console.log(data);
+
   useEffect(() => {
     if (
       dep &&

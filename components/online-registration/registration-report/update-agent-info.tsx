@@ -31,8 +31,8 @@ export default function UpdateAgentInfo() {
   let dep: string | undefined = router.query?.detail?.[0];
   const queryData: string[] | undefined = dep?.split("&");
   let userId = queryData?.[0]?.split("=")[1];
-  const info =
-    data || selectedRows?.[0]
+  let info: any =
+    data?.metaData || selectedRows?.[0]?.metaData
       ? JSON.parse(data?.metaData || selectedRows?.[0]?.metaData)?.Agent
       : null;
 

@@ -186,7 +186,6 @@ const filters: FilterTreeType = {
           title: "date",
           name: "تاریخ شروع و پایان",
           type: "date",
-          isRequired: true,
         },
       ],
       initialValue: {
