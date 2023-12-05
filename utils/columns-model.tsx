@@ -706,7 +706,7 @@ export const columnModel = [
     flex: 0,
     width: 110,
     valueFormatter: (props: any) => {
-      return props.data.deleted ? "حذف شده" : "حذف نشده";
+      return props.data.deleted ? "بله" : "خیر";
     },
     cellClassRules: {
       "text-red-500": (props: any) => props.data.deleted,
@@ -720,7 +720,7 @@ export const columnModel = [
     flex: 0,
     width: 110,
     valueFormatter: (props: any) => {
-      return props.data.isDeleted ? "حذف شده" : "حذف نشده";
+      return props.data.isDeleted ? "بله" : "خیر";
     },
     cellClassRules: {
       "text-red-500": (props: any) => props.data.isDeleted,

@@ -14,10 +14,8 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
-import {
-  CustomerIdentitytoolbar,
-  CustomerPrivatePersonInfoContext,
-} from "components/customer-management/customer/detail/private-person/customer-private-person";
+import { CustomerPrivatePersonInfoContext } from "components/customer-management/customer/detail/private-person/customer-private-person";
+import { PrivatePersonToolbar } from "components/customer-management/customer/detail/private-person/toolbar";
 
 function PrivatePerson() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
@@ -45,11 +43,13 @@ function PrivatePerson() {
     };
   };
 
+  console.log(selectedRows);
+
   return (
     <CustomerPrivatePersonInfoContext.Provider
       value={{
         fetchHandler: () => fetchData(query),
-        customerId: selectedRows?.[0]?.id,
+        customerId: selectedRows?.[0]?.customerId,
         info: selectedRows?.[0],
       }}
     >
@@ -61,7 +61,7 @@ function PrivatePerson() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person}
           />
         </AccordionComponent>
-        <CustomerIdentitytoolbar isMainPage={true} />
+        <PrivatePersonToolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_private_person}

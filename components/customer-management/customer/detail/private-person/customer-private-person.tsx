@@ -6,10 +6,7 @@ import DaisyAccordionComponent from "../../../../common/components/daisy-accordi
 import { CustomerDetailContext } from "pages/customer-management/customer/[...userId]";
 import { ADMIN_GATEWAY } from "api/constants";
 import useQuery from "hooks/useQuery";
-import AddPrivateInfo from "./add-private-info";
-import EditPrivateInfo from "./edit-private-info";
-import EditDeseacedDate from "./edit-deceased-date";
-import { useRouter } from "next/router";
+import { PrivatePersonToolbar } from "./toolbar";
 
 export const CustomerPrivatePersonInfoContext = createContext({});
 export default function CustomerIdentityInfo() {
@@ -32,7 +29,7 @@ export default function CustomerIdentityInfo() {
     >
       {info ? (
         <DaisyAccordionComponent title={"اطلاعات مشتری حقیقی"}>
-          <CustomerIdentitytoolbar />
+          <PrivatePersonToolbar />
           <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
             <LabelValue title={"نام"} value={info?.firstName} />
             <LabelValue title={"نام خانوادگی"} value={info?.lastName} />
@@ -79,19 +76,3 @@ export default function CustomerIdentityInfo() {
     </CustomerPrivatePersonInfoContext.Provider>
   );
 }
-
-export const CustomerIdentitytoolbar = ({ isMainPage = false }) => {
-  return (
-    <div
-      className={
-        isMainPage
-          ? "toolbar p-2 border-x border-border"
-          : "flex space-x-2 space-x-reverse z-10 mb-4"
-      }
-    >
-      {isMainPage ? null : <AddPrivateInfo />}
-      <EditPrivateInfo isMainPage={isMainPage} />
-      <EditDeseacedDate isMainPage={isMainPage} />
-    </div>
-  );
-};
