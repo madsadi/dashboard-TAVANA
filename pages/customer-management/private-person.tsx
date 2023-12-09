@@ -43,8 +43,6 @@ function PrivatePerson() {
     };
   };
 
-  console.log(selectedRows);
-
   return (
     <CustomerPrivatePersonInfoContext.Provider
       value={{

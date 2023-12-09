@@ -501,6 +501,33 @@ export const CoefficientBaseTypeEnums = [
     id: "Const",
   },
 ];
+
+export const AssignmentTypeEnums = [
+  {
+    title: "مبلغ",
+    id: "1",
+  },
+  {
+    title: "درصد",
+    id: "2",
+  },
+];
+
+export const SettlementStateEnum = [
+  {
+    title: "تسویه شده",
+    id: 1,
+  },
+  {
+    title: "تسویه نشده",
+    id: 2,
+  },
+  {
+    title: "هر دو",
+    id: 3,
+  },
+];
+
 export const ManagementTypeEnums = [
   {
     title: "رسمی",

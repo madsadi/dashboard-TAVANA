@@ -12,8 +12,9 @@ const nextConfig = {
       SejamGatewayEndPoint: process.env.SejamGatewayEndPoint,
       NetflowEndPoint: process.env.NetflowEndPoint,
       MarketerAdminEndPoint: process.env.MarketerAdminEndPoint,
-    }
-  }
-}
+      CreditManagementEndPoint: process.env.CreditManagementEndPoint,
+    },
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

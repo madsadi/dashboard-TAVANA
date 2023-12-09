@@ -2,6 +2,7 @@ import { CopyButton } from "components/common/components/copy-button";
 import { chunk, dateCell, formatNumber } from "./common-funcions";
 import {
   AssetStatusEnums,
+  AssignmentTypeEnums,
   CustomerOriginEnums,
   FactorStatusEnums,
   GetOfferTypeEnums,
@@ -389,6 +390,17 @@ export const columnModel = [
     field: "netBrokerCommissionCoeff",
     headerName: "ضریب کارمزد نقد کارگزاری",
   },
+  { colId: "bankName", field: "bankName", headerName: "نام بانک" },
+  { colId: "branchName", field: "branchName", headerName: "نام شعبه" },
+  {
+    colId: "facilityAmount",
+    field: "facilityAmount",
+    headerName: "مبلغ تسهیلات",
+  },
+  { colId: "interestRate", field: "interestRate", headerName: "نرخ بهره" },
+  { colId: "accountCode", field: "accountCode", headerName: "کد حساب" },
+  { colId: "shebaNumber", field: "shebaNumber", headerName: "شماره شبا" },
+
   {
     colId: "customerCounterSideCode",
     field: "customerCounterSideCode",
@@ -700,6 +712,21 @@ export const columnModel = [
     headerName: "ارزش افزوده انبارداری",
   },
   {
+    colId: "creditCategoryCode",
+    field: "creditCategoryCode",
+    headerName: "کد گروه اعتباری",
+  },
+  {
+    colId: "creditCategoryTitle",
+    field: "creditCategoryTitle",
+    headerName: "نام گروه اعتباری",
+  },
+  {
+    colId: "creditCategoryEnTitle",
+    field: "creditCategoryEnTitle",
+    headerName: "نام انگلیسی گروه اعتباری",
+  },
+  {
     colId: "deleted",
     field: "deleted",
     headerName: "حذف شده؟",
@@ -725,6 +752,23 @@ export const columnModel = [
     cellClassRules: {
       "text-red-500": (props: any) => props.data.isDeleted,
       "text-emerald-500": (props: any) => !props.data.isDeleted,
+    },
+  },
+  {
+    colId: "assignmentType",
+    field: "assignmentType",
+    headerName: "نوع تخصیص",
+    valueFormatter: (props: any) => {
+      return AssignmentTypeEnums.find((item) => item.id === props.value)?.title;
+    },
+  },
+  { colId: "creditAmount", field: "creditAmount", headerName: "مقدار اعتبار" },
+  {
+    colId: "creditPercentage",
+    field: "creditPercentage",
+    headerName: "درصد اعتبار",
+    valueFormatter: (props: any) => {
+      return "%" + formatNumber(props, 2);
     },
   },
   {
@@ -2372,6 +2416,56 @@ export const columnModel = [
     colId: "toActiveDateTime",
     field: "toActiveDateTime",
     headerName: "زمان پایان",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "expireDate",
+    field: "expireDate",
+    headerName: "موعد تسویه",
+    flex: 0,
+    width: 120,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
+    },
+  },
+  {
+    colId: "createdDateTime",
+    field: "createdDateTime",
+    headerName: "تاریخ ایجاد",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "createdDate",
+    field: "createdDate",
+    headerName: "تاریخ ایجاد",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "modifiedDateTime",
+    field: "modifiedDateTime",
+    headerName: "ناریخ ویرایش",
+    flex: 0,
+    width: 180,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "modifiedDate",
+    field: "modifiedDate",
+    headerName: "ناریخ ویرایش",
     flex: 0,
     width: 180,
     valueFormatter: (rowData: any) => {

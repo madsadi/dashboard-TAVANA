@@ -4,6 +4,7 @@ import {
   activeStatus,
   AgentTypeEnums,
   AssetStatusEnums,
+  AssignmentTypeEnums,
   BankAccountTypeEnums,
   bousreCodeType,
   CalculationBaseType,
@@ -40,6 +41,7 @@ import {
   personTypeEnums,
   riskLevel,
   sejamStatusEnums,
+  SettlementStateEnum,
   sides,
   SortBy,
   SortOrder,
@@ -247,6 +249,8 @@ export const FindEnum = (
       return customerTypeEnums;
     case "ChangeType":
       return changeTypeEnums;
+    case "assignmentType":
+      return AssignmentTypeEnums;
     case "personOrigin":
       return personOriginEnums;
     case "subsidiaryTypeCode":
@@ -261,6 +265,8 @@ export const FindEnum = (
       return onlineRegistrationStatusEnums;
     case "riskLevel":
       return riskLevel;
+    case "SettlementState":
+      return SettlementStateEnum;
     case "type":
     case "Type":
       if (label === "نوع بازاریاب" || label === "نوع قرارداد بازاریابی") {

@@ -1,4 +1,4 @@
-import { EditWrapper } from "components/common/context/edit-wrapper";
+import { CRUDWrapper } from "components/common/context/CRUD-wrapper";
 import AddPrivateInfo from "./add-private-info";
 import { Button } from "components/common/components/button/button";
 import { useContext, useRef, useState } from "react";
@@ -80,12 +80,13 @@ export const PrivatePersonToolbar = ({ isMainPage = false }) => {
       }
     >
       {isMainPage ? null : <AddPrivateInfo />}
-      <EditWrapper
+      <CRUDWrapper
         ref={editPrivateInfoRef}
         title={`ویرایش اطلاعات  هویتی`}
         confirmHandler={editPrivateInfo}
         loading={loading}
-        module={"CUSTOMER_MANAGEMENT_customer"}
+        mode="edit"
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customer}
         selectedItem={info}
         subModule="add-private-person"
       >
@@ -100,13 +101,14 @@ export const PrivatePersonToolbar = ({ isMainPage = false }) => {
               : []
           }
         />
-      </EditWrapper>
-      <EditWrapper
+      </CRUDWrapper>
+      <CRUDWrapper
         ref={editDeseacedDateRef}
         title={"ویرایش تاریخ وفات"}
         confirmHandler={editDeceasedDate}
         loading={loading}
-        module={"CUSTOMER_MANAGEMENT_customer"}
+        mode="edit"
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customer}
         selectedItem={info}
         subModule="edit-deceased-date"
       >
@@ -121,7 +123,7 @@ export const PrivatePersonToolbar = ({ isMainPage = false }) => {
               : []
           }
         />
-      </EditWrapper>
+      </CRUDWrapper>
     </div>
   );
 };

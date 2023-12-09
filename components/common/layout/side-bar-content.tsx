@@ -69,6 +69,37 @@ export default function SideBarContent() {
       ],
     },
     {
+      label: "اعتبارات",
+      expanded: router.pathname.startsWith("/credit"),
+      children: [
+        {
+          label: "بانک",
+          url: "/credit/bank",
+          as: "/credit/bank",
+          className: router.pathname === "/credit/bank" ? "sideBarActive" : "",
+          module: ModuleIdentifier.CREDIT_bank,
+        },
+        {
+          label: "گروه های اعتباری",
+          url: "/credit/category",
+          as: "/credit/category",
+          className:
+            router.pathname === "/credit/category" ? "sideBarActive" : "",
+          module: ModuleIdentifier.CREDIT_category,
+        },
+        {
+          label: "اعتبار گروه های اعتباری",
+          url: "/credit/category-assignment",
+          as: "/credit/category-assignment",
+          className:
+            router.pathname === "/credit/category-assignment"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CREDIT_category_assignment,
+        },
+      ],
+    },
+    {
       label: "مدیریت مشتریان",
       expanded: router.pathname.startsWith("/customer-management"),
       children: [

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "entrypoint.sh && next dev",
+    "dev": "entrypoint.sh && set HTTPS=true && next dev",
     "build": "next build",
     "start": "next start -p 80",
     "lint": "next lint"

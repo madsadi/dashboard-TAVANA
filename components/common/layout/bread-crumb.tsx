@@ -82,6 +82,9 @@ export default function BreadCrumbComponent() {
     "agent-relation": "وکالت/نمایندگی مشتریان",
     "branch-history": "سابقه شعبه",
     "marketer-history": "سابقه بازاریاب ",
+    credit: "اعتبارات",
+    bank: "بانک",
+    category: "گروه های اعتباری",
   };
 
   useEffect(() => {

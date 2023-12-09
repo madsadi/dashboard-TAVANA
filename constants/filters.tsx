@@ -2038,6 +2038,171 @@ const filters: FilterTreeType = {
       ],
     },
   },
+  credit_bank: {
+    services: {},
+    search: {
+      filters: [
+        { title: "PageNumber", name: "شماره صفحه", type: null },
+        { title: "PageSize", name: "تعداد", type: null },
+        { title: "BankName", name: "نام بانک", type: "input" },
+        { title: "BranchName", name: "نام شعبه", type: "input" },
+        { title: "BranchCode", name: "کد شعبه", type: "input" },
+        { title: "FacilityCode", name: "کد تسهیلات", type: "input" },
+        {
+          title: "AccountCode",
+          name: "کد حساب",
+          type: "input",
+          valueType: "number",
+        },
+        {
+          title: "FacilityAmount",
+          name: "مبلغ تسهیلات",
+          type: "input",
+          valueType: "number",
+        },
+        {
+          title: "InterestRate",
+          name: "نرخ بهره",
+          type: "input",
+          valueType: "number",
+        },
+        { title: "RegisterDate", name: "تاریخ دریافت", type: "singleDate" },
+        { title: "ExpireDate", name: "موعد تسویه", type: "singleDate" },
+        { title: "SettlementDate", name: "تاریخ تسویه", type: "singleDate" },
+        { title: "ShebaNumber", name: "شماره شبا", type: "input" },
+        { title: "SettlementState", name: "وضعیت تسویه", type: "selectInput" },
+        { title: "Description", name: "توضیحات", type: "input" },
+      ],
+      initialValue: {
+        PageNumber: 1,
+        PageSize: 20,
+        SettlementState: 3,
+      },
+    },
+    toolbar: {
+      modal: [
+        { title: "bankName", name: "نام بانک", type: "input" },
+        { title: "branchName", name: "نام شعبه", type: "input" },
+        { title: "branchCode", name: "کد شعبه", type: "input" },
+        { title: "facilityCode", name: "کد تسهیلات", type: "input" },
+        {
+          title: "facilityAmount",
+          name: "مبلغ تسهیلات",
+          type: "input",
+          valueType: "number",
+        },
+        { title: "interestRate", name: "نرخ بهره", type: "input" },
+        { title: "registerDate", name: "تاریخ دریافت", type: "singleDate" },
+        { title: "expireDate", name: "موعد تسویه", type: "singleDate" },
+        { title: "accountCode", name: "کد حساب", type: "input" },
+        { title: "description", name: "توضیحات", type: "input" },
+        { title: "shebaNumber", name: "شماره شبا", type: "input" },
+        { title: "settlementDate", name: "تاریخ تسویه", type: "singleDate" },
+      ],
+    },
+  },
+  credit_category: {
+    services: {},
+    search: {
+      filters: [
+        {
+          title: "CreditCategoryTitle",
+          name: "نام گروه اعتباری",
+          type: "input",
+        },
+        {
+          title: "CreditCategoryCode",
+          name: "کد گروه اعتباری",
+          type: "input",
+        },
+        {
+          title: "CreditCategoryEnTitle",
+          name: "نام انگلیسی گروه اعتباری",
+          type: "input",
+        },
+      ],
+      initialValue: {
+        PageNumber: 1,
+        PageSize: 20,
+      },
+    },
+    toolbar: {
+      add: [
+        {
+          title: "CreditCategoryTitle",
+          name: "نام گروه اعتباری",
+          type: "input",
+          isRequired: true,
+        },
+        {
+          title: "CreditCategoryCode",
+          name: "کد گروه اعتباری",
+          type: "input",
+          isRequired: true,
+        },
+        {
+          title: "CreditCategoryEnTitle",
+          name: "نام انگلیسی گروه اعتباری",
+          type: "input",
+          isRequired: true,
+        },
+      ],
+    },
+  },
+  credit_category_assignment: {
+    services: {},
+    search: {
+      filters: [
+        { title: "PageNumber", name: "شماره صفحه", type: null },
+        { title: "PageSize", name: "تعداد", type: null },
+        {
+          title: "creditCategoryCode",
+          name: "کد گروه اعتباری",
+          type: "input",
+        },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+        },
+      ],
+      initialValue: {
+        PageNumber: 1,
+        PageSize: 20,
+      },
+    },
+    toolbar: {
+      modal: [
+        {
+          title: "creditCategoryCode",
+          name: "کد گروه اعتباری",
+          type: "input",
+          isRequired: true,
+        },
+        {
+          title: "assignmentType",
+          name: "نوع تخصیص",
+          type: "selectInput",
+          isRequired: true,
+        },
+        {
+          title: "creditPercentage",
+          name: "درصد اعتبار",
+          type: "input",
+        },
+        {
+          title: "creditAmount",
+          name: "مقدار اعتبار",
+          type: "input",
+        },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+        },
+      ],
+    },
+  },
   "online-orders": {
     services: {
       OrderStore: [

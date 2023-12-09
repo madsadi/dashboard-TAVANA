@@ -6,17 +6,16 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { ModuleIdentifier } from "utils/Module-Identifier";
 import Modal from "../layout/modal";
 import InputComponent from "../components/input-generator";
 import { Button } from "../components/button/button";
+import { ModulesType } from "utils/generate-dynamic-col-defs";
 
-type ModulesType = keyof typeof ModuleIdentifier;
-
-interface EditWrapperProps {
+interface CRUDWrapperProps {
   children: ReactElement;
   confirmHandler: (e: any, query: any) => void;
-  selectedItem: any;
+  mode?: "edit" | "";
+  selectedItem?: any;
   title: string;
   ModalWidth?: "" | "max-w-3xl";
   module: ModulesType;
@@ -24,10 +23,11 @@ interface EditWrapperProps {
   loading: boolean;
 }
 
-export const EditWrapper = forwardRef((props: EditWrapperProps, ref) => {
+export const CRUDWrapper = forwardRef((props: CRUDWrapperProps, ref) => {
   const {
     children,
     confirmHandler,
+    mode = "",
     selectedItem,
     title,
     ModalWidth = "max-w-3xl",
@@ -38,16 +38,18 @@ export const EditWrapper = forwardRef((props: EditWrapperProps, ref) => {
   const [query, setQuery] = useState<any>({});
   const [modal, setModal] = useState(false);
 
-  const { toolbar } = useSearchFilters(ModuleIdentifier[module], subModule);
+  const { toolbar } = useSearchFilters(module, subModule);
 
   useEffect(() => {
     if (modal && toolbar) {
-      let ToEdit = selectedItem;
+      let ToEdit = selectedItem || null;
       let initialValue: any = {};
-      toolbar?.map((item: any) => {
-        initialValue[item.title] = ToEdit?.[item.title];
-      });
-      setQuery(initialValue);
+      if (mode === "edit") {
+        toolbar?.map((item: any) => {
+          initialValue[item.title] = ToEdit?.[item.title];
+        });
+        setQuery(initialValue);
+      }
     }
   }, [modal, toolbar]);
 
@@ -107,4 +109,4 @@ export const EditWrapper = forwardRef((props: EditWrapperProps, ref) => {
   );
 });
 
-EditWrapper.displayName = "EditWrapper";
+CRUDWrapper.displayName = "CRUDWrapper";

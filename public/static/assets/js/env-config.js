@@ -41,13 +41,19 @@ window._env_ =
     "CaptchaEndPoint": "https://cluster.tech1a.co:8543",
 
 
-    //--------------------marketer--------------------------------------
-	"MARKETER_MONGO_CONNECTION_STRING": "mongodb://root:Passw0rd@172.24.35.21:27017/?directConnection=true&timeoutMS=2000",
+    //--------------------marketer admin--------------------------------------
+	"MARKETER_MONGO_CONNECTION_STRING": "mongodb://root:Passw0rd@172.24.35.21:27017/?directConnection=true",
     "MARKETER_ADMIN_OPENAPI_URL": "",
-    "MARKETE_ADMIN_ORIGINS": "*",
+    "MARKETER_ADMIN_ORIGINS": "*",
     "MARKETER_ADMIN_SPLUNK_INDEX": "dev",
     "MARKETER_ADMIN_DOCS": "/docs",
     "MARKETER_ADMIN_REDOC": "/redoc",
+    //--------------------marketer api--------------------------------------
+    "MARKETER_OPENAPI_URL": "/openapi.json",
+    "MARKETER_ORIGINS": "*",
+    "MARKETER_DOCS": "/docs",
+    "MARKETER_REDOC": "/redoc",
+    
 
 	//------------------- ConnectionStrings ----------------------------
 	"JarchiConnectionString": "Server=172.24.34.11;Database=Jarchi;User Id=jarchi;Password=Jarchi@123456;",
