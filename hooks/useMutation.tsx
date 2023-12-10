@@ -1,4 +1,5 @@
 import axios from "axios";
+import { lowerFirstLetter } from "utils/common-funcions";
 import { throwToast } from "utils/notification";
 
 interface mutationProps {
@@ -25,7 +26,7 @@ const useMutation = ({
           input[item] !== undefined &&
           input[item] !== ""
         ) {
-          bodyToQuery[item] = input[item];
+          bodyToQuery[lowerFirstLetter(item)] = input[item];
         }
       });
       return bodyToQuery;

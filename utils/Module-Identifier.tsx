@@ -33,6 +33,7 @@ export const ModuleIdentifier = {
   CREDIT_bank: "credit_bank",
   CREDIT_category: "credit_category",
   CREDIT_category_assignment: "credit_category_assignment",
+  CREDIT_contract: "credit_contract",
   ONLINE_ORDERS: "online-orders",
   ONLINE_TRADES: "online-trades",
   ONLINE_TRADES_detail: "online-trades_detail",

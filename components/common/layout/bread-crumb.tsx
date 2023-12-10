@@ -51,7 +51,7 @@ export default function BreadCrumbComponent() {
     roles: "نقش و دسترسی",
     "online-registration": "ثبت نام غیر حضوری",
     "registration-report": "گزارش ثبت نام",
-    contract: "قرارداد بازاریابی",
+    contract: "قرارداد",
     marketerContract: "قرارداد با بازاریاب",
     profile: "حساب کاربری",
     "marketer-app": "اپلیکیشن مارکتر",
@@ -85,6 +85,7 @@ export default function BreadCrumbComponent() {
     credit: "اعتبارات",
     bank: "بانک",
     category: "گروه های اعتباری",
+    "category-assignment": " اعتبار گروه های اعتباری",
   };
 
   useEffect(() => {

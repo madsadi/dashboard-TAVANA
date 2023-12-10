@@ -43,7 +43,7 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
         ref={ref}
         id="rangeDate"
         value={dateRangeHandler(
-          convertor({ StartDate: query?.StartDate, EndDate: query?.EndDate })
+          convertor({ startDate: query?.startDate, endDate: query?.endDate })
         )}
       />
     </div>
@@ -51,32 +51,32 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
 
   const selectTodayHandler = () => {
     let enToday = moment().locale("en").format("YYYY-MM-DD");
-    if (query?.StartDate) {
+    if (query?.startDate) {
       setQuery({
         ...query,
-        StartDate: query?.StartDate,
-        EndDate: enToday || null,
+        startDate: query?.startDate,
+        endDate: enToday || null,
       });
     } else {
       setQuery({
         ...query,
-        StartDate: enToday || null,
-        EndDate: query?.EndDate,
+        startDate: enToday || null,
+        endDate: query?.endDate,
       });
     }
   };
 
   function convertor({
-    StartDate,
-    EndDate,
+    startDate,
+    endDate,
   }: {
-    StartDate: string;
-    EndDate: string;
+    startDate: string;
+    endDate: string;
   }): DayRange {
-    const jalaliStartDate = StartDate ? jalali(StartDate || "")?.date : null;
+    const jalaliStartDate = startDate ? jalali(startDate || "")?.date : null;
     const from = jalaliStartDate?.split("/") || null;
 
-    const jalaliEndDate = EndDate ? jalali(EndDate || "")?.date : null;
+    const jalaliEndDate = endDate ? jalali(endDate || "")?.date : null;
     const to = jalaliEndDate?.split("/") || null;
 
     return {
@@ -97,14 +97,14 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
     <div>
       <DatePicker
         value={convertor({
-          StartDate: query?.StartDate || null,
-          EndDate: query?.EndDate || null,
+          startDate: query?.startDate || null,
+          endDate: query?.endDate || null,
         })}
         onChange={(e) => {
           if (setQuery) {
             setQuery({
               ...query,
-              StartDate: e.from
+              startDate: e.from
                 ? `${moment
                     .from(
                       `${e.from?.year}/${e.from?.month}/${e.from?.day}`,
@@ -113,7 +113,7 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
                     )
                     .format("YYYY-MM-DD")}`
                 : null,
-              EndDate: e.to
+              endDate: e.to
                 ? `${moment
                     .from(
                       `${e.to?.year}/${e.to?.month}/${e.to?.day}`,

@@ -18,6 +18,7 @@ import {
   FactorStatusEnums,
   genderEnums,
   GetOfferTypeEnums,
+  GuaranteeTypeEnums,
   Hours,
   Interval,
   isActiveWithNoNull,
@@ -48,6 +49,7 @@ import {
   statesEnums,
   stationTypeEnum,
   StatusEnums,
+  StatusTypeEnum,
   subsidiaryType,
   TradingKnowledgeLevelEnunms,
   TransactionLevelEnums,
@@ -95,6 +97,10 @@ export const formatNumber = (params: any, fixed: number) => {
     return params.value;
   }
 };
+
+export function lowerFirstLetter(string: string) {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+}
 
 export function chunk(str: string, n: number) {
   var ret = [];
@@ -310,6 +316,8 @@ export const FindEnum = (
       return TradingKnowledgeLevelEnunms;
     case "ContractType":
       return ContractTypeEnums;
+    case "guaranteeType":
+      return GuaranteeTypeEnums;
     case "legalPersonTypeCategory":
       return LegalPersonTypeEnums;
     case "legalPersonTypeSubCategory":
@@ -326,6 +334,8 @@ export const FindEnum = (
         return AssetStatusEnums;
       } else if (label === "وضعیت فاکتور") {
         return FactorStatusEnums;
+      } else if (label === "وضعیت اعتبار") {
+        return StatusTypeEnum;
       } else {
         return StatusEnums;
       }

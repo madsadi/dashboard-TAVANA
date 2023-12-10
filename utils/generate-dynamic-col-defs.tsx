@@ -5,6 +5,8 @@ import ToggleButton from "components/marketer-app/marketer-contract/toggle-butto
 import RoleToggleButton from "components/users-management/roles/role-toggle-button";
 import ToggleButtonUsers from "components/users-management/users/toggle-button";
 import ToogleCustomerPAM from "components/customer-management/customer/edit-customer-PAM";
+import { StatusTypeEnum } from "constants/Enums";
+import StatusToggle from "components/credit/contract/status-toggle";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
@@ -216,6 +218,49 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "startDate" },
     { colId: "endDate" },
     { colId: "createdDate" },
+  ],
+  credit_contract: [
+    { colId: "checkbox" },
+    { colId: "creditContractCode" },
+    {
+      colId: "tradeCode",
+      valueFormatter: (rowData: any) => {
+        return `${rowData?.value}`;
+      },
+    },
+    { colId: "guaranteeType" },
+    {
+      colId: "status",
+      headerName: "وضعیت اعتبار",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <StatusToggle
+              data={{
+                creditContractCode: rowData?.data?.creditContractCode,
+                isActive: rowData?.data?.status === "1",
+                id: rowData?.data?.contractId,
+              }}
+            />
+          ),
+        };
+      },
+      valueFormatter: (rowData: any) => {
+        return (
+          StatusTypeEnum.find((item: any) => item.id === rowData?.value)
+            ?.title || rowData?.value
+        );
+      },
+    },
+    { colId: "chequeAmount" },
+    { colId: "chequeSerial" },
+    { colId: "promissoryAmount" },
+    { colId: "promissorySerial" },
+    { colId: "comment" },
+    { colId: "registerDate" },
+    { colId: "expireDate" },
+    { colId: "createdDateTime" },
+    { colId: "modifiedDateTime" },
   ],
   "commission-management_category": [
     { colId: "id" },

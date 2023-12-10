@@ -6,6 +6,7 @@ import {
   CustomerOriginEnums,
   FactorStatusEnums,
   GetOfferTypeEnums,
+  GuaranteeTypeEnums,
   SettlementDelayEnums,
   changeTypeEnums,
   customerTypeEnums,
@@ -159,6 +160,33 @@ export const columnModel = [
     field: "Plan",
     headerName: "پلکان",
   },
+  { colId: "chequeAmount", field: "chequeAmount", headerName: "مبلغ جک" },
+  { colId: "chequeSerial", field: "chequeSerial", headerName: "سریال چک" },
+  {
+    colId: "promissoryAmount",
+    field: "promissoryAmount",
+    headerName: "مبلع سفته",
+  },
+  {
+    colId: "guaranteeType",
+    field: "guaranteeType",
+    headerName: "نوع اعتبار",
+    valueFormatter: (rowData: any) => {
+      return GuaranteeTypeEnums.find((item: any) => item.id === rowData?.value)
+        ?.title;
+    },
+  },
+  {
+    colId: "creditContractCode",
+    field: "creditContractCode",
+    headerName: "شماره قرارداد",
+  },
+  {
+    colId: "promissorySerial",
+    field: "promissorySerial",
+    headerName: "سریال سفته",
+  },
+  { colId: "comment", field: "comment", headerName: "توضیحات" },
   {
     colId: "Status",
     field: "Status",
@@ -2119,7 +2147,7 @@ export const columnModel = [
   {
     colId: "status",
     field: "status",
-    headerName: "وضعیت ",
+    headerName: "وضعیت",
     valueFormatter: (rowData: any) => {
       return AssetStatusEnums.find(
         (item: any) => item.id === rowData?.data?.status

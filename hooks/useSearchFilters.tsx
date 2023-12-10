@@ -1,5 +1,7 @@
 import { prepare, seperate_modules } from "../utils/permission-utils";
 import filters from "../constants/filters";
+import { lowerFirstLetter } from "utils/common-funcions";
+import { FilterItemType } from "types/constant-filters.types";
 
 export function useSearchFilters(module: string, feature?: string) {
   const dictionary: any = filters;
@@ -11,7 +13,12 @@ export function useSearchFilters(module: string, feature?: string) {
 
   if (module) {
     return {
-      filters: dictionary[module]?.search?.filters,
+      filters: dictionary[module]?.search?.filters.map(
+        (item: FilterItemType) => ({
+          ...item,
+          title: lowerFirstLetter(item.title),
+        })
+      ),
       initialValue: dictionary[module]?.search?.initialValue,
       toolbar: feature ? dictionary[module]?.toolbar?.[feature] : null,
       service: services,

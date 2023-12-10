@@ -14,7 +14,6 @@ import { isAllowed } from "../../../utils/permission-utils";
 import { useSelector } from "react-redux";
 import ExcelExport from "../components/button/excel-export";
 import { QueryType } from "types/types";
-import { BaseInput } from "../components/inputs/base-input";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 function classNames(...classes: any) {
@@ -38,8 +37,8 @@ export default function TablePagination({
     (state: any) => state.appConfig
   );
   const [pageQuery, setPageQuery] = useState<QueryType>({
-    PageSize: query?.PageSize || 20,
-    PageNumber: 1,
+    pageSize: query?.pageSize || 20,
+    pageNumber: 1,
   });
   const [customPageSize, setCustomPageSize] = useState<number>();
   const { service, modules, restriction } = useSearchFilters(module || "");
@@ -52,11 +51,11 @@ export default function TablePagination({
   };
 
   useEffect(() => {
-    if (pageQuery?.PageNumber > 1) queryUpdate("PageNumber", 1);
-  }, [pageQuery?.PageSize]);
+    if (pageQuery?.pageNumber > 1) queryUpdate("pageNumber", 1);
+  }, [pageQuery?.pageSize]);
 
   useEffect(() => {
-    if (query?.PageNumber && query?.PageSize) setPageQuery(query);
+    if (query?.pageNumber && query?.pageSize) setPageQuery(query);
   }, [query]);
 
   const onChangeHandler = (e: any) => {
@@ -64,8 +63,8 @@ export default function TablePagination({
   };
 
   const onPageSizeChange = (value: number) => {
-    queryUpdate("PageSize", value);
-    onSubmit({ ...pageQuery, PageNumber: 1, PageSize: value });
+    queryUpdate("pageSize", value);
+    onSubmit({ ...pageQuery, pageNumber: 1, pageSize: value });
   };
 
   return (
@@ -82,8 +81,8 @@ export default function TablePagination({
                 })
               : false
           }
-          name={"PageSize"}
-          value={pageQuery?.PageSize}
+          name={"pageSize"}
+          value={pageQuery?.pageSize}
           onChange={(e: number) => {
             onPageSizeChange(e);
             setCustomPageSize(undefined);
@@ -94,7 +93,7 @@ export default function TablePagination({
               <Listbox.Button className="relative flex min-w-full cursor-pointer rounded-md border border-border disabled:cursor-not-allowed bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none">
                 <span className="flex items-center">
                   <span className="ml-2 block truncate text-sm">
-                    {pageQuery?.PageSize}
+                    {pageQuery?.pageSize}
                   </span>
                 </span>
 
@@ -175,26 +174,26 @@ export default function TablePagination({
       </div>
       <button
         onClick={(e) => {
-          queryUpdate("PageNumber", 1);
-          onSubmit({ ...pageQuery, PageNumber: 1 });
+          queryUpdate("pageNumber", 1);
+          onSubmit({ ...pageQuery, pageNumber: 1 });
         }}
         className={`${
-          pageQuery?.PageNumber <= 1 ? "text-gray-400" : "hover:bg-gray-400"
+          pageQuery?.pageNumber <= 1 ? "text-gray-400" : "hover:bg-gray-400"
         } rounded-full bg-border transition-all p-1`}
-        disabled={pageQuery?.PageNumber <= 1}
+        disabled={pageQuery?.pageNumber <= 1}
         aria-label="first-page"
       >
         <ChevronDoubleRightIcon className={"h-4 w-4"} />
       </button>
       <button
         onClick={(e) => {
-          queryUpdate("PageNumber", pageQuery?.PageNumber - 1);
-          onSubmit({ ...pageQuery, PageNumber: pageQuery?.PageNumber - 1 });
+          queryUpdate("pageNumber", pageQuery?.pageNumber - 1);
+          onSubmit({ ...pageQuery, pageNumber: pageQuery?.pageNumber - 1 });
         }}
         className={`${
-          pageQuery?.PageNumber <= 1 ? "text-gray-400" : "hover:bg-gray-400"
+          pageQuery?.pageNumber <= 1 ? "text-gray-400" : "hover:bg-gray-400"
         } rounded-full bg-border transition-all p-1`}
-        disabled={pageQuery?.PageNumber <= 1}
+        disabled={pageQuery?.pageNumber <= 1}
         aria-label="previous-page"
       >
         <ChevronRightIcon className={"h-4 w-4"} />
@@ -202,11 +201,11 @@ export default function TablePagination({
       <div className={"text-center"}>
         <div className={"h-fit"}>
           صفحه{" "}
-          {pageQuery?.PageNumber > Math.ceil(totalCount / pageQuery?.PageSize)
+          {pageQuery?.pageNumber > Math.ceil(totalCount / pageQuery?.pageSize)
             ? 0
-            : pageQuery?.PageNumber}
+            : pageQuery?.pageNumber}
           <span className={"mx-4"}>از</span>
-          {Math.ceil(totalCount / pageQuery?.PageSize)}{" "}
+          {Math.ceil(totalCount / pageQuery?.pageSize)}{" "}
         </div>
         <div className={"text-xs text-mute"}>
           {formatDecimals(totalCount)} نتیجه یافت شد
@@ -214,16 +213,16 @@ export default function TablePagination({
       </div>
       <button
         onClick={(e) => {
-          queryUpdate("PageNumber", pageQuery?.PageNumber + 1);
-          onSubmit({ ...pageQuery, PageNumber: pageQuery?.PageNumber + 1 });
+          queryUpdate("pageNumber", pageQuery?.pageNumber + 1);
+          onSubmit({ ...pageQuery, pageNumber: pageQuery?.pageNumber + 1 });
         }}
         className={`${
-          pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)
+          pageQuery?.pageNumber >= Math.ceil(totalCount / pageQuery?.pageSize)
             ? "text-gray-400"
             : "hover:bg-gray-400"
         } rounded-full bg-border transition-all p-1`}
         disabled={
-          pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)
+          pageQuery?.pageNumber >= Math.ceil(totalCount / pageQuery?.pageSize)
         }
         aria-label="next-page"
       >
@@ -232,21 +231,21 @@ export default function TablePagination({
       <button
         onClick={(e) => {
           queryUpdate(
-            "PageNumber",
-            Math.ceil(totalCount / pageQuery?.PageSize)
+            "pageNumber",
+            Math.ceil(totalCount / pageQuery?.pageSize)
           );
           onSubmit({
             ...pageQuery,
-            PageNumber: Math.ceil(totalCount / pageQuery?.PageSize),
+            pageNumber: Math.ceil(totalCount / pageQuery?.pageSize),
           });
         }}
         className={`${
-          pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)
+          pageQuery?.pageNumber >= Math.ceil(totalCount / pageQuery?.pageSize)
             ? "text-gray-400"
             : "hover:bg-gray-400"
         } rounded-full bg-border transition-all p-1`}
         disabled={
-          pageQuery?.PageNumber >= Math.ceil(totalCount / pageQuery?.PageSize)
+          pageQuery?.pageNumber >= Math.ceil(totalCount / pageQuery?.pageSize)
         }
         aria-label="last-page"
       >

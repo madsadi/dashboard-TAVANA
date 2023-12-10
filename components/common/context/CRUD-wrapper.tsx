@@ -48,8 +48,8 @@ export const CRUDWrapper = forwardRef((props: CRUDWrapperProps, ref) => {
         toolbar?.map((item: any) => {
           initialValue[item.title] = ToEdit?.[item.title];
         });
-        setQuery(initialValue);
       }
+      setQuery(initialValue);
     }
   }, [modal, toolbar]);
 

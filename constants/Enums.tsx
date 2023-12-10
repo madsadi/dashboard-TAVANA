@@ -173,6 +173,28 @@ export const FactorStatusEnums: any = [
     title: "پرداخت شده",
   },
 ];
+
+export const GuaranteeTypeEnums = [
+  {
+    id: 1,
+    code: 1,
+    title: "چک",
+    enTitle: "Check",
+  },
+  {
+    id: 2,
+    code: 2,
+    title: "سفته",
+    enTitle: "Promissory",
+  },
+  {
+    id: 3,
+    code: 3,
+    title: "چک و سفته",
+    enTitle: "Check and Promissory",
+  },
+];
+
 export const Hours: any[] = [
   "00",
   "01",
@@ -1431,6 +1453,21 @@ export const AssetStatusEnums: any = [
     code: 5,
     enTitle: "Canceled",
     title: "لغو شده",
+  },
+];
+
+export const StatusTypeEnum = [
+  {
+    id: "1",
+    code: 1,
+    title: "فعال",
+    enTitle: "Active",
+  },
+  {
+    id: "2",
+    code: 2,
+    title: "غيرفعال",
+    enTitle: "Deactive",
   },
 ];
 

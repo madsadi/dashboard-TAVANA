@@ -97,6 +97,14 @@ export default function SideBarContent() {
               : "",
           module: ModuleIdentifier.CREDIT_category_assignment,
         },
+        {
+          label: "قراردادها",
+          url: "/credit/contract",
+          as: "/credit/contract",
+          className:
+            router.pathname === "/credit/contract" ? "sideBarActive" : "",
+          module: ModuleIdentifier.CREDIT_contract,
+        },
       ],
     },
     {

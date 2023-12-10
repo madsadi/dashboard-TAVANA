@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { throwToast } from "../utils/notification";
 import { QueryType } from "types/types";
+import { lowerFirstLetter } from "utils/common-funcions";
 
 const useQuery = ({
   url = "",
@@ -24,9 +25,11 @@ const useQuery = ({
           query[item] !== "" &&
           !Array.isArray(query[item])
         ) {
-          params.append(item, query[item]);
+          params.append(lowerFirstLetter(item), query[item]);
         } else if (Array.isArray(query[item])) {
-          query[item].forEach((value: any) => params.append(item, value));
+          query[item].forEach((value: any) =>
+            params.append(lowerFirstLetter(item), value)
+          );
         }
       });
     }
@@ -65,9 +68,11 @@ const useQuery = ({
           query[item] !== "" &&
           !Array.isArray(query[item])
         ) {
-          params.append(item, query[item]);
+          params.append(lowerFirstLetter(item), query[item]);
         } else if (Array.isArray(query[item])) {
-          query[item].forEach((value: any) => params.append(item, value));
+          query[item].forEach((value: any) =>
+            params.append(lowerFirstLetter(item), value)
+          );
         }
       });
     }

@@ -12,6 +12,7 @@ import { FilterItemType } from "types/constant-filters.types";
 import { throwToast } from "../../../utils/notification";
 import { SearchComponentTypes } from "types/common-components.type";
 import { QueryType } from "types/types";
+import { lowerFirstLetter } from "utils/common-funcions";
 
 const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
   (props, ref) => {
@@ -26,7 +27,14 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
     } = props;
     const { filters, initialValue, service, modules, restriction } =
       useSearchFilters(module);
-    const [query, setQuery] = useState<any>(initialQuery || initialValue);
+    const [query, setQuery] = useState<any>(
+      initialQuery ||
+        Object.fromEntries(
+          Object.entries(initialValue).map(([k, v]) => [lowerFirstLetter(k), v])
+        )
+    );
+
+    console.log(query);
 
     const onChange = (key: string, value: any) => {
       let _query: QueryType = { ...query };
@@ -51,7 +59,7 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
         const emptyRequiredItems = requiredItems.filter(
           (item: FilterItemType) =>
             item.type === "date"
-              ? !query.StartDate || !query.EndDate
+              ? !query.startDate || !query.endDate
               : query[item.title] === undefined || query[item.title] === null
         );
         if (emptyRequiredItems.length) {

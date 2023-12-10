@@ -18,7 +18,7 @@ const filters: FilterTreeType = {
             "Edit",
             "ChangeUserPassword",
             "ChangeUserActiveStatus",
-            "SetLockoutEndDate",
+            "SetLockoutendDate",
             "RollAndPermissionManagment",
             "RollAndPermissionManagment",
             "RollAndPermissionManagment",
@@ -28,32 +28,32 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
-        { title: "UserName", name: "نام کاربری", type: "input" },
-        { title: "FirstName", name: "نام", type: "input" },
-        { title: "LastName", name: "نام خانوادگی", type: "input" },
-        { title: "NationalId", name: "کد ملی", type: "input" },
-        { title: "PhoneNumber", name: "تلفن همراه", type: "input" },
-        { title: "Email", name: "ایمیل", type: "input" },
-        { title: "RoleId", name: "عنوان نقش کاربر", type: "searchRoles" },
-        { title: "IsActive", name: "وضعیت", type: "selectInput" },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "userName", name: "نام کاربری", type: "input" },
+        { title: "firstName", name: "نام", type: "input" },
+        { title: "lastName", name: "نام خانوادگی", type: "input" },
+        { title: "nationalId", name: "کد ملی", type: "input" },
+        { title: "phoneNumber", name: "تلفن همراه", type: "input" },
+        { title: "email", name: "ایمیل", type: "input" },
+        { title: "roleId", name: "عنوان نقش کاربر", type: "searchRoles" },
+        { title: "isActive", name: "وضعیت", type: "selectInput" },
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        UserName: "",
-        UserId: "",
-        FirstName: "",
-        LastName: "",
-        NationalId: "",
-        PhoneNumber: "",
-        Email: "",
-        RoleId: "",
-        IsActive: null,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        userName: "",
+        userId: "",
+        firstName: "",
+        lastName: "",
+        nationalId: "",
+        phoneNumber: "",
+        email: "",
+        roleId: "",
+        isActive: null,
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -79,7 +79,7 @@ const filters: FilterTreeType = {
       ],
       "lock-out": [
         {
-          title: "lockoutEndDateTime",
+          title: "lockoutendDateTime",
           name: "تاریخ",
           type: "singleDate",
           minimumDate: splittedDate(moment().locale("fa").format("YYYY-MM-DD")),
@@ -106,14 +106,14 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "Name", name: "عنوان", type: "input" },
         { title: "IsActive", name: "وضعیت", type: "selectInput" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         IsActive: null,
         Name: "",
       },
@@ -127,18 +127,18 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "UserId", name: "شناسه کاربر", type: "input" },
         { title: "NationalId", name: "کد ملی کاربر", type: "input" },
         { title: "Name", name: "نام کاربر", type: "input" },
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         UserId: "",
         NationalId: "",
         Name: "",
@@ -166,8 +166,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "UniqueId", name: "کد ملی کاربر", type: "input" },
         { title: "MobileNumber", name: "تلفن همراه", type: "input" },
         { title: "personType", name: "حقیقی / حقوقی", type: "selectInput" },
@@ -189,10 +189,10 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         UniqueId: "",
         MobileNumber: "",
         personType: null,
@@ -306,8 +306,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "userId",
           name: "حساب کاربری (کد ملی کاربر)",
@@ -388,8 +388,8 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
     toolbar: {
@@ -656,12 +656,12 @@ const filters: FilterTreeType = {
           type: "selectInput",
         },
         {
-          title: "managementStartDate",
+          title: "managementstartDate",
           name: "تاریخ شروع مدیریت",
           type: "singleDate",
         },
         {
-          title: "managementEndDate",
+          title: "managementendDate",
           name: "تاریخ پایان مدیریت",
           type: "singleDate",
         },
@@ -868,8 +868,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "uniqueId", name: "کد ملی", type: "input" },
         { title: "Gender", name: "جنسیت", type: "selectInput" },
         { title: "BirthDate", name: "	تاریخ تولد", type: "singleDate" },
@@ -889,8 +889,8 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
       },
     },
@@ -899,8 +899,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "uniqueId", name: "شناسه ملی", type: "input" },
         { title: "registerNumber", name: "شماره ثبت", type: "input" },
         {
@@ -936,8 +936,8 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
   },
@@ -945,8 +945,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "bourseCode", name: "کدبورسی	", type: "input" },
         {
           title: "relatedCustomerId",
@@ -979,8 +979,8 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
   },
@@ -988,8 +988,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "customerId",
           name: " مشتری(کد ملی)",
@@ -1046,8 +1046,8 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
   },
@@ -1055,14 +1055,14 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "UniqueId", name: "کد ملی وکیل/نماینده", type: "input" },
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
     toolbar: {
@@ -1083,8 +1083,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "customerId",
           name: " مشتری(کد ملی)",
@@ -1111,8 +1111,8 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
   },
@@ -1120,8 +1120,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "customerId",
           name: "مشتری(کد ملی)",
@@ -1154,8 +1154,8 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
   },
@@ -1163,8 +1163,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "customerId",
           name: "مشتری(کد ملی)",
@@ -1205,8 +1205,8 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
   },
@@ -1221,13 +1221,13 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "Title", name: "نام شرکت", type: "input" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
       },
     },
@@ -1264,8 +1264,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "Title", name: " عنوان شعبه", type: "input" },
         { title: "Code", name: " کد شعبه", type: "input", valueType: "number" },
         { title: "type", name: " نوع شعبه", type: "selectInput" },
@@ -1274,15 +1274,15 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
         Code: "",
         type: "",
         SubsidiaryTitle: "",
         IsDeleted: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -1430,8 +1430,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "Title", name: "عنوان واحد کاری", type: "input" },
         {
           title: "Code",
@@ -1442,12 +1442,12 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
         Code: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -1486,8 +1486,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "Title", name: "عنوان ایستگاه", type: "input" },
         {
           title: "Code",
@@ -1501,15 +1501,15 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
         Code: "",
         BrokerTitle: "",
         BranchTitle: "",
         Type: null,
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -1610,8 +1610,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "UniqueId", name: " کد ملی بازاریاب/معرف ", type: "input" },
         { title: "Mobile", name: "شماره موبایل", type: "input" },
         { title: "Type", name: "نوع بازاریاب", type: "selectInput" },
@@ -1652,8 +1652,8 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
         userId: "",
         Mobile: "",
@@ -1661,8 +1661,8 @@ const filters: FilterTreeType = {
         SubsidiaryId: "",
         BranchId: "",
         IsActive: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -1812,8 +1812,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "AgreementTitle", name: "عنوان توافقنامه", type: "input" },
         { title: "CustomerUniqueId", name: "شناسه مشتری", type: "input" },
         { title: "SubsidiaryTitle", name: "عنوان شرکت", type: "input" },
@@ -1830,8 +1830,8 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         AgreementTitle: "",
         CustomerUniqueId: "",
         SubsidiaryTitle: "",
@@ -1841,8 +1841,8 @@ const filters: FilterTreeType = {
         IsRequired: "",
         IsActive: "",
         IsDeleted: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -1928,8 +1928,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "Title", name: "عنوان قرارداد بازاریابی", type: "input" },
         { title: "Type", name: "نوع قرارداد بازاریابی", type: "selectInput" },
         {
@@ -1947,16 +1947,16 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
         Type: "",
         CalculationBase: "",
         CommissionCoefficientType: "",
         IsActive: "",
         IsDeleted: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -1994,8 +1994,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "MarketerTypeTitle",
           name: "عنوان نوع بازاریاب ",
@@ -2013,8 +2013,8 @@ const filters: FilterTreeType = {
         { title: "date", name: " تاریخ شروع و پایان ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         MarketerTypeTitle: "",
         ContractTitle: "",
         ContractNumber: "",
@@ -2024,8 +2024,8 @@ const filters: FilterTreeType = {
         IsActive: "",
         IsDeleted: "",
         IsValid: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -2042,8 +2042,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "BankName", name: "نام بانک", type: "input" },
         { title: "BranchName", name: "نام شعبه", type: "input" },
         { title: "BranchCode", name: "کد شعبه", type: "input" },
@@ -2074,8 +2074,8 @@ const filters: FilterTreeType = {
         { title: "Description", name: "توضیحات", type: "input" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         SettlementState: 3,
       },
     },
@@ -2122,8 +2122,8 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
     toolbar: {
@@ -2153,8 +2153,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "creditCategoryCode",
           name: "کد گروه اعتباری",
@@ -2167,8 +2167,8 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
     toolbar: {
@@ -2191,7 +2191,7 @@ const filters: FilterTreeType = {
           type: "input",
         },
         {
-          title: "creditAmount",
+          title: "CreditAmount",
           name: "مقدار اعتبار",
           type: "input",
         },
@@ -2200,6 +2200,68 @@ const filters: FilterTreeType = {
           name: "تاریخ شروع و پایان",
           type: "date",
         },
+      ],
+    },
+  },
+  credit_contract: {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "expireDate", name: "تاریخ انقضا", type: "singleDate" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+        expireDate: null,
+      },
+    },
+    toolbar: {
+      modal: [
+        {
+          title: "creditCategoryCode",
+          name: "کد گروه اعتباری",
+          type: "input",
+          valueType: "number",
+        },
+        {
+          title: "creditContractValue",
+          name: "ارزش قرارداد اعتباری",
+          type: "input",
+          valueType: "number",
+          isRequired: true,
+        },
+        {
+          title: "creditContractCode",
+          name: "کد قرارداد اعتباری",
+          type: "input",
+          isRequired: true,
+        },
+        {
+          title: "guaranteeType",
+          name: "نوع ضمانت",
+          type: "selectInput",
+          isRequired: true,
+        },
+        { title: "status", name: "وضعیت اعتبار", type: "selectInput" },
+        {
+          title: "chequeAmount",
+          name: "مبلغ جک",
+          type: "input",
+          valueType: "number",
+        },
+        { title: "chequeSerial", name: "سریال چک", type: "input" },
+        { title: "promissoryAmount", name: "مبلع سفته", type: "input" },
+        { title: "promissorySerial", name: "سریال سفته", type: "input" },
+        { title: "comment", name: "توضیحات", type: "input" },
+        {
+          title: "registerDate",
+          name: "تاریخ شروع",
+          type: "singleDate",
+          isRequired: true,
+        },
+        { title: "expireDate", name: "موعد اتمام", type: "singleDate" },
       ],
     },
   },
@@ -2220,44 +2282,44 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
-        { title: "OrderId", name: "شناسه سفارش", type: "input" },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "orderId", name: "شناسه سفارش", type: "input" },
         {
-          title: "InstrumentId",
+          title: "instrumentId",
           name: "شناسه نماد",
           type: "search",
           display: "faInsCode",
         },
         {
-          title: "OrderType",
+          title: "orderType",
           name: "نوع سفارش",
           type: "selectInput",
           valueType: "number",
         },
         {
-          title: "OrderSide",
+          title: "orderSide",
           name: "سمت",
           type: "selectInput",
           valueType: "number",
         },
         {
-          title: "ValidityType",
+          title: "validityType",
           name: "اعتبار",
           type: "selectInput",
           valueType: "number",
         },
         {
-          title: "OrderStatus",
+          title: "orderStatus",
           name: "وضعیت سفارش",
           type: "selectInput",
           valueType: "number",
         },
-        { title: "UserId", name: "شناسه کاربر", type: "input" },
-        { title: "CustomerId", name: "شناسه مشتری", type: "input" },
-        { title: "TraderId", name: "شناسه معامله گر", type: "input" },
+        { title: "userId", name: "شناسه کاربر", type: "input" },
+        { title: "customerId", name: "شناسه مشتری", type: "input" },
+        { title: "traderId", name: "شناسه معامله گر", type: "input" },
         {
-          title: "ApplicationSource",
+          title: "applicationSource",
           name: "مبدا سفارش",
           type: "selectInput",
           valueType: "number",
@@ -2270,20 +2332,20 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
-        OrderId: "",
-        InstrumentId: "",
-        OrderType: "",
-        OrderSide: "",
-        ValidityType: "",
-        OrderStatus: "",
-        UserId: "",
-        CustomerId: "",
-        TraderId: "",
-        ApplicationSource: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
+        orderId: "",
+        instrumentId: "",
+        orderType: "",
+        orderSide: "",
+        validityType: "",
+        orderStatus: "",
+        userId: "",
+        customerId: "",
+        traderId: "",
+        applicationSource: "",
       },
     },
   },
@@ -2298,8 +2360,8 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "OrderId", name: "شناسه سفارش", type: "input" },
         {
           title: "InstrumentId",
@@ -2336,19 +2398,19 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
-        OrderId: "",
-        InstrumentId: "",
-        OrderSide: "",
-        TradeId: "",
-        TradeCancelationFlag: "",
-        UserId: "",
-        CustomerId: "",
-        TraderId: "",
-        ApplicationSource: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
+        orderId: "",
+        instrumentId: "",
+        orderSide: "",
+        tradeId: "",
+        tradeCancelationFlag: "",
+        userId: "",
+        customerId: "",
+        traderId: "",
+        applicationSource: "",
       },
     },
   },
@@ -2369,15 +2431,15 @@ const filters: FilterTreeType = {
     },
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "date", name: "تاریخ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -2438,8 +2500,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "customerId", name: "شناسه مشتری", type: "input" },
         { title: "TradingCode", name: "کد معاملاتی", type: "input" },
         { title: "BourseCode", name: "کد بورسی", type: "input" },
@@ -2452,8 +2514,8 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ ", type: "singleDate", isRequired: true },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         InstrumentId: "",
         customerId: "",
       },
@@ -2463,8 +2525,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "InstrumentId",
           name: "شناسه نماد",
@@ -2474,8 +2536,8 @@ const filters: FilterTreeType = {
         { title: "Date", name: "تاریخ ", type: "singleDate", isRequired: true },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         InstrumentId: "",
       },
     },
@@ -2509,15 +2571,15 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
       },
     },
   },
@@ -2525,17 +2587,17 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "InstrumentGroupId", name: "کد گروه نماد", type: "input" },
         { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         InstrumentGroupId: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
   },
@@ -2557,8 +2619,8 @@ const filters: FilterTreeType = {
       initialValue: {
         name: "",
         isActive: null,
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
       },
     },
     toolbar: {
@@ -2687,8 +2749,8 @@ const filters: FilterTreeType = {
         { title: "SectorCode", name: "گروه صنعت", type: "dynamic" },
         { title: "SubSectorCode", name: "زیرگروه صنعت", type: "dynamic" },
         { title: "Deleted", name: "حذف شده؟", type: "selectInput" },
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
       ],
       initialValue: {
         CommissionInstrumentTypeId: "",
@@ -2698,8 +2760,8 @@ const filters: FilterTreeType = {
         SectorTitle: "",
         SubSectorTitle: "",
         Deleted: "",
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
       },
     },
     toolbar: {
@@ -2743,8 +2805,8 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         CommissionCategoryId: "",
         MarketTitle: "",
         OfferTypeTitle: "",
@@ -2790,8 +2852,8 @@ const filters: FilterTreeType = {
       initialValue: {
         CommissionInstrumentTypeTitle: "",
         CommissionCategoryTitle: "",
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
         Deleted: null,
       },
     },
@@ -3257,8 +3319,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "InstrumentIds",
           name: "شناسه نماد",
@@ -3282,8 +3344,8 @@ const filters: FilterTreeType = {
         SideCode: "",
         CustomerTypeCode: "",
         CustomerCounterSideCode: "",
-        PageSize: 20,
-        PageNumber: 1,
+        pageSize: 20,
+        pageNumber: 1,
       },
     },
   },
@@ -3291,8 +3353,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "FirstName", name: "نام", type: "input" },
         { title: "LastName", name: "نام خانوادگی", type: "input" },
         { title: "NationalCode", name: "کد ملی", type: "input" },
@@ -3309,10 +3371,10 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ", type: "date" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         Side: "",
         InstrumentId: "",
         Ticket: "",
@@ -3328,8 +3390,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "Name", name: "نام", type: "input" },
         { title: "BuyerCode", name: "شناسه خریدار", type: "input" },
         { title: "SellerCode", name: "شناسه فروشنده", type: "input" },
@@ -3338,10 +3400,10 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         Name: "",
         BuyerCode: "",
         SellerCode: "",
@@ -3354,8 +3416,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "date", name: "تاریخ", type: "date" },
         { title: "Ticket", name: "شماره تیکت", type: "input" },
         { title: "Symbol", name: "نماد", type: "input" },
@@ -3368,10 +3430,10 @@ const filters: FilterTreeType = {
         { title: "Side", name: "سمت", type: "selectInput" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         Side: "",
         InstrumentId: "",
         Ticket: "",
@@ -3383,17 +3445,17 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "EnTierName", name: "نام انگلیسی گروه", type: "input" },
         { title: "SettlementDelay", name: "تاخیر", type: "input" },
         { title: "date", name: "تاریخ", type: "date", isRequired: true },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         EnTierName: "",
         SettlementDelay: "",
       },
@@ -3406,8 +3468,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "date", name: "تاریخ", type: "date" },
         { title: "LeaderMarketerName", name: "نام بازاریاب", type: "input" },
         {
@@ -3437,8 +3499,8 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        StartDate: "",
-        EndDate: "",
+        startDate: "",
+        endDate: "",
         FollowerMarketerID: "",
         FollowerMarketerName: "",
         LeaderMarketerName: "",
@@ -3715,8 +3777,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         {
           title: "MarketerID",
           name: "حساب کاربری (کد ملی کاربر)",
@@ -3734,18 +3796,18 @@ const filters: FilterTreeType = {
         { title: "SortOrder", name: "ترتیب", type: "selectInput" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         UserType: null,
         MarketerID: null,
-        StartDate: moment
+        startDate: moment
           .from(
             moment().locale("fa").format("YYYY-MM") + "-01",
             "fa",
             "YYYY-MM-DD"
           )
           .format("YYYY-MM-DD"),
-        EndDate: moment().locale("en").format("YYYY-MM-DD"),
+        endDate: moment().locale("en").format("YYYY-MM-DD"),
         SortBy: "RegisterDate",
         SortOrder: 1,
       },
@@ -3785,8 +3847,8 @@ const filters: FilterTreeType = {
       initialValue: {
         MarketerID: "",
         ID: "",
-        StartDate: null,
-        EndDate: null,
+        startDate: null,
+        endDate: null,
         CalculationBaseType: "",
         CoefficientBaseType: "",
         ContractNumber: "",
@@ -3830,15 +3892,15 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "TbsReagentName", name: "TBS عنوان معرف", type: "input" },
         { title: "UniqueId", name: "کدملی", type: "input" },
         { title: "Mobile", name: "موبایل", type: "input" },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
+        pageNumber: 1,
+        pageSize: 20,
         Title: "",
         UniqueId: null,
         Mobile: null,
@@ -3902,8 +3964,8 @@ const filters: FilterTreeType = {
       ],
       initialValue: {
         MarketerID: "",
-        StartDate: null,
-        EndDate: null,
+        startDate: null,
+        endDate: null,
       },
     },
   },
@@ -3911,8 +3973,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "CustomerId", name: "شناسه مشتری", type: "input" },
         { title: "UnqiueId", name: "کد ملی مشتری", type: "input" },
         {
@@ -3940,10 +4002,10 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         CustomerId: "",
         Status: null,
         UserId: "",
@@ -3981,8 +4043,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "CustomerId", name: "شناسه مشتری", type: "input" },
         { title: "TradingCode", name: "کد معاملاتی مشتری", type: "input" },
         { title: "BourseCode", name: "کد بورسی مشتری", type: "input" },
@@ -3994,10 +4056,10 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         CustomerId: "",
         TradingCode: "",
         BourseCode: "",
@@ -4008,8 +4070,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "TradingCode", name: "کد معاملاتی", type: "input" },
         { title: "BourseCode", name: "کد بورسی", type: "input" },
         {
@@ -4028,10 +4090,10 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         TradingCode: "",
         BourseCode: null,
         InstrumentId: "",
@@ -4044,8 +4106,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "TradingCode", name: "کد معاملاتی", type: "input" },
         { title: "BourseCode", name: "کد بورسی", type: "input" },
         {
@@ -4064,10 +4126,10 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         TradingCode: "",
         BourseCode: null,
         InstrumentId: "",
@@ -4080,8 +4142,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "TradingCode", name: "کد معاملاتی", type: "input" },
         { title: "BourseCode", name: "کد بورسی", type: "input" },
         {
@@ -4094,10 +4156,10 @@ const filters: FilterTreeType = {
         { title: "Date", name: "تاریخ", type: "singleDate", isRequired: true },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         TradingCode: "",
         BourseCode: null,
         InstrumentId: "",
@@ -4110,8 +4172,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "TradingCode", name: "کد معاملاتی", type: "input" },
         { title: "BourseCode", name: "کد بورسی", type: "input" },
         {
@@ -4128,10 +4190,10 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 100,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 100,
+        startDate: "",
+        endDate: "",
         TradingCode: "",
         BourseCode: null,
       },
@@ -4141,8 +4203,8 @@ const filters: FilterTreeType = {
     services: {},
     search: {
       filters: [
-        { title: "PageNumber", name: "شماره صفحه", type: null },
-        { title: "PageSize", name: "تعداد", type: null },
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
         { title: "CustomerId", name: "شناسه مشتری", type: "input" },
         { title: "TradingCode", name: "کد معاملاتی", type: "input" },
         {
@@ -4162,10 +4224,10 @@ const filters: FilterTreeType = {
         },
       ],
       initialValue: {
-        PageNumber: 1,
-        PageSize: 20,
-        StartDate: "",
-        EndDate: "",
+        pageNumber: 1,
+        pageSize: 20,
+        startDate: "",
+        endDate: "",
         TradingCode: "",
         BourseCode: null,
       },

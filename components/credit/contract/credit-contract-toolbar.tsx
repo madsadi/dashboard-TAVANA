@@ -1,39 +1,40 @@
+import { useContext } from "react";
 import { CRUDWrapper } from "components/common/context/CRUD-wrapper";
 import { Button } from "components/common/components/button/button";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { CREDIT_MANAGEMENT } from "api/constants";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
+import { CreditContractContext } from "pages/credit/contract";
 import { throwToast } from "utils/notification";
-import { CreditAssignmentContext } from "pages/credit/category-assignment";
 
-export const CreditCategoryAssignmentToolbar = () => {
+export const CreditContractToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { fetchData, selected } = useContext<any>(CreditAssignmentContext);
-  const { mutate: editCreditBank } = useMutation({
-    url: `${CREDIT_MANAGEMENT}/category-credit-assignment/Edit`,
-    method: "PUT",
-    onSuccess: () => {
-      fetchData();
-      editCreditAssignmentRef.current?.modalHandler(false);
-    },
-    setLoading: setLoading,
-  });
-  const { mutate: addCreditBank } = useMutation({
-    url: `${CREDIT_MANAGEMENT}/category-credit-assignment/Add`,
+  const { fetchData, selected } = useContext<any>(CreditContractContext);
+
+  const { restriction, modules, service } = useSearchFilters(
+    ModuleIdentifier.CREDIT_category
+  );
+  const { mutate: addCreditContract } = useMutation({
+    url: `${CREDIT_MANAGEMENT}/Contract/Add`,
     method: "POST",
     onSuccess: () => {
-      fetchData();
-      addCreditAssignmentRef.current?.modalHandler(false);
+      addCreditContractRef.current?.modalHandler(false);
     },
     setLoading: setLoading,
   });
-  const { restriction, modules, service } = useSearchFilters(
-    ModuleIdentifier.CREDIT_bank
-  );
-  const editCreditAssignmentRef: any = useRef();
-  const addCreditAssignmentRef: any = useRef();
+  const { mutate: editCreditContract } = useMutation({
+    url: `${CREDIT_MANAGEMENT}/Contract/Edit`,
+    method: "PUT",
+    onSuccess: () => {
+      editCreditContractRef.current?.modalHandler(false);
+    },
+    setLoading: setLoading,
+  });
+
+  const addCreditContractRef: any = useRef();
+  const editCreditContractRef: any = useRef();
 
   const modalHandler = (target: any) => {
     if (selected) {
@@ -41,7 +42,7 @@ export const CreditCategoryAssignmentToolbar = () => {
     } else {
       throwToast({
         type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+        value: "لطفا یک گزینه انتخاب کنید",
       });
     }
   };
@@ -49,20 +50,24 @@ export const CreditCategoryAssignmentToolbar = () => {
   return (
     <div className={"toolbar p-2 border-x border-border"}>
       <CRUDWrapper
-        ref={addCreditAssignmentRef}
-        title={`اعتبار جدید گروه`}
+        ref={addCreditContractRef}
+        title={`قرارداد جدید`}
         confirmHandler={(e, query) => {
           e.preventDefault();
-          addCreditBank(query);
+          addCreditContract({
+            customerId: selected?.customerId,
+            tradeCode: selected?.tradeCode,
+            ...query,
+          });
         }}
         loading={loading}
-        module={ModuleIdentifier.CREDIT_category_assignment}
+        module={ModuleIdentifier.CREDIT_contract}
         subModule="modal"
       >
         <Button
           label={"جدید"}
           className="bg-primary"
-          onClick={() => addCreditAssignmentRef.current?.modalHandler(true)}
+          onClick={() => modalHandler(addCreditContractRef)}
           allowed={
             restriction
               ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
@@ -71,22 +76,26 @@ export const CreditCategoryAssignmentToolbar = () => {
         />
       </CRUDWrapper>
       <CRUDWrapper
-        ref={editCreditAssignmentRef}
-        title={`ویرایش اعتبار گروه`}
-        mode="edit"
+        ref={editCreditContractRef}
+        title={` ویرایش قرارداد `}
         confirmHandler={(e, query) => {
           e.preventDefault();
-          editCreditBank({ id: selected.id, ...query });
+          editCreditContract({
+            customerId: selected?.customerId,
+            tradeCode: selected?.tradeCode,
+            ...query,
+          });
         }}
+        mode="edit"
         loading={loading}
-        module={ModuleIdentifier.CREDIT_category_assignment}
-        selectedItem={selected}
+        module={ModuleIdentifier.CREDIT_contract}
         subModule="modal"
+        selectedItem={selected}
       >
         <Button
           label={"ویرایش"}
           className="bg-secondary"
-          onClick={() => modalHandler(editCreditAssignmentRef)}
+          onClick={() => modalHandler(editCreditContractRef)}
           allowed={
             restriction
               ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
