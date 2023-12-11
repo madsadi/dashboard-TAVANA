@@ -21,9 +21,8 @@ export default function LastTradeDate() {
 
   const count = async (date: string, index: number) => {
     if (index > 1) {
-      sellCount({ date: date }).then((res) => {
+      await sellCount({ date: date }).then((res) => {
         const index = counts.findIndex((item: any) => item.typeEng === "sell");
-
         _counts.splice(index, 1, {
           type: "فروش",
           typeEng: "sell",
@@ -33,7 +32,7 @@ export default function LastTradeDate() {
         setCounts((prev: any) => [...prev, ..._counts]);
       });
     } else {
-      buyCount({ date: date }).then((res) => {
+      await buyCount({ date: date }).then((res) => {
         const index = counts.findIndex((item: any) => item.typeEng === "buy");
         _counts.splice(index, 1, {
           type: "خرید",
@@ -64,6 +63,9 @@ export default function LastTradeDate() {
     title: {
       text: "گزارشات معاملات سپرده گذاری",
       fontFamily: "Yekan Bakh",
+    },
+    tooltip: {
+      class: "tooltipClassName",
     },
     legend: {
       position: "right", // 'bottom', 'left', 'top'

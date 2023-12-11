@@ -67,6 +67,8 @@ export interface SearchComponentTypes {
   className?: string;
   loading?: boolean;
   extraClassName?: string;
-  initialQuery?: { [key: string]: string | number | boolean };
+  initialQuery?: {
+    [key: string]: string | number | boolean | undefined | string[];
+  };
   ref?: ForwardedRef<unknown>;
 }

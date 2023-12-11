@@ -36,14 +36,14 @@ function CSDIPortfo() {
   };
 
   const fetchHandler = async (query: any) => {
-    const { DateFirst, DateSecond, ...rest } = query;
-    if (rest.TradingCode || rest.BourseCode) {
+    const { dateFirst, dateSecond, ...rest } = query;
+    if (rest.tradingCode || rest.bourseCode) {
       setLoading(true);
       const [result1, result2] = await Promise.all([
-        await fetchAsyncData({ ...rest, Date: DateFirst }).catch(() =>
+        await fetchAsyncData({ ...rest, date: dateFirst }).catch(() =>
           setLoading(false)
         ),
-        await fetchAsyncData({ ...rest, Date: DateSecond }).catch(() =>
+        await fetchAsyncData({ ...rest, date: dateSecond }).catch(() =>
           setLoading(false)
         ),
       ]);
@@ -51,22 +51,22 @@ function CSDIPortfo() {
       let res2 = result2;
 
       if (
-        res2?.data.result.totalCount > rest.PageSize ||
-        res1?.data.result.totalCount > rest.PageSize
+        res2?.data.result.totalCount > rest.pageSize ||
+        res1?.data.result.totalCount > rest.pageSize
       ) {
         if (res2?.data.result.totalCount > res1?.data.result.totalCount) {
           res1 = await fetchAsyncData({
             ...rest,
-            Date: DateFirst,
-            PageSize: res2?.data.result.totalCount,
-            PageNumber: 1,
+            Date: dateFirst,
+            pageSize: res2?.data.result.totalCount,
+            pageNumber: 1,
           });
         } else {
           res2 = await fetchAsyncData({
             ...rest,
-            Date: DateSecond,
-            PageSize: res1?.data.result.totalCount,
-            PageNumber: 1,
+            Date: dateSecond,
+            pageSize: res1?.data.result.totalCount,
+            pageNumber: 1,
           });
         }
       }
@@ -89,31 +89,33 @@ function CSDIPortfo() {
       );
 
       let rowData: any[] = [];
-      const baseData = res1?.data.result.pagedData.map((item: any) => {
-        return {
-          faInsCode: item.faInsCode,
-          firstlastPrice: item.lastPrice || 0,
-          firstclosingPrice: item.closingPrice || 0,
-          firstshareCount: item.shareCount || 0,
-          firstnetValuebyClosingPrice: item.netValueByClosingPrice || 0,
-          firstClosingPricePercentage: item.netValueByClosingPrice
-            ? ((item.netValueByClosingPrice || 0) /
-                netValueByClosingPriceSum1) *
-              100
-            : 0,
-          firstLastPricePercentage: item.netValueByLastPrice
-            ? ((item.netValueByLastPrice || 0) / netValueByLastPriceSum1) * 100
-            : 0,
-          firstnetValuebyLastPrice: item.netValueByLastPrice || 0,
-          secondlastPrice: 0,
-          secondclosingPrice: 0,
-          secondshareCount: 0,
-          secondClosingPricePercentage: 0,
-          secondLastPricePercentage: 0,
-          secondnetValuebyClosingPrice: 0,
-          secondnetValuebyLastPrice: 0,
-        };
-      });
+      const baseData =
+        res1?.data.result.pagedData.map((item: any) => {
+          return {
+            faInsCode: item.faInsCode,
+            firstlastPrice: item.lastPrice || 0,
+            firstclosingPrice: item.closingPrice || 0,
+            firstshareCount: item.shareCount || 0,
+            firstnetValuebyClosingPrice: item.netValueByClosingPrice || 0,
+            firstClosingPricePercentage: item.netValueByClosingPrice
+              ? ((item.netValueByClosingPrice || 0) /
+                  netValueByClosingPriceSum1) *
+                100
+              : 0,
+            firstLastPricePercentage: item.netValueByLastPrice
+              ? ((item.netValueByLastPrice || 0) / netValueByLastPriceSum1) *
+                100
+              : 0,
+            firstnetValuebyLastPrice: item.netValueByLastPrice || 0,
+            secondlastPrice: 0,
+            secondclosingPrice: 0,
+            secondshareCount: 0,
+            secondClosingPricePercentage: 0,
+            secondLastPricePercentage: 0,
+            secondnetValuebyClosingPrice: 0,
+            secondnetValuebyLastPrice: 0,
+          };
+        }) || [];
       rowData.push(...baseData);
       res2?.data.result.pagedData.map((item: any) => {
         let index = rowData.findIndex(
@@ -166,7 +168,7 @@ function CSDIPortfo() {
       });
 
       setData({
-        date: { first: DateFirst, second: DateSecond },
+        date: { first: dateFirst, second: dateSecond },
         result: {
           pagedData: rowData,
           totalCount:

@@ -2265,6 +2265,35 @@ const filters: FilterTreeType = {
       ],
     },
   },
+  credit_portfolio_status: {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "tradeCode", name: "کد معاملاتی", type: "input" },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+  },
+  credit_portfolio_status_detail: {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+  },
   "online-orders": {
     services: {
       OrderStore: [

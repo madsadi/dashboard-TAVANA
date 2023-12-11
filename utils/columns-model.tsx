@@ -21,6 +21,7 @@ import { ModuleIdentifier } from "./Module-Identifier";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import DateCell from "components/common/table/date-cell";
 import { EnumType } from "types/types";
+import Link from "next/link";
 
 // columnModel.js
 export const columnModel = [
@@ -579,6 +580,70 @@ export const columnModel = [
     colId: "netTradeCoeff",
     field: "netTradeCoeff",
     headerName: "ضریب ارزش تمام شده",
+  },
+  { colId: "balance", field: "balance", headerName: "موجودی" },
+  {
+    colId: "totalMomentaryFactorValue",
+    field: "totalMomentaryFactorValue",
+    headerName: "ارزش تضمین دارایی",
+  },
+  {
+    colId: "customerTotalCreditAmount",
+    field: "customerTotalCreditAmount",
+    headerName: "مقدار اعتبار کل ",
+  },
+  {
+    colId: "customerBalanceT0",
+    field: "customerBalanceT0",
+    headerName: "مانده روز جاری ",
+  },
+  {
+    colId: "customerBalanceT3",
+    field: "customerBalanceT3",
+    headerName: "مانده تسویه دو روزه ",
+  },
+  { colId: "customerBlock", field: "customerBlock", headerName: "بلوکه " },
+  {
+    colId: "cashFlowBlock",
+    field: "cashFlowBlock",
+    headerName: "بلوکه تقاضای وجه",
+  },
+  {
+    colId: "marketInstrumentTitle",
+    field: "marketInstrumentTitle",
+    headerName: "نام کامل نماد",
+  },
+  {
+    colId: "marketInstrumentSymbol",
+    field: "marketInstrumentSymbol",
+    headerName: "نماد",
+  },
+  { colId: "assetStatus", field: "assetStatus", headerName: "وضعیت دارایی" },
+  {
+    colId: "customerGroupTitle",
+    field: "customerGroupTitle",
+    headerName: "عنوان گروه",
+  },
+  {
+    colId: "customerMarketerTitle",
+    field: "customerMarketerTitle",
+    headerName: "عنوان بازاریاب",
+  },
+  {
+    colId: "customerRefererTitle",
+    field: "customerRefererTitle",
+    headerName: "عنوان معرف",
+  },
+  {
+    colId: "portfolioMomentaryValue",
+    field: "portfolioMomentaryValue",
+    headerName: "ارزش تضمین",
+  },
+  { colId: "netBalance", field: "netBalance", headerName: "خالص مانده" },
+  {
+    colId: "portfolioValue",
+    field: "portfolioValue",
+    headerName: "ارزش پورتفو",
   },
   {
     colId: "breakEvenPriceCoeff",
@@ -1368,6 +1433,39 @@ export const columnModel = [
             >
               <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
             </a>
+          );
+        },
+      };
+    },
+  },
+  {
+    colId: "portfolioDetailPage",
+    field: "detail",
+    headerName: "جزییات",
+    flex: 0,
+    width: 90,
+    cellStyle: {
+      cursor: "pointer",
+      display: "flex",
+    },
+    cellRendererSelector: () => {
+      return {
+        component: (rowData: any) => {
+          return (
+            <Link
+              className={"flex h-full w-full"}
+              target="_blank"
+              rel="noreferrer"
+              href={{
+                pathname: `/credit/portfolio-status/detail`,
+                query: {
+                  tradeCode: rowData?.data?.tradeCode,
+                  startDate: rowData?.data?.creditRiskStatus[0]?.createdDate,
+                },
+              }}
+            >
+              <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+            </Link>
           );
         },
       };
@@ -2465,7 +2563,7 @@ export const columnModel = [
     field: "createdDateTime",
     headerName: "تاریخ ایجاد",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2475,9 +2573,19 @@ export const columnModel = [
     field: "createdDate",
     headerName: "تاریخ ایجاد",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
+    },
+  },
+  {
+    colId: "createDate",
+    field: "createDate",
+    headerName: "تاریخ ایجاد",
+    flex: 0,
+    width: 120,
+    valueFormatter: (rowData: any) => {
+      return dateCell(rowData.value, true);
     },
   },
   {
@@ -2485,7 +2593,7 @@ export const columnModel = [
     field: "modifiedDateTime",
     headerName: "ناریخ ویرایش",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2495,7 +2603,7 @@ export const columnModel = [
     field: "modifiedDate",
     headerName: "ناریخ ویرایش",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2505,7 +2613,7 @@ export const columnModel = [
     field: "createDateTime",
     headerName: "زمان ایجاد",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
     },
@@ -2514,7 +2622,7 @@ export const columnModel = [
     colId: "updateDateTime",
     field: "updateDateTime",
     flex: 0,
-    width: 180,
+    width: 120,
     headerName: "زمان بروزرسانی",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
@@ -2525,7 +2633,7 @@ export const columnModel = [
     field: "updatedDateTime",
     headerName: "زمان تغییر",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2535,7 +2643,7 @@ export const columnModel = [
     field: "CreateDate",
     headerName: "زمان تغییر",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2545,7 +2653,7 @@ export const columnModel = [
     field: "UpdateDate",
     headerName: "زمان تغییر",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2555,7 +2663,7 @@ export const columnModel = [
     field: "beginningEffectingDate",
     headerName: "تاریخ شروع",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2565,7 +2673,7 @@ export const columnModel = [
     field: "endEffectingDate",
     headerName: "تاریخ پایان",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2578,13 +2686,13 @@ export const columnModel = [
       return dateCell(rowData.value);
     },
     flex: 0,
-    width: 180,
+    width: 120,
   },
   {
     colId: "effectiveDate",
     field: "effectiveDate",
     flex: 0,
-    width: 180,
+    width: 120,
     headerName: "تاریخ و زمان تغییر",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
@@ -2594,7 +2702,7 @@ export const columnModel = [
     colId: "RegisterDate",
     field: "RegisterDate",
     flex: 0,
-    width: 180,
+    width: 120,
     headerName: "تاریخ ثبت نام",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
@@ -2658,14 +2766,14 @@ export const columnModel = [
       return dateCell(rowData.value);
     },
     flex: 0,
-    width: 180,
+    width: 120,
   },
   {
     colId: "tradingDateTime",
     field: "tradingDateTime",
     headerName: "زمان اجرا",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },
@@ -2675,7 +2783,7 @@ export const columnModel = [
     field: "birthDate",
     headerName: "تاریخ تولد",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value, true);
     },
@@ -2704,7 +2812,7 @@ export const columnModel = [
     colId: "userRequestDateTime",
     field: "userRequestDateTime",
     flex: 0,
-    width: 180,
+    width: 120,
     headerName: "زمان درخواست",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
@@ -2732,7 +2840,7 @@ export const columnModel = [
     colId: "eventTriggerTime",
     field: "eventTriggerTime",
     flex: 0,
-    width: 180,
+    width: 120,
     headerName: "زمانبندی اجرای وضعیت",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
@@ -2743,7 +2851,7 @@ export const columnModel = [
     colId: "changeDateTime",
     field: "changeDateTime",
     flex: 0,
-    width: 180,
+    width: 120,
     headerName: "تاریخ وزمان تغییر",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
@@ -2753,7 +2861,7 @@ export const columnModel = [
     colId: "eventDate",
     field: "eventDate",
     flex: 0,
-    width: 180,
+    width: 120,
     headerName: "تاریخ وزمان ارسال",
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
@@ -2764,7 +2872,7 @@ export const columnModel = [
     field: "dateReceived",
     headerName: "تاریخ و زمان دریافت",
     flex: 0,
-    width: 180,
+    width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },

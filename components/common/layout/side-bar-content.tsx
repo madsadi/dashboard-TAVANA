@@ -105,6 +105,16 @@ export default function SideBarContent() {
             router.pathname === "/credit/contract" ? "sideBarActive" : "",
           module: ModuleIdentifier.CREDIT_contract,
         },
+        {
+          label: "پورتفو",
+          url: "/credit/portfolio-status",
+          as: "/credit/portfolio-status",
+          className:
+            router.pathname === "/credit/portfolio-status"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CREDIT_portfolio_status,
+        },
       ],
     },
     {

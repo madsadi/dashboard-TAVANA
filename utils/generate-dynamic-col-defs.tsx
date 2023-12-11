@@ -262,6 +262,43 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "createdDateTime" },
     { colId: "modifiedDateTime" },
   ],
+  credit_portfolio_status: [
+    {
+      colId: "tradeCode",
+      cellRenderer: "agGroupCellRenderer",
+      valueFormatter: (rowData: any) => {
+        return `${rowData?.value}`;
+      },
+    },
+    { colId: "customerTitle" },
+    { colId: "balance", cellStyle: { direction: "ltr" } },
+    { colId: "totalMomentaryFactorValue", cellStyle: { direction: "ltr" } },
+    { colId: "customerTotalCreditAmount", cellStyle: { direction: "ltr" } },
+    { colId: "customerBalanceT0", cellStyle: { direction: "ltr" } },
+    { colId: "customerBalanceT3", cellStyle: { direction: "ltr" } },
+    { colId: "customerBlock" },
+    { colId: "cashFlowBlock" },
+    { colId: "customerGroupTitle" },
+    { colId: "customerMarketerTitle" },
+    { colId: "customerRefererTitle" },
+    { colId: "portfolioMomentaryValue" },
+    { colId: "netBalance", cellStyle: { direction: "ltr" } },
+    { colId: "portfolioValue", cellStyle: { direction: "ltr" } },
+    { colId: "createDate" },
+    { colId: "modifiedDate" },
+    { colId: "portfolioDetailPage" },
+  ],
+  credit_portfolio_status_detail: [
+    {
+      colId: "marketInstrumentSymbol",
+      valueGetter: "data.assets[0].marketInstrumentSymbol",
+    },
+    {
+      colId: "marketInstrumentTitle",
+      valueGetter: "data.assets[0].marketInstrumentTitle",
+    },
+    { colId: "assetStatus" },
+  ],
   "commission-management_category": [
     { colId: "id" },
     { colId: "marketCode" },

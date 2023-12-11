@@ -209,40 +209,36 @@ export const FindEnum = (
     case "isActiveWithNoNull":
       return isActiveWithNoNull;
     case "isActive":
-    case "IsActive":
       return activeStatus;
     case "operator":
       return operators;
-    case "State":
     case "state":
       return statesEnums;
-    case "Gender":
     case "gender":
       return genderEnums;
-    case "OrderType":
+    case "orderType":
       return OrderType;
-    case "IsValid":
+    case "ssValid":
       return IsValidEnums;
-    case "OrderStatus":
+    case "orderStatus":
       return orderStatus;
-    case "ApplicationSource":
+    case "applicationSource":
       return originEnum;
-    case "ValidityType":
+    case "validityType":
       return validityType;
-    case "TimeInterval":
+    case "timeInterval":
       return Interval;
     case "Side":
     case "orderSide":
-    case "OrderSide":
-    case "SideCode":
+    case "sideCode":
       return sides;
-    case "CustomerTypeCode":
-    case "CustomerCounterSideCode":
+    case "customerTypeCode":
+    case "customerCounterSideCode":
       return CustomerOriginEnums;
-    case "OfferTypeCode":
+    case "offerTypeCode":
       return GetOfferTypeEnums;
-    case "Deleted":
-    case "IsDeleted":
+    case "deleted":
+    case "isDeleted":
       return Options;
     case "orderTechnicalOrigin":
       return orderTechnicalOrigin;
@@ -251,9 +247,9 @@ export const FindEnum = (
     case "personType":
     case "PersonType":
       return personTypeEnums;
-    case "CustomerType":
+    case "customerType":
       return customerTypeEnums;
-    case "ChangeType":
+    case "changeType":
       return changeTypeEnums;
     case "assignmentType":
       return AssignmentTypeEnums;
@@ -261,20 +257,17 @@ export const FindEnum = (
       return personOriginEnums;
     case "subsidiaryTypeCode":
       return subsidiaryType;
-    case "CalculationBase":
     case "calculationBase":
       return CalculationBaseType;
     case "sejamStatus":
-    case "SejamStatus":
       return sejamStatusEnums;
     case "registrationState":
       return onlineRegistrationStatusEnums;
     case "riskLevel":
       return riskLevel;
-    case "SettlementState":
+    case "settlementState":
       return SettlementStateEnum;
     case "type":
-    case "Type":
       if (label === "نوع بازاریاب" || label === "نوع قرارداد بازاریابی") {
         return marketerTypeEnum;
       } else if (label === "نوع ایستگاه معاملاتی") {
@@ -289,32 +282,32 @@ export const FindEnum = (
       }
     case "isBourseCodeRequired":
     case "isRequired":
-    case "IsRequired":
-    case "IsReplica":
+    case "isRequired":
+    case "isReplica":
     case "isSejami":
-    case "IsCmdConcluded":
-    case "IsFreezed":
-    case "IsProfessionalInvestor":
-    case "IsPAMTrader":
-    case "IsDeceased":
-    case "IsDissolved":
+    case "isCmdConcluded":
+    case "isFreezed":
+    case "isProfessionalInvestor":
+    case "isPAMTrader":
+    case "isDeceased":
+    case "isDissolved":
     case "isDissolved":
     case "isFromSejam":
     case "isConfirmed":
     case "isExpired":
     case "isDefault":
       return isRequired;
-    case "Month":
+    case "month":
       return Months;
-    case "Year":
+    case "year":
       return Year;
-    case "ContractType":
+    case "contractType":
       return ContractTypeEnums;
     case "transactionLevel":
       return TransactionLevelEnums;
     case "tradingKnowledgeLevel":
       return TradingKnowledgeLevelEnunms;
-    case "ContractType":
+    case "contractType":
       return ContractTypeEnums;
     case "guaranteeType":
       return GuaranteeTypeEnums;
@@ -322,13 +315,12 @@ export const FindEnum = (
       return LegalPersonTypeEnums;
     case "legalPersonTypeSubCategory":
       return LegalPersonTypeSubEnums;
-    case "CalculationBaseType":
+    case "calculationBaseType":
       return CalculationBaseTypeEnums;
     case "managementType":
       return ManagementTypeEnums;
     case "agentType":
       return AgentTypeEnums;
-    case "Status":
     case "status":
       if (label === "وضعیت تغییر کارگزاری") {
         return AssetStatusEnums;
@@ -339,11 +331,11 @@ export const FindEnum = (
       } else {
         return StatusEnums;
       }
-    case "UserType":
+    case "userType":
       return UserType;
-    case "SortBy":
+    case "sortBy":
       return SortBy;
-    case "SortOrder":
+    case "sortOrder":
       return SortOrder;
     default:
       return [];

@@ -13,7 +13,7 @@ interface mutationProps {
 const useMutation = ({
   url = "",
   method = "POST",
-  onSuccess = () => null,
+  onSuccess,
   setLoading = (state: boolean) => null,
   onError = () => null,
 }: mutationProps) => {
@@ -32,6 +32,8 @@ const useMutation = ({
       return bodyToQuery;
     };
     if (onSuccess) {
+      console.log("here");
+
       setLoading(true);
       await axios({
         url: url,

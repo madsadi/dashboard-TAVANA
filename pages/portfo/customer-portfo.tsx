@@ -15,7 +15,7 @@ import { AgChartsReact } from "ag-charts-react";
 import { formatNumberSecond, nFormatter } from "utils/common-funcions";
 import { Interval } from "constants/Enums";
 import { EnumType } from "types/types";
-import { AgChart, AgChartOptions } from "ag-charts-community";
+import { AgChartOptions, AgCharts } from "ag-charts-community";
 import moment from "jalali-moment";
 import { SwitchToggle } from "components/common/components/button/switch-toggle";
 import { PresentationChartLineIcon } from "@heroicons/react/20/solid";
@@ -37,7 +37,6 @@ function CustomerPortfo() {
   >("portfolioValueByClosingPrice");
 
   const options: AgChartOptions = {
-    type: "area",
     autoSize: true,
     tooltip: {
       class: "tooltipClassName",
@@ -95,7 +94,7 @@ function CustomerPortfo() {
         },
       },
       {
-        type: "time",
+        type: "number",
         position: "bottom",
         nice: false,
         label: {
@@ -116,12 +115,12 @@ function CustomerPortfo() {
           renderer: (params) => {
             return `
             <div class="ag-chart-tooltip-title" >
-            ${moment(params.xValue).locale("fa").format("YYYY-MM-DD")}
+            ${moment(params.datum.date).locale("fa").format("YYYY-MM-DD")}
             </div>
             <div class="ag-chart-tooltip-content">
                 <span class="flex">
                 ارزش:
-                ${formatNumberSecond(params.yValue)}
+                ${formatNumberSecond(params.datum.value)}
                 </span>    
             </div>`;
           },
@@ -157,7 +156,7 @@ function CustomerPortfo() {
   }, [data]);
 
   const download = useCallback(() => {
-    AgChart.download(ref.current.chart);
+    AgCharts.download(ref.current.chart);
   }, []);
 
   return (

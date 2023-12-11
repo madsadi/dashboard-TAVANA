@@ -34,6 +34,8 @@ export const ModuleIdentifier = {
   CREDIT_category: "credit_category",
   CREDIT_category_assignment: "credit_category_assignment",
   CREDIT_contract: "credit_contract",
+  CREDIT_portfolio_status: "credit_portfolio_status",
+  CREDIT_portfolio_status_detail: "credit_portfolio_status_detail",
   ONLINE_ORDERS: "online-orders",
   ONLINE_TRADES: "online-trades",
   ONLINE_TRADES_detail: "online-trades_detail",

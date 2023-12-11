@@ -26,12 +26,12 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
             <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
           </span>
         ) : null}
-        {query?.["StartDate"] || query?.["EndDate"] ? (
+        {query?.["startDate"] || query?.["endDate"] ? (
           <XCircleIcon
             className="h-5 w-5 text-gray-400 mr-2 cursor-pointer"
             onClick={() => {
               if (setQuery) {
-                setQuery({ ...query, StartDate: null, EndDate: null });
+                setQuery({ ...query, startDate: null, endDate: null });
               }
             }}
           />

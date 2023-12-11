@@ -12,6 +12,7 @@ window._env_ =
     "AdminPanelEndPoint": "http://cluster.tech1a.co:9021",
     "OnlineTradingWebEndPoint": "http://cluster.tech1a.co:9026",
     "CustomerManagementRPCEndPoint": "http://cluster.tech1a.co:9035",
+    "CustomerManagementRPCEndPointP": "http://cluster.tech1a.co:9035",
     "MobileTradingEndPoint": "http://cluster.tech1a.co:9038",
     "SejamGatewayEndPoint": "http://cluster.tech1a.co:9072",
     "FileManagerEndPoint": "http://cluster.tech1a.co:9073",

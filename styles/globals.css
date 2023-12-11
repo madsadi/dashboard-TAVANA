@@ -327,7 +327,6 @@ input[type="number"] {
 
   .tooltipClassName {
     font-family: "Yekan Bakh";
-    padding: 4px;
-    font-size: 16px;
+    font-size: 14px;
   }
 }

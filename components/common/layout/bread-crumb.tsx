@@ -86,6 +86,7 @@ export default function BreadCrumbComponent() {
     bank: "بانک",
     category: "گروه های اعتباری",
     "category-assignment": " اعتبار گروه های اعتباری",
+    "portfolio-status": "وضعیت پورتفولیو",
   };
 
   useEffect(() => {
