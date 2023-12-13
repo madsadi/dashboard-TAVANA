@@ -1835,7 +1835,7 @@ export const columnModel = [
   },
   {
     colId: "requestStatus",
-    field: "statusCode",
+    field: "requestStatus",
     headerName: "وضعیت درخواست",
     valueFormatter: (props: any) => {
       return RequestStatusEnums.find((item) => item.id === props.value)?.title;

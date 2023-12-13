@@ -2358,7 +2358,6 @@ const filters: FilterTreeType = {
       "edit-state": [
         {
           title: "requestStatus",
-          alternative: "statusCode",
           name: "وضعیت درخواست",
           type: "selectInput",
         },

@@ -172,7 +172,7 @@ export const CreditCustomerRequestToolbar = () => {
         selectedItem={selected}
       >
         <Button
-          label={"ویرایش وضعیت"}
+          label={"حذف درخواست"}
           className="bg-error"
           onClick={() => modalHandler(deleterRef)}
           allowed={
