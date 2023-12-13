@@ -7,6 +7,8 @@ import {
   FactorStatusEnums,
   GetOfferTypeEnums,
   GuaranteeTypeEnums,
+  PeriodDateEnums,
+  RequestStatusEnums,
   SettlementDelayEnums,
   changeTypeEnums,
   customerTypeEnums,
@@ -585,7 +587,7 @@ export const columnModel = [
   {
     colId: "totalMomentaryFactorValue",
     field: "totalMomentaryFactorValue",
-    headerName: "ارزش تضمین دارایی",
+    headerName: "ارزش کل تضمین دارایی",
   },
   {
     colId: "customerTotalCreditAmount",
@@ -612,6 +614,19 @@ export const columnModel = [
     colId: "marketInstrumentTitle",
     field: "marketInstrumentTitle",
     headerName: "نام کامل نماد",
+  },
+  {
+    colId: "momentaryFactorValue",
+    field: "momentaryFactorValue",
+    headerName: "ارزش  تضمین دارایی",
+  },
+  {
+    colId: "percentage",
+    field: "percentage",
+    headerName: "درصد از داریی",
+    valueFormatter: (props: any) => {
+      return "%" + formatNumber(props, 2);
+    },
   },
   {
     colId: "marketInstrumentSymbol",
@@ -1029,6 +1044,11 @@ export const columnModel = [
     colId: "userId",
     field: "userId",
     headerName: "شناسه کاربر",
+  },
+  {
+    colId: "creditRiskStatus",
+    field: "creditRiskStatus",
+    headerName: "وضعیت ریسک اعتبار",
   },
   {
     colId: "idOfBrokerIssuingTheOrder",
@@ -1798,7 +1818,88 @@ export const columnModel = [
     width: 160,
     flex: 0,
   },
-
+  {
+    colId: "creditRequestAmount",
+    field: "creditRequestAmount",
+    headerName: "مقدار اعتبار درخواستی",
+  },
+  {
+    colId: "clubRequestId",
+    field: "clubRequestId",
+    headerName: "شناسه باشگاه",
+  },
+  {
+    colId: "creditDuration",
+    field: "creditDuration",
+    headerName: "مدت زمان اعتبار",
+  },
+  {
+    colId: "requestStatus",
+    field: "statusCode",
+    headerName: "وضعیت درخواست",
+    valueFormatter: (props: any) => {
+      return RequestStatusEnums.find((item) => item.id === props.value)?.title;
+    },
+  },
+  {
+    colId: "assignmentAmount",
+    field: "assignmentAmount",
+    headerName: "مقدار اعتبار اختصاص داده شده",
+  },
+  {
+    colId: "assignmentDuration",
+    field: "assignmentDuration",
+    headerName: "مدت زمان اعتبار اختصاص داده شده",
+  },
+  {
+    colId: "period",
+    headerName: "دوره زمانی",
+    field: "period",
+    valueFormatter: (props: any) => {
+      return PeriodDateEnums.find((item) => item.id === props.value)?.title;
+    },
+  },
+  {
+    colId: "totalNetTradeValue",
+    headerName: "گردش حساب",
+    field: "totalNetTradeValue",
+  },
+  {
+    colId: "dailyAverageNetTradeValue",
+    headerName: "میانگین گردش حساب روزانه",
+    field: "dailyAverageNetTradeValue",
+  },
+  {
+    colId: "weeklyAverageNetTradeValue",
+    headerName: "میانگین گردش حساب هفتگی",
+    field: "weeklyAverageNetTradeValue",
+  },
+  {
+    colId: "monthlyAverageNetTradeValue",
+    headerName: "میانگین گردش حساب ماهیانه",
+    field: "monthlyAverageNetTradeValue",
+  },
+  {
+    colId: "totalMomentaryFactorValue",
+    headerName: "ارزش تضمین کل",
+    field: "totalMomentaryFactorValue",
+  },
+  {
+    colId: "lastMomentaryFactorValue",
+    headerName: "ارزش تضمین",
+    field: "lastMomentaryFactorValue",
+  },
+  {
+    colId: "diffMonthPortfolio",
+    headerName: "تفاوت ارزش تضمین در دوره زمانی",
+    field: "diffMonthPortfolio",
+    cellStyle: { direction: "ltr" },
+    cellClassRules: {
+      // out of range style
+      "text-emerald-500": (rowData: any) => rowData?.value > 0,
+      "text-red-500": (rowData: any) => rowData?.value < 0,
+    },
+  },
   {
     colId: "errorText",
     field: "errorText",

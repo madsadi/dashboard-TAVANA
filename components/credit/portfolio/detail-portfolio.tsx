@@ -4,12 +4,12 @@ import useQuery from "../../../hooks/useQuery";
 import { CREDIT_MANAGEMENT } from "../../../api/constants";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 
-export default function DetailPortfolio({ data }: { data: any }) {
-  const {
-    fetchData,
-    data: result,
-    query,
-  } = useQuery({
+export default function DetailPortfolio({
+  data,
+}: {
+  data: { tradeCode: number; creditRiskStatus: { createdDate: string }[] };
+}) {
+  const { data: result } = useQuery({
     url: `${CREDIT_MANAGEMENT}/PortfolioStatus/AssetWeight`,
     revalidateOnMount: true,
     params: {
@@ -21,14 +21,19 @@ export default function DetailPortfolio({ data }: { data: any }) {
 
   return (
     <div className={"m-5 flex flex-col h-full pb-16"}>
+      <p>
+        وضعیت دارایی:
+        <span className="font-bold mx-2">
+          {result?.result.pagedData?.[0]?.assetStatus}
+        </span>
+      </p>
       <TableComponent
         sideBar={false}
-        pagination={true}
-        fetcher={fetchData}
-        query={query}
-        data={result?.result?.pagedData}
+        data={result?.result?.pagedData[0]?.assets}
         module={ModuleIdentifier.CREDIT_portfolio_status_detail}
-        rowId={["id"]}
+        rowId={["marketInstrumentIsin"]}
+        groupIncludeFooter={true}
+        groupIncludeTotalFooter={true}
       />
     </div>
   );

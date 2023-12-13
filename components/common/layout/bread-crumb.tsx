@@ -87,6 +87,8 @@ export default function BreadCrumbComponent() {
     category: "گروه های اعتباری",
     "category-assignment": " اعتبار گروه های اعتباری",
     "portfolio-status": "وضعیت پورتفولیو",
+    "turnover-portfolio": "پورتفولیو و گردش حساب",
+    "customer-request": "درخواست مشتریان",
   };
 
   useEffect(() => {

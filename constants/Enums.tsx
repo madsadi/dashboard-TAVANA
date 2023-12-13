@@ -66,6 +66,107 @@ export const GetOfferTypeEnums = [
   },
 ];
 
+export const RequestStatusEnums = [
+  {
+    id: 1,
+    code: 1,
+    title: "ارسال مشتري",
+    enTitle: "CustomerRequest",
+  },
+  {
+    id: 2,
+    code: 2,
+    title: "در حال بررسي",
+    enTitle: "Pending",
+  },
+  {
+    id: 3,
+    code: 3,
+    title: "در انتظار تائيد مشتري",
+    enTitle: "AwaitingCustomerApproval",
+  },
+  {
+    id: 4,
+    code: 4,
+    title: "رد مشتري",
+    enTitle: "CustomerRejection",
+  },
+  {
+    id: 5,
+    code: 5,
+    title: "تائيد مشتري",
+    enTitle: "CustomerConfirmation",
+  },
+  {
+    id: 6,
+    code: 6,
+    title: "ثبت ادمين",
+    enTitle: "AdminRegistration",
+  },
+  {
+    id: 7,
+    code: 7,
+    title: "رد ادمين",
+    enTitle: "AdminRejection",
+  },
+  {
+    id: 8,
+    code: 8,
+    title: "فعال",
+    enTitle: "Active",
+  },
+  {
+    id: 9,
+    code: 9,
+    title: "فسخ شده",
+    enTitle: "Canceled",
+  },
+  {
+    id: 10,
+    code: 10,
+    title: "منقضي",
+    enTitle: "Expired",
+  },
+  {
+    id: 11,
+    code: 11,
+    title: "تسويه شده",
+    enTitle: "Cleared",
+  },
+  {
+    id: 12,
+    code: 12,
+    title: "لغو مشتري",
+    enTitle: "CustomerCancellation",
+  },
+];
+export const PeriodDateEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Month",
+    title: "یک ماهه",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "3Month",
+    title: "سه ماهه",
+  },
+  {
+    id: 6,
+    code: 6,
+    enTitle: "6Month",
+    title: "شش ماهه",
+  },
+  {
+    id: 12,
+    code: 12,
+    enTitle: "year",
+    title: "یک ساله",
+  },
+];
+
 export const CustomerOriginEnums = [
   {
     id: 1,

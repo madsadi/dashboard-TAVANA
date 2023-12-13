@@ -2272,7 +2272,7 @@ const filters: FilterTreeType = {
         { title: "pageNumber", name: "شماره صفحه", type: null },
         { title: "pageSize", name: "تعداد", type: null },
         { title: "tradeCode", name: "کد معاملاتی", type: "input" },
-        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+        { title: "date", name: "تاریخ ", type: "singleDate" },
       ],
       initialValue: {
         pageNumber: 1,
@@ -2292,6 +2292,77 @@ const filters: FilterTreeType = {
         pageNumber: 1,
         pageSize: 20,
       },
+    },
+  },
+  credit_turnover_portfolio: {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "tradeCode", name: "کد معاملاتی", type: "input" },
+        { title: "date", name: "تاریخ", type: "singleDate" },
+        { title: "periodDate", name: "دوره زمانی", type: "selectInput" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+        periodDate: 1,
+      },
+    },
+  },
+  credit_customer_request: {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "requestId", name: "شناسه درخواست", type: "input" },
+        { title: "tradeCode", name: "کد معاملاتی", type: "input" },
+        { title: "customerId", name: "شناسه مشتری", type: "input" },
+        {
+          title: "creditRequestAmount",
+          name: "مبلغ اعتبار درخواستی",
+          type: "input",
+          valueType: "number",
+        },
+        {
+          title: "clubRequestId",
+          name: "شناسه باشگاه",
+          type: "input",
+          valueType: "number",
+        },
+        {
+          title: "creditDuration",
+          name: "مدت زمان اعتبار درخواستی",
+          type: "input",
+          valueType: "number",
+        },
+        { title: "requestStatus", name: "وضعیت درخواست", type: "selectInput" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+    toolbar: {
+      add: [
+        {
+          title: "creditRequestAmount",
+          name: "مقدار اعتبار درخواستی",
+          type: "input",
+        },
+        { title: "clubRequestId", name: "شناسه باشگاه", type: "input" },
+        { title: "creditDuration", name: "مدت زمان اعتبار", type: "input" },
+      ],
+      "edit-state": [
+        {
+          title: "requestStatus",
+          alternative: "statusCode",
+          name: "وضعیت درخواست",
+          type: "selectInput",
+        },
+      ],
     },
   },
   "online-orders": {

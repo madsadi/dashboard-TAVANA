@@ -291,13 +291,70 @@ export const modularColsDef: ModularColsDefType = {
   credit_portfolio_status_detail: [
     {
       colId: "marketInstrumentSymbol",
-      valueGetter: "data.assets[0].marketInstrumentSymbol",
     },
     {
       colId: "marketInstrumentTitle",
-      valueGetter: "data.assets[0].marketInstrumentTitle",
     },
-    { colId: "assetStatus" },
+    { colId: "momentaryFactorValue", aggFunc: "sum" },
+    { colId: "percentage", aggFunc: "sum" },
+  ],
+  credit_portfolio_status_detail_page: [
+    { colId: "creditRiskStatus", cellRenderer: "agGroupCellRenderer", flex: 1 },
+    { colId: "createdDate", flex: 1 },
+  ],
+  credit_turnover_portfolio: [
+    {
+      colId: "tradeCode",
+      valueFormatter: (rowData: any) => {
+        return `${rowData?.value}`;
+      },
+    },
+    { colId: "period" },
+    {
+      colId: "totalNetTradeValue",
+      valueGetter: "data.turnover.totalNetTradeValue",
+    },
+    {
+      colId: "dailyAverageNetTradeValue",
+      valueGetter: "data.turnover.dailyAverageNetTradeValue",
+    },
+    {
+      colId: "weeklyAverageNetTradeValue",
+      valueGetter: "data.turnover.weeklyAverageNetTradeValue",
+    },
+    {
+      colId: "monthlyAverageNetTradeValue",
+      valueGetter: "data.turnover.monthlyAverageNetTradeValue",
+    },
+    { colId: "totalMomentaryFactorValue" },
+    { colId: "lastMomentaryFactorValue" },
+    { colId: "diffMonthPortfolio" },
+    { colId: "startDate", field: "tradeCrawlStartDate" },
+  ],
+  credit_customer_request: [
+    { colId: "checkbox" },
+    {
+      colId: "tradeCode",
+      cellRenderer: "agGroupCellRenderer",
+      valueFormatter: (rowData: any) => {
+        return `${rowData?.value}`;
+      },
+    },
+    { colId: "creditRequestAmount" },
+    { colId: "clubRequestId" },
+    { colId: "creditDuration" },
+    { colId: "requestStatus" },
+    { colId: "assignmentAmount" },
+    { colId: "assignmentDuration" },
+    { colId: "comment" },
+    {
+      colId: "startDate",
+      headerName: "تاریخ اختصاص اعتبار",
+      field: "assignmentDate",
+    },
+    { colId: "expirationDate", headerName: "تاریخ انقضای اعتبار" },
+    { colId: "createdDate" },
+    { colId: "modifiedDate" },
   ],
   "commission-management_category": [
     { colId: "id" },

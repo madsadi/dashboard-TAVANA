@@ -38,8 +38,10 @@ import {
   orderTechnicalOrigin,
   OrderType,
   originEnum,
+  PeriodDateEnums,
   personOriginEnums,
   personTypeEnums,
+  RequestStatusEnums,
   riskLevel,
   sejamStatusEnums,
   SettlementStateEnum,
@@ -132,8 +134,8 @@ export const dateCell = (date: string, hideTime = false) => {
   }
   return (
     (date ? date_format.date : "-") +
-    "   " +
-    (date && !hideTime ? date_format.time : "")
+    "  " +
+    (date && !hideTime ? " - " + date_format.time : "")
   );
 };
 
@@ -210,6 +212,10 @@ export const FindEnum = (
       return isActiveWithNoNull;
     case "isActive":
       return activeStatus;
+    case "requestStatus":
+      return RequestStatusEnums;
+    case "periodDate":
+      return PeriodDateEnums;
     case "operator":
       return operators;
     case "state":

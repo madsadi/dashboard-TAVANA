@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 export default function SideBarContent() {
   const router = useRouter();
-  const items = [
+  const pagesList = [
     {
       label: "داشبورد",
       expanded: false,
@@ -114,6 +114,26 @@ export default function SideBarContent() {
               ? "sideBarActive"
               : "",
           module: ModuleIdentifier.CREDIT_portfolio_status,
+        },
+        {
+          label: "پورتفولیو و گردش حساب",
+          url: "/credit/turnover-portfolio",
+          as: "/credit/turnover-portfolio",
+          className:
+            router.pathname === "/credit/turnover-portfolio"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CREDIT_turnover_portfolio,
+        },
+        {
+          label: "درخواست مشتریان",
+          url: "/credit/customer-request",
+          as: "/credit/customer-request",
+          className:
+            router.pathname === "/credit/customer-request"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CREDIT_customer_request,
         },
       ],
     },
@@ -661,7 +681,7 @@ export default function SideBarContent() {
   return (
     <div className={"w-full"}>
       <div className={"h-full space-y-3 overflow-y-auto p-3"}>
-        {items.map((item) => {
+        {pagesList.map((item) => {
           if (item.children) {
             return (
               <SidebarCollapsibleComponent
