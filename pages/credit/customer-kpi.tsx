@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(
   () => import("../../components/common/components/search")

@@ -38,7 +38,7 @@ function CreditBank() {
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CREDIT_bank}
-          rowId={["creditID"]}
+          rowId={["id"]}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           pagination={true}

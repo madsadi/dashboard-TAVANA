@@ -90,6 +90,7 @@ export default function BreadCrumbComponent() {
     "turnover-portfolio": "پورتفولیو و گردش حساب",
     "customer-request": "درخواست مشتریان",
     broker: "اعتبار کارگزاری",
+    "customer-kpi": "عملکرد اعتبار کارگزاری",
   };
 
   useEffect(() => {

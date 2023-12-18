@@ -16,7 +16,7 @@ export default function CreditKPIToolbar(props: {
       <div className={"toolbar p-2"}>
         <div className="bg-gray-100 border border-border px-3 rounded-full mr-auto">
           مقدار کل اعتبار اختصاص داده شده:
-          <span className="mr-2">
+          <span className="mr-2" dir="ltr">
             {data?.totalAssignedCredits
               ? formatNumber(
                   {
@@ -29,7 +29,7 @@ export default function CreditKPIToolbar(props: {
         </div>
         <div className="bg-gray-100 border border-border px-3 rounded-full mr-3">
           مقدار کل اعتبار استفاده شده:
-          <span className="mr-2">
+          <span className="mr-2" dir="ltr">
             {data?.totalUsedCredits
               ? formatNumber(
                   {
@@ -42,7 +42,7 @@ export default function CreditKPIToolbar(props: {
         </div>
         <div className="bg-gray-100 border border-border px-3 rounded-full mr-3">
           مقدار کل کارمزدها:
-          <span className="mr-2">
+          <span className="mr-2" dir="ltr">
             {data?.totalCommissions
               ? formatNumber(
                   {
@@ -55,7 +55,7 @@ export default function CreditKPIToolbar(props: {
         </div>
         <div className="bg-gray-100 border border-border px-3 rounded-full mr-3">
           مقدار عملکرد اعتبار کارگزاری:
-          <span className="mr-2">
+          <span className="mr-2" dir="ltr">
             {data?.kPI1Value
               ? formatNumber(
                   {
