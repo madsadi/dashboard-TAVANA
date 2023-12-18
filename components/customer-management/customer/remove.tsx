@@ -8,7 +8,7 @@ import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { CustomerContext } from "pages/customer-management/customer";
 import InputComponent from "components/common/components/input-generator";
-import { CustomerDetailContext } from "pages/customer-management/customer/[...userId]";
+import { CustomerDetailContext } from "pages/customer-management/customer/detail";
 
 export default function Remove() {
   const [modal, setModal] = useState(false);

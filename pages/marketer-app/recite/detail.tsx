@@ -1,21 +1,17 @@
 import React, { useEffect } from "react";
-import { MARKETER_ADMIN } from "../../../../api/constants";
-import { ModuleIdentifier } from "../../../../utils/Module-Identifier";
-import { withPermission } from "components/common/layout/with-permission";
+import { MARKETER_ADMIN } from "../../../api/constants";
+import { ModuleIdentifier } from "../../../utils/Module-Identifier";
+import { withPermission } from "../../../components/common/layout/with-permission";
 import { useRouter } from "next/router";
-import useQuery from "hooks/useQuery";
-import { formatNumber } from "utils/common-funcions";
+import useQuery from "../../../hooks/useQuery";
+import { formatNumber } from "../../../utils/common-funcions";
 
 const DisplayValue = ({ item }: any) => {
   return (
     <div className="flex items-center justify-between">
       <label>{item.key}</label>
       <div>
-        {item.isBoolean
-          ? item.value
-            ? "بله"
-            : "خیر"
-          : formatNumber(item.value, 0)}
+        {item.isBoolean ? (item.value ? "بله" : "خیر") : formatNumber(item, 0)}
       </div>
     </div>
   );
@@ -27,10 +23,10 @@ function FactorIdDetail() {
   });
 
   const router = useRouter();
-  let params = router.query?.factorId?.[0];
+  let params = router.query?.FactorID;
 
   useEffect(() => {
-    if (params) fetchData({ FactorID: router.query?.factorId?.[0] });
+    if (params) fetchData({ FactorID: params });
   }, [params]);
 
   const items = [

@@ -4,7 +4,7 @@ import DaisyAccordionComponent from "../../../common/components/daisy-accordion"
 import { useRouter } from "next/router";
 import useQuery from "../../../../hooks/useQuery";
 import { FILE_SERVER } from "../../../../api/constants";
-import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/detail";
 import { useSelector } from "react-redux";
 import { isAllowed } from "../../../../utils/permission-utils";
 import { useSearchFilters } from "hooks/useSearchFilters";
@@ -166,9 +166,7 @@ export default function DocumentsComponent() {
     url: `${FILE_SERVER}/api/admin-file-manager/get-content`,
   });
   const router = useRouter();
-  let dep: string | undefined = router.query?.detail?.[0];
-  const queryData: string[] | undefined = dep?.split("&");
-  let userId: any = queryData?.[0]?.split("=")[1];
+  let userId: any = router.query?.userId;
 
   let firstDeck = [
     {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { jalali } from "../../../../utils/common-funcions";
-import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/detail";
 import DaisyAccordionComponent from "../../../common/components/daisy-accordion";
 import useQuery from "../../../../hooks/useQuery";
 import { FILE_SERVER, SEJAM_GATEWAY } from "../../../../api/constants";
@@ -24,9 +24,7 @@ export default function AgreementComponent() {
   const { data } = useContext<any>(OnlineRegDetailContext);
   const agreement = JSON.parse(data?.metaData)?.Agreement;
   const router = useRouter();
-  let dep: string | undefined = router.query?.detail?.[0];
-  const queryData: string[] | undefined = dep?.split("&");
-  let userId: any = queryData?.[0]?.split("=")[1];
+  let userId: any = router.query?.userId;
   const { data: agreements } = useQuery({
     url: `${FILE_SERVER}/api/admin-file-manager/get-content`,
     params: { UserId: userId, FileOwnerSoftware: 1 },

@@ -5,7 +5,7 @@ import {
   legalPersonTypeSubCategory,
 } from "../enums";
 import { useContext } from "react";
-import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/detail";
 import DaisyAccordionComponent from "../../../common/components/daisy-accordion";
 
 export default function IdentityComponent() {

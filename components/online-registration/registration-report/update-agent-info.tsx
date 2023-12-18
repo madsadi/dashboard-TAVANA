@@ -7,7 +7,7 @@ import useMutation from "../../../hooks/useMutation";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
-import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/detail";
 import { Button } from "../../common/components/button/button";
 import { OnlineRegContext } from "pages/online-registration/registration-report";
 
@@ -28,9 +28,7 @@ export default function UpdateAgentInfo() {
   const [query, setQuery] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  let dep: string | undefined = router.query?.detail?.[0];
-  const queryData: string[] | undefined = dep?.split("&");
-  let userId = queryData?.[0]?.split("=")[1];
+  let userId = router.query?.userId;
   let info: any =
     data?.metaData || selectedRows?.[0]?.metaData
       ? JSON.parse(data?.metaData || selectedRows?.[0]?.metaData)?.Agent

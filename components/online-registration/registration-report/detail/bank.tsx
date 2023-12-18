@@ -24,7 +24,7 @@ export default function BankComponent() {
     url: `${ADMIN_GATEWAY}/api/request/GetUserBankAccounts`,
   });
   const router = useRouter();
-  let dep = router.query?.detail?.[0];
+  let dep = router.query;
 
   useEffect(() => {
     if (
@@ -36,10 +36,8 @@ export default function BankComponent() {
           })
         : true)
     ) {
-      const queryData = dep.split("&");
       let _query: any = {};
-
-      _query["userId"] = queryData[0].split("=")[1];
+      _query["userId"] = router.query?.userId;
       fetchData(_query);
     }
   }, [dep, userPermissions]);

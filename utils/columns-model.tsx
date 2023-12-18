@@ -214,14 +214,17 @@ export const columnModel = [
       return {
         component: (rowData: any) => {
           return (
-            <a
+            <Link
               className={"flex h-full w-full"}
               target="_blank"
               rel="noreferrer"
-              href={`/marketer-app/recite/detail/${rowData.data?.FactorID}`}
+              href={{
+                pathname: `/marketer-app/recite/detail`,
+                query: { FactorID: rowData.data?.FactorID },
+              }}
             >
               <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
-            </a>
+            </Link>
           );
         },
       };
@@ -1456,14 +1459,21 @@ export const columnModel = [
       return {
         component: (rowData: any) => {
           return (
-            <a
+            <Link
               className={"flex h-full w-full"}
               target="_blank"
               rel="noreferrer"
-              href={`/portfo/${rowData?.data?.customerId}&${rowData?.data?.instrumentId}&${rowData?.data?.effectiveDate}`}
+              href={{
+                pathname: `/portfo/detail`,
+                query: {
+                  customerId: rowData?.data?.customerId,
+                  instrumentId: rowData?.data?.instrumentId,
+                  effectiveDate: rowData?.data?.effectiveDate,
+                },
+              }}
             >
               <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
-            </a>
+            </Link>
           );
         },
       };
@@ -1516,14 +1526,17 @@ export const columnModel = [
       return {
         component: (rowData: any) => {
           return (
-            <a
+            <Link
               className={"flex h-full w-full"}
               target="_blank"
               rel="noreferrer"
-              href={`/customer-management/customer/${rowData?.data?.userId}`}
+              href={{
+                pathname: `/customer-management/customer/detail`,
+                query: { userId: rowData?.data?.userId },
+              }}
             >
               <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
-            </a>
+            </Link>
           );
         },
       };
@@ -2503,14 +2516,17 @@ export const columnModel = [
       return {
         component: (rowData: any) => {
           return (
-            <a
+            <Link
               className={"flex h-full w-full"}
               target="_blank"
               rel="noreferrer"
-              href={`/online-registration/registration-report/userId=${rowData?.data?.userId}`}
+              href={{
+                pathname: `/online-registration/registration-report/detail`,
+                query: { userId: rowData?.data?.userId },
+              }}
             >
               <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
-            </a>
+            </Link>
           );
         },
       };

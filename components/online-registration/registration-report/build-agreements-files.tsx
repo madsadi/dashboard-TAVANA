@@ -6,7 +6,7 @@ import useMutation from "../../../hooks/useMutation";
 import { ADMIN_GATEWAY } from "../../../api/constants";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
-import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "../../../pages/online-registration/registration-report/detail";
 import { Button } from "../../common/components/button/button";
 
 export default function BuildAgreementsFiles() {
@@ -20,9 +20,7 @@ export default function BuildAgreementsFiles() {
   });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  let dep: string | undefined = router.query?.detail?.[0];
-  const queryData: string[] | undefined = dep?.split("&");
-  let userId = queryData?.[0]?.split("=")[1];
+  let userId = router.query?.userId;
 
   const submitHandler = async () => {
     setLoading(true);

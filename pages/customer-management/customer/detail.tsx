@@ -75,7 +75,7 @@ function Detail() {
   });
   let data = info?.result?.pagedData[0];
   const router = useRouter();
-  let dep = router.query?.userId?.[0];
+  let dep = router.query;
   const colDef = generateDynamicColumnDefs(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer
   ).filter(
@@ -104,7 +104,7 @@ function Detail() {
 
   useEffect(() => {
     if (
-      dep &&
+      dep?.userId &&
       (restriction
         ? isAllowed({
             userPermissions,
@@ -112,10 +112,8 @@ function Detail() {
           })
         : true)
     ) {
-      const queryData = dep.split("&");
       let _query: any = {};
-
-      _query["UserId"] = queryData[0];
+      _query["UserId"] = dep?.userId;
       fetchDetailData(_query);
     }
   }, [dep, userPermissions]);

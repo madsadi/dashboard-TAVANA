@@ -49,8 +49,6 @@ function CreditPortfolioStatusDetail() {
     }
   }, [router.query]);
 
-  console.log(dataGrid);
-
   return (
     <div className={"flex flex-col h-full flex-1"}>
       <AccordionComponent>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { OnlineRegContext } from "pages/online-registration/registration-report";
-import { OnlineRegDetailContext } from "pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "pages/online-registration/registration-report/detail";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { ADMIN_GATEWAY } from "api/constants";

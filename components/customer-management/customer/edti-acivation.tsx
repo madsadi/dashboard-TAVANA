@@ -8,7 +8,7 @@ import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { Button } from "../../common/components/button/button";
 import { CustomerContext } from "pages/customer-management/customer";
-import { CustomerDetailContext } from "pages/customer-management/customer/[...userId]";
+import { CustomerDetailContext } from "pages/customer-management/customer/detail";
 
 export default function EditActivationStatus() {
   const { mutate } = useMutation({

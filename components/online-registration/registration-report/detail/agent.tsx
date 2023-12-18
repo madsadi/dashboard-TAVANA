@@ -2,7 +2,7 @@ import LabelValue from "../../../common/components/label-value";
 import { jalali } from "../../../../utils/common-funcions";
 import { agentTypeEnums } from "../enums";
 import { useContext } from "react";
-import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/detail";
 import DaisyAccordionComponent from "../../../common/components/daisy-accordion";
 
 export default function AgentComponent() {

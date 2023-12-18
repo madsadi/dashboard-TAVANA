@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 const TableComponent = dynamic(
-  () => import("../../components/common/table/table-component")
+  () => import("../../../components/common/table/table-component")
 );
 import { useRouter } from "next/router";
-import useQuery from "../../hooks/useQuery";
-import { ADMIN_GATEWAY } from "../../api/constants";
+import useQuery from "../../../hooks/useQuery";
+import { ADMIN_GATEWAY } from "../../../api/constants";
 import { withPermission } from "components/common/layout/with-permission";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import moment from "jalali-moment";
-import DateCell from "components/common/table/date-cell";
 import AccordionComponent from "components/common/components/accordion";
 const SearchComponent = dynamic(
-  () => import("../../components/common/components/search")
+  () => import("../../../components/common/components/search")
 );
 
 type initialType = { PageNumber: number; Date: string; PageSize: number };
@@ -30,19 +29,20 @@ function PortfolioBook() {
   });
 
   let userInfo = data?.result?.pagedData?.[0];
-  let dep = router.query?.query?.[0];
+  let dep = router.query;
 
   const fetchHandler = (query: { [key: string]: any }) => {
-    fetchData({ ...query, CustomerId: dep?.split("&")[0] });
+    fetchData({ ...query, CustomerId: dep?.customerId });
   };
 
   useEffect(() => {
     if (dep) {
-      const queryData = dep.split("&");
       let _query: any = { ...query };
-      _query["InstrumentId"] = queryData[1];
-      _query["CustomerId"] = queryData[0];
-      _query["Date"] = moment(queryData[2]).locale("en").format("YYYY-MM-DD");
+      _query["InstrumentId"] = dep?.instrumentId;
+      _query["CustomerId"] = dep?.customerId;
+      _query["Date"] = moment(dep?.effectiveDate)
+        .locale("en")
+        .format("YYYY-MM-DD");
       const { InstrumentId, ...rest } = _query;
       setQuery(rest);
       fetchHandler({ ...query, ..._query });

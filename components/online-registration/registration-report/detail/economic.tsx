@@ -6,7 +6,7 @@ import {
   transactionLevelLegalPersonEnums,
   transactionLevelPrivatePersonEnums,
 } from "../enums";
-import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/[...detail]";
+import { OnlineRegDetailContext } from "../../../../pages/online-registration/registration-report/detail";
 import DaisyAccordionComponent from "../../../common/components/daisy-accordion";
 
 export default function EconomicComponent() {

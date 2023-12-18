@@ -18,9 +18,7 @@ const InquirySejamStateComponent = () => {
     url: `${ADMIN_GATEWAY}/api/request/checkUserSejamState`,
   });
   const router = useRouter();
-  let dep: string | undefined = router.query?.detail?.[0];
-  const queryData: string[] | undefined = dep?.split("&");
-  let userId = queryData?.[0]?.split("=")[1];
+  let userId = router.query?.userId;
 
   const inquiryHandler = () => {
     if (selectedRows?.length || userId) {

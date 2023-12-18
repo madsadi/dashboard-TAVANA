@@ -113,7 +113,6 @@ import { isAllowed } from "../../../utils/permission-utils";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import EditBourseCode from "components/online-registration/registration-report/edit-bourse-code";
-import { withPermission } from "components/common/layout/with-permission";
 import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 const UpdateAgentInfo = dynamic(
   () =>
@@ -136,7 +135,7 @@ function Detail() {
   });
   let data = info?.result?.pagedData[0];
   const router = useRouter();
-  let dep = router.query?.detail?.[0];
+  let dep = router.query;
   const colDef = generateDynamicColumnDefs(
     ModuleIdentifier.ONLINE_REGISTRATION
   ).filter(
@@ -164,8 +163,6 @@ function Detail() {
     };
   }, []);
 
-  console.log(data);
-
   useEffect(() => {
     if (
       dep &&
@@ -176,10 +173,8 @@ function Detail() {
           })
         : true)
     ) {
-      const queryData = dep.split("&");
       let _query: any = {};
-
-      _query["UserId"] = queryData[0].split("=")[1];
+      _query["UserId"] = dep.userId;
       fetchData(_query);
     }
   }, [dep, userPermissions]);

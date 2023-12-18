@@ -3,7 +3,7 @@ import LabelValue from "../../../../common/components/label-value";
 import { jalali } from "../../../../../utils/common-funcions";
 import { useContext } from "react";
 import DaisyAccordionComponent from "../../../../common/components/daisy-accordion";
-import { CustomerDetailContext } from "pages/customer-management/customer/[...userId]";
+import { CustomerDetailContext } from "pages/customer-management/customer/detail";
 import { ADMIN_GATEWAY } from "api/constants";
 import useQuery from "hooks/useQuery";
 import AddNewAccount from "./add-new-account";
