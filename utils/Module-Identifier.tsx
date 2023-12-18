@@ -39,6 +39,8 @@ export const ModuleIdentifier = {
   CREDIT_portfolio_status_detail_page: "credit_portfolio_status_detail_page",
   CREDIT_turnover_portfolio: "credit_turnover_portfolio",
   CREDIT_customer_request: "credit_customer_request",
+  CREDIT_broker: "credit_broker",
+  CREDIT_customer_kpi: "credit_customer_kpi",
   ONLINE_ORDERS: "online-orders",
   ONLINE_TRADES: "online-trades",
   ONLINE_TRADES_detail: "online-trades_detail",

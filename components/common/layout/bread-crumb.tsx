@@ -89,6 +89,7 @@ export default function BreadCrumbComponent() {
     "portfolio-status": "وضعیت پورتفولیو",
     "turnover-portfolio": "پورتفولیو و گردش حساب",
     "customer-request": "درخواست مشتریان",
+    broker: "اعتبار کارگزاری",
   };
 
   useEffect(() => {

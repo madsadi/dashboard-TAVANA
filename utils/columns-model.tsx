@@ -936,6 +936,17 @@ export const columnModel = [
     minWidth: 150,
   },
   {
+    colId: "totalCommission",
+    field: "totalCommission",
+    headerName: "مقدار کل کارمزدها",
+  },
+  {
+    colId: "totalAssignedCredits",
+    field: "totalAssignedCredits",
+    headerName: "مقدار کل اعتبار اختصاص داده شده",
+  },
+  { colId: "kPIValue", field: "kPIValue", headerName: "مقدار عملکرد اعتبار" },
+  {
     colId: "sectorTitle",
     field: "sectorTitle",
     headerName: " گروه صنعت",
@@ -1832,6 +1843,36 @@ export const columnModel = [
     colId: "creditDuration",
     field: "creditDuration",
     headerName: "مدت زمان اعتبار",
+  },
+  {
+    colId: "creditCategoryTitle",
+    field: "creditCategoryTitle",
+    headerName: "عنوان گروه",
+  },
+  {
+    colId: "creditCategoryAmount",
+    field: "creditCategoryAmount",
+    headerName: "مقدار اعتبار",
+  },
+  {
+    colId: "creditCategoryFreeAmount",
+    field: "creditCategoryFreeAmount",
+    headerName: "مقدار اعتبار موجود",
+  },
+  {
+    colId: "creditCategoryUsedAmount",
+    field: "creditCategoryUsedAmount",
+    headerName: "مقدار اعتبار استفاده شده",
+  },
+  {
+    colId: "creditCategoryRequestedAmount",
+    field: "creditCategoryRequestedAmount",
+    headerName: "مقدار اعتبار درخواست داده شده",
+  },
+  {
+    colId: "creditCategoryActivatedAmount",
+    field: "creditCategoryActivatedAmount",
+    headerName: "مقدار اعتبار فعال",
   },
   {
     colId: "requestStatus",

@@ -2364,6 +2364,35 @@ const filters: FilterTreeType = {
       ],
     },
   },
+  credit_broker: {
+    services: {},
+    search: {
+      filters: [
+        { title: "date", name: "تاریخ ", type: "singleDate", isRequired: true },
+      ],
+      initialValue: {},
+    },
+  },
+  credit_customer_kpi: {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان ",
+          type: "date",
+          isRequired: true,
+        },
+        { title: "tradeCode", name: "کد معاملاتی", type: "input" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+  },
   "online-orders": {
     services: {
       OrderStore: [

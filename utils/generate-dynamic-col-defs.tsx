@@ -356,6 +356,27 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "createdDate" },
     { colId: "modifiedDate" },
   ],
+  credit_broker: [
+    { colId: "creditCategoryTitle" },
+    { colId: "creditCategoryAmount" },
+    { colId: "creditCategoryFreeAmount" },
+    { colId: "creditCategoryUsedAmount" },
+    { colId: "creditCategoryRequestedAmount" },
+    { colId: "creditCategoryActivatedAmount" },
+  ],
+  credit_customer_kpi: [
+    {
+      colId: "tradeCode",
+      valueFormatter: (rowData: any) => {
+        return `${rowData?.value}`;
+      },
+    },
+    { colId: "totalCommission" },
+    { colId: "totalAssignedCredits" },
+    { colId: "kPIValue" },
+    { colId: "startDate" },
+    { colId: "endDate" },
+  ],
   "commission-management_category": [
     { colId: "id" },
     { colId: "marketCode" },

@@ -135,6 +135,22 @@ export default function SideBarContent() {
               : "",
           module: ModuleIdentifier.CREDIT_customer_request,
         },
+        {
+          label: "اعتبار کارگزاری",
+          url: "/credit/broker",
+          as: "/credit/broker",
+          className:
+            router.pathname === "/credit/broker" ? "sideBarActive" : "",
+          module: ModuleIdentifier.CREDIT_broker,
+        },
+        {
+          label: "عملکرد اعتباری کارگزاری",
+          url: "/credit/customer-kpi",
+          as: "/credit/customer-kpi",
+          className:
+            router.pathname === "/credit/customer-kpi" ? "sideBarActive" : "",
+          module: ModuleIdentifier.CREDIT_customer_kpi,
+        },
       ],
     },
     {
