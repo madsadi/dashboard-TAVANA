@@ -1572,6 +1572,31 @@ export const StatusTypeEnum = [
   },
 ];
 
+export const PersonNationalityEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Iranian",
+    title: "ایرانی",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "Foreign",
+    title: "غیر ایرانی",
+  },
+];
+
+export const ApplicationCodeEnums: any = [
+  {
+    id: 1,
+    title: "وب",
+  },
+  {
+    id: 2,
+    title: "موبایل",
+  },
+];
 export const bousreCodeType: any = [
   {
     id: 1,

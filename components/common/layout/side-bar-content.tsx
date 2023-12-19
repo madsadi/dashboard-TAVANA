@@ -248,6 +248,26 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer_history,
         },
         {
+          label: "مدیریت توافقنامه ها",
+          url: "/customer-management/agreements-management",
+          as: "/customer-management/agreements-management",
+          className:
+            router.asPath === `/customer-management/agreements-management`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management,
+        },
+        {
+          label: "مدیریت کد بورسی",
+          url: "/customer-management/bourse-code",
+          as: "/customer-management/bourse-code",
+          className:
+            router.asPath === `/customer-management/bourse-code`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code,
+        },
+        {
           label: "شرکت ها",
           url: "/customer-management/[[...page]]",
           as: "/customer-management/subsidiary",

@@ -2453,6 +2453,43 @@ export const columnModel = [
     field: "sessionStatusTitle",
     headerName: "وضعیت جلسه معاملاتی",
   },
+  { colId: "code", field: "code", headerName: "شماره قراراداد" },
+  {
+    colId: "personNationalityTitle",
+    field: "personNationalityTitle",
+    headerName: "ملیت مشتری",
+  },
+  {
+    colId: "applicationTitle",
+    field: "applicationTitle",
+    headerName: "نوع مشتری",
+  },
+  { colId: "context", field: "context", headerName: "متن توافقنامه" },
+  {
+    colId: "isBourseCodeRequired",
+    field: "isBourseCodeRequired",
+    headerName: "کدبورسی اجباریست؟",
+    valueFormatter: (rowData: any) => {
+      return isRequired.find(
+        (item: any) => rowData.data?.isBourseCodeRequired === item.id
+      )?.title;
+    },
+  },
+  {
+    colId: "bourseCodeTypeTitle",
+    field: "bourseCodeTypeTitle",
+    headerName: "عنوان کدبورسی",
+  },
+  {
+    colId: "isRequired",
+    field: "isRequired",
+    headerName: "توافقنامه اجباریست؟",
+    valueFormatter: (rowData: any) => {
+      return isRequired.find(
+        (item: any) => rowData.data?.isRequired === item.id
+      )?.title;
+    },
+  },
   {
     colId: "mobileNumber",
     field: "mobileNumber",

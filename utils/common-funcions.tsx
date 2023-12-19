@@ -3,6 +3,7 @@ import { EnumType } from "types/types";
 import {
   activeStatus,
   AgentTypeEnums,
+  ApplicationCodeEnums,
   AssetStatusEnums,
   AssignmentTypeEnums,
   BankAccountTypeEnums,
@@ -39,6 +40,7 @@ import {
   OrderType,
   originEnum,
   PeriodDateEnums,
+  PersonNationalityEnums,
   personOriginEnums,
   personTypeEnums,
   RequestStatusEnums,
@@ -224,7 +226,7 @@ export const FindEnum = (
       return genderEnums;
     case "orderType":
       return OrderType;
-    case "ssValid":
+    case "isValid":
       return IsValidEnums;
     case "orderStatus":
       return orderStatus;
@@ -238,6 +240,10 @@ export const FindEnum = (
     case "orderSide":
     case "sideCode":
       return sides;
+    case "personNationality":
+      return PersonNationalityEnums;
+    case "applicationCode":
+      return ApplicationCodeEnums;
     case "customerTypeCode":
     case "customerCounterSideCode":
       return CustomerOriginEnums;
@@ -273,6 +279,8 @@ export const FindEnum = (
       return riskLevel;
     case "settlementState":
       return SettlementStateEnum;
+    case "bourseCodeType":
+      return bousreCodeType;
     case "type":
       if (label === "نوع بازاریاب" || label === "نوع قرارداد بازاریابی") {
         return marketerTypeEnum;

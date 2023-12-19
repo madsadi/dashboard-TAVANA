@@ -91,6 +91,8 @@ export default function BreadCrumbComponent() {
     "customer-request": "درخواست مشتریان",
     broker: "اعتبار کارگزاری",
     "customer-kpi": "عملکرد اعتبار کارگزاری",
+    "agreements-management": "مدیریت توافقنامه ها",
+    "bourse-code": "مدیریت کد بورسی",
   };
 
   useEffect(() => {
