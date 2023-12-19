@@ -1291,7 +1291,7 @@ const filters: FilterTreeType = {
           type: "selectInput",
         },
       ],
-      edit:[
+      edit: [
         { title: "code", name: "کد ", type: "input" },
         { title: "name", name: "عنوان ", type: "input" },
         { title: "enName", name: "عنوان انگلیسی ", type: "input" },
@@ -1311,7 +1311,17 @@ const filters: FilterTreeType = {
         { title: "applicationCode", name: "نرم افزار", type: "selectInput" },
         { title: "description", name: "توضیحات", type: "input" },
         { title: "context", name: "متن توافقنامه", type: "input" },
-      ]
+      ],
+    },
+  },
+  "customer-management_bourse_code": {
+    services: {},
+    search: {
+      filters: [],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
     },
   },
   "customer-management_subsidiary": {
