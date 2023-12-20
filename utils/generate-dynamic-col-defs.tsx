@@ -205,6 +205,16 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "createDateTime" },
     { colId: "updateDateTime" },
   ],
+  "customer-management_bourse_code": [
+    { colId: "checkbox" },
+    { colId: "customerTitle" },
+    { colId: "customerUniqueId" },
+    { colId: "typeTitle" },
+    { colId: "bourseCode" },
+    { colId: "tradingCode" },
+    { colId: "createDateTime" },
+    { colId: "updateDateTime" },
+  ],
   credit_bank: [
     { colId: "checkbox" },
     { colId: "bankName" },

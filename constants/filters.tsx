@@ -1317,11 +1317,63 @@ const filters: FilterTreeType = {
   "customer-management_bourse_code": {
     services: {},
     search: {
-      filters: [],
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "customerId",
+          name: "مشتری(کد ملی)",
+          type: "dynamicSearch",
+          initialValue: "",
+          placeholder: "relatedCustomerTitle",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        { title: "type", name: "نوع کد بورسی", type: "selectInput" },
+        { title: "bourseCode", name: "کدبورسی", type: "input" },
+        { title: "tradingCode", name: "توافقنامه", type: "input" },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+          isRequired: true,
+        },
+      ],
       initialValue: {
         pageNumber: 1,
         pageSize: 20,
       },
+    },
+    toolbar: {
+      add: [
+        {
+          title: "customerId",
+          name: "مشتری(کد ملی)",
+          type: "dynamicSearch",
+          initialValue: "",
+          placeholder: "relatedCustomerTitle",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        { title: "type", name: "نوع کد بورسی", type: "selectInput" },
+        { title: "bourseCode", name: "کدبورسی", type: "input" },
+      ],
+      "edit-bourse-code": [
+        { title: "type", name: "نوع کد بورسی", type: "selectInput" },
+        { title: "bourseCode", name: "کدبورسی", type: "input" },
+      ],
+      "edit-trading-code": [
+        {
+          title: "tradingCode",
+          name: "کدمعاملاتی",
+          type: "input",
+          valueType: "number",
+        },
+      ],
     },
   },
   "customer-management_subsidiary": {

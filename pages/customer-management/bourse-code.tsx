@@ -13,18 +13,17 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { CreditBankToolbar } from "components/credit/bank/credit-bank-toolbar";
-import { AgreementsManagementToolbar } from "components/customer-management/agreements-management/agreements-management-toolbar";
+import { BourseCodeToolbar } from "components/customer-management/bourse-code/bourse-code-toolbar";
 
-export const CustomerManagementAgreementsManagementContext = createContext({});
-function CustomerManagementAgreementsManagement() {
+export const CustomerManagementBourseCodeContext = createContext({});
+function CustomerManagementBourseCode() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, query, fetchData, loading }: any = useQuery({
-    url: `${ADMIN_GATEWAY}/api/request/agreement/Search`,
+    url: `${ADMIN_GATEWAY}/api/request/customerBourseCode/Search`,
   });
 
   return (
-    <CustomerManagementAgreementsManagementContext.Provider
+    <CustomerManagementBourseCodeContext.Provider
       value={{ selected: selectedRows[0], fetchData: () => fetchData(query) }}
     >
       <div className={"flex flex-col h-full flex-1"}>
@@ -35,6 +34,7 @@ function CustomerManagementAgreementsManagement() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code}
           />
         </AccordionComponent>
+        <BourseCodeToolbar />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code}
@@ -47,11 +47,11 @@ function CustomerManagementAgreementsManagement() {
           query={query}
         />
       </div>
-    </CustomerManagementAgreementsManagementContext.Provider>
+    </CustomerManagementBourseCodeContext.Provider>
   );
 }
 
 export default withPermission(
-  CustomerManagementAgreementsManagement,
+  CustomerManagementBourseCode,
   ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code
 );
