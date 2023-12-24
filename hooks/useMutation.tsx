@@ -32,8 +32,6 @@ const useMutation = ({
       return bodyToQuery;
     };
     if (onSuccess) {
-      console.log("here");
-
       setLoading(true);
       await axios({
         url: url,

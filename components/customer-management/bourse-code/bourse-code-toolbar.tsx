@@ -15,7 +15,7 @@ export const BourseCodeToolbar = () => {
     method: "PATCH",
     onSuccess: () => {
       fetchData();
-      editTradingCodeRef.current?.modalHandler(false);
+      editBourseCodeRef.current?.modalHandler(false);
     },
     setLoading: setLoading,
   });

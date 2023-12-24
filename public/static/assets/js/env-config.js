@@ -32,6 +32,7 @@ window._env_ =
 	"IdpUIEndPoint": "https://cluster.tech1a.co:8443",
 	"TbsEndPoint": "https://tbsapi.onlinetavana.ir/api",
     "OnlineRegistrationEndPoint": "http://cluster.tech1a.co:9075",
+    "CreditManagementEndPoint": "http://devcredit-management.tech1a.co",
     "SplunkHostEndPoint": "log.tech1a.co",
     "SplunkPort": 5141,
     "KafkaBootstrapServersEndPoint": "172.24.35.22:29092",
