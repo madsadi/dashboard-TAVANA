@@ -28,6 +28,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
     alternative,
     isRequired,
     inputAble,
+    readOnly,
     alternativeRelatedRecordField,
     resultField = "pagedData",
   } = item;
@@ -125,7 +126,8 @@ export default function DynamicSearch(props: DynamicSearchProps) {
               <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
             </span>
           ) : null}
-          {query?.[title] || query?.[title] === false || searchItem ? (
+          {(query?.[title] || query?.[title] === false || searchItem) &&
+          !readOnly ? (
             <XCircleIcon
               className="h-5 w-5 text-gray-400 mr-2 cursor-pointer"
               onClick={() => {
@@ -140,8 +142,11 @@ export default function DynamicSearch(props: DynamicSearchProps) {
         </label>
         <input
           id={title}
-          className={"w-full h-[36px]"}
+          className={
+            "w-full h-[36px] focus:outline-none focus:!border-gray-300"
+          }
           value={searchItem}
+          readOnly={readOnly}
           onFocus={() => setOpen(true)}
           placeholder={dataHelper?.[placeholder || "default"] || query?.[title]}
           onChange={(e) => {

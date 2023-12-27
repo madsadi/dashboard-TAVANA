@@ -564,6 +564,7 @@ export const isActiveWithNoNull: any[] = [
     title: "غیر فعال",
   },
 ];
+
 export const category: any[] = [
   { title: "فعال", id: "GetAllActive" },
   { title: "همه", id: "GetAll" },
@@ -961,6 +962,21 @@ export const personTypeEnums = [
     code: 3,
     enTitle: "PrivatePortfolio",
     title: "سبد اختصاصی",
+  },
+];
+
+export const personTypeSecondVersionEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "PrivatePerson",
+    title: "حقیقی",
+  },
+  {
+    id: 0,
+    code: 0,
+    enTitle: "LegalPerson",
+    title: "حقوقی",
   },
 ];
 

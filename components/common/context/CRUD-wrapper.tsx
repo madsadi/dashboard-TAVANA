@@ -85,7 +85,7 @@ export const CRUDWrapper = forwardRef((props: CRUDWrapperProps, ref) => {
           {mode === "delete" ? (
             <div className="text-center">
               آیا از
-              {modalMessage}
+              {modalMessage}{" "}
               <span className="font-bold text-lg mx-2">
                 {selectedItem?.[entity!]}
               </span>

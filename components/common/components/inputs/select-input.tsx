@@ -18,7 +18,7 @@ interface BaseInputPropsType {
 }
 export const SelectInput = (props: BaseInputPropsType) => {
   const { item, value, onChange, dynamicsOption } = props;
-  const { name, title, valueType, isRequired } = item;
+  const { name, title, valueType, isRequired, readOnly } = item;
 
   return (
     <div>
@@ -29,7 +29,7 @@ export const SelectInput = (props: BaseInputPropsType) => {
             <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
           </span>
         ) : null}
-        {value || value === false ? (
+        {(value || value === false) && !readOnly ? (
           <XCircleIcon
             className="h-5 w-5 text-gray-400 mr-2 cursor-pointer"
             onClick={() => {
@@ -42,6 +42,7 @@ export const SelectInput = (props: BaseInputPropsType) => {
         <Listbox
           name={title}
           value={value}
+          disabled={readOnly}
           onChange={(e) => {
             if (valueType === "number") {
               onChange(title, Number(e));
@@ -54,7 +55,7 @@ export const SelectInput = (props: BaseInputPropsType) => {
             <div className="relative">
               <Listbox.Button
                 aria-label="select"
-                className="relative flex min-w-full h-[36px] cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-border focus:outline-none"
+                className="relative flex min-w-full h-[36px] cursor-pointer rounded-md border border-border bg-white py-1.5 px-2 shadow-sm focus:border-gray-300 focus:outline-none"
               >
                 <span className="flex items-center">
                   <span className="ml-2 block truncate text-sm">

@@ -15,7 +15,7 @@ interface BaseInputPropsType {
 }
 export const RangeDateInput = (props: BaseInputPropsType) => {
   const { item, query, setQuery } = props;
-  const { name, isRequired } = item;
+  const { name, isRequired, readOnly } = item;
 
   const renderCustomInput = ({ ref }: { ref: any }) => (
     <div>
@@ -26,7 +26,7 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
             <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
           </span>
         ) : null}
-        {query?.["startDate"] || query?.["endDate"] ? (
+        {(query?.["startDate"] || query?.["endDate"]) && !readOnly ? (
           <XCircleIcon
             className="h-5 w-5 text-gray-400 mr-2 cursor-pointer"
             onClick={() => {
@@ -38,8 +38,9 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
         ) : null}
       </label>
       <input
-        className={"w-full h-[36px]"}
+        className={"w-full h-[36px] focus:outline-none focus:!border-gray-300"}
         readOnly
+        disabled={readOnly}
         ref={ref}
         id="rangeDate"
         value={dateRangeHandler(

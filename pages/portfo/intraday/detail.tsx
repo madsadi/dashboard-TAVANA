@@ -6,7 +6,6 @@ const TableComponent = dynamic(
 import { useRouter } from "next/router";
 import useQuery from "../../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../../api/constants";
-import { withPermission } from "components/common/layout/with-permission";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import moment from "jalali-moment";
 import AccordionComponent from "components/common/components/accordion";
@@ -36,7 +35,7 @@ function PortfolioBook() {
   };
 
   useEffect(() => {
-    if (dep) {
+    if (dep?.instrumentId && dep?.customerId && dep?.effectiveDate) {
       let _query: any = { ...query };
       _query["InstrumentId"] = dep?.instrumentId;
       _query["CustomerId"] = dep?.customerId;
@@ -93,4 +92,4 @@ function PortfolioBook() {
   );
 }
 
-export default withPermission(PortfolioBook, ModuleIdentifier.PORTFO_intraday);
+export default PortfolioBook;

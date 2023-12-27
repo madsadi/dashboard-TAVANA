@@ -369,10 +369,10 @@ export default function SideBarContent() {
         },
         {
           label: "توافقنامه های بین طرفین",
-          url: "/customer-management/[[...page]]",
-          as: "/customer-management/customerAgreement",
+          url: "/customer-management/customer-agreement",
+          as: "/customer-management/customer-agreement",
           className:
-            router.asPath === "/customer-management/customerAgreement"
+            router.asPath === "/customer-management/customer-agreement"
               ? "sideBarActive"
               : "",
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement,

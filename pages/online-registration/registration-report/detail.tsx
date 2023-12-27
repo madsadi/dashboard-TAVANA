@@ -165,7 +165,7 @@ function Detail() {
 
   useEffect(() => {
     if (
-      dep &&
+      dep.userId &&
       (restriction
         ? isAllowed({
             userPermissions,

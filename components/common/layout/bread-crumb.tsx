@@ -47,7 +47,7 @@ export default function BreadCrumbComponent() {
     trader: "معامله گران",
     marketer: "بازاریاب ها",
     agreement: "توافقنامه ها",
-    customerAgreement: "توافقنامه های بین طرفین",
+    "customer-agreement": "توافقنامه های بین طرفین",
     roles: "نقش و دسترسی",
     "online-registration": "ثبت نام غیر حضوری",
     "registration-report": "گزارش ثبت نام",

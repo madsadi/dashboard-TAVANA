@@ -82,13 +82,6 @@ export default function usePageStructure() {
             searchFilter: "توافقنامه ها",
           });
           break;
-        case "customerAgreement":
-          setPage({
-            api: "customerAgreement",
-            columnsDefStructure: customerAgreementColumnDefStructure,
-            searchFilter: "توافقنامه های بین طرفین",
-          });
-          break;
         case "contract":
           setPage({
             api: "contract",

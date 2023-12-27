@@ -7,12 +7,23 @@ import ToggleButtonUsers from "components/users-management/users/toggle-button";
 import ToogleCustomerPAM from "components/customer-management/customer/edit-customer-PAM";
 import { StatusTypeEnum } from "constants/Enums";
 import StatusToggle from "components/credit/contract/status-toggle";
+import columnsName from "./columns-name.json";
+import Link from "next/link";
+import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
+import { chunk } from "./common-funcions";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
 
 interface ColDefType extends ColDef {
-  colId: (typeof columnModel)[number]["colId"];
+  type?:
+    | "date"
+    | "checkbox"
+    | "default"
+    | "enum"
+    | "blank-detail-page"
+    | "detail-opener";
+  colId: keyof typeof columnsName;
   children?: ColDefType[];
 }
 export type ModularColsDefType = {
@@ -20,203 +31,120 @@ export type ModularColsDefType = {
 };
 
 export const modularColsDef: ModularColsDefType = {
-  "book-building": [
-    { colId: "checkbox" },
-    { colId: "instrumentId" },
-    { colId: "faInsCode" },
-    { colId: "faInsName" },
-    { colId: "maxQuantity" },
-    { colId: "minPrice" },
-    { colId: "maxPrice" },
-    { colId: "fromActiveDateTime" },
-    { colId: "toActiveDateTime" },
-    { colId: "createdBy" },
-    { colId: "createDateTime" },
-    { colId: "updatedBy" },
-    { colId: "updatedDateTime" },
+  //user-management
+  "user-management_logs": [
+    { colId: "userId" },
+    { colId: "name" },
+    { colId: "typeTitle" },
+    { colId: "date" },
+    { colId: "clientId" },
+    { colId: "succeed" },
+    { colId: "ip" },
+    { colId: "userAgent" },
+    { colId: "browser" },
+    { colId: "os" },
+    { colId: "isMobile", type: "enum" },
+    { colId: "errorMessage" },
   ],
-  "customer-management_customer": [
-    { colId: "checkbox" },
-    { colId: "detail-opener" },
-    { colId: "uniqueId" },
-    { colId: "title" },
-    { colId: "personTypeTitle" },
-    { colId: "personOriginTitle" },
-    { colId: "countryName" },
-    { colId: "foreignCSDCode" },
-    { colId: "branchTitle" },
-    { colId: "regentTitle" },
-    { colId: "marketerTitle" },
-    { colId: "isActive" },
-    { colId: "isDeleted" },
-    { colId: "createDateTime" },
-    { colId: "customer-detail" },
-  ],
-  "customer-management_customer_detail": [
-    { colId: "genderTitle" },
-    { colId: "isProfessional" },
+  "user-management_roles": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "id", cellRenderer: "agGroupCellRenderer" },
+    { colId: "name", headerName: "نقش" },
     {
-      colId: "isPAM",
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return { component: RoleToggleButton };
+      },
+    },
+  ],
+  "user-management_roles_detail": [
+    { colId: "id" },
+    { colId: "serviceTitle" },
+    { colId: "moduleTitle" },
+    { colId: "actionTitle" },
+  ],
+  "user-management_users": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "username", cellRenderer: "agGroupCellRenderer" },
+    { colId: "phoneNumber" },
+    { colId: "firstName" },
+    { colId: "lastName" },
+    { colId: "nationalId" },
+    {
+      colId: "isActive",
+      width: 100,
+      flex: 0,
+      cellRendererSelector: () => {
+        return { component: ToggleButtonUsers };
+      },
+    },
+    { colId: "twoFactorEnabled", type: "enum", flex: 0, width: 120 },
+    { colId: "lockOutEnd", type: "date" },
+  ],
+  "user-management_users_detail": [
+    { colId: "id" },
+    { colId: "name" },
+    {
+      colId: "isActive",
+      type: "enum",
+    },
+  ],
+
+  //online-registration
+  "online-registration": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "uniqueId", cellRenderer: "agGroupCellRenderer" },
+    { colId: "mobileNumber" },
+    { colId: "personTypeTitle" },
+    { colId: "marketerRefCode" },
+    { colId: "marketerTitle" },
+    { colId: "reagentTitle" },
+    { colId: "agentUniqueId" },
+    { colId: "isSejami", type: "enum" },
+    { colId: "sejamStatusCodeTitle" },
+    { colId: "registrationStateCodeTitle" },
+    { colId: "isTbsInserted", type: "enum" },
+    { colId: "isTBSDocsInserted", type: "enum" },
+    {
+      colId: "online-registration-detail",
+      type: "blank-detail-page",
       cellRendererSelector: () => {
         return {
-          component: (rowData: any) => (
-            <ToogleCustomerPAM
-              data={{
-                isActive: rowData?.data?.isPAMTrader,
-                id: rowData?.data?.id,
-              }}
-            />
-          ),
+          component: (rowData: any) => {
+            return (
+              <Link
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={{
+                  pathname: `/online-registration/registration-report/detail`,
+                  query: { userId: rowData?.data?.userId },
+                }}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </Link>
+            );
+          },
         };
       },
     },
-    { colId: "sejamStatusTitle" },
-    { colId: "isDeceased" },
-    { colId: "isDissolved" },
-    { colId: "adminNote" },
-    { colId: "updateDateTime" },
   ],
-  "customer-management_private_person": [
-    { colId: "checkbox" },
-    { colId: "uniqueId" },
-    { colId: "firstName" },
-    { colId: "lastName" },
-    { colId: "fatherName" },
-    { colId: "genderTitle" },
-    { colId: "seriShChar" },
-    { colId: "seriSh" },
-    { colId: "shSerial" },
-    { colId: "shNumber" },
-    { colId: "birthDate" },
-    { colId: "birthPlace" },
-    { colId: "issuePlace" },
-    { colId: "isDeceased" },
-    { colId: "deceasedDate" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
-  "customer-management_legal_person": [
-    { colId: "checkbox" },
-    { colId: "uniqueId", headerName: "شناسه ملی" },
-    { colId: "companyName" },
-    { colId: "registerNumber" },
-    { colId: "registerPlace" },
-    { colId: "registerDate" },
-    { colId: "evidenceReleaseCompany" },
-    { colId: "evidenceReleaseDate" },
-    { colId: "economicCode" },
-    { colId: "evidenceExpirationDate" },
-    { colId: "legalPersonTypeCategoryTitle" },
-    { colId: "legalPersonTypeSubCategoryTitle" },
-    { colId: "isDissolved" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
-  "customer-management_private_portfolio": [
-    { colId: "checkbox" },
-    { colId: "privatePortfolioTitle" },
-    { colId: "bourseCode" },
-    { colId: "relatedCustomerTitle" },
-    { colId: "relatedCustomerUniqueId" },
-    { colId: "assetManagerTitle" },
-    { colId: "assetManagerUniqueId" },
-    { colId: "managementTypeTitle" },
-    { colId: "managementStartDate" },
-    { colId: "managementEndDate" },
-    { colId: "isExpired" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
-  "customer-management_bank_account": [
-    { colId: "checkbox" },
-    { colId: "customerTitle" },
-    { colId: "customerUniqueId" },
-    { colId: "customerPhoneNumber" },
-    { colId: "sheba" },
-    { colId: "accountNumber" },
-    { colId: "typeTitle" },
-    { colId: "bankTitle" },
-    { colId: "branchCode" },
+  "online-registration_detail": [
+    { colId: "email" },
     { colId: "branchTitle" },
-    { colId: "cityTitle" },
-    { colId: "isDefault" },
-    { colId: "isFromSejam" },
-    { colId: "isConfirmed" },
-    { colId: "description" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
+    { colId: "countryName" },
+    { colId: "foreignCSDCode" },
+    { colId: "personOriginTitle" },
+    { colId: "riskLevelTitle" },
+    { colId: "sejamToken" },
+    { colId: "changeReasonDescription" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
   ],
-  "customer-management_agent": [
-    { colId: "checkbox" },
-    { colId: "uniqueId" },
-    { colId: "firstName" },
-    { colId: "lastName" },
-    { colId: "description" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
-  "customer-management_agent_relation": [
-    { colId: "checkbox" },
-    { colId: "customerUniqueId" },
-    { colId: "customerTitle" },
-    { colId: "agentUniqueId" },
-    { colId: "agentTitle" },
-    { colId: "agentTypeTitle" },
-    { colId: "isConfirmed" },
-    { colId: "startDate" },
-    { colId: "expirationDate" },
-    { colId: "description" },
-    { colId: "createDateTime" },
-  ],
-  "customer-management_branch_history": [
-    { colId: "customerTitle" },
-    { colId: "customerUniqueId" },
-    { colId: "branchTitle" },
-    { colId: "branchTypeTitle" },
-    { colId: "tbsBranchId" },
-    { colId: "tbsBranchTitle" },
-    { colId: "subsidiaryTitle" },
-    { colId: "changeDateTime" },
-  ],
-  "customer-management_marketer_history": [
-    { colId: "customerTitle" },
-    { colId: "customerUniqueId" },
-    { colId: "marketerTypeTitle" },
-    { colId: "marketerTitle" },
-    { colId: "tbsMarketerId" },
-    { colId: "tbsMarketerTitle" },
-    { colId: "changeDateTime" },
-  ],
-  "customer-management_agreements_management": [
-    { colId: "checkbox" },
-    { colId: "code" },
-    { colId: "name" },
-    { colId: "subsidiaryTitle" },
-    { colId: "personNationalityTitle" },
-    { colId: "personTypeTitle" },
-    { colId: "applicationTitle" },
-    { colId: "description" },
-    { colId: "context" },
-    { colId: "isBourseCodeRequired" },
-    { colId: "bourseCodeTypeTitle" },
-    { colId: "isRequired" },
-    { colId: "isActive" },
-    { colId: "isDeleted" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
-  "customer-management_bourse_code": [
-    { colId: "checkbox" },
-    { colId: "customerTitle" },
-    { colId: "customerUniqueId" },
-    { colId: "typeTitle" },
-    { colId: "bourseCode" },
-    { colId: "tradingCode" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
+
+  //credit
   credit_bank: [
-    { colId: "checkbox" },
+    { colId: "checkbox", type: "checkbox" },
     { colId: "bankName" },
     { colId: "branchName" },
     { colId: "branchCode" },
@@ -225,30 +153,36 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "accountCode" },
     { colId: "shebaNumber" },
     { colId: "description" },
-    { colId: "registerDate" },
-    { colId: "expireDate" },
-    { colId: "createdDate" },
-    { colId: "modifiedDate" },
+    { colId: "registerDate", type: "date" },
+    { colId: "expireDate", type: "date" },
+    { colId: "createdDate", type: "date" },
+    { colId: "modifiedDate", type: "date" },
   ],
   credit_category: [
     { colId: "creditCategoryCode" },
     { colId: "creditCategoryTitle" },
     { colId: "creditCategoryEnTitle" },
-    { colId: "createdDate" },
-    { colId: "modifiedDate" },
+    { colId: "createdDate", type: "date" },
+    { colId: "modifiedDate", type: "date" },
   ],
   credit_category_assignment: [
-    { colId: "checkbox" },
-    { colId: "creditCategoryCode" },
-    { colId: "assignmentType" },
-    { colId: "creditPercentage" },
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "creditCategoryTitle" },
+    { colId: "assignmentType", type: "enum" },
+    {
+      colId: "creditPercentage",
+      cellStyle: { direction: "ltr" },
+      valueFormatter: (rowData: any) => {
+        return "%" + " " + rowData.value.toFixed(2);
+      },
+    },
     { colId: "creditAmount" },
-    { colId: "startDate" },
-    { colId: "endDate" },
-    { colId: "createdDate" },
+    { colId: "startDate", type: "date" },
+    { colId: "endDate", type: "date" },
+    { colId: "createdDate", type: "date" },
   ],
   credit_contract: [
-    { colId: "checkbox" },
+    { colId: "checkbox", type: "checkbox" },
     { colId: "creditContractCode" },
     {
       colId: "tradeCode",
@@ -256,7 +190,7 @@ export const modularColsDef: ModularColsDefType = {
         return `${rowData?.value}`;
       },
     },
-    { colId: "guaranteeType" },
+    { colId: "guaranteeType", type: "enum" },
     {
       colId: "status",
       headerName: "وضعیت اعتبار",
@@ -285,10 +219,10 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "promissoryAmount" },
     { colId: "promissorySerial" },
     { colId: "comment" },
-    { colId: "registerDate" },
-    { colId: "expireDate" },
-    { colId: "createdDateTime" },
-    { colId: "modifiedDateTime" },
+    { colId: "registerDate", type: "date" },
+    { colId: "expireDate", type: "date" },
+    { colId: "createdDateTime", type: "date" },
+    { colId: "modifiedDateTime", type: "date" },
   ],
   credit_portfolio_status: [
     {
@@ -312,9 +246,34 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "portfolioMomentaryValue" },
     { colId: "netBalance", cellStyle: { direction: "ltr" } },
     { colId: "portfolioValue", cellStyle: { direction: "ltr" } },
-    { colId: "createDate" },
-    { colId: "modifiedDate" },
-    { colId: "portfolioDetailPage" },
+    { colId: "createDate", type: "date" },
+    { colId: "modifiedDate", type: "date" },
+    {
+      colId: "portfolioDetailPage",
+      type: "blank-detail-page",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => {
+            return (
+              <Link
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={{
+                  pathname: `/credit/portfolio-status/detail`,
+                  query: {
+                    tradeCode: rowData?.data?.tradeCode,
+                    startDate: rowData?.data?.creditRiskStatus[0]?.createdDate,
+                  },
+                }}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </Link>
+            );
+          },
+        };
+      },
+    },
   ],
   credit_portfolio_status_detail: [
     {
@@ -328,7 +287,7 @@ export const modularColsDef: ModularColsDefType = {
   ],
   credit_portfolio_status_detail_page: [
     { colId: "creditRiskStatus", cellRenderer: "agGroupCellRenderer", flex: 1 },
-    { colId: "createdDate", flex: 1 },
+    { colId: "createdDate", type: "date", flex: 1 },
   ],
   credit_turnover_portfolio: [
     {
@@ -337,7 +296,7 @@ export const modularColsDef: ModularColsDefType = {
         return `${rowData?.value}`;
       },
     },
-    { colId: "period" },
+    { colId: "period", type: "enum" },
     {
       colId: "totalNetTradeValue",
       valueGetter: "data.turnover.totalNetTradeValue",
@@ -357,10 +316,10 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "totalMomentaryFactorValue" },
     { colId: "lastMomentaryFactorValue" },
     { colId: "diffMonthPortfolio" },
-    { colId: "startDate", field: "tradeCrawlStartDate" },
+    { colId: "startDate", field: "tradeCrawlStartDate", type: "date" },
   ],
   credit_customer_request: [
-    { colId: "checkbox" },
+    { colId: "checkbox", type: "checkbox" },
     {
       colId: "tradeCode",
       cellRenderer: "agGroupCellRenderer",
@@ -371,7 +330,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "creditRequestAmount" },
     { colId: "clubRequestId" },
     { colId: "creditDuration" },
-    { colId: "requestStatus" },
+    { colId: "requestStatus", type: "enum" },
     { colId: "assignmentAmount" },
     { colId: "assignmentDuration" },
     { colId: "comment" },
@@ -379,10 +338,15 @@ export const modularColsDef: ModularColsDefType = {
       colId: "startDate",
       headerName: "تاریخ اختصاص اعتبار",
       field: "assignmentDate",
+      type: "date",
     },
-    { colId: "expirationDate", headerName: "تاریخ انقضای اعتبار" },
-    { colId: "createdDate" },
-    { colId: "modifiedDate" },
+    {
+      colId: "expirationDate",
+      headerName: "تاریخ انقضای اعتبار",
+      type: "date",
+    },
+    { colId: "createdDate", type: "date" },
+    { colId: "modifiedDate", type: "date" },
   ],
   credit_broker: [
     { colId: "creditCategoryTitle" },
@@ -402,170 +366,551 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "totalCommission" },
     { colId: "totalAssignedCredits" },
     { colId: "kPIValue" },
-    { colId: "startDate" },
-    { colId: "endDate" },
+    { colId: "startDate", type: "date" },
+    { colId: "endDate", type: "date" },
   ],
-  "commission-management_category": [
+
+  //customer-management
+  "customer-management_customer": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "detail-opener", type: "detail-opener" },
+    { colId: "uniqueId" },
+    { colId: "title" },
+    { colId: "personTypeTitle" },
+    { colId: "personOriginTitle" },
+    { colId: "countryName" },
+    { colId: "foreignCSDCode" },
+    { colId: "branchTitle" },
+    { colId: "regentTitle" },
+    { colId: "marketerTitle" },
+    { colId: "isActive", type: "enum" },
+    { colId: "isDeleted", type: "enum" },
+    { colId: "createDateTime", type: "date" },
+    {
+      colId: "customer-detail",
+      type: "blank-detail-page",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => {
+            return (
+              <Link
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={{
+                  pathname: `/customer-management/customer/detail`,
+                  query: { userId: rowData?.data?.userId },
+                }}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </Link>
+            );
+          },
+        };
+      },
+    },
+  ],
+  "customer-management_customer_detail": [
+    { colId: "genderTitle" },
+    { colId: "isProfessional", type: "enum" },
+    {
+      colId: "isPAM",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToogleCustomerPAM
+              data={{
+                isActive: rowData?.data?.isPAMTrader,
+                id: rowData?.data?.id,
+              }}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "sejamStatusTitle" },
+    { colId: "isDeceased", type: "enum" },
+    { colId: "isDissolved", type: "enum" },
+    { colId: "adminNote" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_private_person": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "uniqueId" },
+    { colId: "firstName" },
+    { colId: "lastName" },
+    { colId: "fatherName" },
+    { colId: "genderTitle" },
+    { colId: "seriShChar" },
+    { colId: "seriSh" },
+    { colId: "shSerial" },
+    { colId: "shNumber" },
+    { colId: "birthDate" },
+    { colId: "birthPlace" },
+    { colId: "issuePlace" },
+    { colId: "isDeceased", type: "enum" },
+    { colId: "deceasedDate", type: "date" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_legal_person": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "uniqueId", headerName: "شناسه ملی" },
+    { colId: "companyName" },
+    { colId: "registerNumber" },
+    { colId: "registerPlace" },
+    { colId: "registerDate", type: "date" },
+    { colId: "evidenceReleaseCompany" },
+    { colId: "evidenceReleaseDate", type: "date" },
+    { colId: "economicCode" },
+    { colId: "evidenceExpirationDate", type: "date" },
+    { colId: "legalPersonTypeCategoryTitle" },
+    { colId: "legalPersonTypeSubCategoryTitle" },
+    { colId: "isDissolved", type: "enum" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_private_portfolio": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "privatePortfolioTitle" },
+    { colId: "bourseCode" },
+    { colId: "relatedCustomerTitle" },
+    { colId: "relatedCustomerUniqueId" },
+    { colId: "assetManagerTitle" },
+    { colId: "assetManagerUniqueId" },
+    { colId: "managementTypeTitle" },
+    { colId: "managementStartDate", type: "date" },
+    { colId: "managementEndDate", type: "date" },
+    { colId: "isExpired", type: "enum" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_bank_account": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "customerTitle" },
+    { colId: "customerUniqueId" },
+    { colId: "customerPhoneNumber" },
+    { colId: "sheba" },
+    { colId: "accountNumber" },
+    { colId: "typeTitle" },
+    { colId: "bankTitle" },
+    { colId: "branchCode" },
+    { colId: "branchTitle" },
+    { colId: "cityTitle" },
+    { colId: "isDefault", type: "enum" },
+    { colId: "isFromSejam", type: "enum" },
+    { colId: "isConfirmed", type: "enum" },
+    { colId: "description" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_agent": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "uniqueId" },
+    { colId: "firstName" },
+    { colId: "lastName" },
+    { colId: "description" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_agent_relation": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "customerUniqueId" },
+    { colId: "customerTitle" },
+    { colId: "agentUniqueId" },
+    { colId: "agentTitle" },
+    { colId: "agentTypeTitle" },
+    { colId: "isConfirmed", type: "enum" },
+    { colId: "startDate", type: "date" },
+    { colId: "expirationDate", type: "date" },
+    { colId: "description" },
+    { colId: "createDateTime", type: "date" },
+  ],
+  "customer-management_branch_history": [
+    { colId: "customerTitle" },
+    { colId: "customerUniqueId" },
+    { colId: "branchTitle" },
+    { colId: "branchTypeTitle" },
+    { colId: "tbsBranchId" },
+    { colId: "tbsBranchTitle" },
+    { colId: "subsidiaryTitle" },
+    { colId: "changeDateTime", type: "date" },
+  ],
+  "customer-management_marketer_history": [
+    { colId: "customerTitle" },
+    { colId: "customerUniqueId" },
+    { colId: "marketerTypeTitle" },
+    { colId: "marketerTitle" },
+    { colId: "tbsMarketerId" },
+    { colId: "tbsMarketerTitle" },
+    { colId: "changeDateTime", type: "date" },
+  ],
+  "customer-management_agreements_management": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "code" },
+    { colId: "name" },
+    { colId: "subsidiaryTitle" },
+    { colId: "personNationalityTitle" },
+    { colId: "personTypeTitle" },
+    { colId: "applicationTitle" },
+    { colId: "description" },
+    { colId: "context" },
+    { colId: "isBourseCodeRequired", type: "enum" },
+    { colId: "bourseCodeTypeTitle" },
+    { colId: "isRequired", type: "enum" },
+    { colId: "isActive", type: "enum" },
+    { colId: "isDeleted", type: "enum" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_customerAgreement": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "customerTitle" },
+    { colId: "customerUniqueId" },
+    { colId: "agreementName" },
+    { colId: "agreementCode" },
+    { colId: "subsidiaryTitle" },
+    { colId: "personNationalityTitle" },
+    { colId: "personTypeTitle" },
+    { colId: "applicationTitle" },
+    { colId: "bourseCodeTypeTitle" },
+    { colId: "isBourseCodeRequired", type: "enum" },
+    { colId: "isRequired", type: "enum" },
+    { colId: "isActive", type: "enum" },
+    {
+      colId: "isDeleted",
+      type: "enum",
+    },
+    { colId: "description" },
+    { colId: "stateTitle" },
+    { colId: "customerStateDateTime", type: "date" },
+    { colId: "adminStateDateTime", type: "date" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_bourse_code": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "customerTitle" },
+    { colId: "customerUniqueId" },
+    { colId: "typeTitle" },
+    { colId: "bourseCode" },
+    { colId: "tradingCode" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+
+  //online
+  "online-orders": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "customerTitle", cellRenderer: "agGroupCellRenderer" },
+    { colId: "faInsCode" },
+    { colId: "orderSideTitle" },
+    { colId: "price" },
+    { colId: "quantity" },
+    { colId: "exequtedQuantity" },
+    { colId: "remainingQuantity" },
+    { colId: "orderStatusTitle" },
+    { colId: "orderTypeTitle" },
+    { colId: "validityTypeTitle" },
+    { colId: "userRequestDateTime", type: "date" },
+    { colId: "receiveResponseFromCapServerDateTime", type: "date" },
+  ],
+  "online-trades": [
+    { colId: "customerTitle", cellRenderer: "agGroupCellRenderer" },
+    { colId: "userTitle" },
+    { colId: "traderId" },
+    { colId: "faInsCode" },
+    { colId: "isCanceled" },
+    { colId: "orderSideTitle" },
+    { colId: "tradePrice" },
+    { colId: "tradeQuantity" },
+    { colId: "tradeDate", type: "date" },
+    {
+      colId: "tradeTime",
+      valueFormatter: (rowData: any) => {
+        return chunk(rowData?.data?.tradeTime, 2).join(":");
+      },
+    },
+    { colId: "applicationSourceName" },
+  ],
+  "online-trades_detail": [
+    { colId: "userId" },
+    { colId: "customerNationalId" },
+    { colId: "customerId" },
+    { colId: "tradeId" },
+    { colId: "instrumentId" },
+    { colId: "orderId" },
+  ],
+
+  "online-cancel": [
+    { colId: "detail-opener", type: "detail-opener" },
+    { colId: "instrumentId" },
+    { colId: "instrumentGroupIdentification" },
+    { colId: "faInsCode" },
+    { colId: "orderSideTitle" },
+    { colId: "idOfTheBrokersOrderEntryServer" },
+    { colId: "orderOriginTitle" },
+    { colId: "orderTechnicalOriginTitle" },
+    { colId: "userRequestDateTime", type: "date" },
+    { colId: "errorText" },
+  ],
+  "online-cancel_detail": [
     { colId: "id" },
-    { colId: "marketCode" },
-    { colId: "marketTitle" },
-    { colId: "offerTypeTitle" },
-    { colId: "sideCode" },
-    { colId: "sideTitle" },
-    { colId: "settlementDelayCode" },
-    { colId: "settlementDelayTitle" },
-    { colId: "customerTypeCode" },
-    { colId: "customerTypeTitle" },
-    { colId: "customerCounterSideCode" },
-    { colId: "customerCounterSideTitle" },
+    { colId: "idOfBrokerIssuingTheOrder" },
+    { colId: "userId" },
+    { colId: "userIP" },
+    { colId: "sourceOfRequestTitle" },
+    { colId: "tradingDateTime", type: "date" },
+    { colId: "errorCode" },
   ],
-  "commission-management_detail": [
-    { colId: "checkbox" },
+
+  //marketer
+  "marketer-app_marketers": [
+    { colId: "UniqueId", headerName: "کد ملی بازاریاب" },
+    { colId: "Title", headerName: "عنوان بازاریاب" },
+    { colId: "TypeTitle" },
+    { colId: "Mobile" },
+    { colId: "SubsidiaryTitle" },
+    { colId: "BranchTitle" },
+    { colId: "ReagentRefLink" },
+    { colId: "MarketerRefLink" },
     {
-      colId: "brokerCommission",
-      children: [
-        { colId: "brokerCommissionCoeff" },
-        { colId: "minBrokerCommissionValue" },
-        { colId: "maxBrokerCommissionValue" },
-      ],
+      colId: "IsActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToggleButton
+              data={{
+                isActive: rowData?.data?.IsActive,
+                id: rowData?.data?.id,
+              }}
+            />
+          ),
+        };
+      },
     },
-    {
-      colId: "brokerCmdCommission",
-      children: [
-        { colId: "brokerCmdFundCoeff" },
-        { colId: "maxBrokerCmdFundValue" },
-      ],
-    },
-    {
-      colId: "seoControlCommission",
-      children: [
-        { colId: "seoControlCommissionCoeff" },
-        { colId: "maxSeoControlCommissionValue" },
-      ],
-    },
-    {
-      colId: "csdCommission",
-      children: [
-        { colId: "csdCommissionCoeff" },
-        { colId: "maxCsdCommissionValue" },
-      ],
-    },
-    {
-      colId: "tmcCommission",
-      children: [
-        { colId: "tmcCommissionCoeff" },
-        { colId: "maxTmcCommissionValue" },
-      ],
-    },
-    {
-      colId: "bourseCommission",
-      children: [
-        { colId: "bourseCommissionCoeff" },
-        { colId: "maxBourseCommissionValue" },
-      ],
-    },
-    {
-      colId: "rayanCommission",
-      children: [
-        { colId: "rayanCommissionCoeff" },
-        { colId: "maxRayanCommissionValue" },
-      ],
-    },
-    {
-      colId: "accessCommission",
-      children: [
-        { colId: "accessCommissionCoeff" },
-        { colId: "totalCommissionCoeff" },
-        { colId: "maxAccessCommissionValue" },
-      ],
-    },
-    {
-      colId: "taxCommission",
-      children: [{ colId: "addedValueTax" }, { colId: "maxTaxValue" }],
-    },
-    { colId: "taxCoeff" },
-    { colId: "charge" },
-    { colId: "netTradeValueCoeff" },
-    { colId: "beginningEffectingDate" },
-    { colId: "endEffectingDate" },
-    { colId: "deleted" },
-    { colId: "lastUpdaterUserId" },
-    { colId: "lastUpdateDateTime" },
   ],
-  "commission-management_instrument_result": [
-    { colId: "id" },
-    { colId: "bourseCode", sort: "desc" },
-    { colId: "bourseTitle" },
-    { colId: "instrumentTypeCode" },
-    { colId: "instrumentTypeTitle" },
-    { colId: "sectorCode" },
-    { colId: "sectorTitle" },
-    { colId: "subSectorCode" },
-    { colId: "subSectorTitle" },
-    { colId: "inventoryStatus" },
-    { colId: "instrumentTypeDescription" },
+  "marketer-app_reconcilation": [
+    { colId: "MarketerFirstName", cellRenderer: "agGroupCellRenderer" },
+    { colId: "MarketerLastNAme" },
+    { colId: "TradeSide" },
+    { colId: "TradeCount" },
+    { colId: "TradeDate", type: "date" },
   ],
-  "commission-management_instrument": [
-    { colId: "checkbox" },
-    { colId: "id" },
-    { colId: "bourseTitle" },
-    { colId: "instrumentTypeCode" },
-    { colId: "instrumentTypeTitle" },
-    { colId: "sectorCode" },
-    { colId: "sectorTitle" },
-    { colId: "subSectorCode" },
-    { colId: "subSectorTitle" },
-    { colId: "deleted" },
-    { colId: "instrumentTypeDescription" },
+  "marketer-app_reconcilation_detail": [
+    { colId: "FollowerMarketerID" },
+    { colId: "CommissionCoefficient" },
+    { colId: "StartDate", type: "date" },
+    { colId: "EndDate", type: "date" },
+    { colId: "GCreateDate", type: "date" },
+    { colId: "GUpdateDate", type: "date" },
   ],
-  "commission-management_abstract_symbols": [
+  "marketer-app_relations": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "LeaderMarketerID", cellRenderer: "agGroupCellRenderer" },
+    { colId: "FollowerMarketerName" },
+    { colId: "LeaderMarketerName" },
+  ],
+  "marketer-app_relations_detail": [
+    { colId: "FollowerMarketerID" },
+    { colId: "CommissionCoefficient" },
+    { colId: "StartDate", type: "date" },
+    { colId: "EndDate", type: "date" },
+    { colId: "CreateDate", type: "date" },
+    { colId: "UpdateDate", type: "date" },
+  ],
+  "marketer-app_subusers": [
+    { colId: "FirstName" },
+    { colId: "LastName" },
+    { colId: "FirmTitle" },
+    { colId: "TotalPureVolume" },
+    { colId: "TotalFee" },
+    { colId: "Mobile" },
+    { colId: "BankAccountNumber" },
+    { colId: "Email" },
+    { colId: "RegisterDate", type: "date" },
+  ],
+  "marketer-app_marketerContract": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "ContractID" },
+    { colId: "MarketerID" },
+    { colId: "Title", headerName: "عنوان بازاریاب" },
+    { colId: "CalculationBaseType" },
+    { colId: "CoefficientBaseType" },
+    { colId: "ContractType" },
+    { colId: "Description" },
+    { colId: "StartDate", type: "date" },
+    { colId: "EndDate", type: "date" },
+    {
+      colId: "marketerContract-detail",
+      type: "blank-detail-page",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => {
+            return (
+              <a
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={`/marketer-app/marketer-contract/${rowData?.data?.ContractID}`}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </a>
+            );
+          },
+        };
+      },
+    },
+  ],
+  "marketer-app_recite": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "MarketerID" },
+    { colId: "Period", type: "enum" },
+    { colId: "Plan" },
+    {
+      colId: "status",
+      field: "Status",
+      headerName: "وضعیت فاکتور",
+      type: "enum",
+    },
+    {
+      colId: "marketer-recite-detail",
+      type: "blank-detail-page",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => {
+            return (
+              <Link
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={{
+                  pathname: `/marketer-app/recite/detail`,
+                  query: { FactorID: rowData.data?.FactorID },
+                }}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </Link>
+            );
+          },
+        };
+      },
+    },
+  ],
+  "marketer-app_marketerContract_detail_deduction": [
+    { colId: "ContractID" },
+    { colId: "MarketerID" },
+    { colId: "Title", headerName: "عنوان بازاریاب" },
+    { colId: "CollateralCoefficient" },
+    { colId: "TaxCoefficient" },
+    { colId: "InsuranceCoefficient" },
+    { colId: "ReturnDuration" },
+  ],
+  "marketer-app_marketerContract_detail_coefficient": [
+    { colId: "ContractID" },
+    { colId: "MarketerID" },
+    { colId: "Title", headerName: "عنوان بازاریاب" },
+    { colId: "CoefficientPercentage" },
+    { colId: "HighThreshold" },
+    { colId: "LowThreshold" },
+    { colId: "StepNumber" },
+    { colId: "IsCmdConcluded", type: "enum" },
+  ],
+
+  //portfo
+  intraday: [
+    { colId: "tradingCode" },
+    { colId: "nationalId" },
+    { colId: "bourseCode" },
+    { colId: "customerTitle" },
     { colId: "instrumentId" },
     { colId: "faInsCode" },
-    { colId: "offerTypeCode" },
-    { colId: "sideCode" },
-    { colId: "customerTypeCode" },
-    { colId: "customerCounterSideCode" },
-    { colId: "totalCommissionCoeff" },
-    { colId: "netTradeCoeff" },
-    { colId: "breakEvenPriceCoeff" },
-    { colId: "beginningEffectingDate" },
-    { colId: "endEffectingDate" },
-    { colId: "valid" },
-    { colId: "deleted" },
+    { colId: "faInsName" },
+    { colId: "currentShareCount" },
+    { colId: "openBuyOrder" },
+    { colId: "openSellOrder" },
+    { colId: "intradayBuy" },
+    { colId: "intradaySell" },
+    { colId: "sellableShareCount" },
+    { colId: "remainAssetCount" },
+    { colId: "effectiveDate", type: "date" },
+    {
+      colId: "intraday-detail",
+      type: "blank-detail-page",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => {
+            return (
+              <Link
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={{
+                  pathname: `/portfo/intraday/detail`,
+                  query: {
+                    customerId: rowData?.data?.customerId,
+                    instrumentId: rowData?.data?.instrumentId,
+                    effectiveDate: rowData?.data?.effectiveDate,
+                  },
+                }}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </Link>
+            );
+          },
+        };
+      },
+    },
   ],
-  "commission-management_full_symbols": [
-    { colId: "instrumentId", cellRenderer: "agGroupCellRenderer" },
+  portfo_detail: [
+    { colId: "id" },
+    { colId: "transactionId" },
+    { colId: "transactionTitle" },
+    { colId: "instrumentId" },
     { colId: "faInsCode" },
-    { colId: "offerTypeCode" },
-    { colId: "sideCode" },
-    { colId: "settlementDelayCode" },
-    { colId: "customerTypeCode" },
-    { colId: "customerCounterSideCode" },
-    { colId: "netBrokerCommissionCoeff" },
-    { colId: "totalCommissionCoeff" },
-    { colId: "netTradeCoeff" },
-    { colId: "breakEvenPriceCoeff" },
-    { colId: "beginningEffectingDate" },
-    { colId: "endEffectingDate" },
-    { colId: "valid" },
-    { colId: "deleted" },
+    { colId: "currentShareCount" },
+    { colId: "sellableShareCount" },
+    { colId: "changeQuantity" },
+    { colId: "openBuyOrder" },
+    { colId: "openSellOrder" },
+    { colId: "intradayBuy" },
+    { colId: "intradaySell" },
+    { colId: "remainAssetCount" },
+    { colId: "transactionDateTime", type: "date" },
+    { colId: "effectiveDate", type: "date" },
   ],
-  "commission-management_full_symbols_detail": [
-    { colId: "category" },
-    { colId: "broker" },
-    { colId: "access" },
-    { colId: "brokerCmdFund" },
-    { colId: "bourse" },
-    { colId: "seoControl" },
-    { colId: "csd" },
-    { colId: "tmc" },
-    { colId: "rayan" },
-    { colId: "tax", cellStyle: { direction: "ltr" } },
-    { colId: "addedValue" },
-    { colId: "charge" },
-    { colId: "inventory" },
-    { colId: "inventoryAddedValueTax" },
+  "portfo-asset_switch_request": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "tradingCode" },
+    { colId: "uniqueId", cellRenderer: "agGroupCellRenderer" },
+    { colId: "title" },
+    { colId: "bourseCode" },
+    { colId: "instrumentId" },
+    { colId: "faInsCode" },
+    { colId: "faInsName" },
+    { colId: "status", headerName: "وضعیت تغییر کارگزاری", type: "enum" },
+    { colId: "description" },
+    { colId: "username" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
   ],
+  "portfo-asset_switch_request_detail": [
+    { colId: "userFirstName" },
+    { colId: "userLastName" },
+    { colId: "userUniqueId" },
+  ],
+  "portfo-customer_to_broker": [
+    { colId: "tradingCode" },
+    { colId: "nationalId" },
+    { colId: "bourseCode" },
+    { colId: "customerTitle" },
+    { colId: "portfolioValueByClosingPrice" },
+    { colId: "portfolioValueByLastPrice", hide: true },
+    { colId: "portfolioWeightByClosingPrice" },
+    { colId: "portfolioWeightByLastPrice", hide: true },
+  ],
+
+  //csdi
   "csdi-portfo_asset_switch_report": [
     { colId: "tradingCode" },
     { colId: "nationalId" },
@@ -574,23 +919,37 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "instrumentId" },
     { colId: "faInsCode" },
     { colId: "faInsName" },
-    { colId: "customerType" },
+    { colId: "customerType", type: "enum" },
     { colId: "shareChange" },
     { colId: "shareCount" },
-    { colId: "changeType" },
-    { colId: "effectiveDate" },
+    {
+      colId: "changeType",
+      type: "enum",
+      cellClassRules: {
+        // out of range style
+        "text-emerald-500": (rowData: any) =>
+          rowData?.data?.changeType === 3 || rowData.data?.changeType === 1,
+        "text-red-500": (rowData: any) =>
+          rowData?.data?.changeType === 4 || rowData.data?.changeType === 2,
+      },
+    },
+    { colId: "effectiveDate", type: "date" },
   ],
   "csdi-portfo_freezed_asset": [
     { colId: "tradingCode" },
     { colId: "nationalId" },
     { colId: "customerTitle" },
     { colId: "bourseCode" },
-    { colId: "personType" },
+    {
+      colId: "personTypeSecondVersionEnums",
+      field: "personType",
+      type: "enum",
+    },
     { colId: "instrumentId" },
     { colId: "faInsCode" },
     { colId: "faInsName" },
-    { colId: "isFreezed" },
-    { colId: "effectiveDate" },
+    { colId: "isFreezed", type: "enum" },
+    { colId: "effectiveDate", type: "date" },
   ],
   "csdi-portfo": [
     { colId: "tradingCode" },
@@ -600,16 +959,26 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "instrumentId" },
     { colId: "faInsCode" },
     { colId: "faInsName" },
-    { colId: "customerType" },
+    { colId: "customerType", type: "enum" },
     { colId: "shareCount" },
     { colId: "lastPrice", hide: true },
     { colId: "closingPrice" },
     { colId: "netValueByClosingPrice" },
     { colId: "netValueByLastPrice", hide: true },
     { colId: "shareChange" },
-    { colId: "changeType" },
-    { colId: "isFreezed" },
-    { colId: "effectiveDate" },
+    {
+      colId: "changeType",
+      type: "enum",
+      cellClassRules: {
+        // out of range style
+        "text-emerald-500": (rowData: any) =>
+          rowData?.data?.changeType === 3 || rowData.data?.changeType === 1,
+        "text-red-500": (rowData: any) =>
+          rowData?.data?.changeType === 4 || rowData.data?.changeType === 2,
+      },
+    },
+    { colId: "isFreezed", type: "enum" },
+    { colId: "effectiveDate", type: "date" },
   ],
   "csdi-portfo_comparison": [
     { colId: "faInsCode" },
@@ -646,130 +1015,238 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "instrumentId" },
     { colId: "faInsCode" },
     { colId: "faInsName" },
-    { colId: "customerType" },
+    { colId: "customerType", type: "enum" },
     { colId: "shareChange" },
     { colId: "shareCount" },
-    { colId: "changeType" },
-    { colId: "effectiveDate" },
+    {
+      colId: "changeType",
+      type: "enum",
+      cellClassRules: {
+        // out of range style
+        "text-emerald-500": (rowData: any) =>
+          rowData?.data?.changeType === 3 || rowData.data?.changeType === 1,
+        "text-red-500": (rowData: any) =>
+          rowData?.data?.changeType === 4 || rowData.data?.changeType === 2,
+      },
+    },
+    { colId: "effectiveDate", type: "date" },
   ],
+
+  //oms
+  "oms-timetable": [
+    { colId: "instrumentGroupId" },
+    { colId: "tradingSessionDate", type: "date" },
+    { colId: "tradingDayInsGroupTitle" },
+    { colId: "eventTriggerTime", type: "date" },
+    { colId: "afterOpeningInsGroupTitle" },
+    { colId: "eventDate", type: "date" },
+    { colId: "dateReceived", type: "date" },
+  ],
+  "oms-session": [
+    { colId: "sessionStatusCode" },
+    { colId: "sessionStatusTitle" },
+    { colId: "startDate", type: "date" },
+    { colId: "endDate", type: "date" },
+  ],
+
+  //market-rules
   "market-rules-management": [
-    { colId: "checkbox" },
+    { colId: "checkbox", type: "checkbox" },
     { colId: "id", cellRenderer: "agGroupCellRenderer" },
     { colId: "name", headerName: "نام قانون" },
     { colId: "errorMessage" },
     { colId: "sequenceNumber" },
-    { colId: "createDateTime" },
+    { colId: "createDateTime", type: "date" },
     { colId: "createBy" },
-    { colId: "updatedDateTime" },
+    { colId: "updatedDateTime", type: "date" },
     { colId: "updatedBy" },
     { colId: "userIP" },
   ],
-  "marketer-app_marketers": [
-    { colId: "checkbox" },
-    { colId: "UniqueId", headerName: "کد ملی بازاریاب" },
-    { colId: "Title", headerName: "عنوان بازاریاب" },
-    { colId: "TypeTitle" },
-    { colId: "Mobile" },
-    { colId: "SubsidiaryTitle" },
-    { colId: "BranchTitle" },
-    { colId: "ReagentRefLink" },
-    { colId: "MarketerRefLink" },
+
+  //book-building
+  "book-building": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "instrumentId" },
+    { colId: "faInsCode" },
+    { colId: "faInsName" },
+    { colId: "maxQuantity" },
+    { colId: "minPrice" },
+    { colId: "maxPrice" },
+    { colId: "fromActiveDateTime", type: "date" },
+    { colId: "toActiveDateTime", type: "date" },
+    { colId: "createdBy" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updatedBy" },
+    { colId: "updatedDateTime", type: "date" },
+  ],
+
+  //commmission
+  "commission-management_category": [
+    { colId: "id" },
+    { colId: "marketCode" },
+    { colId: "marketTitle" },
+    { colId: "offerTypeTitle" },
+    { colId: "sideCode", type: "enum" },
+    { colId: "sideTitle" },
+    { colId: "settlementDelayCode", type: "enum" },
+    { colId: "settlementDelayTitle" },
+    { colId: "customerTypeCode", type: "enum" },
+    { colId: "customerTypeTitle" },
+    { colId: "customerCounterSideCode", type: "enum" },
+    { colId: "customerCounterSideTitle" },
+  ],
+  "commission-management_detail": [
+    { colId: "checkbox", type: "checkbox" },
     {
-      colId: "IsActive",
-      cellRendererSelector: () => {
-        return {
-          component: (rowData: any) => (
-            <ToggleButton
-              data={{
-                isActive: rowData?.data?.IsActive,
-                id: rowData?.data?.id,
-              }}
-            />
-          ),
-        };
-      },
+      colId: "brokerCommission",
+      children: [
+        { colId: "brokerCommissionCoeff", flex: 0, width: 90 },
+        { colId: "minBrokerCommissionValue", flex: 0, width: 110 },
+        { colId: "maxBrokerCommissionValue", flex: 0, width: 110 },
+      ],
     },
+    {
+      colId: "brokerCmdCommission",
+      children: [
+        { colId: "brokerCmdFundCoeff", flex: 0, width: 110 },
+        { colId: "maxBrokerCmdFundValue", flex: 0, width: 110 },
+      ],
+    },
+    {
+      colId: "seoControlCommission",
+      children: [
+        { colId: "seoControlCommissionCoeff", flex: 0, width: 110 },
+        { colId: "maxSeoControlCommissionValue", flex: 0, width: 110 },
+      ],
+    },
+    {
+      colId: "csdCommission",
+      children: [
+        { colId: "csdCommissionCoeff", flex: 0, width: 110 },
+        { colId: "maxCsdCommissionValue", flex: 0, width: 110 },
+      ],
+    },
+    {
+      colId: "tmcCommission",
+      children: [
+        { colId: "tmcCommissionCoeff", flex: 0, width: 110 },
+        { colId: "maxTmcCommissionValue", flex: 0, width: 110 },
+      ],
+    },
+    {
+      colId: "bourseCommission",
+      children: [
+        { colId: "bourseCommissionCoeff", flex: 0, width: 110 },
+        { colId: "maxBourseCommissionValue", flex: 0, width: 110 },
+      ],
+    },
+    {
+      colId: "rayanCommission",
+      children: [
+        { colId: "rayanCommissionCoeff", flex: 0, width: 110 },
+        { colId: "maxRayanCommissionValue", flex: 0, width: 110 },
+      ],
+    },
+    {
+      colId: "accessCommission",
+      children: [
+        { colId: "accessCommissionCoeff", flex: 0, width: 110 },
+        { colId: "totalCommissionCoeff", flex: 0, width: 110 },
+        { colId: "maxAccessCommissionValue", flex: 0, width: 110 },
+      ],
+    },
+    {
+      colId: "taxCommission",
+      children: [
+        { colId: "addedValueTax", flex: 0, width: 110 },
+        { colId: "maxTaxValue", flex: 0, width: 110 },
+      ],
+    },
+    { colId: "taxCoeff", flex: 0, width: 110 },
+    { colId: "charge", flex: 0, width: 110 },
+    { colId: "netTradeValueCoeff", flex: 0, width: 110 },
+    { colId: "beginningEffectingDate", type: "date", flex: 0, width: 110 },
+    { colId: "endEffectingDate", type: "date", flex: 0, width: 110 },
+    { colId: "deleted", type: "enum", flex: 0, width: 110 },
+    { colId: "lastUpdaterUserId", flex: 0, width: 110 },
+    { colId: "lastUpdateDateTime", type: "date", flex: 0, width: 110 },
   ],
-  "marketer-app_reconcilation": [
-    { colId: "MarketerFirstName", cellRenderer: "agGroupCellRenderer" },
-    { colId: "MarketerLastNAme" },
-    { colId: "TradeSide" },
-    { colId: "TradeCount" },
-    { colId: "TradeDate" },
+  "commission-management_instrument_result": [
+    { colId: "id" },
+    { colId: "bourseCode", sort: "desc" },
+    { colId: "bourseTitle" },
+    { colId: "instrumentTypeCode" },
+    { colId: "instrumentTypeTitle" },
+    { colId: "sectorCode" },
+    { colId: "sectorTitle" },
+    { colId: "subSectorCode" },
+    { colId: "subSectorTitle" },
+    { colId: "inventoryStatus", type: "enum" },
+    { colId: "instrumentTypeDescription" },
   ],
-  "marketer-app_reconcilation_detail": [
-    { colId: "FollowerMarketerID" },
-    { colId: "CommissionCoefficient" },
-    { colId: "StartDate" },
-    { colId: "EndDate" },
-    { colId: "GCreateDate" },
-    { colId: "GUpdateDate" },
+  "commission-management_instrument": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "id" },
+    { colId: "bourseTitle" },
+    { colId: "instrumentTypeCode" },
+    { colId: "instrumentTypeTitle" },
+    { colId: "sectorCode" },
+    { colId: "sectorTitle" },
+    { colId: "subSectorCode" },
+    { colId: "subSectorTitle" },
+    { colId: "deleted", type: "enum" },
+    { colId: "instrumentTypeDescription" },
   ],
-  "marketer-app_relations": [
-    { colId: "checkbox" },
-    { colId: "LeaderMarketerID", cellRenderer: "agGroupCellRenderer" },
-    { colId: "FollowerMarketerName" },
-    { colId: "LeaderMarketerName" },
+  "commission-management_abstract_symbols": [
+    { colId: "instrumentId" },
+    { colId: "faInsCode" },
+    { colId: "offerTypeCode", type: "enum" },
+    { colId: "sideCode", type: "enum" },
+    { colId: "customerTypeCode", type: "enum" },
+    { colId: "customerCounterSideCode", type: "enum" },
+    { colId: "totalCommissionCoeff" },
+    { colId: "netTradeCoeff" },
+    { colId: "breakEvenPriceCoeff" },
+    { colId: "beginningEffectingDate", type: "date" },
+    { colId: "endEffectingDate", type: "date" },
+    { colId: "valid", type: "enum" },
+    { colId: "deleted", type: "enum" },
   ],
-  "marketer-app_relations_detail": [
-    { colId: "FollowerMarketerID" },
-    { colId: "CommissionCoefficient" },
-    { colId: "StartDate" },
-    { colId: "EndDate" },
-    { colId: "CreateDate" },
-    { colId: "UpdateDate" },
+  "commission-management_full_symbols": [
+    { colId: "instrumentId", cellRenderer: "agGroupCellRenderer" },
+    { colId: "faInsCode" },
+    { colId: "offerTypeCode", type: "enum" },
+    { colId: "sideCode", type: "enum" },
+    { colId: "settlementDelayCode", type: "enum" },
+    { colId: "customerTypeCode", type: "enum" },
+    { colId: "customerCounterSideCode", type: "enum" },
+    { colId: "netBrokerCommissionCoeff" },
+    { colId: "totalCommissionCoeff" },
+    { colId: "netTradeCoeff" },
+    { colId: "breakEvenPriceCoeff" },
+    { colId: "beginningEffectingDate", type: "date" },
+    { colId: "endEffectingDate", type: "date" },
+    { colId: "valid", type: "enum" },
+    { colId: "deleted", type: "enum" },
   ],
-  "marketer-app_subusers": [
-    { colId: "FirstName" },
-    { colId: "LastName" },
-    { colId: "FirmTitle" },
-    { colId: "TotalPureVolume" },
-    { colId: "TotalFee" },
-    { colId: "Mobile" },
-    { colId: "BankAccountNumber" },
-    { colId: "Email" },
-    { colId: "RegisterDate" },
+  "commission-management_full_symbols_detail": [
+    { colId: "category" },
+    { colId: "broker" },
+    { colId: "access" },
+    { colId: "brokerCmdFund" },
+    { colId: "bourse" },
+    { colId: "seoControl" },
+    { colId: "csd" },
+    { colId: "tmc" },
+    { colId: "rayan" },
+    { colId: "tax", cellStyle: { direction: "ltr" } },
+    { colId: "addedValue" },
+    { colId: "charge" },
+    { colId: "inventory" },
+    { colId: "inventoryAddedValueTax" },
   ],
-  "marketer-app_marketerContract": [
-    { colId: "checkbox" },
-    { colId: "ContractID" },
-    { colId: "MarketerID" },
-    { colId: "Title", headerName: "عنوان بازاریاب" },
-    { colId: "CalculationBaseType" },
-    { colId: "CoefficientBaseType" },
-    { colId: "ContractType" },
-    { colId: "Description" },
-    { colId: "StartDate" },
-    { colId: "EndDate" },
-    { colId: "marketerContract-detail" },
-  ],
-  "marketer-app_recite": [
-    { colId: "checkbox" },
-    { colId: "MarketerID" },
-    { colId: "Period" },
-    { colId: "Plan" },
-    { colId: "Status" },
-    { colId: "marketer-recite-detail" },
-  ],
-  "marketer-app_marketerContract_detail_deduction": [
-    { colId: "ContractID" },
-    { colId: "MarketerID" },
-    { colId: "Title", headerName: "عنوان بازاریاب" },
-    { colId: "CollateralCoefficient" },
-    { colId: "TaxCoefficient" },
-    { colId: "InsuranceCoefficient" },
-    { colId: "ReturnDuration" },
-  ],
-  "marketer-app_marketerContract_detail_coefficient": [
-    { colId: "ContractID" },
-    { colId: "MarketerID" },
-    { colId: "Title", headerName: "عنوان بازاریاب" },
-    { colId: "CoefficientPercentage" },
-    { colId: "HighThreshold" },
-    { colId: "LowThreshold" },
-    { colId: "StepNumber" },
-    { colId: "IsCmdConcluded" },
-  ],
+
+  //netflow
   netflow_cleared_trade: [
     { colId: "ticket", cellRenderer: "agGroupCellRenderer" },
     { colId: "date" },
@@ -832,10 +1309,19 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "symbol" },
     { colId: "buyerCode" },
     { colId: "sellerCode" },
-    { colId: "settlementDelay" },
+    { colId: "settlementDelay", type: "enum" },
   ],
   netflow_rules_detail: [
-    { colId: "netflow-rules-detail-type" },
+    {
+      colId: "netflow-rules-detail-type",
+      rowSpan: (params: any) => (params.data?.side === 1 ? 2 : 1),
+      cellClassRules: {
+        "cell-span": (params: any) => params.data?.side === 1,
+      },
+      valueFormatter: (rowData: any) => {
+        return rowData.node.rowIndex > 1 ? "ضریب کارمزد" : "سقف کارمزد";
+      },
+    },
     { colId: "accountCommission" },
     { colId: "seoCommission" },
     { colId: "tmcCommission" },
@@ -846,7 +1332,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "tax" },
     { colId: "vatCommission" },
     { colId: "vtsCommission" },
-    { colId: "side" },
+    { colId: "side", type: "enum" },
   ],
   netflow_trades_report: [
     { colId: "fullName", cellRenderer: "agGroupCellRenderer" },
@@ -938,228 +1424,6 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "vtsCommission" },
     { colId: "farCommission" },
   ],
-  "oms-timetable": [
-    { colId: "instrumentGroupId" },
-    { colId: "tradingSessionDate" },
-    { colId: "tradingDayInsGroupTitle" },
-    { colId: "eventTriggerTime" },
-    { colId: "afterOpeningInsGroupTitle" },
-    { colId: "eventDate" },
-    { colId: "dateReceived" },
-  ],
-  "oms-session": [
-    { colId: "sessionStatusCode" },
-    { colId: "sessionStatusTitle" },
-    { colId: "startDate" },
-    { colId: "endDate" },
-  ],
-  "online-registration": [
-    { colId: "checkbox" },
-    { colId: "uniqueId", cellRenderer: "agGroupCellRenderer" },
-    { colId: "mobileNumber" },
-    { colId: "personTypeTitle" },
-    { colId: "marketerRefCode" },
-    { colId: "marketerTitle" },
-    { colId: "reagentTitle" },
-    { colId: "agentUniqueId" },
-    { colId: "isSejami" },
-    { colId: "sejamStatusCodeTitle" },
-    { colId: "registrationStateCodeTitle" },
-    { colId: "isTbsInserted" },
-    { colId: "isTBSDocsInserted" },
-    { colId: "online-registration-detail" },
-  ],
-  "online-registration_detail": [
-    { colId: "email" },
-    { colId: "branchTitle" },
-    { colId: "countryName" },
-    { colId: "foreignCSDCode" },
-    { colId: "personOriginTitle" },
-    { colId: "riskLevelTitle" },
-    { colId: "sejamToken" },
-    { colId: "changeReasonDescription" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
-  "online-cancel": [
-    { colId: "instrumentId", cellRenderer: "agGroupCellRenderer" },
-    { colId: "instrumentGroupIdentification" },
-    { colId: "faInsCode" },
-    { colId: "orderSideTitle" },
-    { colId: "idOfTheBrokersOrderEntryServer" },
-    { colId: "orderOriginTitle" },
-    { colId: "orderTechnicalOriginTitle" },
-    { colId: "userRequestDateTime" },
-    { colId: "errorText" },
-  ],
-  "online-cancel_detail": [
-    { colId: "id" },
-    { colId: "idOfBrokerIssuingTheOrder" },
-    { colId: "userId" },
-    { colId: "userIP" },
-    { colId: "sourceOfRequestTitle" },
-    { colId: "tradingDateTime" },
-    { colId: "errorCode" },
-  ],
-  "online-orders": [
-    { colId: "checkbox" },
-    { colId: "customerTitle", cellRenderer: "agGroupCellRenderer" },
-    { colId: "faInsCode" },
-    { colId: "orderSideTitle" },
-    { colId: "price" },
-    { colId: "quantity" },
-    { colId: "exequtedQuantity" },
-    { colId: "remainingQuantity" },
-    { colId: "orderStatusTitle" },
-    { colId: "orderTypeTitle" },
-    { colId: "validityTypeTitle" },
-    { colId: "userRequestDateTime" },
-    { colId: "receiveResponseFromCapServerDateTime" },
-  ],
-  "online-trades": [
-    { colId: "customerTitle", cellRenderer: "agGroupCellRenderer" },
-    { colId: "userTitle" },
-    { colId: "traderId" },
-    { colId: "faInsCode" },
-    { colId: "isCanceled" },
-    { colId: "orderSideTitle" },
-    { colId: "tradePrice" },
-    { colId: "tradeQuantity" },
-    { colId: "tradeDate" },
-    { colId: "tradeTime" },
-    { colId: "applicationSourceName" },
-  ],
-  "online-trades_detail": [
-    { colId: "userId" },
-    { colId: "customerNationalId" },
-    { colId: "customerId" },
-    { colId: "tradeId" },
-    { colId: "instrumentId" },
-    { colId: "orderId" },
-  ],
-  portfo_detail: [
-    { colId: "id" },
-    { colId: "transactionId" },
-    { colId: "transactionTitle" },
-    { colId: "instrumentId" },
-    { colId: "faInsCode" },
-    { colId: "currentShareCount" },
-    { colId: "sellableShareCount" },
-    { colId: "changeQuantity" },
-    { colId: "openBuyOrder" },
-    { colId: "openSellOrder" },
-    { colId: "intradayBuy" },
-    { colId: "intradaySell" },
-    { colId: "remainAssetCount" },
-    { colId: "transactionDateTime" },
-    { colId: "effectiveDate" },
-  ],
-  "portfo-asset_switch_request": [
-    { colId: "checkbox" },
-    { colId: "tradingCode" },
-    { colId: "uniqueId", cellRenderer: "agGroupCellRenderer" },
-    { colId: "title" },
-    { colId: "bourseCode" },
-    { colId: "instrumentId" },
-    { colId: "faInsCode" },
-    { colId: "faInsName" },
-    { colId: "status" },
-    { colId: "description" },
-    { colId: "username" },
-    { colId: "createDateTime" },
-    { colId: "updateDateTime" },
-  ],
-  "portfo-asset_switch_request_detail": [
-    { colId: "userFirstName" },
-    { colId: "userLastName" },
-    { colId: "userUniqueId" },
-  ],
-  "portfo-customer_to_broker": [
-    { colId: "tradingCode" },
-    { colId: "nationalId" },
-    { colId: "bourseCode" },
-    { colId: "customerTitle" },
-    { colId: "portfolioValueByClosingPrice" },
-    { colId: "portfolioValueByLastPrice", hide: true },
-    { colId: "portfolioWeightByClosingPrice" },
-    { colId: "portfolioWeightByLastPrice", hide: true },
-  ],
-  intraday: [
-    { colId: "tradingCode" },
-    { colId: "nationalId" },
-    { colId: "bourseCode" },
-    { colId: "customerTitle" },
-    { colId: "instrumentId" },
-    { colId: "faInsCode" },
-    { colId: "faInsName" },
-    { colId: "currentShareCount" },
-    { colId: "openBuyOrder" },
-    { colId: "openSellOrder" },
-    { colId: "intradayBuy" },
-    { colId: "intradaySell" },
-    { colId: "sellableShareCount" },
-    { colId: "remainAssetCount" },
-    { colId: "effectiveDate" },
-    { colId: "intraday-detail" },
-  ],
-  "user-management_logs": [
-    { colId: "userId" },
-    { colId: "name" },
-    { colId: "typeTitle" },
-    { colId: "date" },
-    { colId: "clientId" },
-    { colId: "succeed" },
-    { colId: "ip" },
-    { colId: "userAgent" },
-    { colId: "browser" },
-    { colId: "os" },
-    { colId: "isMobile" },
-    { colId: "errorMessage" },
-  ],
-  "user-management_roles": [
-    { colId: "checkbox" },
-    { colId: "id", cellRenderer: "agGroupCellRenderer" },
-    { colId: "name", headerName: "نقش" },
-    {
-      colId: "isActive",
-      cellRendererSelector: () => {
-        return { component: RoleToggleButton };
-      },
-    },
-  ],
-  "user-management_roles_detail": [
-    { colId: "id" },
-    { colId: "serviceTitle" },
-    { colId: "moduleTitle" },
-    { colId: "actionTitle" },
-  ],
-  "user-management_users": [
-    { colId: "checkbox" },
-    { colId: "username", cellRenderer: "agGroupCellRenderer" },
-    { colId: "phoneNumber" },
-    { colId: "firstName" },
-    { colId: "lastName" },
-    { colId: "nationalId" },
-    {
-      colId: "isActive",
-      cellRendererSelector: () => {
-        return { component: ToggleButtonUsers };
-      },
-    },
-    { colId: "twoFactorEnabled" },
-    { colId: "lockOutEnd" },
-  ],
-  "user-management_users_detail": [
-    { colId: "id", flex: 1 },
-    { colId: "name", flex: 1 },
-    {
-      colId: "isActive",
-      flex: 1,
-      valueFormatter: (rowData: any) => {
-        return rowData.data.isActive ? "فعال" : "غیر فعال";
-      },
-    },
-  ],
 };
 
 export const generateDynamicColumnDefs = (module: ModulesType) => {
@@ -1167,20 +1431,24 @@ export const generateDynamicColumnDefs = (module: ModulesType) => {
     const { children, ...rest } = col;
     if (children) {
       return {
-        ...columnModel.find((column: any) => column.colId === col.colId),
+        headerName: columnsName[col.colId],
+        field: col.colId,
+        ...columnModel[col.type || "default"],
         ...rest,
         children: children.map((childCol: ColDefType) => {
           return {
-            ...columnModel.find(
-              (column: any) => column.colId === childCol.colId
-            ),
+            headerName: columnsName[childCol.colId],
+            field: childCol.colId,
+            ...columnModel[childCol.type || "default"],
             ...childCol,
           };
         }),
       };
     } else {
       return {
-        ...columnModel.find((column: any) => column.colId === col.colId),
+        headerName: columnsName[col.colId],
+        field: col.colId,
+        ...columnModel[col.type || "default"],
         ...col,
       };
     }

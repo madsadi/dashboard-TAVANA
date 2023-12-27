@@ -43,9 +43,11 @@ import {
   PersonNationalityEnums,
   personOriginEnums,
   personTypeEnums,
+  personTypeSecondVersionEnums,
   RequestStatusEnums,
   riskLevel,
   sejamStatusEnums,
+  SettlementDelayEnums,
   SettlementStateEnum,
   sides,
   SortBy,
@@ -134,10 +136,13 @@ export const dateCell = (date: string, hideTime = false) => {
   if (date) {
     date_format = jalali(date);
   }
+
   return (
     (date ? date_format.date : "-") +
     "  " +
-    (date && !hideTime ? " - " + date_format.time : "")
+    (date && !hideTime && date_format.time !== "00:00:00"
+      ? " - " + date_format.time
+      : "")
   );
 };
 
@@ -210,14 +215,22 @@ export const FindEnum = (
     case "startHour":
     case "endHour":
       return { hours: Hours, minutes: Minutes };
+    case "settlementDelayCode":
+    case "settlementDelay":
+      return SettlementDelayEnums;
     case "isActiveWithNoNull":
+    case "twoFactorEnabled":
+    case "valid":
       return isActiveWithNoNull;
     case "isActive":
       return activeStatus;
     case "requestStatus":
       return RequestStatusEnums;
     case "periodDate":
+    case "period":
       return PeriodDateEnums;
+    case "coefficientBaseType":
+      return CoefficientBaseTypeEnums;
     case "operator":
       return operators;
     case "state":
@@ -237,6 +250,7 @@ export const FindEnum = (
     case "timeInterval":
       return Interval;
     case "Side":
+    case "side":
     case "orderSide":
     case "sideCode":
       return sides;
@@ -259,6 +273,8 @@ export const FindEnum = (
     case "personType":
     case "PersonType":
       return personTypeEnums;
+    case "personTypeSecondVersionEnums":
+      return personTypeSecondVersionEnums;
     case "customerType":
       return customerTypeEnums;
     case "changeType":
@@ -302,6 +318,7 @@ export const FindEnum = (
     case "isCmdConcluded":
     case "isFreezed":
     case "isProfessionalInvestor":
+    case "isProfessional":
     case "isPAMTrader":
     case "isDeceased":
     case "isDissolved":
@@ -310,6 +327,10 @@ export const FindEnum = (
     case "isConfirmed":
     case "isExpired":
     case "isDefault":
+    case "isMobile":
+    case "isTbsInserted":
+    case "isTBSDocsInserted":
+    case "inventoryStatus":
       return isRequired;
     case "month":
       return Months;

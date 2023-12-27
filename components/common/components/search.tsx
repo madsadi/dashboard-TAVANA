@@ -28,7 +28,10 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
     const { filters, initialValue, service, modules, restriction } =
       useSearchFilters(module);
     const [query, setQuery] = useState<any>(
-      initialQuery ||
+      (initialQuery &&
+        Object.fromEntries(
+          Object.entries(initialQuery).map(([k, v]) => [lowerFirstLetter(k), v])
+        )) ||
         Object.fromEntries(
           Object.entries(initialValue).map(([k, v]) => [lowerFirstLetter(k), v])
         )
