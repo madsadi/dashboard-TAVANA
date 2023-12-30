@@ -15,6 +15,7 @@ import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
 import CustomerToolbar from "components/customer-management/customer/toolbar";
 import CustomerLegalPerson from "components/customer-management/customer/detail/legal-person/customer-legal-person";
 import CustomerPrivatePortfolio from "components/customer-management/customer/detail/private-portfolio/customer-private-portfolio";
+import CustomerBourseCode from "components/customer-management/customer/detail/bourse-code/customer-bourse-code";
 const CustomerIdentityInfo = dynamic(
   () =>
     import(
@@ -142,6 +143,7 @@ function Detail() {
           <div className={"w-full grow space-y-3 mt-5"}>
             {IdentityComponent[data.personType]}
             <CustomerBankAccountInfo />
+            <CustomerBourseCode />
             {data.personType !== 3 ? (
               <>
                 <CustomerAgentRelationInfo />

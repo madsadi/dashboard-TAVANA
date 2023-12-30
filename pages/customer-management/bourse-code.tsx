@@ -14,8 +14,8 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import { BourseCodeToolbar } from "components/customer-management/bourse-code/bourse-code-toolbar";
+import { CustomerManagementBourseCodeContext } from "components/customer-management/customer/detail/bourse-code/customer-bourse-code";
 
-export const CustomerManagementBourseCodeContext = createContext({});
 function CustomerManagementBourseCode() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, query, fetchData, loading }: any = useQuery({
@@ -24,7 +24,14 @@ function CustomerManagementBourseCode() {
 
   return (
     <CustomerManagementBourseCodeContext.Provider
-      value={{ selected: selectedRows[0], fetchData: () => fetchData(query) }}
+      value={{
+        selected: selectedRows[0],
+        customer: {
+          customerId: selectedRows[0]?.customerId,
+          relatedCustomerTitle: selectedRows[0]?.customerTitle,
+        },
+        fetchData: () => fetchData(query),
+      }}
     >
       <div className={"flex flex-col h-full flex-1"}>
         <AccordionComponent>
@@ -34,7 +41,7 @@ function CustomerManagementBourseCode() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code}
           />
         </AccordionComponent>
-        <BourseCodeToolbar />
+        <BourseCodeToolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code}

@@ -1249,7 +1249,7 @@ export const modularColsDef: ModularColsDefType = {
   //netflow
   netflow_cleared_trade: [
     { colId: "ticket", cellRenderer: "agGroupCellRenderer" },
-    { colId: "date" },
+    { colId: "date", type: "date" },
     { colId: "symbol" },
     { colId: "instrumentId" },
     { colId: "price" },
@@ -1345,8 +1345,8 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "tradeCode" },
     { colId: "settlementDelay" },
     { colId: "stationName" },
-    { colId: "stationCode" },
-    { colId: "tradeDate" },
+    { colId: "stationCode", type: "date" },
+    { colId: "tradeDate", type: "date" },
     {
       colId: "bourseCommission",
       valueGetter: "data.feeDetail.bourseCommission",

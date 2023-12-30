@@ -6,9 +6,9 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementBourseCodeContext } from "pages/customer-management/bourse-code";
+import { CustomerManagementBourseCodeContext } from "../customer/detail/bourse-code/customer-bourse-code";
 
-export const BourseCodeToolbar = () => {
+export const BourseCodeToolbar = ({ isMainPage = false }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: editBourseCode } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/customerBourseCode/EditBourseCode`,
@@ -37,7 +37,7 @@ export const BourseCodeToolbar = () => {
     },
     setLoading: setLoading,
   });
-  const { fetchData, selected } = useContext<any>(
+  const { fetchData, selected, customer } = useContext<any>(
     CustomerManagementBourseCodeContext
   );
   const { restriction, modules, service } = useSearchFilters(
@@ -59,17 +59,25 @@ export const BourseCodeToolbar = () => {
   };
 
   return (
-    <div className={"toolbar p-2 border-x border-border"}>
+    <div
+      className={
+        isMainPage
+          ? "toolbar p-2 border-x border-border"
+          : "flex space-x-2 space-x-reverse z-10 mb-4"
+      }
+    >
       <CRUDWrapper
         ref={addRef}
         title={`کد بورسی جدید`}
         confirmHandler={(e, query) => {
           e.preventDefault();
-          add(query);
+          add({ customerId: customer.id, ...query });
         }}
         loading={loading}
         module={ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code}
         subModule="add"
+        mode="edit"
+        selectedItem={customer}
       >
         <Button
           label={"جدید"}

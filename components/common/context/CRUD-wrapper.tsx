@@ -75,6 +75,7 @@ export const CRUDWrapper = forwardRef((props: CRUDWrapperProps, ref) => {
 
   return (
     <>
+      {children}
       <Modal
         title={title}
         ModalWidth={ModalWidth}
@@ -123,7 +124,6 @@ export const CRUDWrapper = forwardRef((props: CRUDWrapperProps, ref) => {
           </div>
         </div>
       </Modal>
-      {children}
     </>
   );
 });
