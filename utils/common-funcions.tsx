@@ -1,6 +1,7 @@
 import moment from "jalali-moment";
 import { EnumType } from "types/types";
 import {
+  AccountTypeEnum,
   activeStatus,
   AgentTypeEnums,
   ApplicationCodeEnums,
@@ -14,6 +15,7 @@ import {
   changeTypeEnums,
   CoefficientBaseTypeEnums,
   ContractTypeEnums,
+  CustomerAgreementState,
   CustomerOriginEnums,
   customerTypeEnums,
   FactorStatusEnums,
@@ -44,6 +46,7 @@ import {
   personOriginEnums,
   personTypeEnums,
   personTypeSecondVersionEnums,
+  PositionTypeEnums,
   RequestStatusEnums,
   riskLevel,
   sejamStatusEnums,
@@ -52,6 +55,7 @@ import {
   sides,
   SortBy,
   SortOrder,
+  StakeholderTypeEnums,
   statesEnums,
   stationTypeEnum,
   StatusEnums,
@@ -226,15 +230,23 @@ export const FindEnum = (
       return activeStatus;
     case "requestStatus":
       return RequestStatusEnums;
+    case "positionType":
+      return PositionTypeEnums;
     case "periodDate":
     case "period":
       return PeriodDateEnums;
     case "coefficientBaseType":
       return CoefficientBaseTypeEnums;
+    case "accountType":
+      return AccountTypeEnum;
     case "operator":
       return operators;
     case "state":
-      return statesEnums;
+      if (label === "وضعیت توافقنامه") {
+        return CustomerAgreementState;
+      } else {
+        return statesEnums;
+      }
     case "gender":
       return genderEnums;
     case "orderType":
@@ -304,6 +316,8 @@ export const FindEnum = (
         return stationTypeEnum;
       } else if (label === "نوع حساب بانکی") {
         return BankAccountTypeEnums;
+      } else if (label === "نوع ذینفع") {
+        return StakeholderTypeEnums;
       }
       if (label === "نوع کد بورسی") {
         return bousreCodeType;
@@ -329,6 +343,7 @@ export const FindEnum = (
     case "isDefault":
     case "isMobile":
     case "isTbsInserted":
+    case "hasSignatureRight":
     case "isTBSDocsInserted":
     case "inventoryStatus":
       return isRequired;

@@ -626,6 +626,14 @@ export const CoefficientBaseTypeEnums = [
   },
 ];
 
+export const AccountTypeEnum = [
+  {
+    title: "معاملات مشتری کارگزاری",
+    enTitle: "BrokerCustomerTrading",
+    id: 1,
+  },
+];
+
 export const AssignmentTypeEnums = [
   {
     title: "مبلغ",
@@ -1321,6 +1329,45 @@ export const sejamStatusEnums = [
     title: "سجامی ناقص-نقص مدرک/عدم احرازهویت",
   },
 ];
+
+export const CustomerAgreementState = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "WaitingForCustomerApproval",
+    title: "در انتظار تایید مشتری",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "ApprovedByCustomer",
+    title: "تایید شده توسط مشتری",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "RejectedByCustomer",
+    title: "رد شده توسط مشتری",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "WaitingForAdminApproval",
+    title: "در حال بررسی",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "ApprovedByAdmin",
+    title: "تایید شده توسط ادمین",
+  },
+  {
+    id: 6,
+    code: 6,
+    enTitle: "RejectedByAdmin",
+    title: "رد شده توسط ادمین",
+  },
+];
 export const onlineRegistrationStatusEnums = [
   {
     id: 1,
@@ -1781,6 +1828,59 @@ export const BankAccountTypeEnums: any = [
   },
 ];
 
+export const PositionTypeEnums: any = [
+  {
+    enTitle: "Chairman",
+    id: 1,
+    title: "رییش هیت مدیره",
+  },
+  {
+    enTitle: "DeputyChairman",
+    id: 2,
+    title: "نایب رییس هیت مدیره",
+  },
+  {
+    enTitle: "Ceo",
+    id: 3,
+    title: "مدیر عامل",
+  },
+  {
+    enTitle: "Member",
+    id: 4,
+    title: "عضو هیت مدیره",
+  },
+  {
+    enTitle: "Others",
+    id: 5,
+    title: "سابر",
+  },
+  {
+    enTitle: "Inspector",
+    id: 6,
+    title: "بازرس",
+  },
+  {
+    enTitle: "Auditor",
+    id: 7,
+    title: "حسابرس",
+  },
+  {
+    enTitle: "FinancialAccountHolder",
+    id: 8,
+    title: "ذی حساب مالی",
+  },
+  {
+    enTitle: "Deputy",
+    id: 9,
+    title: "قائم مقام ",
+  },
+  {
+    enTitle: "Agent",
+    id: 10,
+    title: "نماینده",
+  },
+];
+
 export const AgentTypeEnums: any = [
   {
     id: 1,
@@ -1808,6 +1908,28 @@ export const AgentTypeEnums: any = [
   },
 ];
 
+export const StakeholderTypeEnums = [
+  {
+    enTitle: "Manager",
+    title: "عضو هیئت مدیره",
+    id: 1,
+  },
+  {
+    enTitle: "TakeAccess",
+    title: "عضو دارای حق برداشت",
+    id: 2,
+  },
+  {
+    enTitle: "OrderAccess",
+    title: "عضو دارای حق سفارش",
+    id: 3,
+  },
+  {
+    enTitle: "Agent",
+    title: "نماینده",
+    id: 4,
+  },
+];
 export const enTierNameEnum: any = [
   {
     enTitle: "BTEF-T2",

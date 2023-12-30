@@ -93,6 +93,9 @@ export default function BreadCrumbComponent() {
     "customer-kpi": "عملکرد اعتبار کارگزاری",
     "agreements-management": "مدیریت توافقنامه ها",
     "bourse-code": "مدیریت کد بورسی",
+    "accounting-code": "کدهای حسابداری مشتریان",
+    "legal-person-shareholder": "سهام داران مشتریان حقوقی",
+    "legal-person-stakeholder": "ذینفعان مشتریان حقوقی",
   };
 
   useEffect(() => {

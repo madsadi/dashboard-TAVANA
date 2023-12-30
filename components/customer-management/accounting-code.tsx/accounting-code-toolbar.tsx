@@ -6,33 +6,21 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerAgreementContext } from "pages/customer-management/customer-agreement";
+import { CustomerManagementAccountingCodeContext } from "pages/customer-management/accounting-code";
 
-export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
+export const AccountingCodeToolbar = ({ isMainPage = false }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { fetchData, selected, query, customer } = useContext<any>(
-    CustomerAgreementContext
-  );
-  const { mutate: deleteItem } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customerAgreement/Delete`,
-    method: "DELETE",
-    onSuccess: () => {
-      fetchData(query);
-      deleteRef.current?.modalHandler(false);
-    },
-    setLoading: setLoading,
-  });
-  const { mutate: editBourseCode } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customerBourseCode/EditBourseCode`,
+  const { mutate: edit } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/customerAccountingCode/Edit`,
     method: "PATCH",
     onSuccess: () => {
-      fetchData(query);
-      editStateRef.current?.modalHandler(false);
+      fetchData();
+      editRef.current?.modalHandler(false);
     },
     setLoading: setLoading,
   });
   const { mutate: add } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customerAgreement/Add`,
+    url: `${ADMIN_GATEWAY}/api/request/customerAccountingCode/Add`,
     method: "POST",
     onSuccess: () => {
       fetchData();
@@ -40,12 +28,14 @@ export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
     },
     setLoading: setLoading,
   });
-  const { restriction, modules, service } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement
+  const { fetchData, selected, customer } = useContext<any>(
+    CustomerManagementAccountingCodeContext
   );
-  const editStateRef: any = useRef();
+  const { restriction, modules, service } = useSearchFilters(
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code
+  );
+  const editRef: any = useRef();
   const addRef: any = useRef();
-  const deleteRef: any = useRef();
 
   const modalHandler = (target: any) => {
     if (selected) {
@@ -68,13 +58,13 @@ export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
     >
       <CRUDWrapper
         ref={addRef}
-        title={`توافقنامه جدید`}
+        title={`افزودن کدحساب`}
         confirmHandler={(e, query) => {
           e.preventDefault();
           add(query);
         }}
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code}
         subModule="add"
         mode="edit"
         selectedItem={customer}
@@ -91,50 +81,25 @@ export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
         />
       </CRUDWrapper>
       <CRUDWrapper
-        ref={editStateRef}
-        title={`ویرایش وضعیت توافقنامه`}
+        ref={editRef}
+        title={`ویرایش کدحساب`}
         mode="edit"
         confirmHandler={(e, query) => {
           e.preventDefault();
-          editBourseCode({ id: selected.id, ...query });
+          edit({ id: selected.id, ...query });
         }}
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code}
         selectedItem={selected}
-        subModule="edit-state"
+        subModule="add"
       >
         <Button
-          label={"ویرایش وضعیت"}
+          label={"ویرایش کدحساب"}
           className="bg-secondary"
-          onClick={() => modalHandler(editStateRef)}
+          onClick={() => modalHandler(editRef)}
           allowed={
             restriction
               ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
-              : []
-          }
-        />
-      </CRUDWrapper>
-      <CRUDWrapper
-        ref={deleteRef}
-        title={`حذف توافقنامه`}
-        mode="delete"
-        confirmHandler={(e) => {
-          e.preventDefault();
-          deleteItem({}, { id: selected.id });
-        }}
-        modalMessage=" حذف توافقنامه"
-        entity="agreementName"
-        loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}
-        selectedItem={selected}
-      >
-        <Button
-          label={"حذف"}
-          className="bg-red-500"
-          onClick={() => modalHandler(deleteRef)}
-          allowed={
-            restriction
-              ? [[service?.[0], modules?.[0]?.[0], "Delete"].join(".")]
               : []
           }
         />

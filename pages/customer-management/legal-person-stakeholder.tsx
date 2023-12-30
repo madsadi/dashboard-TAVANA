@@ -13,31 +13,41 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { AgreementsManagementToolbar } from "components/customer-management/agreements-management/agreements-management-toolbar";
+import { LegalPersonstakeholderToolbar } from "components/customer-management/legal-person-stakeholder/legal-person-stakeholder-toolbar";
 
-export const CustomerManagementAgreementsManagementContext = createContext({});
-function CustomerManagementAgreementsManagement() {
+export const CustomerManagementLegalPersonStakeholderContext = createContext(
+  {}
+);
+function CustomerManagementLegalPersonStakeholders() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, query, fetchData, loading }: any = useQuery({
-    url: `${ADMIN_GATEWAY}/api/request/agreement/Search`,
+    url: `${ADMIN_GATEWAY}/api/request/legalPersonStakeholder/Search`,
   });
 
   return (
-    <CustomerManagementAgreementsManagementContext.Provider
-      value={{ selected: selectedRows[0], fetchData: () => fetchData(query) }}
+    <CustomerManagementLegalPersonStakeholderContext.Provider
+      value={{
+        selected: selectedRows[0],
+        customer: selectedRows[0],
+        fetchData: () => fetchData(query),
+      }}
     >
       <div className={"flex flex-col h-full flex-1"}>
         <AccordionComponent>
           <SearchComponent
             onSubmit={fetchData}
             loading={loading}
-            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+            module={
+              ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_stakeholders
+            }
           />
         </AccordionComponent>
-        <AgreementsManagementToolbar />
+        <LegalPersonstakeholderToolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
-          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+          module={
+            ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_stakeholders
+          }
           rowId={["id"]}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
@@ -47,11 +57,11 @@ function CustomerManagementAgreementsManagement() {
           query={query}
         />
       </div>
-    </CustomerManagementAgreementsManagementContext.Provider>
+    </CustomerManagementLegalPersonStakeholderContext.Provider>
   );
 }
 
 export default withPermission(
-  CustomerManagementAgreementsManagement,
-  ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management
+  CustomerManagementLegalPersonStakeholders,
+  ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_stakeholders
 );

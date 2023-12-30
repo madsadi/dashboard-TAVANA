@@ -8,7 +8,7 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerManagementAgreementsManagementContext } from "pages/customer-management/agreements-management";
 
-export const AgreementsManagementToolbar = () => {
+export const AgreementsManagementToolbar = ({ isMainPage = false }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: editCreditBank } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/agreement/Edit`,
@@ -49,7 +49,13 @@ export const AgreementsManagementToolbar = () => {
   };
 
   return (
-    <div className={"toolbar p-2 border-x border-border"}>
+    <div
+      className={
+        isMainPage
+          ? "toolbar p-2 border-x border-border"
+          : "flex space-x-2 space-x-reverse z-10 mb-4"
+      }
+    >
       <CRUDWrapper
         ref={addRef}
         title={`توافقنامه جدید`}

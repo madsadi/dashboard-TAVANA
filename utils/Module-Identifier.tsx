@@ -33,6 +33,11 @@ export const ModuleIdentifier = {
   CUSTOMER_MANAGEMENT_agreements_management:
     "customer-management_agreements_management",
   CUSTOMER_MANAGEMENT_bourse_code: "customer-management_bourse_code",
+  CUSTOMER_MANAGEMENT_accounting_code: "customer-management_accouting_code",
+  CUSTOMER_MANAGEMENT_legal_person_shareholders:
+    "customer-management_legal_person_shareholders",
+  CUSTOMER_MANAGEMENT_legal_person_stakeholders:
+    "customer-management_legal_person_stakeholders",
   CREDIT_bank: "credit_bank",
   CREDIT_category: "credit_category",
   CREDIT_category_assignment: "credit_category_assignment",

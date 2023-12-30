@@ -13,31 +13,42 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { AgreementsManagementToolbar } from "components/customer-management/agreements-management/agreements-management-toolbar";
+import { AccountingCodeToolbar } from "components/customer-management/accounting-code.tsx/accounting-code-toolbar";
+import { LegalPersonShareholderToolbar } from "components/customer-management/legal-person-shareholder/legal-person-shareholder-toolbar";
 
-export const CustomerManagementAgreementsManagementContext = createContext({});
-function CustomerManagementAgreementsManagement() {
+export const CustomerManagementLegalPersonShareholderContext = createContext(
+  {}
+);
+function CustomerManagementLegalPersonShareholders() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, query, fetchData, loading }: any = useQuery({
-    url: `${ADMIN_GATEWAY}/api/request/agreement/Search`,
+    url: `${ADMIN_GATEWAY}/api/request/legalPersonShareholder/Search`,
   });
 
   return (
-    <CustomerManagementAgreementsManagementContext.Provider
-      value={{ selected: selectedRows[0], fetchData: () => fetchData(query) }}
+    <CustomerManagementLegalPersonShareholderContext.Provider
+      value={{
+        selected: selectedRows[0],
+        customer: selectedRows[0],
+        fetchData: () => fetchData(query),
+      }}
     >
       <div className={"flex flex-col h-full flex-1"}>
         <AccordionComponent>
           <SearchComponent
             onSubmit={fetchData}
             loading={loading}
-            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+            module={
+              ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders
+            }
           />
         </AccordionComponent>
-        <AgreementsManagementToolbar />
+        <LegalPersonShareholderToolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
-          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+          module={
+            ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders
+          }
           rowId={["id"]}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
@@ -47,11 +58,11 @@ function CustomerManagementAgreementsManagement() {
           query={query}
         />
       </div>
-    </CustomerManagementAgreementsManagementContext.Provider>
+    </CustomerManagementLegalPersonShareholderContext.Provider>
   );
 }
 
 export default withPermission(
-  CustomerManagementAgreementsManagement,
-  ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management
+  CustomerManagementLegalPersonShareholders,
+  ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders
 );

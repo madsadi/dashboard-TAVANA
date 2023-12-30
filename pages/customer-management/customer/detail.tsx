@@ -10,12 +10,49 @@ import { useSelector } from "react-redux";
 import { isAllowed } from "../../../utils/permission-utils";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
-import { withPermission } from "components/common/layout/with-permission";
 import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
-import CustomerToolbar from "components/customer-management/customer/toolbar";
-import CustomerLegalPerson from "components/customer-management/customer/detail/legal-person/customer-legal-person";
-import CustomerPrivatePortfolio from "components/customer-management/customer/detail/private-portfolio/customer-private-portfolio";
-import CustomerBourseCode from "components/customer-management/customer/detail/bourse-code/customer-bourse-code";
+const CustomerLegalPersonStakeholder = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/legal-person-stakeholder"
+    )
+);
+const CustomerLegalPerson = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/legal-person/customer-legal-person"
+    )
+);
+const CustomerToolbar = dynamic(
+  () => import("components/customer-management/customer/toolbar")
+);
+const CustomerLegalPersonShareholder = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/legal-person-shareholder"
+    )
+);
+const CustomerAccountingCode = dynamic(
+  () => import("components/customer-management/customer/detail/accounting-code")
+);
+const CustomerCustomerAgreement = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/customer-agreement.tsx"
+    )
+);
+const CustomerBourseCode = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/bourse-code/customer-bourse-code"
+    )
+);
+const CustomerPrivatePortfolio = dynamic(
+  () =>
+    import(
+      "components/customer-management/customer/detail/private-portfolio/customer-private-portfolio"
+    )
+);
 const CustomerIdentityInfo = dynamic(
   () =>
     import(
@@ -144,6 +181,14 @@ function Detail() {
             {IdentityComponent[data.personType]}
             <CustomerBankAccountInfo />
             <CustomerBourseCode />
+            <CustomerCustomerAgreement />
+            <CustomerAccountingCode />
+            {data.personType === 2 ? (
+              <>
+                <CustomerLegalPersonShareholder />
+                <CustomerLegalPersonStakeholder />
+              </>
+            ) : null}
             {data.personType !== 3 ? (
               <>
                 <CustomerAgentRelationInfo />

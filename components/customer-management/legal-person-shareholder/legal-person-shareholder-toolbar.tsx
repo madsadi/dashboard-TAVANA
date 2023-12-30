@@ -6,33 +6,30 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerAgreementContext } from "pages/customer-management/customer-agreement";
+import { CustomerManagementLegalPersonShareholderContext } from "pages/customer-management/legal-person-shareholder";
 
-export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
+export const LegalPersonShareholderToolbar = ({ isMainPage = false }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { fetchData, selected, query, customer } = useContext<any>(
-    CustomerAgreementContext
-  );
-  const { mutate: deleteItem } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customerAgreement/Delete`,
+  const { mutate: edit } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/legalPersonShareholder/Edit`,
+    method: "PATCH",
+    onSuccess: () => {
+      fetchData();
+      editRef.current?.modalHandler(false);
+    },
+    setLoading: setLoading,
+  });
+  const { mutate: deleteHandler } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/legalPersonShareholder/Delete`,
     method: "DELETE",
     onSuccess: () => {
-      fetchData(query);
+      fetchData();
       deleteRef.current?.modalHandler(false);
     },
     setLoading: setLoading,
   });
-  const { mutate: editBourseCode } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customerBourseCode/EditBourseCode`,
-    method: "PATCH",
-    onSuccess: () => {
-      fetchData(query);
-      editStateRef.current?.modalHandler(false);
-    },
-    setLoading: setLoading,
-  });
   const { mutate: add } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/customerAgreement/Add`,
+    url: `${ADMIN_GATEWAY}/api/request/legalPersonShareholder/Add`,
     method: "POST",
     onSuccess: () => {
       fetchData();
@@ -40,12 +37,15 @@ export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
     },
     setLoading: setLoading,
   });
-  const { restriction, modules, service } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement
+  const { fetchData, selected, customer } = useContext<any>(
+    CustomerManagementLegalPersonShareholderContext
   );
-  const editStateRef: any = useRef();
-  const addRef: any = useRef();
+  const { restriction, modules, service } = useSearchFilters(
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code
+  );
+  const editRef: any = useRef();
   const deleteRef: any = useRef();
+  const addRef: any = useRef();
 
   const modalHandler = (target: any) => {
     if (selected) {
@@ -68,14 +68,14 @@ export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
     >
       <CRUDWrapper
         ref={addRef}
-        title={`توافقنامه جدید`}
+        title={`سهامدار مشتری حقوقی`}
         confirmHandler={(e, query) => {
           e.preventDefault();
-          add(query);
+          add({ customerId: customer.customerId, ...query });
         }}
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}
-        subModule="add"
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders}
+        subModule="modal"
         mode="edit"
         selectedItem={customer}
       >
@@ -91,22 +91,22 @@ export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
         />
       </CRUDWrapper>
       <CRUDWrapper
-        ref={editStateRef}
-        title={`ویرایش وضعیت توافقنامه`}
+        ref={editRef}
+        title={`ویرایش سهامدار مشتری حقوقی`}
         mode="edit"
         confirmHandler={(e, query) => {
           e.preventDefault();
-          editBourseCode({ id: selected.id, ...query });
+          edit({ id: selected.id, customerId: selected.customerId, ...query });
         }}
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders}
         selectedItem={selected}
-        subModule="edit-state"
+        subModule="modal"
       >
         <Button
-          label={"ویرایش وضعیت"}
+          label={"ویرایش"}
           className="bg-secondary"
-          onClick={() => modalHandler(editStateRef)}
+          onClick={() => modalHandler(editRef)}
           allowed={
             restriction
               ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
@@ -116,17 +116,18 @@ export const CustomerAgreementToolbar = ({ isMainPage = false }) => {
       </CRUDWrapper>
       <CRUDWrapper
         ref={deleteRef}
-        title={`حذف توافقنامه`}
+        title={`حذف سهامدار مشتری حقوقی`}
         mode="delete"
         confirmHandler={(e) => {
           e.preventDefault();
-          deleteItem({}, { id: selected.id });
+          deleteHandler({}, { id: selected.id });
         }}
-        modalMessage=" حذف توافقنامه"
-        entity="agreementName"
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders}
         selectedItem={selected}
+        modalMessage="حذف سهامدار مشتری حقوقی"
+        entity="customerTitle"
+        subModule="edit-trading-code"
       >
         <Button
           label={"حذف"}

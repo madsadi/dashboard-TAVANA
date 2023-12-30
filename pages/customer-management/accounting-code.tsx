@@ -13,31 +13,35 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { AgreementsManagementToolbar } from "components/customer-management/agreements-management/agreements-management-toolbar";
+import { AccountingCodeToolbar } from "components/customer-management/accounting-code.tsx/accounting-code-toolbar";
 
-export const CustomerManagementAgreementsManagementContext = createContext({});
-function CustomerManagementAgreementsManagement() {
+export const CustomerManagementAccountingCodeContext = createContext({});
+function CustomerManagementAccountingCode() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, query, fetchData, loading }: any = useQuery({
-    url: `${ADMIN_GATEWAY}/api/request/agreement/Search`,
+    url: `${ADMIN_GATEWAY}/api/request/customerAccountingCode/Search`,
   });
 
   return (
-    <CustomerManagementAgreementsManagementContext.Provider
-      value={{ selected: selectedRows[0], fetchData: () => fetchData(query) }}
+    <CustomerManagementAccountingCodeContext.Provider
+      value={{
+        selected: selectedRows[0],
+        customer: selectedRows[0],
+        fetchData: () => fetchData(query),
+      }}
     >
       <div className={"flex flex-col h-full flex-1"}>
         <AccordionComponent>
           <SearchComponent
             onSubmit={fetchData}
             loading={loading}
-            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+            module={ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code}
           />
         </AccordionComponent>
-        <AgreementsManagementToolbar />
+        <AccountingCodeToolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
-          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code}
           rowId={["id"]}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
@@ -47,11 +51,11 @@ function CustomerManagementAgreementsManagement() {
           query={query}
         />
       </div>
-    </CustomerManagementAgreementsManagementContext.Provider>
+    </CustomerManagementAccountingCodeContext.Provider>
   );
 }
 
 export default withPermission(
-  CustomerManagementAgreementsManagement,
-  ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management
+  CustomerManagementAccountingCode,
+  ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code
 );

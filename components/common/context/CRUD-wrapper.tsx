@@ -89,7 +89,7 @@ export const CRUDWrapper = forwardRef((props: CRUDWrapperProps, ref) => {
               {modalMessage}{" "}
               <span className="font-bold text-lg mx-2">
                 {selectedItem?.[entity!]}
-              </span>
+              </span>{" "}
               اطمینان دارید؟
             </div>
           ) : (

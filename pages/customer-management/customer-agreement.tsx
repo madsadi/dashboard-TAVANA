@@ -3,9 +3,6 @@ import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(
   () => import("../../components/common/components/accordion")
 );
-const Toolbar = dynamic(
-  () => import("../../components/customer-management/toolbar")
-);
 const TableComponent = dynamic(
   () => import("../../components/common/table/table-component")
 );
@@ -27,7 +24,15 @@ function CustomerManagementCustomerAgreement() {
 
   return (
     <CustomerAgreementContext.Provider
-      value={{ fetchData, selected: selectedRows[0], query }}
+      value={{
+        fetchData,
+        selected: selectedRows[0],
+        query,
+        customer: {
+          customerId: selectedRows[0]?.customerId,
+          relatedCustomerTitle: selectedRows[0]?.customerTitle,
+        },
+      }}
     >
       <div className="flex flex-col h-full grow">
         <AccordionComponent>
@@ -37,7 +42,7 @@ function CustomerManagementCustomerAgreement() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}
           />
         </AccordionComponent>
-        <CustomerAgreementToolbar />
+        <CustomerAgreementToolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement}

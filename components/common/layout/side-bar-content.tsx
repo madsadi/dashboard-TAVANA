@@ -188,6 +188,28 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person,
         },
         {
+          label: "سهام داران مشتریان حقوقی",
+          url: "/customer-management/legal-person-shareholder",
+          as: "/customer-management/legal-person-shareholder",
+          className:
+            router.asPath === `/customer-management/legal-person-shareholder`
+              ? "sideBarActive"
+              : "",
+          module:
+            ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders,
+        },
+        {
+          label: "ذینفعان مشتریان حقوقی",
+          url: "/customer-management/legal-person-stakeholder",
+          as: "/customer-management/legal-person-stakeholder",
+          className:
+            router.asPath === `/customer-management/legal-person-stakeholder`
+              ? "sideBarActive"
+              : "",
+          module:
+            ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_stakeholders,
+        },
+        {
           label: "سبدهای اختصاصی",
           url: "/customer-management/private-portfolio",
           as: "/customer-management/private-portfolio",
@@ -266,6 +288,16 @@ export default function SideBarContent() {
               ? "sideBarActive"
               : "",
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code,
+        },
+        {
+          label: "کدهای حسابداری مشتریان",
+          url: "/customer-management/accounting-code",
+          as: "/customer-management/accounting-code",
+          className:
+            router.asPath === `/customer-management/accounting-code`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code,
         },
         {
           label: "شرکت ها",

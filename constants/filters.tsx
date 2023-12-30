@@ -2311,6 +2311,168 @@ const filters: FilterTreeType = {
       ],
     },
   },
+  "customer-management_accouting_code": {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "customerId",
+          name: "مشتری(کد ملی)",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        { title: "bourseCodeType", name: "نوع کدبورسی", type: "selectInput" },
+        { title: "accountType", name: "نوع حساب", type: "selectInput" },
+        { title: "accountingCode", name: "کد حساب", type: "input" },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+        accountType: 1,
+      },
+    },
+    toolbar: {
+      add: [
+        {
+          title: "customerId",
+          name: "مشتری(کد ملی)",
+          type: "dynamicSearch",
+          initialValue: "",
+          placeholder: "customerTitle",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        { title: "bourseCodeType", name: "نوع کدبورسی", type: "selectInput" },
+        { title: "accountType", name: "نوع حساب", type: "selectInput" },
+        { title: "accountingCode", name: "کد حساب", type: "input" },
+      ],
+    },
+  },
+  "customer-management_legal_person_shareholders": {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "customerId",
+          name: "مشتری(کد ملی)",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        { title: "uniqueId", name: "کد ملی", type: "input" },
+        {
+          title: "legalPersonRegisterNumber",
+          name: "شماره ثبت شخص حقوقی",
+          type: "input",
+        },
+        {
+          title: "legalPersonEconomicCode",
+          name: "کداقتصادی شخص حقوقی",
+          type: "input",
+        },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+    toolbar: {
+      modal: [
+        {
+          title: "customerId",
+          name: "مشتری(کد ملی)",
+          type: "dynamicSearch",
+          initialValue: "",
+          placeholder: "customerTitle",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        { title: "uniqueId", name: "کدملی سهامدار", type: "input" },
+        { title: "firstName", name: "	نام سهامدار", type: "input" },
+        { title: "lastName", name: "نام خانوادگی سهامدار", type: "input" },
+        { title: "postalCode", name: "کدپستی", type: "input" },
+        { title: "address", name: "آدرس", type: "input" },
+        { title: "positionType", name: "سمت شغلی", type: "selectInput" },
+        { title: "percentageVotingRight", name: "درصد حق رای", type: "input" },
+      ],
+    },
+  },
+  "customer-management_legal_person_stakeholders": {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "customerId",
+          name: "مشتری(کد ملی)",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
+          valueField: ["title"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        { title: "uniqueId", name: "کد ملی", type: "input" },
+        {
+          title: "LegalPersonRegisterNumber",
+          name: "شماره ثبت شخص حقوقی",
+          type: "input",
+        },
+        {
+          title: "LegalPersonEconomicCode",
+          name: "کداقتصادی شخص حقوقی",
+          type: "input",
+        },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+    toolbar: {
+      modal: [
+        { title: "uniqueId", name: "کدملی سهامدار", type: "input" },
+        { title: "firstName", name: "	نام سهامدار", type: "input" },
+        { title: "lastName", name: "نام خانوادگی سهامدار", type: "input" },
+        { title: "type", name: "نوع سمت", type: "selectInput" },
+        { title: "positionType", name: "سمت شغلی", type: "selectInput" },
+        {
+          title: "positionStartDate",
+          name: "تاریخ آغاز فعالیت",
+          type: "singleDate",
+        },
+        {
+          title: "positionEndDate",
+          name: "	تاریخ پایان فعالیت",
+          type: "singleDate",
+        },
+        {
+          title: "hasSignatureRight",
+          name: "	حق امضاء دارد؟",
+          type: "selectInput",
+        },
+      ],
+    },
+  },
   credit_bank: {
     services: {},
     search: {
