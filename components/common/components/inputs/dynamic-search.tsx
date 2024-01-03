@@ -199,10 +199,12 @@ export default function DynamicSearch(props: DynamicSearchProps) {
                   >
                     <div>
                       {valueField
-                        ?.map((F: any) => {
+                        ?.map((F: string) => {
                           if (F === "isActive") {
                             return item[F] ? "فعال" : "غیر فعال";
-                          } else {
+                          } else if (item[F]) {
+                            console.log(item[F]);
+
                             return item[F];
                           }
                         })

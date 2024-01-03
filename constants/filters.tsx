@@ -4041,7 +4041,7 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ", type: "date" },
         { title: "LeaderMarketerName", name: "نام بازاریاب", type: "input" },
         {
-          title: "LeaderMarketerID",
+          title: "LeaderMarketerId",
           name: " شناسه بازارایاب زیرگروه (کد ملی) ",
           type: "dynamicSearch",
           initialValue: "",
@@ -4056,7 +4056,7 @@ const filters: FilterTreeType = {
           type: "input",
         },
         {
-          title: "FollowerMarketerID",
+          title: "FollowerMarketerId",
           name: " شناسه بازارایاب زیرگروه (کد ملی)",
           type: "dynamicSearch",
           initialValue: "",
@@ -4069,34 +4069,34 @@ const filters: FilterTreeType = {
       initialValue: {
         startDate: "",
         endDate: "",
-        FollowerMarketerID: "",
+        FollowerMarketerId: "",
         FollowerMarketerName: "",
         LeaderMarketerName: "",
-        LeaderMarketerID: "",
+        LeaderMarketerId: "",
       },
     },
     toolbar: {
       add: [
         {
-          title: "LeaderMarketerID",
+          title: "LeaderMarketerId",
           name: " شناسه بازارایاب سرگروه (کد ملی)",
           type: "dynamicSearch",
           initialValue: "",
           endpoint: `${MARKETER_ADMIN}/marketer/search`,
-          valueField: ["TbsReagentName"],
+          valueField: ["TbsReagentName", "Title"],
           queryField: "uniqueId",
-          recordField: "MarketerID",
+          recordField: "MarketerId",
           isRequired: true,
         },
         {
-          title: "FollowerMarketerID",
+          title: "FollowerMarketerId",
           name: " شناسه بازارایاب زیرگروه (کد ملی)",
           type: "dynamicSearch",
           initialValue: "",
           endpoint: `${MARKETER_ADMIN}/marketer/search`,
-          valueField: ["TbsReagentName"],
+          valueField: ["TbsReagentName", "Title"],
           queryField: "uniqueId",
-          recordField: "MarketerID",
+          recordField: "MarketerId",
           isRequired: true,
         },
         {
@@ -4123,7 +4123,7 @@ const filters: FilterTreeType = {
     search: {
       filters: [
         {
-          title: "MarketerID",
+          title: "MarketerId",
           name: "حساب کاربری (کد ملی کاربر)",
           type: "dynamicSearch",
           initialValue: "",
@@ -4143,7 +4143,7 @@ const filters: FilterTreeType = {
     toolbar: {
       calculate: [
         {
-          title: "MarketerID",
+          title: "MarketerId",
           name: "حساب کاربری (کد ملی کاربر)",
           type: "dynamicSearch",
           initialValue: "",
@@ -4348,7 +4348,7 @@ const filters: FilterTreeType = {
         { title: "pageNumber", name: "شماره صفحه", type: null },
         { title: "pageSize", name: "تعداد", type: null },
         {
-          title: "MarketerID",
+          title: "MarketerId",
           name: "حساب کاربری (کد ملی کاربر)",
           type: "dynamicSearch",
           initialValue: "",
@@ -4367,7 +4367,7 @@ const filters: FilterTreeType = {
         pageNumber: 1,
         pageSize: 20,
         UserType: null,
-        MarketerID: null,
+        MarketerId: null,
         startDate: moment
           .from(
             moment().locale("fa").format("YYYY-MM") + "-01",
@@ -4386,7 +4386,7 @@ const filters: FilterTreeType = {
     search: {
       filters: [
         {
-          title: "MarketerID",
+          title: "MarketerId",
           name: "حساب کاربری (کد ملی کاربر)",
           type: "dynamicSearch",
           initialValue: "",
@@ -4395,7 +4395,7 @@ const filters: FilterTreeType = {
           queryField: "NationalId",
           recordField: "id",
         },
-        { title: "ID", name: "شناسه قرارداد", type: "input" },
+        { title: "Id", name: "شناسه قرارداد", type: "input" },
         {
           title: "CalculationBaseType",
           name: "نوع محاسبات",
@@ -4413,8 +4413,8 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ شروع و پایان", type: "date" },
       ],
       initialValue: {
-        MarketerID: "",
-        ID: "",
+        MarketerId: "",
+        Id: "",
         startDate: null,
         endDate: null,
         CalculationBaseType: "",
@@ -4428,7 +4428,7 @@ const filters: FilterTreeType = {
     toolbar: {
       modal: [
         {
-          title: "MarketerID",
+          title: "MarketerId",
           name: "حساب کاربری (کد ملی کاربر)",
           type: "dynamicSearch",
           placeholder: "Title",
@@ -4519,7 +4519,7 @@ const filters: FilterTreeType = {
     search: {
       filters: [
         {
-          title: "MarketerID",
+          title: "MarketerId",
           name: "حساب کاربری (کد ملی کاربر)",
           type: "dynamicSearch",
           initialValue: "",
@@ -4531,7 +4531,7 @@ const filters: FilterTreeType = {
         { title: "date", name: "تاریخ معامله", type: "date" },
       ],
       initialValue: {
-        MarketerID: "",
+        MarketerId: "",
         startDate: null,
         endDate: null,
       },
