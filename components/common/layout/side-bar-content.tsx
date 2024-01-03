@@ -158,7 +158,7 @@ export default function SideBarContent() {
       expanded: router.pathname.startsWith("/customer-management"),
       children: [
         {
-          label: "مشتری ها",
+          label: "مشتریان",
           url: "/customer-management/customer",
           as: "/customer-management/customer",
           className:
@@ -369,36 +369,26 @@ export default function SideBarContent() {
               : "",
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer,
         },
-        {
-          label: "قرارداد بازاریابی",
-          url: "/customer-management/[[...page]]",
-          as: "/customer-management/contract",
-          className:
-            router.asPath === "/customer-management/contract"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_contract,
-        },
-        {
-          label: "قرارداد با بازاریاب",
-          url: "/customer-management/[[...page]]",
-          as: "/customer-management/marketerContract",
-          className:
-            router.asPath === "/customer-management/marketerContract"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketerContract,
-        },
-        {
-          label: "توافقنامه ها",
-          url: "/customer-management/[[...page]]",
-          as: "/customer-management/agreement",
-          className:
-            router.asPath === "/customer-management/agreement"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agreement,
-        },
+        // {
+        //   label: "قرارداد بازاریابی",
+        //   url: "/customer-management/[[...page]]",
+        //   as: "/customer-management/contract",
+        //   className:
+        //     router.asPath === "/customer-management/contract"
+        //       ? "sideBarActive"
+        //       : "",
+        //   module: ModuleIdentifier.CUSTOMER_MANAGEMENT_contract,
+        // },
+        // {
+        //   label: "قرارداد با بازاریاب",
+        //   url: "/customer-management/[[...page]]",
+        //   as: "/customer-management/marketerContract",
+        //   className:
+        //     router.asPath === "/customer-management/marketerContract"
+        //       ? "sideBarActive"
+        //       : "",
+        //   module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketerContract,
+        // },
         {
           label: "توافقنامه های بین طرفین",
           url: "/customer-management/customer-agreement",
@@ -751,41 +741,7 @@ export default function SideBarContent() {
       <div className={"h-full space-y-3 overflow-y-auto p-3"}>
         {pagesList.map((item) => {
           if (item.children) {
-            return (
-              <SidebarCollapsibleComponent
-                title={item.label}
-                condition={item.expanded}
-                key={item.label}
-              >
-                <ul className={"text-right list-disc pt-2 pr-3 font-light"}>
-                  {item.children.map((child: any) => {
-                    return (
-                      <Link
-                        href={child.url}
-                        as={child?.as}
-                        key={child.label}
-                        className={
-                          isAllowed({
-                            userPermissions,
-                            whoIsAllowed: prepare(
-                              filters[child.module].services
-                            ),
-                          })
-                            ? ""
-                            : "hidden"
-                        }
-                      >
-                        <li
-                          className={`hover:bg-gray-200 w-full px-2 first:mt-1 rounded-md ${child.className}`}
-                        >
-                          {child.label}
-                        </li>
-                      </Link>
-                    );
-                  })}
-                </ul>
-              </SidebarCollapsibleComponent>
-            );
+            return <CollapsibleComponent key={item.label} item={item} />;
           } else {
             return (
               <div
@@ -814,3 +770,43 @@ export default function SideBarContent() {
     </div>
   );
 }
+
+const CollapsibleComponent = ({ item }: any) => {
+  const { user_permissions: userPermissions } = useSelector(
+    (state: any) => state.appConfig
+  );
+
+  return (
+    <SidebarCollapsibleComponent title={item.label} condition={item.expanded}>
+      <ul className={"text-right list-disc pt-2 pr-3 font-light"}>
+        {item.children.map((child: any) => {
+          if (child.children) {
+            return <CollapsibleComponent key={child.label} item={child} />;
+          } else {
+            return (
+              <Link
+                href={child.url}
+                as={child?.as}
+                key={child.label}
+                className={
+                  isAllowed({
+                    userPermissions,
+                    whoIsAllowed: prepare(filters[child.module].services),
+                  })
+                    ? ""
+                    : "hidden"
+                }
+              >
+                <li
+                  className={`hover:bg-gray-200 w-full px-2 first:mt-1 rounded-md ${child.className}`}
+                >
+                  {child.label}
+                </li>
+              </Link>
+            );
+          }
+        })}
+      </ul>
+    </SidebarCollapsibleComponent>
+  );
+};

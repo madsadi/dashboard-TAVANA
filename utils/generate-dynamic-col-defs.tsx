@@ -399,7 +399,7 @@ export const modularColsDef: ModularColsDefType = {
                 rel="noreferrer"
                 href={{
                   pathname: `/customer-management/customer/detail`,
-                  query: { userId: rowData?.data?.userId },
+                  query: { id: rowData?.data?.id },
                 }}
               >
                 <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />

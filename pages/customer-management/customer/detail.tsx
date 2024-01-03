@@ -142,7 +142,7 @@ function Detail() {
 
   useEffect(() => {
     if (
-      dep?.userId &&
+      dep?.id &&
       (restriction
         ? isAllowed({
             userPermissions,
@@ -151,7 +151,7 @@ function Detail() {
         : true)
     ) {
       let _query: any = {};
-      _query["UserId"] = dep?.userId;
+      _query["id"] = dep?.id;
       fetchDetailData(_query);
     }
   }, [dep, userPermissions]);

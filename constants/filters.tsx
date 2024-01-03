@@ -1,4 +1,9 @@
-import { ADMIN_GATEWAY, IDP, SEJAM_GATEWAY } from "../api/constants";
+import {
+  ADMIN_GATEWAY,
+  IDP,
+  MARKETER_ADMIN,
+  SEJAM_GATEWAY,
+} from "../api/constants";
 import moment from "jalali-moment";
 import { splittedDate } from "utils/common-funcions";
 import { FilterTreeType } from "types/types";
@@ -4077,10 +4082,10 @@ const filters: FilterTreeType = {
           name: " شناسه بازارایاب سرگروه (کد ملی)",
           type: "dynamicSearch",
           initialValue: "",
-          endpoint: `${IDP}/api/users/SearchUserAccount`,
-          valueField: ["firstName", "lastName", "UniqueId", "Mobile"],
-          queryField: "NationalId",
-          recordField: "id",
+          endpoint: `${MARKETER_ADMIN}/marketer/search`,
+          valueField: ["TbsReagentName"],
+          queryField: "uniqueId",
+          recordField: "MarketerID",
           isRequired: true,
         },
         {
@@ -4088,10 +4093,10 @@ const filters: FilterTreeType = {
           name: " شناسه بازارایاب زیرگروه (کد ملی)",
           type: "dynamicSearch",
           initialValue: "",
-          endpoint: `${IDP}/api/users/SearchUserAccount`,
-          valueField: ["firstName", "lastName", "UniqueId", "Mobile"],
-          queryField: "NationalId",
-          recordField: "id",
+          endpoint: `${MARKETER_ADMIN}/marketer/search`,
+          valueField: ["TbsReagentName"],
+          queryField: "uniqueId",
+          recordField: "MarketerID",
           isRequired: true,
         },
         {

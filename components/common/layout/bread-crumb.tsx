@@ -38,7 +38,7 @@ export default function BreadCrumbComponent() {
     "[...detail]": "جزییات اطلاعات کاربر",
     "[...contractId]": "جزییات قرارداد بازاریاب",
     "customer-management": "مدیریت مشتریان",
-    customer: "مشتری",
+    customer: "مشتریان",
     subsidiary: "شرکت ها",
     branch: "شعب",
     employee: "کارمندان",
