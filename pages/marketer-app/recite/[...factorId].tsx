@@ -34,7 +34,7 @@ function FactorIdEdit() {
   };
 
   useEffect(() => {
-    if (params) fetchData({ FactorID: router.query?.factorId?.[0] });
+    if (params) fetchData({ FactorId: router.query?.factorId?.[0] });
   }, [params]);
 
   useEffect(() => {

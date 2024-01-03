@@ -28,7 +28,7 @@ export default function CalculationButton() {
     e.preventDefault();
     const { Year, Month, ...rest } = query;
     await fetchAsyncData({ ...rest, Period: Year + Month })
-      .then((res) => {
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setQuery(null);

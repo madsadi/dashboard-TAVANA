@@ -30,8 +30,8 @@ export default function DeleteMarketersRelations() {
     await mutate(
       {},
       {
-        LeaderMarketerID: selectedRows[0].LeaderMarketerID,
-        FollowerMarketerID: selectedRows[0].FollowerMarketerID,
+        LeaderMarketerId: selectedRows[0].LeaderMarketerID,
+        FollowerMarketerId: selectedRows[0].FollowerMarketerID,
       }
     )
       .then((res) => {

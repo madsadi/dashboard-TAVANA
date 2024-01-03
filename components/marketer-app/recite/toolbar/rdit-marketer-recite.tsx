@@ -26,7 +26,7 @@ export default function EditMarketerRecite() {
   useEffect(() => {
     if (modal && selectedRows?.length) {
       let _initialValue: any = {};
-      _initialValue["FactorID"] = selectedRows[0][`FactorID`];
+      _initialValue["FactorId"] = selectedRows[0][`FactorID`];
       _initialValue["TotalTurnOver"] = selectedRows[0][`TotalTurnOver`];
       _initialValue["TotalBrokerCommission"] =
         selectedRows[0][`TotalBrokerCommission`];

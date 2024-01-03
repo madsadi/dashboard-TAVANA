@@ -26,7 +26,7 @@ function FactorIdDetail() {
   let params = router.query?.FactorID;
 
   useEffect(() => {
-    if (params) fetchData({ FactorID: params });
+    if (params) fetchData({ FactorId: params });
   }, [params]);
 
   const items = [

@@ -27,7 +27,7 @@ export default function DeleteMarketerRecite() {
   };
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({}, { FactorID: selectedRows[0].FactorID })
+    await mutate({}, { FactorId: selectedRows[0].FactorID })
       .then((res) => {
         throwToast({ type: "success", value: `${res?.data?.result?.message}` });
         setModal(false);
