@@ -311,12 +311,104 @@ input[type="number"] {
 :where(.collapse > input[type="checkbox"]) {
   min-height: unset !important;
 }
+.page {
+  overflow: hidden;
+  margin: 20px 0;
+}
+.page-footer,
+.page-header {
+  display: none;
+}
+@page {
+  size: A4;
+  margin: 11mm 17mm 17mm 17mm;
+}
+@media print {
+  .mobileAgreement {
+    padding: unset !important;
+    height: unset !important;
+    -webkit-print-color-adjust: exact; /* chrome */
+    print-color-adjust: exact; /* firefox and IE */
+  }
+  .page-header-space,
+  .page-footer-space {
+    height: 120px;
+  }
+
+  .page {
+    display: block;
+    page-break-inside: avoid;
+    margin: 0;
+    direction: rtl;
+    text-align: justify;
+  }
+
+  .print-sign {
+    display: block;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  .sign-card,
+  .sing-img {
+    width: 200px;
+    height: 100px;
+    background-size: contain;
+  }
+  .logo-card,
+  .logo-img {
+    width: 140px;
+    height: 100px;
+  }
+
+  body {
+    margin: 0;
+  }
+  button {
+    display: none;
+  }
+  /*thead {display: table-header-group;}*/
+  /*tfoot {display: table-footer-group;}*/
+
+  .page-footer {
+    direction: rtl;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    height: 140px;
+    overflow: hidden;
+  }
+
+  .page-header {
+    direction: rtl;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    height: 150px;
+  }
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
+  .checkbox-error {
+    @apply border-red-500;
+  }
+  .checkbox-accent {
+    @apply border-primary;
+  }
+  .mobileAgreement {
+    @apply bg-white p-10 rounded;
+  }
+
   .button {
     @apply text-sm text-white p-1 px-2 rounded md:px-10 transition-all hover:opacity-70;
   }

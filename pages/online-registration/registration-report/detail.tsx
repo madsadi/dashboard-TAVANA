@@ -13,6 +13,12 @@ const JobInfoComponent = dynamic(
       "../../../components/online-registration/registration-report/detail/job-info"
     )
 );
+const TestComponent = dynamic(
+  () =>
+    import(
+      "../../../components/online-registration/registration-report/detail/test"
+    )
+);
 const BankComponent = dynamic(
   () =>
     import(
@@ -217,6 +223,7 @@ function Detail() {
             <AddressesComponent />
             <EconomicComponent />
             <AgreementComponent />
+            <TestComponent />
           </div>
         ) : null}
       </div>

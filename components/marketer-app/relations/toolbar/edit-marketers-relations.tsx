@@ -28,7 +28,7 @@ export default function EditMarketersRelations() {
       let _initialValue: any = {};
       _initialValue["LeaderMarketerId"] = selectedRows[0][`LeaderMarketerID`];
       _initialValue["FollowerMarketerId"] =
-        selectedRows[0][`FollowerMarketerId`];
+        selectedRows[0][`FollowerMarketerID`];
       _initialValue["CommissionCoefficient"] =
         selectedRows[0][`CommissionCoefficient`];
       _initialValue["StartDate"] = selectedRows[0]?.StartDate;

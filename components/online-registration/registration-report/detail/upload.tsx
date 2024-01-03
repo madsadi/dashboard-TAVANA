@@ -46,9 +46,7 @@ export default function UploadComponent({
   let _documents = [...documents];
   const target = _documents.findIndex((i: any) => i.fileType === item.fileType);
   const router = useRouter();
-  let dep: string | undefined = router.query?.detail?.[0];
-  const queryData: string[] | undefined = dep?.split("&");
-  let userId = queryData?.[0]?.split("=")[1];
+  let userId: any = router.query?.userId;
 
   const onChange = async (imageList: any, addUpdateIndex: any) => {
     if (
