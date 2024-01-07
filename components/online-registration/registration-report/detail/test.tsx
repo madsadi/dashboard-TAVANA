@@ -1,15 +1,9 @@
 import DaisyAccordionComponent from "../../../common/components/daisy-accordion";
-import React, {
-  useCallback,
-  useRef,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import ReactToPrint from "react-to-print";
 import { PrinterIcon } from "@heroicons/react/24/outline";
 import useQuery from "hooks/useQuery";
-import { ADMIN_GATEWAY, SEJAM_GATEWAY } from "api/constants";
+import { ADMIN_GATEWAY } from "api/constants";
 import { useRouter } from "next/router";
 import PageHeaderFooter from "./page-header-footer";
 
@@ -151,7 +145,7 @@ export default function TestComponent() {
     {
       title: "ارزش اسمی هر سهم شرکت‌های سهامی عام معمولاً چند ریال است؟",
       options: ["100 ریال", "10000 ریال", "10 ریال", "1000 ریال"],
-      answer: "2",
+      answer: "4",
     },
   ];
 

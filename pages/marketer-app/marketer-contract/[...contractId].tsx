@@ -32,8 +32,8 @@ function MarketerContractDetail() {
 
   useEffect(() => {
     if (contractId) {
-      deductionFetch({ ContractID: router.query.contractId?.[0] });
-      coefficientFetch({ ContractID: router.query.contractId?.[0] });
+      deductionFetch({ ContractId: router.query.contractId?.[0] });
+      coefficientFetch({ ContractId: router.query.contractId?.[0] });
     }
   }, [contractId]);
 
@@ -54,14 +54,14 @@ function MarketerContractDetail() {
         <TableComponent
           data={deductionData?.result?.pagedData}
           module={ModuleIdentifier.MARKETER_APP_relations_detail_deduction}
-          rowId={["ContractID"]}
+          rowId={["ContractId"]}
         />
         <div className="mt-5" />
         <MarketerContractCoefficientDetailToolbar />
         <TableComponent
           module={ModuleIdentifier.MARKETER_APP_relations_detail_coefficient}
           data={coefficientData?.result?.pagedData}
-          rowId={["ContractID"]}
+          rowId={["ContractId"]}
         />
       </div>
     </MarketerContractDetailContext.Provider>

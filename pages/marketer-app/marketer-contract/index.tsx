@@ -44,7 +44,7 @@ function MarketerContract() {
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection={"single"}
-          rowId={["ContractID"]}
+          rowId={["ContractId"]}
         />
       </div>
     </MarketerContractContext.Provider>

@@ -738,7 +738,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "TradeDate", type: "date" },
   ],
   "marketer-app_reconcilation_detail": [
-    { colId: "FollowerMarketerID" },
+    { colId: "FollowerMarketerId" },
     { colId: "CommissionCoefficient" },
     { colId: "StartDate", type: "date" },
     { colId: "EndDate", type: "date" },
@@ -747,12 +747,12 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_relations": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "LeaderMarketerID", cellRenderer: "agGroupCellRenderer" },
+    { colId: "LeaderMarketerId", cellRenderer: "agGroupCellRenderer" },
     { colId: "FollowerMarketerName" },
     { colId: "LeaderMarketerName" },
   ],
   "marketer-app_relations_detail": [
-    { colId: "FollowerMarketerID" },
+    { colId: "FollowerMarketerId" },
     { colId: "CommissionCoefficient" },
     { colId: "StartDate", type: "date" },
     { colId: "EndDate", type: "date" },
@@ -772,8 +772,8 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_marketerContract": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "ContractID" },
-    { colId: "MarketerID" },
+    { colId: "ContractId" },
+    { colId: "MarketerId" },
     { colId: "Title", headerName: "عنوان بازاریاب" },
     { colId: "CalculationBaseType" },
     { colId: "CoefficientBaseType" },
@@ -804,7 +804,7 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_recite": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "MarketerID" },
+    { colId: "MarketerId" },
     { colId: "Period", type: "enum" },
     { colId: "Plan" },
     {
@@ -838,8 +838,8 @@ export const modularColsDef: ModularColsDefType = {
     },
   ],
   "marketer-app_marketerContract_detail_deduction": [
-    { colId: "ContractID" },
-    { colId: "MarketerID" },
+    { colId: "ContractId" },
+    { colId: "MarketerId" },
     { colId: "Title", headerName: "عنوان بازاریاب" },
     { colId: "CollateralCoefficient" },
     { colId: "TaxCoefficient" },
@@ -847,8 +847,8 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "ReturnDuration" },
   ],
   "marketer-app_marketerContract_detail_coefficient": [
-    { colId: "ContractID" },
-    { colId: "MarketerID" },
+    { colId: "ContractId" },
+    { colId: "MarketerId" },
     { colId: "Title", headerName: "عنوان بازاریاب" },
     { colId: "CoefficientPercentage" },
     { colId: "HighThreshold" },

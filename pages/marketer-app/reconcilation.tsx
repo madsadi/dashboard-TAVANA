@@ -53,7 +53,7 @@ function Reconcilation() {
       <TableComponent
         data={data?.result?.pagedData}
         module={ModuleIdentifier.MARKETER_APP_reconcilation}
-        rowId={["MarketerID"]}
+        rowId={["MarketerId"]}
         detailCellRendererParams={detailCellRendererParams}
         masterDetail={true}
       />

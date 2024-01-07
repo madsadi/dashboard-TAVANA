@@ -66,7 +66,7 @@ function Relations() {
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection={"multiple"}
-          rowId={["LeaderMarketerID", "FollowerMarketerID"]}
+          rowId={["LeaderMarketerId", "FollowerMarketerId"]}
           detailCellRendererParams={detailCellRendererParams}
           masterDetail={true}
         />

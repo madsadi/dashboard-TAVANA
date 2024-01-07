@@ -38,7 +38,7 @@ function MarketerContract() {
         <TableComponent
           data={data?.result.pagedData}
           module={ModuleIdentifier.MARKETER_APP_marketers}
-          rowId={["MarketerID"]}
+          rowId={["MarketerId"]}
           pagination={true}
           totalCount={data?.result?.totalCount}
           fetcher={fetchData}
