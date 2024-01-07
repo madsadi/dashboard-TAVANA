@@ -792,7 +792,7 @@ export const modularColsDef: ModularColsDefType = {
                 className={"flex h-full w-full"}
                 target="_blank"
                 rel="noreferrer"
-                href={`/marketer-app/marketer-contract/${rowData?.data?.ContractID}`}
+                href={`/marketer-app/marketer-contract/${rowData?.data?.ContractId}`}
               >
                 <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
               </a>
@@ -826,7 +826,7 @@ export const modularColsDef: ModularColsDefType = {
                 rel="noreferrer"
                 href={{
                   pathname: `/marketer-app/recite/detail`,
-                  query: { FactorID: rowData.data?.FactorID },
+                  query: { FactorID: rowData.data?.FactorId },
                 }}
               >
                 <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
