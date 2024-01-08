@@ -708,6 +708,7 @@ export const modularColsDef: ModularColsDefType = {
   "marketer-app_marketers": [
     { colId: "UniqueId", headerName: "کد ملی بازاریاب" },
     { colId: "Title", headerName: "عنوان بازاریاب" },
+    { colId: "TbsReagentName" },
     { colId: "TypeTitle" },
     { colId: "Mobile" },
     { colId: "SubsidiaryTitle" },

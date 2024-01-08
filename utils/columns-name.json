@@ -12,6 +12,7 @@
   "agreementName": "عنوان توافقنامه",
   "agreementCode": "کد توافقنامه",
   "stateTitle": "وضعیت توافقنامه",
+  "TbsReagentName": "  عنوان معرف در TBS  ",
   "customerStateDateTime": "زمان تغییر وضعیت مشتری",
   "adminStateDateTime": "زمان تغییر وضعیت ادمین",
   "serviceTitle": "عنوان سرویس",
