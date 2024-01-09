@@ -1,24 +1,23 @@
 import React, { useContext, useState } from "react";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../../utils/notification";
-import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
 import useQuery from "../../hooks/useQuery";
 import { Button } from "../common/components/button/button";
-import usePageStructure from "../../hooks/usePageStructure";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
+import { CustomerManagementBranch } from "pages/customer-management/branch";
 
 export const TBSBranches = () => {
   const { fetchAsyncData } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/GetAndSaveBranches`,
   });
-  const { page } = usePageStructure();
   const { restriction, modules, service } = useSearchFilters(
-    //@ts-ignore
-    ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`],
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_branch,
     "modal"
   );
-  const { fetchData, query: searchQuery } = useContext<any>(CustomerManagement);
+  const { fetchData, query: searchQuery } = useContext<any>(
+    CustomerManagementBranch
+  );
   const [loading, setLoading] = useState(false);
   const submitHandler = () => {
     setLoading(true);

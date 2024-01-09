@@ -321,7 +321,7 @@ export const FindEnum = (
       }
       if (label === "نوع کد بورسی") {
         return bousreCodeType;
-      } else {
+      } else if ("نوع شعبه") {
         return TypeOfBranches;
       }
     case "isBourseCodeRequired":

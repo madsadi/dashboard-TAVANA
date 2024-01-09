@@ -30,11 +30,11 @@ export default function DeleteMarketersRelations() {
     await mutate(
       {},
       {
-        LeaderMarketerId: selectedRows[0].LeaderMarketerID,
-        FollowerMarketerId: selectedRows[0].FollowerMarketerID,
+        LeaderMarketerId: selectedRows[0].LeaderMarketerId,
+        FollowerMarketerId: selectedRows[0].FollowerMarketerId,
       }
     )
-      .then((res) => {
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setSelectedRows([]);

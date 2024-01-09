@@ -7,18 +7,16 @@ import { SwitchToggle } from "../common/components/button/switch-toggle";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 
-export default function ToggleButton(props: {
-  api: string;
+export default function ToggleButtonMarketer(props: {
   data: { isActive: boolean; id: string };
 }) {
   const [isChecked, setIsChecked] = useState(props.data.isActive);
   const { restriction, modules, service } = useSearchFilters(
-    //@ts-ignore
-    ModuleIdentifier[`CUSTOMER_MANAGEMENT_${props?.api}`],
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer,
     "modal"
   );
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/${props.api}/UpdateActivationStatus`,
+    url: `${ADMIN_GATEWAY}/api/request/marketer/EditActivationStatus`,
     method: "PUT",
   });
   const changeStatus = async () => {

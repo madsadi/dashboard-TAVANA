@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { LinkIcon } from "@heroicons/react/20/solid";
 import { getLink } from "../../../api/users-management.api";
 import { throwToast } from "../../../utils/notification";
-import usePageStructure from "../../../hooks/usePageStructure";
+// import usePageStructure from "../../../hooks/usePageStructure";
 import { useSearchFilters } from "../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { isAllowed } from "../../../utils/permission-utils";
@@ -18,11 +18,9 @@ interface CopyButtonProps {
 }
 
 export const CopyButton = (props: CopyButtonProps) => {
-  const { entity, id, condition, inputModule } = props;
-  const { page } = usePageStructure();
+  const { entity, id, condition } = props;
   const { restriction, modules, service } = useSearchFilters(
-    //@ts-ignore
-    inputModule || ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`]
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer
   );
   const { user_permissions: userPermissions } = useSelector(
     (state: any) => state.appConfig

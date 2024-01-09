@@ -2,18 +2,15 @@ import React, { useContext, useState } from "react";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { throwToast } from "../../utils/notification";
 import { Button } from "../common/components/button/button";
-import usePageStructure from "../../hooks/usePageStructure";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import useMutation from "../../hooks/useMutation";
-import { CustomerManagement } from "../../pages/customer-management/[[...page]]";
+import { CustomerManagementMarketer } from "pages/customer-management/marketer";
 
 export const CreateRefCode = () => {
-  const { page } = usePageStructure();
-  const { selectedRows } = useContext<any>(CustomerManagement);
+  const { selected } = useContext<any>(CustomerManagementMarketer);
   const { restriction, modules, service } = useSearchFilters(
-    //@ts-ignore
-    ModuleIdentifier[`CUSTOMER_MANAGEMENT_${page?.api}`]
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer
   );
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/marketer/CreateRefCode`,
@@ -22,7 +19,7 @@ export const CreateRefCode = () => {
 
   const submitHandler = () => {
     setLoading(true);
-    mutate({ id: selectedRows[0].id })
+    mutate({ id: selected[0].id })
       .then((res) => {
         throwToast({ type: "success", value: `${res?.data.result.message}` });
       })
@@ -33,7 +30,7 @@ export const CreateRefCode = () => {
   };
 
   const openModalHandler = () => {
-    if (selectedRows.length === 1) {
+    if (selected[0]) {
       submitHandler();
     } else {
       throwToast({

@@ -332,9 +332,9 @@ export default function SideBarContent() {
         {
           label: "واحد کاری",
           url: "/customer-management/[[...page]]",
-          as: "/customer-management/businessUnit",
+          as: "/customer-management/business-unit",
           className:
-            router.asPath === "/customer-management/businessUnit"
+            router.asPath === "/customer-management/business-unit"
               ? "sideBarActive"
               : "",
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit,

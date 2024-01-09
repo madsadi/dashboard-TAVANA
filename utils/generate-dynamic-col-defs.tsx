@@ -11,6 +11,8 @@ import columnsName from "./columns-name.json";
 import Link from "next/link";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import { chunk } from "./common-funcions";
+import { CopyButton } from "components/common/components/copy-button";
+import ToggleButtonMarketer from "components/customer-management/toggle-button";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
@@ -513,6 +515,141 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],
+  "customer-management_businessUnit": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "title", headerName: "عنوان واحد کاری" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_subsidiary": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "id" },
+    { colId: "onlineRegistrationProfileId" },
+    { colId: "title", headerName: "عنوان شرکت" },
+    { colId: "subsidiaryTypeTitle" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_branch": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "id", cellRenderer: "agGroupCellRenderer" },
+    { colId: "subsidiaryTitle" },
+    { colId: "subsidiaryId" },
+    { colId: "code", headerName: "کد شعبه" },
+    { colId: "type", headerName: "نوع شعبه", type: "enum" },
+    { colId: "title", headerName: "عنوان شعبه" },
+    { colId: "isDeleted", type: "enum" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_employee": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "firstName" },
+    { colId: "lastName" },
+    { colId: "nationalId" },
+    { colId: "mobile" },
+    { colId: "workPhone" },
+    { colId: "email" },
+    { colId: "idpAccountId" },
+    { colId: "branchId" },
+    { colId: "email" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_station": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "brokerCode" },
+    { colId: "brokerTitle" },
+    { colId: "code", headerName: "کد ایستگاه معاملاتی" },
+    { colId: "title", headerName: "عنوان ایستگاه معاملاتی" },
+    { colId: "type", headerName: "نوع ایستگاه معاملاتی", type: "enum" },
+    { colId: "branchId" },
+    { colId: "branchTitle" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_trader": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "stationId" },
+    { colId: "employeeId" },
+    { colId: "title", headerName: "عنوان معامله گر" },
+    { colId: "isActive", type: "enum" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_marketer": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "detail-opener" },
+    { colId: "uniqueId" },
+    { colId: "title", headerName: "بازاریاب" },
+    { colId: "typeTitle" },
+    { colId: "mobile" },
+    { colId: "branchTitle" },
+    { colId: "subsidiaryTitle" },
+    { colId: "tbsReagentName" },
+    {
+      colId: "reagentRefLink",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <CopyButton
+              condition={rowData?.data?.reagentRefCode}
+              id={rowData?.data?.id}
+              entity={"reagentUrl"}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "tbsMarketerName" },
+    {
+      colId: "marketerRefLink",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <CopyButton
+              condition={rowData?.data?.marketerRefCode}
+              id={rowData?.data?.id}
+              entity={"marketerUrl"}
+            />
+          ),
+        };
+      },
+    },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToggleButtonMarketer
+              data={{ isActive: rowData.data.isActive, id: rowData.data.id }}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_agreement": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "subsidiaryId" },
+    { colId: "bourseCodeType" },
+    { colId: "name" },
+    { colId: "description" },
+    { colId: "context" },
+    { colId: "defaultFileId" },
+    { colId: "isBourseCodeRequired" },
+    { colId: "isRequired", type: "enum" },
+    {
+      colId: "isActive",
+      type: "enum",
+    },
+    { colId: "isDeleted" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+
   "customer-management_agent_relation": [
     { colId: "checkbox", type: "checkbox" },
     { colId: "customerUniqueId" },
