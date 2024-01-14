@@ -10,6 +10,7 @@ interface FilterItemBasicType {
   readOnly?: boolean;
   dir?: "ltr" | "rtl";
   alternative?: string;
+  result?: "" | "pagedData";
 }
 
 export interface FilterItemDynamicType extends FilterItemBasicType {
@@ -17,6 +18,7 @@ export interface FilterItemDynamicType extends FilterItemBasicType {
   initialValue?: string;
   endpoint: string;
   valueField: string[];
+  disabled?: boolean;
   queryField: string;
   placeholder?: string;
   recordField: string;

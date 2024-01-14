@@ -31,7 +31,7 @@ export default function TablePagination({
   onSubmit: Function;
   totalCount: number;
   module: string | undefined;
-  exportExcel: () => void;
+  exportExcel?: () => void;
 }) {
   const { user_permissions: userPermissions } = useSelector(
     (state: any) => state.appConfig
@@ -251,7 +251,9 @@ export default function TablePagination({
       >
         <ChevronDoubleLeftIcon className={"h-4 w-4"} />
       </button>
-      <ExcelExport ExportAction={exportExcel} disabled={totalCount > 0} />
+      {exportExcel ? (
+        <ExcelExport ExportAction={exportExcel} disabled={totalCount > 0} />
+      ) : null}
     </div>
   );
 }

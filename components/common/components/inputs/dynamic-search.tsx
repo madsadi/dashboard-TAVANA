@@ -168,7 +168,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           <MagnifyingGlassIcon className={"h-5 w-5"} />
         </div>
       </div>
-      {searchItem && open && (
+      {searchItem && open && !readOnly && (
         <div
           className={
             "absolute w-full p-2 opacity-95 backdrop-blur-lg bg-white shadow-md rounded-lg top-full mt-3 z-10"

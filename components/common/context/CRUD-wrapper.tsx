@@ -71,6 +71,7 @@ export const CRUDWrapper = forwardRef((props: CRUDWrapperProps, ref) => {
     modalHandler(state: boolean) {
       setModal(state);
     },
+    handleDependantInput() {},
   }));
 
   return (

@@ -37,8 +37,6 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
         )
     );
 
-    console.log(initialValue);
-
     const onChange = (key: string, value: any) => {
       let _query: QueryType = { ...query };
       _query[key] = value;

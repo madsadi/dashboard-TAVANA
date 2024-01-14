@@ -413,6 +413,8 @@
   "applicationTitle": "نوع مشتری",
   "contractNumber": "شماره قراراداد",
   "contractTitle": "عنوان قراراداد",
+  "partyTitle": "مالک",
+  "entityTitle": "ماهیت مالک",
   "isValid": "آیا معتبر هست؟",
   "contractStartDateTime": "تاریخ شروع قراراداد",
   "contractEndDateTime": "تاریخ پایان قراراداد",

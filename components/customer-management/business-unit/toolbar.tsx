@@ -6,7 +6,6 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementTrader } from "pages/customer-management/trader";
 import { CustomerManagementBusinessUnit } from "pages/customer-management/business-unit";
 
 export const BusinessUnitToolbar = () => {

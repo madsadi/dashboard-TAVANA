@@ -520,6 +520,36 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "title", headerName: "عنوان واحد کاری" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
+    {
+      colId: "customer-detail",
+      type: "blank-detail-page",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => {
+            return (
+              <Link
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={{
+                  pathname: `/customer-management/business-unit/detail`,
+                  query: { id: rowData?.data?.id },
+                }}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </Link>
+            );
+          },
+        };
+      },
+    },
+  ],
+  "customer-management_businessUnit_detail": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "entityTitle" },
+    { colId: "partyTitle" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
   ],
   "customer-management_subsidiary": [
     { colId: "checkbox", type: "checkbox" },
