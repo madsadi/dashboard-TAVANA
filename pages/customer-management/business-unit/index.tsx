@@ -37,7 +37,7 @@ function BusinessUnit() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit}
           />
         </AccordionComponent>
-        <BusinessUnitOwnerToolbar />
+        <BusinessUnitToolbar />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit}
