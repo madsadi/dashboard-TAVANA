@@ -31,9 +31,9 @@ function Recite() {
   }: any = useQuery({ url: `${MARKETER_ADMIN}/factor/get-all` });
 
   const fetchHandler = (query: any) => {
-    const { Month, Year, ...rest } = query;
+    const { month, year, ...rest } = query;
 
-    fetchData({ ...rest, Period: Year && Month ? Year + Month : null });
+    fetchData({ ...rest, period: year && month ? year + month : null });
   };
 
   return (

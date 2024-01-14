@@ -320,6 +320,16 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_branch,
         },
         {
+          label: "قرارداد",
+          url: "/customer-management/agreement",
+          as: "/customer-management/agreement",
+          className:
+            router.asPath === "/customer-management/agreement"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agreement,
+        },
+        {
           label: "کارمندان",
           url: "/customer-management/[[...page]]",
           as: "/customer-management/employee",
@@ -369,26 +379,6 @@ export default function SideBarContent() {
               : "",
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer,
         },
-        // {
-        //   label: "قرارداد بازاریابی",
-        //   url: "/customer-management/[[...page]]",
-        //   as: "/customer-management/contract",
-        //   className:
-        //     router.asPath === "/customer-management/contract"
-        //       ? "sideBarActive"
-        //       : "",
-        //   module: ModuleIdentifier.CUSTOMER_MANAGEMENT_contract,
-        // },
-        // {
-        //   label: "قرارداد با بازاریاب",
-        //   url: "/customer-management/[[...page]]",
-        //   as: "/customer-management/marketerContract",
-        //   className:
-        //     router.asPath === "/customer-management/marketerContract"
-        //       ? "sideBarActive"
-        //       : "",
-        //   module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketerContract,
-        // },
         {
           label: "توافقنامه های بین طرفین",
           url: "/customer-management/customer-agreement",
@@ -735,6 +725,20 @@ export default function SideBarContent() {
   const { user_permissions: userPermissions } = useSelector(
     (state: any) => state.appConfig
   );
+
+  const asd = () => {
+    let servicessss: any = {};
+    pagesList.map((item: any) => {
+      if (item.children) {
+        item.children.map((p: any) => {
+          servicessss[p.label] = filters[p.module]?.services || null;
+        });
+      } else {
+        servicessss[item.label] = filters[item.module]?.services || null;
+      }
+    });
+    return servicessss;
+  };
 
   return (
     <div className={"w-full"}>

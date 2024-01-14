@@ -34,7 +34,7 @@ function FactorIdEdit() {
   };
 
   useEffect(() => {
-    if (params) fetchData({ FactorId: router.query?.factorId?.[0] });
+    if (params) fetchData({ factorId: router.query?.factorId?.[0] });
   }, [params]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function FactorIdEdit() {
   }, [data]);
 
   const openHandler = () => {
-    mutate({ FactorId: params, ...query })
+    mutate({ factorId: params, ...query })
       .then(() => throwToast({ type: "success", value: "با موفقیت ویرایش شد" }))
       .catch(() => throwToast({ type: "error", value: "ناموفق" }));
   };

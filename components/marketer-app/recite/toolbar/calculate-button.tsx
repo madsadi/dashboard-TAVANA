@@ -8,6 +8,7 @@ import { ModuleIdentifier } from "../../../../utils/Module-Identifier";
 import { ReciteContext } from "../../../../pages/marketer-app/recite";
 import { Button } from "components/common/components/button/button";
 import useQuery from "hooks/useQuery";
+import useMutation from "hooks/useMutation";
 
 export default function CalculationButton() {
   const { fetchData, searchQuery } = useContext<any>(ReciteContext);
@@ -15,7 +16,7 @@ export default function CalculationButton() {
     ModuleIdentifier.MARKETER_APP_recite,
     "calculate"
   );
-  const { fetchAsyncData } = useQuery({
+  const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/factor/calculate`,
   });
   const [modal, setModal] = useState(false);
@@ -26,8 +27,8 @@ export default function CalculationButton() {
   };
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    const { Year, Month, ...rest } = query;
-    await fetchAsyncData({ ...rest, Period: Year + Month })
+    const { year, month, ...rest } = query;
+    await mutate({ ...rest, period: year + month })
       .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);

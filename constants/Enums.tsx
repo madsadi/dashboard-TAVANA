@@ -554,6 +554,7 @@ export const statesEnums: any[] = [
     title: "غیرفعال",
   },
 ];
+
 export const isActiveWithNoNull: any[] = [
   {
     id: true,
@@ -582,36 +583,52 @@ export const isRequired: any[] = [
 
 export const CalculationBaseTypeEnums = [
   {
-    title: "جدول شماره ۱",
-    id: "PlanOne",
+    id: 1,
+    code: 1,
+    enTitle: "PlanOne",
+    title: "جدول شماره 1",
   },
   {
-    title: "جدول شماره ۲",
-    id: "PlanTwo",
+    id: 2,
+    code: 2,
+    enTitle: "PlanTwo",
+    title: "جدول شماره 2",
   },
   {
-    title: "جدول شماره ۳",
-    id: "PlanThree",
+    id: 3,
+    code: 3,
+    enTitle: "PlanThree",
+    title: "جدول شماره 3",
   },
   {
+    id: 4,
+    code: 4,
+    enTitle: "NoPlan",
     title: "نامشخص",
-    id: "NoPlan",
   },
   {
-    title: "ثابت شماره ۱",
-    id: "ConstOne",
+    id: 5,
+    code: 5,
+    enTitle: "ConstOne",
+    title: "ثابت شماره 1",
   },
   {
-    title: "ثابت شماره ۲",
-    id: "ConstTwo",
+    id: 6,
+    code: 6,
+    enTitle: "ConstTwo",
+    title: "ثابت شماره 2",
   },
   {
-    title: "ثابت شماره ۳",
-    id: "ConstThree",
+    id: 7,
+    code: 7,
+    enTitle: "ConstThree",
+    title: "ثابت شماره 3",
   },
   {
-    title: "ثابت شماره ۴",
-    id: "ConstFour",
+    id: 8,
+    code: 8,
+    enTitle: "ConstFour",
+    title: "ثابت شماره 4",
   },
 ];
 

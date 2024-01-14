@@ -1,19 +1,19 @@
 import React, { createContext, useState } from "react";
 import dynamic from "next/dynamic";
 const SearchComponent = dynamic(
-  () => import("../../components/common/components/search")
+  () => import("../../../components/common/components/search")
 );
 const TableComponent = dynamic(
-  () => import("../../components/common/table/table-component")
+  () => import("../../../components/common/table/table-component")
 );
 const AccordionComponent = dynamic(
-  () => import("../../components/common/components/accordion")
+  () => import("../../../components/common/components/accordion")
 );
-import useQuery from "../../hooks/useQuery";
-import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../utils/Module-Identifier";
+import useQuery from "../../../hooks/useQuery";
+import { ADMIN_GATEWAY } from "../../../api/constants";
+import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-import { BusinessUnitToolbar } from "components/customer-management/business-unit/toolbar";
+import { BusinessUnitOwnerToolbar } from "components/customer-management/business-unit/owner-party/ownerparty-toolbar";
 
 export const CustomerManagementBusinessUnit = createContext({});
 function BusinessUnit() {
@@ -25,7 +25,7 @@ function BusinessUnit() {
   return (
     <CustomerManagementBusinessUnit.Provider
       value={{
-        fetchHandler: () => fetchData(query),
+        fetchData: () => fetchData(query),
         selected: selectedRows,
       }}
     >
@@ -37,7 +37,7 @@ function BusinessUnit() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit}
           />
         </AccordionComponent>
-        <BusinessUnitToolbar />
+        <BusinessUnitOwnerToolbar />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit}

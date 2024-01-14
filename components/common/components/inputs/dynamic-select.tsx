@@ -6,7 +6,7 @@ import {
 import { Listbox, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { classNames } from "../../../../utils/common-funcions";
-import { ONLINE_TRADING } from "../../../../api/constants";
+import { ADMIN_GATEWAY, ONLINE_TRADING } from "../../../../api/constants";
 import useQuery from "../../../../hooks/useQuery";
 import { EnumType } from "types/types";
 import { FilterItemType } from "types/constant-filters.types";
@@ -20,14 +20,18 @@ interface BaseInputPropsType {
 
 export const DynamicSelect = (props: BaseInputPropsType) => {
   const { item, value, onChange } = props;
-  const { name, title, type } = item;
+  const { name, title, type, result = "" } = item;
   const [dynamicOptions, setDynamicOptions] = useState<any[]>([]);
   const { fetchAsyncData } = useQuery({ url: "" });
 
+  console.log(dynamicOptions, result, title);
+
   const getTheOptions = async (endpoint: string) => {
-    await fetchAsyncData({}, endpoint).then((res) =>
-      setDynamicOptions(res?.data.result)
-    );
+    await fetchAsyncData({}, endpoint).then((res) => {
+      setDynamicOptions(
+        result ? res?.data?.result?.[result] : res?.data?.result
+      );
+    });
   };
   useEffect(() => {
     if (type === "dynamic" && title) {
@@ -59,6 +63,10 @@ export const DynamicSelect = (props: BaseInputPropsType) => {
           break;
         case "SubSectorCode":
           getTheOptions(`${ONLINE_TRADING}/api/request/GetAllSubSectors`);
+          break;
+        case "ownerEntityCode":
+        case "relatedEntityCode":
+          getTheOptions(`${ADMIN_GATEWAY}/api/request/businessEntity/Search`);
           break;
       }
     }

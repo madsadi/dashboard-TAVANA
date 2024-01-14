@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { formatNumber } from "../../../utils/common-funcions";
+import { classNames, formatNumber } from "../../../utils/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -52,6 +52,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     columnDefStructure,
     colDef,
     rowSelection,
+    className,
     onGridReady = () => {
       gridRef?.current?.api?.setRowData([]);
     },
@@ -220,7 +221,8 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
       <div
         id="grid"
         className={
-          "relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px]"
+          "relative grow overflow-hidden border border-border rounded-b-xl min-h-[200px] " +
+          className
         }
       >
         <div style={gridStyle} className="ag-theme-alpine absolute">

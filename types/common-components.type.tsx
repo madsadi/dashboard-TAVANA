@@ -14,6 +14,7 @@ export interface TableProps {
   columnDefStructure?: any[];
   rowSelection?: "single" | "multiple";
   onGridReady?: () => void;
+  className?: string;
   rowId: string[];
   colDef?: ColDef;
   isRowSelectable?: IsRowSelectable;
