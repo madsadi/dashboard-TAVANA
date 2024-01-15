@@ -75,7 +75,7 @@ const PageHeaderFooter = () => {
     <>
       <div className="page-header">
         <div className="logo-card relative">
-          <img src={"/logo-black.svg"} className={"h-20 w-20"} alt="tavana" />
+          <img src={"/Tavana.svg"} className={"h-24 w-24"} alt="tavana" />
         </div>
         <div className="mt-5 flex font-weight-bold">
           <div className={"text-sm ml-2"}> تاریخ :</div>
@@ -92,6 +92,8 @@ const PageHeaderFooter = () => {
               }
               fill
               alt="signPhoto"
+              objectPosition="right"
+              objectFit="contain"
               quality={0}
               unoptimized={true}
             />
@@ -100,8 +102,20 @@ const PageHeaderFooter = () => {
         <div className="text-left">
           <div className={"titleValue"}>امضاء مسئول پذیرش :</div>
           <div className="sign-card relative">
-            <Image src={"/taheri-signature.png"} fill alt="seal" />
-            <Image src={"/tavana-seal.png"} fill alt="seal" />
+            <Image
+              src={"/taheri-signature.png"}
+              fill
+              objectPosition="left"
+              objectFit="contain"
+              alt="seal"
+            />
+            <Image
+              src={"/tavana-seal.png"}
+              fill
+              objectPosition="left"
+              objectFit="contain"
+              alt="seal"
+            />
           </div>
         </div>
       </div>
