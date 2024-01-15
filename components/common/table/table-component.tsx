@@ -199,6 +199,13 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
         remove: [newData],
       });
     },
+    getAllRows() {
+      let rowData: any = [];
+      gridRef.current?.api?.forEachNode((item: any) => {
+        rowData.push(item.data);
+      });
+      return rowData;
+    },
     flushUpdates() {
       gridRef.current?.api?.flushAsyncTransactions();
     },
@@ -281,5 +288,5 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   );
 });
 
-export default memo(TableComponent);
+export default TableComponent;
 TableComponent.displayName = "TableComponent";

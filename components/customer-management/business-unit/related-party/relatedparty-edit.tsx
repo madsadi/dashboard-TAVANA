@@ -32,7 +32,7 @@ export const RelatedPartyEdit = () => {
     service,
     modules,
   } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail,
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_related_detail,
     "addRelatedParty"
   );
 

@@ -31,7 +31,7 @@ export const RelatedPartyAdd = () => {
     service,
     modules,
   } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail,
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_related_detail,
     "addRelatedParty"
   );
 
@@ -161,7 +161,7 @@ export const RelatedPartyAdd = () => {
         }
       />
       <Modal
-        title={"دسترسی واحد کاری جدید"}
+        title={"افزودن دسترسی واحد کاری "}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}

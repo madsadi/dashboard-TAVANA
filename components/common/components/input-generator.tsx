@@ -4,7 +4,6 @@ import RoleSearchSection from "./role-search-section";
 import { BaseInput } from "./inputs/base-input";
 import { PasswordInput } from "./inputs/password-input";
 import { SelectInput } from "./inputs/select-input";
-import { DynamicSelect } from "./inputs/dynamic-select";
 import { SingleDateInput } from "./inputs/single-date-input";
 import { SecondDynamicSelect } from "./inputs/second-dynamic-select";
 import { RangeDateInput } from "./inputs/range-date-input";
@@ -12,7 +11,8 @@ import { TimeValueInput } from "./inputs/time-value-input";
 import DynamicSearch from "./inputs/dynamic-search";
 import { FilterItemType } from "types/constant-filters.types";
 import { EnumType, QueryType } from "types/types";
-
+import dynamic from "next/dynamic";
+const DynamicSelect = dynamic(() => import("./inputs/dynamic-select"));
 type PropsType = {
   query: QueryType;
   onChange: (key: string, value: any) => void;

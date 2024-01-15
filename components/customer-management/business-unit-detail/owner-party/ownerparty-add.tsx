@@ -4,30 +4,30 @@ import InputComponent from "components/common/components/input-generator";
 import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
-import { CustomerManagementBusinessUnitDetail } from "pages/customer-management/business-unit/detail";
+import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
 import React, { useEffect, useState, useContext } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
-import { throwToast } from "utils/notification";
 
-export const OwnerPartyEdit = () => {
+export const OwnerPartyAdd = () => {
   const [query, setQuery] = useState<any>({});
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { fetchData, selected, businessUnitId, setSelectedRows } =
-    useContext<any>(CustomerManagementBusinessUnitDetail);
-  const { mutate: edit } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Edit`,
-    method: "PATCH",
+  const { fetchData, selected, businessUnitId } = useContext<any>(
+    CustomerManagementBusinessUnitDetailContext
+  );
+  const { mutate: add } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Add`,
+    method: "POST",
     onSuccess: () => {
       fetchData();
-      setSelectedRows([]);
       setModal(false);
     },
     setLoading: setLoading,
   });
   const {
     toolbar: initialToolbar,
+    initialValue,
     restriction,
     service,
     modules,
@@ -38,15 +38,6 @@ export const OwnerPartyEdit = () => {
 
   useEffect(() => {
     if (modal && initialToolbar && initialToolbar.length) {
-      let ToEdit = selected[0] || null;
-      let initialValue: any = {};
-      toolbar?.map((item: any) => {
-        if (item.alternative) {
-          initialValue[item.title] = ToEdit?.[item.alternative];
-        } else {
-          initialValue[item.title] = ToEdit?.[item.title];
-        }
-      });
       setQuery(initialValue);
     }
   }, [modal, initialToolbar]);
@@ -57,24 +48,12 @@ export const OwnerPartyEdit = () => {
     setQuery(_query);
   };
 
-  const modalHandler = () => {
-    if (selected[0]) {
-      setModal(true);
-    } else {
-      throwToast({
-        type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
-      });
-    }
-  };
-
   const businessEntityOptions = [
     {
       title: "ownerPartyId",
       name: "شرکت زیرمجموعه",
       type: "dynamicSearch",
       initialValue: "",
-      placeholder: "partyTitle",
       endpoint: `${ADMIN_GATEWAY}/api/request/subsidiary/Search`,
       valueField: ["title", "subsidiaryTypeTitle"],
       queryField: "Title",
@@ -85,7 +64,6 @@ export const OwnerPartyEdit = () => {
       name: "شعبه",
       type: "dynamicSearch",
       initialValue: "",
-      placeholder: "partyTitle",
       endpoint: `${ADMIN_GATEWAY}/api/request/branch/Search?IsActive=true&IsDeleted=false`,
       valueField: ["subsidiaryTitle", "typeTitle", "tbsTitle", "title"],
       queryField: "Title",
@@ -95,7 +73,6 @@ export const OwnerPartyEdit = () => {
       title: "ownerPartyId",
       name: "بازاریاب",
       type: "dynamicSearch",
-      placeholder: "partyTitle",
       initialValue: "",
       endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search?IsActive=true&IsDeleted=false`,
       valueField: [
@@ -114,7 +91,6 @@ export const OwnerPartyEdit = () => {
       name: "ایستگاه معاملاتی",
       type: "dynamicSearch",
       initialValue: "",
-      placeholder: "partyTitle",
       endpoint: `${ADMIN_GATEWAY}/api/request/station/Search`,
       valueField: ["title", "branchTitle"],
       queryField: "Title",
@@ -125,7 +101,6 @@ export const OwnerPartyEdit = () => {
       name: "کارمند",
       type: "dynamicSearch",
       initialValue: "",
-      placeholder: "partyTitle",
       endpoint: `${ADMIN_GATEWAY}/api/request/employee/Search`,
       valueField: [
         "Unique",
@@ -142,7 +117,6 @@ export const OwnerPartyEdit = () => {
       name: "مشتری",
       type: "dynamicSearch",
       initialValue: "",
-      placeholder: "partyTitle",
       endpoint: `${ADMIN_GATEWAY}/api/request/customer/Search`,
       valueField: ["title", "subsidiaryTypeTitle"],
       queryField: "Title",
@@ -153,7 +127,6 @@ export const OwnerPartyEdit = () => {
       name: "	واحد عملیاتی",
       type: "dynamicSearch",
       initialValue: "",
-      placeholder: "partyTitle",
       endpoint: `${ADMIN_GATEWAY}/api/request/businessUnit/Search`,
       valueField: ["title"],
       queryField: "Title",
@@ -165,7 +138,7 @@ export const OwnerPartyEdit = () => {
     query: any
   ): void {
     e.preventDefault();
-    edit({ businessUnitId: businessUnitId, id: selected[0].id, ...query });
+    add({ businessUnitId: businessUnitId, ...query });
   }
 
   const toolbar = query.ownerEntityCode
@@ -174,17 +147,17 @@ export const OwnerPartyEdit = () => {
   return (
     <>
       <Button
-        label={"ویرایش"}
-        className="bg-secondary"
-        onClick={modalHandler}
+        label={"جدید"}
+        className="bg-primary"
+        onClick={() => setModal(true)}
         allowed={
           restriction
-            ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
+            ? [[service?.[0], modules?.[0]?.[0], "Create"].join(".")]
             : []
         }
       />
       <Modal
-        title={"ویرایش مالک واحد کاری "}
+        title={"افزودن مالک واحد کاری "}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}

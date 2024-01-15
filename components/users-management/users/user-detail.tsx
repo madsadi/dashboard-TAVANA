@@ -15,8 +15,6 @@ export default function UserDetailComponent({ data }: { data: any }) {
     url: `${IDP}/api/users/get-user-roles`,
   });
 
-  console.log(userRoles);
-
   useEffect(() => {
     fetchData({ userId: data.id });
   }, [userDetail]);

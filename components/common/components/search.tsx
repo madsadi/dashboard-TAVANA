@@ -25,8 +25,14 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
       className,
       extraClassName,
     } = props;
-    const { filters, initialValue, service, modules, restriction } =
-      useSearchFilters(module);
+    const {
+      filters: initialFilters,
+      initialValue,
+      service,
+      modules,
+      restriction,
+    } = useSearchFilters(module);
+    const [filters, setFilters] = useState<any>(initialFilters);
     const [query, setQuery] = useState<any>(
       (initialQuery &&
         Object.fromEntries(
@@ -37,7 +43,16 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
         )
     );
 
-    const onChange = (key: string, value: any) => {
+    const onChange = (key: string, value: any, item?: FilterItemType) => {
+      if (item?.dependancy && item.onChange) {
+        const _filters = filters;
+        const newDependantInput = item.onChange(value);
+        const oldDependantInput = _filters.findIndex(
+          (f: any) => f.title === item?.dependancy
+        );
+        _filters.splice(oldDependantInput, 1, newDependantInput);
+        setFilters(_filters);
+      }
       let _query: QueryType = { ...query };
       _query[key] = value;
       setQuery(_query);

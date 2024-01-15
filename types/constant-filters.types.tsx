@@ -11,6 +11,10 @@ interface FilterItemBasicType {
   dir?: "ltr" | "rtl";
   alternative?: string;
   result?: "" | "pagedData";
+
+  //for those inputs, that its value could effect other input
+  dependancy?: string; //dependant input
+  onChange?: (value: any) => any; //function that needs to execute when effecting input has changed
 }
 
 export interface FilterItemDynamicType extends FilterItemBasicType {

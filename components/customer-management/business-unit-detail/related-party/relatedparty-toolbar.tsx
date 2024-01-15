@@ -10,7 +10,7 @@ import { CustomerManagementBusinessUnitDetail } from "pages/customer-management/
 import { RelatedPartyAdd } from "./relatedparty-add";
 import { RelatedPartyEdit } from "./relatedparty-edit";
 
-export const BusinessUnitRelatedToolbar = () => {
+export const BusinessUnitDetailRelatedToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: remove } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/businessUnitRelatedParty/Delete`,

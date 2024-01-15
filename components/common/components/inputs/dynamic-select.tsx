@@ -10,22 +10,29 @@ import { ADMIN_GATEWAY, ONLINE_TRADING } from "../../../../api/constants";
 import useQuery from "../../../../hooks/useQuery";
 import { EnumType } from "types/types";
 import { FilterItemType } from "types/constant-filters.types";
+import { useDispatch, useSelector } from "react-redux";
+import { enums } from "store/enums.config";
+import useSWR from "swr";
 
 interface BaseInputPropsType {
   item: FilterItemType;
   value: any;
-  onChange: (key: string, value: any) => void;
+  onChange: (key: string, value: any, item?: FilterItemType) => void;
   dynamicsOption?: EnumType[];
 }
 
-export const DynamicSelect = (props: BaseInputPropsType) => {
+const DynamicSelect = (props: BaseInputPropsType) => {
   const { item, value, onChange } = props;
   const { name, title, type, result = "" } = item;
   const [dynamicOptions, setDynamicOptions] = useState<any[]>([]);
+  const { data, mutate } = useSWR(
+    { url: `${ADMIN_GATEWAY}/api/request/businessEntity/Search` },
+    { revalidateOnMount: false }
+  );
+  // const { enums: cachedEnums } = useSelector((state: any) => state.enumsConfig);
+  // console.log({ cachedEnums });
+
   const { fetchAsyncData } = useQuery({ url: "" });
-
-  console.log(dynamicOptions, result, title);
-
   const getTheOptions = async (endpoint: string) => {
     await fetchAsyncData({}, endpoint).then((res) => {
       setDynamicOptions(
@@ -33,6 +40,13 @@ export const DynamicSelect = (props: BaseInputPropsType) => {
       );
     });
   };
+
+  useEffect(() => {
+    if (data?.result?.[result].length) {
+      setDynamicOptions(data?.result?.[result]);
+    }
+  }, [data?.result]);
+
   useEffect(() => {
     if (type === "dynamic" && title) {
       switch (title) {
@@ -66,7 +80,7 @@ export const DynamicSelect = (props: BaseInputPropsType) => {
           break;
         case "ownerEntityCode":
         case "relatedEntityCode":
-          getTheOptions(`${ADMIN_GATEWAY}/api/request/businessEntity/Search`);
+          mutate();
           break;
       }
     }
@@ -90,7 +104,7 @@ export const DynamicSelect = (props: BaseInputPropsType) => {
           name={title}
           value={value}
           onChange={(e) => {
-            onChange(title, e.code);
+            onChange(title, e.code, item);
           }}
         >
           {({ open }) => (
@@ -162,3 +176,5 @@ export const DynamicSelect = (props: BaseInputPropsType) => {
     </div>
   );
 };
+
+export default DynamicSelect;

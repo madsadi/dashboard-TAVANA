@@ -7,13 +7,13 @@ import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { CustomerManagementBusinessUnitDetail } from "pages/customer-management/business-unit/detail";
-import { RelatedPartyAdd } from "./relatedparty-add";
-import { RelatedPartyEdit } from "./relatedparty-edit";
+import { OwnerPartyAdd } from "./ownerparty-add";
+import { OwnerPartyEdit } from "./ownerparty-edit";
 
-export const BusinessUnitRelatedToolbar = () => {
+export const BusinessUnitDetailOwnerToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: remove } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/businessUnitRelatedParty/Delete`,
+    url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Delete`,
     method: "DELETE",
     onSuccess: () => {
       fetchData();
@@ -27,7 +27,7 @@ export const BusinessUnitRelatedToolbar = () => {
   );
 
   const { restriction, modules, service } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_related_detail
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_owner_detail
   );
   const deleteRef: any = useRef();
 
@@ -44,22 +44,20 @@ export const BusinessUnitRelatedToolbar = () => {
 
   return (
     <div className={"toolbar items-center p-2 border-x border-border"}>
-      <RelatedPartyAdd />
-      <RelatedPartyEdit />
+      <OwnerPartyAdd />
+      <OwnerPartyEdit />
       <CRUDWrapper
         ref={deleteRef}
-        title={`حذف دسترسی واحد کاری`}
+        title={`حذف مالک واحد کاری`}
         mode="delete"
         confirmHandler={(e, query) => {
           e.preventDefault();
           remove({}, { id: selected[0].id, ...query });
         }}
-        modalMessage=" حذف دسترسی واحد کاری "
+        modalMessage="حذف مالک واحد کاری"
         entity="partyTitle"
         loading={loading}
-        module={
-          ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_related_detail
-        }
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_owner_detail}
         selectedItem={selected?.[0]}
       >
         <Button
@@ -73,7 +71,7 @@ export const BusinessUnitRelatedToolbar = () => {
           }
         />
       </CRUDWrapper>
-      <p className="mr-auto font-bold">دسترسی واحد کاری</p>
+      <p className="mr-auto font-bold">مالک واحد کاری</p>
     </div>
   );
 };

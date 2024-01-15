@@ -1,8 +1,6 @@
 import axios from "axios";
 
-export const fetcher = async ({ url, params }: { url: string, params: any }) => {
-    const resp = await axios.get(`${url}`, { params: params })
-        .then((res: any) => res.data);
-    return resp;
+export const fetcher = async ({ url }: { url: string }) => {
+  const resp = await axios.get(`${url}`).then((res: any) => res.data);
+  return resp;
 };
-

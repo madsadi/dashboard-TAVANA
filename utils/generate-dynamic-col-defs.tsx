@@ -544,10 +544,23 @@ export const modularColsDef: ModularColsDefType = {
       },
     },
   ],
-  "customer-management_businessUnit_detail": [
+  "customer-management_businessUnit_owner_detail": [
     { colId: "checkbox", type: "checkbox" },
     { colId: "entityTitle" },
     { colId: "partyTitle" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_businessUnit_related_detail": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "entityTitle", headerName: "ماهیت دسترسی" },
+    { colId: "partyTitle", headerName: " دسترسی" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
+  ],
+  "customer-management_businessUnit_detail": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "title", cellRenderer: "agGroupCellRenderer" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],

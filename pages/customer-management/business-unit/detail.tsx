@@ -14,7 +14,7 @@ import { BusinessUnitOwnerToolbar } from "components/customer-management/busines
 import { BusinessUnitRelatedToolbar } from "components/customer-management/business-unit/related-party/relatedparty-toolbar";
 
 export const CustomerManagementBusinessUnitDetail = createContext({});
-function BusinessUnit() {
+function BusinessUnitDetailPage() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, fetchData, loading, query }: any = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/businessUnit/SearchRelation`,
@@ -60,7 +60,9 @@ function BusinessUnit() {
             <TableComponent
               className="rounded-bl-none"
               data={data?.result?.pagedData[0]?.ownerParty}
-              module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail}
+              module={
+                ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_owner_detail
+              }
               loading={loading}
               sideBar={false}
               setSelectedRows={setSelectedRows}
@@ -74,7 +76,9 @@ function BusinessUnit() {
             <TableComponent
               className="rounded-br-none"
               data={data?.result?.pagedData[0]?.relatedParty}
-              module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail}
+              module={
+                ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_related_detail
+              }
               loading={loading}
               sideBar={false}
               setSelectedRows={setSelectedRows}
@@ -89,4 +93,4 @@ function BusinessUnit() {
   );
 }
 
-export default BusinessUnit;
+export default BusinessUnitDetailPage;

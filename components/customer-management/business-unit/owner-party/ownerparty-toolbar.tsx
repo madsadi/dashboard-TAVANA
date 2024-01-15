@@ -27,7 +27,7 @@ export const BusinessUnitOwnerToolbar = () => {
   );
 
   const { restriction, modules, service } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_owner_detail
   );
   const deleteRef: any = useRef();
 
@@ -43,7 +43,7 @@ export const BusinessUnitOwnerToolbar = () => {
   };
 
   return (
-    <div className={"toolbar p-2 border-x border-border"}>
+    <div className={"toolbar items-center p-2 border-x border-border"}>
       <OwnerPartyAdd />
       <OwnerPartyEdit />
       <CRUDWrapper
@@ -57,7 +57,7 @@ export const BusinessUnitOwnerToolbar = () => {
         modalMessage="حذف مالک واحد کاری"
         entity="partyTitle"
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_owner_detail}
         selectedItem={selected?.[0]}
       >
         <Button
@@ -71,6 +71,7 @@ export const BusinessUnitOwnerToolbar = () => {
           }
         />
       </CRUDWrapper>
+      <p className="mr-auto font-bold">مالک واحد کاری</p>
     </div>
   );
 };

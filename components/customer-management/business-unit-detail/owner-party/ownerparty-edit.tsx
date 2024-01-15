@@ -4,7 +4,7 @@ import InputComponent from "components/common/components/input-generator";
 import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
-import { CustomerManagementBusinessUnitDetail } from "pages/customer-management/business-unit/detail";
+import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
 import React, { useEffect, useState, useContext } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
@@ -15,7 +15,7 @@ export const OwnerPartyEdit = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const { fetchData, selected, businessUnitId, setSelectedRows } =
-    useContext<any>(CustomerManagementBusinessUnitDetail);
+    useContext<any>(CustomerManagementBusinessUnitDetailContext);
   const { mutate: edit } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Edit`,
     method: "PATCH",

@@ -301,7 +301,7 @@ export default function SideBarContent() {
         },
         {
           label: "شرکت ها",
-          url: "/customer-management/[[...page]]",
+          url: "/customer-management/subsidiary",
           as: "/customer-management/subsidiary",
           className:
             router.asPath === `/customer-management/subsidiary`
@@ -311,7 +311,7 @@ export default function SideBarContent() {
         },
         {
           label: "شعب",
-          url: "/customer-management/[[...page]]",
+          url: "/customer-management/branch",
           as: "/customer-management/branch",
           className:
             router.asPath === "/customer-management/branch"
@@ -331,7 +331,7 @@ export default function SideBarContent() {
         },
         {
           label: "کارمندان",
-          url: "/customer-management/[[...page]]",
+          url: "/customer-management/employee",
           as: "/customer-management/employee",
           className:
             router.asPath === "/customer-management/employee"
@@ -341,7 +341,7 @@ export default function SideBarContent() {
         },
         {
           label: "واحد کاری",
-          url: "/customer-management/[[...page]]",
+          url: "/customer-management/business-unit",
           as: "/customer-management/business-unit",
           className:
             router.asPath === "/customer-management/business-unit"
@@ -350,18 +350,18 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit,
         },
         {
-          label: "واحد کاری",
-          url: "/customer-management/[[...page]]",
-          as: "/customer-management/business-unit",
+          label: "جستجو جزیئات واحد کاری ",
+          url: "/customer-management/business-unit-detail",
+          as: "/customer-management/business-unit-detail",
           className:
-            router.asPath === "/customer-management/business-unit"
+            router.asPath === "/customer-management/business-unit-detail"
               ? "sideBarActive"
               : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit,
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail,
         },
         {
           label: "ایستگاه معاملاتی",
-          url: "/customer-management/[[...page]]",
+          url: "/customer-management/station",
           as: "/customer-management/station",
           className:
             router.asPath === "/customer-management/station"
@@ -371,7 +371,7 @@ export default function SideBarContent() {
         },
         {
           label: "معامله گران",
-          url: "/customer-management/[[...page]]",
+          url: "/customer-management/trader",
           as: "/customer-management/trader",
           className:
             router.asPath === "/customer-management/trader"
@@ -381,7 +381,7 @@ export default function SideBarContent() {
         },
         {
           label: "بازاریاب ها",
-          url: "/customer-management/[[...page]]",
+          url: "/customer-management/marketer",
           as: "/customer-management/marketer",
           className:
             router.asPath === "/customer-management/marketer"

@@ -4,24 +4,24 @@ import InputComponent from "components/common/components/input-generator";
 import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
-import { CustomerManagementBusinessUnitDetail } from "pages/customer-management/business-unit/detail";
+import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
 import React, { useEffect, useState, useContext } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 
-export const OwnerPartyEdit = () => {
+export const RelatedPartyEdit = () => {
   const [query, setQuery] = useState<any>({});
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { fetchData, selected, businessUnitId, setSelectedRows } =
-    useContext<any>(CustomerManagementBusinessUnitDetail);
+  const { fetchData, selected, businessUnitId } = useContext<any>(
+    CustomerManagementBusinessUnitDetailContext
+  );
   const { mutate: edit } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Edit`,
+    url: `${ADMIN_GATEWAY}/api/request/businessUnitRelatedParty/Edit`,
     method: "PATCH",
     onSuccess: () => {
       fetchData();
-      setSelectedRows([]);
       setModal(false);
     },
     setLoading: setLoading,
@@ -32,8 +32,8 @@ export const OwnerPartyEdit = () => {
     service,
     modules,
   } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_owner_detail,
-    "addOwnerParty"
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_related_detail,
+    "addRelatedParty"
   );
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const OwnerPartyEdit = () => {
           initialValue[item.title] = ToEdit?.[item.title];
         }
       });
-      setQuery(initialValue);
+      setQuery({ ...initialValue, isForAllPartyId: !ToEdit.partyId });
     }
   }, [modal, initialToolbar]);
 
@@ -67,10 +67,11 @@ export const OwnerPartyEdit = () => {
       });
     }
   };
+  console.log(query);
 
   const businessEntityOptions = [
     {
-      title: "ownerPartyId",
+      title: "relatedPartyId",
       name: "شرکت زیرمجموعه",
       type: "dynamicSearch",
       initialValue: "",
@@ -81,7 +82,7 @@ export const OwnerPartyEdit = () => {
       recordField: "id",
     },
     {
-      title: "ownerPartyId",
+      title: "relatedPartyId",
       name: "شعبه",
       type: "dynamicSearch",
       initialValue: "",
@@ -92,11 +93,11 @@ export const OwnerPartyEdit = () => {
       recordField: "id",
     },
     {
-      title: "ownerPartyId",
+      title: "relatedPartyId",
       name: "بازاریاب",
       type: "dynamicSearch",
-      placeholder: "partyTitle",
       initialValue: "",
+      placeholder: "partyTitle",
       endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search?IsActive=true&IsDeleted=false`,
       valueField: [
         "typeTitle",
@@ -110,7 +111,7 @@ export const OwnerPartyEdit = () => {
       recordField: "id",
     },
     {
-      title: "ownerPartyId",
+      title: "relatedPartyId",
       name: "ایستگاه معاملاتی",
       type: "dynamicSearch",
       initialValue: "",
@@ -121,7 +122,7 @@ export const OwnerPartyEdit = () => {
       recordField: "id",
     },
     {
-      title: "ownerPartyId",
+      title: "relatedPartyId",
       name: "کارمند",
       type: "dynamicSearch",
       initialValue: "",
@@ -138,7 +139,7 @@ export const OwnerPartyEdit = () => {
       recordField: "id",
     },
     {
-      title: "ownerPartyId",
+      title: "relatedPartyId",
       name: "مشتری",
       type: "dynamicSearch",
       initialValue: "",
@@ -149,8 +150,8 @@ export const OwnerPartyEdit = () => {
       recordField: "id",
     },
     {
-      title: "ownerPartyId",
-      name: "	واحد عملیاتی",
+      title: "relatedPartyId",
+      name: "واحد عملیاتی",
       type: "dynamicSearch",
       initialValue: "",
       placeholder: "partyTitle",
@@ -165,11 +166,16 @@ export const OwnerPartyEdit = () => {
     query: any
   ): void {
     e.preventDefault();
-    edit({ businessUnitId: businessUnitId, id: selected[0].id, ...query });
+    edit({
+      id: selected[0]?.id,
+      businessUnitId: businessUnitId,
+      ...query,
+      relatedPartyId: query.isForAllPartyId ? null : query.relatedPartyId,
+    });
   }
 
-  const toolbar = query.ownerEntityCode
-    ? [initialToolbar[0], businessEntityOptions[query.ownerEntityCode - 1]]
+  const toolbar = query.relatedEntityCode
+    ? [initialToolbar[0], businessEntityOptions[query.relatedEntityCode - 1]]
     : initialToolbar;
   return (
     <>
@@ -184,7 +190,7 @@ export const OwnerPartyEdit = () => {
         }
       />
       <Modal
-        title={"ویرایش مالک واحد کاری "}
+        title={"ویرایش دسترسی واحد کاری "}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}
@@ -196,13 +202,24 @@ export const OwnerPartyEdit = () => {
                 <InputComponent
                   key={item.title}
                   query={query}
-                  item={item}
+                  item={
+                    query.isForAllPartyId ? { ...item, readOnly: true } : item
+                  }
                   setQuery={setQuery}
                   onChange={onChange}
                   dataHelper={selected?.[0]}
                 />
               );
             })}
+            <div className={"flex items-center"}>
+              <input
+                className={`checkbox`}
+                checked={query.isForAllPartyId}
+                onChange={(e) => onChange("isForAllPartyId", e.target.checked)}
+                type="checkbox"
+              />
+              <label className="mr-2">دسترسی به تمامی ماهیت ایجاد شود؟</label>
+            </div>
           </form>
           <div className={"flex justify-end space-x-reverse space-x-2 mt-10"}>
             <Button

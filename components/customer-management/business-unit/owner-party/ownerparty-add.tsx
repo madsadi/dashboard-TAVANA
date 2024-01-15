@@ -32,7 +32,7 @@ export const OwnerPartyAdd = () => {
     service,
     modules,
   } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail,
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_owner_detail,
     "addOwnerParty"
   );
 
@@ -157,7 +157,7 @@ export const OwnerPartyAdd = () => {
         }
       />
       <Modal
-        title={"مالک واحد کاری جدید"}
+        title={"افزودن مالک واحد کاری "}
         ModalWidth={"max-w-3xl"}
         setOpen={setModal}
         open={modal}
