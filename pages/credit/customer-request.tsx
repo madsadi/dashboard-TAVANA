@@ -40,6 +40,7 @@ function CreditCustomerRequest() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CREDIT_customer_request}
           rowId={["id"]}
+          loading={loading}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           pagination={true}

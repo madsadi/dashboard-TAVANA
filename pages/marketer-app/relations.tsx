@@ -61,6 +61,7 @@ function Relations() {
         </AccordionComponent>
         <RelationToolbar />
         <TableComponent
+          loading={loading}
           data={data?.result?.pagedData}
           module={ModuleIdentifier.MARKETER_APP_relations}
           setSelectedRows={setSelectedRows}

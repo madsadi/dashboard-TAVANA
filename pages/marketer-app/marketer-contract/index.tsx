@@ -39,6 +39,7 @@ function MarketerContract() {
         </AccordionComponent>
         <MarketerContractToolbar />
         <TableComponent
+          loading={loading}
           data={data?.result?.pagedData}
           module={ModuleIdentifier.MARKETER_APP_marketerContract}
           setSelectedRows={setSelectedRows}

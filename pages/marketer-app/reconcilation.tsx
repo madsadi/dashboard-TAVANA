@@ -51,6 +51,7 @@ function Reconcilation() {
         />
       </AccordionComponent>
       <TableComponent
+        loading={loading}
         data={data?.result?.pagedData}
         module={ModuleIdentifier.MARKETER_APP_reconcilation}
         rowId={["MarketerId"]}

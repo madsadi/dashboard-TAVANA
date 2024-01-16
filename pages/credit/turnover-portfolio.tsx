@@ -33,6 +33,7 @@ function CreditTurnPortfolio() {
         data={data?.result?.pagedData}
         module={ModuleIdentifier.CREDIT_turnover_portfolio}
         rowId={["tradeCode"]}
+        loading={loading}
         pagination={true}
         totalCount={data?.result?.totalCount}
         fetcher={fetchData}

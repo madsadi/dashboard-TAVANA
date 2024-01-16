@@ -29,6 +29,7 @@ function SubUsers() {
         />
       </AccordionComponent>
       <TableComponent
+        loading={loading}
         data={data?.result.pagedData}
         module={ModuleIdentifier.MARKETER_APP_subusers}
         rowSelection={"single"}

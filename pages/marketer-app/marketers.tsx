@@ -36,6 +36,7 @@ function MarketerContract() {
         </AccordionComponent>
         <MarketerToolbar />
         <TableComponent
+          loading={loading}
           data={data?.result.pagedData}
           module={ModuleIdentifier.MARKETER_APP_marketers}
           rowId={["MarketerId"]}

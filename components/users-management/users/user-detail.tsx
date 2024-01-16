@@ -11,7 +11,11 @@ export default function UserDetailComponent({ data }: { data: any }) {
   const { userDetail } = useSelector(
     (state: any) => state.userManagementConfig
   );
-  const { data: userRoles, fetchData }: any = useQuery({
+  const {
+    data: userRoles,
+    fetchData,
+    loading,
+  }: any = useQuery({
     url: `${IDP}/api/users/get-user-roles`,
   });
 
@@ -73,6 +77,7 @@ export default function UserDetailComponent({ data }: { data: any }) {
       </div>
       <TableComponent
         sideBar={false}
+        loading={loading}
         module={ModuleIdentifier.USER_MANAGEMENT_users_detail}
         data={userRoles?.result?.roles}
         rowId={["id"]}

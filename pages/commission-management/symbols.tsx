@@ -144,6 +144,7 @@ function SymbolsCommission() {
       </AccordionComponent>
       <TableComponent
         data={data?.pagedData}
+        loading={loading}
         module={ModuleIdentifier.COMMISSION_MANAGEMENT_symbols}
         columnDefStructure={tabItems[activeTab]}
         setSelectedRows={setSelectedRows}

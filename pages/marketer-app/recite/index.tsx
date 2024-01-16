@@ -50,6 +50,7 @@ function Recite() {
         </AccordionComponent>
         <ReciteToolbar />
         <TableComponent
+          loading={loading}
           module={ModuleIdentifier.MARKETER_APP_recite}
           data={data?.result.pagedData}
           setSelectedRows={setSelectedRows}

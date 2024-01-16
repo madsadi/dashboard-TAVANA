@@ -33,6 +33,7 @@ function CreditCategory() {
       <CreditCategoryToolbar />
       <TableComponent
         data={data?.result?.pagedData}
+        loading={loading}
         module={ModuleIdentifier.CREDIT_category}
         rowId={["creditCategoryCode"]}
         setSelectedRows={setSelectedRows}

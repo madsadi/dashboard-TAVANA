@@ -39,6 +39,7 @@ function CreditBank() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CREDIT_bank}
           rowId={["id"]}
+          loading={loading}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           pagination={true}

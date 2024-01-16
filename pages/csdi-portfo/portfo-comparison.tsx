@@ -199,6 +199,7 @@ function CSDIPortfo() {
       <TableComponent
         data={data?.result?.pagedData}
         ref={ref}
+        loading={loading}
         module={ModuleIdentifier.CSDI_PORTFO_comparison}
         rowId={["faInsCode"]}
         groupIncludeFooter={true}

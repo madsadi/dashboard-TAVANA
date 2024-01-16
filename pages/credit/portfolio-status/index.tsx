@@ -31,6 +31,7 @@ function CreditPortfolioStatus() {
       </AccordionComponent>
       <TableComponent
         data={data?.result?.pagedData}
+        loading={loading}
         module={ModuleIdentifier.CREDIT_portfolio_status}
         rowId={["tradeCode"]}
         pagination={true}

@@ -39,6 +39,7 @@ function CustomerManagementAgreementsManagement() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
           rowId={["id"]}
+          loading={loading}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           pagination={true}

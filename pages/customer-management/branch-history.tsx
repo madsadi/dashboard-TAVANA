@@ -30,8 +30,8 @@ function BranchHistory() {
       </AccordionComponent>
       <TableComponent
         data={data?.result?.pagedData}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history}
         loading={loading}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history}
         rowId={["id"]}
         pagination={true}
         totalCount={data?.result?.totalCount}

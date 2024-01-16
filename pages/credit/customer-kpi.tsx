@@ -48,6 +48,7 @@ function CreditCustomerKPI() {
         module={ModuleIdentifier.CREDIT_customer_kpi}
         rowId={["tradeCode"]}
         pagination={true}
+        loading={loading}
         totalCount={customerData?.result?.totalCount}
         fetcher={customerFetch}
         query={query}

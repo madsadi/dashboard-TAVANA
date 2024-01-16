@@ -30,8 +30,8 @@ function AssetSwitchReport() {
       </AccordionComponent>
       <TableComponent
         data={data?.result?.pagedData}
-        module={ModuleIdentifier.CSDI_PORTFO_asset_switch_report}
         loading={loading}
+        module={ModuleIdentifier.CSDI_PORTFO_asset_switch_report}
         rowId={["id"]}
         pagination={true}
         totalCount={data?.result?.totalCount}

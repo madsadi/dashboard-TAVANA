@@ -45,6 +45,7 @@ function Users() {
           data={data?.result.pagedData}
           module={ModuleIdentifier.USER_MANAGEMENT_users}
           rowId={["id"]}
+          loading={loading}
           rowSelection={"single"}
           masterDetail={true}
           detailComponent={UserDetailComponent}

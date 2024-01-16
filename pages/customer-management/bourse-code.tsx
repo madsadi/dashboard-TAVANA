@@ -44,6 +44,7 @@ function CustomerManagementBourseCode() {
         <BourseCodeToolbar isMainPage={true} />
         <TableComponent
           data={data?.result?.pagedData}
+          loading={loading}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code}
           rowId={["id"]}
           setSelectedRows={setSelectedRows}

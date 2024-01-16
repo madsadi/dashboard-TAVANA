@@ -43,6 +43,7 @@ function CustomerManagementAccountingCode() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code}
           rowId={["id"]}
+          loading={loading}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           pagination={true}

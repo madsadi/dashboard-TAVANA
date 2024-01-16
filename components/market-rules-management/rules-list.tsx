@@ -70,6 +70,7 @@ export default function RulesList() {
           data={data?.result}
           module={ModuleIdentifier.MARKET_RULES_MANAGEMENT}
           rowId={["id"]}
+          loading={loading}
           rowSelection={"single"}
           masterDetail={true}
           selectedRows={selectedRows}

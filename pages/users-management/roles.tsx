@@ -44,6 +44,7 @@ function Roles() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.USER_MANAGEMENT_roles}
           rowId={["id"]}
+          loading={loading}
           rowSelection={"single"}
           masterDetail={true}
           detailComponent={RoleDetailComponent}

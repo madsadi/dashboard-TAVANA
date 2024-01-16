@@ -37,6 +37,7 @@ function CreditContract() {
         <CreditContractToolbar />
         <TableComponent
           data={data?.result?.pagedData}
+          loading={loading}
           module={ModuleIdentifier.CREDIT_contract}
           rowId={["contractId", "customerId"]}
           setSelectedRows={setSelectedRows}

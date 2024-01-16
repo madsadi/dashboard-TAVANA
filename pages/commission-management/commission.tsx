@@ -167,6 +167,7 @@ function Commission() {
           data={rowData?.pagedData}
           module={ModuleIdentifier.COMMISSION_MANAGEMENT_detail}
           rowId={["id"]}
+          loading={detailLoading}
           rowSelection={"single"}
           setSelectedRows={setSelectedRows}
           pagination={true}

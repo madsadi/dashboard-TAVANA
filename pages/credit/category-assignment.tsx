@@ -39,6 +39,7 @@ function CreditCategoryAssignment() {
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CREDIT_category_assignment}
           rowId={["id"]}
+          loading={loading}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           pagination={true}

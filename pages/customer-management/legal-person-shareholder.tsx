@@ -49,6 +49,7 @@ function CustomerManagementLegalPersonShareholders() {
           module={
             ModuleIdentifier.CUSTOMER_MANAGEMENT_legal_person_shareholders
           }
+          loading={loading}
           rowId={["id"]}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}

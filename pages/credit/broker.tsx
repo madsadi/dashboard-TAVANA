@@ -31,6 +31,7 @@ function CreditCustomerRequest() {
       </AccordionComponent>
       <CreditBrokerToolbar data={data?.result?.brokerCreditLineDetail} />
       <TableComponent
+        loading={loading}
         data={data?.result?.brokerCreditCategoryDetail}
         module={ModuleIdentifier.CREDIT_broker}
         rowId={["id"]}

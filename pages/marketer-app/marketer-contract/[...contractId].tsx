@@ -20,6 +20,7 @@ function MarketerContractDetail() {
   const {
     data: deductionData,
     fetchData: deductionFetch,
+    loading: deductionLoading,
     query: deductionSearchQuery,
   }: any = useQuery({
     url: `${MARKETER_ADMIN}/marketer-contract-deduction/search`,
@@ -27,6 +28,7 @@ function MarketerContractDetail() {
   const {
     data: coefficientData,
     fetchData: coefficientFetch,
+    loading: coefficientLoading,
     query: coefficientSearchQuery,
   }: any = useQuery({
     url: `${MARKETER_ADMIN}/marketer-contract-coefficient/search`,
@@ -56,6 +58,7 @@ function MarketerContractDetail() {
           selectedDeduction={selectedDeduction}
         />
         <TableComponent
+          loading={deductionLoading}
           data={deductionData?.result?.pagedData}
           module={ModuleIdentifier.MARKETER_APP_relations_detail_deduction}
           rowId={["ContractId"]}
@@ -67,6 +70,7 @@ function MarketerContractDetail() {
           selectedCoeff={selectedCoeff}
         />
         <TableComponent
+          loading={coefficientLoading}
           module={ModuleIdentifier.MARKETER_APP_relations_detail_coefficient}
           data={coefficientData?.result?.pagedData}
           rowId={["ContractId"]}

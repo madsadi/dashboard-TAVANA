@@ -64,6 +64,7 @@ function CreditPortfolioStatusDetail() {
       </AccordionComponent>
       <TableComponent
         data={dataGrid}
+        loading={loading}
         module={ModuleIdentifier.CREDIT_portfolio_status_detail_page}
         rowId={["createdDate"]}
         masterDetail={true}

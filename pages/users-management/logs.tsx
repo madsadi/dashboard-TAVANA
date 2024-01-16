@@ -49,6 +49,7 @@ function Users() {
         data={data?.result?.pagedData}
         module={ModuleIdentifier.USER_MANAGEMENT_logs}
         rowId={["id"]}
+        loading={loading}
         pagination={true}
         totalCount={data?.result?.totalCount}
         fetcher={fetchData}
