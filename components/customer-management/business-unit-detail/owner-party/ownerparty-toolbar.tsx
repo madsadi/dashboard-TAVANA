@@ -6,9 +6,9 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementBusinessUnitDetail } from "pages/customer-management/business-unit/detail";
 import { OwnerPartyAdd } from "./ownerparty-add";
 import { OwnerPartyEdit } from "./ownerparty-edit";
+import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
 
 export const BusinessUnitDetailOwnerToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -23,7 +23,7 @@ export const BusinessUnitDetailOwnerToolbar = () => {
   });
 
   const { fetchData, selected } = useContext<any>(
-    CustomerManagementBusinessUnitDetail
+    CustomerManagementBusinessUnitDetailContext
   );
 
   const { restriction, modules, service } = useSearchFilters(
@@ -32,18 +32,19 @@ export const BusinessUnitDetailOwnerToolbar = () => {
   const deleteRef: any = useRef();
 
   const modalHandler = (target: any) => {
-    if (selected[0]) {
+    if (selected[0].type === "مالک") {
       target.current?.modalHandler(true);
     } else {
       throwToast({
         type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+        value: "لطفا یک گزینه مالک برای حذف انتخاب کنید",
       });
     }
   };
 
   return (
     <div className={"toolbar items-center p-2 border-x border-border"}>
+      <p className="mr-auto font-bold">مالک واحد کاری</p>
       <OwnerPartyAdd />
       <OwnerPartyEdit />
       <CRUDWrapper
@@ -71,7 +72,6 @@ export const BusinessUnitDetailOwnerToolbar = () => {
           }
         />
       </CRUDWrapper>
-      <p className="mr-auto font-bold">مالک واحد کاری</p>
     </div>
   );
 };

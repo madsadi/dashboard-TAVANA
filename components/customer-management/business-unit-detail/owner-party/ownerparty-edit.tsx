@@ -58,12 +58,12 @@ export const OwnerPartyEdit = () => {
   };
 
   const modalHandler = () => {
-    if (selected[0]) {
+    if (selected[0].type === "مالک") {
       setModal(true);
     } else {
       throwToast({
         type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+        value: "لطفا یک گزینه مالک برای تغییر انتخاب کنید",
       });
     }
   };

@@ -24,11 +24,25 @@ function BusinessUnitDetail() {
     url: `${ADMIN_GATEWAY}/api/request/businessUnit/SearchRelation`,
   });
 
+  const select = (grid: any) => {
+    setSelectedRows(grid?.api?.getSelectedRows());
+  };
   const detailCellRendererParams = useMemo(() => {
     return {
       detailGridOptions: {
         enableRtl: true,
+        rowSelection: "single",
+        onSelectionChanged: select,
         columnDefs: [
+          {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            showDisabledCheckboxes: true,
+            headerCheckboxSelectionFilteredOnly: true,
+            resizable: false,
+            minWidth: 40,
+            maxWidth: 40,
+          },
           { headerName: "", field: "type" },
           { field: "entityTitle", headerName: "ماهیت" },
           { field: "partyTitle", headerName: "عضو" },
@@ -87,8 +101,8 @@ function BusinessUnitDetail() {
           />
         </AccordionComponent>
         <div className="flex items-center border border-l">
-          <BusinessUnitDetailRelatedToolbar />
           <BusinessUnitDetailOwnerToolbar />
+          <BusinessUnitDetailRelatedToolbar />
         </div>
         <TableComponent
           data={data?.result?.pagedData}
@@ -96,9 +110,6 @@ function BusinessUnitDetail() {
           loading={loading}
           masterDetail={true}
           detailCellRendererParams={detailCellRendererParams}
-          setSelectedRows={setSelectedRows}
-          selectedRows={selectedRows}
-          rowSelection="single"
           rowId={["id"]}
           pagination={true}
           totalCount={data?.result?.totalCount}

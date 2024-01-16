@@ -581,7 +581,6 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "updateDateTime", type: "date" },
   ],
   "customer-management_businessUnit_detail": [
-    { colId: "checkbox", type: "checkbox" },
     { colId: "title", cellRenderer: "agGroupCellRenderer" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },

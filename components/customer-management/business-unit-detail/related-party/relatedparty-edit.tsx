@@ -58,12 +58,12 @@ export const RelatedPartyEdit = () => {
   };
 
   const modalHandler = () => {
-    if (selected[0]) {
+    if (selected[0].type === "دسترسی") {
       setModal(true);
     } else {
       throwToast({
         type: "warning",
-        value: "لطفا یک گزینه برای تغییر انتخاب کنید",
+        value: "لطفا یک گزینه دسترسی برای تغییر انتخاب کنید",
       });
     }
   };
