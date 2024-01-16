@@ -6,9 +6,11 @@ import { MARKETER_ADMIN } from "../../../../../api/constants";
 import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contract/[...contractId]";
 import { Button } from "components/common/components/button/button";
 
-export default function DeleteMarketerContractDetail() {
-  const { deductionData, deductionFetch, deductionSearchQuery, contractId } =
-    useContext<any>(MarketerContractDetailContext);
+export default function DeleteMarketerContractDetail(props: any) {
+  const { selected } = props;
+  const { deductionFetch, deductionSearchQuery, contractId } = useContext<any>(
+    MarketerContractDetailContext
+  );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-contract-deduction/delete`,
     method: "DELETE",
@@ -21,8 +23,11 @@ export default function DeleteMarketerContractDetail() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({}, { ContractID: contractId })
-      .then((res) => {
+    await mutate(
+      {},
+      { contractId: contractId, deductionId: selected.DeductionId }
+    )
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         deductionFetch(deductionSearchQuery);

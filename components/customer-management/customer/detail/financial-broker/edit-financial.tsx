@@ -16,7 +16,7 @@ export default function EditFinancialBroker() {
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/customerFinancialBroker/Edit`,
-    method: "PATCH",
+    method: "PUT",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,

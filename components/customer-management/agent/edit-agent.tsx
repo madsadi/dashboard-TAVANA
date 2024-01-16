@@ -14,6 +14,7 @@ export default function EditAgent() {
   const { fetchHandler, selected } = useContext<any>(CustomerAgentInfoContext);
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/agent/Edit`,
+    method: "PUT",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_agent,

@@ -12,7 +12,7 @@ export const LegalPersonstakeholderToolbar = ({ isMainPage = false }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: edit } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/legalPersonstakeholder/Edit`,
-    method: "PATCH",
+    method: "PUT",
     onSuccess: () => {
       fetchData();
       editRef.current?.modalHandler(false);

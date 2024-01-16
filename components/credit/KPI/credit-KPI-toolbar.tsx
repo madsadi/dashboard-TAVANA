@@ -1,4 +1,4 @@
-import { formatNumber } from "utils/common-funcions";
+import { formatNumber, formatNumberSecond } from "utils/common-funcions";
 import React from "react";
 
 export default function CreditKPIToolbar(props: {
@@ -10,6 +10,19 @@ export default function CreditKPIToolbar(props: {
   };
 }) {
   const { data } = props;
+
+  const valueFormatter = (value: any) => {
+    if (value) {
+      const digit = `${value}`.split(".");
+      if (digit?.[1]?.length > 2) {
+        return formatNumberSecond(+digit[0]) + "." + digit[1]?.slice(0, 2);
+      } else {
+        return formatNumberSecond(+digit[0]) + "." + (digit[1] || "0");
+      }
+    } else {
+      return value;
+    }
+  };
 
   return (
     <div className={"border-x border-border"}>
@@ -56,14 +69,7 @@ export default function CreditKPIToolbar(props: {
         <div className="bg-gray-100 border border-border px-3 rounded-full mr-3">
           مقدار عملکرد اعتبار کارگزاری:
           <span className="mr-2" dir="ltr">
-            {data?.kPI1Value
-              ? formatNumber(
-                  {
-                    value: data?.kPI1Value,
-                  },
-                  0
-                )
-              : "-"}
+            {data?.kPI1Value ? valueFormatter(data?.kPI1Value) : "-"}
           </span>
         </div>
       </div>

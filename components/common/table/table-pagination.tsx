@@ -51,11 +51,9 @@ export default function TablePagination({
   };
 
   useEffect(() => {
-    if (pageQuery?.pageNumber > 1) queryUpdate("pageNumber", 1);
-  }, [pageQuery?.pageSize]);
-
-  useEffect(() => {
-    if (query?.pageNumber && query?.pageSize) setPageQuery(query);
+    if (query?.pageNumber && query?.pageSize) {
+      setPageQuery(query);
+    }
   }, [query]);
 
   const onChangeHandler = (e: any) => {
@@ -174,8 +172,9 @@ export default function TablePagination({
       </div>
       <button
         onClick={(e) => {
-          queryUpdate("pageNumber", 1);
-          onSubmit({ ...pageQuery, pageNumber: 1 });
+          onSubmit({ ...pageQuery, pageNumber: 1 }, () =>
+            queryUpdate("pageNumber", 1)
+          );
         }}
         className={`${
           pageQuery?.pageNumber <= 1 ? "text-gray-400" : "hover:bg-gray-400"
@@ -187,8 +186,10 @@ export default function TablePagination({
       </button>
       <button
         onClick={(e) => {
-          queryUpdate("pageNumber", pageQuery?.pageNumber - 1);
-          onSubmit({ ...pageQuery, pageNumber: pageQuery?.pageNumber - 1 });
+          onSubmit(
+            { ...pageQuery, pageNumber: pageQuery?.pageNumber - 1 },
+            () => queryUpdate("pageNumber", pageQuery?.pageNumber - 1)
+          );
         }}
         className={`${
           pageQuery?.pageNumber <= 1 ? "text-gray-400" : "hover:bg-gray-400"
@@ -213,8 +214,10 @@ export default function TablePagination({
       </div>
       <button
         onClick={(e) => {
-          queryUpdate("pageNumber", pageQuery?.pageNumber + 1);
-          onSubmit({ ...pageQuery, pageNumber: pageQuery?.pageNumber + 1 });
+          onSubmit(
+            { ...pageQuery, pageNumber: pageQuery?.pageNumber + 1 },
+            () => queryUpdate("pageNumber", pageQuery?.pageNumber + 1)
+          );
         }}
         className={`${
           pageQuery?.pageNumber >= Math.ceil(totalCount / pageQuery?.pageSize)
@@ -230,14 +233,17 @@ export default function TablePagination({
       </button>
       <button
         onClick={(e) => {
-          queryUpdate(
-            "pageNumber",
-            Math.ceil(totalCount / pageQuery?.pageSize)
+          onSubmit(
+            {
+              ...pageQuery,
+              pageNumber: Math.ceil(totalCount / pageQuery?.pageSize),
+            },
+            () =>
+              queryUpdate(
+                "pageNumber",
+                Math.ceil(totalCount / pageQuery?.pageSize)
+              )
           );
-          onSubmit({
-            ...pageQuery,
-            pageNumber: Math.ceil(totalCount / pageQuery?.pageSize),
-          });
         }}
         className={`${
           pageQuery?.pageNumber >= Math.ceil(totalCount / pageQuery?.pageSize)

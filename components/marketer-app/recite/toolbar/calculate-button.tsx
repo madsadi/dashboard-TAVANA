@@ -7,7 +7,6 @@ import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../../utils/Module-Identifier";
 import { ReciteContext } from "../../../../pages/marketer-app/recite";
 import { Button } from "components/common/components/button/button";
-import useQuery from "hooks/useQuery";
 import useMutation from "hooks/useMutation";
 
 export default function CalculationButton() {

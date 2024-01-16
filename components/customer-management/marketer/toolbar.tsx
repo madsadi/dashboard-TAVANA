@@ -14,11 +14,20 @@ import { TBSReagents } from "../tbs-reagents";
 export const MarketerToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: edit } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/marketer/Update`,
-    method: "PUT",
+    url: `${ADMIN_GATEWAY}/api/request/marketer/Edit`,
+    method: "PATCH",
     onSuccess: () => {
       fetchData();
       editRef.current?.modalHandler(false);
+    },
+    setLoading: setLoading,
+  });
+  const { mutate: editBranch } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/marketer/EditBranch`,
+    method: "PATCH",
+    onSuccess: () => {
+      fetchData();
+      editBranchRef.current?.modalHandler(false);
     },
     setLoading: setLoading,
   });
@@ -46,6 +55,7 @@ export const MarketerToolbar = () => {
     ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer
   );
   const editRef: any = useRef();
+  const editBranchRef: any = useRef();
   const deleteRef: any = useRef();
   const addRef: any = useRef();
 
@@ -71,7 +81,7 @@ export const MarketerToolbar = () => {
         }}
         loading={loading}
         module={ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer}
-        subModule="modal"
+        subModule="add"
         selectedItem={selected[0]}
       >
         <Button
@@ -99,12 +109,39 @@ export const MarketerToolbar = () => {
         loading={loading}
         module={ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer}
         selectedItem={selected[0]}
-        subModule="modal"
+        subModule="edit"
       >
         <Button
           label={"ویرایش "}
           className="bg-secondary"
           onClick={() => modalHandler(editRef)}
+          allowed={
+            restriction
+              ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
+              : []
+          }
+        />
+      </CRUDWrapper>
+      <CRUDWrapper
+        ref={editBranchRef}
+        title={`ویرایش شعبه مارکتر`}
+        mode="edit"
+        confirmHandler={(e, query) => {
+          e.preventDefault();
+          editBranch({
+            id: selected[0]?.id,
+            ...query,
+          });
+        }}
+        loading={loading}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer}
+        selectedItem={selected[0]}
+        subModule="edit-branch"
+      >
+        <Button
+          label={"ویرایش شعبه"}
+          className="bg-secondary"
+          onClick={() => modalHandler(editBranchRef)}
           allowed={
             restriction
               ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]

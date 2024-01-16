@@ -1,6 +1,7 @@
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
-import React from "react";
+import React, { useState } from "react";
 import { FilterItemType } from "types/constant-filters.types";
+import { numberInput, numberWithCommas, p2e } from "utils/common-funcions";
 
 interface BaseInputPropsType {
   item: FilterItemType;
@@ -8,10 +9,20 @@ interface BaseInputPropsType {
   onChange: (key: string, value: any) => void;
 }
 export const BaseInput = (props: BaseInputPropsType) => {
-  const { item, value, onChange } = props;
+  const { item, onChange } = props;
+  const [inputValue, setInputValue] = useState<string>("");
   const { name, title, valueType, readOnly, isRequired, placeholder, dir } =
     item;
 
+  const onChangeHandler = (e: any) => {
+    if (valueType === "number") {
+      onChange(title, +numberInput(e.target.value));
+      setInputValue(numberWithCommas(numberInput(p2e(`${e.target.value}`))));
+    } else {
+      onChange(title, e.target.value);
+      setInputValue(e.target.value);
+    }
+  };
   return (
     <div>
       <label className={"flex items-center text-sm"} htmlFor={title}>
@@ -21,30 +32,25 @@ export const BaseInput = (props: BaseInputPropsType) => {
             <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
           </span>
         ) : null}
-        {(value || value === false) && !readOnly ? (
+        {inputValue && !readOnly ? (
           <XCircleIcon
             className="h-5 w-5 text-gray-400 mr-2 cursor-pointer"
             onClick={() => {
               onChange(title, "");
+              setInputValue("");
             }}
           />
         ) : null}
       </label>
       <input
         className={"w-full h-[36px] focus:outline-none focus:!border-gray-300"}
-        type={valueType || "text"}
+        type={"text"}
         readOnly={readOnly}
         dir={dir || valueType === "number" ? "ltr" : "rtl"}
         id={title}
-        value={value}
+        value={inputValue}
         placeholder={placeholder}
-        onChange={(e) => {
-          if (valueType === "number") {
-            onChange(title, Number(e.target.value));
-          } else {
-            onChange(title, e.target.value);
-          }
-        }}
+        onChange={onChangeHandler}
       />
     </div>
   );

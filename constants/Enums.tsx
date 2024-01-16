@@ -251,27 +251,63 @@ export const StatusEnums: any = [
 export const FactorStatusEnums: any = [
   {
     id: 1,
-    title: " ایجاد شده",
+    code: 1,
+    enTitle: "Created",
+    title: "ایجاد شده",
   },
   {
     id: 2,
-    title: "در انتظار تائید بازاریاب ",
+    code: 2,
+    enTitle: "WaitingForBranch",
+    title: "در انتظار تایید شعب",
   },
   {
     id: 3,
-    title: "تائید بازاریاب",
+    code: 3,
+    enTitle: "ApprovedByBranch",
+    title: "تایید شده توسط شعب",
   },
   {
     id: 4,
-    title: "رد بازاریاب",
+    code: 4,
+    enTitle: "RefusedByBranch",
+    title: "رد شده توسط شعب",
   },
   {
     id: 5,
-    title: "در انتظار پرداخت",
+    code: 5,
+    enTitle: "ApprovedByFinancial",
+    title: "تایید شده توسط مالی",
   },
   {
     id: 6,
+    code: 6,
+    enTitle: "RefusedByFinancial",
+    title: "رد شده توسط مالی",
+  },
+  {
+    id: 7,
+    code: 7,
+    enTitle: "WaitingForPaying",
+    title: "در انتظار پرداخت",
+  },
+  {
+    id: 8,
+    code: 8,
+    enTitle: "IsPayed",
     title: "پرداخت شده",
+  },
+  {
+    id: 9,
+    code: 9,
+    enTitle: "IsDeleted",
+    title: "ابطال شده",
+  },
+  {
+    id: 10,
+    code: 10,
+    enTitle: "IsChanged",
+    title: "اصلاح شده",
   },
 ];
 
@@ -634,12 +670,16 @@ export const CalculationBaseTypeEnums = [
 
 export const CoefficientBaseTypeEnums = [
   {
+    id: 1,
+    code: 1,
+    enTitle: "Plan",
     title: "پلکان",
-    id: "Plan",
   },
   {
+    id: 2,
+    code: 2,
+    enTitle: "Const",
     title: "ثابت",
-    id: "Const",
   },
 ];
 
@@ -693,11 +733,15 @@ export const ManagementTypeEnums = [
 ];
 export const ContractTypeEnums = [
   {
-    id: "Agency",
+    id: 1,
+    code: 1,
+    enTitle: "Agency",
     title: "نمایندگی",
   },
   {
-    id: "Independent",
+    id: 2,
+    code: 2,
+    enTitle: "Independent",
     title: "مستقل",
   },
 ];

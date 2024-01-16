@@ -8,10 +8,9 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { classNames, formatNumber } from "../../../utils/common-funcions";
+import { formatNumber } from "../../../utils/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { ExcelStyle, SideBarDef } from "ag-grid-community";
 const TablePagination = dynamic(() => import("./table-pagination"));
 import "ag-grid-community/styles/ag-grid.css";
@@ -89,12 +88,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   ];
 
   const gridRef: any = useRef();
-  const router = useRouter();
   const colDefStructure = generateDynamicColumnDefs(module);
-
-  useEffect(() => {
-    gridRef?.current?.api?.setRowData([]);
-  }, [router.asPath]);
 
   const gridStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const defaultColDef = useMemo(() => {
@@ -121,14 +115,14 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   );
 
   const loadingOverlayComponent = useMemo(() => {
-    return loading && LoadingOverlay;
-  }, [loading]);
+    return LoadingOverlay;
+  }, []);
 
   const loadingOverlayComponentParams = useMemo(() => {
     return {
       loadingMessage: "در حال بارگزاری...",
     };
-  }, [loading]);
+  }, []);
 
   const noRowsOverlayComponent = useMemo(() => {
     return NoRowOverlay;
@@ -179,6 +173,9 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     },
     showLoading() {
       gridRef.current.api?.showLoadingOverlay();
+    },
+    showNoData() {
+      gridRef.current.api?.showNoRowsOverlay();
     },
     hideOverlay() {
       gridRef.current.api?.hideOverlay();
@@ -235,6 +232,11 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
           className
         }
       >
+        {loading ? (
+          <div className="absolute flex h-full w-full top-0 left-0 bg-white/70 text-center z-10">
+            <span className="m-auto">در حال بارگزاری...</span>
+          </div>
+        ) : null}
         <div style={gridStyle} className="ag-theme-alpine absolute">
           <AgGridReact
             ref={gridRef}
@@ -288,5 +290,5 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   );
 });
 
-export default TableComponent;
+export default memo(TableComponent);
 TableComponent.displayName = "TableComponent";

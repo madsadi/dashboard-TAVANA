@@ -16,7 +16,7 @@ export default function EditFinancialInfo() {
   );
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/financialInfo/Edit`,
-    method: "PATCH",
+    method: "PUT",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,

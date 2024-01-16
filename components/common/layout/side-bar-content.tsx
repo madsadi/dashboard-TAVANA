@@ -250,7 +250,7 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agent_relation,
         },
         {
-          label: "سابقه تغییرات شعبه مشتریان",
+          label: " تغییرات شعبه مشتریان",
           url: "/customer-management/branch-history",
           as: "/customer-management/branch-history",
           className:
@@ -260,7 +260,7 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history,
         },
         {
-          label: "سابقه تغییرات بازاریاب مشتریان",
+          label: " تغییرات بازاریاب مشتریان",
           url: "/customer-management/marketer-history",
           as: "/customer-management/marketer-history",
           className:
@@ -350,7 +350,7 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit,
         },
         {
-          label: "جستجو جزیئات واحد کاری ",
+          label: " جزیئات واحد کاری ",
           url: "/customer-management/business-unit-detail",
           as: "/customer-management/business-unit-detail",
           className:

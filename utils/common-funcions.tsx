@@ -236,6 +236,8 @@ export const FindEnum = (
     case "period":
       return PeriodDateEnums;
     case "coefficientBaseType":
+    case "planName":
+    case "Plan":
       return CoefficientBaseTypeEnums;
     case "accountType":
       return AccountTypeEnum;
@@ -357,8 +359,6 @@ export const FindEnum = (
       return TransactionLevelEnums;
     case "tradingKnowledgeLevel":
       return TradingKnowledgeLevelEnunms;
-    case "contractType":
-      return ContractTypeEnums;
     case "guaranteeType":
       return GuaranteeTypeEnums;
     case "legalPersonTypeCategory":
@@ -410,3 +410,32 @@ export const splittedDate = (date: string) => {
     day: Number(_date[2]),
   };
 };
+
+export function numberWithCommas(x: any) {
+  const value = x
+    ?.toString()
+    .replace(/^00+/, "0")
+    .replace(/^0+[1-9]/, (d: any) => parseInt(d))
+    .replace(/^.+/, (d: any) =>
+      parseFloat(d) <= 1 && d[0] == "." ? `0${d}` : d
+    );
+  return value?.split(".").length
+    ? value.split(".")[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+        (value.split(".").length > 1
+          ? `.${value.split(".")[1].substring(0, 8)}`
+          : "")
+    : "";
+}
+
+export function p2e(x: any) {
+  return x
+    ?.toString()
+    .replace(/[٠-٩]/g, (d: string) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+    .replace(/[۰-۹]/g, (d: string) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+}
+
+export function numberInput(x: any) {
+  return p2e(x)
+    ?.replace(/[^0-9.]/g, "")
+    .replace(/(\..*)\./g, "$1");
+}

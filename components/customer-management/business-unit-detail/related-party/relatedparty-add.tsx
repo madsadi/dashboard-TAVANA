@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useContext } from "react";
 import { ADMIN_GATEWAY } from "api/constants";
 import { Button } from "components/common/components/button/button";
 import InputComponent from "components/common/components/input-generator";
@@ -5,7 +6,6 @@ import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
-import React, { useEffect, useState, useContext } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 
 export const RelatedPartyAdd = () => {

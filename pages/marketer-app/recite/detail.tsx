@@ -19,7 +19,7 @@ const DisplayValue = ({ item }: any) => {
 
 function FactorIdDetail() {
   const { data, fetchData }: any = useQuery({
-    url: `${MARKETER_ADMIN}/factor/get-all`,
+    url: `${MARKETER_ADMIN}/factor/search`,
   });
 
   const router = useRouter();

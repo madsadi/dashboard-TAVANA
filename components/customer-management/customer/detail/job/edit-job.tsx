@@ -16,7 +16,7 @@ export default function EditJob() {
   );
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/jobInfo/Edit`,
-    method: "PATCH",
+    method: "PUT",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,

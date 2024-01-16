@@ -17,7 +17,7 @@ export default function ToggleButtonMarketer(props: {
   );
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/marketer/EditActivationStatus`,
-    method: "PUT",
+    method: "PATCH",
   });
   const changeStatus = async () => {
     await mutate({ id: props.data.id, isActive: !isChecked })

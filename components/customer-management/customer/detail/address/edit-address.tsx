@@ -16,7 +16,7 @@ export default function EditAddress() {
   );
   const { mutate } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/address/Edit`,
-    method: "PATCH",
+    method: "PUT",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,

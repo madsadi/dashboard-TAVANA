@@ -9,12 +9,14 @@ import { ModuleIdentifier } from "../../../../../utils/Module-Identifier";
 import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contract/[...contractId]";
 import { Button } from "components/common/components/button/button";
 
-export default function EditMarketerContractDetail() {
-  const { deductionFetch, deductionSearchQuery, deductionData, contractId } =
-    useContext<any>(MarketerContractDetailContext);
+export default function EditMarketerContractDetail(props: any) {
+  const { selected } = props;
+  const { deductionFetch, deductionSearchQuery, contractId } = useContext<any>(
+    MarketerContractDetailContext
+  );
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_marketerContract_detail,
-    "edit"
+    "deduction"
   );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-contract-deduction/modify`,
@@ -30,7 +32,11 @@ export default function EditMarketerContractDetail() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({ ContractID: contractId, ...query })
+    await mutate({
+      contractId: contractId,
+      deductionId: selected.DeductionId,
+      ...query,
+    })
       .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
@@ -42,13 +48,11 @@ export default function EditMarketerContractDetail() {
       });
   };
 
-  console.log(query);
-
   useEffect(() => {
-    if (modal && deductionData?.length) {
+    if (modal && selected) {
       let _initialValue: any = {};
       toolbar.map((item: any) => {
-        _initialValue[`${item.title}`] = deductionData[0][`${item.title}`];
+        _initialValue[`${item.title}`] = selected[`${item.title}`];
       });
 
       setQuery(_initialValue);

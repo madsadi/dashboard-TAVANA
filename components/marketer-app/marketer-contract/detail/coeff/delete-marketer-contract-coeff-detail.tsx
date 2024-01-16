@@ -6,7 +6,8 @@ import { MARKETER_ADMIN } from "../../../../../api/constants";
 import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contract/[...contractId]";
 import { Button } from "components/common/components/button/button";
 
-export default function DeleteMarketerContractCoefDetail() {
+export default function DeleteMarketerContractCoefDetail(props: any) {
+  const { selected } = props;
   const { coefficientFetch, coefficientSearchQuery, contractId } =
     useContext<any>(MarketerContractDetailContext);
   const { mutate } = useMutation({
@@ -21,8 +22,11 @@ export default function DeleteMarketerContractCoefDetail() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({}, { ContractID: contractId })
-      .then((res) => {
+    await mutate(
+      {},
+      { contractId: contractId, coefficientId: selected.coefficientId }
+    )
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         coefficientFetch(coefficientSearchQuery);

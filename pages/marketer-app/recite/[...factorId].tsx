@@ -13,7 +13,7 @@ import { throwToast } from "utils/notification";
 export const ReciteContext = createContext({});
 function FactorIdEdit() {
   const { data, fetchData }: any = useQuery({
-    url: `${MARKETER_ADMIN}/factor/get-all`,
+    url: `${MARKETER_ADMIN}/factor/search`,
   });
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_recite,

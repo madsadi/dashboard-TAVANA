@@ -29,7 +29,7 @@ export default function AddMarketerContractCoeffDetail() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({ ContractID: contractId, ...query })
+    await mutate({ contractId: contractId, ...query })
       .then((res) => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);

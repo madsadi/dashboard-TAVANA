@@ -15,7 +15,11 @@ const useQuery = ({
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState<QueryType>({});
 
-  const fetchData = async (query: QueryType = {}) => {
+  const fetchData = async (
+    query: QueryType = {},
+    onSuccess?: () => void,
+    onFail?: () => void
+  ) => {
     const params = new URLSearchParams();
     if (query) {
       Object.keys(query).map((item: string) => {
@@ -38,7 +42,9 @@ const useQuery = ({
     await axios
       .get(url, { params: params })
       .then((res) => {
+        if (onSuccess) onSuccess();
         setData(res.data);
+        setQuery(query);
         if (notifResults) {
           throwToast({
             type: "info",
@@ -51,10 +57,10 @@ const useQuery = ({
         }
       })
       .catch((err) => {
+        if (onFail) onFail();
         throwToast({ type: "error", value: err });
       })
       .finally(() => {
-        setQuery(query);
         setLoading(false);
       });
   };

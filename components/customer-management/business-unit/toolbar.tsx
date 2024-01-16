@@ -11,7 +11,7 @@ import { CustomerManagementBusinessUnit } from "pages/customer-management/busine
 export const BusinessUnitToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: edit } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/businessUnit/Update`,
+    url: `${ADMIN_GATEWAY}/api/request/businessUnit/Edit`,
     method: "PUT",
     onSuccess: () => {
       fetchData();

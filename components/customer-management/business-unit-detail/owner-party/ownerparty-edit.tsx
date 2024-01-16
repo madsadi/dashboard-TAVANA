@@ -18,7 +18,7 @@ export const OwnerPartyEdit = () => {
     useContext<any>(CustomerManagementBusinessUnitDetailContext);
   const { mutate: edit } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Edit`,
-    method: "PATCH",
+    method: "PUT",
     onSuccess: () => {
       fetchData();
       setSelectedRows([]);

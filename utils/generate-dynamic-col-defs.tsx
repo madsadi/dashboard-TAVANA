@@ -10,7 +10,12 @@ import StatusToggle from "components/credit/contract/status-toggle";
 import columnsName from "./columns-name.json";
 import Link from "next/link";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
-import { chunk } from "./common-funcions";
+import {
+  chunk,
+  formatDecimals,
+  formatNumber,
+  formatNumberSecond,
+} from "./common-funcions";
 import { CopyButton } from "components/common/components/copy-button";
 import ToggleButtonMarketer from "components/customer-management/toggle-button";
 
@@ -100,6 +105,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "personTypeTitle" },
     { colId: "marketerRefCode" },
     { colId: "marketerTitle" },
+    { colId: "marketerSubordinateTitle" },
     { colId: "reagentTitle" },
     { colId: "agentUniqueId" },
     { colId: "isSejami", type: "enum" },
@@ -367,7 +373,22 @@ export const modularColsDef: ModularColsDefType = {
     },
     { colId: "totalCommission" },
     { colId: "totalAssignedCredits" },
-    { colId: "kPIValue" },
+    {
+      colId: "kPIValue",
+      valueFormatter: (rowData: any) => {
+        const { value } = rowData;
+        if (value) {
+          const digit = `${value}`.split(".");
+          if (digit?.[1]?.length > 2) {
+            return formatNumberSecond(+digit[0]) + "." + digit[1]?.slice(0, 2);
+          } else {
+            return formatNumberSecond(+digit[0]) + "." + (digit[1] || "0");
+          }
+        } else {
+          return value;
+        }
+      },
+    },
     { colId: "startDate", type: "date" },
     { colId: "endDate", type: "date" },
   ],
@@ -385,6 +406,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "branchTitle" },
     { colId: "regentTitle" },
     { colId: "marketerTitle" },
+    { colId: "marketerSubordinateTitle" },
     { colId: "isActive", type: "enum" },
     { colId: "isDeleted", type: "enum" },
     { colId: "createDateTime", type: "date" },

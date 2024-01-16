@@ -16,7 +16,7 @@ export default function EditMarketerContract() {
   );
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_marketerContract,
-    "modal"
+    "edit"
   );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-contract/modify`,
@@ -39,7 +39,7 @@ export default function EditMarketerContract() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({ ContractID: selectedRows[0].ContractID, ...query })
+    await mutate({ contractId: selectedRows[0].ContractId, ...query })
       .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);

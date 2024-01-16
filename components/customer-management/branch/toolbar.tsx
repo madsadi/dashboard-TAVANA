@@ -12,8 +12,8 @@ import { TBSBranches } from "../tbs-branches";
 export const BranchToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: edit } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/branch/Update`,
-    method: "PUT",
+    url: `${ADMIN_GATEWAY}/api/request/branch/Edit`,
+    method: "PATCH",
     onSuccess: () => {
       fetchData();
       editRef.current?.modalHandler(false);

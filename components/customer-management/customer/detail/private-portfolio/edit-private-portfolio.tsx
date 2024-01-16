@@ -15,7 +15,8 @@ export default function EditPrivatePortfolio({ isMainPage = false }) {
   );
   const [modal, setModal] = useState(false);
   const { mutate } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/privatePortfolio/Add`,
+    url: `${ADMIN_GATEWAY}/api/request/privatePortfolio/Edit`,
+    method: "PUT",
   });
   const { toolbar, restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_customer,

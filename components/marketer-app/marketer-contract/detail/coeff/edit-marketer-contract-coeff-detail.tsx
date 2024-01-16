@@ -9,13 +9,10 @@ import { ModuleIdentifier } from "../../../../../utils/Module-Identifier";
 import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contract/[...contractId]";
 import { Button } from "components/common/components/button/button";
 
-export default function EditMarketerContractCoeffDetail() {
-  const {
-    coefficientFetch,
-    coefficientSearchQuery,
-    coefficientData,
-    contractId,
-  } = useContext<any>(MarketerContractDetailContext);
+export default function EditMarketerContractCoeffDetail(props: any) {
+  const { selected } = props;
+  const { coefficientFetch, coefficientSearchQuery, contractId } =
+    useContext<any>(MarketerContractDetailContext);
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_marketerContract_detail,
     "coeff-add"
@@ -34,7 +31,11 @@ export default function EditMarketerContractCoeffDetail() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({ ContractID: contractId, ...query })
+    await mutate({
+      contractId: contractId,
+      coefficientId: selected.CoefficientId,
+      ...query,
+    })
       .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
@@ -47,10 +48,10 @@ export default function EditMarketerContractCoeffDetail() {
   };
 
   useEffect(() => {
-    if (modal && coefficientData?.length) {
+    if (modal && selected) {
       let _initialValue: any = {};
       toolbar.map((item: any) => {
-        _initialValue[`${item.title}`] = coefficientData[0][`${item.title}`];
+        _initialValue[`${item.title}`] = selected[`${item.title}`];
       });
 
       setQuery(_initialValue);

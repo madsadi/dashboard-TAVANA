@@ -9,16 +9,16 @@ import { ModuleIdentifier } from "../../../../../utils/Module-Identifier";
 import { MarketerContractDetailContext } from "pages/marketer-app/marketer-contract/[...contractId]";
 import { Button } from "components/common/components/button/button";
 
-export default function AddMarketerContractDetail() {
-  const { deductionFetch, deductionSearchQuery, contractId } = useContext<any>(
+export default function AddMarketerContractCoeffBaseType() {
+  const { coefficientFetch, coefficientSearchQuery } = useContext<any>(
     MarketerContractDetailContext
   );
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_marketerContract_detail,
-    "deduction"
+    "coeff-base-type"
   );
   const { mutate } = useMutation({
-    url: `${MARKETER_ADMIN}/marketer-contract-deduction/add`,
+    url: `${MARKETER_ADMIN}/marketer-contract-coefficient/base-type`,
   });
   const [modal, setModal] = useState(false);
   const [query, setQuery] = useState<any>({});
@@ -30,12 +30,12 @@ export default function AddMarketerContractDetail() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({ ...query, contractId: contractId })
+    await mutate(query)
       .then((res) => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setQuery(null);
-        deductionFetch(deductionSearchQuery);
+        coefficientFetch(coefficientSearchQuery);
       })
       .catch((err) => {
         throwToast({ type: "error", value: err });
@@ -49,16 +49,8 @@ export default function AddMarketerContractDetail() {
 
   return (
     <>
-      <Button
-        label="ایجاد کسورات جدید قرارداد بازاریاب"
-        className={"bg-primary"}
-        onClick={openHandler}
-      />
-      <Modal
-        title={"ایجاد کسورات جدید قرارداد بازاریاب"}
-        setOpen={setModal}
-        open={modal}
-      >
+      <Button label="ضریب " className={"bg-primary"} onClick={openHandler} />
+      <Modal title={"ضریب و نوع محاسبه فاکتور"} setOpen={setModal} open={modal}>
         <div className="field mt-4">
           <form onSubmit={submitHandler}>
             <div className={"grid grid-cols-2 gap-4"}>

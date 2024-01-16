@@ -21,11 +21,11 @@ export default function EditAccounting() {
     <Button className={"bg-secondary"} onClick={openHandler}>
       <Link
         href={
-          selectedRows[0]?.FactorID
-            ? `/marketer-app/recite/${selectedRows[0]?.FactorID}`
+          selectedRows[0]?.FactorId
+            ? `/marketer-app/recite/${selectedRows[0]?.FactorId}`
             : ""
         }
-        target={selectedRows[0]?.FactorID ? "_blank" : "_self"}
+        target={selectedRows[0]?.FactorId ? "_blank" : "_self"}
       >
         اصلاح کردن مالی صورت حساب
       </Link>

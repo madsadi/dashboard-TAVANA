@@ -28,7 +28,7 @@ function Recite() {
     fetchData,
     query: searchQuery,
     loading,
-  }: any = useQuery({ url: `${MARKETER_ADMIN}/factor/get-all` });
+  }: any = useQuery({ url: `${MARKETER_ADMIN}/factor/search` });
 
   const fetchHandler = (query: any) => {
     const { month, year, ...rest } = query;

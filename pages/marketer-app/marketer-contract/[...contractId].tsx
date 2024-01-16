@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 const TableComponent = dynamic(
   () => import("../../../components/common/table/table-component")
@@ -12,6 +12,8 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 
 export const MarketerContractDetailContext = createContext({});
 function MarketerContractDetail() {
+  const [selectedDeduction, setSelectedDeduction] = useState([]);
+  const [selectedCoeff, setSelectedCoeff] = useState([]);
   const router = useRouter();
   let contractId = router.query.contractId?.[0];
 
@@ -32,8 +34,8 @@ function MarketerContractDetail() {
 
   useEffect(() => {
     if (contractId) {
-      deductionFetch({ ContractId: router.query.contractId?.[0] });
-      coefficientFetch({ ContractId: router.query.contractId?.[0] });
+      deductionFetch({ contractId: router.query.contractId?.[0] });
+      coefficientFetch({ contractId: router.query.contractId?.[0] });
     }
   }, [contractId]);
 
@@ -50,18 +52,26 @@ function MarketerContractDetail() {
       }}
     >
       <div className={"flex flex-col h-full flex-1"}>
-        <MarketerContractDeductionDetailToolbar />
+        <MarketerContractDeductionDetailToolbar
+          selectedDeduction={selectedDeduction}
+        />
         <TableComponent
           data={deductionData?.result?.pagedData}
           module={ModuleIdentifier.MARKETER_APP_relations_detail_deduction}
           rowId={["ContractId"]}
+          selectedRows={selectedDeduction}
+          setSelectedRows={setSelectedDeduction}
         />
         <div className="mt-5" />
-        <MarketerContractCoefficientDetailToolbar />
+        <MarketerContractCoefficientDetailToolbar
+          selectedCoeff={selectedCoeff}
+        />
         <TableComponent
           module={ModuleIdentifier.MARKETER_APP_relations_detail_coefficient}
           data={coefficientData?.result?.pagedData}
           rowId={["ContractId"]}
+          selectedRows={selectedCoeff}
+          setSelectedRows={setSelectedCoeff}
         />
       </div>
     </MarketerContractDetailContext.Provider>

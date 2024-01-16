@@ -27,8 +27,8 @@ export default function DeleteMarketerContract() {
   };
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({}, { ContractID: selectedRows[0].ContractID })
-      .then((res) => {
+    await mutate({}, { contractId: selectedRows[0].ContractId })
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setSelectedRows([]);

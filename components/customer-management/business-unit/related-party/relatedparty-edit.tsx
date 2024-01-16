@@ -19,7 +19,7 @@ export const RelatedPartyEdit = () => {
   );
   const { mutate: edit } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/businessUnitRelatedParty/Edit`,
-    method: "PATCH",
+    method: "PUT",
     onSuccess: () => {
       fetchData();
       setModal(false);

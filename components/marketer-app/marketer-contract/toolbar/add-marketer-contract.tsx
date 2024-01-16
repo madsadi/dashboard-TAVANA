@@ -6,7 +6,6 @@ import useMutation from "../../../../hooks/useMutation";
 import { MARKETER_ADMIN } from "../../../../api/constants";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../../utils/Module-Identifier";
-import { DayRange } from "react-modern-calendar-datepicker";
 import { MarketerContractContext } from "pages/marketer-app/marketer-contract";
 import { Button } from "components/common/components/button/button";
 
@@ -14,21 +13,16 @@ export default function AddMarketerContract() {
   const { fetchData, searchQuery } = useContext<any>(MarketerContractContext);
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_marketerContract,
-    "modal"
+    "add"
   );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-contract/add`,
   });
   const [modal, setModal] = useState(false);
   const [query, setQuery] = useState<any>({});
-  const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
-    from: null,
-    to: null,
-  });
 
   const openHandler = () => {
     setQuery({});
-    setSelectedDayRange({ from: null, to: null });
     setModal(true);
   };
 

@@ -17,7 +17,7 @@ export default function EditMarketerRecite() {
     "edit-base"
   );
   const { mutate } = useMutation({
-    url: `${MARKETER_ADMIN}/factor/base`,
+    url: `${MARKETER_ADMIN}/factor/edit`,
     method: "PUT",
   });
   const [modal, setModal] = useState(false);
@@ -26,7 +26,7 @@ export default function EditMarketerRecite() {
   useEffect(() => {
     if (modal && selectedRows?.length) {
       let _initialValue: any = {};
-      _initialValue["FactorId"] = selectedRows[0][`FactorID`];
+      _initialValue["FactorId"] = selectedRows[0][`FactorId`];
       _initialValue["TotalTurnOver"] = selectedRows[0][`TotalTurnOver`];
       _initialValue["TotalBrokerCommission"] =
         selectedRows[0][`TotalBrokerCommission`];

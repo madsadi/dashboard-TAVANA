@@ -411,6 +411,7 @@
   "stationId": "شناسه ایستگاه معاملاتی",
   "employeeId": "شناسه کارمند",
   "applicationTitle": "نوع مشتری",
+  "marketerSubordinateTitle": "بازاریاب فرعی",
   "contractNumber": "شماره قراراداد",
   "contractTitle": "عنوان قراراداد",
   "partyTitle": "مالک",
