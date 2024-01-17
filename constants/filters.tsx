@@ -4381,10 +4381,44 @@ const filters: FilterTreeType = {
           name: "حساب کاربری (کد ملی کاربر)",
           type: "dynamicSearch",
           initialValue: "",
+          placeholder: "Title",
           endpoint: `${MARKETER_ADMIN}/marketer/search`,
           valueField: ["TbsReagentName", "Title"],
           queryField: "uniqueId",
+          dependancy: "links",
+          onChange: (value: any) => {
+            const newFilter = {
+              title: "links",
+              name: "زیر مجموعه ها",
+              type: "dynamicSearch",
+              hasPlaceholder: false,
+              revalidateOnMount: true,
+              initialValue: "",
+              endpoint: `${MARKETER_ADMIN}/factor/subordinates?marketerId=${value}`,
+              valueField: ["Title"],
+              isMultiple: true,
+              readOnly: true,
+              recordField: "Title",
+              resultField: "pagedData",
+            };
+
+            return newFilter;
+          },
           recordField: "MarketerId",
+        },
+        {
+          title: "links",
+          name: "زیر مجموعه ها",
+          type: "dynamicSearch",
+          initialValue: "",
+          hasPlaceholder: false,
+          endpoint: `${MARKETER_ADMIN}/factor/subordinates`,
+          valueField: ["Title"],
+          readOnly: true,
+          isMultiple: true,
+          queryField: "marketerId",
+          recordField: "Title",
+          resultField: "pagedData",
         },
         { title: "month", name: "ماه", type: "selectInput" },
         { title: "year", name: "سال", type: "selectInput" },
@@ -4657,10 +4691,25 @@ const filters: FilterTreeType = {
     toolbar: {
       "coeff-add": [
         { title: "baseTypeId", name: "شناسه نوع پایه", type: "input" },
-        { title: "highThreshold", name: "حد بالای پله", type: "input" },
-        { title: "lowThreshold", name: "حد پائین پله", type: "input" },
-        { title: "stepNumber", name: "شماره پله", type: "input" },
-        { title: "planName", name: "عنوان پلکان", type: "selectInput" },
+        {
+          title: "HighThreshold",
+          name: "حد بالای پله",
+          type: "input",
+          valueType: "number",
+        },
+        {
+          title: "LowThreshold",
+          name: "حد پائین پله",
+          type: "input",
+          valueType: "number",
+        },
+        {
+          title: "StepNumber",
+          name: "شماره پله",
+          type: "input",
+          valueType: "number",
+        },
+        { title: "PlanName", name: "عنوان پلکان", type: "selectInput" },
       ],
       "coeff-base-type": [
         {

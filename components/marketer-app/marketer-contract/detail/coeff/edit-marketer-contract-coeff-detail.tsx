@@ -11,8 +11,9 @@ import { Button } from "components/common/components/button/button";
 
 export default function EditMarketerContractCoeffDetail(props: any) {
   const { selected } = props;
-  const { coefficientFetch, coefficientSearchQuery, contractId } =
-    useContext<any>(MarketerContractDetailContext);
+  const { coefficientFetch, coefficientSearchQuery } = useContext<any>(
+    MarketerContractDetailContext
+  );
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_marketerContract_detail,
     "coeff-add"
@@ -32,7 +33,6 @@ export default function EditMarketerContractCoeffDetail(props: any) {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     await mutate({
-      contractId: contractId,
       coefficientId: selected.CoefficientId,
       ...query,
     })

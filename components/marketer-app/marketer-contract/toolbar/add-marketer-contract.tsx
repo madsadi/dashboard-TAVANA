@@ -15,11 +15,21 @@ export default function AddMarketerContract() {
     ModuleIdentifier.MARKETER_APP_marketerContract,
     "add"
   );
+  const { toolbar: deductionToolbar } = useSearchFilters(
+    ModuleIdentifier.MARKETER_APP_marketerContract_detail,
+    "deduction"
+  );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-contract/add`,
   });
+  const { mutate: mutateDeduction } = useMutation({
+    url: `${MARKETER_ADMIN}/marketer-contract-deduction/add`,
+  });
   const [modal, setModal] = useState(false);
+  const [modalDeduction, setModalDeduction] = useState(false);
   const [query, setQuery] = useState<any>({});
+  const [queryDeduction, setQueryDeduction] = useState<any>({});
+  const [contractId, setContractId] = useState<string>("");
 
   const openHandler = () => {
     setQuery({});
@@ -29,11 +39,25 @@ export default function AddMarketerContract() {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     await mutate(query)
-      .then((res) => {
+      .then((res: any) => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
+        setContractId(res.data.result?.ContractId);
+        setModalDeduction(true);
         setQuery(null);
         fetchData(searchQuery);
+      })
+      .catch((err) => {
+        throwToast({ type: "error", value: err });
+      });
+  };
+  const submitDeductionHandler = async (e: any) => {
+    e.preventDefault();
+    await mutateDeduction({ ...queryDeduction, contractId: contractId })
+      .then(() => {
+        throwToast({ type: "success", value: `با موفقیت انجام شد` });
+        setModalDeduction(false);
+        setQueryDeduction(null);
       })
       .catch((err) => {
         throwToast({ type: "error", value: err });
@@ -43,6 +67,12 @@ export default function AddMarketerContract() {
     let _query: any = { ...query };
     _query[key] = value;
     setQuery(_query);
+  };
+
+  const onChangeDeduction = (key: string, value: any) => {
+    let _query: any = { ...query };
+    _query[key] = value;
+    setQueryDeduction(_query);
   };
 
   return (
@@ -79,6 +109,40 @@ export default function AddMarketerContract() {
                 onClick={(e) => {
                   e.preventDefault();
                   setModal(false);
+                }}
+              />
+              <Button type={"submit"} className="bg-primary" label="تایید" />
+            </div>
+          </form>
+        </div>
+      </Modal>
+      <Modal
+        title={"ایجاد کسورات جدید قرارداد بازاریاب"}
+        setOpen={setModalDeduction}
+        open={modalDeduction}
+      >
+        <div className="field mt-4">
+          <form onSubmit={submitDeductionHandler}>
+            <div className={"grid grid-cols-2 gap-4"}>
+              {deductionToolbar.map((item: any) => {
+                return (
+                  <InputComponent
+                    key={item.title}
+                    query={queryDeduction}
+                    setQuery={setQueryDeduction}
+                    item={item}
+                    onChange={onChangeDeduction}
+                  />
+                );
+              })}
+            </div>
+            <div className={"flex justify-end space-x-reverse space-x-2 mt-10"}>
+              <Button
+                className="bg-error"
+                label="لغو"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setModalDeduction(false);
                 }}
               />
               <Button type={"submit"} className="bg-primary" label="تایید" />

@@ -29,8 +29,6 @@ const DynamicSelect = (props: BaseInputPropsType) => {
     { url: `${ADMIN_GATEWAY}/api/request/businessEntity/Search` },
     { revalidateOnMount: false }
   );
-  // const { enums: cachedEnums } = useSelector((state: any) => state.enumsConfig);
-  // console.log({ cachedEnums });
 
   const { fetchAsyncData } = useQuery({ url: "" });
   const getTheOptions = async (endpoint: string) => {

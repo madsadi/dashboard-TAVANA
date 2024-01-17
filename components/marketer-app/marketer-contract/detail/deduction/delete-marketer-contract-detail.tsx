@@ -23,10 +23,7 @@ export default function DeleteMarketerContractDetail(props: any) {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate(
-      {},
-      { contractId: contractId, deductionId: selected.DeductionId }
-    )
+    await mutate({ deductionId: selected.DeductionId })
       .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);

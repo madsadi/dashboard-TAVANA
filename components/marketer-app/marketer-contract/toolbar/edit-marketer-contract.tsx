@@ -7,7 +7,7 @@ import { MARKETER_ADMIN } from "../../../../api/constants";
 import { useSearchFilters } from "../../../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../../../utils/Module-Identifier";
 import { MarketerContractContext } from "pages/marketer-app/marketer-contract";
-import { FindEnum } from "utils/common-funcions";
+import { FindEnum, upperFirstLetter } from "utils/common-funcions";
 import { Button } from "components/common/components/button/button";
 
 export default function EditMarketerContract() {
@@ -60,12 +60,16 @@ export default function EditMarketerContract() {
             item.title,
             [],
             item.label
-          ).find((e: any) => e.title === selectedRows[0][`${item.title}`]).id;
+          ).find(
+            (e: any) =>
+              e.title === selectedRows[0][`${upperFirstLetter(item.title)}`]
+          )?.id;
         } else if (item.title === "date") {
-          _initialValue["StartDate"] = selectedRows[0]?.StartDate;
-          _initialValue["EndDate"] = selectedRows[0]?.EndDate;
+          _initialValue["startDate"] = selectedRows[0]?.StartDate;
+          _initialValue["endDate"] = selectedRows[0]?.EndDate;
         } else {
-          _initialValue[`${item.title}`] = selectedRows[0][`${item.title}`];
+          _initialValue[`${item.title}`] =
+            selectedRows[0][`${upperFirstLetter(item.title)}`];
         }
       });
       setQuery(_initialValue);

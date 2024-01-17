@@ -1006,7 +1006,7 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_recite": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "MarketerId" },
+    { colId: "Title" },
     { colId: "Period", type: "enum" },
     { colId: "Plan" },
     {

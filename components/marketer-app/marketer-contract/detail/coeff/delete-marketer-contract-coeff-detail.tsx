@@ -22,10 +22,7 @@ export default function DeleteMarketerContractCoefDetail(props: any) {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate(
-      {},
-      { contractId: contractId, coefficientId: selected.coefficientId }
-    )
+    await mutate({ coefficientId: selected.CoefficientId })
       .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);

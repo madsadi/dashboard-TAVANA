@@ -9,10 +9,10 @@ interface BaseInputPropsType {
   onChange: (key: string, value: any) => void;
 }
 export const BaseInput = (props: BaseInputPropsType) => {
-  const { item, onChange } = props;
-  const [inputValue, setInputValue] = useState<string>("");
+  const { item, onChange, value } = props;
   const { name, title, valueType, readOnly, isRequired, placeholder, dir } =
     item;
+  const [inputValue, setInputValue] = useState<string>(value);
 
   const onChangeHandler = (e: any) => {
     if (valueType === "number") {

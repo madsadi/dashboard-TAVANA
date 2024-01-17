@@ -25,10 +25,12 @@ export interface FilterItemDynamicType extends FilterItemBasicType {
   disabled?: boolean;
   queryField: string;
   placeholder?: string;
+  hasPlaceholder?: boolean;
   recordField: string;
   isMultiple?: boolean;
   resultField?: string;
   alternative?: string;
+  revalidateOnMount?: boolean;
   alternativeRelatedRecordField?: string;
   inputAble?: boolean;
 }

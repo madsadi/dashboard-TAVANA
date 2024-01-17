@@ -27,13 +27,10 @@ export default function DeleteMarketersRelations() {
   };
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate(
-      {},
-      {
-        LeaderMarketerId: selectedRows[0].LeaderMarketerId,
-        FollowerMarketerId: selectedRows[0].FollowerMarketerId,
-      }
-    )
+    await mutate({
+      LeaderMarketerId: selectedRows[0].LeaderMarketerId,
+      FollowerMarketerId: selectedRows[0].FollowerMarketerId,
+    })
       .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);

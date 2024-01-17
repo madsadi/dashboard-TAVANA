@@ -31,7 +31,7 @@ export default function AddMarketerContractCoeffBaseType() {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     await mutate(query)
-      .then((res) => {
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setQuery(null);

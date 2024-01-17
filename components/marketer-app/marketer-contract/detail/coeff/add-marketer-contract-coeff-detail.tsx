@@ -29,8 +29,8 @@ export default function AddMarketerContractCoeffDetail() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    await mutate({ contractId: contractId, ...query })
-      .then((res) => {
+    await mutate(query)
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setQuery(null);

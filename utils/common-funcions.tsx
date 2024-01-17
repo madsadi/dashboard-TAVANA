@@ -112,6 +112,10 @@ export function lowerFirstLetter(string: string) {
   return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
+export function upperFirstLetter(string: string) {
+  return string.charAt(0).toLocaleUpperCase() + string.slice(1);
+}
+
 export function chunk(str: string, n: number) {
   var ret = [];
   var i;
@@ -237,6 +241,7 @@ export const FindEnum = (
       return PeriodDateEnums;
     case "coefficientBaseType":
     case "planName":
+    case "PlanName":
     case "Plan":
       return CoefficientBaseTypeEnums;
     case "accountType":

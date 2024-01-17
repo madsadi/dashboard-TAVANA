@@ -4,12 +4,15 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
 import useQuery from "../../../../hooks/useQuery";
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
-import { FilterItemDynamicType } from "types/constant-filters.types";
+import {
+  FilterItemDynamicType,
+  FilterItemType,
+} from "types/constant-filters.types";
 import { QueryType } from "types/types";
 
 interface DynamicSearchProps {
   item: FilterItemDynamicType;
-  queryUpdate: (key: string, value: any) => void;
+  queryUpdate: (key: string, value: any, item?: FilterItemType) => void;
   setQuery: any;
   query: QueryType;
   dataHelper: any;
@@ -21,8 +24,11 @@ export default function DynamicSearch(props: DynamicSearchProps) {
     title,
     name,
     endpoint,
+    revalidateOnMount,
     valueField = [],
     placeholder,
+    isMultiple,
+    hasPlaceholder = true,
     queryField,
     recordField,
     alternative,
@@ -35,9 +41,11 @@ export default function DynamicSearch(props: DynamicSearchProps) {
   const [page, setPage] = useState(1);
   const [searchItem, setSearchItem] = useState("");
   const [findings, setFindings] = useState<any>([]);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { data, fetchAsyncData } = useQuery({ url: endpoint });
+  const { data, fetchAsyncData, fetchData } = useQuery({
+    url: endpoint,
+  });
 
   const searchHandler = (item: string, page: number) => {
     setSearchItem(item);
@@ -94,31 +102,53 @@ export default function DynamicSearch(props: DynamicSearchProps) {
   }
 
   const select = (record: any) => {
-    setOpen(false);
+    if (!isMultiple) setOpen(false);
     if (alternative && alternativeRelatedRecordField) {
       let _query: any = {};
       _query[alternative] = record[alternativeRelatedRecordField];
       _query[title] = record[recordField];
       setQuery({ ...query, ..._query });
     } else {
-      queryUpdate(title, record[recordField]);
+      if (isMultiple) {
+        let _query: any = {};
+        if (!query[title].includes(record[recordField])) {
+          _query[title] = [...query[title], record[recordField]];
+          queryUpdate(title, _query[title], item);
+        }
+      } else {
+        queryUpdate(title, record[recordField], item);
+      }
     }
-    setSearchItem(
-      valueField
-        ?.map((F: any) => {
-          if (F === "isActive") {
-            return record[F] ? "فعال" : "غیر فعال";
-          } else {
-            return record[F];
-          }
-        })
-        .join(" ")
-    );
+    if (!isMultiple) {
+      setSearchItem(
+        valueField
+          ?.map((F: any) => {
+            if (F === "isActive") {
+              return record[F] ? "فعال" : "غیر فعال";
+            } else {
+              return record[F];
+            }
+          })
+          .join(" ")
+      );
+    }
   };
+
+  const removeHandler = (item: any) => {
+    let _query: any = query[title];
+
+    const index = _query.findIndex((r: any) => r === item);
+    _query.splice(index, 1);
+    queryUpdate(title, _query, item);
+  };
+
+  useEffect(() => {
+    if (revalidateOnMount) fetchData({}, () => setOpen(true));
+  }, [revalidateOnMount]);
 
   return (
     <div className={`relative`} ref={wrapperRef}>
-      <div className={"relative"}>
+      <div className={"relative overflow-hidden"}>
         <label className={"flex items-center text-sm"} htmlFor="InstrumentId">
           {name}
           {isRequired ? (
@@ -147,14 +177,37 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           }
           value={searchItem}
           readOnly={readOnly}
+          autoFocus={false}
           onFocus={() => setOpen(true)}
-          placeholder={dataHelper?.[placeholder || "default"] || query?.[title]}
+          placeholder={
+            hasPlaceholder
+              ? dataHelper?.[placeholder || "default"] || query?.[title]
+              : null
+          }
           onChange={(e) => {
             searchHandler(e.target.value, 1);
-            setOpen(true);
+            if (!open) setOpen(true);
           }}
         />
-        <div className={"absolute left-1 bottom-0 -translate-y-1/3 flex"}>
+        {isMultiple ? (
+          <div className="absolute flex w-full right-2 left-6 overflow-x-auto bottom-2 break-inside-avoid custom-scrollbar space-x-2 space-x-reverse">
+            {query?.[title].map((item: any) => {
+              return (
+                <div
+                  className="min-w-fit rounded-full border border-border text-sm px-1 cursor-pointer"
+                  onClick={() => removeHandler(item)}
+                  key={item}
+                >
+                  {item}
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
+        <div
+          className={"absolute left-1 bottom-0 -translate-y-1/3 flex"}
+          onClick={() => setOpen(true)}
+        >
           {isLoading && searchItem && (
             <div className={"animate-spin h-5 w-5"}>
               <Image
@@ -168,7 +221,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           <MagnifyingGlassIcon className={"h-5 w-5"} />
         </div>
       </div>
-      {searchItem && open && !readOnly && (
+      {((searchItem && !readOnly && open) || open) && (
         <div
           className={
             "absolute w-full p-2 opacity-95 backdrop-blur-lg bg-white shadow-md rounded-lg top-full mt-3 z-10"
@@ -178,7 +231,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
             dataLength={findings.length}
             next={() => searchHandler(searchItem, page)}
             hasMore={findings.length < data?.result?.totalCount}
-            loader={<h4>Loading...</h4>}
+            loader={<h4>در حال بارگزاری...</h4>}
             height={150}
             className={"custom-scrollbar overflow-y-auto"}
             endMessage={

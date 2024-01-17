@@ -15,7 +15,7 @@ import dynamic from "next/dynamic";
 const DynamicSelect = dynamic(() => import("./inputs/dynamic-select"));
 type PropsType = {
   query: QueryType;
-  onChange: (key: string, value: any) => void;
+  onChange: (key: string, value: any, item?: FilterItemType) => void;
   setQuery?: Dispatch<any>;
   item: FilterItemType;
   dynamicsOption?: EnumType[];
