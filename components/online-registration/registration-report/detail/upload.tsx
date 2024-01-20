@@ -141,7 +141,7 @@ export default function UploadComponent({
   };
 
   return (
-    <div className={"pb-5 mt-4"}>
+    (<div className={"pb-5 mt-4"}>
       <div className="flex items-center text-xs mb-2">
         {item.title}
         <button
@@ -182,7 +182,7 @@ export default function UploadComponent({
           dragProps,
         }) => (
           // write your building UI
-          <div className="upload__image-wrapper max-h-[150px] h-[150px] aspect-video">
+          (<div className="upload__image-wrapper max-h-[150px] h-[150px] aspect-video">
             {imageList.length > 0 ? (
               imageList.map((image, index) => {
                 return (
@@ -253,9 +253,9 @@ export default function UploadComponent({
                 )}
               </button>
             )}
-          </div>
+          </div>)
         )}
       </ImageUploading>
-    </div>
+    </div>)
   );
 }
