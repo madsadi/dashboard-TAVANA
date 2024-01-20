@@ -56,7 +56,7 @@ function Recite() {
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection={"single"}
-          rowId={["FactorID"]}
+          rowId={["FactorId"]}
           pagination={true}
           totalCount={data?.result?.totalCount}
           fetcher={fetchData}

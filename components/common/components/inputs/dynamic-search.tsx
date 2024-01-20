@@ -36,6 +36,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
     inputAble,
     readOnly,
     alternativeRelatedRecordField,
+    isDisabled,
     resultField = "pagedData",
   } = item;
   const [page, setPage] = useState(1);
@@ -43,11 +44,10 @@ export default function DynamicSearch(props: DynamicSearchProps) {
   const [findings, setFindings] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { data, fetchAsyncData, fetchData } = useQuery({
     url: endpoint,
   });
-  const ref: any = useRef();
-
   const searchHandler = (item: string, page: number) => {
     setSearchItem(item);
     if (inputAble) {
@@ -91,6 +91,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
       function handleClickOutside(event: any) {
         if (ref.current && !ref.current.contains(event.target)) {
           setOpen(false);
+          if (revalidateOnMount) setIsOpen(false);
         }
       }
       // Bind the event listener
@@ -102,8 +103,12 @@ export default function DynamicSearch(props: DynamicSearchProps) {
     }, [ref]);
   }
 
-  const select = (record: any) => {
-    if (!isMultiple) setOpen(false);
+  const selectHandler = (record: any) => {
+    if (!isMultiple) {
+      setOpen(false);
+    }
+    if (revalidateOnMount) setIsOpen(false);
+
     if (alternative && alternativeRelatedRecordField) {
       let _query: any = {};
       _query[alternative] = record[alternativeRelatedRecordField];
@@ -144,7 +149,10 @@ export default function DynamicSearch(props: DynamicSearchProps) {
   };
 
   useEffect(() => {
-    if (revalidateOnMount) fetchData({}, () => setOpen(true));
+    if (revalidateOnMount) {
+      setIsOpen(true);
+      fetchData({}, () => setOpen(true));
+    }
   }, [revalidateOnMount]);
 
   return (
@@ -158,13 +166,17 @@ export default function DynamicSearch(props: DynamicSearchProps) {
             </span>
           ) : null}
           {(query?.[title] || query?.[title] === false || searchItem) &&
-          !readOnly ? (
+          !isDisabled ? (
             <XCircleIcon
               className="h-5 w-5 text-gray-400 mr-2 cursor-pointer"
               onClick={() => {
                 let _query: QueryType = {};
                 _query[alternative || "default"] = "";
-                _query[title] = "";
+                if (isMultiple) {
+                  _query[title] = [];
+                } else {
+                  _query[title] = "";
+                }
                 setQuery({ ...query, ..._query });
                 setSearchItem("");
               }}
@@ -172,14 +184,18 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           ) : null}
         </label>
         <input
-          ref={ref}
           id={title}
           className={
             "w-full h-[36px] focus:outline-none focus:!border-gray-300"
           }
+          disabled={isDisabled}
+          autoFocus={false}
           value={searchItem}
           readOnly={readOnly}
-          onFocus={() => setOpen(true)}
+          onFocus={() => {
+            setOpen(true);
+            if (revalidateOnMount) setIsOpen(true);
+          }}
           placeholder={
             hasPlaceholder
               ? dataHelper?.[placeholder || "default"] || query?.[title]
@@ -192,7 +208,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
         />
         {isMultiple ? (
           <div className="absolute flex w-full right-2 left-6 overflow-x-auto bottom-2 break-inside-avoid custom-scrollbar space-x-2 space-x-reverse">
-            {query?.[title].map((item: any) => {
+            {query?.[title]?.map((item: any) => {
               return (
                 <div
                   className="min-w-fit rounded-full border border-border text-sm px-1 cursor-pointer"
@@ -206,8 +222,13 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           </div>
         ) : null}
         <div
-          className={"absolute left-1 bottom-0 -translate-y-1/3 flex"}
-          onClick={() => setOpen(true)}
+          className={
+            "absolute left-1 bottom-0 -translate-y-1/3 flex z-10 cursor-pointer"
+          }
+          onClick={() => {
+            setOpen(true);
+            if (revalidateOnMount) setIsOpen(true);
+          }}
         >
           {isLoading && searchItem && (
             <div className={"animate-spin h-5 w-5"}>
@@ -222,8 +243,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           <MagnifyingGlassIcon className={"h-5 w-5"} />
         </div>
       </div>
-      {((searchItem && !readOnly && open) ||
-        document.activeElement === ref?.current) && (
+      {((searchItem && !isDisabled && open) || isOpen) && (
         <div
           className={
             "absolute w-full p-2 opacity-95 backdrop-blur-lg bg-white shadow-md rounded-lg top-full mt-3 z-10"
@@ -250,7 +270,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
                       "odd:bg-gray-200 text-wrap rounded-md px-2 py-1 overflow-x-auto custom-scrollbar mb-0.5 flex items-center hover:bg-gray-400 cursor-pointer"
                     }
                     key={item?.id}
-                    onClick={() => select(item)}
+                    onClick={() => selectHandler(item)}
                   >
                     <div>
                       {valueField
@@ -258,8 +278,6 @@ export default function DynamicSearch(props: DynamicSearchProps) {
                           if (F === "isActive") {
                             return item[F] ? "فعال" : "غیر فعال";
                           } else if (item[F]) {
-                            console.log(item[F]);
-
                             return item[F];
                           }
                         })

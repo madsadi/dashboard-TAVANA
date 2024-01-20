@@ -71,6 +71,9 @@ export default function CalculationButton() {
     _query[key] = value;
     setQuery(_query);
   };
+
+  console.log(query);
+
   return (
     <>
       <Button

@@ -1636,7 +1636,7 @@ const filters: FilterTreeType = {
           type: "dynamicSearch",
           initialValue: "",
           placeholder: "partyTitle",
-          readOnly: true,
+          isDisabled: true,
           endpoint: `${ADMIN_GATEWAY}/api/request/businessEntity/Search`,
           valueField: ["title"],
           queryField: "Title",
@@ -1666,7 +1666,7 @@ const filters: FilterTreeType = {
           type: "dynamicSearch",
           initialValue: "",
           placeholder: "partyTitle",
-          readOnly: true,
+          isDisabled: true,
           endpoint: `${ADMIN_GATEWAY}/api/request/businessEntity/Search`,
           valueField: ["title"],
           queryField: "Title",
@@ -1687,7 +1687,6 @@ const filters: FilterTreeType = {
           type: "dynamicSearch",
           initialValue: "",
           placeholder: "partyTitle",
-          readOnly: true,
           endpoint: `${ADMIN_GATEWAY}/api/request/businessUnit/Search`,
           valueField: ["title"],
           queryField: "Title",
@@ -1759,8 +1758,8 @@ const filters: FilterTreeType = {
                 initialValue: "",
                 endpoint: `${ADMIN_GATEWAY}/api/request/employee/Search`,
                 valueField: [
-                  "Unique",
-                  "Title",
+                  "uniqueId",
+                  "title",
                   "branchTitle",
                   "departmentTitle",
                   "positionTitle",
@@ -1874,8 +1873,8 @@ const filters: FilterTreeType = {
                 initialValue: "",
                 endpoint: `${ADMIN_GATEWAY}/api/request/employee/Search`,
                 valueField: [
-                  "Unique",
-                  "Title",
+                  "uniqueId",
+                  "title",
                   "branchTitle",
                   "departmentTitle",
                   "positionTitle",
@@ -4401,6 +4400,8 @@ const filters: FilterTreeType = {
               recordField: "Title",
               resultField: "pagedData",
             };
+            const toFocus = document.getElementById("links");
+            toFocus?.focus();
 
             return newFilter;
           },
@@ -4414,8 +4415,9 @@ const filters: FilterTreeType = {
           hasPlaceholder: false,
           endpoint: `${MARKETER_ADMIN}/factor/subordinates`,
           valueField: ["Title"],
-          readOnly: true,
+          isDisabled: true,
           isMultiple: true,
+          readOnly: true,
           queryField: "marketerId",
           recordField: "Title",
           resultField: "pagedData",
