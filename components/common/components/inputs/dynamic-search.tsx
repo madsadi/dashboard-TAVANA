@@ -46,6 +46,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
   const { data, fetchAsyncData, fetchData } = useQuery({
     url: endpoint,
   });
+  const ref: any = useRef();
 
   const searchHandler = (item: string, page: number) => {
     setSearchItem(item);
@@ -171,13 +172,13 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           ) : null}
         </label>
         <input
+          ref={ref}
           id={title}
           className={
             "w-full h-[36px] focus:outline-none focus:!border-gray-300"
           }
           value={searchItem}
           readOnly={readOnly}
-          autoFocus={false}
           onFocus={() => setOpen(true)}
           placeholder={
             hasPlaceholder
@@ -221,7 +222,8 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           <MagnifyingGlassIcon className={"h-5 w-5"} />
         </div>
       </div>
-      {((searchItem && !readOnly && open) || open) && (
+      {((searchItem && !readOnly && open) ||
+        document.activeElement === ref?.current) && (
         <div
           className={
             "absolute w-full p-2 opacity-95 backdrop-blur-lg bg-white shadow-md rounded-lg top-full mt-3 z-10"

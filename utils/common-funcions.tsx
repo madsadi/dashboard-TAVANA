@@ -69,6 +69,7 @@ import {
   Year,
 } from "../constants/Enums";
 import { banks } from "../components/online-registration/registration-report/enums";
+import { useCallback } from "react";
 
 export const formatNumber = (params: any, fixed: number) => {
   if (typeof params?.value === "number") {
@@ -95,9 +96,12 @@ export const formatNumber = (params: any, fixed: number) => {
       } else {
         const seperated = String(params.value).split(".");
 
-        return (Number(seperated[0])
-          .toString()
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + (seperated.length > 1 ? "." + seperated[1] : ""));
+        return (
+          Number(seperated[0])
+            .toString()
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") +
+          (seperated.length > 1 ? "." + seperated[1] : "")
+        );
       }
     }
   } else {
@@ -225,6 +229,7 @@ export const FindEnum = (
       return SettlementDelayEnums;
     case "isActiveWithNoNull":
     case "twoFactorEnabled":
+    case "firstName":
     case "valid":
       return isActiveWithNoNull;
     case "isActive":

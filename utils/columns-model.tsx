@@ -2,21 +2,22 @@ import { FindEnum, dateCell } from "./common-funcions";
 // columnModel.js
 export const columnModel: any = {
   checkbox: {
-    headerCheckboxSelection: true,
     checkboxSelection: true,
     showDisabledCheckboxes: true,
-    headerCheckboxSelectionFilteredOnly: true,
     resizable: false,
     minWidth: 40,
     maxWidth: 40,
   },
   enum: {
+    cellRenderer: "",
     valueFormatter: (rowData: any) => {
-      return FindEnum(
+      const value = FindEnum(
         rowData.colDef.colId,
         [],
         rowData.colDef?.headerName
       ).find((item: any) => item.id === rowData?.value)?.title;
+
+      return value;
     },
   },
   date: {

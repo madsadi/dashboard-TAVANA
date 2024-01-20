@@ -119,7 +119,7 @@ input::-webkit-inner-spin-button {
 }
 
 input:focus {
-  border: 1px solid #727171;
+  border: 1px solid #727171 !important;
   box-shadow: none;
 }
 
@@ -133,6 +133,9 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.ag-select-list {
+  background-color: white !important;
+}
 .ag-theme-alpine,
 .ag-chart-wrapper {
   --ag-font-family: "Yekan Bakh", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -144,15 +147,15 @@ input[type="number"] {
   --ag-toggle-button-switch-background-color: white !important;
 }
 
-.ag-body-viewport.ag-layout-normal::-webkit-scrollbar {
+.ag-layout-normal::-webkit-scrollbar {
   width: 6px;
 }
 
-.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track {
+.ag-layout-normal::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-thumb {
+.ag-layout-normal::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 4px;
 }

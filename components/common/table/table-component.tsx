@@ -91,17 +91,39 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   const colDefStructure = generateDynamicColumnDefs(module);
 
   const gridStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
+
   const defaultColDef = useMemo(() => {
     return {
-      resizable: true,
       sortable: true,
       flex: 1,
       cellClass: "textFormat",
       enableValue: true,
       enablePivot: true,
       enableRowGroup: true,
-      filter: true,
+      cellDataType: false,
       valueFormatter: (v: any) => formatNumber(v, v.colDef.fixed || 0),
+      filterParams: {
+        filterOptions: [
+          {
+            displayKey: "lessThanOrEqualWithNulls",
+            displayName: "کوچکتر یا مساوی از",
+            predicate: ([filterValue]: number[], cellValue: number) =>
+              cellValue == null || cellValue <= filterValue,
+          },
+          {
+            displayKey: "greaterThanOrEqualWithNulls",
+            displayName: " بزرگتر یا مساوی از",
+            predicate: ([filterValue]: number[], cellValue: number) =>
+              cellValue == null || cellValue >= filterValue,
+          },
+          {
+            displayKey: "equalWith",
+            displayName: "مساوی با",
+            predicate: ([filterValue]: number[], cellValue: number) =>
+              cellValue === filterValue,
+          },
+        ],
+      },
       ...colDef,
     };
   }, [colDef]);
@@ -167,58 +189,62 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     gridRef?.current?.api.exportDataAsExcel();
   }, []);
 
-  useImperativeHandle(ref, () => ({
-    rowSetData(data: any[]) {
-      gridRef.current?.api?.setRowData(data);
-    },
-    showLoading() {
-      gridRef.current.api?.showLoadingOverlay();
-    },
-    showNoData() {
-      gridRef.current.api?.showNoRowsOverlay();
-    },
-    hideOverlay() {
-      gridRef.current.api?.hideOverlay();
-    },
-    updateRow(newData: any) {
-      gridRef.current?.api?.applyTransaction({
-        update: [newData],
-      });
-    },
-    addNewRow(newData: any, index?: number) {
-      gridRef.current?.api?.applyTransaction({
-        add: [newData],
-        addIndex: index,
-      });
-    },
-    removeRow(newData: any) {
-      gridRef.current?.api?.applyTransaction({
-        remove: [newData],
-      });
-    },
-    getAllRows() {
-      let rowData: any = [];
-      gridRef.current?.api?.forEachNode((item: any) => {
-        rowData.push(item.data);
-      });
-      return rowData;
-    },
-    flushUpdates() {
-      gridRef.current?.api?.flushAsyncTransactions();
-    },
-    tableColumnVisibility(cols: any, visible: boolean) {
-      gridRef.current?.columnApi?.setColumnsVisible(cols, visible);
-    },
-    getTableColumns() {
-      return gridRef.current?.columnApi?.getColumns();
-    },
-    changeTableColumns(defStructure: any) {
-      gridRef.current?.api?.setColumnDefs(defStructure);
-    },
-    exportExcel() {
-      gridRef?.current?.api.exportDataAsExcel();
-    },
-  }));
+  useImperativeHandle(
+    ref,
+    () => ({
+      rowSetData(data: any[]) {
+        gridRef.current?.api?.setRowData(data);
+      },
+      showLoading() {
+        gridRef.current.api?.showLoadingOverlay();
+      },
+      showNoData() {
+        gridRef.current.api?.showNoRowsOverlay();
+      },
+      hideOverlay() {
+        gridRef.current.api?.hideOverlay();
+      },
+      updateRow(newData: any) {
+        gridRef.current?.api?.applyTransaction({
+          update: [newData],
+        });
+      },
+      addNewRow(newData: any, index?: number) {
+        gridRef.current?.api?.applyTransaction({
+          add: [newData],
+          addIndex: index,
+        });
+      },
+      removeRow(newData: any) {
+        gridRef.current?.api?.applyTransaction({
+          remove: [newData],
+        });
+      },
+      getAllRows() {
+        let rowData: any = [];
+        gridRef.current?.api?.forEachNode((item: any) => {
+          rowData.push(item.data);
+        });
+        return rowData;
+      },
+      flushUpdates() {
+        gridRef.current?.api?.flushAsyncTransactions();
+      },
+      tableColumnVisibility(cols: any, visible: boolean) {
+        gridRef.current?.columnApi?.setColumnsVisible(cols, visible);
+      },
+      getTableColumns() {
+        return gridRef.current?.columnApi?.getColumns();
+      },
+      changeTableColumns(defStructure: any) {
+        gridRef.current?.api?.setColumnDefs(defStructure);
+      },
+      exportExcel() {
+        gridRef?.current?.api.exportDataAsExcel();
+      },
+    }),
+    [gridRef]
+  );
 
   const popupParent =
     typeof document !== "undefined" ? document.getElementById("grid") : null;
@@ -251,6 +277,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
             noRowsOverlayComponentParams={noRowsOverlayComponentParams}
             pivotMode={pivoteMode}
             pivotPanelShow={"onlyWhenPivoting"}
+            alwaysMultiSort={true}
             rowHeight={35}
             headerHeight={35}
             autoGroupColumnDef={autoGroupColumnDef}
