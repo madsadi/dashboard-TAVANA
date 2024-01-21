@@ -13,8 +13,10 @@ import useQuery from "../../hooks/useQuery";
 import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
-
-export const CustomerManagement = createContext({});
+const EmployeeToolbar = dynamic(
+  () => import("../../components/customer-management/employee/employee-toolbar")
+);
+export const CustomerManagementEmployeeContext = createContext({});
 function Employee() {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const { data, loading, fetchData, query } = useQuery({
@@ -22,8 +24,13 @@ function Employee() {
   });
 
   return (
-    <CustomerManagement.Provider
-      value={{ fetchData, selectedRows, setSelectedRows, query }}
+    <CustomerManagementEmployeeContext.Provider
+      value={{
+        fetchData: () => fetchData(query),
+        selected: selectedRows,
+        setSelectedRows,
+        query,
+      }}
     >
       <div className="flex flex-col h-full grow">
         <AccordionComponent>
@@ -33,6 +40,7 @@ function Employee() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_employee}
           />
         </AccordionComponent>
+        <EmployeeToolbar />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_employee}
@@ -47,7 +55,7 @@ function Employee() {
           query={query}
         />
       </div>
-    </CustomerManagement.Provider>
+    </CustomerManagementEmployeeContext.Provider>
   );
 }
 

@@ -157,7 +157,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
 
   return (
     <div className={`relative`} ref={wrapperRef}>
-      <div className={"relative overflow-hidden"}>
+      <div className={"relative"}>
         <label className={"flex items-center text-sm"} htmlFor="InstrumentId">
           {name}
           {isRequired ? (

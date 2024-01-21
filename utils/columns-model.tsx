@@ -28,7 +28,8 @@ export const columnModel: any = {
   },
   "blank-detail-page": {
     flex: 0,
-    width: 90,
+    maxWidth: 90,
+    minWidth: 90,
     cellStyle: {
       cursor: "pointer",
       display: "flex",

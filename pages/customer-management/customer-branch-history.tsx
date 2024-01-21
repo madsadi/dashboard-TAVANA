@@ -14,9 +14,9 @@ import { ADMIN_GATEWAY } from "../../api/constants";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 
-function BranchHistory() {
+function CustomerBranchHistory() {
   const { data, fetchData, loading, query }: any = useQuery({
-    url: `${ADMIN_GATEWAY}/api/request/marketer/SearchBranchHistory`,
+    url: `${ADMIN_GATEWAY}/api/request/customerBranchHistory/Search`,
   });
 
   return (
@@ -25,13 +25,13 @@ function BranchHistory() {
         <SearchComponent
           onSubmit={fetchData}
           loading={loading}
-          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history}
+          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customer_branch_history}
         />
       </AccordionComponent>
       <TableComponent
         data={data?.result?.pagedData}
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_customer_branch_history}
         rowId={["id"]}
         pagination={true}
         totalCount={data?.result?.totalCount}
@@ -43,6 +43,6 @@ function BranchHistory() {
 }
 
 export default withPermission(
-  BranchHistory,
-  ModuleIdentifier.CUSTOMER_MANAGEMENT_branch_history
+  CustomerBranchHistory,
+  ModuleIdentifier.CUSTOMER_MANAGEMENT_customer_branch_history
 );

@@ -27,9 +27,12 @@ export const ModuleIdentifier = {
     "customer-management_businessUnit_related_detail",
   CUSTOMER_MANAGEMENT_businessUnit_detail:
     "customer-management_businessUnit_detail",
+  CUSTOMER_MANAGEMENT_customer_branch_history:
+    "customer-management_customer_branch_history",
   CUSTOMER_MANAGEMENT_station: "customer-management_station",
   CUSTOMER_MANAGEMENT_trader: "customer-management_trader",
   CUSTOMER_MANAGEMENT_marketer: "customer-management_marketer",
+  CUSTOMER_MANAGEMENT_marketer_detail: "customer-management_marketer_detail",
   CUSTOMER_MANAGEMENT_agreement: "customer-management_agreement",
   CUSTOMER_MANAGEMENT_marketer_history: "customer-management_marketer_history",
   CUSTOMER_MANAGEMENT_customerAgreement:

@@ -1151,7 +1151,7 @@ const filters: FilterTreeType = {
       },
     },
   },
-  "customer-management_branch_history": {
+  "customer-management_customer_branch_history": {
     services: {},
     search: {
       filters: [
@@ -1181,6 +1181,45 @@ const filters: FilterTreeType = {
         { title: "isExpired", name: "منقضی شده؟", type: "selectInput" },
         { title: "expirationDate", name: "تاریخ انقضاء", type: "singleDate" },
         { title: "isConfirmed", name: "تائید شده؟", type: "selectInput" },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+          isRequired: true,
+        },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+  },
+  "customer-management_branch_history": {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "MarketerId",
+          name: " عنوان بازاریاب",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search`,
+          valueField: ["title", "tbsMarketerName", "subsidiaryTitle"],
+          queryField: "TbsName",
+          recordField: "id",
+        },
+        {
+          title: "branchId",
+          name: "عنوان شعبه",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/branch/Search`,
+          valueField: ["title", "subsidiaryTitle", "typeTitle"],
+          queryField: "Title",
+          recordField: "id",
+        },
         {
           title: "date",
           name: "تاریخ شروع و پایان",
@@ -1543,30 +1582,14 @@ const filters: FilterTreeType = {
         },
       ],
     },
-    toolbar: {
-      modal: [
-        { title: "firstName", name: "نام", type: "input", initialValue: "" },
-        {
-          title: "lastName",
-          name: " نام خانوادگی",
-          type: "input",
-          initialValue: "",
-        },
-        {
-          title: "nationalId",
-          name: "کد ملی",
-          type: "input",
-          initialValue: "",
-        },
-        { title: "mobile", name: "موبایل", type: "input", initialValue: "" },
-        { title: "workPhone", name: "لفن", type: "input", initialValue: "" },
-        { title: "email", name: "ایمیل", type: "input", initialValue: "" },
-        {
-          title: "idpAccountId",
-          name: "شناسه حساب کاربری",
-          type: "input",
-          initialValue: "",
-        },
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        { title: "UniqueId", name: " کد ملی بازاریاب/معرف ", type: "input" },
+        { title: "Department", name: "بخش کاری", type: "selectInput" },
+        { title: "Position", name: "سمت کاری", type: "selectInput" },
+        { title: "WorkEmail", name: "ایمیل سازمانی", type: "input" },
         {
           title: "branchId",
           name: "عنوان شعبه",
@@ -1576,6 +1599,86 @@ const filters: FilterTreeType = {
           valueField: ["title", "subsidiaryTitle", "typeTitle"],
           queryField: "Title",
           recordField: "id",
+        },
+        { title: "isActive", name: "وضعیت", type: "selectInput" },
+        { title: "isDeleted", name: "حذف شده؟", type: "selectInput" },
+        { title: "date", name: " تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+        UniqueId: "",
+        Department: "",
+        Position: "",
+        WorkEmail: "",
+        isDeleted: "",
+        BranchId: "",
+        IsActive: "",
+        startDate: "",
+        endDate: "",
+      },
+    },
+    toolbar: {
+      add: [
+        {
+          title: "uniqueId",
+          name: "کدملی",
+          type: "input",
+          initialValue: "",
+        },
+        {
+          title: "title",
+          name: "عنوان ",
+          type: "input",
+          initialValue: "",
+        },
+        {
+          title: "userId",
+          name: "حساب کاربری",
+          type: "dynamicSearch",
+          placeholder: "uniqueId",
+          initialValue: "",
+          endpoint: `${IDP}/api/users/SearchUserAccount`,
+          valueField: ["firstName", "lastName", "UniqueId", "Mobile"],
+          queryField: "NationalId",
+          recordField: "id",
+        },
+        {
+          title: "branchId",
+          name: "عنوان شعبه",
+          type: "dynamicSearch",
+          placeholder: "branchTitle",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/branch/Search?IsActive=true&IsDeleted=false`,
+          valueField: ["title", "subsidiaryTitle", "typeTitle"],
+          queryField: "Title",
+          recordField: "id",
+        },
+
+        {
+          title: "department",
+          name: "بخش کاری",
+          type: "selectInput",
+          initialValue: "",
+        },
+
+        {
+          title: "position",
+          name: "سمت کاری",
+          type: "selectInput",
+          initialValue: "",
+        },
+        {
+          title: "workEmail",
+          name: "ایمیل سازمانی",
+          type: "input",
+          initialValue: "",
+        },
+        {
+          title: "workPhone",
+          name: "تلفن سازمانی",
+          type: "input",
+          initialValue: "",
         },
       ],
     },
@@ -2257,6 +2360,32 @@ const filters: FilterTreeType = {
           endpoint: `${ADMIN_GATEWAY}/api/request/branch/Search`,
           valueField: ["title", "subsidiaryTitle", "typeTitle"],
           queryField: "Title",
+          recordField: "id",
+        },
+      ],
+    },
+  },
+  "customer-management_marketer_detail": {
+    services: {},
+    search: {
+      filters: [],
+      initialValue: {},
+    },
+    toolbar: {
+      modal: [
+        { title: "title", name: " عنوان ", type: "input" },
+        { title: "mobile", name: " شماره موبایل ", type: "input" },
+        { title: "email", name: " ایمیل", type: "input" },
+        { title: "uniqueId", name: " کد ملی", type: "input" },
+        {
+          title: "userId",
+          name: "حساب کاربری",
+          type: "dynamicSearch",
+          placeholder: "uniqueId",
+          initialValue: "",
+          endpoint: `${IDP}/api/users/SearchUserAccount`,
+          valueField: ["firstName", "lastName", "UniqueId", "Mobile"],
+          queryField: "NationalId",
           recordField: "id",
         },
       ],

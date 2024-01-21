@@ -251,6 +251,16 @@ export default function SideBarContent() {
         },
         {
           label: " تغییرات شعبه مشتریان",
+          url: "/customer-management/customer-branch-history",
+          as: "/customer-management/customer-branch-history",
+          className:
+            router.asPath === `/customer-management/customer-branch-history`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_customer_branch_history,
+        },
+        {
+          label: " تغییرات شعبه بازاریاب",
           url: "/customer-management/branch-history",
           as: "/customer-management/branch-history",
           className:

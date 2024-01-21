@@ -18,6 +18,8 @@ import {
 } from "./common-funcions";
 import { CopyButton } from "components/common/components/copy-button";
 import ToggleButtonMarketer from "components/customer-management/toggle-button";
+import ToggleButtonEmployee from "components/customer-management/employee/toggle-isactive";
+import ToggleButtonMarketerSubordinate from "components/customer-management/marketer/toggle-button-subordinate";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
@@ -639,15 +641,28 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "customer-management_employee": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "firstName" },
-    { colId: "lastName" },
-    { colId: "nationalId" },
-    { colId: "mobile" },
+    { colId: "uniqueId", headerName: "کد ملی" },
+    { colId: "title" },
+    { colId: "departmentTitle" },
+    { colId: "positionTitle" },
+    { colId: "workEmail" },
     { colId: "workPhone" },
-    { colId: "email" },
-    { colId: "idpAccountId" },
-    { colId: "branchId" },
-    { colId: "email" },
+    { colId: "phoneNumber" },
+    { colId: "subsidiaryTitle" },
+    { colId: "branchTitle" },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToggleButtonEmployee
+              data={{ isActive: rowData.data.isActive, id: rowData.data.id }}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "isDeleted", type: "enum" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],
@@ -674,7 +689,7 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "customer-management_marketer": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "detail-opener" },
+    { colId: "detail-opener", type: "detail-opener" },
     { colId: "uniqueId" },
     { colId: "title", headerName: "بازاریاب" },
     { colId: "typeTitle" },
@@ -725,6 +740,53 @@ export const modularColsDef: ModularColsDefType = {
     },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
+    {
+      colId: "marketer-detail",
+      type: "blank-detail-page",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => {
+            return (
+              <Link
+                className={"flex h-full w-full"}
+                target="_blank"
+                rel="noreferrer"
+                href={{
+                  pathname: `/customer-management/marketer/detail`,
+                  query: { marketerId: rowData?.data?.id },
+                }}
+              >
+                <EllipsisHorizontalCircleIcon className={"h-5 w-5 m-auto"} />
+              </Link>
+            );
+          },
+        };
+      },
+    },
+  ],
+  "customer-management_marketer_detail": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "username" },
+    { colId: "title" },
+    { colId: "uniqueId" },
+    { colId: "mobile" },
+    { colId: "email" },
+    { colId: "refCode" },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToggleButtonMarketerSubordinate
+              data={{ isActive: rowData.data.isActive, id: rowData.data.id }}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "isDeleted", type: "enum" },
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
   ],
   "customer-management_agreement": [
     { colId: "checkbox", type: "checkbox" },
@@ -758,11 +820,24 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "description" },
     { colId: "createDateTime", type: "date" },
   ],
-  "customer-management_branch_history": [
+  "customer-management_customer_branch_history": [
     { colId: "customerTitle" },
     { colId: "customerUniqueId" },
     { colId: "branchTitle" },
     { colId: "branchTypeTitle" },
+    { colId: "tbsBranchId" },
+    { colId: "tbsBranchTitle" },
+    { colId: "subsidiaryTitle" },
+    { colId: "changeDateTime", type: "date" },
+  ],
+  "customer-management_branch_history": [
+    { colId: "marketerTypeTitle" },
+    { colId: "marketerTitle" },
+    { colId: "tbsReagentTitle" },
+    { colId: "tbsMarketerId" },
+    { colId: "tbsMarketerTitle" },
+    { colId: "branchTypeTitle" },
+    { colId: "branchTitle" },
     { colId: "tbsBranchId" },
     { colId: "tbsBranchTitle" },
     { colId: "subsidiaryTitle" },

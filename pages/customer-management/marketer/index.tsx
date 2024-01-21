@@ -1,17 +1,17 @@
 import React, { useState, createContext } from "react";
 import dynamic from "next/dynamic";
 const AccordionComponent = dynamic(
-  () => import("../../components/common/components/accordion")
+  () => import("../../../components/common/components/accordion")
 );
 const TableComponent = dynamic(
-  () => import("../../components/common/table/table-component")
+  () => import("../../../components/common/table/table-component")
 );
 const SearchComponent = dynamic(
-  () => import("../../components/common/components/search")
+  () => import("../../../components/common/components/search")
 );
-import useQuery from "../../hooks/useQuery";
-import { ADMIN_GATEWAY } from "../../api/constants";
-import { ModuleIdentifier } from "../../utils/Module-Identifier";
+import useQuery from "../../../hooks/useQuery";
+import { ADMIN_GATEWAY } from "../../../api/constants";
+import { ModuleIdentifier } from "../../../utils/Module-Identifier";
 import { withPermission } from "components/common/layout/with-permission";
 import { MarketerToolbar } from "components/customer-management/marketer/toolbar";
 
