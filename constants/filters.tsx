@@ -5001,19 +5001,19 @@ const filters: FilterTreeType = {
       ],
       deduction: [
         {
-          title: "collateralCoefficient",
+          title: "CollateralCoefficient",
           name: "ضریب کسورات حسن انجام کار",
           type: "input",
           valueType: "number",
         },
         {
-          title: "taxCoefficient",
+          title: "TaxCoefficient",
           name: "ضریب مالیات",
           type: "input",
           valueType: "number",
         },
         {
-          title: "guaranteeCoefficient",
+          title: "GuaranteeCoefficient",
           name: "ضریب ضمانت",
           type: "input",
           valueType: "number",

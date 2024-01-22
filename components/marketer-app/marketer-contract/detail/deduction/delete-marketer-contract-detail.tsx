@@ -18,7 +18,11 @@ export default function DeleteMarketerContractDetail(props: any) {
   const [modal, setModal] = useState(false);
 
   const openHandler = () => {
-    setModal(true);
+    if(selected){
+      setModal(true);
+    }else{
+      throwToast({type:'warning',value:'یراس حذف یک ردیف را انتخاب کنید'})
+    }
   };
 
   const submitHandler = async (e: any) => {

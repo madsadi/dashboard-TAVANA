@@ -822,7 +822,6 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],
-
   "customer-management_agent_relation": [
     { colId: "checkbox", type: "checkbox" },
     { colId: "customerUniqueId" },
@@ -1162,13 +1161,11 @@ export const modularColsDef: ModularColsDefType = {
     },
   ],
   "marketer-app_marketerContract_detail_deduction": [
-    { colId: "ContractId" },
-    { colId: "MarketerId" },
-    { colId: "Title", headerName: "عنوان بازاریاب" },
+    { colId: "checkbox", type: "checkbox" },
+    // { colId: "Title", headerName: "عنوان بازاریاب" },
     { colId: "CollateralCoefficient" },
+    { colId: "GuaranteeCoefficient" },
     { colId: "TaxCoefficient" },
-    { colId: "InsuranceCoefficient" },
-    { colId: "ReturnDuration" },
   ],
   "marketer-app_marketerContract_detail_coefficient": [
     { colId: "checkbox", type: "checkbox" },

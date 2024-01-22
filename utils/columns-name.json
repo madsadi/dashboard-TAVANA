@@ -53,6 +53,7 @@
   "errorMessage": "پیام خطا",
   "sequenceNumber": "مرتبه/اولویت",
   "marketCode": "کد بازار",
+  "GuaranteeCoefficient": "ضریب ضمانت",
   "marketTitle": "بازار",
   "refCode": "کدبازاریابی",
   "offerTypeCode": "نوع عرضه",

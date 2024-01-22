@@ -26,8 +26,15 @@ export default function EditMarketerContractDetail(props: any) {
   const [query, setQuery] = useState<any>({});
 
   const openHandler = () => {
-    setQuery({});
-    setModal(true);
+    if (selected) {
+      setQuery({});
+      setModal(true);
+    } else {
+      throwToast({
+        type: "warning",
+        value: "برای ویرایش یک ردیف را انتخاب کنید",
+      });
+    }
   };
 
   const submitHandler = async (e: any) => {
