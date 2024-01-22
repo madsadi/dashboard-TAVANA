@@ -6,22 +6,13 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementSubsidiary } from "pages/holding-management/subsidiary";
+import { CustomerManagementSubordinateContext } from "pages/holding-management/subordinate";
 
-export const SubsidiaryToolbar = () => {
+const SubordinateToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { mutate: edit } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/subsidiary/Update`,
-    method: "PUT",
-    onSuccess: () => {
-      fetchData();
-      editRef.current?.modalHandler(false);
-    },
-    setLoading: setLoading,
-  });
   const { mutate: remove } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/subsidiary/Delete`,
-    method: "DELETE",
+    url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Delete`,
+    method: "PATCH",
     onSuccess: () => {
       fetchData();
       deleteRef.current?.modalHandler(false);
@@ -29,7 +20,7 @@ export const SubsidiaryToolbar = () => {
     setLoading: setLoading,
   });
   const { mutate: add } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/subsidiary/Add`,
+    url: `${ADMIN_GATEWAY}/api/request/marketerSubordinate/Add`,
     method: "POST",
     onSuccess: () => {
       fetchData();
@@ -37,14 +28,26 @@ export const SubsidiaryToolbar = () => {
     },
     setLoading: setLoading,
   });
-  const { fetchData, selected } = useContext<any>(CustomerManagementSubsidiary);
+  const { mutate: edit } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/marketerSubordinate/Edit`,
+    method: "PATCH",
+    onSuccess: () => {
+      fetchData();
+      editRef.current?.modalHandler(false);
+    },
+    setLoading: setLoading,
+  });
+
+  const { fetchData, selected } = useContext<any>(
+    CustomerManagementSubordinateContext
+  );
 
   const { restriction, modules, service } = useSearchFilters(
-    ModuleIdentifier.CUSTOMER_MANAGEMENT_subsidiary
+    ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer_detail
   );
-  const editRef: any = useRef();
   const deleteRef: any = useRef();
   const addRef: any = useRef();
+  const editRef: any = useRef();
 
   const modalHandler = (target: any) => {
     if (selected[0]) {
@@ -58,18 +61,18 @@ export const SubsidiaryToolbar = () => {
   };
 
   return (
-    <div className={"toolbar p-2 border-x border-border"}>
+    <div className={"toolbar items-center p-2 border-x border-border"}>
       <CRUDWrapper
         ref={addRef}
-        title={`شرکت جدید`}
+        title={`ایجاد بازاریاب فرعی`}
         confirmHandler={(e, query) => {
           e.preventDefault();
           add(query);
         }}
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_subsidiary}
-        subModule="modal"
-        selectedItem={selected[0]}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_subordinate}
+        selectedItem={selected?.[0]}
+        subModule="add"
       >
         <Button
           label={"جدید"}
@@ -84,22 +87,23 @@ export const SubsidiaryToolbar = () => {
       </CRUDWrapper>
       <CRUDWrapper
         ref={editRef}
-        title={`ویرایش شرکت`}
-        mode="edit"
+        title={`ویرایش  بازاریاب فرعی`}
         confirmHandler={(e, query) => {
           e.preventDefault();
           edit({
-            id: selected[0]?.id,
+            id: selected[0].id,
+            marketerId: selected[0].marketerId,
             ...query,
           });
         }}
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_subsidiary}
-        selectedItem={selected[0]}
-        subModule="modal"
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_subordinate}
+        selectedItem={selected?.[0]}
+        subModule="edit"
+        mode="edit"
       >
         <Button
-          label={"ویرایش "}
+          label={"ویرایش"}
           className="bg-secondary"
           onClick={() => modalHandler(editRef)}
           allowed={
@@ -111,17 +115,17 @@ export const SubsidiaryToolbar = () => {
       </CRUDWrapper>
       <CRUDWrapper
         ref={deleteRef}
-        title={`حذف شرکت`}
+        title={`حذف بازاریاب فرعی`}
         mode="delete"
-        confirmHandler={(e, query) => {
+        confirmHandler={(e) => {
           e.preventDefault();
-          remove({}, { id: selected[0].id, ...query });
+          remove({ id: selected[0].id });
         }}
-        modalMessage=" حذف شرکت "
+        modalMessage="حذف بازاریاب فرعی"
         entity="title"
         loading={loading}
-        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_subsidiary}
-        selectedItem={selected[0]}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_subordinate}
+        selectedItem={selected?.[0]}
       >
         <Button
           label={"حذف"}
@@ -137,3 +141,5 @@ export const SubsidiaryToolbar = () => {
     </div>
   );
 };
+
+export default SubordinateToolbar;

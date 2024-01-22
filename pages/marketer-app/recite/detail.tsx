@@ -46,10 +46,10 @@ function FactorIdDetail() {
       field: "MarketerCommissionIncome",
       headerName: "حق بازاریابی از خالص کارمزد در دوره",
     },
-    {
-      field: "TotalCMD",
-      headerName: "مجموع سهم صندوق توسعه",
-    },
+    // {
+    //   field: "TotalCMD",
+    //   headerName: "مجموع سهم صندوق توسعه",
+    // },
     {
       field: "Tax",
       headerName: "مالیات",
@@ -74,19 +74,16 @@ function FactorIdDetail() {
       field: "Payment",
       headerName: "پرداختی",
     },
-    {
-      field: "IsCmdConcluded",
-      headerName: "سهم صندوق توسعه اضافه میشود؟",
-      isBoolean: true,
-    },
-    {
-      field: "MaketerCMDIncome",
-      headerName: "حق بازاریابی از سهم صندوق توسعه",
-    },
-    {
-      field: "TaxDeduction",
-      headerName: "مالیات",
-    },
+    // {
+    //   field: "IsCmdConcluded",
+    //   headerName: "سهم صندوق توسعه اضافه میشود؟",
+    //   isBoolean: true,
+    // },
+    // {
+    //   field: "MaketerCMDIncome",
+    //   headerName: "حق بازاریابی از سهم صندوق توسعه",
+    // },
+
     {
       field: "TaxCoefficient",
       headerName: "ضریب مالیات",

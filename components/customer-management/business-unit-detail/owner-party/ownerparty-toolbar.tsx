@@ -8,7 +8,7 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { OwnerPartyAdd } from "./ownerparty-add";
 import { OwnerPartyEdit } from "./ownerparty-edit";
-import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
+import { CustomerManagementBusinessUnitDetailContext } from "pages/holding-management/business-unit-detail";
 
 export const BusinessUnitDetailOwnerToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);

@@ -5,7 +5,7 @@ import useQuery from "../../hooks/useQuery";
 import { Button } from "../common/components/button/button";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
-import { CustomerManagementBranch } from "pages/customer-management/branch";
+import { CustomerManagementBranch } from "pages/holding-management/branch";
 
 export const TBSBranches = () => {
   const { fetchAsyncData } = useQuery({

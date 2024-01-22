@@ -6,13 +6,13 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementStation } from "pages/customer-management/station";
+import { CustomerManagementStation } from "pages/holding-management/station";
 
 export const StationToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: edit } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/station/Update`,
-    method: "PUT",
+    method: "PATCH",
     onSuccess: () => {
       fetchData();
       editRef.current?.modalHandler(false);
@@ -21,7 +21,7 @@ export const StationToolbar = () => {
   });
   const { mutate: remove } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/station/Delete`,
-    method: "DELETE",
+    method: "PATCH",
     onSuccess: () => {
       fetchData();
       deleteRef.current?.modalHandler(false);

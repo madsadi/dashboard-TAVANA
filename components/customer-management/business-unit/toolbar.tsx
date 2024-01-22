@@ -6,7 +6,7 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementBusinessUnit } from "pages/customer-management/business-unit";
+import { CustomerManagementBusinessUnit } from "pages/holding-management/business-unit";
 
 export const BusinessUnitToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);

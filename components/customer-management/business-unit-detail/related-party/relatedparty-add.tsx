@@ -5,7 +5,7 @@ import InputComponent from "components/common/components/input-generator";
 import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
-import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
+import { CustomerManagementBusinessUnitDetailContext } from "pages/holding-management/business-unit-detail";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 
 export const RelatedPartyAdd = () => {

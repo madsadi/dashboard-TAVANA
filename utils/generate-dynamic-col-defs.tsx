@@ -20,6 +20,7 @@ import { CopyButton } from "components/common/components/copy-button";
 import ToggleButtonMarketer from "components/customer-management/toggle-button";
 import ToggleButtonEmployee from "components/customer-management/employee/toggle-isactive";
 import ToggleButtonMarketerSubordinate from "components/customer-management/marketer/toggle-button-subordinate";
+import ToggleButtonStation from "components/customer-management/station/toogle-button";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
@@ -587,7 +588,7 @@ export const modularColsDef: ModularColsDefType = {
                 target="_blank"
                 rel="noreferrer"
                 href={{
-                  pathname: `/customer-management/business-unit/detail`,
+                  pathname: `/holding-management/business-unit/detail`,
                   query: { id: rowData?.data?.id },
                 }}
               >
@@ -668,13 +669,28 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "customer-management_station": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "brokerCode" },
-    { colId: "brokerTitle" },
     { colId: "code", headerName: "کد ایستگاه معاملاتی" },
     { colId: "title", headerName: "عنوان ایستگاه معاملاتی" },
-    { colId: "type", headerName: "نوع ایستگاه معاملاتی", type: "enum" },
-    { colId: "branchId" },
+    { colId: "typeTitle", headerName: "نوع ایستگاه معاملاتی" },
+    { colId: "brokerCode" },
+    { colId: "traderCode" },
+    { colId: "employeeUniqueId" },
+    { colId: "employeeTitle" },
     { colId: "branchTitle" },
+    { colId: "subsidiaryTitle" },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToggleButtonStation
+              data={{ isActive: rowData.data.isActive, id: rowData.data.id }}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "isDeleted", type: "enum" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],
@@ -752,7 +768,7 @@ export const modularColsDef: ModularColsDefType = {
                 target="_blank"
                 rel="noreferrer"
                 href={{
-                  pathname: `/customer-management/marketer/detail`,
+                  pathname: `/holding-management/marketer/detail`,
                   query: { marketerId: rowData?.data?.id },
                 }}
               >
@@ -1155,6 +1171,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "ReturnDuration" },
   ],
   "marketer-app_marketerContract_detail_coefficient": [
+    { colId: "checkbox", type: "checkbox" },
     { colId: "ContractId" },
     { colId: "MarketerId" },
     { colId: "Title", headerName: "عنوان بازاریاب" },

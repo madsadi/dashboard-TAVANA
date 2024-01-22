@@ -34,7 +34,7 @@ function CustomerManagementAgreementsManagement() {
             module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
           />
         </AccordionComponent>
-        <AgreementsManagementToolbar />
+        <AgreementsManagementToolbar isMainPage />
         <TableComponent
           data={data?.result?.pagedData}
           module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}

@@ -6,7 +6,7 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementEmployeeContext } from "pages/customer-management/employee";
+import { CustomerManagementEmployeeContext } from "pages/holding-management/employee";
 
 const EmployeeToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);

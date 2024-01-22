@@ -6,7 +6,7 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementMarketer } from "pages/customer-management/marketer";
+import { CustomerManagementMarketer } from "pages/holding-management/marketer";
 import { TBSMarketer } from "../tbs-marketer";
 import { CreateRefCode } from "../create-ref-code";
 import { TBSReagents } from "../tbs-reagents";

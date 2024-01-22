@@ -69,7 +69,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     setSelectedRows = () => null,
     selectedRows = [],
     onRowClicked = () => null,
-    suppressRowClickSelection = false,
+    suppressRowClickSelection = true,
     pagination = false,
     groupIncludeTotalFooter = false,
     groupIncludeFooter = false,

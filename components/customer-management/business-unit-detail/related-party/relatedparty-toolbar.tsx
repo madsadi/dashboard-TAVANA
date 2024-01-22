@@ -8,7 +8,7 @@ import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
 import { RelatedPartyAdd } from "./relatedparty-add";
 import { RelatedPartyEdit } from "./relatedparty-edit";
-import { CustomerManagementBusinessUnitDetailContext } from "pages/customer-management/business-unit-detail";
+import { CustomerManagementBusinessUnitDetailContext } from "pages/holding-management/business-unit-detail";
 
 export const BusinessUnitDetailRelatedToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);

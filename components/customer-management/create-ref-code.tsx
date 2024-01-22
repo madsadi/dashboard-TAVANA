@@ -5,7 +5,7 @@ import { Button } from "../common/components/button/button";
 import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import useMutation from "../../hooks/useMutation";
-import { CustomerManagementMarketer } from "pages/customer-management/marketer";
+import { CustomerManagementMarketer } from "pages/holding-management/marketer";
 
 export const CreateRefCode = () => {
   const { selected } = useContext<any>(CustomerManagementMarketer);

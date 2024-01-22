@@ -6,7 +6,7 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementBusinessUnitDetail } from "pages/customer-management/business-unit/detail";
+import { CustomerManagementBusinessUnitDetail } from "pages/holding-management/business-unit/detail";
 import { OwnerPartyAdd } from "./ownerparty-add";
 import { OwnerPartyEdit } from "./ownerparty-edit";
 

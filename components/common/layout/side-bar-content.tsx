@@ -154,6 +154,102 @@ export default function SideBarContent() {
       ],
     },
     {
+      label: "مدیریت هلدینگ",
+      expanded: router.pathname.startsWith("/holding-management"),
+      children: [
+        {
+          label: "شرکت ها",
+          url: "/holding-management/subsidiary",
+          as: "/holding-management/subsidiary",
+          className:
+            router.asPath === `/holding-management/subsidiary`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_subsidiary,
+        },
+        {
+          label: "شعب",
+          url: "/holding-management/branch",
+          as: "/holding-management/branch",
+          className:
+            router.asPath === "/holding-management/branch"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_branch,
+        },
+        {
+          label: "کارمندان",
+          url: "/holding-management/employee",
+          as: "/holding-management/employee",
+          className:
+            router.asPath === "/holding-management/employee"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_employee,
+        },
+        {
+          label: "واحد کاری",
+          url: "/holding-management/business-unit",
+          as: "/holding-management/business-unit",
+          className:
+            router.asPath === "/holding-management/business-unit"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit,
+        },
+        {
+          label: " جزیئات واحد کاری ",
+          url: "/holding-management/business-unit-detail",
+          as: "/holding-management/business-unit-detail",
+          className:
+            router.asPath === "/holding-management/business-unit-detail"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail,
+        },
+        {
+          label: "ایستگاه معاملاتی",
+          url: "/holding-management/station",
+          as: "/holding-management/station",
+          className:
+            router.asPath === "/holding-management/station"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_station,
+        },
+        {
+          label: "بازاریاب ها",
+          url: "/holding-management/marketer",
+          as: "/holding-management/marketer",
+          className:
+            router.asPath === "/holding-management/marketer"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer,
+        },
+        {
+          label: "زیر مجموعه های بازاریاب ",
+          url: "/holding-management/subordinate",
+          as: "/holding-management/subordinate",
+          className:
+            router.asPath === "/holding-management/subordinate"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_subordinate,
+        },
+        {
+          label: "مدیریت توافقنامه ها",
+          url: "/holding-management/agreements-management",
+          as: "/holding-management/agreements-management",
+          className:
+            router.asPath === `/holding-management/agreements-management`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management,
+        },
+      ],
+    },
+    {
       label: "مدیریت مشتریان",
       expanded: router.pathname.startsWith("/customer-management"),
       children: [
@@ -250,6 +346,36 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agent_relation,
         },
         {
+          label: "مدیریت کد بورسی",
+          url: "/customer-management/bourse-code",
+          as: "/customer-management/bourse-code",
+          className:
+            router.asPath === `/customer-management/bourse-code`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code,
+        },
+        {
+          label: "کدهای حسابداری مشتریان",
+          url: "/customer-management/accounting-code",
+          as: "/customer-management/accounting-code",
+          className:
+            router.asPath === `/customer-management/accounting-code`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code,
+        },
+        {
+          label: "توافقنامه های مشتریان",
+          url: "/customer-management/customer-agreement",
+          as: "/customer-management/customer-agreement",
+          className:
+            router.asPath === "/customer-management/customer-agreement"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement,
+        },
+        {
           label: " تغییرات شعبه مشتریان",
           url: "/customer-management/customer-branch-history",
           as: "/customer-management/customer-branch-history",
@@ -279,138 +405,9 @@ export default function SideBarContent() {
               : "",
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer_history,
         },
-        {
-          label: "مدیریت توافقنامه ها",
-          url: "/customer-management/agreements-management",
-          as: "/customer-management/agreements-management",
-          className:
-            router.asPath === `/customer-management/agreements-management`
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management,
-        },
-        {
-          label: "مدیریت کد بورسی",
-          url: "/customer-management/bourse-code",
-          as: "/customer-management/bourse-code",
-          className:
-            router.asPath === `/customer-management/bourse-code`
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_bourse_code,
-        },
-        {
-          label: "کدهای حسابداری مشتریان",
-          url: "/customer-management/accounting-code",
-          as: "/customer-management/accounting-code",
-          className:
-            router.asPath === `/customer-management/accounting-code`
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_accounting_code,
-        },
-        {
-          label: "شرکت ها",
-          url: "/customer-management/subsidiary",
-          as: "/customer-management/subsidiary",
-          className:
-            router.asPath === `/customer-management/subsidiary`
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_subsidiary,
-        },
-        {
-          label: "شعب",
-          url: "/customer-management/branch",
-          as: "/customer-management/branch",
-          className:
-            router.asPath === "/customer-management/branch"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_branch,
-        },
-        {
-          label: "قرارداد",
-          url: "/customer-management/agreement",
-          as: "/customer-management/agreement",
-          className:
-            router.asPath === "/customer-management/agreement"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_agreement,
-        },
-        {
-          label: "کارمندان",
-          url: "/customer-management/employee",
-          as: "/customer-management/employee",
-          className:
-            router.asPath === "/customer-management/employee"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_employee,
-        },
-        {
-          label: "واحد کاری",
-          url: "/customer-management/business-unit",
-          as: "/customer-management/business-unit",
-          className:
-            router.asPath === "/customer-management/business-unit"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit,
-        },
-        {
-          label: " جزیئات واحد کاری ",
-          url: "/customer-management/business-unit-detail",
-          as: "/customer-management/business-unit-detail",
-          className:
-            router.asPath === "/customer-management/business-unit-detail"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_businessUnit_detail,
-        },
-        {
-          label: "ایستگاه معاملاتی",
-          url: "/customer-management/station",
-          as: "/customer-management/station",
-          className:
-            router.asPath === "/customer-management/station"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_station,
-        },
-        {
-          label: "معامله گران",
-          url: "/customer-management/trader",
-          as: "/customer-management/trader",
-          className:
-            router.asPath === "/customer-management/trader"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_trader,
-        },
-        {
-          label: "بازاریاب ها",
-          url: "/customer-management/marketer",
-          as: "/customer-management/marketer",
-          className:
-            router.asPath === "/customer-management/marketer"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer,
-        },
-        {
-          label: "توافقنامه های بین طرفین",
-          url: "/customer-management/customer-agreement",
-          as: "/customer-management/customer-agreement",
-          className:
-            router.asPath === "/customer-management/customer-agreement"
-              ? "sideBarActive"
-              : "",
-          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_customerAgreement,
-        },
       ],
     },
+
     {
       label: "سفارشات آنلاین",
       expanded: router.pathname.startsWith("/online-trades-orders"),
@@ -498,6 +495,16 @@ export default function SideBarContent() {
               ? "sideBarActive"
               : "",
           module: ModuleIdentifier.MARKETER_APP_marketerContract,
+        },
+        {
+          label: "ضرایب",
+          url: "/marketer-app/coefficient",
+          as: "/marketer-app/coefficient",
+          className:
+            router.pathname === "/marketer-app/coefficient"
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.MARKETER_APP_relations_detail_coefficient,
         },
         {
           label: "گزارش مغایرت بازاریاب",

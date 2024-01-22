@@ -5,7 +5,7 @@ import { useSearchFilters } from "../../hooks/useSearchFilters";
 import { ModuleIdentifier } from "../../utils/Module-Identifier";
 import { Button } from "../common/components/button/button";
 import useQuery from "hooks/useQuery";
-import { CustomerManagementMarketer } from "pages/customer-management/marketer";
+import { CustomerManagementMarketer } from "pages/holding-management/marketer";
 
 export const TBSReagents = () => {
   const { restriction, modules, service } = useSearchFilters(

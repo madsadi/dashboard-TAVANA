@@ -1602,7 +1602,11 @@ const filters: FilterTreeType = {
         },
         { title: "isActive", name: "وضعیت", type: "selectInput" },
         { title: "isDeleted", name: "حذف شده؟", type: "selectInput" },
-        { title: "date", name: " تاریخ شروع و پایان", type: "date" },
+        {
+          title: "date",
+          name: " تاریخ شروع و پایان",
+          type: "date",
+        },
       ],
       initialValue: {
         pageNumber: 1,
@@ -2043,17 +2047,41 @@ const filters: FilterTreeType = {
       filters: [
         { title: "pageNumber", name: "شماره صفحه", type: null },
         { title: "pageSize", name: "تعداد", type: null },
-        { title: "Title", name: "عنوان ایستگاه", type: "input" },
+        {
+          title: "employeeId",
+          name: "معامله گر",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/employee/Search`,
+          valueField: ["uniqueId", "title", "positionTitle", "branchTitle"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        {
+          title: "branchId",
+          name: "عنوان شعبه",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/branch/Search?IsActive=true&IsDeleted=false`,
+          valueField: ["title", "subsidiaryTitle", "typeTitle"],
+          queryField: "Title",
+          recordField: "id",
+        },
         {
           title: "Code",
           name: "کد ایستگاه",
           type: "input",
           valueType: "number",
         },
-        { title: "BrokerTitle", name: "عنوان کارگزاری", type: "input" },
-        { title: "BranchTitle", name: "عنوان شعبه", type: "input" },
         { title: "type", name: "نوع ایستگاه معاملاتی", type: "selectInput" },
-        { title: "date", name: " تاریخ شروع و پایان ", type: "date" },
+        { title: "isActive", name: "وضعیت", type: "selectInput" },
+        { title: "isDeleted", name: "حذف شده؟", type: "selectInput" },
+        {
+          title: "date",
+          name: " تاریخ شروع و پایان ",
+          type: "date",
+          isRequired: true,
+        },
       ],
       initialValue: {
         pageNumber: 1,
@@ -2373,6 +2401,82 @@ const filters: FilterTreeType = {
     },
     toolbar: {
       modal: [
+        { title: "title", name: " عنوان ", type: "input" },
+        { title: "mobile", name: " شماره موبایل ", type: "input" },
+        { title: "email", name: " ایمیل", type: "input" },
+        { title: "uniqueId", name: " کد ملی", type: "input" },
+        {
+          title: "userId",
+          name: "حساب کاربری",
+          type: "dynamicSearch",
+          placeholder: "uniqueId",
+          initialValue: "",
+          endpoint: `${IDP}/api/users/SearchUserAccount`,
+          valueField: ["firstName", "lastName", "UniqueId", "Mobile"],
+          queryField: "NationalId",
+          recordField: "id",
+        },
+      ],
+    },
+  },
+  "customer-management_subordinate": {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "MarketerId",
+          name: "(عنوان) حساب کاربری بازاریاب ",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search`,
+          valueField: ["title", "tbsMarketerName", "subsidiaryTitle"],
+          queryField: "TbsName",
+          recordField: "id",
+        },
+        { title: "Title", name: "عنوان بازاریاب", type: "input" },
+        { title: "Mobile", name: "شماره موبایل", type: "input" },
+        { title: "UniqueId", name: " کد ملی بازاریاب/معرف ", type: "input" },
+        { title: "RefCode", name: "کد معرف", type: "input" },
+        { title: "isActive", name: "وضعیت", type: "selectInput" },
+        { title: "isDeleted", name: "آیا حذف شده؟", type: "selectInput" },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+    toolbar: {
+      add: [
+        {
+          title: "MarketerId",
+          name: " عنوان بازاریاب ",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search`,
+          valueField: ["title", "tbsMarketerName", "subsidiaryTitle"],
+          queryField: "TbsName",
+          recordField: "id",
+        },
+        { title: "title", name: " عنوان ", type: "input" },
+        { title: "mobile", name: " شماره موبایل ", type: "input" },
+        { title: "email", name: " ایمیل", type: "input" },
+        { title: "uniqueId", name: " کد ملی", type: "input" },
+        {
+          title: "userId",
+          name: "حساب کاربری",
+          type: "dynamicSearch",
+          placeholder: "uniqueId",
+          initialValue: "",
+          endpoint: `${IDP}/api/users/SearchUserAccount`,
+          valueField: ["firstName", "lastName", "UniqueId", "Mobile"],
+          queryField: "NationalId",
+          recordField: "id",
+        },
+      ],
+      edit: [
         { title: "title", name: " عنوان ", type: "input" },
         { title: "mobile", name: " شماره موبایل ", type: "input" },
         { title: "email", name: " ایمیل", type: "input" },
@@ -4798,6 +4902,37 @@ const filters: FilterTreeType = {
       ],
     },
   },
+  "marketer-app_marketerContract_detail_coefficient": {
+    services: {},
+    search: {
+      filters: [
+        { title: "pageNumber", name: "شماره صفحه", type: null },
+        { title: "pageSize", name: "تعداد", type: null },
+        {
+          title: "coefficientBaseType",
+          name: "نوع ضریب پایه ",
+          type: "selectInput",
+        },
+        {
+          title: "calculationBaseType",
+          name: "نوع پایه محاسبه",
+          type: "selectInput",
+        },
+        { title: "PlanName", name: "پلکان", type: "input" },
+        {
+          title: "stepNumber",
+          name: "شماره پله",
+          type: "input",
+          valueType: "number",
+          placeholder: "بین 0 تا 1",
+        },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+  },
   "marketer-app_marketers": {
     services: {},
     search: {
@@ -4821,26 +4956,36 @@ const filters: FilterTreeType = {
     services: {},
     toolbar: {
       "coeff-add": [
-        { title: "baseTypeId", name: "شناسه نوع پایه", type: "input" },
+        { title: "PlanName", name: "پلکان", type: "input" },
         {
-          title: "HighThreshold",
+          title: "stepNumber",
+          name: "شماره پله",
+          type: "input",
+          valueType: "number",
+          placeholder: "بین 0 تا 1",
+        },
+        {
+          title: "coefficientBaseTypeId",
+          name: "نوع ضرائب",
+          type: "selectInput",
+        },
+        {
+          title: "calculationBaseTypeId",
+          name: "نوع محاسبات",
+          type: "selectInput",
+        },
+        {
+          title: "highThreshold",
           name: "حد بالای پله",
           type: "input",
           valueType: "number",
         },
         {
-          title: "LowThreshold",
+          title: "lowThreshold",
           name: "حد پائین پله",
           type: "input",
           valueType: "number",
         },
-        {
-          title: "StepNumber",
-          name: "شماره پله",
-          type: "input",
-          valueType: "number",
-        },
-        { title: "PlanName", name: "عنوان پلکان", type: "selectInput" },
       ],
       "coeff-base-type": [
         {

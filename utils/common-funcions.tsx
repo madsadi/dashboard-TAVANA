@@ -242,6 +242,7 @@ export const FindEnum = (
     case "period":
       return PeriodDateEnums;
     case "coefficientBaseType":
+    case "coefficientBaseTypeId":
     case "planName":
     case "PlanName":
     case "Plan":
@@ -373,6 +374,7 @@ export const FindEnum = (
     case "legalPersonTypeSubCategory":
       return LegalPersonTypeSubEnums;
     case "calculationBaseType":
+    case "calculationBaseTypeId":
       return CalculationBaseTypeEnums;
     case "managementType":
       return ManagementTypeEnums;
