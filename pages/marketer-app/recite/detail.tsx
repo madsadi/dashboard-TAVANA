@@ -31,94 +31,72 @@ function FactorIdDetail() {
 
   const items = [
     {
+      field: "Period",
+      headerName: "دوره",
+    },
+    {
       field: "TotalTurnOver",
-      headerName: "مجموع گردش",
+      headerName: "مبلغ  گردش  ساخته شده طی دوره ",
     },
     {
       field: "TotalBrokerCommission",
-      headerName: "مجموع کارمزد کارگزاری",
+      headerName: "مبلغ کارمزد  ساخته شده",
+    },
+    {
+      field: "COEFFICIENT",
+      headerName: "سهم نقد",
     },
     {
       field: "TotalNetBrokerCommission",
-      headerName: "مجموع خالص کارمزد کارگزار",
+      headerName: "کار مزد  مبلغ  مبنای محاسبات",
+    },
+    {
+      field: "Plan",
+      headerName: "رتبه در گروه پلکان",
+    },
+    {
+      field: "StepNumber",
+      headerName: "درصد کارمزد  سهم بازار یاب",
     },
     {
       field: "MarketerCommissionIncome",
-      headerName: "حق بازاریابی از خالص کارمزد در دوره",
+      headerName: "مبلغ کارمزد سهم بازار یاب بر اساس نظام پلکان",
     },
     // {
     //   field: "TotalCMD",
     //   headerName: "مجموع سهم صندوق توسعه",
     // },
     {
+      field: "TaxCoefficient",
+      headerName: "ضریب مالیات",
+    },
+    {
       field: "Tax",
       headerName: "مالیات",
+    },
+    {
+      field: "CollateralCoefficient",
+      headerName: "ضریب حسن انجام کار",
     },
     {
       field: "CollateralOfThisMonth",
       headerName: "کسورات حسن انجام کار این ماه",
     },
     {
-      field: "TotalFeeOfFollowers",
-      headerName: "گردش خالض زیر مجموعه ها",
+      field: "Guarantee",
+      headerName: "سپرده  تضمین",
     },
     {
-      field: "SumOfAdditions",
-      headerName: "سایر پرداختی",
+      field: "GuaranteeCoefficient",
+      headerName: "ضریب سپرده تضمین",
     },
     {
-      field: "SumOfDeductions",
+      field: "SumOfOtherDeductions",
       headerName: "سایر کسورات",
     },
     {
-      field: "Payment",
-      headerName: "پرداختی",
-    },
-    // {
-    //   field: "IsCmdConcluded",
-    //   headerName: "سهم صندوق توسعه اضافه میشود؟",
-    //   isBoolean: true,
-    // },
-    // {
-    //   field: "MaketerCMDIncome",
-    //   headerName: "حق بازاریابی از سهم صندوق توسعه",
-    // },
-
-    {
-      field: "TaxCoefficient",
-      headerName: "ضریب مالیات",
-    },
-    {
-      field: "CollateralDeduction",
-      headerName: "کسورات حسن انجام کار",
-    },
-    {
-      field: "CollateralCoefficient",
-      headerName: "ضریب کسورات حسن انجام کار",
-    },
-    {
-      field: "InsuranceDeduction",
-      headerName: "کسورات بیمه",
-    },
-    {
-      field: "InsuranceCoefficient",
-      headerName: "ضریب کسورات بیمه",
-    },
-    {
-      field: "MarketerTotalIncome",
-      headerName: "مجموع حق بازاریابی",
-    },
-    {
-      field: "CalculationCoefficient",
-      headerName: "ضریب محاسبه حق بازاریابی",
-    },
-    {
-      field: "ReturnDuration",
-      headerName: "دوره برگشت سپرده ها",
-    },
-    {
-      field: "InterimAmountDeduction",
-      headerName: "کسورات علی الحساب",
+      field: "TotalFeeOfFollowers",
+      headerName: "گردش خالص زیر مجموعه ها",
     },
     {
       field: "EmployeeSalaryDeduction",
@@ -129,35 +107,46 @@ function FactorIdDetail() {
       headerName: "کسورات بیمه سهم کارفرما",
     },
     {
-      field: "RedemptionDeduction",
-      headerName: "کسورات بازخرید",
+      field: "SumOfAdditions",
+      headerName: "مجموع پرداختی",
+    },
+    {
+      field: "SumOfOtherAdditions",
+      headerName: "سایر پرداختی",
+    },
+
+    {
+      field: "SumOfLegalDeductions",
+      headerName: "کسورات قانونی",
+    },
+    {
+      field: "TotalFeeOfFollowers",
+      headerName: "مجموع حق بازاریابی",
     },
     {
       field: "OtherDeduction",
       headerName: "سایر کسورات",
     },
     {
-      field: "OtherDeductionDescription",
-      headerName: "توضیحات (سایر کسورات)",
-    },
-    {
-      field: "CmdPayment",
-      headerName: "پرداختی سهم صندوق توسعه",
-    },
-    {
-      field: "CollateralReturnPayment",
-      headerName: "پرداختی برگشت حسن انجام کار",
-    },
-    {
-      field: "InsuranceReturnPayment",
-      headerName: "پرداختی برگشت بیمه",
-    },
-    {
-      field: "OtherPayment",
-      headerName: "سایر پرداختی ها",
+      field: "Payment",
+      headerName: "پرداختی",
     },
   ];
 
+  const links = [
+    {
+      field: "Title",
+      headerName: "عنوان",
+    },
+    {
+      field: "TotalFee",
+      headerName: "سود کل",
+    },
+    {
+      field: "Coefficient",
+      headerName: "ضریب حق معرف",
+    },
+  ];
   return (
     <div className={"flex flex-col h-full grow"}>
       <div className="StyledReceipt shadow mx-auto">
@@ -173,6 +162,29 @@ function FactorIdDetail() {
             />
           );
         })}
+        <div>
+          <label>زیر مجموعه ها</label>
+          {data?.result?.pagedData?.[0].Links?.map((item: any) => {
+            return (
+              <div
+                className="border border-border rounded-lg p-2"
+                key={item.title}
+              >
+                {links.map((i: any) => {
+                  return (
+                    <div
+                      className="flex items-center justify-between mr-5"
+                      key={item.title}
+                    >
+                      <label>{item[i.headerName]}</label>
+                      <div>{item[i.field]}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
