@@ -62,21 +62,21 @@ function FactorIdDetail() {
       field: "MarketerCommissionIncome",
       headerName: "مبلغ کارمزد سهم بازار یاب بر اساس نظام پلکان",
     },
-    // {
-    //   field: "TotalCMD",
-    //   headerName: "مجموع سهم صندوق توسعه",
-    // },
     {
-      field: "TaxCoefficient",
-      headerName: "ضریب مالیات",
+      field: "LegalDeductionCoefficient",
+      headerName: "ضریب کسورات قانونی",
     },
     {
-      field: "Tax",
-      headerName: "مالیات",
+      field: "LegalDeduction",
+      headerName: "کسورات قانونی",
     },
     {
       field: "CollateralCoefficient",
       headerName: "ضریب حسن انجام کار",
+    },
+    {
+      field: "CollateralCoefficient",
+      headerName: "ضریب کسورات حسن انجام کار",
     },
     {
       field: "CollateralOfThisMonth",
@@ -91,20 +91,20 @@ function FactorIdDetail() {
       headerName: "ضریب سپرده تضمین",
     },
     {
-      field: "SumOfOtherDeductions",
-      headerName: "سایر کسورات",
-    },
-    {
-      field: "TotalFeeOfFollowers",
-      headerName: "گردش خالص زیر مجموعه ها",
-    },
-    {
       field: "EmployeeSalaryDeduction",
       headerName: "کسورات حقوق پرسنل",
     },
     {
       field: "EmployerInsuranceDeduction",
       headerName: "کسورات بیمه سهم کارفرما",
+    },
+    {
+      field: "SumOfOtherDeductions",
+      headerName: "سایر کسورات",
+    },
+    {
+      field: "TotalFeeOfFollowers",
+      headerName: "گردش خالص زیر مجموعه ها",
     },
     {
       field: "SumOfAdditions",
@@ -117,7 +117,7 @@ function FactorIdDetail() {
 
     {
       field: "SumOfLegalDeductions",
-      headerName: "کسورات قانونی",
+      headerName: "مجموع کسورات قانونی",
     },
     {
       field: "TotalFeeOfFollowers",
@@ -128,8 +128,83 @@ function FactorIdDetail() {
       headerName: "سایر کسورات",
     },
     {
+      field: "OtherDeductionDescription",
+      headerName: "توضیحات (سایر کسورات)",
+    },
+    {
+      field: "CalculationCoefficient",
+      headerName: "ضریب محاسبه حق بازاریابی",
+    },
+    {
+      field: "MarketerTotalIncome",
+      headerName: "مجموع حق بازاریابی",
+    },
+    {
+      field: "CollateralOf2MonthAgo",
+      headerName: "استرداد سپرده حسن انجام کار دو ماه قبل",
+    },
+
+    {
       field: "Payment",
       headerName: "پرداختی",
+    },
+
+    // {
+    //   field: "IsCmdConcluded",
+    //   headerName: "سهم صندوق توسعه اضافه میشود؟",
+    //   isBoolean: true,
+    // },
+    // {
+    //   field: "MaketerCMDIncome",
+    //   headerName: "حق بازاریابی از سهم صندوق توسعه",
+    // },
+
+    {
+      field: "InsuranceDeduction",
+      headerName: "کسورات بیمه",
+    },
+    {
+      field: "InsuranceCoefficient",
+      headerName: "ضریب کسورات بیمه",
+    },
+
+    {
+      field: "ReturnDuration",
+      headerName: "دوره برگشت سپرده ها",
+    },
+    {
+      field: "InterimAmountDeduction",
+      headerName: "کسورات علی الحساب",
+    },
+
+    {
+      field: "RedemptionDeduction",
+      headerName: "کسورات بازخرید",
+    },
+    {
+      field: "MarketerTotalIncome",
+      headerName: "مجموع حق بازاریابی",
+    },
+    {
+      field: "CalculationCoefficient",
+      headerName: "ضریب محاسبه حق بازاریابی",
+    },
+    {
+      field: "CmdPayment",
+      headerName: "پرداختی سهم صندوق توسعه",
+    },
+    {
+      field: "CollateralReturnPayment",
+      headerName: "پرداختی برگشت حسن انجام کار",
+    },
+    {
+      field: "InsuranceReturnPayment",
+      headerName: "پرداختی برگشت بیمه",
+    },
+
+    {
+      field: "Department",
+      headerName: "دپارتمانی که فاکتور در حال پردازش است",
     },
   ];
 

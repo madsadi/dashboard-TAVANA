@@ -5014,7 +5014,7 @@ const filters: FilterTreeType = {
           valueType: "number",
         },
         {
-          title: "TaxCoefficient",
+          title: "LegalDeductionCoefficient",
           name: "ضریب مالیات",
           type: "input",
           valueType: "number",

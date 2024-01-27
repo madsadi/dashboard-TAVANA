@@ -22,7 +22,7 @@ export default function ToggleButton(props: {
 
   const changeStatus = async () => {
     await mutate({ ContractID: props.data.id })
-      .then((res) => {
+      .then(() => {
         setIsChecked(!isChecked);
         toast.success(`با موفقیت انجام شد`);
       })

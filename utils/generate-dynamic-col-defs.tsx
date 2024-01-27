@@ -1,7 +1,6 @@
 import { ColDef } from "ag-grid-community";
 import columnModel from "./columns-model";
 import { ModuleIdentifier } from "./Module-Identifier";
-import ToggleButton from "components/marketer-app/marketer-contract/toggle-button";
 import RoleToggleButton from "components/users-management/roles/role-toggle-button";
 import ToggleButtonUsers from "components/users-management/users/toggle-button";
 import ToogleCustomerPAM from "components/customer-management/customer/edit-customer-PAM";
@@ -1041,21 +1040,6 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "BranchTitle" },
     { colId: "ReagentRefLink" },
     { colId: "MarketerRefLink" },
-    {
-      colId: "IsActive",
-      cellRendererSelector: () => {
-        return {
-          component: (rowData: any) => (
-            <ToggleButton
-              data={{
-                isActive: rowData?.data?.IsActive,
-                id: rowData?.data?.id,
-              }}
-            />
-          ),
-        };
-      },
-    },
   ],
   "marketer-app_reconcilation": [
     { colId: "MarketerFirstName", cellRenderer: "agGroupCellRenderer" },
@@ -1171,7 +1155,7 @@ export const modularColsDef: ModularColsDefType = {
     // { colId: "Title", headerName: "عنوان بازاریاب" },
     { colId: "CollateralCoefficient" },
     { colId: "GuaranteeCoefficient" },
-    { colId: "TaxCoefficient" },
+    { colId: "LegalDeductionCoefficient" },
   ],
   "marketer-app_marketerContract_detail_coefficient": [
     { colId: "checkbox", type: "checkbox" },

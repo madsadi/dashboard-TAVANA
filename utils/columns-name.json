@@ -332,7 +332,7 @@
   "diffMonthPortfolio": "تفاوت ارزش تضمین در دوره زمانی",
   "errorText": "خطا",
   "CollateralCoefficient": "ضریب حسن انجام کار",
-  "TaxCoefficient": "ضریب مالیات",
+  "LegalDeductionCoefficient": "ضریب کسورات قانونی",
   "InsuranceCoefficient": "ضریب بیمه",
   "ReturnDuration": "دوره برگشت کسورات",
   "regentTitle": "معرف",
