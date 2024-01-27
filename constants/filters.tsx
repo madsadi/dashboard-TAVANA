@@ -4531,7 +4531,7 @@ const filters: FilterTreeType = {
         { title: "LeaderMarketerName", name: "نام بازاریاب", type: "input" },
         {
           title: "LeaderMarketerId",
-          name: " شناسه بازارایاب زیرگروه (کد ملی) ",
+          name: " شناسه بازارایاب (کد ملی) ",
           type: "dynamicSearch",
           initialValue: "",
           endpoint: `${MARKETER_ADMIN}/marketer/search`,
