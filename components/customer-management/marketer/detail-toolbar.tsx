@@ -6,11 +6,11 @@ import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";
-import { CustomerManagementBusinessUnitDetail } from "pages/holding-management/business-unit/detail";
+import { CustomerManagementBusinessUnitDetail } from "pages/holding-management/business-unit/access";
 import LabelValue from "components/common/components/label-value";
 import useQuery from "hooks/useQuery";
 import { useRouter } from "next/router";
-import { CustomerManagementMarketerDetail } from "pages/holding-management/marketer/detail";
+import { CustomerManagementMarketerDetail } from "pages/holding-management/marketer/subordinate";
 
 const DetailToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);

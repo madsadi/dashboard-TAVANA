@@ -228,7 +228,7 @@ export default function SideBarContent() {
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer,
         },
         {
-          label: "زیر مجموعه های بازاریاب ",
+          label: "بازاریاب های فرعی ",
           url: "/holding-management/subordinate",
           as: "/holding-management/subordinate",
           className:

@@ -115,7 +115,7 @@ export const StationToolbar = () => {
         mode="delete"
         confirmHandler={(e, query) => {
           e.preventDefault();
-          remove({}, { id: selected[0].id, ...query });
+          remove({ id: selected[0].id, ...query });
         }}
         modalMessage=" حذف ایستگاه معاملاتی "
         entity="title"

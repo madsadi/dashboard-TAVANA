@@ -4,7 +4,7 @@ import InputComponent from "components/common/components/input-generator";
 import Modal from "components/common/layout/modal";
 import useMutation from "hooks/useMutation";
 import { useSearchFilters } from "hooks/useSearchFilters";
-import { CustomerManagementBusinessUnitDetail } from "pages/holding-management/business-unit/detail";
+import { CustomerManagementBusinessUnitDetail } from "pages/holding-management/business-unit/access";
 import React, { useEffect, useState, useContext } from "react";
 import { ModuleIdentifier } from "utils/Module-Identifier";
 import { throwToast } from "utils/notification";

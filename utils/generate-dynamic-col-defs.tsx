@@ -578,6 +578,8 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "updateDateTime", type: "date" },
     {
       colId: "customer-detail",
+      headerName: "دسترسی ها",
+      maxWidth: 100,
       type: "blank-detail-page",
       cellRendererSelector: () => {
         return {
@@ -588,7 +590,7 @@ export const modularColsDef: ModularColsDefType = {
                 target="_blank"
                 rel="noreferrer"
                 href={{
-                  pathname: `/holding-management/business-unit/detail`,
+                  pathname: `/holding-management/business-unit/access`,
                   query: { id: rowData?.data?.id },
                 }}
               >
@@ -758,6 +760,8 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "updateDateTime", type: "date" },
     {
       colId: "marketer-detail",
+      headerName: "بازاریاب فرعی",
+      maxWidth: 100,
       type: "blank-detail-page",
       cellRendererSelector: () => {
         return {
@@ -768,7 +772,7 @@ export const modularColsDef: ModularColsDefType = {
                 target="_blank"
                 rel="noreferrer"
                 href={{
-                  pathname: `/holding-management/marketer/detail`,
+                  pathname: `/holding-management/marketer/subordinate`,
                   query: { marketerId: rowData?.data?.id },
                 }}
               >
@@ -1106,6 +1110,8 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "EndDate", type: "date" },
     {
       colId: "marketerContract-detail",
+      headerName: "کسورات",
+      maxWidth: 100,
       type: "blank-detail-page",
       cellRendererSelector: () => {
         return {
