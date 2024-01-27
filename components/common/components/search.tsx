@@ -72,12 +72,20 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
       const requiredItems = filters?.filter(
         (item: FilterItemType) => item.isRequired
       );
+
       if (requiredItems?.length) {
         const emptyRequiredItems = requiredItems.filter(
           (item: FilterItemType) =>
             item.type === "date"
               ? !query.startDate || !query.endDate
               : query[item.title] === undefined || query[item.title] === null
+        );
+        console.log(
+          emptyRequiredItems.filter(
+            (item: FilterItemType) => item.isRequired === "depending"
+          ),
+          rest,
+          Object.values(rest).some((val) => val)
         );
         if (
           emptyRequiredItems.filter(
