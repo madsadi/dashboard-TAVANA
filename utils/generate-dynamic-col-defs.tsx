@@ -1058,9 +1058,17 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_relations": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "LeaderMarketerId", cellRenderer: "agGroupCellRenderer" },
+    {
+      colId: "detail-opener",
+      type: "detail-opener",
+      field: "LeaderMarketerId",
+    },
     { colId: "FollowerMarketerName" },
     { colId: "LeaderMarketerName" },
+    { colId: "CommissionCoefficient" },
+    { colId: "StartDate", type: "date" },
+    { colId: "CreateDate", type: "date" },
+    { colId: "UpdateDate", type: "date" },
   ],
   "marketer-app_relations_detail": [
     { colId: "FollowerMarketerId" },
@@ -1159,10 +1167,10 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_marketerContract_detail_coefficient": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "ContractId" },
-    { colId: "MarketerId" },
-    { colId: "Title", headerName: "عنوان بازاریاب" },
-    { colId: "CoefficientPercentage" },
+    { colId: "CoefficientBaseType" },
+    { colId: "CalculationBaseType" },
+    { colId: "PlanName" },
+    { colId: "StepNumber" },
     { colId: "HighThreshold" },
     { colId: "LowThreshold" },
     { colId: "StepNumber" },

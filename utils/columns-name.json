@@ -331,6 +331,7 @@
   "lastMomentaryFactorValue": "ارزش تضمین",
   "diffMonthPortfolio": "تفاوت ارزش تضمین در دوره زمانی",
   "errorText": "خطا",
+  "PlanName": "عنوان پلکان",
   "CollateralCoefficient": "ضریب حسن انجام کار",
   "LegalDeductionCoefficient": "ضریب کسورات قانونی",
   "InsuranceCoefficient": "ضریب بیمه",

@@ -14,7 +14,7 @@ export default function EditMarketersRelations() {
     useContext<any>(RelationsContext);
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_relations,
-    "edit"
+    "modal"
   );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-relation/modify`,
@@ -89,6 +89,7 @@ export default function EditMarketersRelations() {
                     setQuery={setQuery}
                     item={item}
                     onChange={onChange}
+                    dataHelper={selectedRows[0]}
                   />
                 );
               })}

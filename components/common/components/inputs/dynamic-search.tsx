@@ -9,6 +9,7 @@ import {
   FilterItemType,
 } from "types/constant-filters.types";
 import { QueryType } from "types/types";
+import { classNames } from "utils/common-funcions";
 
 interface DynamicSearchProps {
   item: FilterItemDynamicType;
@@ -162,7 +163,12 @@ export default function DynamicSearch(props: DynamicSearchProps) {
           {name}
           {isRequired ? (
             <span className={"min-w-5 mr-2"}>
-              <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
+              <ExclamationCircleIcon
+                className={classNames(
+                  "h-4 w-4 ",
+                  isRequired === "required" ? "text-red-500" : "text-orange-400"
+                )}
+              />
             </span>
           ) : null}
           {(query?.[title] || query?.[title] === false || searchItem) &&
@@ -197,7 +203,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
             if (revalidateOnMount) setIsOpen(true);
           }}
           placeholder={
-            hasPlaceholder
+            hasPlaceholder && query[title]
               ? dataHelper?.[placeholder || "default"] || query?.[title]
               : null
           }

@@ -13,7 +13,7 @@ export default function AddMarketersRelations() {
   const { fetchData, searchQuery } = useContext<any>(RelationsContext);
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_relations,
-    "add"
+    "modal"
   );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-relation/add`,
@@ -29,7 +29,7 @@ export default function AddMarketersRelations() {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     await mutate(query)
-      .then((res) => {
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setQuery(null);

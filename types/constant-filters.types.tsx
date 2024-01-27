@@ -3,7 +3,7 @@ import { Day } from "react-modern-calendar-datepicker";
 interface FilterItemBasicType {
   title: string;
   name: string;
-  isRequired?: boolean;
+  isRequired?: "depending" | "required";
   valueType?: "number";
   placeholder?: string;
   initialValue?: string | null | boolean;

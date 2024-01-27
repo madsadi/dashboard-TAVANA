@@ -68,6 +68,7 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
 
     const queryValidationHandler = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      const { pageNumber, pageSize, ...rest } = query;
       const requiredItems = filters?.filter(
         (item: FilterItemType) => item.isRequired
       );
@@ -78,7 +79,11 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
               ? !query.startDate || !query.endDate
               : query[item.title] === undefined || query[item.title] === null
         );
-        if (emptyRequiredItems.length) {
+        if (
+          emptyRequiredItems.filter(
+            (item: FilterItemType) => item.isRequired === "required"
+          ).length
+        ) {
           const warningItems = emptyRequiredItems
             .map((item: FilterItemType) => item.name)
             .join(", ");
@@ -86,8 +91,21 @@ const SearchComponent: React.FC<SearchComponentTypes> = forwardRef(
             type: "warning",
             value: `ورودی  ${warningItems} الزامی می باشد`,
           });
-        } else {
+        } else if (
+          emptyRequiredItems.filter(
+            (item: FilterItemType) => item.isRequired === "depending"
+          ).length &&
+          Object.values(rest).some((val) => val)
+        ) {
           onSubmit(query);
+        } else {
+          const warningItems = emptyRequiredItems
+            .map((item: FilterItemType) => item.name)
+            .join(", ");
+          throwToast({
+            type: "warning",
+            value: `ورودی  ${warningItems} الزامی می باشد`,
+          });
         }
       } else {
         onSubmit(query);

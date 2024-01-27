@@ -5,7 +5,7 @@ import { XCircleIcon } from "@heroicons/react/20/solid";
 import { DayValue } from "react-modern-calendar-datepicker";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { jalali } from "utils/common-funcions";
+import { classNames, jalali } from "utils/common-funcions";
 import {
   FilterItemSingleDateType,
   FilterItemType,
@@ -36,7 +36,12 @@ export const SingleDateInput = (props: SingleDateInputProps) => {
         {name}
         {isRequired ? (
           <span className={"min-w-5 mr-2"}>
-            <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
+            <ExclamationCircleIcon
+              className={classNames(
+                "h-4 w-4 ",
+                isRequired === "required" ? "text-red-500" : "text-orange-400"
+              )}
+            />
           </span>
         ) : null}
         {query?.[title] || query?.[title] === false ? (

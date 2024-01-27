@@ -1,7 +1,12 @@
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import React, { useState } from "react";
 import { FilterItemType } from "types/constant-filters.types";
-import { numberInput, numberWithCommas, p2e } from "utils/common-funcions";
+import {
+  classNames,
+  numberInput,
+  numberWithCommas,
+  p2e,
+} from "utils/common-funcions";
 
 interface BaseInputPropsType {
   item: FilterItemType;
@@ -29,7 +34,12 @@ export const BaseInput = (props: BaseInputPropsType) => {
         {name}
         {isRequired ? (
           <span className={"min-w-5 mr-2"}>
-            <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
+            <ExclamationCircleIcon
+              className={classNames(
+                "h-4 w-4 ",
+                isRequired === "required" ? "text-red-500" : "text-orange-400"
+              )}
+            />
           </span>
         ) : null}
         {inputValue && !readOnly ? (

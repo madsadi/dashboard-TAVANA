@@ -26,7 +26,12 @@ export const TimeValueInput = (props: BaseInputPropsType) => {
         {name}
         {isRequired ? (
           <span className={"min-w-5 mr-2"}>
-            <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
+            <ExclamationCircleIcon
+              className={classNames(
+                "h-4 w-4 ",
+                isRequired === "required" ? "text-red-500" : "text-orange-400"
+              )}
+            />
           </span>
         ) : null}
       </label>

@@ -2,7 +2,11 @@ import React from "react";
 import DatePicker from "@amir04lm26/react-modern-calendar-date-picker";
 import moment from "jalali-moment";
 import { ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
-import { dateRangeHandler, jalali } from "../../../../utils/common-funcions";
+import {
+  classNames,
+  dateRangeHandler,
+  jalali,
+} from "../../../../utils/common-funcions";
 import { DayRange } from "react-modern-calendar-datepicker";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Button } from "../button/button";
@@ -23,7 +27,12 @@ export const RangeDateInput = (props: BaseInputPropsType) => {
         {name}
         {isRequired ? (
           <span className={"min-w-5 mr-2"}>
-            <ExclamationCircleIcon className={"h-4 w-4 text-red-500"} />
+            <ExclamationCircleIcon
+              className={classNames(
+                "h-4 w-4 ",
+                isRequired === "required" ? "text-red-500" : "text-orange-400"
+              )}
+            />
           </span>
         ) : null}
         {(query?.["startDate"] || query?.["endDate"]) && !readOnly ? (

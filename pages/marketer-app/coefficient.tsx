@@ -50,7 +50,7 @@ function Coefficient() {
           loading={coefficientLoading}
           module={ModuleIdentifier.MARKETER_APP_relations_detail_coefficient}
           data={coefficientData?.result?.pagedData}
-          rowId={["ContractId"]}
+          rowId={["id"]}
           selectedRows={selectedCoeff}
           setSelectedRows={setSelectedCoeff}
         />
