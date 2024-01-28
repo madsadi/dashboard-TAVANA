@@ -18,6 +18,7 @@ import {
   CustomerAgreementState,
   CustomerOriginEnums,
   customerTypeEnums,
+  DepartmentEnums,
   FactorStatusEnums,
   genderEnums,
   GetOfferTypeEnums,
@@ -236,7 +237,10 @@ export const FindEnum = (
       return activeStatus;
     case "requestStatus":
       return RequestStatusEnums;
+    case "department":
+      return DepartmentEnums;
     case "positionType":
+    case "position":
       return PositionTypeEnums;
     case "periodDate":
     case "period":

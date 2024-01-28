@@ -749,6 +749,162 @@ export const ManagementTypeEnums = [
     id: null,
   },
 ];
+
+export const DepartmentEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Board",
+    title: "هیئت مدیره",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "FinanceAndAccounting",
+    title: "مالی و حسابداری",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "Trading",
+    title: "معاملات",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "Investment",
+    title: "سرمایه گذاری",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "Branches",
+    title: "شعب",
+  },
+  {
+    id: 6,
+    code: 6,
+    enTitle: "Marketing",
+    title: "توسعه بازار",
+  },
+  {
+    id: 7,
+    code: 7,
+    enTitle: "CustomerRegistartion",
+    title: "پذیرش",
+  },
+  {
+    id: 8,
+    code: 8,
+    enTitle: "HumanResources",
+    title: "منابع انسانی",
+  },
+  {
+    id: 9,
+    code: 9,
+    enTitle: "CallCenter",
+    title: "مرکز تماس",
+  },
+  {
+    id: 10,
+    code: 10,
+    enTitle: "LegalAffair",
+    title: "معاونت حقوقی",
+  },
+  {
+    id: 11,
+    code: 11,
+    enTitle: "SupportCenter",
+    title: "پشتیبانی",
+  },
+  {
+    id: 12,
+    code: 12,
+    enTitle: "Executive",
+    title: "عملیات و اجرا",
+  },
+];
+
+export const PositionEnums = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Chairman",
+    title: "رئیس هیئت مدیره",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "Member",
+    title: "عضو هیئت مدیره",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "CEO",
+    title: "مدیرعامل",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "VP",
+    title: "معاونت",
+  },
+  {
+    id: 5,
+    code: 5,
+    enTitle: "CTO",
+    title: "مدیر فنی",
+  },
+  {
+    id: 6,
+    code: 6,
+    enTitle: "CPO",
+    title: "مدیر محصول",
+  },
+  {
+    id: 7,
+    code: 7,
+    enTitle: "Manager",
+    title: "مدیر",
+  },
+  {
+    id: 8,
+    code: 8,
+    enTitle: "Chief",
+    title: "سرپرست",
+  },
+  {
+    id: 9,
+    code: 9,
+    enTitle: "Supervisor",
+    title: "رئیس",
+  },
+  {
+    id: 10,
+    code: 10,
+    enTitle: "SeniorStaff",
+    title: "کارشناس ارشد",
+  },
+  {
+    id: 11,
+    code: 11,
+    enTitle: "Staff",
+    title: "کارشناس",
+  },
+  {
+    id: 12,
+    code: 12,
+    enTitle: "JuniorStaff",
+    title: "کارآموز",
+  },
+  {
+    id: 13,
+    code: 13,
+    enTitle: "Trader",
+    title: "معامله گر",
+  },
+];
 export const ContractTypeEnums = [
   {
     id: 1,

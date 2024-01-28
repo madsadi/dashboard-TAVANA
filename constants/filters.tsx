@@ -1588,9 +1588,9 @@ const filters: FilterTreeType = {
       filters: [
         { title: "pageNumber", name: "شماره صفحه", type: null },
         { title: "pageSize", name: "تعداد", type: null },
-        { title: "UniqueId", name: " کد ملی بازاریاب/معرف ", type: "input" },
-        { title: "Department", name: "بخش کاری", type: "selectInput" },
-        { title: "Position", name: "سمت کاری", type: "selectInput" },
+        { title: "uniqueId", name: " کد ملی بازاریاب/معرف ", type: "input" },
+        { title: "department", name: "بخش کاری", type: "selectInput" },
+        { title: "position", name: "سمت کاری", type: "selectInput" },
         { title: "WorkEmail", name: "ایمیل سازمانی", type: "input" },
         {
           title: "branchId",
