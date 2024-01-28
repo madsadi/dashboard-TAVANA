@@ -2952,6 +2952,43 @@ const filters: FilterTreeType = {
       ],
     },
   },
+  "customer-management_employee_station_history": {
+    services: {},
+    search: {
+      filters: [
+        {
+          title: "employeeId",
+          name: "معامله گر",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/employee/Search`,
+          valueField: ["uniqueId", "title", "positionTitle", "branchTitle"],
+          queryField: "UniqueId",
+          recordField: "id",
+        },
+        {
+          title: "stationId",
+          name: "ایستگاه معاملاتی(کد)",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/station/Search`,
+          valueField: ["title", "typeTitle"],
+          queryField: "code",
+          recordField: "id",
+        },
+        {
+          title: "date",
+          name: "تاریخ شروع و پایان",
+          type: "date",
+          isRequired: "required",
+        },
+      ],
+      initialValue: {
+        pageNumber: 1,
+        pageSize: 20,
+      },
+    },
+  },
   credit_bank: {
     services: {},
     search: {

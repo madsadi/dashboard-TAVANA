@@ -337,6 +337,8 @@
   "InsuranceCoefficient": "ضریب بیمه",
   "ReturnDuration": "دوره برگشت کسورات",
   "regentTitle": "معرف",
+  "stationTitle": "ایستگاه معاملاتی",
+  "stationTypeTitle": "نوع ایستگاه",
   "CoefficientPercentage": "درصد ضریب",
   "HighThreshold": "حد بالای پله",
   "LowThreshold": "حد بالای پایین",

@@ -405,6 +405,16 @@ export default function SideBarContent() {
               : "",
           module: ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer_history,
         },
+        {
+          label: " تغییرات ایستگاه معاملاتی",
+          url: "/customer-management/employee-station-history",
+          as: "/customer-management/employee-station-history",
+          className:
+            router.asPath === `/customer-management/employee-station-history`
+              ? "sideBarActive"
+              : "",
+          module: ModuleIdentifier.CUSTOMER_MANAGEMENT_employee_station_history,
+        },
       ],
     },
 

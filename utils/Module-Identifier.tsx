@@ -20,6 +20,8 @@ export const ModuleIdentifier = {
   CUSTOMER_MANAGEMENT_subsidiary: "customer-management_subsidiary",
   CUSTOMER_MANAGEMENT_branch: "customer-management_branch",
   CUSTOMER_MANAGEMENT_employee: "customer-management_employee",
+  CUSTOMER_MANAGEMENT_employee_station_history:
+    "customer-management_employee_station_history",
   CUSTOMER_MANAGEMENT_businessUnit: "customer-management_businessUnit",
   CUSTOMER_MANAGEMENT_businessUnit_owner_detail:
     "customer-management_businessUnit_owner_detail",

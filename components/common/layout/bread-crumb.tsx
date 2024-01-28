@@ -60,6 +60,7 @@ export default function BreadCrumbComponent() {
     profile: "حساب کاربری",
     "marketer-app": "اپلیکیشن مارکتر",
     relations: "ارتباط بازاریاب ها",
+    "employee-station-history": "تغییرات ایستگاه معاملاتی",
     recite: "گزارش صورتحسابهای بازاریاب",
     "sub-users": "زیر مجموعه ها",
     marketers: "بازارایاب ها",

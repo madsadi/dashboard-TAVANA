@@ -963,6 +963,14 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],
+  "customer-management_employee_station_history": [
+    { colId: "employeeTitle" },
+    { colId: "departmentTitle" },
+    { colId: "positionTitle" },
+    { colId: "stationTitle" },
+    { colId: "stationTypeTitle" },
+    { colId: "changeDateTime", type: "date" },
+  ],
 
   //online
   "online-orders": [
