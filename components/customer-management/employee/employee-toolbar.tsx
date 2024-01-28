@@ -10,11 +10,15 @@ import { CustomerManagementEmployeeContext } from "pages/holding-management/empl
 
 const EmployeeToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const { fetchData, selected, setSelectedRows } = useContext<any>(
+    CustomerManagementEmployeeContext
+  );
   const { mutate: edit } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/employee/Edit`,
     method: "PATCH",
     onSuccess: () => {
       fetchData();
+      setSelectedRows([]);
       editRef.current?.modalHandler(false);
     },
     setLoading: setLoading,
@@ -37,9 +41,7 @@ const EmployeeToolbar = () => {
     },
     setLoading: setLoading,
   });
-  const { fetchData, selected } = useContext<any>(
-    CustomerManagementEmployeeContext
-  );
+
   const { restriction, modules, service } = useSearchFilters(
     ModuleIdentifier.CUSTOMER_MANAGEMENT_employee
   );
@@ -71,7 +73,7 @@ const EmployeeToolbar = () => {
         module={ModuleIdentifier.CUSTOMER_MANAGEMENT_employee}
         subModule="add"
         mode="edit"
-        selectedItem={selected[0]}
+        selectedItem={selected?.[0]}
       >
         <Button
           label={"جدید"}
@@ -94,7 +96,7 @@ const EmployeeToolbar = () => {
         }}
         loading={loading}
         module={ModuleIdentifier.CUSTOMER_MANAGEMENT_employee}
-        selectedItem={selected}
+        selectedItem={selected?.[0]}
         subModule="add"
       >
         <Button
