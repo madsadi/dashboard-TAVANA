@@ -4602,7 +4602,7 @@ const filters: FilterTreeType = {
       },
     },
     toolbar: {
-      modal: [
+      add: [
         {
           title: "LeaderMarketerId",
           name: " شناسه بازارایاب سرگروه (کد ملی)",
@@ -4627,6 +4627,15 @@ const filters: FilterTreeType = {
           recordField: "MarketerId",
           isRequired: "required",
         },
+        {
+          title: "CommissionCoefficient",
+          name: "ضریب کارمزد معرفی بازاریاب",
+          type: "input",
+          dir: "ltr",
+        },
+        { title: "date", name: "تاریخ شروع و پایان", type: "date" },
+      ],
+      edit: [
         {
           title: "CommissionCoefficient",
           name: "ضریب کارمزد معرفی بازاریاب",

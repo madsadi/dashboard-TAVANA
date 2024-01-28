@@ -13,7 +13,7 @@ export default function AddMarketersRelations() {
   const { fetchData, searchQuery } = useContext<any>(RelationsContext);
   const { toolbar } = useSearchFilters(
     ModuleIdentifier.MARKETER_APP_relations,
-    "modal"
+    "add"
   );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-relation/add`,
