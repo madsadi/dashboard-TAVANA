@@ -11,11 +11,20 @@ import { CustomerManagementAgreementsManagementContext } from "pages/holding-man
 export const AgreementsManagementToolbar = ({ isMainPage = false }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: editCreditBank } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/agreement/Edit`,
+    url: `${ADMIN_GATEWAY}/api/request/agreement/Update`,
     method: "PATCH",
     onSuccess: () => {
       fetchData();
       editRef.current?.modalHandler(false);
+    },
+    setLoading: setLoading,
+  });
+  const { mutate: remove } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/agreement/Delete`,
+    method: "PATCH",
+    onSuccess: () => {
+      fetchData();
+      deleteRef.current?.modalHandler(false);
     },
     setLoading: setLoading,
   });
@@ -28,6 +37,16 @@ export const AgreementsManagementToolbar = ({ isMainPage = false }) => {
     },
     setLoading: setLoading,
   });
+  const { mutate: editBourseCode } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/agreement/EditBourseCodeRequirationStatus`,
+    method: "PATCH",
+    onSuccess: () => {
+      fetchData();
+      editBourseCodeRef.current?.modalHandler(false);
+    },
+    setLoading: setLoading,
+  });
+
   const { fetchData, selected } = useContext<any>(
     CustomerManagementAgreementsManagementContext
   );
@@ -36,6 +55,8 @@ export const AgreementsManagementToolbar = ({ isMainPage = false }) => {
   );
   const editRef: any = useRef();
   const addRef: any = useRef();
+  const editBourseCodeRef: any = useRef();
+  const deleteRef: any = useRef();
 
   const modalHandler = (target: any) => {
     if (selected) {
@@ -98,6 +119,55 @@ export const AgreementsManagementToolbar = ({ isMainPage = false }) => {
           allowed={
             restriction
               ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
+              : []
+          }
+        />
+      </CRUDWrapper>
+
+      <CRUDWrapper
+        ref={editBourseCodeRef}
+        title={`اجباری بودن کدبورسی`}
+        mode="edit"
+        confirmHandler={(e, query) => {
+          e.preventDefault();
+          editBourseCode({ id: selected.id, ...query });
+        }}
+        loading={loading}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+        selectedItem={selected}
+      >
+        <Button
+          label={"اجباری بودن کدبورسی"}
+          className="bg-secondary"
+          onClick={() => modalHandler(editBourseCodeRef)}
+          allowed={
+            restriction
+              ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
+              : []
+          }
+        />
+      </CRUDWrapper>
+      <CRUDWrapper
+        ref={deleteRef}
+        title={`حذف قرارداد`}
+        mode="delete"
+        confirmHandler={(e, query) => {
+          e.preventDefault();
+          remove({ id: selected.id, ...query });
+        }}
+        modalMessage=" حذف قرارداد "
+        entity="title"
+        loading={loading}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreements_management}
+        selectedItem={selected}
+      >
+        <Button
+          label={"حذف"}
+          className="bg-red-500"
+          onClick={() => modalHandler(deleteRef)}
+          allowed={
+            restriction
+              ? [[service?.[0], modules?.[0]?.[0], "Delete"].join(".")]
               : []
           }
         />

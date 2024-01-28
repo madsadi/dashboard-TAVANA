@@ -17,6 +17,9 @@ export default function AddMarketersRelations() {
   );
   const { mutate } = useMutation({
     url: `${MARKETER_ADMIN}/marketer-relation/add`,
+    onSuccess: () => {
+      fetchData(searchQuery);
+    },
   });
   const [modal, setModal] = useState(false);
   const [query, setQuery] = useState<any>({});
@@ -33,7 +36,6 @@ export default function AddMarketersRelations() {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setQuery(null);
-        fetchData(searchQuery);
       })
       .catch((err) => {
         throwToast({ type: "error", value: err });

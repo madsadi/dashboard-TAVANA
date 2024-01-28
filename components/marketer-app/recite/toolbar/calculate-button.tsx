@@ -72,12 +72,11 @@ export default function CalculationButton() {
     setQuery(_query);
   };
 
-  console.log(query);
-
   return (
     <>
       <Button
         loading={loading}
+        className="bg-primary"
         label="محاسبه ی صورت حساب"
         onClick={openHandler}
       />

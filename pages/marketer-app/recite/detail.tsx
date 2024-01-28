@@ -10,7 +10,7 @@ const DisplayValue = ({ item }: any) => {
   return (
     <div className="flex items-center justify-between">
       <label>{item.key}</label>
-      <div>
+      <div dir={item.isBoolean ? "rtl" : "ltr"}>
         {item.isBoolean ? (item.value ? "بله" : "خیر") : formatNumber(item, 0)}
       </div>
     </div>
@@ -70,13 +70,18 @@ function FactorIdDetail() {
       field: "LegalDeduction",
       headerName: "کسورات قانونی",
     },
+
     {
       field: "CollateralCoefficient",
       headerName: "ضریب حسن انجام کار",
     },
     {
-      field: "CollateralCoefficient",
-      headerName: "ضریب کسورات حسن انجام کار",
+      field: "InsuranceDeduction",
+      headerName: "کسورات بیمه",
+    },
+    {
+      field: "InsuranceCoefficient",
+      headerName: "ضریب کسورات بیمه",
     },
     {
       field: "CollateralOfThisMonth",
@@ -100,7 +105,7 @@ function FactorIdDetail() {
     },
     {
       field: "SumOfOtherDeductions",
-      headerName: "سایر کسورات",
+      headerName: "مجموع کسورات",
     },
     {
       field: "TotalFeeOfFollowers",
@@ -144,11 +149,6 @@ function FactorIdDetail() {
       headerName: "استرداد سپرده حسن انجام کار دو ماه قبل",
     },
 
-    {
-      field: "Payment",
-      headerName: "پرداختی",
-    },
-
     // {
     //   field: "IsCmdConcluded",
     //   headerName: "سهم صندوق توسعه اضافه میشود؟",
@@ -158,15 +158,6 @@ function FactorIdDetail() {
     //   field: "MaketerCMDIncome",
     //   headerName: "حق بازاریابی از سهم صندوق توسعه",
     // },
-
-    {
-      field: "InsuranceDeduction",
-      headerName: "کسورات بیمه",
-    },
-    {
-      field: "InsuranceCoefficient",
-      headerName: "ضریب کسورات بیمه",
-    },
 
     {
       field: "ReturnDuration",
@@ -205,6 +196,10 @@ function FactorIdDetail() {
     {
       field: "Department",
       headerName: "دپارتمانی که فاکتور در حال پردازش است",
+    },
+    {
+      field: "Payment",
+      headerName: "پرداختی",
     },
   ];
 

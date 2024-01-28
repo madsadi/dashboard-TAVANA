@@ -21,7 +21,7 @@ export const AgreementToolbar = () => {
   });
   const { mutate: remove } = useMutation({
     url: `${ADMIN_GATEWAY}/api/request/agreement/Delete`,
-    method: "DELETE",
+    method: "PATCH",
     onSuccess: () => {
       fetchData();
       deleteRef.current?.modalHandler(false);
@@ -37,6 +37,15 @@ export const AgreementToolbar = () => {
     },
     setLoading: setLoading,
   });
+  const { mutate: editBourseCode } = useMutation({
+    url: `${ADMIN_GATEWAY}/api/request/agreement/EditBourseCodeRequirationStatus`,
+    method: "PATCH",
+    onSuccess: () => {
+      fetchData();
+      editBourseCodeRef.current?.modalHandler(false);
+    },
+    setLoading: setLoading,
+  });
   const { fetchData, selected } = useContext<any>(CustomerManagementBranch);
 
   const { restriction, modules, service } = useSearchFilters(
@@ -45,6 +54,7 @@ export const AgreementToolbar = () => {
   const editRef: any = useRef();
   const deleteRef: any = useRef();
   const addRef: any = useRef();
+  const editBourseCodeRef: any = useRef();
 
   const modalHandler = (target: any) => {
     if (selected[0]) {
@@ -115,7 +125,7 @@ export const AgreementToolbar = () => {
         mode="delete"
         confirmHandler={(e, query) => {
           e.preventDefault();
-          remove({}, { id: selected[0].id, ...query });
+          remove({ id: selected[0].id, ...query });
         }}
         modalMessage=" حذف قرارداد "
         entity="title"
@@ -130,6 +140,29 @@ export const AgreementToolbar = () => {
           allowed={
             restriction
               ? [[service?.[0], modules?.[0]?.[0], "Delete"].join(".")]
+              : []
+          }
+        />
+      </CRUDWrapper>
+      <CRUDWrapper
+        ref={editBourseCodeRef}
+        title={`اجباری بودن کدبورسی`}
+        mode="edit"
+        confirmHandler={(e, query) => {
+          e.preventDefault();
+          editBourseCode({ id: selected[0].id, ...query });
+        }}
+        loading={loading}
+        module={ModuleIdentifier.CUSTOMER_MANAGEMENT_agreement}
+        selectedItem={selected[0]}
+      >
+        <Button
+          label={"اجباری بودن کدبورسی"}
+          className="bg-secondary"
+          onClick={() => modalHandler(deleteRef)}
+          allowed={
+            restriction
+              ? [[service?.[0], modules?.[0]?.[0], "Edit"].join(".")]
               : []
           }
         />

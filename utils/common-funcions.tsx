@@ -8,6 +8,7 @@ import {
   AssetStatusEnums,
   AssignmentTypeEnums,
   BankAccountTypeEnums,
+  BourseCodeTypeEnum,
   bousreCodeType,
   CalculationBaseType,
   CalculationBaseTypeEnums,

@@ -11,7 +11,7 @@ import { CustomerManagementStation } from "pages/holding-management/station";
 export const StationToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: edit } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/station/Update`,
+    url: `${ADMIN_GATEWAY}/api/request/station/Edit`,
     method: "PATCH",
     onSuccess: () => {
       fetchData();

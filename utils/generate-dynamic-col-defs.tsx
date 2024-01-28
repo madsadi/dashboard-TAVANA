@@ -20,6 +20,8 @@ import ToggleButtonMarketer from "components/customer-management/toggle-button";
 import ToggleButtonEmployee from "components/customer-management/employee/toggle-isactive";
 import ToggleButtonMarketerSubordinate from "components/customer-management/marketer/toggle-button-subordinate";
 import ToggleButtonStation from "components/customer-management/station/toogle-button";
+import StatusToggleAgreement from "components/customer-management/agreement/status-toggle";
+import RequirationToggleAgreement from "components/customer-management/agreement/requiration-toggle";
 
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
@@ -803,13 +805,13 @@ export const modularColsDef: ModularColsDefType = {
         };
       },
     },
-    { colId: "isDeleted",type:'enum' },
+    { colId: "isDeleted", type: "enum" },
     { colId: "marketerTitle" },
     { colId: "marketerUniqueId" },
     { colId: "marketerRefCode" },
     { colId: "marketerTypeTitle" },
-    { colId: "createDateTime",type:'date' },
-    { colId: "updateDateTime" ,type:'date'},
+    { colId: "createDateTime", type: "date" },
+    { colId: "updateDateTime", type: "date" },
   ],
   "customer-management_marketer_detail": [
     { colId: "checkbox", type: "checkbox" },
@@ -832,24 +834,6 @@ export const modularColsDef: ModularColsDefType = {
       },
     },
     { colId: "isDeleted", type: "enum" },
-    { colId: "createDateTime", type: "date" },
-    { colId: "updateDateTime", type: "date" },
-  ],
-  "customer-management_agreement": [
-    { colId: "checkbox", type: "checkbox" },
-    { colId: "subsidiaryId" },
-    { colId: "bourseCodeType" },
-    { colId: "name" },
-    { colId: "description" },
-    { colId: "context" },
-    { colId: "defaultFileId" },
-    { colId: "isBourseCodeRequired" },
-    { colId: "isRequired", type: "enum" },
-    {
-      colId: "isActive",
-      type: "enum",
-    },
-    { colId: "isDeleted" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],
@@ -910,8 +894,33 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "context" },
     { colId: "isBourseCodeRequired", type: "enum" },
     { colId: "bourseCodeTypeTitle" },
-    { colId: "isRequired", type: "enum" },
-    { colId: "isActive", type: "enum" },
+    {
+      colId: "isRequired",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <RequirationToggleAgreement
+              data={{
+                isRequired: rowData.data.isRequired,
+                id: rowData.data.id,
+              }}
+            />
+          ),
+        };
+      },
+    },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <StatusToggleAgreement
+              data={{ isActive: rowData.data.isActive, id: rowData.data.id }}
+            />
+          ),
+        };
+      },
+    },
     { colId: "isDeleted", type: "enum" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
@@ -1130,9 +1139,9 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "ContractId" },
     { colId: "MarketerId" },
     { colId: "Title", headerName: "عنوان بازاریاب" },
-    { colId: "CalculationBaseType" },
-    { colId: "CoefficientBaseType" },
-    { colId: "ContractType" },
+    { colId: "CalculationBaseType", type: "enum" },
+    { colId: "CoefficientBaseType", type: "enum" },
+    { colId: "ContractType", type: "enum" },
     { colId: "Description" },
     { colId: "StartDate", type: "date" },
     { colId: "EndDate", type: "date" },
@@ -1162,8 +1171,8 @@ export const modularColsDef: ModularColsDefType = {
   "marketer-app_recite": [
     { colId: "checkbox", type: "checkbox" },
     { colId: "Title" },
-    { colId: "Period", type: "enum" },
-    { colId: "Plan" },
+    { colId: "Period" },
+    { colId: "Plan", type: "enum" },
     {
       colId: "status",
       field: "Status",
@@ -1203,8 +1212,8 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_marketerContract_detail_coefficient": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "CoefficientBaseType" },
-    { colId: "CalculationBaseType" },
+    { colId: "CoefficientBaseType", type: "enum" },
+    { colId: "CalculationBaseType", type: "enum" },
     { colId: "PlanName" },
     { colId: "StepNumber" },
     { colId: "HighThreshold" },

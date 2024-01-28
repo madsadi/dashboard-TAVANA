@@ -334,6 +334,7 @@ const filters: FilterTreeType = {
           queryField: "NationalId",
           recordField: "id",
         },
+        { title: "unqiueId", name: "کد ملی", type: "input" },
         { title: "Mobile", name: "شماره موبایل", type: "input" },
         { title: "Email", name: "ایمیل", type: "input" },
         {
@@ -2110,7 +2111,6 @@ const filters: FilterTreeType = {
           title: "code",
           name: "کد ایستگاه معاملاتی",
           type: "input",
-          valueType: "number",
           initialValue: null,
         },
         {
@@ -2130,6 +2130,7 @@ const filters: FilterTreeType = {
           title: "employeeId",
           name: "کارمند",
           type: "dynamicSearch",
+          placeholder: "employeeTitle",
           initialValue: "",
           endpoint: `${ADMIN_GATEWAY}/api/request/employee/Search`,
           valueField: [
@@ -2500,69 +2501,6 @@ const filters: FilterTreeType = {
           valueField: ["firstName", "lastName", "UniqueId", "Mobile"],
           queryField: "NationalId",
           recordField: "id",
-        },
-      ],
-    },
-  },
-  "customer-management_agreement": {
-    services: {
-      CustomerManagement: [
-        {
-          module: "Agreement",
-          permissions: ["Read", "Create", "Edit", "Delete"],
-        },
-      ],
-    },
-    toolbar: {
-      modal: [
-        {
-          title: "subsidiaryId",
-          name: "شناسه شرکت",
-          type: "input",
-          initialValue: "",
-        },
-        {
-          title: "bourseCodeType",
-          name: "نوع کدبورسی",
-          type: "input",
-          valueType: "number",
-          initialValue: null,
-        },
-        {
-          title: "name",
-          name: "عنوان توافقنامه",
-          type: "input",
-          initialValue: "",
-        },
-        {
-          title: "description",
-          name: "توضیحات",
-          type: "input",
-          initialValue: "",
-        },
-        {
-          title: "context",
-          name: "متن توافقنامه",
-          type: "input",
-          initialValue: "",
-        },
-        {
-          title: "defaultFileId",
-          name: "شناسه فایل پیش فرض توافقنامه",
-          type: "input",
-          initialValue: "",
-        },
-        {
-          title: "isBourseCodeRequired",
-          name: "کد بورسی نیاز دارد؟",
-          type: "selectInput",
-          initialValue: false,
-        },
-        {
-          title: "isRequired",
-          name: "توافقنامه اجباری است؟",
-          type: "selectInput",
-          initialValue: false,
         },
       ],
     },
@@ -4820,6 +4758,9 @@ const filters: FilterTreeType = {
           type: "input",
           valueType: "number",
         },
+      ],
+      "edit-status": [
+        { title: "Status", name: "وضعیت فاکتور", type: "selectInput" },
       ],
     },
   },

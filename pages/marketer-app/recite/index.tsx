@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useState } from "react";
 import dynamic from "next/dynamic";
 
 const SearchComponent = dynamic(

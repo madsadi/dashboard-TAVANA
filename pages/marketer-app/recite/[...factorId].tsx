@@ -53,7 +53,7 @@ function FactorIdEdit() {
   const openHandler = () => {
     mutate({ factorId: params, ...query })
       .then(() => throwToast({ type: "success", value: "با موفقیت ویرایش شد" }))
-      .catch(() => throwToast({ type: "error", value: "ناموفق" }));
+      .catch((err) => throwToast({ type: "error", value: err }));
   };
 
   return (

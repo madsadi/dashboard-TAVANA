@@ -31,8 +31,8 @@ export default function EditMarketersRelations() {
         selectedRows[0][`FollowerMarketerId`];
       _initialValue["CommissionCoefficient"] =
         selectedRows[0][`CommissionCoefficient`];
-      _initialValue["StartDate"] = selectedRows[0]?.StartDate;
-      _initialValue["EndDate"] = selectedRows[0]?.EndDate;
+      _initialValue["startDate"] = selectedRows[0]?.StartDate;
+      _initialValue["endDate"] = selectedRows[0]?.EndDate;
       setQuery(_initialValue);
     }
   }, [modal]);
@@ -51,11 +51,12 @@ export default function EditMarketersRelations() {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     await mutate(query)
-      .then((res) => {
+      .then(() => {
         throwToast({ type: "success", value: `با موفقیت انجام شد` });
         setModal(false);
         setQuery(null);
         fetchData(searchQuery);
+        setSelectedRows([]);
       })
       .catch((err) => throwToast({ type: "error", value: err }));
   };

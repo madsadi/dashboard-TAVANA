@@ -699,6 +699,12 @@ export const CoefficientBaseTypeEnums = [
     enTitle: "Const",
     title: "ثابت",
   },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "Unknown",
+    title: "نامشخص",
+  },
 ];
 
 export const AccountTypeEnum = [
@@ -2116,6 +2122,32 @@ export const PositionTypeEnums: any = [
   },
 ];
 
+export const BourseCodeTypeEnum = [
+  {
+    id: 1,
+    code: 1,
+    enTitle: "Energy",
+    title: "انرژی",
+  },
+  {
+    id: 2,
+    code: 2,
+    enTitle: "Product",
+    title: "کالا",
+  },
+  {
+    id: 3,
+    code: 3,
+    enTitle: "StockExchange",
+    title: "بورس-فرابورس",
+  },
+  {
+    id: 4,
+    code: 4,
+    enTitle: "None",
+    title: "نامشخص",
+  },
+];
 export const AgentTypeEnums: any = [
   {
     id: 1,
