@@ -783,6 +783,34 @@ export const modularColsDef: ModularColsDefType = {
       },
     },
   ],
+  "customer-management_subordinate": [
+    { colId: "checkbox", type: "checkbox" },
+    { colId: "username" },
+    { colId: "title", headerName: "عنوان بازاریاب" },
+    { colId: "uniqueId" },
+    { colId: "mobile" },
+    { colId: "email" },
+    { colId: "refCode" },
+    {
+      colId: "isActive",
+      cellRendererSelector: () => {
+        return {
+          component: (rowData: any) => (
+            <ToggleButtonMarketerSubordinate
+              data={{ isActive: rowData.data.isActive, id: rowData.data.id }}
+            />
+          ),
+        };
+      },
+    },
+    { colId: "isDeleted",type:'enum' },
+    { colId: "marketerTitle" },
+    { colId: "marketerUniqueId" },
+    { colId: "marketerRefCode" },
+    { colId: "marketerTypeTitle" },
+    { colId: "createDateTime",type:'date' },
+    { colId: "updateDateTime" ,type:'date'},
+  ],
   "customer-management_marketer_detail": [
     { colId: "checkbox", type: "checkbox" },
     { colId: "username" },

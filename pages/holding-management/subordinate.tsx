@@ -20,7 +20,41 @@ function Subordinate() {
   const { data, fetchData, loading, query }: any = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/marketerSubordinate/Search`,
   });
-
+  const detailCellRendererParams = () => {
+    return {
+      detailGridOptions: {
+        enableRtl: true,
+        getRowId: (params: any) => params.data.id,
+        sideBar: false,
+        columnDefs: [
+          {
+            field: "branchTitle",
+            headerName: "	عنوان شعبه بازاریاب ",
+          },
+          {
+            field: "branchTypeTitle",
+            headerName: "نوع شعبه بازاریاب",
+          },
+          {
+            field: "subsidiaryTitle",
+            headerName: "	عنوان شرکت",
+          },
+          {
+            field: "subsidiaryTypeTitle",
+            headerName: "	نوع شرکت",
+          },
+        ],
+        defaultColDef: {
+          resizable: true,
+          sortable: true,
+          flex: 1,
+        },
+      },
+      getDetailRowData: async (params: any) => {
+        params.successCallback([params.data]);
+      },
+    };
+  };
   return (
     <CustomerManagementSubordinateContext.Provider
       value={{
@@ -40,9 +74,10 @@ function Subordinate() {
         <SubordinateToolbar />
         <TableComponent
           data={data?.result?.pagedData}
-          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_marketer_detail}
+          module={ModuleIdentifier.CUSTOMER_MANAGEMENT_subordinate}
           loading={loading}
-          sideBar={false}
+          detailCellRendererParams={detailCellRendererParams}
+          masterDetail={true}
           setSelectedRows={setSelectedRows}
           selectedRows={selectedRows}
           rowSelection="single"
