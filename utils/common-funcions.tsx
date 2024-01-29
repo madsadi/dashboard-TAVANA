@@ -214,7 +214,7 @@ export const FindEnum = (
   dynamicsOption: EnumType[] | undefined,
   label = ""
 ) => {
-  switch (title) {
+  switch (lowerFirstLetter(title)) {
     case "variable":
       return dynamicsOption;
     case "api":
@@ -251,6 +251,7 @@ export const FindEnum = (
     case "planName":
     case "PlanName":
     case "Plan":
+    case "plan":
       return CoefficientBaseTypeEnums;
     case "accountType":
       return AccountTypeEnum;

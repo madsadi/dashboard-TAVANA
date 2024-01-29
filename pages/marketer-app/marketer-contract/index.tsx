@@ -46,6 +46,10 @@ function MarketerContract() {
           selectedRows={selectedRows}
           rowSelection={"single"}
           rowId={["ContractId"]}
+          pagination={true}
+          totalCount={data?.result?.totalCount}
+          fetcher={fetchData}
+          query={searchQuery}
         />
       </div>
     </MarketerContractContext.Provider>

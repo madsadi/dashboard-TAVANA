@@ -1907,28 +1907,24 @@ export const bousreCodeType: any = [
     code: 1,
     enTitle: "Energy",
     title: "انرژی",
-    isDisabled: true,
   },
   {
     id: 2,
     code: 2,
     enTitle: "Product",
     title: "کالا",
-    isDisabled: true,
   },
   {
     id: 3,
     code: 3,
     enTitle: "StockExchange",
     title: "بورس-فرابورس",
-    isDisabled: false,
   },
   {
     id: 4,
     code: 4,
     enTitle: "None",
     title: "نامشخص",
-    isDisabled: true,
   },
 ];
 

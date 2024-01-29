@@ -94,7 +94,7 @@ export const SelectInput = (props: BaseInputPropsType) => {
                       className={({ active }) =>
                         classNames(
                           active ? "bg-border" : "",
-                          "relative select-none py-1 pl-3 pr-3 aria-disabled:cursor-not-allowed cursor-pointer"
+                          "relative select-none py-1 pl-3 pr-3 disabled:cursor-not-allowed cursor-pointer"
                         )
                       }
                       value={item.id}

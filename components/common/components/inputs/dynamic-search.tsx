@@ -203,7 +203,7 @@ export default function DynamicSearch(props: DynamicSearchProps) {
             if (revalidateOnMount) setIsOpen(true);
           }}
           placeholder={
-            hasPlaceholder && query[title]
+            hasPlaceholder && query?.[title]
               ? dataHelper?.[placeholder || "default"] || query?.[title]
               : null
           }

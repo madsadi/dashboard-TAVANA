@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { OnlineRegContext } from "../../../pages/online-registration/registration-report";
 import { onlineRegistrationState } from "./enums";
 import { useRouter } from "next/router";
@@ -14,6 +14,7 @@ const InquirySejamStateComponent = () => {
   const { service, modules, restriction } = useSearchFilters(
     ModuleIdentifier.ONLINE_REGISTRATION
   );
+  const [loading, setLoading] = useState(false);
   const { fetchAsyncData } = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/checkUserSejamState`,
   });
@@ -23,6 +24,7 @@ const InquirySejamStateComponent = () => {
   const inquiryHandler = () => {
     if (selectedRows?.length || userId) {
       const checkState = async (user: any, index: number) => {
+        setLoading(true);
         await fetchAsyncData({ userId: user.userId || userId })
           .then((res) => {
             if (userId) {
@@ -63,7 +65,8 @@ const InquirySejamStateComponent = () => {
             if (index + 1 < selectedRows?.length) {
               checkState(selectedRows[index + 1], index + 1);
             }
-          });
+          })
+          .finally(() => setLoading(false));
       };
       checkState(selectedRows?.[0] || userId, 0);
     } else {
@@ -75,6 +78,7 @@ const InquirySejamStateComponent = () => {
     <Button
       label={"وضعیت سجام"}
       onClick={inquiryHandler}
+      loading={loading}
       allowed={
         restriction ? [[service?.[0], modules?.[0]?.[0], "Read"].join(".")] : []
       }

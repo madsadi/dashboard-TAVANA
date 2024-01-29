@@ -136,7 +136,11 @@ function Detail() {
     ModuleIdentifier.ONLINE_REGISTRATION,
     "edit"
   );
-  const { data: info, fetchData }: any = useQuery({
+  const {
+    data: info,
+    fetchData,
+    loading,
+  }: any = useQuery({
     url: `${ADMIN_GATEWAY}/api/request/SearchUser`,
   });
   let data = info?.result?.pagedData[0];
@@ -204,6 +208,7 @@ function Detail() {
           module={ModuleIdentifier.ONLINE_REGISTRATION}
           columnDefStructure={colDef}
           sideBar={false}
+          loading={loading}
           data={info?.result?.pagedData}
           rowId={["userId", "id"]}
           detailCellRendererParams={detailCellRendererParams}

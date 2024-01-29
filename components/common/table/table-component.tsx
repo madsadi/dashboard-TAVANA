@@ -11,13 +11,21 @@ import React, {
 import { formatNumber } from "../../../utils/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
 import dynamic from "next/dynamic";
-import { ExcelStyle, SideBarDef } from "ag-grid-community";
+import {
+  ColDef,
+  ExcelStyle,
+  SideBarDef,
+  SizeColumnsToContentStrategy,
+} from "ag-grid-community";
 const TablePagination = dynamic(() => import("./table-pagination"));
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "ag-grid-enterprise";
 import { TableProps } from "types/common-components.type";
-import { generateDynamicColumnDefs } from "utils/generate-dynamic-col-defs";
+import {
+  ColDefType,
+  generateDynamicColumnDefs,
+} from "utils/generate-dynamic-col-defs";
 
 const sideBarConfig: SideBarDef = {
   toolPanels: [
@@ -95,7 +103,6 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   const defaultColDef = useMemo(() => {
     return {
       sortable: true,
-      flex: 1,
       cellClass: "textFormat",
       enableValue: true,
       enablePivot: true,
@@ -245,6 +252,9 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     }),
     [gridRef]
   );
+  const autoSizeStrategy: SizeColumnsToContentStrategy = {
+    type: "fitCellContents",
+  };
 
   const popupParent =
     typeof document !== "undefined" ? document.getElementById("grid") : null;
@@ -268,6 +278,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
             ref={gridRef}
             rowData={data}
             enableRtl={true}
+            autoSizeStrategy={autoSizeStrategy}
             columnDefs={columnDefStructure || colDefStructure}
             onGridReady={onGridReady}
             defaultColDef={defaultColDef}

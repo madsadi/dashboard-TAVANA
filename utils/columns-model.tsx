@@ -21,7 +21,7 @@ export const columnModel: any = {
     },
   },
   date: {
-    width: 120,
+    // width: 120,
     valueFormatter: (rowData: any) => {
       return dateCell(rowData.value);
     },

@@ -26,7 +26,7 @@ import RequirationToggleAgreement from "components/customer-management/agreement
 const Modules = Object.values(ModuleIdentifier);
 export type ModulesType = (typeof Modules)[number];
 
-interface ColDefType extends ColDef {
+export interface ColDefType extends ColDef {
   type?:
     | "date"
     | "checkbox"
@@ -624,8 +624,8 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "customer-management_subsidiary": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "id" },
-    { colId: "onlineRegistrationProfileId" },
+    // { colId: "id" },
+    // { colId: "onlineRegistrationProfileId" },
     { colId: "title", headerName: "عنوان شرکت" },
     { colId: "subsidiaryTypeTitle" },
     { colId: "createDateTime", type: "date" },
@@ -633,9 +633,9 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "customer-management_branch": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "id", cellRenderer: "agGroupCellRenderer" },
+    { colId: "detail-opener", type: "detail-opener" },
     { colId: "subsidiaryTitle" },
-    { colId: "subsidiaryId" },
+    // { colId: "subsidiaryId" },
     { colId: "code", headerName: "کد شعبه" },
     { colId: "type", headerName: "نوع شعبه", type: "enum" },
     { colId: "title", headerName: "عنوان شعبه" },
@@ -694,15 +694,6 @@ export const modularColsDef: ModularColsDefType = {
       },
     },
     { colId: "isDeleted", type: "enum" },
-    { colId: "createDateTime", type: "date" },
-    { colId: "updateDateTime", type: "date" },
-  ],
-  "customer-management_trader": [
-    { colId: "checkbox", type: "checkbox" },
-    { colId: "stationId" },
-    { colId: "employeeId" },
-    { colId: "title", headerName: "عنوان معامله گر" },
-    { colId: "isActive", type: "enum" },
     { colId: "createDateTime", type: "date" },
     { colId: "updateDateTime", type: "date" },
   ],
@@ -1094,7 +1085,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "TradeDate", type: "date" },
   ],
   "marketer-app_reconcilation_detail": [
-    { colId: "FollowerMarketerId" },
+    // { colId: "FollowerMarketerId" },
     { colId: "CommissionCoefficient" },
     { colId: "StartDate", type: "date" },
     { colId: "EndDate", type: "date" },
@@ -1112,6 +1103,7 @@ export const modularColsDef: ModularColsDefType = {
     { colId: "LeaderMarketerName" },
     { colId: "CommissionCoefficient" },
     { colId: "StartDate", type: "date" },
+    { colId: "EndDate", type: "date" },
     { colId: "CreateDate", type: "date" },
     { colId: "UpdateDate", type: "date" },
   ],
@@ -1136,8 +1128,8 @@ export const modularColsDef: ModularColsDefType = {
   ],
   "marketer-app_marketerContract": [
     { colId: "checkbox", type: "checkbox" },
-    { colId: "ContractId" },
-    { colId: "MarketerId" },
+    // { colId: "ContractId" },
+    // { colId: "MarketerId" },
     { colId: "Title", headerName: "عنوان بازاریاب" },
     { colId: "CalculationBaseType", type: "enum" },
     { colId: "CoefficientBaseType", type: "enum" },

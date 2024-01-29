@@ -52,11 +52,15 @@ export const SendMessageComponent = () => {
         }
       />
       <Modal title={"ارسال پیام"} setOpen={setModal} open={modal}>
+        <p className="text-center font-bold">
+          با انتخاب تاریخ و زدن گزینه تایید، برای تمام افراد ی که وضعیت ثبت نام
+          آنها در آن تاریخ کامل نشده، پیامک پیگیری ارسال می شود.
+        </p>
         <div className="field mt-4">
           <form onSubmit={sendMessage}>
             <div className={"w-full md:w-3/5"}>
               <InputComponent
-                item={{ title: "", type: "singleDate", name: "date" }}
+                item={{ title: "date", type: "singleDate", name: "تاریخ" }}
                 query={query}
                 onChange={onChange}
               />

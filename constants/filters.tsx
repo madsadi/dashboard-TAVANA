@@ -338,15 +338,12 @@ const filters: FilterTreeType = {
         { title: "Mobile", name: "شماره موبایل", type: "input" },
         { title: "Email", name: "ایمیل", type: "input" },
         {
-          title: "ReagentId",
-          name: " معرف ",
-          type: "dynamicSearch",
+          title: "ForeignCSDCode",
+          name: "کد فراگیر اتباع",
+          type: "input",
           initialValue: "",
-          endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search?Type=2&isActive=true`,
-          valueField: ["title", "tbsReagentName", "subsidiaryTitle"],
-          queryField: "TBSName",
-          recordField: "id",
         },
+
         {
           title: "marketerId",
           name: " بازاریاب ",
@@ -354,6 +351,16 @@ const filters: FilterTreeType = {
           initialValue: "",
           endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search?Type=1&isActive=true`,
           valueField: ["title", "tbsMarketerName", "subsidiaryTitle"],
+          queryField: "TBSName",
+          recordField: "id",
+        },
+        {
+          title: "ReagentId",
+          name: " معرف ",
+          type: "dynamicSearch",
+          initialValue: "",
+          endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search?Type=2&isActive=true`,
+          valueField: ["title", "tbsReagentName", "subsidiaryTitle"],
           queryField: "TBSName",
           recordField: "id",
         },
@@ -379,7 +386,7 @@ const filters: FilterTreeType = {
         },
         {
           title: "countryId",
-          name: "شناسه کشور (برای آدرس شعبه)",
+          name: "کشور",
           type: "dynamicSearch",
           initialValue: "",
           endpoint: `${SEJAM_GATEWAY}/api/request/SearchCountry`,
@@ -388,12 +395,7 @@ const filters: FilterTreeType = {
           queryField: "CountryName",
           recordField: "countryId",
         },
-        {
-          title: "ForeignCSDCode",
-          name: "کد فراگیر اتباع",
-          type: "input",
-          initialValue: "",
-        },
+
         { title: "personType", name: "حقیقی / حقوقی", type: "selectInput" },
         { title: "personOrigin", name: "ماهیت معاملاتی", type: "selectInput" },
         {
@@ -1609,6 +1611,7 @@ const filters: FilterTreeType = {
           title: "date",
           name: " تاریخ شروع و پایان",
           type: "date",
+          isRequired: "required",
         },
       ],
       initialValue: {
@@ -4724,6 +4727,11 @@ const filters: FilterTreeType = {
           type: "selectInput",
         },
         {
+          title: "collateralTwoMonthAgo",
+          name: "حسن انجام کار دو ماه گذشته",
+          type: "input",
+        },
+        {
           title: "MaketerCMDIncome",
           name: "حق بازاریابی از سهم صندوق توسعه",
           type: "input",
@@ -5012,7 +5020,7 @@ const filters: FilterTreeType = {
         },
         {
           title: "LegalDeductionCoefficient",
-          name: "ضریب مالیات",
+          name: "ضریب کسورات",
           type: "input",
           valueType: "number",
         },
