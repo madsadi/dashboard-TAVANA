@@ -7,6 +7,7 @@ import React, {
   useImperativeHandle,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { formatNumber } from "../../../utils/common-funcions";
 import { LoadingOverlay, NoRowOverlay } from "./custom-overlay";
@@ -16,6 +17,7 @@ import {
   ExcelStyle,
   SideBarDef,
   SizeColumnsToContentStrategy,
+  SizeColumnsToFitGridStrategy,
 } from "ag-grid-community";
 const TablePagination = dynamic(() => import("./table-pagination"));
 import "ag-grid-community/styles/ag-grid.css";
@@ -88,6 +90,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     indexOfOpenedDetail = -1,
   } = props;
 
+  const [hasSpace, setHasSpace] = useState(false);
   const excelStyles: ExcelStyle[] = [
     {
       id: "textFormat",
@@ -105,6 +108,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
       sortable: true,
       cellClass: "textFormat",
       enableValue: true,
+      flex: 1,
       enablePivot: true,
       enableRowGroup: true,
       cellDataType: false,
@@ -193,7 +197,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
   };
 
   const ExportAction = useCallback(() => {
-    gridRef?.current?.api.exportDataAsExcel();
+    gridRef?.current?.exportDataAsExcel();
   }, []);
 
   useImperativeHandle(
@@ -252,9 +256,25 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
     }),
     [gridRef]
   );
-  const autoSizeStrategy: SizeColumnsToContentStrategy = {
-    type: "fitCellContents",
-  };
+  // const autoSizeStrategy:
+  //   | SizeColumnsToContentStrategy
+  //   | SizeColumnsToFitGridStrategy = {
+  //   type: hasSpace ? "fitGridWidth" : "fitCellContents",
+  // };
+
+  // const spaceAvailability = () => {
+  //   const sumOfCols = gridRef?.current?.api
+  //     ?.getColumnState()
+  //     .reduce((acc: number, cur: any) => acc + cur?.width, 0);
+
+  //   const grid = document.getElementById("grid");
+  //   const gridWidth = grid?.getBoundingClientRect().width || 0;
+  //   setHasSpace(gridWidth > sumOfCols);
+  // };
+
+  // useEffect(() => {
+  //   spaceAvailability();
+  // }, []);
 
   const popupParent =
     typeof document !== "undefined" ? document.getElementById("grid") : null;
@@ -278,7 +298,7 @@ const TableComponent = forwardRef((props: TableProps, ref) => {
             ref={gridRef}
             rowData={data}
             enableRtl={true}
-            autoSizeStrategy={autoSizeStrategy}
+            // autoSizeStrategy={autoSizeStrategy}
             columnDefs={columnDefStructure || colDefStructure}
             onGridReady={onGridReady}
             defaultColDef={defaultColDef}

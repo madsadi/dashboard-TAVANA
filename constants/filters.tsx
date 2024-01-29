@@ -2469,7 +2469,12 @@ const filters: FilterTreeType = {
           type: "dynamicSearch",
           initialValue: "",
           endpoint: `${ADMIN_GATEWAY}/api/request/marketer/Search`,
-          valueField: ["title", "tbsMarketerName", "subsidiaryTitle"],
+          valueField: [
+            "title",
+            "tbsMarketerName",
+            "tbsReagentName",
+            "subsidiaryTitle",
+          ],
           queryField: "TbsName",
           recordField: "id",
         },

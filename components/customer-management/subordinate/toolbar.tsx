@@ -11,7 +11,7 @@ import { CustomerManagementSubordinateContext } from "pages/holding-management/s
 const SubordinateToolbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { mutate: remove } = useMutation({
-    url: `${ADMIN_GATEWAY}/api/request/businessUnitOwnerParty/Delete`,
+    url: `${ADMIN_GATEWAY}/api/request/marketerSubordinate/Delete`,
     method: "PATCH",
     onSuccess: () => {
       fetchData();
