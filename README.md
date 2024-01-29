@@ -1,4 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+backoffice project with over 150 pages with role and permissions and exclusive accessibility of each user
+
+    -styled with `tailwindcss`
+    -ui library is daisyui and headlessui
+    -axios for rest api
+    -redux-toolkit for state management
 
 ## Getting Started
 
@@ -14,23 +20,48 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/live-portfo.api.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## First Look Of Project
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+-dashboard page, the first page after login
 
-## Learn More
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/dashboard.png?raw=true)
 
-To learn more about Next.js, take a look at the following resources:
+-sidebar
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/sidebar.png?raw=true)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-marketer page with search filters and grid with pagination - calendar component
 
 ![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/calendar.png?raw=true)
+
+-customer portfolio page, area chart indicating customer's assets changes
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/chart.png?raw=true)
+
+-market rule page, modal to add new rules to control the customer's actions
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/complex-modal.png?raw=true)
+
+-detail page of a user's registration report, containing multiple accordions components each has its own unqiue data and its CRUD actions
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/detail-page.png?raw=true)
+
+-marketer page, a complete look of grid with registered components into the grid like copy button and toggle components
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/marketer-page.png?raw=true)
+
+-grid with master detail feature
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/master-detail.png?raw=true)
+
+-rendering agreement's pdf from api requests into modal
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/pdf-preview.png?raw=true)
+
+-tabs component
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/tabs.png?raw=true)
+
+-upload images
+
+![alt text](https://github.com/sadmadsi/backoffice-TAVANA/blob/dev/public/views/upload-photos.png?raw=true)
